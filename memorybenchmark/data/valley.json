@@ -1,0 +1,36 @@
+{
+  "world": {
+    "version": "valley-tools-2.1",
+    "locations": {
+      "S": {"name":"起点","x":70,"y":260},
+      "J": {"name":"岔路口","x":220,"y":260},
+      "A": {"name":"山谷","x":430,"y":260},
+      "K": {"name":"东部测绘点","x":710,"y":260},
+      "D": {"name":"北坡台地","x":220,"y":80},
+      "F": {"name":"森林","x":450,"y":80},
+      "V": {"name":"林间测绘点","x":710,"y":80},
+      "L": {"name":"南坡林缘","x":220,"y":440},
+      "H": {"name":"山脊","x":450,"y":440}
+    },
+    "edges": [["S","J",2],["J","A",2],["A","K",2],["J","D",2],["D","A",2],["J","H",5],["H","K",5],["J","F",3],["F","V",2],["J","L",2],["L","F",4],["L","H",2],["D","V",9],["A","F",2]],
+    "weather": [[0,"clear","day"],[37,"rain","night"],[89,"snow","day"],[153,"clear","night"],[241,"rain","day"]],
+    "passages": [],
+    "hazards": {
+      "A": {"kind":"avalanche","name":"雪崩地形","extra_effort":12,"conditions":{}},
+      "F": {"kind":"tiger","name":"老虎出没","extra_effort":9,"conditions":{}}
+    },
+    "tools": {
+      "snow_kit": {"name":"雪地防护包","description":"用于雪崩地形；携带时自动生效，将该类地形的额外体力消耗降到 2。","mitigates":{"avalanche":2}},
+      "wildlife_kit": {"name":"野外驱避工具","description":"用于应对老虎出没；携带时自动生效，将该类遭遇的额外体力消耗降到 1。","mitigates":{"tiger":1}}
+    },
+    "depots": {"D":["snow_kit"],"L":["wildlife_kit"]}
+  },
+  "tasks": {
+    "T1":{"name":"山谷勘测","start":"S","goal":"A","stamina":60,"instruction":"前往山谷 A 完成地理记录，然后提交。到达即自动测绘，你可以自由探索并取用工具。"},
+    "T2":{"name":"东部测绘","start":"S","goal":"K","stamina":32,"instruction":"前往东部测绘点 K 完成地理记录，然后提交。自行选择道路和准备方案。"},
+    "T3":{"name":"森林勘测","start":"S","goal":"F","stamina":45,"instruction":"前往森林 F 完成地理记录，然后提交。途中可以探索和取用工具。"},
+    "T4":{"name":"林间测绘","start":"S","goal":"V","stamina":32,"instruction":"前往林间测绘点 V 完成地理记录，然后提交。自行选择道路和准备方案。"},
+    "T5":{"name":"南坡出发的东部测绘","start":"L","goal":"K","stamina":32,"instruction":"从南坡林缘 L 出发，前往东部测绘点 K 完成地理记录，然后提交。"},
+    "T6":{"name":"北坡出发的林间测绘","start":"D","goal":"V","stamina":25,"instruction":"从北坡台地 D 出发，前往林间测绘点 V 完成地理记录，然后提交。工具取用与路线由你决定。"}
+  }
+}

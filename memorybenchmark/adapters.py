@@ -9,9 +9,13 @@ def render_text(observation):
     weather = {"rain": "下雨", "clear": "晴朗", "snow": "下雪"}[o["conditions"]["weather"]]
     period = {"day": "白天", "night": "夜间"}[o["conditions"]["period"]]
     routes = "；".join(f"{n['name']} {n['target']}（距离 {n['distance']}）" for n in o["neighbors"])
+    carried = "、".join(f"{t['name']}（{t['id']}）" for t in o["inventory"]) or "无"
+    stock = "；".join(f"{t['name']}（{t['id']}）：{t['description']}" for t in o["available_tools"]) or "无"
     return (f"任务：{o['instruction']}\n当前位置：{o['location']['name']} {o['location']['id']}\n"
             f"环境：{weather}，{period}；游戏时间 {o['world_time']}\n"
             f"可尝试的通路：{routes}\n已测量地点：{', '.join(o['map']['surveyed']) or '无'}\n"
+            f"体力：{o['stamina']}/{o['initial_stamina']}；累计体力需求：{o['effort']}\n"
+            f"携带工具：{carried}\n此处可取用：{stock}\n"
             f"操作：{o['steps']}/{o['max_steps']}；移动距离：{o['distance']}\n"
             f"任务结束：{o['done']}；成功：{o['success']}")
 

@@ -9,9 +9,15 @@ def commute_graph(events, task_run_id):
             nodes.update((event["from"], event["to"]))
             edges.append({"id": event["event_id"], "source": event["from"],
                           "target": event["to"], "weight": event["movement_cost"],
+                          "effort": event.get("effort_cost", event["movement_cost"]),
+                          "stamina_spent": event.get("stamina_spent"),
+                          "hazard_cost": event.get("hazard_cost", 0),
+                          "inventory_before": event.get("inventory_before", []),
+                          "equipment_used": event.get("equipment_used"),
                           "order": len(edges), "time": event["time_before"]})
     return {"nodes": sorted(nodes), "edges": edges,
-            "distance": sum(e["weight"] for e in edges)}
+            "distance": sum(e["weight"] for e in edges), "effort": sum(e["effort"] for e in edges),
+            "stamina_spent": sum(e["stamina_spent"] for e in edges) if all(e["stamina_spent"] is not None for e in edges) else None}
 
 
 def diagnose(events, task_run_id):
@@ -21,15 +27,40 @@ def diagnose(events, task_run_id):
     previous_visit = {}
     excursions = []
     repeated_blocks = []
+    hazards, known_hazards, known_tools, takes = [], {}, {}, []
     by_id = {e["event_id"]: e for e in events}
     for event in events:
         if event["kind"] == "task_started":
+            for ev in event.get("evidence_delivered", []):
+                if ev["claim"] == "tool_available":
+                    known_tools[(ev["tool"], ev["location"], ev["world_version"])] = ev
             first_visit.setdefault(event["position"], event["event_id"])
             if event["task_run_id"] == task_run_id:
                 previous_visit = {event["position"]: event["event_id"]}
             continue
-        ev = event.get("evidence_delivered")
-        if ev:
+        exposed = event.get("evidence_delivered") or []
+        if isinstance(exposed, dict):
+            exposed = [exposed]  # Read v1 logs as well as current logs.
+        if event.get("action", {}).get("type") == "take" and event.get("outcome") == "ok" and event["task_run_id"] == task_run_id:
+            takes.append({"event_id": event["event_id"], "location": event["from"], "tool": event["action"]["target"]})
+        for ev in exposed:
+            if ev["claim"] == "tool_available":
+                known_tools[(ev["tool"], ev["location"], ev["world_version"])] = ev
+                continue
+            if ev["claim"] == "hazard_encountered":
+                key = (ev["location"], ev["hazard"], tuple(sorted(ev["conditions"].items())), ev["world_version"])
+                if event["task_run_id"] == task_run_id:
+                    tools = [v for (_, _, version), v in known_tools.items() if version == ev["world_version"]
+                             and ev["hazard"] in v["tool_info"]["mitigates"]]
+                    hazards.append({"event_id": event["event_id"], "location": ev["location"],
+                                    "prior_same_condition_evidence": list(known_hazards.get(key, [])),
+                                    "prior_relevant_tool_sources": sorted({v["source_event_id"] for v in tools}),
+                                    "protected": ev["equipment_used"] is not None,
+                                    "equipment_used": ev["equipment_used"], "observed_extra_effort": ev["extra_effort_observed"]})
+                known_hazards.setdefault(key, []).append(ev["source_event_id"])
+                continue
+            if ev["claim"] != "crossing_blocked":
+                continue
             key = (tuple(ev["edge"]), tuple(sorted(ev["conditions"].items())), ev["world_version"])
             if key in evidence and event["task_run_id"] == task_run_id:
                 repeated_blocks.append(event["event_id"])
@@ -51,4 +82,5 @@ def diagnose(events, task_run_id):
                                "kind": kind, "movement_cost": sum(e["movement_cost"] for e in moves),
                                "new_locations": new, "repeated_block_events": repeats})
         previous_visit[target] = event["event_id"]
-    return {"task_run_id": task_run_id, "repeated_block_events": repeated_blocks, "excursions": excursions}
+    return {"task_run_id": task_run_id, "repeated_block_events": repeated_blocks,
+            "excursions": excursions, "hazard_decisions": hazards, "tool_takes": takes}

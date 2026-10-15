@@ -23,17 +23,29 @@ function draw(o) {
     $('nodes').append(el('text',{x:n.x,y:n.y+28,'text-anchor':'middle',class:'node-label'},n.name));
     $('nodes').append(el('text',{x:n.x,y:n.y-18,'text-anchor':'middle',class:'node-id'},n.id));
   });
-  $('map-caption').textContent = `已发现 ${o.map.nodes.length} 处地点 · 已测量 ${o.map.surveyed.length} 处`;
+  $('map-caption').textContent = `已发现 ${o.map.nodes.length} 处地点 · 已记录 ${o.map.surveyed.length} 处`;
 }
 function update(result) {
   observation = result.observation; instance = result.instance_id;
   const o = observation;
-  $('task-name').textContent = o.task_id==='T1'?'渡口勘测':'对岸测绘';
+  $('task-name').textContent = o.task_name;
   $('instruction').textContent = o.instruction;
   $('begin').hidden = true; $('play').hidden = o.done; $('ending').hidden = !o.done;
   $('place').textContent = `${o.location.name} ${o.location.id}`;
   $('conditions').textContent = `${{rain:'下雨',clear:'晴朗',snow:'下雪'}[o.conditions.weather]} / ${{night:'夜间',day:'白天'}[o.conditions.period]}`;
   $('time').textContent = `时间 ${o.world_time}`; $('distance').textContent = `路程 ${o.distance}`; $('steps').textContent = `操作 ${o.steps}/${o.max_steps}`;
+  $('stamina').textContent = `${o.stamina} / ${o.initial_stamina}`;
+  $('energy').max=o.initial_stamina; $('energy').value=o.stamina;
+  $('inventory').textContent=o.inventory.map(t=>t.name).join('、') || '尚未携带工具';
+  $('stock').replaceChildren();
+  if(!o.available_tools.length) {
+    const hint=document.createElement('p'); hint.className='muted'; hint.textContent='此处没有可取用的工具。'; $('stock').append(hint);
+  }
+  o.available_tools.forEach(t=> {
+    const b=document.createElement('button'); b.textContent=`取用${t.name}`; b.onclick=()=>act('take',t.id);
+    const description=document.createElement('p'); description.className='muted'; description.textContent=t.description;
+    $('stock').append(b,description);
+  });
   $('routes').replaceChildren();
   o.neighbors.forEach(n=> {
     const b = document.createElement('button');
@@ -42,7 +54,7 @@ function update(result) {
     b.append(label,distance); b.onclick=()=>act('move',n.target); $('routes').append(b);
   });
   $('result').textContent = o.success?'本次测绘已完成':'本次探索已结束';
-  $('next').textContent = o.task_id==='T1'?'接下一个委托':'再做一次渡口勘测';
+  $('next').textContent = o.next_task_id?'接下一个委托':'开启新的探索';
   $('empty-log').hidden = true;
   const entry = document.createElement('li'); const time = document.createElement('time');
   time.textContent = `游戏时间 ${o.world_time}`; entry.append(time,document.createTextNode(result.feedback)); $('log').prepend(entry);
@@ -66,6 +78,6 @@ function act(type,target) {
 }
 $('begin').onclick=()=>start('T1');
 $('fresh').onclick=()=> { if(!observation || observation.done || confirm('放弃当前探索，重新从第一项委托开始？')) start('T1',true); };
-$('next').onclick=()=>start(observation.task_id==='T1'?'T2':'T1');
+$('next').onclick=()=>observation.next_task_id?start(observation.next_task_id):start('T1',true);
 $('abandon').onclick=()=>act('abandon');
 document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>act(b.dataset.action));

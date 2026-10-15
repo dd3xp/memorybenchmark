@@ -23,7 +23,7 @@ class GameService:
             token = request.get("instance_id")
             if token is None:
                 token = uuid4().hex
-                game = Game(log_path=self.log_root / token / "events.jsonl")
+                game = Game(log_path=self.log_root / token / "events.jsonl", scenario=request.get("scenario", "valley"))
                 adapter = GameAdapter(game)
                 response = adapter.dispatch({"command": "start", "task_id": request.get("task_id", "T1")})
                 self.games[token] = adapter

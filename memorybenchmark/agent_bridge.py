@@ -1,0 +1,113 @@
+"""Standalone native-tool bridge. Safe to copy without evaluator modules.
+
+The RPC callable must live in the agent process and return only public game
+responses. Production isolation belongs to the subprocess launcher; the local
+HTTP client is a development convenience, not a sandbox.
+"""
+from copy import deepcopy
+import json
+import threading
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+from uuid import uuid4
+
+
+GAME_TOOL = {
+    "name": "game_action",
+    "description": "操作当前制图任务。到达即自动测绘；工具在所在地取用、携带后自动生效。read 读取公开观察。done=true 后停止游戏操作，可以使用你原生的记忆工具整理自己的经历，再结束本任务。",
+    "parameters": {
+        "type": "object", "properties": {
+            "action": {"type": "string", "enum": ["move", "take", "observe", "wait", "submit", "abandon", "read"]},
+            "target": {"type": "string", "description": "move 只传地点标识，如 J，不能传中文名称；take 传工具 id。其他动作不传。"}},
+        "required": ["action"], "additionalProperties": False,
+    },
+}
+
+
+class GameTool:
+    def __init__(self, rpc):
+        self.rpc = rpc
+        self.lock = threading.RLock()
+
+    def __call__(self, args):
+        if not isinstance(args, dict) or set(args) - {"action", "target"}:
+            return {"error": "invalid_arguments", "message": "需要 action 和可选的 target。"}
+        action = args.get("action")
+        if action not in GAME_TOOL["parameters"]["properties"]["action"]["enum"]:
+            return {"error": "invalid_arguments", "message": "未知动作。"}
+        if action in ("move", "take") and not isinstance(args.get("target"), str):
+            return {"error": "invalid_arguments", "message": "移动／取用需要 target。"}
+        if action not in ("move", "take") and "target" in args:
+            return {"error": "invalid_arguments", "message": "该动作不接受 target。"}
+        with self.lock:
+            request = {"command": "read"} if action == "read" else {
+                "command": "action", "request_id": uuid4().hex,
+                "action": {"type": action, **({"target": args["target"]} if "target" in args else {})}}
+            return self.rpc(request)
+
+
+class HTTPGameClient:
+    """Development-only client bound to an existing, runner-created instance."""
+    def __init__(self, base_url, instance_id, timeout=5):
+        self.base_url = base_url.rstrip("/")
+        self.instance_id = instance_id
+        self.timeout = timeout
+        self.revision = None
+
+    def __call__(self, request):
+        from urllib.parse import urlencode
+        if request["command"] == "read":
+            wire = Request(self.base_url + "/api/observation?" + urlencode({"instance_id": self.instance_id}))
+        else:
+            payload = {**request, "instance_id": self.instance_id}
+            if self.revision is not None:
+                payload["expected_revision"] = self.revision
+            wire = Request(self.base_url + "/api/action", data=json.dumps(payload).encode("utf-8"), headers={"Content-Type": "application/json"})
+        # Retrying this exact request preserves request_id and expected_revision.
+        for attempt in range(2):
+            try:
+                with urlopen(wire, timeout=self.timeout) as response:
+                    result = json.load(response)
+                self.revision = result["observation"]["revision"]
+                return result
+            except HTTPError as error:
+                return json.loads(error.read())
+            except (URLError, TimeoutError):
+                if attempt:
+                    return {"error": "transport_error", "message": "游戏连接失败；需要运行器恢复或重试，不能计为游戏失败。"}
+
+
+def register_hermes(registry, create_custom_toolset, game_tool):
+    """Register through Hermes' existing tool registry; no memory replacement."""
+    def handler(args, **kwargs):
+        return json.dumps(game_tool(args), ensure_ascii=False)
+    registry.register(name="game_action", toolset="cartography", schema=deepcopy(GAME_TOOL),
+                      handler=handler, description=GAME_TOOL["description"])
+    create_custom_toolset("cartography", "Cartography game", tools=["game_action"], includes=[])
+    return handler
+
+
+def register_genericagent(agent_module, agent, step_outcome, game_tool):
+    """Call after model selection: next_llm() can reload TOOLS_SCHEMA.
+
+    Handler parent keeps the binding on its owning native agent. Each native
+    agent must run in its own process, as in the old benchmark adapter.
+    """
+    agent._benchmark_game_tool = game_tool
+    # The legacy bundle also exposes a submit tool. Keep its established
+    # callback semantics, but route it to the current game instead of silently
+    # ending the native loop without submitting the environment task.
+    agent._submit_eval_cb = lambda answer: json.dumps(game_tool({"action": "submit"}), ensure_ascii=False)
+
+    def do_game_action(self, args, response):
+        # GenericAgent BaseHandler adds its own dispatch metadata to arguments.
+        clean = {k: v for k, v in args.items() if k not in ("_index", "_tool_num")}
+        result = self.parent._benchmark_game_tool(clean)
+        return step_outcome(result, next_prompt="\n")
+
+    agent_module.GenericAgentHandler.do_game_action = do_game_action
+    agent_module.TOOLS_SCHEMA[:] = [t for t in agent_module.TOOLS_SCHEMA if t.get("function", {}).get("name") != "game_action"]
+    agent_module.TOOLS_SCHEMA.append({"type": "function", "function": deepcopy(GAME_TOOL)})
+    for entry in agent_module.TOOLS_SCHEMA:
+        if entry.get("function", {}).get("name") == "submit":
+            entry["function"]["description"] = "提交当前游戏的地理记录；到达目标后调用。answer 不用于修改游戏状态。"

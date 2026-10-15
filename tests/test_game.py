@@ -16,7 +16,7 @@ from memorybenchmark.server import make_server
 
 class GameTests(unittest.TestCase):
     def setUp(self):
-        self.game = Game()
+        self.game = Game(scenario="river")
         self.adapter = GameAdapter(self.game)
         self.first = self.adapter.dispatch({"command": "start", "task_id": "T1"})
 
@@ -90,11 +90,11 @@ class GameTests(unittest.TestCase):
 
     def test_weather_and_nonmovement_are_replayable(self):
         snapshot = self.game.snapshot()
-        self.adapter.action("survey")
+        self.adapter.action("observe")
         self.adapter.action("wait")
         expected = self.game.snapshot()
         self.game.restore(snapshot)
-        self.adapter.action("survey")
+        self.adapter.action("observe")
         self.adapter.action("wait")
         # Request IDs are transport-generated; compare game events and state.
         self.assertEqual(self.game.events, expected["events"])

@@ -12,6 +12,7 @@ from .server import make_server
 def main():
     parser = argparse.ArgumentParser(description="制图游戏最小原型")
     parser.add_argument("--stdio", action="store_true", help="JSON Lines 文字接口")
+    parser.add_argument("--scenario", choices=("valley", "river"), default="valley")
     parser.add_argument("--analyze", type=Path, help="分析评测侧 events.jsonl")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--log-dir", type=Path, default=Path(".runs"))
@@ -25,7 +26,7 @@ def main():
     elif args.stdio:
         from uuid import uuid4
         sys.stdin.reconfigure(encoding="utf-8")
-        game = Game(log_path=args.log_dir / uuid4().hex / "events.jsonl")
+        game = Game(log_path=args.log_dir / uuid4().hex / "events.jsonl", scenario=args.scenario)
         adapter = GameAdapter(game)
         for line in sys.stdin:
             try:
