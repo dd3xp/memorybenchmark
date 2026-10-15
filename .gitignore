@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.runs/
+.venv/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+
+# Private legacy submission, reproducibility bundle and local review materials.
+/38764_Beyond_Remembering_Agent.pdf
+/38764_Beyond_Remembering_Agent_Code And Data Supplement .zip
+/38764_Beyond_Remembering_Agent_Technical Supplement.pdf
+/reviews.md
+/reproducibility_package_upload/
+
+# Downloaded papers and third-party source snapshots, not our research notes.
+research_notes/**/discrete_audit/
+research_notes/**/memory_graph_sources/
+research_notes/**/spatial_sources/

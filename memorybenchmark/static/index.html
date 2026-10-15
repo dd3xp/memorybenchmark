@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>谷地测绘手记</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><div><span class="mark" aria-hidden="true">⌖</span><h1>谷地测绘手记</h1></div><p>沿着通路探索，把未知留给下一步。</p><button id="fresh" class="quiet">重新开始</button></header>
+<main>
+  <section class="chart" aria-label="当前任务中已发现的地图">
+    <div class="chart-title"><h2>勘测图</h2><span id="map-caption">尚未开始探索</span></div>
+    <svg id="map" viewBox="0 0 830 510" role="img" aria-label="已发现的地点与通路">
+      <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b2c9d6" stroke-width=".45"/></pattern></defs>
+      <rect width="830" height="510" fill="url(#grid)"/><g id="edges"></g><g id="nodes"></g>
+      <g class="compass" transform="translate(755 66)"><path d="M0 -21 L-7 8 L0 4 L7 8Z"/><text y="-31" text-anchor="middle">北</text></g>
+    </svg>
+    <div class="legend"><span><i class="current"></i>当前位置</span><span><i class="measured"></i>已测量</span><span><i></i>已发现</span><span>地图只记录地理信息</span></div>
+  </section>
+  <aside>
+    <section class="task"><span class="section-label">本次委托</span><h2 id="task-name">渡口勘测</h2><p id="instruction">寻找并测量渡口 F，然后提交测绘结果。途中可以自由探索。</p><button id="begin" class="primary">开始探索</button></section>
+    <section id="play" hidden>
+      <div class="status"><strong id="place"></strong><span id="conditions"></span></div>
+      <div class="counts"><span id="time"></span><span id="distance"></span><span id="steps"></span></div>
+      <h3>选择通路</h3><div id="routes"></div>
+      <div class="tools"><button data-action="observe">观察周围</button><button data-action="survey">测量地点</button><button data-action="wait">等待片刻</button><button data-action="submit">提交测绘</button></div>
+      <button id="abandon" class="quiet small">结束本次探索</button>
+    </section>
+    <section id="ending" hidden><h3 id="result"></h3><button id="next" class="primary">接下一个委托</button></section>
+    <section class="journal"><h3>现场记录</h3><p id="empty-log">开始探索后，这里会记录你的操作反馈。</p><ol id="log" aria-live="polite"></ol></section>
+    <p id="error" role="alert"></p>
+  </aside>
+</main>
+<footer>谷地原型 · 两项勘测委托 <span>游戏时间随操作推进</span></footer>
+<script src="/app.js"></script>
+</body></html>
