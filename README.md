@@ -7,6 +7,7 @@
 - [软件架构](GAME_SOFTWARE_ARCHITECTURE.md)：核心与两类适配器。
 - [原生 Agent 适配](docs/AGENT_INTEGRATION.md)：GenericAgent／Hermes 工具桥和验证范围。
 - [当前成果](PROGRESS.md)：已完成验证、真实开发试跑与下一步验收。
+- [GA 跨 session 流程](docs/GA_CROSS_SESSION.md)：沿用 AAAI 版记忆边界，接入独立会话、检查点与配对干预。
 
 ## 开始游玩
 
@@ -42,7 +43,7 @@ python -m memorybenchmark --stdio
 
 本地服务也提供 `POST /api/start`、`POST /api/action`、`GET /api/observation?instance_id=...`。开始请求返回实例编号；后续携带编号在同一运行中推进任务。服务只绑定回环地址，评测日志和完整地图不通过 HTTP 提供。
 
-Agent 应使用单独执行环境，仅能接触游戏接口和自身记忆空间。`agent_bridge.py` 提供原生工具注册，但本地 HTTP 演示本身没有建立文件／网络隔离。原生会话隔离、记忆快照和 MEM/NOMEM 对照尚待联合验证。GA 已完成单任务原生试跑，详见当前成果。
+Agent 应使用单独执行环境，仅能接触游戏接口和自身记忆空间。`agent_bridge.py` 提供原生工具注册，本地 HTTP 演示本身没有建立文件／网络隔离。GA 的专用跨 session 运行器使用 WSL2 与 bubblewrap，支持从共同历史进行保留／清除干预；原生联调、运行方式与验证范围见跨 session 流程。
 
 ## 验证与分析
 
@@ -63,4 +64,4 @@ python -m memorybenchmark.validation
 python -m memorybenchmark --analyze .runs/tool-calibration/belated_preparation.jsonl
 ```
 
-日志只供评测侧访问。当前诊断描述返回结构、取用时机、已有证据与风险代价，不直接认定内部检索过某条记忆；完整四维指标和受控原生记忆干预仍待验证。
+日志只供评测侧访问。当前诊断描述返回结构、取用时机、已有证据与风险代价，不直接认定内部检索过某条记忆。GA 记忆干预通路可以运行；完整四维指标与正式能力实验仍待验证。

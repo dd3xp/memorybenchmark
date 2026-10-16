@@ -236,6 +236,19 @@ class Game:
     def snapshot(self):
         return deepcopy({k: v for k, v in self.__dict__.items() if k != "log_path"})
 
+    def finish_incomplete(self, reason):
+        """Runner boundary, not an invented agent action or retryable game loss."""
+        if reason not in ("model_budget", "agent_stopped"):
+            raise ValueError("unknown runner termination")
+        if self.task_id is None or self.done:
+            raise ProtocolError("no unfinished task")
+        self.done, self.success = True, False
+        self.revision += 1
+        response = {"observation":self.observation(), "feedback":"本次会话已结束，任务未完成。", "outcome":reason}
+        self._record({"kind":"runner_termination", "outcome":reason, "time":self.clock,
+                      "state_after":self._state(), "delivered":response})
+        return deepcopy(response)
+
     def restore(self, snapshot):
         if self.log_path:
             raise ProtocolError("持久日志的恢复需另开分支日志；仅允许恢复内存实例。")

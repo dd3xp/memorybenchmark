@@ -39,6 +39,16 @@ class BridgeTests(unittest.TestCase):
             self.assertIn("error", self.tool(args))
         self.assertEqual(snapshot, game.snapshot())
 
+    def test_unused_empty_target_from_strict_gateway_is_accepted(self):
+        game = self.server.service.adapter(self.started["instance_id"]).game
+        before = game.steps
+        for target in ("", None):
+            result = self.tool({"action":"read", "target":target})
+            self.assertEqual(result["outcome"],"read")
+        self.assertEqual(game.steps,before)
+        self.assertEqual(self.tool({"action":"submit","target":""})["outcome"],"incomplete")
+        self.assertEqual(game.steps,before + 1)
+
     def test_hermes_registry_registration_preserves_native_memory_tools(self):
         entries = {"memory": object()}
         original = entries["memory"]

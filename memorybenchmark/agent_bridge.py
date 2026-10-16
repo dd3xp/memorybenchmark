@@ -37,8 +37,11 @@ class GameTool:
             return {"error": "invalid_arguments", "message": "未知动作。"}
         if action in ("move", "take") and not isinstance(args.get("target"), str):
             return {"error": "invalid_arguments", "message": "移动／取用需要 target。"}
-        if action not in ("move", "take") and "target" in args:
+        # Some strict-schema gateways materialize an unused optional string as
+        # empty/null. It carries no target and must not obstruct submit/read.
+        if action not in ("move", "take") and args.get("target", "") not in ("", None):
             return {"error": "invalid_arguments", "message": "该动作不接受 target。"}
+        args = {k:v for k,v in args.items() if k != "target" or action in ("move", "take")}
         with self.lock:
             request = {"command": "read"} if action == "read" else {
                 "command": "action", "request_id": uuid4().hex,

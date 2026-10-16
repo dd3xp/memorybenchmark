@@ -46,4 +46,4 @@ python scripts/native_ga_smoke.py reproducibility_package_upload/agents/GenericA
 
 脚本使用新建的 `.runs/` 私有目录，排除归档中的旧记忆、临时文件和凭据配置，原生模型与工具循环按预算运行；模型别名和输出上限会写入运行清单。它没有正式隔离，不作为 benchmark 实验入口。
 
-下一步联合验证原生会话、记忆快照和隔离启动器：每任务新 session，两条件提示和反思机会匹配；快照覆盖可检索历史、自建技能、长期文件和后台更新。后台写入结束后再快照。基础设施重试恢复双方状态，真实体力耗尽不能重试。完成这些控制前不发布 MEM/NOMEM 效果分数。
+GA 专用流程已经接入每任务新 session、隔离进程、完整记忆基线和相同检查点的保留／清除干预，详见 [GA 跨 session 流程](GA_CROSS_SESSION.md)。原生工具、记忆 SOP 与自主更新策略保留；会话外仅 memory 目录持久化，临时状态重建。Hermes 完整执行接入随后完成，当前仍只验证工具注册契约。单次通路联调不发布正式 MEM/NOMEM 能力分数。
