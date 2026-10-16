@@ -20,12 +20,13 @@ from uuid import uuid4
 from .adapters import GameAdapter
 from .analysis import commute_graph, diagnose
 from .game import Game, ProtocolError
+from .watch import Observer, atomic_json
 from .ga_runtime import (WSLJail, changed_files, copy_memory, encode_state, extract_native,
                          decode_state, make_support, memory_manifest, state_digest)
 
 
 def save_json(path, value):
-    Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
+    atomic_json(path,value)
 
 
 class InfrastructureError(RuntimeError):
@@ -82,14 +83,15 @@ class GatewayModel:
 
 class NativeGASessions:
     def __init__(self, source, support, jail, *, model_alias, max_turns=24, final_turns=6,
-                 wall_seconds=900, seed=0):
+                 wall_seconds=900, seed=0, observer=None):
         if not 1 <= max_turns <= 100 or not 1 <= final_turns <= 20:
             raise ValueError("invalid model budget")
         self.source, self.support, self.jail = Path(source), Path(support), jail
         self.model_alias, self.max_turns, self.final_turns = model_alias, max_turns, final_turns
         self.wall_seconds, self.seed = wall_seconds, seed
+        self.observer=observer
 
-    def _worker(self, memory, output, config, adapter=None, model=None):
+    def _worker(self, memory, output, config, adapter=None, model=None,watch_id=None,before_memory=None):
         command = self.jail.command(self.source, memory, self.support, self.wall_seconds)
         messages = queue.Queue()
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
@@ -135,6 +137,13 @@ class NativeGASessions:
                         report["initial_session"] = message
                     elif kind == "tool":
                         report["tools"].append({"name":message["name"],"args":message["args"]})
+                        if self.observer:
+                            names={"game_action":"操作游戏","code_run":"执行脚本","file_read":"读取文件",
+                                   "file_write":"写入文件","file_patch":"修改文件","start_long_term_update":"整理长期记忆"}
+                            label=names.get(message["name"],message["name"])
+                            target=message["args"].get("target")
+                            if target: label+=" · "+str(target)[:60]
+                            self.observer.activity(watch_id,"tool",label,phase="acting")
                     elif kind == "worker_error":
                         raise InfrastructureError("worker_" + message["error_type"] + ": " + message["message"])
                     elif kind == "finished":
@@ -143,6 +152,7 @@ class NativeGASessions:
                         method, params = message.get("method"), message.get("params")
                         if method == "game" and adapter is not None:
                             result = self._game(adapter, params)
+                            if self.observer: self.observer.observe(watch_id,result,params.get("action"))
                         elif method == "task_end" and adapter is not None and not final_phase:
                             native = params.get("native_result") or {}
                             if not adapter.game.done:
@@ -151,6 +161,9 @@ class NativeGASessions:
                             else:
                                 result = adapter.dispatch({"command":"read"})
                             final_phase = True
+                            if self.observer:
+                                self.observer.observe(watch_id,result)
+                                self.observer.activity(watch_id,"finalize","任务结算，进入自主整理",phase="finalizing")
                         elif method == "model" and model is not None:
                             report["model_requests"] += 1
                             field, budget = ("final_calls",self.final_turns) if final_phase else ("main_calls",self.max_turns)
@@ -158,10 +171,18 @@ class NativeGASessions:
                                 raise InfrastructureError("unexpected model calls beyond budget")
                             report["llm_calls"] += 1
                             report[field] += 1
+                            if self.observer:
+                                self.observer.activity(watch_id,"model_start","等待模型响应",calls=report["llm_calls"],
+                                                       phase="finalizing" if final_phase else "thinking")
                             calls = output / "model"
                             calls.mkdir(exist_ok=True)
                             save_json(calls / f"{report['llm_calls']:03d}-request.json", params)
                             result = model(params)
+                            if self.observer:
+                                self.observer.activity(watch_id,"model_complete","模型已响应",phase="finalizing" if final_phase else "acting")
+                                if before_memory is not None:
+                                    try: self.observer.memory(watch_id,before_memory,memory_manifest(memory))
+                                    except (ValueError,OSError): pass
                             save_json(calls / f"{report['llm_calls']:03d}-response.json", result)
                         else:
                             raise InfrastructureError("unregistered worker RPC")
@@ -218,7 +239,7 @@ class NativeGASessions:
             raise InfrastructureError(report.get("infrastructure_error", "jail probe failed"))
         return report
 
-    def run(self, game, task_id, input_memory, output, model):
+    def run(self, game, task_id, input_memory, output, model,*,condition="prefix"):
         output = Path(output)
         output.mkdir(parents=True, exist_ok=False)
         before_world = game.snapshot()
@@ -231,9 +252,10 @@ class NativeGASessions:
         adapter = GameAdapter(game)
         initial = adapter.dispatch({"command":"start", "task_id":task_id})
         save_json(output / "initial-public.json", initial)
+        watch_id=self.observer.open(task_id,condition,initial,before) if self.observer else None
         config = {"protocol":"ga-session-1", "seed":self.seed, "model":self.model_alias,
                   "initial_text":initial["text"],"max_turns":self.max_turns,"final_turns":self.final_turns}
-        report = self._worker(state, output, config, adapter, model)
+        report = self._worker(state, output, config, adapter, model,watch_id,before)
         report.update(task_id=task_id, max_turns=self.max_turns, final_turns=self.final_turns,
                       input_world_digest=state_digest(before_world), input_memory=before,
                       runtime_memory_id=state.name)
@@ -246,6 +268,7 @@ class NativeGASessions:
                 report["memory_changed"] = changed_files(before, after)
                 report["content_changed"] = [p for p in report["memory_changed"] if p != "file_access_stats.json"]
                 report["output_memory"] = after
+                if self.observer: self.observer.memory(watch_id,before,after,True)
             except (ValueError, RuntimeError) as error:
                 report.update(infrastructure_ok=False, infrastructure_error=type(error).__name__ + ": " + str(error))
         report.update(success=game.success, done=game.done, game_actions=game.steps,
@@ -259,6 +282,7 @@ class NativeGASessions:
         save_json(output / "graph.json", {"graph":commute_graph(game.events,game.task_run_id),
                                          "diagnostics":diagnose(game.events,game.task_run_id)})
         save_json(output / "summary.json", report)
+        if self.observer: self.observer.close(watch_id,report)
         return report
 
 
@@ -287,8 +311,17 @@ def experiment(archive, output, jail, model_factory, *, tasks=("T1","T2"), prefi
     world = Game()
     if len(set(tasks)) != len(tasks) or any(t not in world.tasks for t in tasks) or not 1 <= prefix_count < len(tasks):
         raise ValueError("need unique known tasks, a nonempty prefix and a continuation")
-    sessions.probe(baseline, output / "isolation")
-    return _continue(output,report,sessions,model_factory)
+    observer=Observer(output)
+    observer.begin(report)
+    sessions.observer=observer
+    try:
+        sessions.probe(baseline, output / "isolation")
+        result=_continue(output,report,sessions,model_factory)
+    except (Exception,KeyboardInterrupt):
+        observer.finish(False)
+        raise
+    observer.finish(result["complete"])
+    return result
 
 
 def _continue(output, report, sessions, model_factory):
@@ -313,7 +346,7 @@ def _continue(output, report, sessions, model_factory):
             location = parent / (condition + "-retry-" + uuid4().hex[:8])
         candidate = Game(); candidate.restore(world.snapshot())
         row = sessions.run(candidate,task,memory if condition != "clear" else baseline,
-                           location,model_factory(task,condition))
+                           location,model_factory(task,condition),condition=condition)
         row = {"path":str(location.relative_to(output)),**row}
         if old is not None:
             report.setdefault("attempt_history",[]).append(old)
@@ -373,11 +406,18 @@ def resume_experiment(output,jail,model_factory):
     for file,key in (("ga_worker.py","worker_sha256"),("agent_bridge.py","bridge_sha256")):
         if sha256((support / file).read_bytes()).hexdigest() != report[key]:
             raise InfrastructureError("worker protocol changed; start a new run")
+    observer=Observer(output)
+    observer.begin(report)
     sessions=NativeGASessions(output / "source/GenericAgent",support,jail,model_alias=report["model_alias"],
-                              max_turns=report["max_turns"],final_turns=report["final_turns"],seed=report["seed"])
+                              max_turns=report["max_turns"],final_turns=report["final_turns"],seed=report["seed"],observer=observer)
     report["resume_count"]=report.get("resume_count",0)+1
     save_json(output / "experiment.json",report)
-    return _continue(output,report,sessions,model_factory)
+    try: result=_continue(output,report,sessions,model_factory)
+    except (Exception,KeyboardInterrupt):
+        observer.finish(False)
+        raise
+    observer.finish(result["complete"])
+    return result
 
 
 def main():

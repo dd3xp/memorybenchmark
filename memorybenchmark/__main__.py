@@ -16,6 +16,7 @@ def main():
     parser.add_argument("--analyze", type=Path, help="分析评测侧 events.jsonl")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--log-dir", type=Path, default=Path(".runs"))
+    parser.add_argument("--watch-dir",type=Path,help="experiment directory shown on the read-only dashboard")
     args = parser.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     if args.analyze:
@@ -35,7 +36,7 @@ def main():
                 response = {"error": "protocol_error", "message": str(e)}
             print(json.dumps(response, ensure_ascii=False), flush=True)
     else:
-        server = make_server(port=args.port, log_root=args.log_dir)
+        server = make_server(port=args.port, log_root=args.log_dir,watch_root=args.watch_dir)
         print(f"制图游戏已启动：http://127.0.0.1:{server.server_port}", flush=True)
         try:
             server.serve_forever()

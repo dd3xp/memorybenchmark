@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>实验观测台 · 谷地测绘手记</title><link rel="stylesheet" href="/watch.css"></head>
+<body>
+<header class="masthead"><a class="brand" href="/watch"><span class="brand-mark" aria-hidden="true">⌖</span><span>谷地测绘手记<small>实验观测台</small></span></a><nav><a href="/watch" aria-current="page">观察 Agent</a><a href="/play">亲自探索</a></nav><span id="connection" class="connection">正在连接</span></header>
+<main>
+<aside class="experiments"><div class="section-title"><h2>实验记录</h2><button id="refresh" class="text-button">刷新</button></div><label class="select-label" for="run-select">选择运行</label><select id="run-select"><option value="">正在读取记录…</option></select><p id="run-meta" class="subtle"></p><div class="progress-head"><span id="run-state">等待实验</span><span id="completion">0 / 0</span></div><progress id="completion-bar" max="1" value="0" aria-label="实验完成进度"></progress><div id="sessions" class="session-list" aria-label="任务会话"></div><p class="scope-note">每项任务使用独立会话。点击会话，可以查看当时的地图与行动。</p></aside>
+<section class="workspace">
+<div id="empty" class="empty"><span aria-hidden="true">⌖</span><h1>等待第一轮探索</h1><p>实验启动后，Agent 的位置与行动会自动出现在这里。</p><a href="/play">也可以先亲自探索地图</a></div>
+<div id="viewer" hidden>
+<div class="view-heading"><div><p id="session-caption" class="subtle"></p><h1 id="task-title">山谷勘测</h1></div><span id="session-state" class="state-badge">运行中</span></div>
+<div class="chart"><div class="chart-top"><h2>Agent 的勘测图</h2><span id="map-meta"></span></div><svg id="watch-map" viewBox="0 0 800 520" role="img" aria-label="已发现地图与实际通勤路径"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#dce8ef" stroke-width="1"/></pattern><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#117f91"/></marker></defs><rect width="800" height="520" fill="url(#grid)"/><g id="roads"></g><g id="trace"></g><g id="places"></g><g class="compass" transform="translate(756 42)"><text y="-12" text-anchor="middle">N</text><path d="M0 -3 L-5 16 L0 12 L5 16Z"/></g></svg><div class="legend"><span><i class="road"></i>已发现道路</span><span><i class="trace"></i>实际通勤</span><span><i class="player"></i>当前位置</span><span id="frame-mode">跟随运行</span></div></div>
+<div class="replay"><button id="replay-toggle">回放</button><input id="frame-slider" type="range" min="0" max="0" value="0" aria-label="回放进度"><span id="frame-number">动作 0 / 0</span><button id="follow" class="text-button">跟随运行</button></div>
+<div class="metrics"><div><span>移动距离</span><strong id="metric-distance">0</strong></div><div><span>体力需求</span><strong id="metric-effort">0</strong></div><div><span>剩余体力</span><strong id="metric-stamina">0</strong></div><div><span>模型调用</span><strong id="metric-calls">0</strong></div></div>
+<section class="event-section"><div class="section-title"><h2>行动记录</h2><span id="last-updated" class="subtle"></span></div><ol id="action-log" class="action-log" aria-label="游戏行动记录"></ol></section>
+</div>
+</section>
+<aside id="details" class="details" hidden><section class="brief"><p class="subtle">当前委托</p><p id="instruction"></p><div class="field"><span>当前位置</span><strong id="place"></strong></div><div class="field"><span>环境</span><strong id="weather"></strong></div><div class="field"><span>游戏时间</span><strong id="game-time"></strong></div><div class="field"><span>携带工具</span><strong id="inventory"></strong></div></section><section class="memory"><div class="section-title"><h2>记忆变化</h2><span id="memory-status" class="subtle"></span></div><p id="memory-summary"></p><ul id="memory-files"></ul><p class="scope-note">显示记忆文件的变化，不将文件变化直接判为经验复用。</p></section><section class="activity"><div class="section-title"><h2>执行动态</h2><span id="phase" class="subtle"></span></div><ol id="activity-log" aria-label="Agent 执行动态"></ol></section></aside>
+</main>
+<footer><span>地图显示 Agent 已获得的地理信息，保留每次通勤。</span><span id="run-id"></span></footer>
+<script src="/watch.js"></script>
+</body></html>

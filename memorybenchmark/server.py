@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from .adapters import GameAdapter
 from .game import Game, TASKS, ProtocolError
+from .watch import WatchStore
 
 STATIC = Path(__file__).parent / "static"
 
@@ -41,8 +42,9 @@ class GameService:
             return {**self.adapter(token).dispatch(request), "instance_id": token}
 
 
-def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs")):
+def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=None):
     service = GameService(log_root)
+    watch=WatchStore(Path(log_root)/"ga-cross-session" if watch_root is None else watch_root)
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, format, *args):
@@ -60,7 +62,14 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs")):
         def do_GET(self):
             url = urlsplit(self.path)
             if url.path == "/health":
-                self.reply({"ok": True})
+                self.reply({"ok": True,"watch":True})
+            elif url.path == "/api/watch/runs":
+                self.reply({"runs":watch.listing()})
+            elif url.path == "/api/watch/run":
+                try:
+                    self.reply(watch.snapshot(parse_qs(url.query).get("id",[None])[0]))
+                except (OSError,ValueError,KeyError,TypeError):
+                    self.reply({"error":"not_found","message":"实验记录不存在或尚未准备好。"},404)
             elif url.path == "/api/tasks":
                 self.reply({"tasks": [{"id": key, "name": t["name"], "instruction": t["instruction"]}
                                       for key, t in TASKS.items()]})
@@ -70,9 +79,10 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs")):
                     self.reply(service.dispatch(token, {"command": "read"}))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/", "/app.js", "/style.css"):
-                name = {"/": "index.html", "/app.js": "app.js", "/style.css": "style.css"}[url.path]
-                mime = {"/": "text/html", "/app.js": "text/javascript", "/style.css": "text/css"}[url.path]
+            elif url.path in ("/", "/play", "/watch", "/app.js", "/style.css", "/watch.js", "/watch.css"):
+                name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
+                        "/watch.js":"watch.js","/watch.css":"watch.css"}[url.path]
+                mime = "text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css")
                 body = (STATIC / name).read_bytes()
                 self.send_response(200)
                 self.send_header("Content-Type", mime + "; charset=utf-8")
@@ -105,4 +115,5 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs")):
 
     server = ThreadingHTTPServer((host, port), Handler)
     server.service = service
+    server.watch = watch
     return server
