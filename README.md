@@ -8,6 +8,7 @@
 - [原生 Agent 适配](docs/AGENT_INTEGRATION.md)：GenericAgent／Hermes 工具桥和验证范围。
 - [当前成果](PROGRESS.md)：已完成验证、真实开发试跑与下一步验收。
 - [GA 跨 session 流程](docs/GA_CROSS_SESSION.md)：沿用 AAAI 版记忆边界，接入独立会话、检查点与配对干预。
+- [Squishy 部署与网页观测](docs/SQUISHY_DEPLOYMENT.md)：服务端路径、启动方式、实时回放与端口映射。
 
 ## 开始游玩
 

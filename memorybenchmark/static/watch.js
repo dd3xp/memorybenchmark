@@ -22,7 +22,9 @@ async function poll(){
   const active=runs.find(r=>r.status==='running');
   if(!pinnedRun&&active&&active.id!==currentRun)chooseRun(active.id);
   $('run-select').value=currentRun;
-  snapshot=await get('/api/watch/run?id='+encodeURIComponent(currentRun));
+  const requestedRun=currentRun, incoming=await get('/api/watch/run?id='+encodeURIComponent(requestedRun));
+  if(requestedRun!==currentRun)return;
+  snapshot=incoming;
   if(!selected||!snapshot.sessions.some(s=>s.id===selected)||(follow&&snapshot.active_session_id))selected=snapshot.active_session_id||snapshot.sessions.at(-1)?.id||'';
   const s=session();if(s&&follow)index=Math.max(0,s.frames.length-1);
   $('connection').textContent='已连接 · 自动更新';$('connection').classList.remove('offline');render();
