@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>地图设计 · 测绘手记</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/design.css"></head>
+<body>
+<header><div><span class="mark" aria-hidden="true">⌖</span><h1>测绘手记</h1></div><p>地图设计查看</p><a href="/play">亲自探索</a><a href="/watch">观察 Agent</a></header>
+<div class="design-intro"><div><h2>完整地图与记忆触发点</h2><p>查看当前发布地图的全部地点，以及经验可以影响准备和行动的位置。</p></div><p class="review-note">此页含未探索信息，仅供人查看；不会写入 Agent 的观察、共享地图或记忆。</p></div>
+<main class="design-layout">
+  <section class="chart" aria-label="地图设计全貌">
+    <div class="chart-title"><h2 id="design-title">正在读取地图…</h2><span id="design-meta"></span></div>
+    <div class="design-selects"><label for="scenario-select">地图<select id="scenario-select" disabled></select></label><label for="task-select">查看委托<select id="task-select" disabled><option value="">全部委托</option></select></label></div>
+    <div class="map-toolbar"><div class="layer-options"><label><input id="show-triggers" type="checkbox" checked> 记忆触发点</label><label><input id="show-reference" type="checkbox" disabled> 参考路线</label></div><div><button id="design-zoom-out" aria-label="缩小地图">−</button><span id="design-zoom-label">100%</span><button id="design-zoom-in" aria-label="放大地图">＋</button><button id="design-zoom-reset">全图</button></div></div>
+    <svg id="design-map" viewBox="0 0 1200 800" role="img" aria-label="完整地点、通路与记忆触发点">
+      <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b2c9d6" stroke-width=".45"/></pattern></defs>
+      <rect width="1200" height="800" fill="url(#grid)"/><g id="design-roads"></g><g id="design-route"></g><g id="design-nodes"></g><g id="design-markers"></g>
+      <g class="compass" transform="translate(1140 750)"><path d="M0 -21 L-7 8 L0 4 L7 8Z"/><text y="-31" text-anchor="middle">北</text></g>
+    </svg>
+    <div class="legend design-legend"><span>△ 营地</span><span><i class="risk-key"></i>风险触发</span><span><i class="depot-key"></i>工具取用</span><span><i class="prepare-key"></i>出发准备</span><span><i class="goal-key"></i>本次目标</span></div>
+    <p class="sheet-note" id="map-note">完整图独立于探索进度；缩放和拖动可查看细节。</p>
+  </section>
+  <aside class="design-details">
+    <section class="task-summary"><span class="section-label">委托设计</span><h2 id="task-heading">全部委托</h2><p id="task-description"></p><div id="task-facts"></div><div id="task-list" class="design-task-list"></div></section>
+    <section class="trigger-section"><h2>经验的应用位置</h2><p class="muted">出发时准备工具，进入风险点时检查携带状态。关联委托按全知参考路线标注；实际复用机会还取决于 Agent 此前真正获得了什么经验。</p><div id="trigger-list"></div></section>
+    <p id="design-error" role="alert"></p>
+  </aside>
+</main>
+<footer><span id="design-version"></span><span>设计机会不等于已发生的记忆复用</span><form method="post" action="/logout"><button class="quiet small" type="submit">退出登录</button></form></footer>
+<script src="/maps.js"></script><script src="/design.js"></script>
+</body></html>

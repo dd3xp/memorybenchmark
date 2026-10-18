@@ -6,7 +6,7 @@
 <main>
   <section class="chart" aria-label="当前任务中已发现的地图">
     <div class="chart-title"><h2 id="sheet-title">雾汀湖勘测图</h2><span id="map-caption">尚未开始探索</span></div>
-    <div class="map-toolbar"><label><input id="show-atlas" type="checkbox" checked> 累计点亮</label><div><button id="play-zoom-out" aria-label="缩小地图">−</button><span id="play-zoom-label">100%</span><button id="play-zoom-in" aria-label="放大地图">＋</button><button id="play-zoom-reset">全图</button></div></div>
+    <div class="map-toolbar"><label><input id="show-atlas" type="checkbox" checked> 累计点亮</label><a id="map-design-link" href="/design?scenario=lake-easy" target="_blank" rel="noopener">完整地图与触发点</a><div><button id="play-zoom-out" aria-label="缩小地图">−</button><span id="play-zoom-label">100%</span><button id="play-zoom-in" aria-label="放大地图">＋</button><button id="play-zoom-reset">全图</button></div></div>
     <svg id="map" viewBox="0 0 830 510" role="img" aria-label="已发现的地点与通路">
       <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b2c9d6" stroke-width=".45"/></pattern></defs>
       <rect width="830" height="510" fill="url(#grid)"/><g id="edges"></g><g id="nodes"></g>
@@ -15,7 +15,7 @@
     <div class="legend"><span><i class="current"></i>当前位置</span><span><i class="measured"></i>本次记录</span><span><i class="submitted"></i>已提交</span><span>△ 营地</span><span>放大可查看全部地名</span></div>
   </section>
   <aside>
-    <section class="task"><span id="task-stage" class="section-label">雾汀湖 · Easy · 4 项委托</span><h2 id="task-name">坡口初测</h2><p id="instruction">从苇湾营地出发，记录北端坡口，再到岚丘营地提交。到达自动测绘，工具需要自行寻找取用。</p><ul id="objectives" class="objectives"></ul><p id="camp-status" class="camp-status"></p><button id="begin" class="primary">开始探索</button></section>
+    <section class="task"><span id="task-stage" class="section-label">雾汀湖 · Easy · 8 项委托</span><h2 id="task-name">坡口初测</h2><p id="instruction">从苇湾营地出发，记录北端坡口，再到岚丘营地提交。到达自动测绘，工具需要自行寻找取用。</p><ul id="objectives" class="objectives"></ul><p id="camp-status" class="camp-status"></p><button id="begin" class="primary">开始探索</button></section>
     <section id="play" hidden>
       <div class="status"><strong id="place"></strong><span id="conditions"></span></div>
       <div class="counts"><span id="time"></span><span id="distance"></span><span id="steps"></span></div>

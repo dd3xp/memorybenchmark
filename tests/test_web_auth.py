@@ -54,12 +54,12 @@ class WebAuthTests(unittest.TestCase):
         return headers
 
     def test_unauthenticated_requests_cannot_read_or_change_games(self):
-        for path in ("/", "/watch", "/play", "/watch.js", "/app.js", "/watch.css", "/style.css", "/maps.js", "/lake.svg"):
+        for path in ("/", "/watch", "/play", "/design", "/design.js", "/design.css", "/watch.js", "/app.js", "/watch.css", "/style.css", "/maps.js", "/lake.svg"):
             status, headers, body = self.request(path)
             self.assertEqual(status, 303, path)
             self.assertTrue(headers["Location"].startswith("/login"))
             self.assertEqual(body, b"")
-        for path in ("/health", "/api/watch/runs", "/api/watch/run?id=anything", "/api/tasks", "/api/observation", "/api/atlas?instance_id=anything"):
+        for path in ("/health", "/api/watch/runs", "/api/watch/run?id=anything", "/api/tasks", "/api/design?scenario=lake-easy", "/api/observation", "/api/atlas?instance_id=anything"):
             status, _, body = self.request(path)
             self.assertEqual(status, 401, path)
             self.assertEqual(json.loads(body)["error"], "authentication_required")
@@ -77,7 +77,7 @@ class WebAuthTests(unittest.TestCase):
         headers = self.login()
         for attribute in ("HttpOnly", "Secure", "SameSite=Strict", "Path=/"):
             self.assertIn(attribute, headers["Set-Cookie"])
-        for path in ("/", "/watch", "/play", "/watch.js", "/api/watch/runs", "/health"):
+        for path in ("/", "/watch", "/play", "/design", "/design.js", "/design.css", "/api/design?scenario=lake-easy", "/watch.js", "/api/watch/runs", "/health"):
             self.assertEqual(self.request(path, cookie=self.cookie)[0], 200, path)
         status, _, body = self.request("/api/start", "POST", {"task_id": "T1"}, cookie=self.cookie)
         self.assertEqual(status, 200)

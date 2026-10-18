@@ -1,7 +1,7 @@
 const $ = id => document.getElementById(id);
 let instance = null, observation = null, busy = false;
 let submittedAtlas = {nodes:[],edges:[],surveyed:[]};
-let scenario = 'lake-easy', scenarioName='雾汀湖 · Easy', taskCount=4;
+let scenario = 'lake-easy', scenarioName='雾汀湖 · Easy', taskCount=8;
 const svgNS = 'http://www.w3.org/2000/svg';
 async function post(path, body) {
   const response = await fetch(path, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
@@ -117,6 +117,7 @@ async function loadScenario() {
     if(response.status===401){location.assign('/login?next=/play');return;}
     if(!response.ok)throw new Error('无法读取委托，请刷新页面重试。');
     const data=await response.json();scenario=data.scenario;taskCount=data.tasks.length;
+    $('map-design-link').href='/design?scenario='+encodeURIComponent(scenario);
     scenarioName=scenario==='lake-easy'?'雾汀湖 · Easy':(scenario==='valley'?'谷地校准原型':'渡口校准原型');
     $('task-stage').textContent=`${scenarioName} · ${taskCount} 项委托`;
     $('task-name').textContent=data.tasks[0].name;$('instruction').textContent=data.tasks[0].instruction;

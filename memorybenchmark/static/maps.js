@@ -30,7 +30,7 @@ window.Cartography = (() => {
       terrain.setAttribute('class','terrain'); terrain.setAttribute('aria-hidden','true');
       svg.querySelector('rect').after(terrain);
     } else if(!lake&&terrain) terrain.remove();
-    const base=lake?[0,0,1200,800]:(svg.dataset.originalView||svg.getAttribute('viewBox')).split(' ').map(Number);
+    const base=lake?[0,0,1200,800]:(o.environment?.view_box||(svg.dataset.originalView||svg.getAttribute('viewBox')).split(' ').map(Number));
     const key=lake?'lake-easy':'legacy';
     if(!svg.dataset.originalView) svg.dataset.originalView=svg.getAttribute('viewBox');
     if(svg._mapKey!==key) {

@@ -13,6 +13,7 @@ from .worlds import load_scenario
 from .watch import WatchStore
 from .web_auth import PinAuth
 from .tls import HTTPSGameServer
+from .map_design import map_design
 
 STATIC = Path(__file__).parent / "static"
 
@@ -93,7 +94,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
 
         @staticmethod
         def destination(value):
-            return value if value in ("/", "/watch", "/play") else "/watch"
+            return value if value in ("/", "/watch", "/play", "/design") else "/watch"
 
         def login_page(self, message="", status=200, destination="/watch", extra=None):
             body = (STATIC / "login.html").read_text(encoding="utf-8")
@@ -190,6 +191,12 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     self.reply(watch.snapshot(parse_qs(url.query).get("id",[None])[0]))
                 except (OSError,ValueError,KeyError,TypeError):
                     self.reply({"error":"not_found","message":"实验记录不存在或尚未准备好。"},404)
+            elif url.path == "/api/design":
+                try:
+                    name = parse_qs(url.query).get("scenario", [service.scenario])[0]
+                    self.reply(map_design(name))
+                except ValueError as e:
+                    self.reply({"error": "protocol_error", "message": str(e)}, 400)
             elif url.path == "/api/tasks":
                 try:
                     name = parse_qs(url.query).get("scenario", [service.scenario])[0]
@@ -211,8 +218,9 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     self.reply(service.dispatch(token, {"command": "read"}))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/", "/play", "/watch", "/app.js", "/style.css", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
+            elif url.path in ("/", "/play", "/watch", "/design", "/design.js", "/design.css", "/app.js", "/style.css", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
                 name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
+                        "/design": "design.html", "/design.js": "design.js", "/design.css": "design.css",
                         "/watch.js":"watch.js","/watch.css":"watch.css", "/maps.js":"maps.js", "/lake.svg":"lake.svg"}[url.path]
                 mime = "image/svg+xml" if name.endswith(".svg") else ("text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css"))
                 body = (STATIC / name).read_bytes()

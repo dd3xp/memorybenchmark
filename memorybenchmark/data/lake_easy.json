@@ -1,6 +1,6 @@
 {
   "world": {
-    "version": "lake-easy-2.0",
+    "version": "lake-easy-2.1",
     "public_id": "lake-easy",
     "name": "雾汀湖",
     "shared_geography": true,
@@ -69,6 +69,14 @@
     "T3": {"name": "浅滩初测", "start": "C2", "goals": ["R1"], "submit_at": ["C2"], "stamina": 70, "max_steps": 36,
       "instruction": "从石湾营地 C2 出发，记录苔溪浅滩 R1，再回石湾营地 C2 提交。沿途可自由探索并取用工具。只有本次实际到达计入委托。"},
     "T4": {"name": "林道往返", "start": "C2", "goals": ["S1"], "submit_at": ["C2"], "stamina": 70, "max_steps": 40,
-      "instruction": "从石湾营地 C2 出发，记录杉影林道 S1，再回石湾营地 C2 提交。工具须重新取用；此前提交的地理成果已在共享地图点亮。"}
+      "instruction": "从石湾营地 C2 出发，记录杉影林道 S1，再回石湾营地 C2 提交。工具须重新取用；此前提交的地理成果已在共享地图点亮。"},
+    "T5": {"name": "西岸复测", "start": "C0", "goals": ["P2"], "submit_at": ["C0"], "stamina": 70, "max_steps": 40,
+      "instruction": "从苇湾营地 C0 出发，记录西岸缓坡 P2，再回苇湾营地 C0 提交。沿途可以自由选择通路和取用工具。"},
+    "T6": {"name": "支谷勘测", "start": "C2", "goals": ["B6"], "submit_at": ["C2"], "stamina": 70, "max_steps": 40,
+      "instruction": "从石湾营地 C2 出发，记录支谷深处 B6，再回石湾营地 C2 提交。旧地理记录可以查看，本次仍须实际到达。"},
+    "T7": {"name": "湾角连测", "start": "C0", "goals": ["B1", "B2"], "submit_at": ["C0"], "stamina": 70, "max_steps": 40,
+      "instruction": "从苇湾营地 C0 出发，记录白砾湾角 B1 和湾岸石滩 B2，再回苇湾营地 C0 提交。两处目标都须在本次完成。"},
+    "T8": {"name": "南岸连测", "start": "C2", "goals": ["S2", "Q1"], "submit_at": ["C2"], "stamina": 70, "max_steps": 40,
+      "instruction": "从石湾营地 C2 出发，记录南岸台地 S2 和南岸林中空地 Q1，再回石湾营地 C2 提交。本次到齐两个目标后才能交付。"}
   }
 }

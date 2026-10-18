@@ -46,6 +46,7 @@ function render(){
  const s=session();const ready=s&&s.frames.length;
  $('empty').hidden=Boolean(ready);$('viewer').hidden=!ready;$('details').hidden=!ready;if(!ready)return;
  index=Math.max(0,Math.min(index,s.frames.length-1));const f=s.frames[index],o=f.observation;
+ $('watch-design-link').href='/design?scenario='+encodeURIComponent(o.environment?.id||snapshot.scenario||'valley');
  $('task-title').textContent=o.task_name;$('session-caption').textContent=`${s.task_id} / ${conditionName[s.condition]||s.condition}`;
  $('session-state').textContent=s.status==='complete'?(s.success?'任务成功':'任务未完成'):(s.status==='error'?'运行中断':(phaseName[s.phase]||'运行中'));
  $('session-state').classList.toggle('error',s.status==='error');

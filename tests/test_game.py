@@ -186,7 +186,7 @@ class HTTPTests(unittest.TestCase):
         self.assertIn('P1',next_task['text'])
         with urlopen(self.root+'/api/tasks?scenario=loch-ness') as r:
             data=json.load(r)
-            self.assertEqual(len(data['tasks']),4)
+            self.assertEqual(len(data['tasks']),8)
             self.assertEqual(data['scenario'],'lake-easy')
         for path in ('/maps.js','/lake.svg'):
             with urlopen(self.root+path) as r:

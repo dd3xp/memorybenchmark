@@ -22,6 +22,7 @@ try {
     else {
         $benchArguments+=@($Archive,'--model',$Model,'--scenario',$Scenario,'--tasks','T1','T2','T3','T4')
         if ($Scenario -eq 'valley') { $benchArguments+=@('T5','T6') }
+        else { $benchArguments+=@('T5','T6','T7','T8') }
         $benchArguments+=@('--max-turns','48','--final-turns','6','--max-output-tokens','0')
     }
     $benchService=Join-Path $benchRoot '.runs\service'

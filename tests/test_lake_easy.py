@@ -125,11 +125,11 @@ class LakeEasyTests(unittest.TestCase):
             graph = commute_graph(campaign.events, campaign.task_run_id)
             counts.append(sum(e["hazard_cost"] > 0 for e in graph["edges"]))
             self.assertTrue(all(e["equipment_used"] for e in graph["edges"] if e["hazard_cost"]))
-            if task_id in ("T2","T4"):
+            if task_id not in ("T1","T3"):
                 self.assertFalse(row["without_taking_tools"]["within_stamina"])
             else:
                 self.assertTrue(row["without_taking_tools"]["within_stamina"])
-        self.assertEqual(counts, [1,2,1,2])
+        self.assertEqual(counts, [1,2,1,2,2,2,2,2])
 
     def test_each_reuse_task_requires_the_corresponding_tool(self):
         world,tasks=load_scenario('lake-easy')
@@ -138,10 +138,12 @@ class LakeEasyTests(unittest.TestCase):
             variant=deepcopy(world)
             variant['depots']={n:[t for t in stock if t==tool] for n,stock in world['depots'].items()}
             costs[tool]={task:reference_route(variant,definition)['effort'] for task,definition in tasks.items()}
-        self.assertLess(costs['grip_kit']['T2'],70)
-        self.assertGreaterEqual(costs['stream_kit']['T2'],70)
-        self.assertLess(costs['stream_kit']['T4'],70)
-        self.assertGreaterEqual(costs['grip_kit']['T4'],70)
+        for task in ('T2', 'T5', 'T7'):
+            self.assertLess(costs['grip_kit'][task],70)
+            self.assertGreaterEqual(costs['stream_kit'][task],70)
+        for task in ('T4', 'T6', 'T8'):
+            self.assertLess(costs['stream_kit'][task],70)
+            self.assertGreaterEqual(costs['grip_kit'][task],70)
 
     def test_agent_facing_world_and_every_response_use_only_fictional_names(self):
         world,tasks=load_scenario('lake-easy')

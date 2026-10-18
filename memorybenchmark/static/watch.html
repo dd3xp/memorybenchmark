@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>实验观测台 · Cartographer’s Notebook（测绘手记）</title><link rel="stylesheet" href="/watch.css"></head>
 <body>
-<header class="masthead"><a class="brand" href="/watch"><span class="brand-mark" aria-hidden="true">⌖</span><span>测绘手记<small>实验观测台</small></span></a><nav><a href="/watch" aria-current="page">观察 Agent</a><a href="/play">亲自探索</a></nav><span id="connection" class="connection">正在连接</span></header>
+<header class="masthead"><a class="brand" href="/watch"><span class="brand-mark" aria-hidden="true">⌖</span><span>测绘手记<small>实验观测台</small></span></a><nav><a href="/watch" aria-current="page">观察 Agent</a><a href="/play">亲自探索</a><a id="watch-design-link" href="/design?scenario=lake-easy" target="_blank" rel="noopener">地图与触发点</a></nav><span id="connection" class="connection">正在连接</span></header>
 <main>
 <aside class="experiments"><div class="section-title"><h2>实验记录</h2><button id="refresh" class="text-button">刷新</button></div><label class="select-label" for="run-select">选择运行</label><select id="run-select"><option value="">正在读取记录…</option></select><p id="run-meta" class="subtle"></p><div class="progress-head"><span id="run-state">等待实验</span><span id="completion">0 / 0</span></div><progress id="completion-bar" max="1" value="0" aria-label="实验完成进度"></progress><div id="sessions" class="session-list" aria-label="任务会话"></div><p class="scope-note">每项任务使用独立会话。点击会话，可以查看当时的地图与行动。</p></aside>
 <section class="workspace">

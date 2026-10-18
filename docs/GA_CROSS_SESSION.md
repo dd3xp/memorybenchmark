@@ -2,7 +2,7 @@
 
 当前入口是 `python -m memorybenchmark.ga_experiment`。使用旧复现包中的原生 GenericAgent，类名保留其原始拼写 `GeneraticAgent`；没有用自写规划器替代 Agent。
 
-新运行支持 [雾汀湖 Easy](EASY_LAKE.md) 的 T1–T4；命令行默认场景为 `lake-easy`，复现旧试跑时显式使用 `--scenario valley`。新实验冻结初始世界，记录共享地理协议。两组共享已提交的地点、连接和距离，清除经验记忆不清除公共地图；危险、工具位置与效果不写入地图。
+新运行支持 [雾汀湖 Easy](EASY_LAKE.md) 的 T1–T8；命令行默认场景为 `lake-easy`，复现旧试跑时显式使用 `--scenario valley`。新实验冻结初始世界，记录共享地理协议。两组共享已提交的地点、连接和距离，清除经验记忆不清除公共地图；危险、工具位置与效果不写入地图。
 
 ## 与 AAAI 旧代码的对应
 
@@ -65,7 +65,7 @@ python scripts/check_ga_sessions.py reproducibility_package_upload/agents/Generi
 真实模型运行要求在父进程环境中提供 `MEMORYBENCH_GATEWAY_KEY`：
 
 ```powershell
-python -m memorybenchmark.ga_experiment reproducibility_package_upload/agents/GenericAgent_src.tar.xz --base-url https://your-gateway --scenario lake-easy --tasks T1 T2 T3 T4 --max-turns 48 --final-turns 6
+python -m memorybenchmark.ga_experiment reproducibility_package_upload/agents/GenericAgent_src.tar.xz --base-url https://your-gateway --scenario lake-easy --tasks T1 T2 T3 T4 T5 T6 T7 T8 --max-turns 48 --final-turns 6
 ```
 
 默认发送 `max_output_tokens=2048`。当前使用的订阅网关明确返回“不支持该参数”；使用该路由需要显式加 `--max-output-tokens 0`，记录为网关默认输出长度。此时没有声称逐调用 token 硬上限，模型调用数、会话时间和接收字节上限仍有效。不自动静默移除参数。
