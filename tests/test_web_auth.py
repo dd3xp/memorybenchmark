@@ -130,6 +130,15 @@ class WebAuthTests(unittest.TestCase):
         self.assertEqual(status, 303)
         self.assertEqual(headers["Location"], "/play")
 
+    def test_opaque_origin_needs_browser_same_origin_metadata(self):
+        for metadata in ({}, {"Sec-Fetch-Site": "cross-site"}, {"Sec-Fetch-Site": "same-site"}):
+            headers = {"Origin": "null", **metadata}
+            self.assertEqual(self.request("/login", "POST", {"pin": self.pin}, headers)[0], 403)
+        status, _, _ = self.request("/login", "POST", {"pin": self.pin}, {
+            "Origin": "null", "Sec-Fetch-Site": "same-origin"
+        })
+        self.assertEqual(status, 200)
+
     def test_missing_or_invalid_auth_configuration_fails_closed(self):
         with self.assertRaises(FileNotFoundError):
             make_server(port=0, auth_file=self.root / "missing.json")

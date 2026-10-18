@@ -97,8 +97,13 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
 
         def same_origin(self):
             origin = self.headers.get("Origin")
-            if self.headers.get("Sec-Fetch-Site") == "cross-site":
+            fetch_site = self.headers.get("Sec-Fetch-Site")
+            if fetch_site == "cross-site":
                 return False
+            # Accept an opaque Origin only with browser-controlled Fetch
+            # Metadata proving that the request came from the same origin.
+            if origin == "null":
+                return fetch_site == "same-origin"
             if origin:
                 try:
                     parsed = urlsplit(origin)
