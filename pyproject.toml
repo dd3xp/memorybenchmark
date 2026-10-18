@@ -13,4 +13,4 @@ dependencies = []
 include = ["memorybenchmark*"]
 
 [tool.setuptools.package-data]
-memorybenchmark = ["data/*.json", "static/*.html", "static/*.css", "static/*.js"]
+memorybenchmark = ["data/*.json", "static/*.html", "static/*.css", "static/*.js", "static/*.svg"]

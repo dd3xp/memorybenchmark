@@ -4,6 +4,7 @@ param(
     [string]$CredentialPath=(Join-Path $env:LOCALAPPDATA 'Memorybenchmark\gateway.dpapi'),
     [string]$Distro='Ubuntu',
     [string]$Model='gpt-5.6-luna',
+    [ValidateSet('valley','loch-ness')][string]$Scenario='loch-ness',
     [string]$Resume
 )
 $ErrorActionPreference='Stop'
@@ -18,7 +19,11 @@ try {
     $env:MEMORYBENCH_GATEWAY_KEY=[Runtime.InteropServices.Marshal]::PtrToStringBSTR($benchPointer)
     $benchArguments=@('-u','-m','memorybenchmark.ga_experiment','--base-url',$BaseUrl,'--distro',$Distro)
     if ($Resume) { $benchArguments+=@('--resume',$Resume) }
-    else { $benchArguments+=@($Archive,'--model',$Model,'--tasks','T1','T2','T3','T4','T5','T6','--max-turns','16','--final-turns','6','--max-output-tokens','0') }
+    else {
+        $benchArguments+=@($Archive,'--model',$Model,'--scenario',$Scenario,'--tasks','T1','T2','T3','T4','T5','T6')
+        if ($Scenario -eq 'loch-ness') { $benchArguments+=@('T7','T8') }
+        $benchArguments+=@('--max-turns','48','--final-turns','6','--max-output-tokens','0')
+    }
     $benchService=Join-Path $benchRoot '.runs\service'
     New-Item -ItemType Directory -Force -Path $benchService | Out-Null
     & $benchPython @benchArguments >> (Join-Path $benchService 'ga.log') 2>&1

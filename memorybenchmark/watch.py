@@ -32,7 +32,7 @@ def read_json(path):
 def public_observation(observation):
     keys = ("task_id","task_name","instruction","location","conditions","world_time","revision",
             "neighbors","map","inventory","available_tools","stamina","initial_stamina","effort",
-            "steps","max_steps","distance","done","success")
+            "steps","max_steps","distance","done","success","environment","objective")
     return {k:deepcopy(observation[k]) for k in keys if k in observation}
 
 
@@ -56,6 +56,33 @@ def refresh_counts(data):
     for session in data["sessions"]:
         latest[(session["task_id"],session["condition"])]=session
     data["completed_sessions"]=sum(s["status"]=="complete" for s in latest.values())
+
+
+def observer_atlas(data, session_id, frame_index):
+    """Reconstruct submitted geography only, without crossing paired branches."""
+    selected = next((s for s in data["sessions"] if s["id"] == session_id), None)
+    if selected is None:
+        return {"nodes": [], "edges": [], "surveyed": []}
+    nodes, edges = {}, set()
+    order = list(data.get("tasks", []))
+    selected_rank = order.index(selected["task_id"]) if selected["task_id"] in order else len(order)
+    for session in data["sessions"]:
+        rank = order.index(session["task_id"]) if session["task_id"] in order else len(order)
+        if session is selected:
+            frames = session.get("frames", [])[:frame_index + 1]
+        elif rank < selected_rank and session.get("condition") in ("prefix", "retain") and session.get("status") == "complete":
+            frames = session.get("frames", [])
+        else:
+            continue
+        if not frames or not frames[-1]["observation"].get("success"):
+            continue
+        for item in frames:
+            observation = item["observation"]
+            location = observation["location"]
+            nodes[location["id"]] = deepcopy(location)
+            if item.get("moved"):
+                edges.add(tuple(sorted((item["source"], item["target"]))))
+    return {"nodes": list(nodes.values()), "edges": [list(e) for e in sorted(edges)], "surveyed": sorted(nodes)}
 
 
 def historical(root,report):
@@ -185,8 +212,12 @@ class WatchStore:
         if directory.is_symlink() or getattr(directory,"is_junction",lambda:False)() or directory.resolve().parent!=self.root:
             raise ValueError("无效的实验目录。")
         if (directory/"live.json").exists():
-            return read_json(directory/"live.json")
-        return historical(directory,read_json(directory/"experiment.json"))
+            data = read_json(directory/"live.json")
+        else:
+            data = historical(directory,read_json(directory/"experiment.json"))
+        for session in data["sessions"]:
+            session["prior_atlas"] = observer_atlas(data, session["id"], -1)
+        return data
 
     def listing(self):
         if not self.root.exists(): return []

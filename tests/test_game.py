@@ -166,6 +166,28 @@ class HTTPTests(unittest.TestCase):
             urlopen(self.root + "/.runs/anything/events.jsonl")
         self.assertEqual(error.exception.code, 404)
 
+    def test_loch_ness_human_atlas_is_separate_from_agent_transport(self):
+        response=self.post('/api/start',{'scenario':'loch-ness','task_id':'T1'})
+        token=response['instance_id']
+        adapter=GameAdapter(Game(scenario='loch-ness'))
+        local=adapter.dispatch({'command':'start','task_id':'T1'})
+        self.assertEqual(response['text'],local['text'])
+        self.assertNotIn('atlas',response)
+        for index,target in enumerate(('E1','E2','P1','C1')):
+            response=self.post('/api/action',{'instance_id':token,'request_id':str(index),
+                                            'action':{'type':'move','target':target}})
+        response=self.post('/api/action',{'instance_id':token,'request_id':'submit','action':{'type':'submit'}})
+        self.assertTrue(response['observation']['success'])
+        with urlopen(self.root+'/api/atlas?instance_id='+token) as r:
+            self.assertIn('P1',json.load(r)['surveyed'])
+        next_task=self.post('/api/start',{'instance_id':token,'task_id':'T2'})
+        self.assertNotIn('P1',next_task['observation']['map']['surveyed'])
+        with urlopen(self.root+'/api/tasks?scenario=loch-ness') as r:
+            self.assertEqual(len(json.load(r)['tasks']),8)
+        for path in ('/maps.js','/loch-ness.svg'):
+            with urlopen(self.root+path) as r:
+                self.assertEqual(r.status,200)
+
 
 if __name__ == "__main__":
     unittest.main()

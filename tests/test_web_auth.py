@@ -54,12 +54,12 @@ class WebAuthTests(unittest.TestCase):
         return headers
 
     def test_unauthenticated_requests_cannot_read_or_change_games(self):
-        for path in ("/", "/watch", "/play", "/watch.js", "/app.js", "/watch.css", "/style.css"):
+        for path in ("/", "/watch", "/play", "/watch.js", "/app.js", "/watch.css", "/style.css", "/maps.js", "/loch-ness.svg"):
             status, headers, body = self.request(path)
             self.assertEqual(status, 303, path)
             self.assertTrue(headers["Location"].startswith("/login"))
             self.assertEqual(body, b"")
-        for path in ("/health", "/api/watch/runs", "/api/watch/run?id=anything", "/api/tasks", "/api/observation"):
+        for path in ("/health", "/api/watch/runs", "/api/watch/run?id=anything", "/api/tasks", "/api/observation", "/api/atlas?instance_id=anything"):
             status, _, body = self.request(path)
             self.assertEqual(status, 401, path)
             self.assertEqual(json.loads(body)["error"], "authentication_required")

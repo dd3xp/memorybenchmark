@@ -288,7 +288,7 @@ class NativeGASessions:
 
 def experiment(archive, output, jail, model_factory, *, tasks=("T1","T2"), prefix_count=1,
                model_alias="gpt-5.6-luna", max_turns=24, final_turns=6, seed=0, kind="native_gateway_pilot",
-               max_output_tokens=None):
+               max_output_tokens=None, scenario="valley"):
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     source = extract_native(archive, output / "source")
@@ -297,20 +297,24 @@ def experiment(archive, output, jail, model_factory, *, tasks=("T1","T2"), prefi
     support = make_support(output / "support")
     sessions = NativeGASessions(source, support, jail, model_alias=model_alias,
                                max_turns=max_turns, final_turns=final_turns, seed=seed)
+    world = Game(scenario=scenario)
+    if len(set(tasks)) != len(tasks) or any(t not in world.tasks for t in tasks) or not 1 <= prefix_count < len(tasks):
+        raise ValueError("need unique known tasks, a nonempty prefix and a continuation")
+    initial_world = world.snapshot()
+    save_json(output / "initial-world.json", encode_state(initial_world))
     report = {"kind":kind, "protocol":"ga-session-1", "agent":"bundled_GenericAgent",
               "archive_sha256":sha256(Path(archive).read_bytes()).hexdigest(),
               "baseline_memory":baseline_manifest, "tasks":list(tasks), "prefix_count":prefix_count,
               "model_alias":model_alias, "seed":seed,"max_turns":max_turns,"final_turns":final_turns,
               "max_output_tokens":max_output_tokens,
+              "scenario":scenario, "world_version":world.world["version"],
+              "initial_world_digest":state_digest(initial_world),
               "prefix":[], "pairs":[], "complete":False,
               "intervention":"matched_next_task_reset_to_shipped_baseline",
               "persistent_scope":"/agent/memory only", "forced_memory_write":False}
     report["worker_sha256"] = sha256((support / "ga_worker.py").read_bytes()).hexdigest()
     report["bridge_sha256"] = sha256((support / "agent_bridge.py").read_bytes()).hexdigest()
     save_json(output / "experiment.json", report)
-    world = Game()
-    if len(set(tasks)) != len(tasks) or any(t not in world.tasks for t in tasks) or not 1 <= prefix_count < len(tasks):
-        raise ValueError("need unique known tasks, a nonempty prefix and a continuation")
     observer=Observer(output)
     observer.begin(report)
     sessions.observer=observer
@@ -329,7 +333,12 @@ def _continue(output, report, sessions, model_factory):
     baseline = output / "baseline"
     if memory_manifest(baseline) != report["baseline_memory"]:
         raise InfrastructureError("baseline memory changed")
-    world, memory = Game(), baseline
+    world, memory = Game(scenario=report.get("scenario", "valley")), baseline
+    if report.get("initial_world_digest"):
+        initial = decode_state(json.loads((output / "initial-world.json").read_text(encoding="utf-8")))
+        if state_digest(initial) != report["initial_world_digest"]:
+            raise InfrastructureError("frozen initial world changed")
+        world.restore(initial)
     tasks, prefix_count, seed = report["tasks"],report["prefix_count"],report["seed"]
     def record(): save_json(output / "experiment.json", report)
     def load_success(row):
@@ -426,6 +435,7 @@ def main():
     parser.add_argument("--resume",type=Path,help="resume an interrupted run with frozen native protocol and budgets")
     parser.add_argument("--base-url",required=True)
     parser.add_argument("--model",default="gpt-5.6-luna")
+    parser.add_argument("--scenario", choices=("valley", "loch-ness"), default="loch-ness")
     parser.add_argument("--tasks",nargs="+",default=["T1","T2"])
     parser.add_argument("--prefix-count",type=int,default=1)
     parser.add_argument("--max-turns",type=int,default=24)
@@ -453,7 +463,7 @@ def main():
         result = experiment(args.archive, output, jail, lambda *_:model,
                             tasks=args.tasks,prefix_count=args.prefix_count,model_alias=args.model,
                             max_turns=args.max_turns,final_turns=args.final_turns,seed=args.seed,
-                            max_output_tokens=output_tokens)
+                            max_output_tokens=output_tokens,scenario=args.scenario)
     for _ in range(args.infra_retries):
         if result["complete"]: break
         failures=[r for r in result['prefix'] if not r['infrastructure_ok']]

@@ -2,19 +2,20 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cartographer’s Notebook（测绘手记）</title><link rel="stylesheet" href="/style.css"></head>
 <body>
-<header><div><span class="mark" aria-hidden="true">⌖</span><h1>测绘手记</h1></div><p>沿着通路探索，把未知留给下一步。</p><button id="fresh" class="quiet">重新开始</button></header>
+<header><div><span class="mark" aria-hidden="true">⌖</span><h1>测绘手记</h1></div><p>尼斯湖 · Easy<br><small>沿着湖岸探索，带着记录回到营地。</small></p><a class="quiet" href="/watch">观察 Agent</a><button id="fresh" class="quiet">重新开始</button></header>
 <main>
   <section class="chart" aria-label="当前任务中已发现的地图">
-    <div class="chart-title"><h2>勘测图</h2><span id="map-caption">尚未开始探索</span></div>
+    <div class="chart-title"><h2 id="sheet-title">尼斯湖勘测图</h2><span id="map-caption">尚未开始探索</span></div>
+    <div class="map-toolbar"><label><input id="show-atlas" type="checkbox" checked> 累计点亮</label><div><button id="play-zoom-out" aria-label="缩小地图">−</button><span id="play-zoom-label">100%</span><button id="play-zoom-in" aria-label="放大地图">＋</button><button id="play-zoom-reset">全图</button></div></div>
     <svg id="map" viewBox="0 0 830 510" role="img" aria-label="已发现的地点与通路">
       <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b2c9d6" stroke-width=".45"/></pattern></defs>
       <rect width="830" height="510" fill="url(#grid)"/><g id="edges"></g><g id="nodes"></g>
       <g class="compass" transform="translate(755 66)"><path d="M0 -21 L-7 8 L0 4 L7 8Z"/><text y="-31" text-anchor="middle">北</text></g>
     </svg>
-    <div class="legend"><span><i class="current"></i>当前位置</span><span><i class="measured"></i>已记录</span><span><i></i>已发现</span><span>地图只记录地理信息</span></div>
+    <div class="legend"><span><i class="current"></i>当前位置</span><span><i class="measured"></i>本次记录</span><span><i class="submitted"></i>已提交</span><span>△ 营地</span><span>放大可查看全部地名</span></div>
   </section>
   <aside>
-    <section class="task"><span class="section-label">本次委托</span><h2 id="task-name">山谷勘测</h2><p id="instruction">前往山谷 A 完成地理记录。到达即自动测绘，途中可以探索和取用工具。</p><button id="begin" class="primary">开始探索</button></section>
+    <section class="task"><span id="task-stage" class="section-label">尼斯湖 · Easy · 8 项委托</span><h2 id="task-name">北端初测</h2><p id="instruction">从多里斯营地出发，记录北端坡口，再到德拉姆营地提交。到达自动测绘，工具需要自行寻找取用。</p><ul id="objectives" class="objectives"></ul><p id="camp-status" class="camp-status"></p><button id="begin" class="primary">开始探索</button></section>
     <section id="play" hidden>
       <div class="status"><strong id="place"></strong><span id="conditions"></span></div>
       <div class="counts"><span id="time"></span><span id="distance"></span><span id="steps"></span></div>
@@ -30,6 +31,6 @@
     <p id="error" role="alert"></p>
   </aside>
 </main>
-<footer>谷地原型 · 六项勘测委托 <span>到达即记录，游戏时间随操作推进</span><form method="post" action="/logout"><button class="quiet small" type="submit">退出登录</button></form></footer>
-<script src="/app.js"></script>
+<footer><span>尼斯湖地理改编 · 游戏路线与风险为设计内容</span><span>到达即记录，回营地提交后点亮</span><form method="post" action="/logout"><button class="quiet small" type="submit">退出登录</button></form></footer>
+<script src="/maps.js"></script><script src="/app.js"></script>
 </body></html>

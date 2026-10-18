@@ -2,9 +2,10 @@
 
 游戏与论文共用这一主标题，论文副标题后续确定。代码包与仓库名称为 `memorybenchmark`。
 
-共享规则核心供人类和 Agent 操作。默认地图有 9 个地点、6 项连续委托，支持到达自动测绘、体力、风险与工具。研究目标是从轨迹分析 Agent 自主形成的跨 session 记忆对后续行为的作用。
+共享规则核心供人类和 Agent 操作。网页和命令行默认进入 **尼斯湖 Easy**：31 个地点、31 条通路、3 个营地与 8 项递进委托。支持到达自动测绘、工具准备、体力结算和回营地提交。研究目标是从轨迹分析 Agent 自主形成的跨 session 记忆对后续行为的作用。
 
 - [实验设计](EXPERIMENT_DESIGN.md)：研究问题与评测边界。
+- [尼斯湖 Easy](docs/LOCH_NESS_EASY.md)：真实地理依据、地图结构、递进任务、工具惩罚与营地规则。
 - [经验目录](EXPERIENCE_CATALOG.md)：当前地点、风险、工具、任务与校准结果。
 - [软件架构](GAME_SOFTWARE_ARCHITECTURE.md)：核心与两类适配器。
 - [原生 Agent 适配](docs/AGENT_INTEGRATION.md)：GenericAgent／Hermes 工具桥和验证范围。
@@ -22,15 +23,15 @@ python -m memorybenchmark
 
 打开 <http://127.0.0.1:8765> 查看实验观测台。实验运行时自动更新当前任务、Agent 已发现的地图、实际通勤、执行动态与记忆文件变化；选择已完成的会话可逐动作回放。网页只读观察实验，不会修改 Agent 的会话或记忆。
 
-亲自游玩使用 <http://127.0.0.1:8765/play>，点击“开始探索”。选择道路，到达即记录地理信息。在工具点取用工具后会自动生效；到达目标后“提交记录”。任务结束后可继续下一委托，失败也能继续。
+亲自游玩使用 <http://127.0.0.1:8765/play>，点击“开始探索”。选择道路，到达即记录地理信息。在支线工具点取用工具后自动生效；本次到齐全部目标后，必须抵达指定营地提交。第一项允许无工具遇险后完成；后续任务逐步增加风险遭遇，无对应工具遭遇两次必定耗尽体力。任务结束后可继续下一委托，失败也能继续。
 
 公网部署使用 PIN 登录：页面、静态资源和接口统一校验会话，支持退出登录、12 小时过期和错误尝试限速。私有配置只保存加盐哈希，PIN 不进入仓库。使用 `python -m memorybenchmark.web_auth .runs/web-auth.json` 在本机交互设置 PIN；服务启动时自动读取此文件，也可用 `--auth-file` 指定路径。生产 Cookie 要求 HTTPS；仅本地 HTTP 开发可加 `--local-http-cookie`。Squishy 的后台启动脚本缺少鉴权配置时会拒绝启动。
 
 原生 HTTPS 使用 `--tls-cert <证书链.pem> --tls-key <私钥.pem>`，也可通过 `MEMORYBENCH_TLS_CERT` 和 `MEMORYBENCH_TLS_KEY` 配置。程序直接加载已有证书，每 60 秒检测续期并自动更新，更新不完整时保留上一份有效证书；启动时加载失败则拒绝运行。Sakura 仅需 TCP 转发并关闭“自动 HTTPS”。证书和私钥不放入仓库。
 
-地图只显示本任务已发现的地理信息，危险标签不自动进入地图。任务边界清空临时图和携带工具，恢复任务配置体力。每个动作按规则推进世界时间，思考、渲染或模型调用不会推进。天气由不规则预设时间表决定；当前山谷和森林风险暂不依赖天气。
+Agent 地图只显示本任务已发现的地理信息，危险标签不自动进入地图。成功提交的地点与通勤会在人类界面和观测台累计点亮，累计地图不进入 Agent 工具结果；每项任务仍须重新到达目标。任务边界清空临时图和携带工具，在固定营地恢复配置体力。每个动作按规则推进世界时间，思考、渲染或模型调用不会推进。天气由不规则预设时间表决定；Easy 的两类风险暂不依赖天气。
 
-这是机制原型，尚没有真实地形、完整四档难度或真实 Agent 的受控记忆效果结果。
+尼斯湖场景按真实地理格局改编，路线、风险、营地与边权是实验设计。其余难度与真实 Agent 的受控记忆效果仍待校准。`--scenario valley` 保留 9 地点旧原型，`--scenario river` 保留渡口校准。
 
 ## 文字接口
 
@@ -42,7 +43,7 @@ python -m memorybenchmark --stdio
 
 ```json
 {"command":"start","task_id":"T1"}
-{"command":"action","request_id":"move-1","expected_revision":1,"action":{"type":"move","target":"J"}}
+{"command":"action","request_id":"move-1","expected_revision":1,"action":{"type":"move","target":"E1"}}
 {"command":"read"}
 ```
 
@@ -50,7 +51,7 @@ python -m memorybenchmark --stdio
 
 `expected_revision` 使用上一响应的版本；完全相同的动作请求和编号重发，不重复执行。改变同一请求的参数或使用过期版本会返回协议错误。原型允许省略版本，正式桥接应发送它。无路可走、遭遇风险、体力耗尽属于正常游戏反馈，与通信错误分别处理。
 
-本地服务也提供 `POST /api/start`、`POST /api/action`、`GET /api/observation?instance_id=...`。开始请求返回实例编号；后续携带编号在同一运行中推进任务。服务只绑定回环地址，评测日志和完整地图不通过 HTTP 提供。
+本地服务也提供 `POST /api/start`、`POST /api/action`、`GET /api/observation?instance_id=...`。开始请求返回实例编号；后续携带编号在同一运行中推进任务。开始时可指定 `scenario: "loch-ness"`。`GET /api/atlas` 为人类界面读取已提交地理成果，不是 Agent 工具。服务只绑定回环地址，评测日志和完整地图不通过 HTTP 提供。
 
 Agent 应使用单独执行环境，仅能接触游戏接口和自身记忆空间。`agent_bridge.py` 提供原生工具注册，本地 HTTP 演示本身没有建立文件／网络隔离。GA 的专用跨 session 运行器使用 WSL2 与 bubblewrap，支持从共同历史进行保留／清除干预；原生联调、运行方式与验证范围见跨 session 流程。
 
@@ -61,6 +62,8 @@ python -m unittest discover -s tests -v
 python -m memorybenchmark.calibrate
 python -m memorybenchmark.tool_calibration
 python -m memorybenchmark.validation
+python -m memorybenchmark.validation --scenario loch-ness
+python -m memorybenchmark.loch_ness_calibration --output .runs/loch-ness-calibration-new
 ```
 
 渡口校准保留旧场景，区分两条都成功、移动 5 次、距离 8 的轨迹；其文字环境可用 `--stdio --scenario river` 启动。新工具校准包含四种都成功的行为，体力需求分别为 10、18、12、26；输出在 `.runs/tool-calibration/`。

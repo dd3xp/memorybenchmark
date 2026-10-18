@@ -9,7 +9,7 @@ from urllib.request import Request,urlopen
 from memorybenchmark.adapters import GameAdapter
 from memorybenchmark.game import Game
 from memorybenchmark.server import make_server
-from memorybenchmark.watch import Observer,WatchStore
+from memorybenchmark.watch import Observer,WatchStore,frame,observer_atlas
 
 
 class WatchTests(unittest.TestCase):
@@ -70,6 +70,39 @@ class WatchTests(unittest.TestCase):
         observer.close(second,{'success':True,'infrastructure_ok':True,'llm_calls':2})
         self.assertEqual(observer.data['completed_sessions'],1)
         self.assertEqual(observer.data['failed_attempts'],1)
+
+    def test_atlas_uses_retained_history_without_sibling_or_future_leakage(self):
+        def session(game, task, condition, route, sid):
+            adapter = GameAdapter(game)
+            response = adapter.dispatch({'command':'start','task_id':task})
+            frames = [frame(response)]
+            for target in route:
+                source = game.position
+                response = adapter.action('move',target)
+                frames.append(frame(response,{'type':'move','target':target},source))
+            if route:
+                response=adapter.action('submit')
+                frames.append(frame(response,{'type':'submit'},game.position))
+            return {'id':sid,'task_id':task,'condition':condition,'status':'complete' if route else 'running','frames':frames}
+        game = Game()
+        prefix = session(game,'T1','prefix',['J','A'],'prefix')
+        checkpoint = game.snapshot()
+        cleared = Game(); cleared.restore(checkpoint)
+        clear = session(cleared,'T2','clear',['J','L','H','K'],'clear')
+        retained = Game(); retained.restore(checkpoint)
+        retain = session(retained,'T2','retain',['J','D','A','K'],'retain')
+        current = session(retained,'T3','retain',[],'current')
+        data = {'tasks':['T1','T2','T3'],'sessions':[prefix,clear,retain,current]}
+        prior = observer_atlas(data,'current',0)
+        self.assertIn('D',prior['surveyed'])
+        self.assertNotIn('L',prior['surveyed'])
+        self.assertNotIn('H',prior['surveyed'])
+        replay_start = observer_atlas(data,'clear',0)
+        self.assertNotIn('D',replay_start['surveyed'])  # Sibling at same task is excluded.
+        self.assertNotIn('L',replay_start['surveyed'])  # This session is not yet submitted.
+        replay_end = observer_atlas(data,'clear',len(clear['frames'])-1)
+        self.assertIn('L',replay_end['surveyed'])
+        self.assertNotIn('D',replay_end['surveyed'])
 
     def test_http_watch_is_read_only_and_private_files_are_not_served(self):
         observer=Observer(self.run); observer.begin(self.report)

@@ -13,7 +13,7 @@ from .server import make_server
 def main():
     parser = argparse.ArgumentParser(description="制图游戏最小原型")
     parser.add_argument("--stdio", action="store_true", help="JSON Lines 文字接口")
-    parser.add_argument("--scenario", choices=("valley", "river"), default="valley")
+    parser.add_argument("--scenario", choices=("valley", "river", "loch-ness"), default="loch-ness")
     parser.add_argument("--analyze", type=Path, help="分析评测侧 events.jsonl")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--log-dir", type=Path, default=Path(".runs"))
@@ -53,7 +53,7 @@ def main():
             auth_file = args.log_dir / "web-auth.json"
         server = make_server(port=args.port, log_root=args.log_dir,watch_root=args.watch_dir,
                              auth_file=auth_file, secure_cookie=not args.local_http_cookie,
-                             tls_cert=args.tls_cert, tls_key=args.tls_key)
+                             tls_cert=args.tls_cert, tls_key=args.tls_key, scenario=args.scenario)
         scheme = "https" if args.tls_cert is not None else "http"
         print(f"制图游戏已启动：{scheme}://127.0.0.1:{server.server_port}", flush=True)
         try:

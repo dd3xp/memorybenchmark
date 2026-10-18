@@ -4,7 +4,7 @@ from copy import deepcopy
 import json
 from pathlib import Path
 from uuid import uuid4
-from .worlds import load_scenario
+from .worlds import load_scenario, task_goals, submission_camps
 
 WORLD, TASKS = load_scenario()
 
@@ -31,6 +31,9 @@ class Game:
         self.stamina = self.initial_stamina = 100
         self.inventory, self.surveyed, self.known_nodes, self.known_edges = set(), set(), set(), set()
         self.requests = {}
+        # Submitted geography belongs to the observer, never to agent observations.
+        self.atlas_nodes, self.atlas_edges = set(), set()
+        self.traversed_edges = set()
 
     def conditions(self, at=None):
         at = self.clock if at is None else at
@@ -63,7 +66,10 @@ class Game:
             raise ProtocolError("请先开始任务。")
         order = list(self.tasks)
         index = order.index(self.task_id)
-        return {
+        task = self.tasks[self.task_id]
+        camps = submission_camps(self.world, task)
+        goals = task_goals(task)
+        result = {
             "task_id": self.task_id, "task_name": self.tasks[self.task_id]["name"],
             "task_run_id": self.task_run_id,
             "next_task_id": order[index + 1] if index + 1 < len(order) else None,
@@ -79,6 +85,22 @@ class Game:
             "steps": self.steps, "max_steps": self.max_steps, "distance": self.distance,
             "done": self.done, "success": self.success,
         }
+        if self.world.get("camps"):
+            result["environment"] = {"id": self.scenario, "version": self.world["version"],
+                "name": self.world.get("name", self.scenario), "difficulty": self.world.get("difficulty"),
+                "view_box": self.world.get("view_box", [0, 0, 830, 510])}
+            result["objective"] = {"targets": [{"id": n, "name": self.world["locations"][n]["name"],
+                "recorded": n in self.surveyed} for n in goals],
+                "submission_camps": [{"id": n, "name": self.world["locations"][n]["name"]} for n in camps],
+                "at_submission_camp": self.position in camps,
+                "ready": all(n in self.surveyed for n in goals) and self.position in camps}
+        return result
+
+    def observer_atlas(self):
+        """Only successfully submitted visits/commutes, without experience layers."""
+        nodes, edges = getattr(self, "atlas_nodes", set()), getattr(self, "atlas_edges", set())
+        return {"nodes": [{"id": n, **self.world["locations"][n]} for n in sorted(nodes)],
+                "edges": [list(e) for e in sorted(edges)], "surveyed": sorted(nodes)}
 
     def _state(self):
         return {"position": self.position, "time": self.clock, "stamina": self.stamina,
@@ -108,6 +130,8 @@ class Game:
         if self.task_id is not None and not self.done:
             raise ProtocolError("当前任务尚未结束。")
         task = self.tasks[task_id]
+        if self.world.get("camps") and task["start"] not in self.world["camps"]:
+            raise ProtocolError("任务必须从营地出发。")
         self.task_id, self.task_run_id = task_id, uuid4().hex
         self.position = task["start"]
         self.done = self.success = False
@@ -116,6 +140,7 @@ class Game:
         self.stamina = self.initial_stamina = task.get("stamina", 100)
         self.inventory = set(task.get("initial_tools", []))
         self.surveyed, self.known_nodes, self.known_edges = set(), set(), set()
+        self.traversed_edges = set()
         self.requests = {}
         self.revision += 1
         self._reveal()
@@ -147,6 +172,8 @@ class Game:
             raise ProtocolError("没有进行中的任务。")
         if expected_revision is not None and (type(expected_revision) is not int or expected_revision != self.revision):
             raise ProtocolError("状态版本已变化，请先读取当前观察。")
+        if not hasattr(self, "traversed_edges"):
+            self.traversed_edges = set()
         before_state = self._state()
         before, at, conditions = self.position, self.clock, self.conditions()
         self.steps += 1
@@ -165,6 +192,7 @@ class Game:
                                  "world_version": self.world["version"], "source_event_id": len(self.events)})
             else:
                 self.position = target
+                self.traversed_edges.add(tuple(sorted((before, target))))
                 movement_cost = duration = edge["distance"]
                 self.distance += movement_cost
                 arrival = self.conditions(at + duration)
@@ -203,12 +231,21 @@ class Game:
             self.done = True
             outcome, feedback = "abandoned", "已结束本次任务。"
         elif verb == "submit":
-            self.success = self.tasks[self.task_id]["goal"] in self.surveyed
-            if self.success:
+            task = self.tasks[self.task_id]
+            camps = submission_camps(self.world, task)
+            complete = all(n in self.surveyed for n in task_goals(task))
+            if camps and self.position not in camps:
+                outcome, feedback = "not_at_camp", "只能在本委托指定营地提交记录，请先返回营地。"
+            elif complete:
+                self.success = True
                 self.done = True
                 outcome, feedback = "success", "地理记录符合任务要求，任务成功。"
+                if not hasattr(self, "atlas_nodes"):
+                    self.atlas_nodes, self.atlas_edges = set(), set()
+                self.atlas_nodes.update(self.surveyed)
+                self.atlas_edges.update(self.traversed_edges)
             else:
-                outcome, feedback = "incomplete", "尚未到达目标地点，可以继续探索。"
+                outcome, feedback = "incomplete", "尚未到达全部目标地点，可以继续探索。"
         effort_cost = movement_cost + hazard_cost
         stamina_spent = min(self.stamina, effort_cost)
         self.effort += effort_cost
@@ -252,4 +289,7 @@ class Game:
     def restore(self, snapshot):
         if self.log_path:
             raise ProtocolError("持久日志的恢复需另开分支日志；仅允许恢复内存实例。")
-        self.__dict__.update(deepcopy(snapshot))
+        # Authoritative snapshots may predate new optional observer fields.
+        # Preserve their exact digest until an action actually changes state.
+        self.__dict__ = deepcopy(snapshot)
+        self.log_path = None

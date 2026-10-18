@@ -67,8 +67,10 @@ function render(){
 }
 function draw(frames,o){
  $('roads').replaceChildren();$('trace').replaceChildren();$('places').replaceChildren();
- const places=Object.fromEntries(o.map.nodes.map(n=>[n.id,n]));
- o.map.edges.forEach(([a,b])=>{if(places[a]&&places[b])$('roads').append(node('line',{x1:places[a].x,y1:places[a].y,x2:places[b].x,y2:places[b].y,class:'road-line'}));});
+ Cartography.prepare($('watch-map'),o);
+ const map=Cartography.merge(o.map,...($('watch-atlas').checked?[session()?.prior_atlas,Cartography.atlas(frames)]:[]));
+ const places=Object.fromEntries(map.nodes.map(n=>[n.id,n]));
+ map.edges.forEach(([a,b])=>{if(places[a]&&places[b])$('roads').append(node('line',{x1:places[a].x,y1:places[a].y,x2:places[b].x,y2:places[b].y,class:'road-line'}));});
  const seen={},moves=frames.filter(f=>f.moved);
  moves.forEach((f,i)=>{const a=places[f.source],b=places[f.target];if(!a||!b)return;const key=[f.source,f.target].sort().join('-');const count=seen[key]||0;seen[key]=count+1;
   const dx=b.x-a.x,dy=b.y-a.y,length=Math.max(1,Math.hypot(dx,dy)),offset=count?16*Math.ceil(count/2)*(count%2?1:-1):0;
@@ -76,10 +78,19 @@ function draw(frames,o){
   $('trace').append(node('path',{d:`M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`,class:'trace-line',opacity:0.35+0.65*(i+1)/moves.length}));
   $('trace').append(node('text',{x:mx+6,y:my-9,class:'step-label','text-anchor':'middle'},i+1));
  });
- o.map.nodes.forEach(n=>{const current=n.id===o.location.id,visited=o.map.surveyed.includes(n.id);$('places').append(node('circle',{cx:n.x,cy:n.y,r:current?10:6,class:`node${visited?' visited':''}${current?' current':''}`}));$('places').append(node('text',{x:n.x,y:n.y+31,'text-anchor':'middle',class:'place-label'},n.name));$('places').append(node('text',{x:n.x,y:n.y-18,'text-anchor':'middle',class:'place-id'},n.id));});
+ map.nodes.forEach(n=>{
+  const current=n.id===o.location.id,visited=o.map.surveyed.includes(n.id);
+  const circle=node('circle',{cx:n.x,cy:n.y,r:current?10:6,class:`node${visited?' visited':''}${map.submitted.has(n.id)?' submitted':''}${current?' current':''}`});
+  circle.append(node('title',{},`${n.name} ${n.id}`));$('places').append(circle);
+  if(n.kind==='camp')$('places').append(node('path',{d:`M${n.x-12} ${n.y+10} L${n.x} ${n.y-14} L${n.x+12} ${n.y+10}Z`,class:'camp-mark'}));
+  $('places').append(node('text',{x:n.x,y:n.y+31,'text-anchor':'middle',class:`place-label ${Cartography.labels($('watch-map'),n,o)?'':'detail-label'}`},n.name));
+  $('places').append(node('text',{x:n.x,y:n.y-18,'text-anchor':'middle',class:'place-id'},n.id));
+ });
 }
 $('run-select').onchange=e=>{pinnedRun=true;chooseRun(e.target.value);poll();};$('refresh').onclick=poll;
 $('frame-slider').oninput=e=>{stopReplay();follow=false;index=Number(e.target.value);render();};
 $('follow').onclick=()=>{stopReplay();follow=true;if(snapshot?.active_session_id)selected=snapshot.active_session_id;const s=session();if(s)index=s.frames.length-1;render();};
 $('replay-toggle').onclick=()=>{if(replayTimer){stopReplay();return;}const s=session();if(!s)return;follow=false;if(index>=s.frames.length-1)index=0;$('replay-toggle').textContent='暂停';render();replayTimer=setInterval(()=>{const current=session();if(!current||index>=current.frames.length-1){stopReplay();return;}index++;render();},1000);};
+$('watch-atlas').onchange=render;
+Cartography.controls($('watch-map'),'watch');
 poll();setInterval(poll,1500);

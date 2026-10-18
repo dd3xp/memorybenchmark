@@ -8,7 +8,8 @@ from urllib.parse import urlsplit, parse_qs
 from uuid import uuid4
 
 from .adapters import GameAdapter
-from .game import Game, TASKS, ProtocolError
+from .game import Game, ProtocolError
+from .worlds import load_scenario
 from .watch import WatchStore
 from .web_auth import PinAuth
 from .tls import HTTPSGameServer
@@ -17,8 +18,9 @@ STATIC = Path(__file__).parent / "static"
 
 
 class GameService:
-    def __init__(self, log_root=Path(".runs")):
+    def __init__(self, log_root=Path(".runs"), scenario="valley"):
         self.log_root = log_root
+        self.scenario = scenario
         self.games = {}
         self.lock = threading.RLock()
 
@@ -27,13 +29,17 @@ class GameService:
             token = request.get("instance_id")
             if token is None:
                 token = uuid4().hex
-                game = Game(log_path=self.log_root / token / "events.jsonl", scenario=request.get("scenario", "valley"))
+                game = Game(log_path=self.log_root / token / "events.jsonl", scenario=request.get("scenario", self.scenario))
                 adapter = GameAdapter(game)
                 response = adapter.dispatch({"command": "start", "task_id": request.get("task_id", "T1")})
                 self.games[token] = adapter
             else:
                 response = self.adapter(token).dispatch({"command": "start", "task_id": request.get("task_id", "T1")})
             return {**response, "instance_id": token}
+
+    def atlas(self, token):
+        with self.lock:
+            return self.adapter(token).game.observer_atlas()
 
     def adapter(self, token):
         if not isinstance(token, str) or token not in self.games:
@@ -47,12 +53,12 @@ class GameService:
 
 def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=None,
                 auth_file=None, secure_cookie=True, tls_cert=None, tls_key=None,
-                tls_reload_interval=60):
+                tls_reload_interval=60, scenario="valley"):
     if (tls_cert is None) != (tls_key is None):
         raise ValueError("HTTPS requires both a certificate and a private key.")
     if tls_cert is not None and not secure_cookie:
         raise ValueError("HTTPS sessions require Secure cookies.")
-    service = GameService(log_root)
+    service = GameService(log_root, scenario)
     watch=WatchStore(Path(log_root)/"ga-cross-session" if watch_root is None else watch_root)
     auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
 
@@ -185,18 +191,30 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 except (OSError,ValueError,KeyError,TypeError):
                     self.reply({"error":"not_found","message":"实验记录不存在或尚未准备好。"},404)
             elif url.path == "/api/tasks":
-                self.reply({"tasks": [{"id": key, "name": t["name"], "instruction": t["instruction"]}
-                                      for key, t in TASKS.items()]})
+                try:
+                    name = parse_qs(url.query).get("scenario", [service.scenario])[0]
+                    world, tasks = load_scenario(name)
+                    self.reply({"scenario": name, "name": world.get("name", name), "difficulty": world.get("difficulty"),
+                                "tasks": [{"id": key, "name": t["name"], "instruction": t["instruction"]}
+                                          for key, t in tasks.items()]})
+                except ValueError as e:
+                    self.reply({"error": "protocol_error", "message": str(e)}, 400)
+            elif url.path == "/api/atlas":
+                token = parse_qs(url.query).get("instance_id", [None])[0]
+                try:
+                    self.reply(service.atlas(token))
+                except ProtocolError as e:
+                    self.reply({"error": "protocol_error", "message": str(e)}, 400)
             elif url.path == "/api/observation":
                 token = parse_qs(url.query).get("instance_id", [None])[0]
                 try:
                     self.reply(service.dispatch(token, {"command": "read"}))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/", "/play", "/watch", "/app.js", "/style.css", "/watch.js", "/watch.css"):
+            elif url.path in ("/", "/play", "/watch", "/app.js", "/style.css", "/watch.js", "/watch.css", "/maps.js", "/loch-ness.svg"):
                 name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
-                        "/watch.js":"watch.js","/watch.css":"watch.css"}[url.path]
-                mime = "text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css")
+                        "/watch.js":"watch.js","/watch.css":"watch.css", "/maps.js":"maps.js", "/loch-ness.svg":"loch-ness.svg"}[url.path]
+                mime = "image/svg+xml" if name.endswith(".svg") else ("text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css"))
                 body = (STATIC / name).read_bytes()
                 self.response_headers(200, mime + "; charset=utf-8", len(body))
                 self.wfile.write(body)

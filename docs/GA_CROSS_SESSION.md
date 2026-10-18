@@ -2,6 +2,8 @@
 
 当前入口是 `python -m memorybenchmark.ga_experiment`。使用旧复现包中的原生 GenericAgent，类名保留其原始拼写 `GeneraticAgent`；没有用自写规划器替代 Agent。
 
+新运行支持 [尼斯湖 Easy](LOCH_NESS_EASY.md) 的 T1–T8；命令行默认场景为 `loch-ness`，复现旧试跑时须显式使用 `--scenario valley`。新实验保存初始世界快照与摘要，恢复时检查并使用冻结配置。累计点亮只用于观测，不进入 Agent 工具结果。
+
 ## 与 AAAI 旧代码的对应
 
 已核对本地旧版 `backend/src/agent/ga_wrapper.py`、`ga_daemon.py`、`_sandbox.py` 和 `backend/src/runner.py`：
@@ -63,7 +65,7 @@ python scripts/check_ga_sessions.py reproducibility_package_upload/agents/Generi
 真实模型运行要求在父进程环境中提供 `MEMORYBENCH_GATEWAY_KEY`：
 
 ```powershell
-python -m memorybenchmark.ga_experiment reproducibility_package_upload/agents/GenericAgent_src.tar.xz --base-url https://your-gateway --tasks T1 T2 T3 T4 T5 T6 --max-turns 16 --final-turns 6
+python -m memorybenchmark.ga_experiment reproducibility_package_upload/agents/GenericAgent_src.tar.xz --base-url https://your-gateway --scenario loch-ness --tasks T1 T2 T3 T4 T5 T6 T7 T8 --max-turns 48 --final-turns 6
 ```
 
 默认发送 `max_output_tokens=2048`。当前使用的订阅网关明确返回“不支持该参数”；使用该路由需要显式加 `--max-output-tokens 0`，记录为网关默认输出长度。此时没有声称逐调用 token 硬上限，模型调用数、会话时间和接收字节上限仍有效。不自动静默移除参数。

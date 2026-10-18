@@ -10,6 +10,20 @@ from memorybenchmark.game import Game
 
 
 class SessionBoundaryTests(unittest.TestCase):
+    def test_legacy_checkpoint_digest_is_not_changed_by_new_observer_fields(self):
+        legacy = Game().snapshot()
+        for key in ('atlas_nodes','atlas_edges','traversed_edges'):
+            legacy.pop(key)
+        restored=Game(); restored.restore(legacy)
+        self.assertEqual(restored.snapshot(),legacy)
+        self.assertEqual(state_digest(restored.snapshot()),state_digest(legacy))
+        self.assertEqual(restored.observer_atlas()['nodes'],[])
+        restored.start_task('T1')
+        adapter=GameAdapter(restored)
+        for target in ('J','A'):
+            adapter.action('move',target)
+        self.assertTrue(adapter.action('submit')['observation']['success'])
+
     def test_checkpoint_roundtrip_keeps_requests_edges_and_evidence(self):
         game=Game()
         adapter=GameAdapter(game)
