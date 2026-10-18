@@ -3,6 +3,7 @@ let instance = null, observation = null, busy = false;
 const svgNS = 'http://www.w3.org/2000/svg';
 async function post(path, body) {
   const response = await fetch(path, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  if (response.status===401) location.assign('/login?next=/play');
   const result = await response.json();
   if (!response.ok) throw new Error(result.message || '连接失败，请稍后重试。');
   return result;

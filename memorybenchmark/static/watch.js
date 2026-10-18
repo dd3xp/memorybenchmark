@@ -8,7 +8,7 @@ function textElement(type,text,cls){const n=document.createElement(type);n.textC
 function clock(at){return at?new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(at)):'';}
 function session(){return snapshot?.sessions.find(s=>s.id===selected);}
 function stopReplay(){if(replayTimer)clearInterval(replayTimer);replayTimer=null;$('replay-toggle').textContent='回放';}
-async function get(path){const r=await fetch(path,{cache:'no-store'});if(!r.ok)throw new Error('无法读取实验记录');return r.json();}
+async function get(path){const r=await fetch(path,{cache:'no-store'});if(r.status===401)location.assign('/login');if(!r.ok)throw new Error('无法读取实验记录');return r.json();}
 function chooseRun(id){stopReplay();currentRun=id;selected='';follow=true;snapshot=null;index=0;}
 async function poll(){
  if(polling)return;polling=true;

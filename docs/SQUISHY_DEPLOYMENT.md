@@ -14,7 +14,19 @@
 | `/api/watch/runs` | 只读实验列表 |
 | `/api/watch/run?id=实验编号` | 只读实验快照 |
 
-外部端口、域名和 HTTPS 由用户的穿透服务决定。当前 HTTP 服务只监听回环地址，不需要开放 Windows 入站 8765 端口。现有穿透配置没有修改。观测页面没有登录机制；映射后可访问该地址的人能查看公开投影和游玩，需要限制访问时可在穿透入口设置认证。
+公网入口已迁移到节点 `frp-fee.com`，使用 `https://s.roundsquisheen.v6.navy:43821/`；frpc 终止 HTTPS 后转发到本地 HTTP。当前 HTTP 服务只监听回环地址，不需要开放 Windows 入站 8765 端口。
+
+页面现使用 PIN 登录。未登录时，观测台、游玩页、静态资源和所有接口均不可读取；接口返回 401，页面转到 `/login`。登录使用 HttpOnly、Secure、SameSite=Strict 的 Cookie，12 小时后过期，退出后立即撤销，重启服务也会注销现有会话。5 次错误尝试后至少冷却 60 秒，限速不信任访问者自行提供的 IP 头。跨站登录、操作与退出请求被拒绝。
+
+`%LOCALAPPDATA%\Memorybenchmark\web-auth.json` 仅保存 scrypt 加盐哈希，不保存原始 PIN。后台脚本必须读到有效鉴权配置才会启动。更改 PIN 时在服务器执行以下命令，在隐藏输入提示中填写新 PIN，然后重启网页任务：
+
+```powershell
+python -m memorybenchmark.web_auth "$env:LOCALAPPDATA\Memorybenchmark\web-auth.json" --replace
+Stop-ScheduledTask -TaskName MemorybenchmarkWatch
+Start-ScheduledTask -TaskName MemorybenchmarkWatch
+```
+
+HTTPS 证书需要覆盖该域名。若 frpc 使用自签名证书，应在自动 HTTPS 配置中填写域名，并在其工作目录加载对应的有效证书；服务端 PIN 登录不能替代证书校验。
 
 观测台约每 1.5 秒更新一次，展示实际游戏反馈、Agent 已发现的地图、按顺序保留的通勤、体力、携带工具、模型调用状态与记忆文件变化。点击会话可查看其末尾，点击“回放”逐动作播放；“跟随运行”回到当前会话。运行选择器可切换已迁入的旧实验。
 
@@ -28,6 +40,7 @@
 | `C:\Codes\memorybenchmark\.runs\service\ga.log` | GA 启动和执行日志 |
 | `C:\Codes\memorybenchmark-private` | 第三方 GA 源码归档、部署包和迁移归档 |
 | `%LOCALAPPDATA%\Memorybenchmark\gateway.dpapi` | 当前 Windows 用户加密的网关凭据 |
+| `%LOCALAPPDATA%\Memorybenchmark\web-auth.json` | 网页 PIN 加盐哈希，仅当前用户与 SYSTEM 可读 |
 | WSL `~/.local/share/memorybenchmark/runtime` | GA Python 运行环境 |
 
 原始日志与第三方源码不通过网页提供，也不进入公开仓库。DPAPI 凭据绑定当前 Windows 用户，不能作为普通配置复制到其他账号或电脑；启动脚本仅在父进程中临时解密，Agent 沙箱接触不到它。
@@ -81,4 +94,4 @@ powershell -NoProfile -File scripts/start_ga.ps1 `
 
 服务器使用 Windows Python 3.13、WSL Ubuntu 24.04 与 bubblewrap。游戏和网页只依赖 Python 标准库，模型推理通过远端网关完成，不要求本地 GPU。当前机器有 i7-12700H 和约 32 GB 内存，足以承载当前单路 GA 联调与网页；扩大并发应根据实际测量设置上限。
 
-迁移时运行了 37 项单元测试，以及原生 GA 工具、记忆保留／恢复和基础设施失败回滚契约检查。浏览器验证了实时更新、历史选择、逐动作回放，以及桌面／手机布局。此处验证的是软件执行与观测链路，正式记忆效果仍按实验设计评估。
+迁移时运行了原生 GA 工具、记忆保留／恢复和基础设施失败回滚契约检查。加入鉴权后运行 43 项单元测试，覆盖未登录隔离、真实游戏操作、错误 PIN 限速、过期／伪造会话、退出与跨站请求。Windows 因权限跳过软链接创建一项。浏览器验证了实时更新、历史选择、逐动作回放，以及桌面／手机布局。此处验证的是软件执行与观测链路，正式记忆效果仍按实验设计评估。
