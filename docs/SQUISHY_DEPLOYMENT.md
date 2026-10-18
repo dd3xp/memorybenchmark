@@ -4,7 +4,7 @@
 
 ## 地址与端口映射
 
-将内网穿透的本地目标设为 **`127.0.0.1:8765`**，协议使用 HTTP。
+将内网穿透的本地目标设为 **`127.0.0.1:8765`**，本地服务直接提供 HTTPS。Sakura 使用 **TCP 隧道，“自动 HTTPS”禁用**，原样转发 TLS 流量。
 
 | 路径 | 用途 |
 | --- | --- |
@@ -14,7 +14,7 @@
 | `/api/watch/runs` | 只读实验列表 |
 | `/api/watch/run?id=实验编号` | 只读实验快照 |
 
-公网入口已迁移到节点 `frp-fee.com`，使用 `https://s.roundsquisheen.v6.navy:43821/`；frpc 终止 HTTPS 后转发到本地 HTTP。当前 HTTP 服务只监听回环地址，不需要开放 Windows 入站 8765 端口。
+公网入口位于节点 `frp-fee.com`，地址为 `https://s.roundsquisheen.v6.navy:43821/`。TLS 由 benchmark 程序处理，与 Claude Code 的方式一致；服务只监听回环地址，不需要开放 Windows 入站 8765 端口。
 
 页面现使用 PIN 登录。未登录时，观测台、游玩页、静态资源和所有接口均不可读取；接口返回 401，页面转到 `/login`。登录使用 HttpOnly、Secure、SameSite=Strict 的 Cookie，12 小时后过期，退出后立即撤销，重启服务也会注销现有会话。5 次错误尝试后至少冷却 60 秒，限速不信任访问者自行提供的 IP 头。跨站登录、操作与退出请求被拒绝。
 
@@ -26,9 +26,9 @@ Stop-ScheduledTask -TaskName MemorybenchmarkWatch
 Start-ScheduledTask -TaskName MemorybenchmarkWatch
 ```
 
-HTTPS 证书需要覆盖该域名。若 frpc 使用自签名证书，应在自动 HTTPS 配置中填写域名，并在其工作目录加载对应的有效证书；服务端 PIN 登录不能替代证书校验。
+benchmark 直接读取 Claude Code 已有的证书源文件：`C:\Agents\ClaudeCode\Boss\claude-web\data\tls\cert.pem` 与同目录 `key.pem`。不修改源文件，不另外申请证书。原有续期任务更新这些文件后，benchmark 最多约 60 秒自动加载新证书；新连接使用新证书，已有登录和游戏实例保留。若文件更新不完整或证书与私钥不匹配，继续使用上一份有效证书，并在后续检查中重试。
 
-2026-10-18 已将本机 Claude Code 使用的有效域名证书复制到 `C:\ProgramData\SakuraFrpService\FrpcWorkingDirectory\s.roundsquisheen.v6.navy.crt` 与同名 `.key`，源文件和其他隧道未修改。benchmark 的“自动 HTTPS”应填写 `s.roundsquisheen.v6.navy`，保存后重启该隧道。当前副本有效期至 2026-12-19；源证书续期后需要同步这两个副本并重启 benchmark 隧道。
+启动时证书缺失或无效会直接报错，不会回退到明文 HTTP。之前在 Sakura 工作目录准备的证书副本不再被 benchmark 使用，也不需要随续期同步。
 
 公网已验证：证书校验通过；未登录的实验接口返回 401；使用指定 PIN 后，观测台、历史记录、游玩页和脚本均可访问；退出后实验接口再次返回 401。本机浏览器完成了错误提示、正确 PIN 登录与退出验证。没有关闭证书校验。
 
@@ -45,6 +45,7 @@ HTTPS 证书需要覆盖该域名。若 frpc 使用自签名证书，应在自�
 | `C:\Codes\memorybenchmark-private` | 第三方 GA 源码归档、部署包和迁移归档 |
 | `%LOCALAPPDATA%\Memorybenchmark\gateway.dpapi` | 当前 Windows 用户加密的网关凭据 |
 | `%LOCALAPPDATA%\Memorybenchmark\web-auth.json` | 网页 PIN 加盐哈希，仅当前用户与 SYSTEM 可读 |
+| `C:\Agents\ClaudeCode\Boss\claude-web\data\tls\cert.pem`、`key.pem` | 现有域名证书源文件，benchmark 只读使用 |
 | WSL `~/.local/share/memorybenchmark/runtime` | GA Python 运行环境 |
 
 原始日志与第三方源码不通过网页提供，也不进入公开仓库。DPAPI 凭据绑定当前 Windows 用户，不能作为普通配置复制到其他账号或电脑；启动脚本仅在父进程中临时解密，Agent 沙箱接触不到它。
@@ -71,7 +72,9 @@ Start-ScheduledTask -TaskName MemorybenchmarkWatch
 
 ```powershell
 Stop-ScheduledTask -TaskName MemorybenchmarkWatch
-powershell -NoProfile -File scripts/start_watch.ps1 -Port 8765
+powershell -NoProfile -File scripts/start_watch.ps1 -Port 8765 `
+  -TlsCert "C:\Agents\ClaudeCode\Boss\claude-web\data\tls\cert.pem" `
+  -TlsKey "C:\Agents\ClaudeCode\Boss\claude-web\data\tls\key.pem"
 ```
 
 `MemorybenchmarkGA` 为按需运行任务，不随开机自动反复调用模型。仅当需要开启一轮新实验，且当前没有 GA 正在执行时使用：
@@ -98,4 +101,4 @@ powershell -NoProfile -File scripts/start_ga.ps1 `
 
 服务器使用 Windows Python 3.13、WSL Ubuntu 24.04 与 bubblewrap。游戏和网页只依赖 Python 标准库，模型推理通过远端网关完成，不要求本地 GPU。当前机器有 i7-12700H 和约 32 GB 内存，足以承载当前单路 GA 联调与网页；扩大并发应根据实际测量设置上限。
 
-迁移时运行了原生 GA 工具、记忆保留／恢复和基础设施失败回滚契约检查。加入鉴权后运行 44 项单元测试，覆盖未登录隔离、真实游戏操作、错误 PIN 限速、过期／伪造会话、退出与跨站请求。Windows 因权限跳过软链接创建一项。浏览器验证了实时更新、历史选择、逐动作回放，以及桌面／手机布局。此处验证的是软件执行与观测链路，正式记忆效果仍按实验设计评估。
+迁移时运行了原生 GA 工具、记忆保留／恢复和基础设施失败回滚契约检查。49 项单元测试覆盖鉴权、原生 HTTPS、真实证书轮换、更新中断、空闲／明文连接隔离和既有游戏功能。测试证书临时生成，不使用实际服务私钥；只有测试需要 OpenSSL，游戏运行仍只依赖标准库。Windows 因权限跳过软链接创建一项。浏览器验证了实时更新、历史选择、逐动作回放，以及桌面／手机布局。此处验证的是软件执行与观测链路，正式记忆效果仍按实验设计评估。

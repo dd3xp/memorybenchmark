@@ -10,6 +10,9 @@ dist/
 .env.*
 !.env.example
 *web-auth*.json
+*.pem
+*.key
+*.crt
 
 # Private legacy submission, reproducibility bundle and local review materials.
 /38764_Beyond_Remembering_Agent.pdf

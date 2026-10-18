@@ -11,6 +11,7 @@ from .adapters import GameAdapter
 from .game import Game, TASKS, ProtocolError
 from .watch import WatchStore
 from .web_auth import PinAuth
+from .tls import HTTPSGameServer
 
 STATIC = Path(__file__).parent / "static"
 
@@ -45,7 +46,12 @@ class GameService:
 
 
 def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=None,
-                auth_file=None, secure_cookie=True):
+                auth_file=None, secure_cookie=True, tls_cert=None, tls_key=None,
+                tls_reload_interval=60):
+    if (tls_cert is None) != (tls_key is None):
+        raise ValueError("HTTPS requires both a certificate and a private key.")
+    if tls_cert is not None and not secure_cookie:
+        raise ValueError("HTTPS sessions require Secure cookies.")
     service = GameService(log_root)
     watch=WatchStore(Path(log_root)/"ga-cross-session" if watch_root is None else watch_root)
     auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
@@ -220,7 +226,11 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
             except (ValueError, UnicodeError, TypeError) as e:
                 self.reply({"error": "protocol_error", "message": str(e)}, 400)
 
-    server = ThreadingHTTPServer((host, port), Handler)
+    if tls_cert is not None:
+        server = HTTPSGameServer((host, port), Handler, certificate=tls_cert,
+                                 private_key=tls_key, reload_interval=tls_reload_interval)
+    else:
+        server = ThreadingHTTPServer((host, port), Handler)
     server.service = service
     server.watch = watch
     server.auth = auth

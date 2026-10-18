@@ -24,6 +24,8 @@ python -m memorybenchmark
 
 公网部署使用 PIN 登录：页面、静态资源和接口统一校验会话，支持退出登录、12 小时过期和错误尝试限速。私有配置只保存加盐哈希，PIN 不进入仓库。使用 `python -m memorybenchmark.web_auth .runs/web-auth.json` 在本机交互设置 PIN；服务启动时自动读取此文件，也可用 `--auth-file` 指定路径。生产 Cookie 要求 HTTPS；仅本地 HTTP 开发可加 `--local-http-cookie`。Squishy 的后台启动脚本缺少鉴权配置时会拒绝启动。
 
+原生 HTTPS 使用 `--tls-cert <证书链.pem> --tls-key <私钥.pem>`，也可通过 `MEMORYBENCH_TLS_CERT` 和 `MEMORYBENCH_TLS_KEY` 配置。程序直接加载已有证书，每 60 秒检测续期并自动更新，更新不完整时保留上一份有效证书；启动时加载失败则拒绝运行。Sakura 仅需 TCP 转发并关闭“自动 HTTPS”。证书和私钥不放入仓库。
+
 地图只显示本任务已发现的地理信息，危险标签不自动进入地图。任务边界清空临时图和携带工具，恢复任务配置体力。每个动作按规则推进世界时间，思考、渲染或模型调用不会推进。天气由不规则预设时间表决定；当前山谷和森林风险暂不依赖天气。
 
 这是机制原型，尚没有真实地形、完整四档难度或真实 Agent 的受控记忆效果结果。

@@ -21,6 +21,10 @@ def main():
     parser.add_argument("--auth-file", type=Path, default=os.environ.get("MEMORYBENCH_AUTH_FILE"),
                         help="private salted PIN verifier; required when exposing the web service")
     parser.add_argument("--local-http-cookie", action="store_true", help="allow login cookies over local development HTTP")
+    parser.add_argument("--tls-cert", type=Path, default=os.environ.get("MEMORYBENCH_TLS_CERT"),
+                        help="existing PEM certificate chain for native HTTPS")
+    parser.add_argument("--tls-key", type=Path, default=os.environ.get("MEMORYBENCH_TLS_KEY"),
+                        help="existing PEM private key for native HTTPS")
     args = parser.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     if args.analyze:
@@ -40,12 +44,18 @@ def main():
                 response = {"error": "protocol_error", "message": str(e)}
             print(json.dumps(response, ensure_ascii=False), flush=True)
     else:
+        if (args.tls_cert is None) != (args.tls_key is None):
+            parser.error("--tls-cert and --tls-key must be supplied together")
+        if args.tls_cert is not None and args.local_http_cookie:
+            parser.error("--local-http-cookie cannot be used with HTTPS")
         auth_file = args.auth_file
         if auth_file is None and (args.log_dir / "web-auth.json").exists():
             auth_file = args.log_dir / "web-auth.json"
         server = make_server(port=args.port, log_root=args.log_dir,watch_root=args.watch_dir,
-                             auth_file=auth_file, secure_cookie=not args.local_http_cookie)
-        print(f"制图游戏已启动：http://127.0.0.1:{server.server_port}", flush=True)
+                             auth_file=auth_file, secure_cookie=not args.local_http_cookie,
+                             tls_cert=args.tls_cert, tls_key=args.tls_key)
+        scheme = "https" if args.tls_cert is not None else "http"
+        print(f"制图游戏已启动：{scheme}://127.0.0.1:{server.server_port}", flush=True)
         try:
             server.serve_forever()
         except KeyboardInterrupt:
