@@ -1,7 +1,7 @@
 const $ = id => document.getElementById(id);
 let instance = null, observation = null, busy = false;
 let submittedAtlas = {nodes:[],edges:[],surveyed:[]};
-let scenario = 'loch-ness', scenarioName='尼斯湖 · Easy', taskCount=8;
+let scenario = 'lake-easy', scenarioName='雾汀湖 · Easy', taskCount=4;
 const svgNS = 'http://www.w3.org/2000/svg';
 async function post(path, body) {
   const response = await fetch(path, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
@@ -19,7 +19,7 @@ function el(type, attrs, text) {
 function draw(o) {
   $('edges').replaceChildren(); $('nodes').replaceChildren();
   Cartography.prepare($('map'),o);
-  const map=Cartography.merge(o.map,$('show-atlas').checked?submittedAtlas:null);
+  const map=Cartography.merge(Cartography.current(o.map),$('show-atlas').checked?submittedAtlas:null);
   const nodes = Object.fromEntries(map.nodes.map(n=>[n.id,n]));
   map.edges.forEach(([a,b])=> $('edges').append(el('line',{x1:nodes[a].x,y1:nodes[a].y,x2:nodes[b].x,y2:nodes[b].y,class:'route-line'})));
   map.nodes.forEach(n=> {
@@ -109,7 +109,7 @@ $('abandon').onclick=()=>act('abandon');
 document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>act(b.dataset.action));
 $('show-atlas').onchange=()=>{if(observation)draw(observation);};
 Cartography.controls($('map'),'play');
-Cartography.prepare($('map'),{environment:{id:'loch-ness'}});
+Cartography.prepare($('map'),{environment:{id:'lake-easy'}});
 async function loadScenario() {
   $('begin').disabled=true;
   try {
@@ -117,10 +117,10 @@ async function loadScenario() {
     if(response.status===401){location.assign('/login?next=/play');return;}
     if(!response.ok)throw new Error('无法读取委托，请刷新页面重试。');
     const data=await response.json();scenario=data.scenario;taskCount=data.tasks.length;
-    scenarioName=scenario==='loch-ness'?'尼斯湖 · Easy':(scenario==='valley'?'谷地校准原型':'渡口校准原型');
+    scenarioName=scenario==='lake-easy'?'雾汀湖 · Easy':(scenario==='valley'?'谷地校准原型':'渡口校准原型');
     $('task-stage').textContent=`${scenarioName} · ${taskCount} 项委托`;
     $('task-name').textContent=data.tasks[0].name;$('instruction').textContent=data.tasks[0].instruction;
-    $('sheet-title').textContent=scenario==='loch-ness'?'尼斯湖勘测图':'勘测图';
+    $('sheet-title').textContent=scenario==='lake-easy'?'雾汀湖勘测图':'勘测图';
     Cartography.prepare($('map'),{environment:{id:scenario}});$('begin').disabled=false;
   } catch(e) {$('error').textContent=e.message;}
 }

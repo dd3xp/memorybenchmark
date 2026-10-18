@@ -31,7 +31,7 @@ class Game:
         self.stamina = self.initial_stamina = 100
         self.inventory, self.surveyed, self.known_nodes, self.known_edges = set(), set(), set(), set()
         self.requests = {}
-        # Submitted geography belongs to the observer, never to agent observations.
+        # Submitted geography is public only in worlds opting into that protocol.
         self.atlas_nodes, self.atlas_edges = set(), set()
         self.traversed_edges = set()
 
@@ -69,6 +69,15 @@ class Game:
         task = self.tasks[self.task_id]
         camps = submission_camps(self.world, task)
         goals = task_goals(task)
+        map_nodes, map_edges = set(self.known_nodes), set(self.known_edges)
+        if self.world.get("shared_geography"):
+            map_nodes.update(getattr(self, "atlas_nodes", set()))
+            map_edges.update(getattr(self, "atlas_edges", set()))
+        geography = self._geography(map_nodes, map_edges, self.surveyed)
+        if self.world.get("shared_geography"):
+            geography.update(charted=sorted(getattr(self, "atlas_nodes", set())),
+                             current_nodes=sorted(self.known_nodes),
+                             current_edges=[list(e) for e in sorted(self.known_edges)])
         result = {
             "task_id": self.task_id, "task_name": self.tasks[self.task_id]["name"],
             "task_run_id": self.task_run_id,
@@ -77,8 +86,7 @@ class Game:
             "location": {"id": self.position, **self.world["locations"][self.position]},
             "conditions": self.conditions(), "world_time": self.clock, "revision": self.revision,
             "neighbors": [{**n, "name": self.world["locations"][n["target"]]["name"]} for n in self.neighbors(self.position)],
-            "map": {"nodes": [{"id": n, **self.world["locations"][n]} for n in sorted(self.known_nodes)],
-                    "edges": [list(e) for e in sorted(self.known_edges)], "surveyed": sorted(self.surveyed)},
+            "map": geography,
             "inventory": [self._tool_info(t) for t in sorted(self.inventory)],
             "available_tools": [self._tool_info(t) for t in self.world["depots"].get(self.position, []) if t not in self.inventory],
             "stamina": self.stamina, "initial_stamina": self.initial_stamina, "effort": self.effort,
@@ -86,7 +94,7 @@ class Game:
             "done": self.done, "success": self.success,
         }
         if self.world.get("camps"):
-            result["environment"] = {"id": self.scenario, "version": self.world["version"],
+            result["environment"] = {"id": self.world.get("public_id", self.scenario), "version": self.world["version"],
                 "name": self.world.get("name", self.scenario), "difficulty": self.world.get("difficulty"),
                 "view_box": self.world.get("view_box", [0, 0, 830, 510])}
             result["objective"] = {"targets": [{"id": n, "name": self.world["locations"][n]["name"],
@@ -96,11 +104,20 @@ class Game:
                 "ready": all(n in self.surveyed for n in goals) and self.position in camps}
         return result
 
+    def _geography(self, nodes, edges, surveyed):
+        # Geography has an explicit schema: never copy experience metadata.
+        locations = [{"id": n, **{k: v for k, v in self.world["locations"][n].items()
+                                  if k in ("name", "x", "y", "kind")}} for n in sorted(nodes)]
+        result = {"nodes": locations, "edges": [list(e) for e in sorted(edges)], "surveyed": sorted(surveyed)}
+        if self.world.get("shared_geography"):
+            distances = {tuple(sorted((a, b))): distance for a, b, distance in self.world["edges"]}
+            result["distances"] = [{"source": a, "target": b, "distance": distances[(a, b)]} for a, b in sorted(edges)]
+        return result
+
     def observer_atlas(self):
-        """Only successfully submitted visits/commutes, without experience layers."""
+        """Successfully submitted geography, without tool/risk/feedback layers."""
         nodes, edges = getattr(self, "atlas_nodes", set()), getattr(self, "atlas_edges", set())
-        return {"nodes": [{"id": n, **self.world["locations"][n]} for n in sorted(nodes)],
-                "edges": [list(e) for e in sorted(edges)], "surveyed": sorted(nodes)}
+        return self._geography(nodes, edges, nodes)
 
     def _state(self):
         return {"position": self.position, "time": self.clock, "stamina": self.stamina,

@@ -166,10 +166,10 @@ class HTTPTests(unittest.TestCase):
             urlopen(self.root + "/.runs/anything/events.jsonl")
         self.assertEqual(error.exception.code, 404)
 
-    def test_loch_ness_human_atlas_is_separate_from_agent_transport(self):
-        response=self.post('/api/start',{'scenario':'loch-ness','task_id':'T1'})
+    def test_lake_shared_geography_reaches_human_and_agent_transport(self):
+        response=self.post('/api/start',{'scenario':'lake-easy','task_id':'T1'})
         token=response['instance_id']
-        adapter=GameAdapter(Game(scenario='loch-ness'))
+        adapter=GameAdapter(Game(scenario='lake-easy'))
         local=adapter.dispatch({'command':'start','task_id':'T1'})
         self.assertEqual(response['text'],local['text'])
         self.assertNotIn('atlas',response)
@@ -182,9 +182,13 @@ class HTTPTests(unittest.TestCase):
             self.assertIn('P1',json.load(r)['surveyed'])
         next_task=self.post('/api/start',{'instance_id':token,'task_id':'T2'})
         self.assertNotIn('P1',next_task['observation']['map']['surveyed'])
+        self.assertIn('P1',next_task['observation']['map']['charted'])
+        self.assertIn('P1',next_task['text'])
         with urlopen(self.root+'/api/tasks?scenario=loch-ness') as r:
-            self.assertEqual(len(json.load(r)['tasks']),8)
-        for path in ('/maps.js','/loch-ness.svg'):
+            data=json.load(r)
+            self.assertEqual(len(data['tasks']),4)
+            self.assertEqual(data['scenario'],'lake-easy')
+        for path in ('/maps.js','/lake.svg'):
             with urlopen(self.root+path) as r:
                 self.assertEqual(r.status,200)
 

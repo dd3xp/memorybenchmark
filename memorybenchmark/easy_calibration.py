@@ -9,12 +9,12 @@ from .validation import validate
 from .worlds import load_scenario
 
 
-def calibrate(output=Path(".runs/loch-ness-calibration")):
+def calibrate(output=Path(".runs/easy-calibration")):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
-    world, tasks = load_scenario("loch-ness")
+    world, tasks = load_scenario("lake-easy")
     reference = validate(world, tasks)
-    game = Game(scenario="loch-ness", log_path=output / "events.jsonl")
+    game = Game(scenario="lake-easy", log_path=output / "events.jsonl")
     if game.log_path.exists():
         raise ValueError("校准输出已存在，请使用新目录保留原始记录。")
     adapter, rows = GameAdapter(game), []
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     import argparse, sys
     sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=Path(".runs/loch-ness-calibration"))
+    parser.add_argument("--output", type=Path, default=Path(".runs/easy-calibration"))
     args = parser.parse_args()
     report = calibrate(args.output)
     print(json.dumps({k:v for k,v in report.items() if k not in ("tasks", "submitted_atlas")}, ensure_ascii=False))

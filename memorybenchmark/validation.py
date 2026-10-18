@@ -100,6 +100,6 @@ if __name__ == "__main__":
     import argparse, sys
     sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--scenario", default="valley", choices=("valley", "loch-ness"))
+    parser.add_argument("--scenario", default="valley", choices=("valley", "lake-easy", "loch-ness"))
     args = parser.parse_args()
     print(json.dumps(validate(*load_scenario(args.scenario)), ensure_ascii=False, indent=2))

@@ -54,7 +54,7 @@ class WebAuthTests(unittest.TestCase):
         return headers
 
     def test_unauthenticated_requests_cannot_read_or_change_games(self):
-        for path in ("/", "/watch", "/play", "/watch.js", "/app.js", "/watch.css", "/style.css", "/maps.js", "/loch-ness.svg"):
+        for path in ("/", "/watch", "/play", "/watch.js", "/app.js", "/watch.css", "/style.css", "/maps.js", "/lake.svg"):
             status, headers, body = self.request(path)
             self.assertEqual(status, 303, path)
             self.assertTrue(headers["Location"].startswith("/login"))

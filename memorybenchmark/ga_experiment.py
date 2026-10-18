@@ -309,6 +309,7 @@ def experiment(archive, output, jail, model_factory, *, tasks=("T1","T2"), prefi
               "max_output_tokens":max_output_tokens,
               "scenario":scenario, "world_version":world.world["version"],
               "initial_world_digest":state_digest(initial_world),
+              "geography_protocol":"shared_submitted_geography" if world.world.get("shared_geography") else "task_local",
               "prefix":[], "pairs":[], "complete":False,
               "intervention":"matched_next_task_reset_to_shipped_baseline",
               "persistent_scope":"/agent/memory only", "forced_memory_write":False}
@@ -435,7 +436,7 @@ def main():
     parser.add_argument("--resume",type=Path,help="resume an interrupted run with frozen native protocol and budgets")
     parser.add_argument("--base-url",required=True)
     parser.add_argument("--model",default="gpt-5.6-luna")
-    parser.add_argument("--scenario", choices=("valley", "loch-ness"), default="loch-ness")
+    parser.add_argument("--scenario", choices=("valley", "lake-easy", "loch-ness"), default="lake-easy")
     parser.add_argument("--tasks",nargs="+",default=["T1","T2"])
     parser.add_argument("--prefix-count",type=int,default=1)
     parser.add_argument("--max-turns",type=int,default=24)

@@ -21,7 +21,7 @@ RIVER_TASKS = {
     "T2": {"name":"对岸测绘","goal":"K","start":"S","instruction":"前往测绘点 K 完成地理记录，然后提交。自行选择路线。"}
 }
 
-SCENARIOS = ("valley", "river", "loch-ness")
+SCENARIOS = ("valley", "river", "lake-easy", "loch-ness")
 
 
 def task_goals(task):
@@ -37,6 +37,6 @@ def load_scenario(name="valley"):
         return deepcopy(RIVER_WORLD), deepcopy(RIVER_TASKS)
     if name not in SCENARIOS:
         raise ValueError("未知场景。")
-    filename = {"valley": "valley.json", "loch-ness": "loch_ness.json"}[name]
+    filename = {"valley": "valley.json", "lake-easy": "lake_easy.json", "loch-ness": "lake_easy.json"}[name]
     data = json.loads((Path(__file__).parent / "data" / filename).read_text(encoding="utf-8"))
     return data["world"], data["tasks"]

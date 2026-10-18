@@ -17,10 +17,17 @@ def render_text(observation):
         targets = "；".join(f"{n['name']} {n['id']}（{'已记录' if n['recorded'] else '未记录'}）" for n in objective["targets"])
         camps = "、".join(f"{n['name']} {n['id']}" for n in objective["submission_camps"])
         requirements = f"本次记录目标：{targets}\n提交营地：{camps}；必须抵达营地后 submit。\n"
+    shared_map = ""
+    if "charted" in o["map"]:
+        names = "；".join(f"{n['id']} {n['name']}" for n in o["map"]["nodes"]) or "无"
+        links = "；".join(f"{e['source']} ↔ {e['target']}（距离 {e['distance']}）" for e in o["map"]["distances"]) or "无"
+        shared_map = (f"共享地理图地点：{names}\n已知连接：{links}\n"
+                      f"此前已点亮：{', '.join(o['map']['charted']) or '无'}。"
+                      "地图只保留地理信息；本次委托仍须重新到达目标。\n")
     return (f"任务：{o['instruction']}\n{requirements}当前位置：{o['location']['name']} {o['location']['id']}\n"
             f"环境：{weather}，{period}；游戏时间 {o['world_time']}\n"
             f"可尝试的通路：{routes}\n已测量地点：{', '.join(o['map']['surveyed']) or '无'}\n"
-            f"体力：{o['stamina']}/{o['initial_stamina']}；累计体力需求：{o['effort']}\n"
+            f"{shared_map}体力：{o['stamina']}/{o['initial_stamina']}；累计体力需求：{o['effort']}\n"
             f"携带工具：{carried}\n此处可取用：{stock}\n"
             f"操作：{o['steps']}/{o['max_steps']}；移动距离：{o['distance']}\n"
             f"任务结束：{o['done']}；成功：{o['success']}")

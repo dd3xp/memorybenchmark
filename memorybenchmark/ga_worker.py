@@ -1,7 +1,7 @@
 """Standalone GA session worker; copy with agent_bridge.py, never the evaluator.
 
 Only JSON messages use stdout. The host owns game rules and authenticated model
-transport. No gateway secret, complete map or previous conversation enters here.
+transport. No gateway secret, hidden world configuration or previous conversation enters here.
 """
 import io
 from importlib.metadata import version
@@ -19,7 +19,9 @@ GUIDE = """
 你正在完成一个制图游戏任务。使用 game_action 操作游戏；move 的 target
 只传地点 ID，take 传工具 ID。到达自动测绘，满足目标后提交地理记录。
 同一个世界会有多个独立任务，但你现在只获得当前任务。每个任务启动新会话，
-历史对话、工作记忆和临时文件均不保留。只有 ../memory/ 中的内容跨会话保留。
+历史对话、工作记忆和临时文件均不保留。你自主保存的经验只从 ../memory/ 跨会话传递。
+当前观察可能提供共享的已提交地理图，可查看地点、连接和距离；
+地图不会自动保存历史风险、工具库存位置或应对经验。携带工具在新任务重置。
 你可以使用原生工具，自行决定是否将本次实际经历整理到长期记忆中。
 收到 done=true 后停止游戏操作，可以继续整理记忆，然后自然结束回复。
 这里没有人工问答、网页或真实桌面；不要等待人工输入。游戏仅通过 game_action 访问。

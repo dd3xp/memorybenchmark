@@ -1,4 +1,6 @@
 from copy import deepcopy
+import json
+from pathlib import Path
 import unittest
 
 from memorybenchmark.adapters import GameAdapter
@@ -13,9 +15,9 @@ def move(adapter, *locations):
         adapter.action("move", location)
 
 
-class LochNessTests(unittest.TestCase):
+class LakeEasyTests(unittest.TestCase):
     def setUp(self):
-        self.game = Game(scenario="loch-ness")
+        self.game = Game(scenario="lake-easy")
         self.adapter = GameAdapter(self.game)
 
     def test_first_task_is_survivable_without_tools_but_needs_camp(self):
@@ -39,7 +41,7 @@ class LochNessTests(unittest.TestCase):
         self.assertEqual(self.game.observer_atlas()["nodes"], [])
         evidence = deepcopy(self.game.evidence)
         self.game.start_task("T3")
-        self.assertEqual(self.game.position, "C0")
+        self.assertEqual(self.game.position, "C2")
         self.assertEqual(self.game.inventory, set())
         self.assertEqual(self.game.stamina, 70)
         self.assertEqual(self.game.evidence, evidence)
@@ -54,7 +56,7 @@ class LochNessTests(unittest.TestCase):
         move(self.adapter, "C1")
         self.assertEqual(self.game.stamina, remaining - 2)
 
-    def test_submitted_atlas_is_not_an_agent_observation_or_future_completion(self):
+    def test_shared_geography_is_in_agent_text_but_does_not_complete_new_goals(self):
         self.game.start_task("T1")
         move(self.adapter, "E1", "E2", "P1", "C1")
         self.adapter.action("submit")
@@ -63,25 +65,33 @@ class LochNessTests(unittest.TestCase):
         self.assertNotIn("U2", atlas["surveyed"])  # Adjacent, but never visited.
         self.assertEqual(len(atlas["edges"]), 4)
         self.assertNotIn("hazards", atlas)
+        self.game.tasks['T2']['goals']=['P1']
         response = self.adapter.dispatch({"command": "start", "task_id": "T2"})
-        self.assertNotIn("atlas", response)
-        self.assertNotIn("P1", {n["id"] for n in response["observation"]["map"]["nodes"]})
+        self.assertIn("P1", {n["id"] for n in response["observation"]["map"]["nodes"]})
+        self.assertIn('P1',response['observation']['map']['charted'])
+        self.assertNotIn('P1',response['observation']['map']['surveyed'])
+        self.assertIn('P1',response['text'])
+        self.assertIn('共享地理图地点',response['text'])
+        self.assertIn({'source':'E2','target':'P1','distance':1},response['observation']['map']['distances'])
+        self.assertNotIn('hazard_cost',json.dumps(response['observation']['map']))
         self.assertFalse(response["observation"]["objective"]["targets"][0]["recorded"])
+        self.assertEqual(self.adapter.action('submit')['outcome'],'incomplete')
         self.assertIn("P1", self.game.observer_atlas()["surveyed"])
 
     def test_multi_goal_task_cannot_submit_early_or_at_wrong_camp(self):
-        self.game.start_task("T8")
-        self.assertEqual(self.adapter.action("submit")["outcome"], "not_at_camp")
+        self.game.tasks['T4']['goals']=['R1','S1']
+        self.game.start_task("T4")
+        self.assertEqual(self.adapter.action("submit")["outcome"], "incomplete")
         self.game.world["hazards"] = {}  # Isolate submission rules from survival.
-        move(self.adapter, "E1", "E2", "P1", "C1", "N1", "P2", "N2", "W1", "C2")
+        move(self.adapter, "W2", "R1", "W2", "C2")
         result = self.adapter.action("submit")
         self.assertEqual(result["outcome"], "incomplete")
         self.assertFalse(result["observation"]["success"])
-        move(self.adapter, "W2", "R1", "S1", "R2", "S2", "P3", "S2", "R2", "S1", "R1", "W2", "C2")
+        move(self.adapter, "W2", "R1", "S1", "R1", "W2", "C2")
         self.assertTrue(self.adapter.action("submit")["observation"]["success"])
 
     def test_sparse_world_and_optional_tool_branches(self):
-        world, tasks = load_scenario("loch-ness")
+        world, tasks = load_scenario("lake-easy")
         self.assertEqual(len(world["locations"]), 31)
         self.assertEqual(len(world["edges"]), 31)
         reached, pending = set(), ["C0"]
@@ -100,11 +110,11 @@ class LochNessTests(unittest.TestCase):
             self.assertTrue(set(task["submit_at"]) <= set(world["camps"]))
             self.assertFalse(set(task["goals"]) & set(world["camps"]))
 
-    def test_all_reference_routes_replay_with_progressively_more_hazards(self):
-        world, tasks = load_scenario("loch-ness")
+    def test_easy_curriculum_has_only_one_or_two_required_encounters(self):
+        world, tasks = load_scenario("lake-easy")
         report = validate(world, tasks)
         counts = []
-        campaign = Game(scenario="loch-ness")
+        campaign = Game(scenario="lake-easy")
         adapter = GameAdapter(campaign)
         for task_id, row in report.items():
             campaign.start_task(task_id)
@@ -115,22 +125,63 @@ class LochNessTests(unittest.TestCase):
             graph = commute_graph(campaign.events, campaign.task_run_id)
             counts.append(sum(e["hazard_cost"] > 0 for e in graph["edges"]))
             self.assertTrue(all(e["equipment_used"] for e in graph["edges"] if e["hazard_cost"]))
-            if task_id != "T1":
+            if task_id in ("T2","T4"):
                 self.assertFalse(row["without_taking_tools"]["within_stamina"])
-        self.assertEqual(counts, list(range(1, 9)))
+            else:
+                self.assertTrue(row["without_taking_tools"]["within_stamina"])
+        self.assertEqual(counts, [1,2,1,2])
 
-    def test_curriculum_transitions_from_one_tool_to_both_tools(self):
-        world,tasks=load_scenario('loch-ness')
+    def test_each_reuse_task_requires_the_corresponding_tool(self):
+        world,tasks=load_scenario('lake-easy')
         costs={}
         for tool in ('grip_kit','stream_kit'):
             variant=deepcopy(world)
             variant['depots']={n:[t for t in stock if t==tool] for n,stock in world['depots'].items()}
             costs[tool]={task:reference_route(variant,definition)['effort'] for task,definition in tasks.items()}
         self.assertLess(costs['grip_kit']['T2'],70)
-        self.assertEqual(costs['grip_kit']['T3'],61)
-        self.assertGreaterEqual(costs['stream_kit']['T3'],70)
-        for task in list(tasks)[3:]:
-            self.assertTrue(all(rows[task]>=70 for rows in costs.values()),task)
+        self.assertGreaterEqual(costs['stream_kit']['T2'],70)
+        self.assertLess(costs['stream_kit']['T4'],70)
+        self.assertGreaterEqual(costs['grip_kit']['T4'],70)
+
+    def test_agent_facing_world_and_every_response_use_only_fictional_names(self):
+        world,tasks=load_scenario('lake-easy')
+        forbidden=('loch','ness','scottish','尼斯','多里斯','厄克特','阿布里亚','因弗莫里斯顿','福耶斯')
+        report=validate(world,tasks)
+        alias=Game(scenario='loch-ness')
+        self.assertEqual(alias.start_task('T1')['observation']['environment']['id'],'lake-easy')
+        for task,row in report.items():
+            game=Game(scenario='lake-easy'); adapter=GameAdapter(game)
+            responses=[adapter.dispatch({'command':'start','task_id':task})]
+            for action in row['with_tool_options']['actions']:
+                responses.append(adapter.action(action['type'],action.get('target')))
+            for response in responses:
+                encoded=json.dumps(response,ensure_ascii=False).lower()
+                self.assertFalse(any(term in encoded for term in forbidden))
+        for asset in (Path(__file__).resolve().parents[1]/'memorybenchmark/static').iterdir():
+            if asset.is_file():
+                text=asset.read_text(encoding='utf-8').lower()
+                self.assertFalse(any(term in text for term in ('loch ness','loch-ness','尼斯湖','scottish highlands')),asset.name)
+
+    def test_paired_initial_maps_match_without_carrying_tool_or_hazard_experience(self):
+        self.game.start_task('T1')
+        move(self.adapter,'E1','U1','D1')
+        self.adapter.action('take','grip_kit')
+        move(self.adapter,'U1','E1','E2','P1','C1')
+        self.adapter.action('submit')
+        checkpoint=self.game.snapshot()
+        branches=[]
+        for _ in ('retain','clear'):
+            game=Game();game.restore(checkpoint)
+            response=GameAdapter(game).dispatch({'command':'start','task_id':'T2'})
+            branches.append(response)
+            encoded=json.dumps(response,ensure_ascii=False)
+            self.assertIn('D1',response['observation']['map']['charted'])
+            self.assertNotIn('grip_kit',encoded)
+            self.assertNotIn('湿滑岩坡',encoded)
+            self.assertNotIn('extra_effort',encoded)
+            self.assertEqual(response['observation']['available_tools'],[])
+        self.assertEqual(branches[0]['text'],branches[1]['text'])
+        self.assertEqual(branches[0]['observation']['map'],branches[1]['observation']['map'])
 
     def test_invalid_noncamp_spawn_rejected_before_mutation(self):
         self.game.tasks["T1"]["start"] = "P1"

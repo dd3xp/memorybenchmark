@@ -194,7 +194,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 try:
                     name = parse_qs(url.query).get("scenario", [service.scenario])[0]
                     world, tasks = load_scenario(name)
-                    self.reply({"scenario": name, "name": world.get("name", name), "difficulty": world.get("difficulty"),
+                    self.reply({"scenario": world.get("public_id", name), "name": world.get("name", name), "difficulty": world.get("difficulty"),
                                 "tasks": [{"id": key, "name": t["name"], "instruction": t["instruction"]}
                                           for key, t in tasks.items()]})
                 except ValueError as e:
@@ -211,9 +211,9 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     self.reply(service.dispatch(token, {"command": "read"}))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/", "/play", "/watch", "/app.js", "/style.css", "/watch.js", "/watch.css", "/maps.js", "/loch-ness.svg"):
+            elif url.path in ("/", "/play", "/watch", "/app.js", "/style.css", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
                 name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
-                        "/watch.js":"watch.js","/watch.css":"watch.css", "/maps.js":"maps.js", "/loch-ness.svg":"loch-ness.svg"}[url.path]
+                        "/watch.js":"watch.js","/watch.css":"watch.css", "/maps.js":"maps.js", "/lake.svg":"lake.svg"}[url.path]
                 mime = "image/svg+xml" if name.endswith(".svg") else ("text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css"))
                 body = (STATIC / name).read_bytes()
                 self.response_headers(200, mime + "; charset=utf-8", len(body))

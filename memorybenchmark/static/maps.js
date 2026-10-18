@@ -23,29 +23,29 @@ window.Cartography = (() => {
   }
   function prepare(svg,o) {
     let terrain=svg.querySelector('.terrain');
-    const ness=o.environment?.id==='loch-ness';
-    if(ness&&!terrain) {
-      terrain=document.createElementNS(NS,'image'); terrain.setAttribute('href','/loch-ness.svg');
+    const lake=o.environment?.id==='lake-easy';
+    if(lake&&!terrain) {
+      terrain=document.createElementNS(NS,'image'); terrain.setAttribute('href','/lake.svg');
       terrain.setAttribute('width','1200'); terrain.setAttribute('height','800');
       terrain.setAttribute('class','terrain'); terrain.setAttribute('aria-hidden','true');
       svg.querySelector('rect').after(terrain);
-    } else if(!ness&&terrain) terrain.remove();
-    const base=ness?[0,0,1200,800]:(svg.dataset.originalView||svg.getAttribute('viewBox')).split(' ').map(Number);
-    const key=ness?'loch-ness':'legacy';
+    } else if(!lake&&terrain) terrain.remove();
+    const base=lake?[0,0,1200,800]:(svg.dataset.originalView||svg.getAttribute('viewBox')).split(' ').map(Number);
+    const key=lake?'lake-easy':'legacy';
     if(!svg.dataset.originalView) svg.dataset.originalView=svg.getAttribute('viewBox');
     if(svg._mapKey!==key) {
       svg._mapKey=key;svg._base=base;svg._box=[...base];svg.setAttribute('viewBox',base.join(' '));
       if(svg._syncMap)svg._syncMap();
     }
     svg._focus=o.location?[o.location.x,o.location.y]:[base[2]/2,base[3]/2];
-    svg.classList.toggle('ness-map',ness);
+    svg.classList.toggle('lake-map',lake);
     const compass=svg.querySelector('.compass');
-    if(compass)compass.setAttribute('transform',ness?'translate(1140 750)':(svg.id==='map'?'translate(755 66)':'translate(756 42)'));
-    return ness;
+    if(compass)compass.setAttribute('transform',lake?'translate(1140 750)':(svg.id==='map'?'translate(755 66)':'translate(756 42)'));
+    return lake;
   }
   function labels(svg,n,o) {
     const targets=o.objective?.targets.map(t=>t.id)||[];
-    return !svg.classList.contains('ness-map') || n.id===o.location.id || n.kind==='camp' || targets.includes(n.id);
+    return !svg.classList.contains('lake-map') || n.id===o.location.id || n.kind==='camp' || targets.includes(n.id);
   }
   function controls(svg,prefix) {
     const apply=()=>{
@@ -81,5 +81,10 @@ window.Cartography = (() => {
     svg.addEventListener('pointerup',()=>{drag=null;});svg.addEventListener('pointercancel',()=>{drag=null;});
     svg._syncMap=apply;
   }
-  return {atlas,merge,prepare,labels,controls};
+  function current(map) {
+    if(!map.current_nodes)return map;
+    const ids=new Set(map.current_nodes);
+    return {...map,nodes:map.nodes.filter(n=>ids.has(n.id)),edges:map.current_edges};
+  }
+  return {atlas,merge,current,prepare,labels,controls};
 })();

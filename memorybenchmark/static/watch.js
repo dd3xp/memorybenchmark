@@ -68,7 +68,7 @@ function render(){
 function draw(frames,o){
  $('roads').replaceChildren();$('trace').replaceChildren();$('places').replaceChildren();
  Cartography.prepare($('watch-map'),o);
- const map=Cartography.merge(o.map,...($('watch-atlas').checked?[session()?.prior_atlas,Cartography.atlas(frames)]:[]));
+ const map=Cartography.merge(Cartography.current(o.map),...($('watch-atlas').checked?[session()?.prior_atlas,Cartography.atlas(frames)]:[]));
  const places=Object.fromEntries(map.nodes.map(n=>[n.id,n]));
  map.edges.forEach(([a,b])=>{if(places[a]&&places[b])$('roads').append(node('line',{x1:places[a].x,y1:places[a].y,x2:places[b].x,y2:places[b].y,class:'road-line'}));});
  const seen={},moves=frames.filter(f=>f.moved);
