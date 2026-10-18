@@ -4,6 +4,8 @@
 
 2026-10-18 更新：[尼斯湖 Easy](LOCH_NESS_EASY.md) 为默认游玩场景，提供 31 个地点和 8 项递进委托。网页有缩放、营地提交提示和累计点亮；累计地图只用于人类／观测，不传给 Agent。旧实验仍按原场景显示。`start_ga.ps1` 新运行默认选择尼斯湖与 T1–T8，48 轮任务预算、6 轮整理预算；部署不自动启动新模型实验。
 
+本次发布在 Squishy 上通过全部 61 项测试及八项参考路线重放。公网已验证默认八任务、营地提交限制、成功后点亮、第二次无防护遭遇失败、下一任务复位、历史观测和 PIN／HTTPS／退出流程。
+
 ## 地址与端口映射
 
 将内网穿透的本地目标设为 **`127.0.0.1:8765`**，本地服务直接提供 HTTPS。Sakura 使用 **TCP 隧道，“自动 HTTPS”禁用**，原样转发 TLS 流量。
@@ -76,7 +78,7 @@ Start-ScheduledTask -TaskName MemorybenchmarkWatch
 也可在仓库根目录前台启动，用于排查服务问题；已有后台服务时先停止它，避免端口冲突：
 
 ```powershell
-Stop-ScheduledTask -TaskName MemorybenchmarkWatch
+powershell -NoProfile -File scripts/restart_watch.ps1 -StopOnly
 powershell -NoProfile -File scripts/start_watch.ps1 -Port 8765 `
   -TlsCert "C:\Agents\ClaudeCode\Boss\claude-web\data\tls\cert.pem" `
   -TlsKey "C:\Agents\ClaudeCode\Boss\claude-web\data\tls\key.pem"

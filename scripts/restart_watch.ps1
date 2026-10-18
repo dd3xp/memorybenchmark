@@ -1,5 +1,6 @@
 param(
-    [ValidateRange(1,65535)][int]$Port=8765
+    [ValidateRange(1,65535)][int]$Port=8765,
+    [switch]$StopOnly
 )
 $ErrorActionPreference='Stop'
 $benchTask=Get-ScheduledTask -TaskName MemorybenchmarkWatch
@@ -21,6 +22,7 @@ foreach ($benchProcessId in @($benchListeners.OwningProcess | Select-Object -Uni
     Stop-Process -Id $benchProcessId -ErrorAction Stop
 }
 
+if ($StopOnly) { exit 0 }
 Start-ScheduledTask -TaskName MemorybenchmarkWatch
 for ($benchAttempt=0; $benchAttempt -lt 40; $benchAttempt++) {
     $benchCurrent=@(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue)
