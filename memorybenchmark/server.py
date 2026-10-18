@@ -57,6 +57,10 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
     auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
 
     class Handler(BaseHTTPRequestHandler):
+        def setup(self):
+            super().setup()
+            self.connection.settimeout(10)
+
         def log_message(self, format, *args):
             pass
 
@@ -119,6 +123,10 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
             return True
 
         def read_body(self):
+            if hasattr(self, "request_body"):
+                if not self.request_body:
+                    raise ProtocolError("请求长度无效。")
+                return self.request_body
             size = int(self.headers.get("Content-Length", "0"))
             if not 0 < size <= 16384:
                 raise ProtocolError("请求长度无效。")
@@ -196,6 +204,19 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 self.reply({"error": "not_found"}, 404)
 
         def do_POST(self):
+            # Consume bounded request bytes before an early rejection. Closing
+            # with unread POST data can discard the response via a Windows TCP
+            # reset. JSON is still parsed only after the access checks below.
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                if not 0 <= size <= 16384:
+                    raise ProtocolError("请求长度无效。")
+                self.request_body = self.rfile.read(size)
+                if len(self.request_body) != size:
+                    raise ProtocolError("请求不完整。")
+            except (OSError, ValueError):
+                self.reply({"error": "protocol_error", "message": "请求长度无效或读取超时。"}, 400)
+                return
             if auth is not None and not self.same_origin():
                 self.reply({"error": "cross_origin_request", "message": "请在本站页面执行操作。"}, 403)
                 return

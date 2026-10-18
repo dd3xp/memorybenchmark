@@ -3,6 +3,7 @@ from http.server import ThreadingHTTPServer
 import logging
 from pathlib import Path
 import ssl
+import tempfile
 import time
 
 
@@ -30,7 +31,17 @@ class CertificateContext:
         context.minimum_version = ssl.TLSVersion.TLSv1_2
         context.set_alpn_protocols(["http/1.1"])
         # An encrypted or broken key must fail rather than opening a prompt.
-        context.load_cert_chain(self.certificate, self.private_key, password=lambda: "")
+        # OpenSSL can hold Windows file handles while parsing a certificate.
+        # Parse private temporary snapshots so renewal can replace the sources.
+        certificate = self.certificate.read_bytes()
+        private_key = self.private_key.read_bytes()
+        with tempfile.TemporaryDirectory(prefix="memorybenchmark-tls-") as directory:
+            cert_snapshot = Path(directory) / "cert.pem"
+            key_snapshot = Path(directory) / "key.pem"
+            cert_snapshot.write_bytes(certificate)
+            key_snapshot.write_bytes(private_key)
+            key_snapshot.chmod(0o600)
+            context.load_cert_chain(cert_snapshot, key_snapshot, password=lambda: "")
         return context
 
     def reload_if_changed(self):
