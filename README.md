@@ -1,4 +1,6 @@
-# Memorybenchmark：制图探险与记忆评测
+# Cartographer’s Notebook · 测绘手记
+
+游戏与论文共用这一主标题，论文副标题后续确定。代码包与仓库名称为 `memorybenchmark`。
 
 共享规则核心供人类和 Agent 操作。默认地图有 9 个地点、6 项连续委托，支持到达自动测绘、体力、风险与工具。研究目标是从轨迹分析 Agent 自主形成的跨 session 记忆对后续行为的作用。
 
