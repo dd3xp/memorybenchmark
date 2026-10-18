@@ -26,8 +26,7 @@
 
 ```powershell
 python -m memorybenchmark.web_auth "$env:LOCALAPPDATA\Memorybenchmark\web-auth.json" --replace
-Stop-ScheduledTask -TaskName MemorybenchmarkWatch
-Start-ScheduledTask -TaskName MemorybenchmarkWatch
+powershell -NoProfile -File scripts/restart_watch.ps1
 ```
 
 benchmark 直接读取 Claude Code 已有的证书源文件：`C:\Agents\ClaudeCode\Boss\claude-web\data\tls\cert.pem` 与同目录 `key.pem`。不修改源文件，不另外申请证书。原有续期任务更新这些文件后，benchmark 最多约 60 秒自动加载新证书；新连接使用新证书，已有登录和游戏实例保留。若文件更新不完整或证书与私钥不匹配，继续使用上一份有效证书，并在后续检查中重试。
@@ -71,6 +70,8 @@ Get-ScheduledTask -TaskName MemorybenchmarkWatch,MemorybenchmarkGA
 ```powershell
 Start-ScheduledTask -TaskName MemorybenchmarkWatch
 ```
+
+更新后重启使用 `powershell -NoProfile -File scripts/restart_watch.ps1`。Windows 停止启动壳时可能留下 Python 子进程；该脚本只清理 8765 端口上经命令行校验的 benchmark 监听进程，其他程序占用时会报错，不会误杀，然后启动原有计划任务。
 
 也可在仓库根目录前台启动，用于排查服务问题；已有后台服务时先停止它，避免端口冲突：
 
