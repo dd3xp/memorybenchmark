@@ -207,14 +207,18 @@ class Observer:
 
 
 class WatchStore:
-    def __init__(self,root):
+    def __init__(self,root,*additional_roots):
         self.root=Path(root).resolve()
+        self.roots=tuple(dict.fromkeys(Path(p).resolve() for p in (root,*additional_roots)))
 
     def snapshot(self,run_id):
         if not isinstance(run_id,str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,80}",run_id):
             raise ValueError("无效的实验编号。")
-        directory=self.root/run_id
-        if directory.is_symlink() or getattr(directory,"is_junction",lambda:False)() or directory.resolve().parent!=self.root:
+        matches=[(root,root/run_id) for root in self.roots if (root/run_id).exists()]
+        if len(matches)!=1:
+            raise ValueError("实验不存在或编号重复。")
+        root,directory=matches[0]
+        if directory.is_symlink() or getattr(directory,"is_junction",lambda:False)() or directory.resolve().parent!=root:
             raise ValueError("无效的实验目录。")
         if (directory/"live.json").exists():
             data = read_json(directory/"live.json")
@@ -225,8 +229,8 @@ class WatchStore:
         return data
 
     def listing(self):
-        if not self.root.exists(): return []
-        directories=sorted((p for p in self.root.iterdir() if p.is_dir()),key=lambda p:p.stat().st_mtime,reverse=True)
+        directories=sorted((p for root in self.roots if root.exists() for p in root.iterdir() if p.is_dir()),
+                           key=lambda p:p.stat().st_mtime,reverse=True)
         result=[]
         for directory in directories:
             if len(result)>=50: break

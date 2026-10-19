@@ -102,12 +102,14 @@ class WSLJail:
     def path(self, path):
         return self._run(["wslpath", "-u", str(Path(path).resolve())]).strip()
 
-    def command(self, source, memory, support, wall_seconds):
+    def command(self, source, memory, support, wall_seconds, *, worker_filename="ga_worker.py"):
         if not 10 <= wall_seconds <= 3600:
             raise ValueError("wall budget must be 10..3600 seconds")
         for path in (source, memory, support):
             if not Path(path).is_dir() or Path(path).is_symlink():
                 raise ValueError("jail mounts must be real directories")
+        if Path(worker_filename).name != worker_filename or not worker_filename.endswith(".py"):
+            raise ValueError("worker must be a Python file directly inside support")
         argv = ["timeout", "--signal=KILL", str(wall_seconds), "bwrap", "--unshare-all",
                 "--die-with-parent", "--new-session", "--cap-drop", "ALL",
                 "--ro-bind", "/usr", "/usr", "--symlink", "usr/bin", "/bin",
@@ -122,7 +124,7 @@ class WSLJail:
                 "--setenv", "HOME", "/home/agent", "--setenv", "LANG", "C.UTF-8",
                 "--setenv", "PYTHONDONTWRITEBYTECODE", "1", "--setenv", "PYTHONUNBUFFERED", "1",
                 "--setenv", "PYTHONPATH", "/runner:/agent", "--chdir", "/agent/temp",
-                "/opt/ga-runtime/bin/python", "-u", "/runner/ga_worker.py"]
+                "/opt/ga-runtime/bin/python", "-u", "/runner/" + worker_filename]
         return ["wsl", "-d", self.distro, "--exec", *argv]
 
 

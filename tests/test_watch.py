@@ -71,6 +71,19 @@ class WatchTests(unittest.TestCase):
         self.assertEqual(observer.data['completed_sessions'],1)
         self.assertEqual(observer.data['failed_attempts'],1)
 
+    def test_old_and_new_agent_run_roots_share_one_read_only_listing(self):
+        old=self.root/'ga-cross-session'; new=self.root/'agent-cross-session'
+        for root, name in ((old,'old-run'),(new,'new-run')):
+            directory=root/name; directory.mkdir(parents=True)
+            Observer(directory).begin(self.report)
+        store=WatchStore(new,old)
+        self.assertEqual({r['id'] for r in store.listing()},{'old-run','new-run'})
+        self.assertEqual(store.snapshot('old-run')['agent'],'GenericAgent')
+        self.assertEqual(store.snapshot('new-run')['agent'],'GenericAgent')
+        duplicate=old/'new-run'; duplicate.mkdir()
+        Observer(duplicate).begin(self.report)
+        with self.assertRaises(ValueError): store.snapshot('new-run')
+
     def test_atlas_uses_retained_history_without_sibling_or_future_leakage(self):
         def session(game, task, condition, route, sid):
             adapter = GameAdapter(game)

@@ -8,7 +8,7 @@
 - [雾汀湖 Easy](docs/EASY_LAKE.md)：虚构命名、共享地理图、工具经验与八项轻量任务。
 - [经验目录](EXPERIENCE_CATALOG.md)：当前地点、风险、工具、任务与校准结果。
 - [软件架构](GAME_SOFTWARE_ARCHITECTURE.md)：核心与两类适配器。
-- [原生 Agent 适配](docs/AGENT_INTEGRATION.md)：GenericAgent／Hermes 工具桥和验证范围。
+- [统一 MCP 与 Agent 适配](docs/AGENT_INTEGRATION.md)：共用游戏服务、GA 完整适配、用户插件与验证范围。
 - [当前成果](PROGRESS.md)：已完成验证、真实开发试跑与下一步验收。
 - [GA 跨 session 流程](docs/GA_CROSS_SESSION.md)：沿用 AAAI 版记忆边界，接入独立会话、检查点与配对干预。
 - [Squishy 部署与网页观测](docs/SQUISHY_DEPLOYMENT.md)：服务端路径、启动方式、实时回放与端口映射。
@@ -38,6 +38,24 @@ Agent、人类和观测台都能看到成功提交后累计点亮的地理图，
 当前游戏使用虚构地名与中性场景标识 `lake-easy`，真实地理参考不进入任务、观察或界面。其余难度与真实 Agent 的受控记忆效果仍待校准。`--scenario valley` 保留 9 地点旧原型，`--scenario river` 保留渡口校准。
 
 ## 文字接口
+
+支持 MCP 的 agent 可通过标准工具接口试玩固定委托。游戏核心仍无第三方依赖；安装可选接入依赖后：
+
+```powershell
+python -m pip install -e ".[mcp]"
+python -m memorybenchmark.mcp_server --scenario lake-easy --task T1
+```
+
+服务仅公开当前任务的 `game_action`，先用 `read` 获得观察。stdout 属于 MCP；权威日志写入宿主 `.runs/mcp-play/`。此命令是单任务试玩，完整跨 session 评测还需要对应 agent 的生命周期适配器。
+
+```powershell
+python -m memorybenchmark.experiment --list-agents
+python -m memorybenchmark.experiment path/to/GenericAgent_src.tar.xz --agent ga --base-url https://your-model-gateway --tasks T1 T2 T3 T4 T5 T6 T7 T8
+```
+
+GA 已经通过同一 MCP 服务接入公共运行器；旧 GA 入口继续兼容。新 agent 使用 `--adapter module:create_adapter` 提供插件；没有适配器时提前报配置错误，不产生零分或自动切换裸模型。当前只有 GA 完成全流程适配，Hermes 仍只有工具注册契约。运行条件、记忆边界与扩展方法见 [接入说明](docs/AGENT_INTEGRATION.md)。新运行在 `.runs/agent-cross-session/`，观测台同时兼容旧 GA 运行目录。
+
+下面保留原有 JSON Lines 与 HTTP 开发接口：
 
 ```powershell
 python -m memorybenchmark --stdio

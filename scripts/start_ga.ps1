@@ -3,6 +3,7 @@ param(
     [string]$Archive,
     [string]$CredentialPath=(Join-Path $env:LOCALAPPDATA 'Memorybenchmark\gateway.dpapi'),
     [string]$Distro='Ubuntu',
+    [string]$Python,
     [string]$Model='gpt-5.6-luna',
     [ValidateSet('valley','lake-easy','loch-ness')][string]$Scenario='lake-easy',
     [string]$Resume
@@ -11,13 +12,16 @@ $ErrorActionPreference='Stop'
 $benchRoot=Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $benchRoot
 if (-not $Archive) { $Archive=Join-Path (Split-Path -Parent $benchRoot) 'memorybenchmark-private\GenericAgent_src.tar.xz' }
-$benchPython=(Get-Command python.exe -ErrorAction Stop).Source
+if ($Python) { $benchPython=(Get-Item -LiteralPath $Python -ErrorAction Stop).FullName }
+elseif (Test-Path -LiteralPath (Join-Path $benchRoot '.venv\Scripts\python.exe')) {
+    $benchPython=Join-Path $benchRoot '.venv\Scripts\python.exe'
+} else { $benchPython=(Get-Command python.exe -ErrorAction Stop).Source }
 $benchEncrypted=(Get-Content -LiteralPath $CredentialPath -Raw).Trim()
 $benchSecret=ConvertTo-SecureString $benchEncrypted
 $benchPointer=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($benchSecret)
 try {
     $env:MEMORYBENCH_GATEWAY_KEY=[Runtime.InteropServices.Marshal]::PtrToStringBSTR($benchPointer)
-    $benchArguments=@('-u','-m','memorybenchmark.ga_experiment','--base-url',$BaseUrl,'--distro',$Distro)
+    $benchArguments=@('-u','-m','memorybenchmark.experiment','--agent','ga','--base-url',$BaseUrl,'--distro',$Distro)
     if ($Resume) { $benchArguments+=@('--resume',$Resume) }
     else {
         $benchArguments+=@($Archive,'--model',$Model,'--scenario',$Scenario,'--tasks','T1','T2','T3','T4')

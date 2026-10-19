@@ -13,5 +13,5 @@ New-Item -ItemType Directory -Force -Path $benchService | Out-Null
 if (-not (Test-Path -LiteralPath $AuthFile -PathType Leaf)) { throw 'Web PIN verifier missing; refusing to start without authentication.' }
 if (-not $TlsCert -or -not $TlsKey) { throw 'Native HTTPS requires both certificate paths; refusing plaintext startup.' }
 if (-not (Test-Path -LiteralPath $TlsCert -PathType Leaf) -or -not (Test-Path -LiteralPath $TlsKey -PathType Leaf)) { throw 'HTTPS certificate or private key does not exist.' }
-& $benchPython -u -m memorybenchmark --port $Port --log-dir .runs --watch-dir .runs/ga-cross-session --auth-file $AuthFile --tls-cert $TlsCert --tls-key $TlsKey >> (Join-Path $benchService 'watch.log') 2>&1
+& $benchPython -u -m memorybenchmark --port $Port --log-dir .runs --auth-file $AuthFile --tls-cert $TlsCert --tls-key $TlsKey >> (Join-Path $benchService 'watch.log') 2>&1
 exit $LASTEXITCODE

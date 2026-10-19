@@ -10,9 +10,10 @@ import sys
 from uuid import uuid4
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from memorybenchmark.ga_experiment import InfrastructureError, experiment, resume_experiment
+from memorybenchmark.experiment import InfrastructureError, experiment, resume_experiment
 from memorybenchmark.ga_runtime import WSLJail
 from memorybenchmark.ga_worker import PROMPT_PROTOCOL
+from memorybenchmark.mcp_game import GAME_TRANSPORT, SDK_VERSION
 
 
 class ScriptedModel:
@@ -117,6 +118,8 @@ def run(archive, distro="Ubuntu-24.04", runtime=None):
     report=resume_experiment(output,jail,model_factory)
     assert report["complete"], output
     assert report["prompt_protocol"] == PROMPT_PROTOCOL
+    assert report["adapter"]["agent_id"] == "ga"
+    assert report["game_transport"] == GAME_TRANSPORT
     assert len(report['attempt_history'])==1
     pair = report["pairs"][0]
     retained, cleared = pair["conditions"]["retain"],pair["conditions"]["clear"]
@@ -132,6 +135,9 @@ def run(archive, distro="Ubuntu-24.04", runtime=None):
         assert row["initial_session"]["current_task_history_size"] == 1
         assert row["initial_session"]["working"] == {}
         assert row["initial_session"]["prompt_protocol"] == PROMPT_PROTOCOL
+        assert row["game_transport"] == GAME_TRANSPORT
+        assert row["mcp_sdk_version"] == SDK_VERSION
+        assert row["mcp_protocol"] == "2025-11-25"
         assert "current_task.md" not in row["output_memory"]
         assert row["worker_result"]["isolation"]["network_blocked"]
         folder = output / row["path"]

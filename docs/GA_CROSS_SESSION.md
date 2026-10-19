@@ -1,6 +1,10 @@
 # GA 跨 session 运行与对照
 
-当前入口是 `python -m memorybenchmark.ga_experiment`。使用旧复现包中的原生 GenericAgent，类名保留其原始拼写 `GeneraticAgent`；没有用自写规划器替代 Agent。
+统一入口是 `python -m memorybenchmark.experiment --agent ga`，`python -m memorybenchmark.ga_experiment` 保留为兼容入口。使用旧复现包中的原生 GenericAgent，类名保留其原始拼写 `GeneraticAgent`；没有用自写规划器替代 Agent。
+
+2026-10-20 游戏接入迁移到共用 MCP 服务，初始化／工具发现／调用均通过官方 SDK。GA 没有原生 MCP 客户端，原生工具桥经宿主 MCP 客户端连接同一个服务，使用内存传输，不新增网络端口。公共 `WorkerSessions` 负责会话、预算、记忆快照，公共运行器负责配对与恢复；GA 适配器只保留原生准备与调用绑定。架构、安装和扩展见 [统一接入说明](AGENT_INTEGRATION.md)。
+
+新记录包含 adapter、MCP 与冻结 support 清单，恢复时校验版本和哈希；没有这些标签的旧运行仍按原来的直接 RPC 与冻结 worker 恢复。新旧模型成绩不混报。
 
 新运行支持 [雾汀湖 Easy](EASY_LAKE.md) 的 T1–T8；命令行默认场景为 `lake-easy`，复现旧试跑时显式使用 `--scenario valley`。新实验冻结初始世界，记录共享地理协议。两组共享已提交的地点、连接和距离，清除经验记忆不清除公共地图；危险、工具位置与效果不写入地图。
 

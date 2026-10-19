@@ -60,7 +60,8 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
     if tls_cert is not None and not secure_cookie:
         raise ValueError("HTTPS sessions require Secure cookies.")
     service = GameService(log_root, scenario)
-    watch=WatchStore(Path(log_root)/"ga-cross-session" if watch_root is None else watch_root)
+    watch=(WatchStore(Path(log_root)/"agent-cross-session",Path(log_root)/"ga-cross-session")
+           if watch_root is None else WatchStore(watch_root))
     auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
 
     class Handler(BaseHTTPRequestHandler):
