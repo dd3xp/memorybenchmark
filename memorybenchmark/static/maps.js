@@ -6,7 +6,10 @@ window.Cartography = (() => {
     if (!frames.length || !frames.at(-1).observation.success) return {nodes:[],edges:[],surveyed:[]};
     frames.forEach(f => {
       const n = f.observation.location; nodes.set(n.id,n);
-      if (f.moved) { const pair=[f.source,f.target].sort(); edges.set(pair.join('|'),pair); }
+      if (f.moved) {
+        const pair=[f.source,f.target].sort(); edges.set(pair.join('|'),pair);
+        f.observation.map.nodes.filter(n=>pair.includes(n.id)).forEach(n=>nodes.set(n.id,n));
+      }
     });
     return {nodes:[...nodes.values()],edges:[...edges.values()],surveyed:[...nodes.keys()]};
   }
@@ -86,5 +89,25 @@ window.Cartography = (() => {
     const ids=new Set(map.current_nodes);
     return {...map,nodes:map.nodes.filter(n=>ids.has(n.id)),edges:map.current_edges};
   }
-  return {atlas,merge,current,prepare,labels,controls};
+  function recovery(svg,group,history,nodes) {
+    group.replaceChildren();
+    if(!history?.length)return;
+    function item(type,attrs,text){const n=document.createElementNS(NS,type);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;return n;}
+    const markerId=svg.id+'-respawn-arrow';
+    if(!svg.querySelector('#'+markerId)){
+      const marker=item('marker',{id:markerId,viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:5,markerHeight:5,orient:'auto'});
+      marker.append(item('path',{d:'M0 0 L10 5 L0 10Z',fill:'#9d4340'}));svg.querySelector('defs').append(marker);
+    }
+    const seen={};
+    history.forEach(r=>{
+      const a=nodes[r.source],b=nodes[r.target];if(!a||!b)return;
+      const key=r.source+'|'+r.target,ordinal=seen[key]||0;seen[key]=ordinal+1;
+      const dx=b.x-a.x,dy=b.y-a.y,length=Math.max(1,Math.hypot(dx,dy)),offset=38+ordinal*23;
+      const mx=(a.x+b.x)/2-dy/length*offset,my=(a.y+b.y)/2+dx/length*offset;
+      const d=r.source===r.target?`M${a.x} ${a.y-8} C${a.x+55} ${a.y-65} ${a.x-55} ${a.y-65} ${a.x} ${a.y-8}`:`M${a.x} ${a.y} Q${mx} ${my} ${b.x} ${b.y}`;
+      const path=item('path',{d,class:'respawn-line','marker-end':`url(#${markerId})`});path.append(item('title',{},`复活 ${r.source} → ${r.target}，权重 ${r.weight}`));group.append(path);
+      group.append(item('text',{x:r.source===r.target?a.x:mx,y:r.source===r.target?a.y-55:my-8,'text-anchor':'middle',class:'respawn-label'},`复活 +${r.weight}`));
+    });
+  }
+  return {atlas,merge,current,prepare,labels,controls,recovery};
 })();

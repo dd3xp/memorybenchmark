@@ -69,7 +69,7 @@ def _design(scenario):
                               for key, value in world["locations"].items()],
                     "edges": [[a, b] for a, b, _ in world["edges"]],
                     "distances": [{"source": a, "target": b, "distance": d} for a, b, d in world["edges"]]},
-            "tasks": rows, "triggers": triggers,
+            "tasks": rows, "triggers": triggers, "recovery_policy": world.get("respawn"),
             "reference_scope": "full_information_static_feasibility" if static else "unavailable_dynamic_conditions"}
 
 

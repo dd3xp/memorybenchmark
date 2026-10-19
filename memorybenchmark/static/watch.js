@@ -50,7 +50,7 @@ function render(){
  $('task-title').textContent=o.task_name;$('session-caption').textContent=`${s.task_id} / ${conditionName[s.condition]||s.condition}`;
  $('session-state').textContent=s.status==='complete'?(s.success?'任务成功':'任务未完成'):(s.status==='error'?'运行中断':(phaseName[s.phase]||'运行中'));
  $('session-state').classList.toggle('error',s.status==='error');
- $('map-meta').textContent=`已发现 ${o.map.nodes.length} 处 · 已记录 ${o.map.surveyed.length} 处`;
+ $('map-meta').textContent=`已发现 ${o.map.nodes.length} 处 · 已记录 ${o.map.surveyed.length} 处${o.recovery?` · 复活 ${o.recovery.deaths} 次（+${o.recovery.penalty}）`:''}`;
  $('frame-mode').textContent=follow?'跟随运行':(index===s.frames.length-1?'会话末尾':'历史回放');
  $('frame-slider').max=Math.max(0,s.frames.length-1);$('frame-slider').value=index;$('frame-number').textContent=`动作 ${index} / ${s.frames.length-1}`;
  $('metric-distance').textContent=o.distance;$('metric-effort').textContent=o.effort;$('metric-stamina').textContent=`${o.stamina} / ${o.initial_stamina}`;$('metric-calls').textContent=s.calls;
@@ -71,6 +71,7 @@ function draw(frames,o){
  Cartography.prepare($('watch-map'),o);
  const map=Cartography.merge(Cartography.current(o.map),...($('watch-atlas').checked?[session()?.prior_atlas,Cartography.atlas(frames)]:[]));
  const places=Object.fromEntries(map.nodes.map(n=>[n.id,n]));
+ Cartography.recovery($('watch-map'),$('watch-recovery'),o.recovery?.history,places);
  map.edges.forEach(([a,b])=>{if(places[a]&&places[b])$('roads').append(node('line',{x1:places[a].x,y1:places[a].y,x2:places[b].x,y2:places[b].y,class:'road-line'}));});
  const seen={},moves=frames.filter(f=>f.moved);
  moves.forEach((f,i)=>{const a=places[f.source],b=places[f.target];if(!a||!b)return;const key=[f.source,f.target].sort().join('-');const count=seen[key]||0;seen[key]=count+1;

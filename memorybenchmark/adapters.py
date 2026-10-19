@@ -18,6 +18,12 @@ def render_text(observation):
         camps = "、".join(f"{n['name']} {n['id']}" for n in objective["submission_camps"])
         requirements = f"本次记录目标：{targets}\n提交营地：{camps}；必须抵达营地后 submit。\n"
     shared_map = ""
+    recovery = ""
+    if "recovery" in o:
+        r = o["recovery"]
+        recovery = (f"复活规则：体力耗尽自动回出发营地 {r['camp']}，恢复体力并清空携带工具；"
+                    f"测绘进度保留，总操作预算不重置。每次复活边权重 {r['weight']}、耗时 {r['duration']}。\n"
+                    f"本次死亡／复活：{r['deaths']} 次；复活惩罚：{r['penalty']}。\n")
     if "charted" in o["map"]:
         names = "；".join(f"{n['id']} {n['name']}" for n in o["map"]["nodes"]) or "无"
         links = "；".join(f"{e['source']} ↔ {e['target']}（距离 {e['distance']}）" for e in o["map"]["distances"]) or "无"
@@ -30,7 +36,7 @@ def render_text(observation):
             f"{shared_map}体力：{o['stamina']}/{o['initial_stamina']}；累计体力需求：{o['effort']}\n"
             f"携带工具：{carried}\n此处可取用：{stock}\n"
             f"操作：{o['steps']}/{o['max_steps']}；移动距离：{o['distance']}\n"
-            f"任务结束：{o['done']}；成功：{o['success']}")
+            f"{recovery}任务结束：{o['done']}；成功：{o['success']}")
 
 
 class GameAdapter:

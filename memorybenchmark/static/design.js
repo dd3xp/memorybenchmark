@@ -13,9 +13,10 @@ function renderTasks(){
  const t=task();$('task-heading').textContent=t?`${t.id} ${t.name}`:'全部委托';
  $('task-description').textContent=t?t.instruction:`${design.tasks.length} 项委托。选择一项，可以查看出发点、测绘目标和相关经验。`;
  $('task-facts').replaceChildren();
+ if(design.recovery_policy)$('task-facts').append(element('p',`死亡后回本项出发营地复活，清空携带工具；每次复活边权 ${design.recovery_policy.weight}。测绘进度保留，总操作预算不重置。`,'task-fact'));
  if(t){
   const facts=[`出发：${placeName(t.start)}`,`目标：${t.goals.map(placeName).join('、')}`,`提交：${t.submit_at.length?t.submit_at.map(placeName).join('、'):'该原型允许原地提交'}`];
-  if(t.reference)facts.push(`全知参考：${t.reference.distance} 距离，${t.reference.effort} 体力需求，${Object.values(t.reference.encounters).reduce((a,b)=>a+b,0)} 次遇险。`);
+  if(t.reference)facts.push(`无复活参考：${t.reference.distance} 距离，${t.reference.effort} 体力需求，${Object.values(t.reference.encounters).reduce((a,b)=>a+b,0)} 次遇险。`);
   facts.forEach(text=>$('task-facts').append(element('p',text,'task-fact')));
  }
  $('task-list').replaceChildren();

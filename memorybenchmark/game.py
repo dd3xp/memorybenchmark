@@ -102,6 +102,12 @@ class Game:
                 "submission_camps": [{"id": n, "name": self.world["locations"][n]["name"]} for n in camps],
                 "at_submission_camp": self.position in camps,
                 "ready": all(n in self.surveyed for n in goals) and self.position in camps}
+        if self.world.get("respawn"):
+            result["recovery"] = {"camp": task["start"], "weight": self.world["respawn"]["weight"],
+                                  "duration": self.world["respawn"]["duration"],
+                                  "deaths": getattr(self, "deaths", 0),
+                                  "penalty": sum(e["weight"] for e in getattr(self, "recovery_history", [])),
+                                  "history": deepcopy(getattr(self, "recovery_history", []))}
         return result
 
     def _geography(self, nodes, edges, surveyed):
@@ -120,9 +126,12 @@ class Game:
         return self._geography(nodes, edges, nodes)
 
     def _state(self):
-        return {"position": self.position, "time": self.clock, "stamina": self.stamina,
+        result = {"position": self.position, "time": self.clock, "stamina": self.stamina,
                 "inventory": sorted(self.inventory), "surveyed": sorted(self.surveyed),
                 "steps": self.steps, "done": self.done, "success": self.success}
+        if self.world.get("respawn"):
+            result["deaths"] = getattr(self, "deaths", 0)
+        return result
 
     def _record(self, event):
         event = {"event_id": len(self.events), "task_id": self.task_id,
@@ -149,6 +158,11 @@ class Game:
         task = self.tasks[task_id]
         if self.world.get("camps") and task["start"] not in self.world["camps"]:
             raise ProtocolError("任务必须从营地出发。")
+        recovery = self.world.get("respawn")
+        if recovery and (not isinstance(recovery, dict) or task["start"] not in self.world.get("camps", [])
+                         or type(recovery.get("weight")) is not int or recovery["weight"] <= 0
+                         or type(recovery.get("duration")) is not int or recovery["duration"] < 0):
+            raise ProtocolError("复活需要营地起点、正整数边权和非负整数耗时。")
         self.task_id, self.task_run_id = task_id, uuid4().hex
         self.position = task["start"]
         self.done = self.success = False
@@ -159,6 +173,8 @@ class Game:
         self.surveyed, self.known_nodes, self.known_edges = set(), set(), set()
         self.traversed_edges = set()
         self.requests = {}
+        if recovery:
+            self.deaths, self.recovery_history = 0, []
         self.revision += 1
         self._reveal()
         response = {"observation": self.observation(), "feedback": "任务开始，到达即自动记录地理信息。", "outcome": "started"}
@@ -269,20 +285,50 @@ class Game:
         self.stamina -= stamina_spent
         self.clock += duration
         self.revision += 1
+        physical_target, arrival_conditions = self.position, self.conditions()
+        respawn = None
         if self.stamina <= 0 and not self.done:
-            self.done, self.success = True, False
-            outcome, feedback = "exhausted", feedback + " 体力耗尽，本次任务失败。"
+            if self.world.get("respawn"):
+                # Both observations are delivered together. Keep the fatal arrival
+                # distinct from the automatic return, even if it ends at the origin.
+                evidence.extend(self._stock_evidence())
+                death_observation = self.observation()
+                recovery = self.world["respawn"]
+                transition = {"source": self.position, "target": self.tasks[self.task_id]["start"],
+                              "weight": recovery["weight"], "time_before": self.clock,
+                              "time_after": self.clock + recovery["duration"],
+                              "event_id": len(self.events), "step": self.steps}
+                self.deaths = getattr(self, "deaths", 0) + 1
+                self.recovery_history.append(transition)
+                self.position = transition["target"]
+                self.stamina = self.initial_stamina
+                self.inventory = set()
+                self.clock = transition["time_after"]
+                self._reveal()
+                respawn = {**transition, "death_observation": death_observation}
+                outcome = "respawned"
+                feedback += (f" 体力耗尽，已在{self.world['locations'][self.position]['name']}（{self.position}）复活。"
+                             f"复活边权重 {transition['weight']}；体力恢复，携带工具清空，"
+                             "测绘进度和已发生的代价保留，总操作预算不重置。")
+            else:
+                self.done, self.success = True, False
+                outcome, feedback = "exhausted", feedback + " 体力耗尽，本次任务失败。"
         if self.steps >= self.max_steps and not self.done:
             self.done = True
             outcome, feedback = "budget_exhausted", feedback + " 操作预算已用完，本次任务失败。"
-        evidence.extend(self._stock_evidence())
+        if not respawn or respawn["source"] != respawn["target"]:
+            evidence.extend(self._stock_evidence())
         response = {"observation": self.observation(), "feedback": feedback, "outcome": outcome}
-        self._record({"kind": "action", "action": deepcopy(action), "from": before, "to": self.position,
+        if respawn:
+            response["respawn"] = deepcopy(respawn)
+        self._record({"kind": "action", "action": deepcopy(action), "from": before, "to": physical_target,
                       "time_before": at, "time_after": self.clock, "conditions_before": conditions,
-                      "arrival_conditions": self.conditions(), "movement_cost": movement_cost,
+                      "arrival_conditions": arrival_conditions, "movement_cost": movement_cost,
                       "hazard_cost": hazard_cost, "effort_cost": effort_cost, "stamina_spent": stamina_spent,
                       "inventory_before": before_state["inventory"], "equipment_used": equipment_used,
-                      "moved": before != self.position, "outcome": outcome, "evidence_delivered": evidence,
+                      "moved": verb == "move" and before != physical_target,
+                      **({"respawn": deepcopy(respawn)} if respawn else {}),
+                      "outcome": outcome, "evidence_delivered": evidence,
                       "state_before": before_state, "state_after": self._state(), "delivered": response})
         self.requests[request_id] = (fingerprint, deepcopy(response))
         return deepcopy(response)

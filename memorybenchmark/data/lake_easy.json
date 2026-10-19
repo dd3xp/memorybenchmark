@@ -1,12 +1,13 @@
 {
   "world": {
-    "version": "lake-easy-2.1",
+    "version": "lake-easy-3.0",
     "public_id": "lake-easy",
     "name": "雾汀湖",
     "shared_geography": true,
     "difficulty": "Easy",
     "view_box": [0, 0, 1200, 800],
     "camps": ["C0", "C1", "C2"],
+    "respawn": {"weight": 70, "duration": 1},
     "locations": {
       "C0": {"name": "苇湾营地", "x": 1080, "y": 260, "kind": "camp"},
       "E1": {"name": "北湾岔口", "x": 1100, "y": 150},
@@ -63,7 +64,7 @@
   },
   "tasks": {
     "T1": {"name": "坡口初测", "start": "C0", "goals": ["P1"], "submit_at": ["C1"], "stamina": 70, "max_steps": 36,
-      "instruction": "从苇湾营地 C0 出发，记录灰脊坡口 P1，再到岚丘营地 C1 提交。到达自动测绘；途中可以自由探索、取用工具。体力耗尽即失败。"},
+      "instruction": "从苇湾营地 C0 出发，记录灰脊坡口 P1，再到岚丘营地 C1 提交。到达自动测绘；途中可以自由探索、取用工具。体力耗尽会回出发营地复活并记录惩罚边，总操作预算不重置。"},
     "T2": {"name": "林缘往返", "start": "C0", "goals": ["N1"], "submit_at": ["C0"], "stamina": 70, "max_steps": 40,
       "instruction": "从苇湾营地 C0 出发，记录松影林缘 N1，再回苇湾营地 C0 提交。携带工具在任务开始时重置；共享地图中的已点亮地点和连接可直接查看。"},
     "T3": {"name": "浅滩初测", "start": "C2", "goals": ["R1"], "submit_at": ["C2"], "stamina": 70, "max_steps": 36,

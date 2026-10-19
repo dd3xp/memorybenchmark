@@ -22,6 +22,7 @@ function draw(o) {
   const map=Cartography.merge(Cartography.current(o.map),$('show-atlas').checked?submittedAtlas:null);
   const nodes = Object.fromEntries(map.nodes.map(n=>[n.id,n]));
   map.edges.forEach(([a,b])=> $('edges').append(el('line',{x1:nodes[a].x,y1:nodes[a].y,x2:nodes[b].x,y2:nodes[b].y,class:'route-line'})));
+  Cartography.recovery($('map'),$('recovery-edges'),o.recovery?.history,nodes);
   map.nodes.forEach(n=> {
     const measured = o.map.surveyed.includes(n.id);
     const circle=el('circle',{cx:n.x,cy:n.y,r:n.id===o.location.id?10:7,class:`node-circle ${n.id===o.location.id?'here':''} ${measured?'surveyed':''} ${map.submitted.has(n.id)?'submitted':''}`});
@@ -45,6 +46,8 @@ function update(result) {
   $('place').textContent = `${o.location.name} ${o.location.id}`;
   $('conditions').textContent = `${{rain:'下雨',clear:'晴朗',snow:'下雪'}[o.conditions.weather]} / ${{night:'夜间',day:'白天'}[o.conditions.period]}`;
   $('time').textContent = `时间 ${o.world_time}`; $('distance').textContent = `路程 ${o.distance}`; $('steps').textContent = `操作 ${o.steps}/${o.max_steps}`;
+  $('recovery-status').hidden=!o.recovery;
+  if(o.recovery)$('recovery-status').textContent=`复活 ${o.recovery.deaths} 次 · 惩罚边权 ${o.recovery.penalty} · 本次返回 ${o.recovery.camp}；总操作预算不重置。`;
   $('stamina').textContent = `${o.stamina} / ${o.initial_stamina}`;
   $('energy').max=o.initial_stamina; $('energy').value=o.stamina;
   $('energy').closest('.energy').classList.toggle('low-stamina',o.stamina<=38);

@@ -8,3 +8,4 @@ header a{color:var(--ink);text-decoration:none;font-size:13px}header p small{fon
 
 .map-zoomed{touch-action:none}
 .map-toolbar>a{color:var(--ink);text-underline-offset:3px;font-size:12px}.map-toolbar{gap:10px;flex-wrap:wrap}
+.respawn-line{fill:none;stroke:#9d4340;stroke-width:3;stroke-dasharray:9 6}.respawn-label{fill:#9d4340;font:14px "Microsoft YaHei",sans-serif;paint-order:stroke;stroke:#f4f8f8;stroke-width:4px}.legend .respawn-key{height:0;width:16px;border:0;border-top:2px dashed #9d4340;border-radius:0}.recovery-status{font-size:12px;line-height:1.8;color:#9d4340;border-left:2px solid #c58c89;padding-left:10px;margin:0 0 16px}

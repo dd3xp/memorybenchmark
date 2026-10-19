@@ -29,6 +29,7 @@ def calibrate(output=Path(".runs/easy-calibration")):
         rows.append({"task_id": task_id, "success": game.success, "effort": game.effort,
                      "distance": game.distance, "steps": game.steps, "remaining_stamina": game.stamina,
                      "hazard_encounters": sum(e["hazard_cost"] > 0 for e in graph["edges"]),
+                     "deaths": graph["deaths"], "respawn_penalty": graph["respawn_penalty"],
                      "tools": sorted(game.inventory), "submit_camp": game.position,
                      "no_tool_reference_effort": result["without_taking_tools"]["effort"],
                      "actions": plan["actions"]})

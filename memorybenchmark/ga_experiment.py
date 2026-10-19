@@ -273,6 +273,9 @@ class NativeGASessions:
                 report.update(infrastructure_ok=False, infrastructure_error=type(error).__name__ + ": " + str(error))
         report.update(success=game.success, done=game.done, game_actions=game.steps,
                       distance=game.distance, effort=game.effort, remaining_stamina=game.stamina)
+        if game.world.get("respawn"):
+            report.update(deaths=game.deaths,
+                          respawn_penalty=sum(e["weight"] for e in game.recovery_history))
         # Infrastructure failures never advance the canonical world or memory.
         if not report["infrastructure_ok"]:
             report["partial_game_success"] = report.pop("success")

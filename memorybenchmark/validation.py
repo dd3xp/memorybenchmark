@@ -58,6 +58,10 @@ def reference_route(world, task, allow_take=True):
 
 def validate(world, tasks):
     locations = world["locations"]
+    recovery = world.get("respawn")
+    if recovery and (not isinstance(recovery, dict) or type(recovery.get("weight")) is not int or recovery["weight"] <= 0
+                     or type(recovery.get("duration")) is not int or recovery["duration"] < 0):
+        raise ValueError("复活边权需要正整数，耗时需要非负整数。")
     seen_edges = set()
     for a, b, distance in world["edges"]:
         if a not in locations or b not in locations or a == b or type(distance) is not int or distance <= 0:
@@ -89,6 +93,8 @@ def validate(world, tasks):
         allowed_camps = submission_camps(world, task)
         if camps and (task["start"] not in camps or not allowed_camps or any(n not in camps for n in allowed_camps)):
             raise ValueError("任务出发和提交必须位于已配置营地。")
+        if recovery and task["start"] not in camps:
+            raise ValueError("复活必须返回本任务的出发营地。")
         prepared, no_take = reference_route(world, task), reference_route(world, task, False)
         if not prepared["within_stamina"] or not prepared["within_steps"]:
             raise ValueError(f"{key} 不满足配置的体力／步数约束。")

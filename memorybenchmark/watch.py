@@ -32,16 +32,18 @@ def read_json(path):
 def public_observation(observation):
     keys = ("task_id","task_name","instruction","location","conditions","world_time","revision",
             "neighbors","map","inventory","available_tools","stamina","initial_stamina","effort",
-            "steps","max_steps","distance","done","success","environment","objective")
+            "steps","max_steps","distance","done","success","environment","objective","recovery")
     return {k:deepcopy(observation[k]) for k in keys if k in observation}
 
 
 def frame(response, action=None, source=None, at=None):
     observation=public_observation(response["observation"])
-    target=observation["location"]["id"]
+    recovery=response.get("respawn")
+    target=recovery["source"] if recovery else observation["location"]["id"]
     return {"observation":observation,"feedback":response.get("feedback","")[:4000],
             "outcome":response.get("outcome"),"action":deepcopy(action),"source":source,
-            "target":target,"moved":source is not None and source!=target,"at":at}
+            "target":target,"moved":source is not None and source!=target,"at":at,
+            **({"respawn":{k:recovery[k] for k in ("source","target","weight","event_id","step")}} if recovery else {})}
 
 
 def memory_view(before,after=None,final=False):
@@ -82,6 +84,9 @@ def observer_atlas(data, session_id, frame_index):
             nodes[location["id"]] = deepcopy(location)
             if item.get("moved"):
                 edges.add(tuple(sorted((item["source"], item["target"]))))
+                for node in observation["map"]["nodes"]:
+                    if node["id"] in (item["source"], item["target"]):
+                        nodes[node["id"]] = deepcopy(node)
     return {"nodes": list(nodes.values()), "edges": [list(e) for e in sorted(edges)], "surveyed": sorted(nodes)}
 
 
@@ -174,7 +179,7 @@ class Observer:
             session=self._session(sid)
             previous=session["frames"][-1]
             if previous["observation"]["revision"]!=response["observation"]["revision"]:
-                session["frames"].append(frame(response,action,previous["target"],now()))
+                session["frames"].append(frame(response,action,previous["observation"]["location"]["id"],now()))
                 self._write()
 
     def memory(self,sid,before,after,final=False):

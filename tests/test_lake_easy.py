@@ -31,20 +31,26 @@ class LakeEasyTests(unittest.TestCase):
         self.assertEqual(self.game.effort, 44)
         self.assertEqual(sum(e.get("hazard_cost", 0) > 0 for e in self.game.events), 1)
 
-    def test_second_unprotected_encounter_is_fatal_and_next_task_still_starts(self):
+    def test_second_unprotected_encounter_respawns_and_next_task_resets_recovery(self):
         self.game.start_task("T2")
         move(self.adapter, "E1", "E2", "P1", "C1", "N1", "C1")
         result = self.adapter.action("move", "P1")
-        self.assertEqual(result["outcome"], "exhausted")
-        self.assertEqual(self.game.stamina, 0)
+        self.assertEqual(result["outcome"], "respawned")
+        self.assertEqual(self.game.position, "C0")
+        self.assertEqual(self.game.stamina, 70)
+        self.assertFalse(self.game.done)
+        self.assertEqual(self.game.deaths, 1)
         self.assertFalse(self.game.success)
         self.assertEqual(self.game.observer_atlas()["nodes"], [])
         evidence = deepcopy(self.game.evidence)
+        self.adapter.action("abandon")
         self.game.start_task("T3")
         self.assertEqual(self.game.position, "C2")
         self.assertEqual(self.game.inventory, set())
         self.assertEqual(self.game.stamina, 70)
         self.assertEqual(self.game.evidence, evidence)
+        self.assertEqual(self.game.deaths, 0)
+        self.assertEqual(self.game.recovery_history, [])
 
     def test_wrong_tool_does_not_mitigate_and_camps_do_not_refill_midtask(self):
         self.game.start_task("T1")
@@ -131,7 +137,7 @@ class LakeEasyTests(unittest.TestCase):
                 self.assertTrue(row["without_taking_tools"]["within_stamina"])
         self.assertEqual(counts, [1,2,1,2,2,2,2,2])
 
-    def test_each_reuse_task_requires_the_corresponding_tool(self):
+    def test_each_reuse_task_needs_the_corresponding_tool_to_avoid_death(self):
         world,tasks=load_scenario('lake-easy')
         costs={}
         for tool in ('grip_kit','stream_kit'):

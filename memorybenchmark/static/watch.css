@@ -5,3 +5,4 @@
 .legend i.submitted-dot{width:7px;height:7px;border-radius:50%;background:#b4d0bb;border:1px solid #477c70}
 
 .map-zoomed{touch-action:none}
+.respawn-line{fill:none;stroke:#9d4340;stroke-width:3;stroke-dasharray:9 6}.respawn-label{fill:#9d4340;font:14px "Microsoft YaHei",sans-serif;paint-order:stroke;stroke:#f4f8f8;stroke-width:4px}.legend i.respawn-key{height:0;width:16px;border:0;border-top:2px dashed #9d4340;border-radius:0}
