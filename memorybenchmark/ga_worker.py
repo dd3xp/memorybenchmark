@@ -15,8 +15,7 @@ import types
 
 
 PROTOCOL = "ga-session-1"
-PROMPT_PROTOCOL = "cartography-native-memory-2"
-TASK_DOCUMENT_PATH = "/agent/temp/current_task.md"
+PROMPT_PROTOCOL = "cartography-native-memory-3"
 GUIDE = """
 你正在完成一个制图游戏任务。使用 game_action 操作游戏；move 的 target
 只传地点 ID，take 传工具 ID。到达自动测绘，满足目标后提交地理记录。
@@ -28,8 +27,8 @@ GUIDE = """
 任务结束后，请复盘实际经历；如果有可迁移经验，应使用原生工具保存或修正记忆。
 经验内容、粒度和保存方式由你决定，不必为了写记忆而新增没有价值的条目。
 普通回复中说“记住了”不等于持久保存。收到 done=true 后停止游戏操作，完成复盘再结束。
-每次模型调用都会提供固定的当前委托说明；完整说明也在 /agent/temp/current_task.md。
-该文件只属于当前会话，不是经验记忆。不要修改它；进度、位置和工具以最新公开观察为准。
+每步游戏反馈都会提供当前委托、目标进度和提交要求；每次模型调用也会附上简短的委托要求。
+进度、位置和工具以最新公开观察为准，不确定时使用 game_action 的 read。
 这里没有人工问答、网页或真实桌面；不要等待人工输入。游戏仅通过 game_action 访问。
 """
 FINAL_OPPORTUNITY = """当前委托已经结束，不要继续游戏操作。
@@ -41,34 +40,20 @@ FINAL_OPPORTUNITY = """当前委托已经结束，不要继续游戏操作。
 """
 
 
-def build_task_document(observation):
-    """Immutable instructions from the initial public observation, never history."""
-    o = observation
-    lines = ["# 当前委托", f"委托：{o['task_id']} · {o['task_name']}",
-             f"任务要求：{o['instruction']}",
-             f"出发地点：{o['location']['name']} {o['location']['id']}"]
-    if o.get("objective"):
-        objective = o["objective"]
-        targets = "；".join(f"{n['name']} {n['id']}" for n in objective["targets"])
-        camps = "；".join(f"{n['name']} {n['id']}" for n in objective["submission_camps"])
-        lines += [f"本次测绘目标：{targets}", f"允许提交的营地：{camps}",
-                  "完成条件：本次到达全部目标后，在指定提交营地调用 submit。到达目标不等于已完成委托。"]
-    else:
-        lines.append("完成条件：满足上述任务要求后调用 submit，以游戏的成功反馈为准。")
-    lines += ["当前位置、目标进度、工具、体力和任务是否结束均以最新公开观察为准。",
-              "不确定当前状态时使用 game_action 的 read；不要凭旧观察推测。",
-              "本文档仅保存当前公开要求，本次会话结束后清除，不用于保存经验。"]
-    return "\n".join(lines) + "\n"
+def build_task_reminder(observation):
+    """Short public requirements, with no task file or historical experience."""
+    return (f"当前委托：{observation['task_id']} · {observation['task_name']}\n"
+            f"要求：{observation['instruction']}")
 
 
-def pin_task_document(payload, document, *, finalizing=False):
+def pin_task_reminder(payload, reminder, *, finalizing=False):
     """Add the current task after native history trimming, without editing it."""
     if not isinstance(payload, dict) or not isinstance(payload.get("input"), list):
         raise RuntimeError("expected native Responses input list")
     phase = ("委托已结束，只能复盘并整理经验；禁止继续游戏操作。" if finalizing else
-             "正在执行当前委托，请按最新公开观察行动并满足提交要求。")
+             "请按最新反馈中的进度和状态行动。")
     anchor = {"role": "developer", "content": [{"type": "input_text", "text":
-        f"[当前委托固定说明]\n{document}\n任务文档：{TASK_DOCUMENT_PATH}\n当前阶段：{phase}"}]}
+        f"{reminder}\n当前阶段：{phase}"}]}
     return {**payload, "input": [anchor, *payload["input"]]}
 
 
@@ -142,8 +127,7 @@ def main():
     if config.get("probe_only"):
         wire.emit("finished", isolation=isolation)
         return
-    document = build_task_document(config["task_observation"])
-    Path(TASK_DOCUMENT_PATH).write_text(document, encoding="utf-8")
+    reminder = build_task_reminder(config["task_observation"])
     # Native GA's long-term-update tool reads ./memory, while its file tools
     # and system prompt also support ../memory from the temporary working dir.
     # Both names must reach the same native persistent directory.
@@ -171,7 +155,7 @@ def main():
     def post(url, **kwargs):
         if url != "https://model.invalid/v1/responses":
             raise RuntimeError("unregistered model transport")
-        payload = pin_task_document(kwargs["json"], document, finalizing=finalizing)
+        payload = pin_task_reminder(kwargs["json"], reminder, finalizing=finalizing)
         return ProxiedResponse(wire.call("model", payload))
     requests.post = post
     import agentmain
@@ -202,8 +186,7 @@ def main():
     handler.tool_before_callback = before
     system = agentmain.get_system_prompt() + GUIDE
     wire.emit("session", protocol=PROTOCOL, isolation=isolation,
-              prompt_protocol=PROMPT_PROTOCOL, task_document_path=TASK_DOCUMENT_PATH,
-              task_document=document,
+              prompt_protocol=PROMPT_PROTOCOL, task_reminder=reminder,
               system_prompt=system, initial_history_size=initial_history_size,
               initial_backend_history_size=initial_backend_size,
               current_task_history_size=len(handler.history_info),

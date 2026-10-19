@@ -137,8 +137,6 @@ class NativeGASessions:
                     audit.write(json.dumps(message,ensure_ascii=False) + "\n"); audit.flush()
                     if kind == "session":
                         report["initial_session"] = message
-                        if isinstance(message.get("task_document"), str):
-                            (output / "current_task.md").write_text(message["task_document"], encoding="utf-8")
                     elif kind == "tool":
                         report["tools"].append({"name":message["name"],"args":message["args"]})
                         if self.observer:
@@ -259,8 +257,8 @@ class NativeGASessions:
         watch_id=self.observer.open(task_id,condition,initial,before) if self.observer else None
         config = {"protocol":"ga-session-1", "seed":self.seed, "model":self.model_alias,
                   "initial_text":initial["text"],"max_turns":self.max_turns,"final_turns":self.final_turns}
-        if self.prompt_protocol == PROMPT_PROTOCOL:
-            # The frozen worker formats the document, keeping resumed runs on
+        if self.prompt_protocol in ("cartography-native-memory-2", PROMPT_PROTOCOL):
+            # The frozen worker formats the reminder, keeping resumed runs on
             # their original task-prompt implementation as well as their rules.
             config["task_observation"] = initial["observation"]
         report = self._worker(state, output, config, adapter, model,watch_id,before)
@@ -271,6 +269,9 @@ class NativeGASessions:
         document = report.get("initial_session", {}).get("task_document")
         if document is not None:
             report["task_document_sha256"] = sha256(document.encode("utf-8")).hexdigest()
+        reminder = report.get("initial_session", {}).get("task_reminder")
+        if reminder is not None:
+            report["task_reminder_sha256"] = sha256(reminder.encode("utf-8")).hexdigest()
         if report["infrastructure_ok"]:
             if not game.done:
                 native = report["worker_result"].get("native_result") or {}

@@ -25,7 +25,8 @@ class ScriptedModel:
         self.calls += 1
         anchor = payload["input"][0]
         assert anchor["role"] == "developer"
-        assert f"委托：{self.task} ·" in anchor["content"][0]["text"]
+        assert f"当前委托：{self.task} ·" in anchor["content"][0]["text"]
+        assert "current_task.md" not in anchor["content"][0]["text"]
         if self.previous_tool == "start_long_term_update":
             text = json.dumps(payload, ensure_ascii=True)
             assert "Memory Management SOP not found" not in text
@@ -58,7 +59,7 @@ class ScriptedModel:
 def fixture_model(task, condition):
     if task == "T1":
         script = ("from pathlib import Path\n"
-                  "assert '委托：T1 ·' in Path('current_task.md').read_text()\n"
+                  "assert not Path('current_task.md').exists()\n"
                   "Path('../memory/session_fixture.txt').write_text('synthetic test marker')\n"
                   "Path('ephemeral_fixture.txt').write_text('must disappear')\n")
         tools = [("code_run",{"type":"python","script":script}),
@@ -68,8 +69,7 @@ def fixture_model(task, condition):
                  ("start_long_term_update",{})]
     else:
         script = ("from pathlib import Path\n"
-                  "assert '委托：T2 ·' in Path('current_task.md').read_text()\n"
-                  "assert '委托：T1 ·' not in Path('current_task.md').read_text()\n"
+                  "assert not Path('current_task.md').exists()\n"
                   "assert not Path('ephemeral_fixture.txt').exists()\n"
                   "assert not Path('../memory/partial_only.txt').exists()\n"
                   "p=Path('../memory/session_fixture.txt')\n"
@@ -135,7 +135,8 @@ def run(archive, distro="Ubuntu-24.04", runtime=None):
         assert "current_task.md" not in row["output_memory"]
         assert row["worker_result"]["isolation"]["network_blocked"]
         folder = output / row["path"]
-        assert (folder / "current_task.md").read_text(encoding="utf-8") == row["initial_session"]["task_document"]
+        assert not (folder / "current_task.md").exists()
+        assert f"当前委托：{row['task_id']} ·" in row["initial_session"]["task_reminder"]
         for number in range(row["main_calls"] + 1, row["llm_calls"] + 1):
             request = json.loads((folder / "model" / f"{number:03d}-request.json").read_text(encoding="utf-8"))
             assert "委托已结束" in request["input"][0]["content"][0]["text"]

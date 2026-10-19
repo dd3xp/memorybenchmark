@@ -113,5 +113,22 @@ class SessionBoundaryTests(unittest.TestCase):
             self.assertNotIn("task_document_sha256", row)
             self.assertFalse((root / "old-session/current_task.md").exists())
 
+    def test_frozen_document_worker_still_receives_its_public_observation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            baseline = root / "baseline"; baseline.mkdir()
+            sessions = NativeGASessions(root / "source/GenericAgent", root / "support", None,
+                                        model_alias="fixture", prompt_protocol="cartography-native-memory-2")
+
+            def frozen_worker(memory, output, config, adapter, *args):
+                self.assertEqual(config["task_observation"], adapter.game.observation())
+                adapter.game.finish_incomplete("agent_stopped")
+                return {"infrastructure_ok": True, "worker_result": {"native_result": {}}}
+
+            sessions._worker = frozen_worker
+            row = sessions.run(Game(), "T1", baseline, root / "frozen-session", None)
+            self.assertTrue(row["infrastructure_ok"])
+            self.assertEqual(row["prompt_protocol"], "cartography-native-memory-2")
+
 
 if __name__ == "__main__": unittest.main()
