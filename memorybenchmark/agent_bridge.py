@@ -14,7 +14,7 @@ from uuid import uuid4
 
 GAME_TOOL = {
     "name": "game_action",
-    "description": "操作当前制图任务。到达即自动测绘；工具在所在地取用、携带后自动生效。read 读取公开观察。done=true 后停止游戏操作，可以使用你原生的记忆工具整理自己的经历，再结束本任务。",
+    "description": "操作当前制图任务。到达即自动测绘；工具在所在地取用、携带后自动生效。read 读取公开观察。submit 须满足当前委托的全部目标和提交地点要求。done=true 后停止游戏操作，复盘实际经历；有可迁移经验时使用原生工具保存或更新，再结束本任务。",
     "parameters": {
         "type": "object", "properties": {
             "action": {"type": "string", "enum": ["move", "take", "observe", "wait", "submit", "abandon", "read"]},
@@ -113,4 +113,4 @@ def register_genericagent(agent_module, agent, step_outcome, game_tool):
     agent_module.TOOLS_SCHEMA.append({"type": "function", "function": deepcopy(GAME_TOOL)})
     for entry in agent_module.TOOLS_SCHEMA:
         if entry.get("function", {}).get("name") == "submit":
-            entry["function"]["description"] = "提交当前游戏的地理记录；到达目标后调用。answer 不用于修改游戏状态。"
+            entry["function"]["description"] = "提交当前游戏的地理记录；必须满足当前委托的全部目标和提交地点要求。answer 不用于修改游戏状态。"

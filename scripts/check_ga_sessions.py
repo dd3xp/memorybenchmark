@@ -12,16 +12,29 @@ from uuid import uuid4
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from memorybenchmark.ga_experiment import InfrastructureError, experiment, resume_experiment
 from memorybenchmark.ga_runtime import WSLJail
+from memorybenchmark.ga_worker import PROMPT_PROTOCOL
 
 
 class ScriptedModel:
-    def __init__(self, tools):
+    def __init__(self, tools, task):
         self.tools = iter(tools)
         self.calls = 0
+        self.task = task
     def __call__(self, payload):
         self.calls += 1
+        anchor = payload["input"][0]
+        assert anchor["role"] == "developer"
+        assert f"委托：{self.task} ·" in anchor["content"][0]["text"]
         tool = next(self.tools,None)
         events = []
+        if tool is None:
+            # The game has already accepted submit, even before final_loop.
+            assert "委托已结束" in anchor["content"][0]["text"]
+        if self.task == "T1" and self.calls == 1:
+            # Force the real native backend to trim the original task history.
+            # This filler is synthetic test data, never a model experiment.
+            events.append({"type":"response.output_text.done",
+                           "text":"synthetic context padding " * 10000})
         if tool:
             name, args = tool
             events.extend([
@@ -39,6 +52,7 @@ class ScriptedModel:
 def fixture_model(task, condition):
     if task == "T1":
         script = ("from pathlib import Path\n"
+                  "assert '委托：T1 ·' in Path('current_task.md').read_text()\n"
                   "Path('../memory/session_fixture.txt').write_text('synthetic test marker')\n"
                   "Path('ephemeral_fixture.txt').write_text('must disappear')\n")
         tools = [("code_run",{"type":"python","script":script}),
@@ -47,6 +61,8 @@ def fixture_model(task, condition):
                  ("game_action",{"action":"submit"})]
     else:
         script = ("from pathlib import Path\n"
+                  "assert '委托：T2 ·' in Path('current_task.md').read_text()\n"
+                  "assert '委托：T1 ·' not in Path('current_task.md').read_text()\n"
                   "assert not Path('ephemeral_fixture.txt').exists()\n"
                   "assert not Path('../memory/partial_only.txt').exists()\n"
                   "p=Path('../memory/session_fixture.txt')\n"
@@ -56,7 +72,7 @@ def fixture_model(task, condition):
                  ("game_action",{"action":"move","target":"A"}),
                  ("game_action",{"action":"move","target":"K"}),
                  ("game_action",{"action":"submit"})]
-    return ScriptedModel(tools)
+    return ScriptedModel(tools, task)
 
 
 def run(archive, distro="Ubuntu-24.04", runtime=None):
@@ -93,6 +109,7 @@ def run(archive, distro="Ubuntu-24.04", runtime=None):
     assert failed['success'] is None and failed['distance']==2
     report=resume_experiment(output,jail,model_factory)
     assert report["complete"], output
+    assert report["prompt_protocol"] == PROMPT_PROTOCOL
     assert len(report['attempt_history'])==1
     pair = report["pairs"][0]
     retained, cleared = pair["conditions"]["retain"],pair["conditions"]["clear"]
@@ -107,7 +124,16 @@ def run(archive, distro="Ubuntu-24.04", runtime=None):
         assert row["initial_session"]["initial_backend_history_size"] == 0
         assert row["initial_session"]["current_task_history_size"] == 1
         assert row["initial_session"]["working"] == {}
+        assert row["initial_session"]["prompt_protocol"] == PROMPT_PROTOCOL
+        assert "current_task.md" not in row["output_memory"]
         assert row["worker_result"]["isolation"]["network_blocked"]
+        folder = output / row["path"]
+        assert (folder / "current_task.md").read_text(encoding="utf-8") == row["initial_session"]["task_document"]
+        for number in range(row["main_calls"] + 1, row["llm_calls"] + 1):
+            request = json.loads((folder / "model" / f"{number:03d}-request.json").read_text(encoding="utf-8"))
+            assert "委托已结束" in request["input"][0]["content"][0]["text"]
+    prefix_log = output / report["prefix"][0]["path"] / "native.log"
+    assert "Trimmed context" in prefix_log.read_text(encoding="utf-8")
     for name,present in (("retain",True),("clear",False)):
         log=(output / pair["conditions"][name]["path"] / "native.log").read_text(encoding="utf-8")
         assert f"fixture-marker-present= {present}" in log

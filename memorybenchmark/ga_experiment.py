@@ -20,6 +20,7 @@ from uuid import uuid4
 from .adapters import GameAdapter
 from .analysis import commute_graph, diagnose
 from .game import Game, ProtocolError
+from .ga_worker import PROMPT_PROTOCOL
 from .watch import Observer, atomic_json
 from .ga_runtime import (WSLJail, changed_files, copy_memory, encode_state, extract_native,
                          decode_state, make_support, memory_manifest, state_digest)
@@ -83,13 +84,14 @@ class GatewayModel:
 
 class NativeGASessions:
     def __init__(self, source, support, jail, *, model_alias, max_turns=24, final_turns=6,
-                 wall_seconds=900, seed=0, observer=None):
+                 wall_seconds=900, seed=0, observer=None, prompt_protocol=PROMPT_PROTOCOL):
         if not 1 <= max_turns <= 100 or not 1 <= final_turns <= 20:
             raise ValueError("invalid model budget")
         self.source, self.support, self.jail = Path(source), Path(support), jail
         self.model_alias, self.max_turns, self.final_turns = model_alias, max_turns, final_turns
         self.wall_seconds, self.seed = wall_seconds, seed
         self.observer=observer
+        self.prompt_protocol = prompt_protocol
 
     def _worker(self, memory, output, config, adapter=None, model=None,watch_id=None,before_memory=None):
         command = self.jail.command(self.source, memory, self.support, self.wall_seconds)
@@ -135,6 +137,8 @@ class NativeGASessions:
                     audit.write(json.dumps(message,ensure_ascii=False) + "\n"); audit.flush()
                     if kind == "session":
                         report["initial_session"] = message
+                        if isinstance(message.get("task_document"), str):
+                            (output / "current_task.md").write_text(message["task_document"], encoding="utf-8")
                     elif kind == "tool":
                         report["tools"].append({"name":message["name"],"args":message["args"]})
                         if self.observer:
@@ -255,10 +259,18 @@ class NativeGASessions:
         watch_id=self.observer.open(task_id,condition,initial,before) if self.observer else None
         config = {"protocol":"ga-session-1", "seed":self.seed, "model":self.model_alias,
                   "initial_text":initial["text"],"max_turns":self.max_turns,"final_turns":self.final_turns}
+        if self.prompt_protocol == PROMPT_PROTOCOL:
+            # The frozen worker formats the document, keeping resumed runs on
+            # their original task-prompt implementation as well as their rules.
+            config["task_observation"] = initial["observation"]
         report = self._worker(state, output, config, adapter, model,watch_id,before)
         report.update(task_id=task_id, max_turns=self.max_turns, final_turns=self.final_turns,
+                      prompt_protocol=self.prompt_protocol,
                       input_world_digest=state_digest(before_world), input_memory=before,
                       runtime_memory_id=state.name)
+        document = report.get("initial_session", {}).get("task_document")
+        if document is not None:
+            report["task_document_sha256"] = sha256(document.encode("utf-8")).hexdigest()
         if report["infrastructure_ok"]:
             if not game.done:
                 native = report["worker_result"].get("native_result") or {}
@@ -306,6 +318,8 @@ def experiment(archive, output, jail, model_factory, *, tasks=("T1","T2"), prefi
     initial_world = world.snapshot()
     save_json(output / "initial-world.json", encode_state(initial_world))
     report = {"kind":kind, "protocol":"ga-session-1", "agent":"bundled_GenericAgent",
+              "prompt_protocol":PROMPT_PROTOCOL,
+              "task_anchor":"public_current_task_on_every_model_call",
               "archive_sha256":sha256(Path(archive).read_bytes()).hexdigest(),
               "baseline_memory":baseline_manifest, "tasks":list(tasks), "prefix_count":prefix_count,
               "model_alias":model_alias, "seed":seed,"max_turns":max_turns,"final_turns":final_turns,
@@ -422,7 +436,8 @@ def resume_experiment(output,jail,model_factory):
     observer=Observer(output)
     observer.begin(report)
     sessions=NativeGASessions(output / "source/GenericAgent",support,jail,model_alias=report["model_alias"],
-                              max_turns=report["max_turns"],final_turns=report["final_turns"],seed=report["seed"],observer=observer)
+                              max_turns=report["max_turns"],final_turns=report["final_turns"],seed=report["seed"],observer=observer,
+                              prompt_protocol=report.get("prompt_protocol", "optional-memory-1"))
     report["resume_count"]=report.get("resume_count",0)+1
     save_json(output / "experiment.json",report)
     try: result=_continue(output,report,sessions,model_factory)

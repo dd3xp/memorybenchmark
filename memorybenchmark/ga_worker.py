@@ -15,6 +15,8 @@ import types
 
 
 PROTOCOL = "ga-session-1"
+PROMPT_PROTOCOL = "cartography-native-memory-2"
+TASK_DOCUMENT_PATH = "/agent/temp/current_task.md"
 GUIDE = """
 你正在完成一个制图游戏任务。使用 game_action 操作游戏；move 的 target
 只传地点 ID，take 传工具 ID。到达自动测绘，满足目标后提交地理记录。
@@ -22,11 +24,52 @@ GUIDE = """
 历史对话、工作记忆和临时文件均不保留。你自主保存的经验只从 ../memory/ 跨会话传递。
 当前观察可能提供共享的已提交地理图，可查看地点、连接和距离；
 地图不会自动保存历史风险、工具库存位置或应对经验。携带工具在新任务重置。
-你可以使用原生工具，自行决定是否将本次实际经历整理到长期记忆中。
-收到 done=true 后停止游戏操作，可以继续整理记忆，然后自然结束回复。
+开始委托前，请检查自己已有的相关经验，并结合当前公开观察判断是否适用。
+任务结束后，请复盘实际经历；如果有可迁移经验，应使用原生工具保存或修正记忆。
+经验内容、粒度和保存方式由你决定，不必为了写记忆而新增没有价值的条目。
+普通回复中说“记住了”不等于持久保存。收到 done=true 后停止游戏操作，完成复盘再结束。
+每次模型调用都会提供固定的当前委托说明；完整说明也在 /agent/temp/current_task.md。
+该文件只属于当前会话，不是经验记忆。不要修改它；进度、位置和工具以最新公开观察为准。
 这里没有人工问答、网页或真实桌面；不要等待人工输入。游戏仅通过 game_action 访问。
 """
-FINAL_OPPORTUNITY = "当前游戏任务已经结束。你可以自行判断是否有值得长期保留的实际经历，并使用原生工具整理；也可以直接结束。不要继续游戏操作。"
+FINAL_OPPORTUNITY = """当前委托已经结束，不要继续游戏操作。
+请回顾本次实际观察、行动及结果：什么尝试有效，什么失败或浪费了代价？
+哪些规律、事实或教训可能帮助以后类似的委托？已有经验是否需要修正？
+如果能提炼出可迁移经验，请现在通过你原生的记忆或文件工具完成保存、更新或纠正。
+普通文字回复不会跨会话保留，不能代替实际保存。内容和组织方式由你决定。
+只有确认没有值得保留或修正的经验时，才回复 noop；不必强行新增条目。
+"""
+
+
+def build_task_document(observation):
+    """Immutable instructions from the initial public observation, never history."""
+    o = observation
+    lines = ["# 当前委托", f"委托：{o['task_id']} · {o['task_name']}",
+             f"任务要求：{o['instruction']}",
+             f"出发地点：{o['location']['name']} {o['location']['id']}"]
+    if o.get("objective"):
+        objective = o["objective"]
+        targets = "；".join(f"{n['name']} {n['id']}" for n in objective["targets"])
+        camps = "；".join(f"{n['name']} {n['id']}" for n in objective["submission_camps"])
+        lines += [f"本次测绘目标：{targets}", f"允许提交的营地：{camps}",
+                  "完成条件：本次到达全部目标后，在指定提交营地调用 submit。到达目标不等于已完成委托。"]
+    else:
+        lines.append("完成条件：满足上述任务要求后调用 submit，以游戏的成功反馈为准。")
+    lines += ["当前位置、目标进度、工具、体力和任务是否结束均以最新公开观察为准。",
+              "不确定当前状态时使用 game_action 的 read；不要凭旧观察推测。",
+              "本文档仅保存当前公开要求，本次会话结束后清除，不用于保存经验。"]
+    return "\n".join(lines) + "\n"
+
+
+def pin_task_document(payload, document, *, finalizing=False):
+    """Add the current task after native history trimming, without editing it."""
+    if not isinstance(payload, dict) or not isinstance(payload.get("input"), list):
+        raise RuntimeError("expected native Responses input list")
+    phase = ("委托已结束，只能复盘并整理经验；禁止继续游戏操作。" if finalizing else
+             "正在执行当前委托，请按最新公开观察行动并满足提交要求。")
+    anchor = {"role": "developer", "content": [{"type": "input_text", "text":
+        f"[当前委托固定说明]\n{document}\n任务文档：{TASK_DOCUMENT_PATH}\n当前阶段：{phase}"}]}
+    return {**payload, "input": [anchor, *payload["input"]]}
 
 
 class Wire:
@@ -99,6 +142,9 @@ def main():
     if config.get("probe_only"):
         wire.emit("finished", isolation=isolation)
         return
+    document = build_task_document(config["task_observation"])
+    Path(TASK_DOCUMENT_PATH).write_text(document, encoding="utf-8")
+    finalizing = False
     # Virtual configuration contains only a dummy credential. Native serialization
     # and SSE parsing remain unchanged; authenticated HTTPS runs in the parent.
     credentials = types.ModuleType("mykey")
@@ -121,7 +167,8 @@ def main():
     def post(url, **kwargs):
         if url != "https://model.invalid/v1/responses":
             raise RuntimeError("unregistered model transport")
-        return ProxiedResponse(wire.call("model", kwargs["json"]))
+        payload = pin_task_document(kwargs["json"], document, finalizing=finalizing)
+        return ProxiedResponse(wire.call("model", payload))
     requests.post = post
     import agentmain
     from agent_loop import StepOutcome
@@ -136,7 +183,13 @@ def main():
     agent.history.append("[USER]: " + agentmain.smart_format(config["initial_text"].replace("\n"," "),max_str_len=200))
     handler = agentmain.GenericAgentHandler(agent, agent.history, "/agent/temp")
     agent.handler = handler
-    register_genericagent(agentmain, agent, StepOutcome, GameTool(lambda request: wire.call("game", request)))
+    def game_request(request):
+        nonlocal finalizing
+        result = wire.call("game", request)
+        if result.get("observation", {}).get("done"):
+            finalizing = True
+        return result
+    register_genericagent(agentmain, agent, StepOutcome, GameTool(game_request))
     original_before = handler.tool_before_callback
     def before(name, args, response):
         wire.emit("tool", name=name, args={k:v for k,v in args.items() if not k.startswith("_")},
@@ -145,6 +198,8 @@ def main():
     handler.tool_before_callback = before
     system = agentmain.get_system_prompt() + GUIDE
     wire.emit("session", protocol=PROTOCOL, isolation=isolation,
+              prompt_protocol=PROMPT_PROTOCOL, task_document_path=TASK_DOCUMENT_PATH,
+              task_document=document,
               system_prompt=system, initial_history_size=initial_history_size,
               initial_backend_history_size=initial_backend_size,
               current_task_history_size=len(handler.history_info),
@@ -161,6 +216,7 @@ def main():
     # Preserve the old runner's final opportunity, with identical wording and
     # budgets for both conditions. Retain this task's native backend history.
     terminal = wire.call("task_end", {"native_result":result})
+    finalizing = True
     final_loop = agentmain.agent_runner_loop(agent.llmclient, system,
         terminal["text"] + "\n" + FINAL_OPPORTUNITY, handler, agentmain.TOOLS_SCHEMA,
         max_turns=config["final_turns"], verbose=False)

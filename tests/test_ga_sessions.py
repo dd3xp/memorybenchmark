@@ -93,5 +93,25 @@ class SessionBoundaryTests(unittest.TestCase):
         game.start_task("T2")
         self.assertEqual(game.task_id,"T2")
 
+    def test_legacy_worker_configuration_remains_usable_without_task_anchor_fields(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            baseline = root / "baseline"; baseline.mkdir()
+            (baseline / "native_sop.md").write_text("native baseline")
+            sessions = NativeGASessions(root / "source/GenericAgent", root / "support", None,
+                                        model_alias="fixture", prompt_protocol="optional-memory-1")
+
+            def legacy_worker(memory, output, config, adapter, *args):
+                self.assertEqual(set(config), {"protocol", "seed", "model", "initial_text", "max_turns", "final_turns"})
+                adapter.game.finish_incomplete("agent_stopped")
+                return {"infrastructure_ok": True, "worker_result": {"native_result": {}}}
+
+            sessions._worker = legacy_worker
+            row = sessions.run(Game(), "T1", baseline, root / "old-session", None)
+            self.assertTrue(row["infrastructure_ok"])
+            self.assertEqual(row["input_memory"], row["output_memory"])
+            self.assertNotIn("task_document_sha256", row)
+            self.assertFalse((root / "old-session/current_task.md").exists())
+
 
 if __name__ == "__main__": unittest.main()
