@@ -20,12 +20,18 @@ class ScriptedModel:
         self.tools = iter(tools)
         self.calls = 0
         self.task = task
+        self.previous_tool = None
     def __call__(self, payload):
         self.calls += 1
         anchor = payload["input"][0]
         assert anchor["role"] == "developer"
         assert f"委托：{self.task} ·" in anchor["content"][0]["text"]
+        if self.previous_tool == "start_long_term_update":
+            text = json.dumps(payload, ensure_ascii=True)
+            assert "Memory Management SOP not found" not in text
+            assert "This is L0:" in text
         tool = next(self.tools,None)
+        self.previous_tool = tool[0] if tool else None
         events = []
         if tool is None:
             # The game has already accepted submit, even before final_loop.
@@ -58,7 +64,8 @@ def fixture_model(task, condition):
         tools = [("code_run",{"type":"python","script":script}),
                  ("game_action",{"action":"move","target":"J"}),
                  ("game_action",{"action":"move","target":"A"}),
-                 ("game_action",{"action":"submit"})]
+                 ("game_action",{"action":"submit"}),
+                 ("start_long_term_update",{})]
     else:
         script = ("from pathlib import Path\n"
                   "assert '委托：T2 ·' in Path('current_task.md').read_text()\n"

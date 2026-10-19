@@ -144,6 +144,10 @@ def main():
         return
     document = build_task_document(config["task_observation"])
     Path(TASK_DOCUMENT_PATH).write_text(document, encoding="utf-8")
+    # Native GA's long-term-update tool reads ./memory, while its file tools
+    # and system prompt also support ../memory from the temporary working dir.
+    # Both names must reach the same native persistent directory.
+    Path("/agent/temp/memory").symlink_to("/agent/memory", target_is_directory=True)
     finalizing = False
     # Virtual configuration contains only a dummy credential. Native serialization
     # and SSE parsing remain unchanged; authenticated HTTPS runs in the parent.
