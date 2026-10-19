@@ -2,6 +2,8 @@
 
 更新：2026-10-20。
 
+2026-10-20 网页登录：有效期从 12 小时延长为 180 天，并将会话令牌哈希与绝对到期时间保存在私有配置目录，避免服务更新／重启时反复登录。持久会话不保存 Cookie 或 PIN 原文；退出和更换 PIN 后撤销，重启不延长有效期。旧版内存登录需在升级后重新建立一次。
+
 统一接入部署验收：实现提交 `4c92c08` 已同步 Squishy，服务器 `.venv` 安装固定 MCP SDK。Squishy 89 项测试全部通过，真实 GA 的新 MCP 通路离线契约检查通过；本地还验证了旧 RPC 检查点恢复，无模型重跑。[GitHub CI](https://github.com/dd3xp/memorybenchmark/actions/runs/39303354419) 的 Windows／Linux、Python 3.10／3.12 矩阵通过。观测服务已重启，公网 TLS 校验成功，登录页 200、未登录实验接口 401；GA 后台任务仍待命，未启动新的真实模型实验。
 
 2026-10-20 统一接入：新增当前任务范围的标准 MCP 服务、公共实验运行器和 agent 生命周期插件接口；GA 通过同一个 MCP 服务执行游戏，原生循环与记忆工具保留。提供 `--agent`、`--adapter module:create_adapter`、适配列表和用户模板；未知 agent 在创建实验／模型调用前报配置错误。观测台兼容新 `.runs/agent-cross-session` 和旧 GA 目录。本地 89 项测试通过 88 项、权限跳过 1 项，官方 SDK 的 stdio 客户端与真实 GA 的隔离离线契约检查均通过，未调用真实模型。Hermes 仍只有工具注册契约，不列为全流程支持。详见 [接入说明](docs/AGENT_INTEGRATION.md)。

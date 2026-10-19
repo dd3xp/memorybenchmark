@@ -3,11 +3,12 @@ import json
 from pathlib import Path
 import tempfile
 import threading
+import time
 import unittest
 from urllib.parse import urlencode
 
 from memorybenchmark.server import make_server
-from memorybenchmark.web_auth import SESSION_SECONDS, save_pin
+from memorybenchmark.web_auth import PinAuth, SESSION_SECONDS, save_pin
 
 
 class WebAuthTests(unittest.TestCase):
@@ -18,7 +19,7 @@ class WebAuthTests(unittest.TestCase):
         self.pin = "031479"
         save_pin(self.config, self.pin)
         self.server = make_server(port=0, log_root=self.root / "logs", auth_file=self.config)
-        self.clock = 1000
+        self.clock = time.time()
         self.server.auth.clock = lambda: self.clock
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
@@ -29,6 +30,15 @@ class WebAuthTests(unittest.TestCase):
         self.server.server_close()
         self.thread.join()
         self.temp.cleanup()
+
+    def restart_server(self):
+        self.server.shutdown()
+        self.server.server_close()
+        self.thread.join()
+        self.server = make_server(port=0, log_root=self.root / "logs", auth_file=self.config)
+        self.server.auth.clock = lambda: self.clock
+        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+        self.thread.start()
 
     def request(self, path, method="GET", data=None, headers=None, cookie=None):
         values = dict(headers or {})
@@ -77,6 +87,7 @@ class WebAuthTests(unittest.TestCase):
         headers = self.login()
         for attribute in ("HttpOnly", "Secure", "SameSite=Strict", "Path=/"):
             self.assertIn(attribute, headers["Set-Cookie"])
+        self.assertIn("Max-Age=15552000", headers["Set-Cookie"])
         for path in ("/", "/watch", "/play", "/design", "/design.js", "/design.css", "/api/design?scenario=lake-easy", "/watch.js", "/api/watch/runs", "/health"):
             self.assertEqual(self.request(path, cookie=self.cookie)[0], 200, path)
         status, _, body = self.request("/api/start", "POST", {"task_id": "T1"}, cookie=self.cookie)
@@ -106,14 +117,43 @@ class WebAuthTests(unittest.TestCase):
         self.clock += 61
         self.login()
 
-    def test_expired_forged_and_restarted_sessions_are_rejected(self):
+    def test_expired_and_forged_sessions_are_rejected(self):
         self.login()
         self.assertEqual(self.request("/health", cookie=self.cookie + "forged")[0], 401)
         self.clock += SESSION_SECONDS
         self.assertEqual(self.request("/health", cookie=self.cookie)[0], 401)
+
+    def test_sessions_survive_restart_until_180_days_and_logout_stays_revoked(self):
+        self.assertEqual(SESSION_SECONDS, 180 * 24 * 60 * 60)
         self.login()
-        self.server.auth.sessions.clear()  # A process restart drops the in-memory session registry.
+        token = self.cookie.split("=", 1)[1]
+        saved = self.server.auth.session_path.read_text(encoding="utf-8")
+        self.assertNotIn(token, saved)
+        self.assertNotIn(self.pin, saved)
+        self.clock += 179 * 24 * 60 * 60
+        self.restart_server()
+        self.assertEqual(self.request("/health", cookie=self.cookie)[0], 200)
+        self.assertEqual(self.request("/logout", "POST", cookie=self.cookie)[0], 303)
+        self.restart_server()
         self.assertEqual(self.request("/health", cookie=self.cookie)[0], 401)
+
+    def test_restart_does_not_extend_expiry_and_changing_pin_revokes_old_sessions(self):
+        self.login()
+        self.clock += SESSION_SECONDS - 1
+        self.assertTrue(PinAuth(self.config, clock=lambda: self.clock).authorized(self.cookie))
+        self.clock += 1
+        self.assertFalse(PinAuth(self.config, clock=lambda: self.clock).authorized(self.cookie))
+        self.login()
+        save_pin(self.config, "274901", replace=True)
+        self.assertFalse(PinAuth(self.config, clock=lambda: self.clock).authorized(self.cookie))
+
+    def test_corrupt_session_cache_requires_login_without_disabling_auth(self):
+        self.login()
+        self.server.auth.session_path.write_text('{"scheme":"broken"}', encoding="utf-8")
+        restarted = PinAuth(self.config, clock=lambda: self.clock)
+        self.assertFalse(restarted.authorized(self.cookie))
+        self.login()
+        self.assertTrue(PinAuth(self.config, clock=lambda: self.clock).authorized(self.cookie))
 
     def test_cross_site_login_actions_and_logout_are_rejected(self):
         self.login()

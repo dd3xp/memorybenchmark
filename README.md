@@ -29,7 +29,7 @@ Easy 体力耗尽时自动回本项出发营地复活，恢复体力并清空工
 
 点击“完整地图与触发点”，或访问 <http://127.0.0.1:8765/design>，查看地图全貌、风险／工具／准备位置和关联委托，可按任务切换并叠加参考路线。此页仅供人查看当前地图设计，不修改游戏进度或向 Agent 提供隐藏经验。
 
-公网部署使用 PIN 登录：页面、静态资源和接口统一校验会话，支持退出登录、12 小时过期和错误尝试限速。私有配置只保存加盐哈希，PIN 不进入仓库。使用 `python -m memorybenchmark.web_auth .runs/web-auth.json` 在本机交互设置 PIN；服务启动时自动读取此文件，也可用 `--auth-file` 指定路径。生产 Cookie 要求 HTTPS；仅本地 HTTP 开发可加 `--local-http-cookie`。Squishy 的后台启动脚本缺少鉴权配置时会拒绝启动。
+公网部署使用 PIN 登录：页面、静态资源和接口统一校验会话，登录有效期为 180 天，重启服务后继续有效；主动退出或更换 PIN 后撤销。私有配置保存 PIN 的加盐哈希，同目录的 `*.sessions.json` 只保存随机会话令牌的哈希与到期时间，不保存 PIN 或 Cookie 原文；两者都不进入仓库。使用 `python -m memorybenchmark.web_auth .runs/web-auth.json` 在本机交互设置 PIN；服务启动时自动读取此文件，也可用 `--auth-file` 指定路径。生产 Cookie 要求 HTTPS；仅本地 HTTP 开发可加 `--local-http-cookie`。错误尝试限速保留；Squishy 的后台启动脚本缺少鉴权配置时会拒绝启动。
 
 原生 HTTPS 使用 `--tls-cert <证书链.pem> --tls-key <私钥.pem>`，也可通过 `MEMORYBENCH_TLS_CERT` 和 `MEMORYBENCH_TLS_KEY` 配置。程序直接加载已有证书，每 60 秒检测续期并自动更新，更新不完整时保留上一份有效证书；启动时加载失败则拒绝运行。Sakura 仅需 TCP 转发并关闭“自动 HTTPS”。证书和私钥不放入仓库。
 

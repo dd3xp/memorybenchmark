@@ -6,6 +6,7 @@ import hashlib
 import hmac
 from http.cookies import CookieError, SimpleCookie
 import json
+import os
 from pathlib import Path
 import re
 import secrets
@@ -14,7 +15,7 @@ import time
 
 
 COOKIE_NAME = "memorybenchmark_session"
-SESSION_SECONDS = 12 * 60 * 60
+SESSION_SECONDS = 180 * 24 * 60 * 60
 
 
 def pin_hash(pin, salt):
@@ -38,8 +39,9 @@ def save_pin(path, pin, *, replace=False):
 
 
 class PinAuth:
-    def __init__(self, path, *, secure_cookie=True, clock=time.monotonic):
-        config = json.loads(Path(path).read_text(encoding="utf-8"))
+    def __init__(self, path, *, secure_cookie=True, clock=time.time):
+        path = Path(path)
+        config = json.loads(path.read_text(encoding="utf-8"))
         if (not isinstance(config, dict) or config.get("scheme") != "scrypt-v1"
                 or not re.fullmatch(r"[0-9a-f]{32}", str(config.get("salt", "")))
                 or not re.fullmatch(r"[0-9a-f]{64}", str(config.get("digest", "")))):
@@ -48,10 +50,45 @@ class PinAuth:
         self.digest = bytes.fromhex(config["digest"])
         self.secure_cookie = secure_cookie
         self.clock = clock
-        self.sessions = {}
+        self.session_path = path.with_name(path.stem + ".sessions.json")
+        self.verifier_id = hashlib.sha256(self.salt + self.digest).hexdigest()
+        self.sessions = self._load_sessions()
         self.failures = deque()
         self.blocked_until = 0
         self.lock = threading.RLock()
+
+    def _load_sessions(self):
+        try:
+            if self.session_path.stat().st_size > 64 * 1024:
+                return {}
+            value = json.loads(self.session_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return {}
+        if (not isinstance(value, dict) or value.get("scheme") != "sessions-v1"
+                or value.get("verifier") != self.verifier_id or not isinstance(value.get("sessions"), dict)):
+            return {}
+        now = self.clock()
+        valid = {token: expires for token, expires in value["sessions"].items()
+                 if re.fullmatch(r"[0-9a-f]{64}", token) and type(expires) in (int, float)
+                 and now < expires <= now + SESSION_SECONDS}
+        return dict(sorted(valid.items(), key=lambda item: item[1], reverse=True)[:128])
+
+    def _save_sessions(self, sessions):
+        # Persist hashes, never bearer cookies or the PIN. Write a private
+        # replacement atomically, then commit the in-memory registry.
+        temporary = self.session_path.with_name(self.session_path.name + "." + secrets.token_hex(8) + ".tmp")
+        try:
+            descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+                json.dump({"scheme": "sessions-v1", "verifier": self.verifier_id, "sessions": sessions}, stream)
+            os.replace(temporary, self.session_path)
+        finally:
+            temporary.unlink(missing_ok=True)
+        self.sessions = sessions
+
+    @staticmethod
+    def _session_key(token):
+        return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
     @staticmethod
     def token(cookie_header):
@@ -63,10 +100,12 @@ class PinAuth:
             return ""
 
     def _expire(self, now):
-        self.sessions = {token: expires for token, expires in self.sessions.items() if expires > now}
+        valid = {token: expires for token, expires in self.sessions.items() if expires > now}
+        if len(valid) != len(self.sessions):
+            self._save_sessions(valid)
 
     def authorized(self, cookie_header):
-        token = self.token(cookie_header)
+        token = self._session_key(self.token(cookie_header))
         with self.lock:
             self._expire(self.clock())
             return token in self.sessions
@@ -89,15 +128,19 @@ class PinAuth:
             self.failures.clear()
             self.blocked_until = 0
             self._expire(now)
-            if len(self.sessions) >= 128:
-                del self.sessions[min(self.sessions, key=self.sessions.get)]
+            sessions = dict(self.sessions)
+            if len(sessions) >= 128:
+                del sessions[min(sessions, key=sessions.get)]
             token = secrets.token_urlsafe(32)
-            self.sessions[token] = now + SESSION_SECONDS
+            sessions[self._session_key(token)] = now + SESSION_SECONDS
+            self._save_sessions(sessions)
             return token, 0
 
     def logout(self, cookie_header):
         with self.lock:
-            self.sessions.pop(self.token(cookie_header), None)
+            sessions = dict(self.sessions)
+            if sessions.pop(self._session_key(self.token(cookie_header)), None) is not None:
+                self._save_sessions(sessions)
 
     def cookie(self, token=""):
         value = f"{COOKIE_NAME}={token}; Path=/; HttpOnly; SameSite=Strict; Max-Age={SESSION_SECONDS if token else 0}"

@@ -10,6 +10,8 @@ dist/
 .env.*
 !.env.example
 *web-auth*.json
+*.sessions.json
+*.sessions.json.*.tmp
 *.pem
 *.key
 *.crt
