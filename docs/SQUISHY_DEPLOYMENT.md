@@ -2,6 +2,8 @@
 
 部署日期：2026-10-16。服务运行在 Squishy 的 Windows 主机上，GA 隔离执行使用该主机的 WSL Ubuntu。
 
+v0.5.0 接入验收（2026-10-20）：实现提交 `4c92c08` 已部署，89 项测试全部通过，真实原生 GA＋隔离环境＋脚本模型的新 MCP 通路、保留／清除及回滚检查通过。[公开 CI](https://github.com/dd3xp/memorybenchmark/actions/runs/39303354419) 矩阵通过。观测服务已重启并使用默认的新旧目录聚合；公网 HTTPS 登录页 200，未登录实验接口 401，证书校验正常。GA 计划任务保持待命，本次没有模型能力实验或新增模型成绩。
+
 2026-10-20 统一 MCP 接入：正式 agent 入口为 `memorybenchmark.experiment --agent ga`，GA 使用宿主的 MCP 客户端连接共用服务；内存传输不新增网络端口，网页仍为 8765。标准 stdio MCP 另用于单任务试玩。安装官方 SDK 的固定版本使用 `python -m pip install -e ".[mcp]"`；服务器将其放在仓库 `.venv`，`start_ga.ps1` 优先使用该环境，也可通过 `-Python` 显式指定。WSL 内的原生 GA 依赖不变。新运行写入 `.runs/agent-cross-session`，默认观测台兼容新旧目录；恢复旧实验仍使用冻结的直接 RPC。
 
 2026-10-19 更新：[雾汀湖 Easy](EASY_LAKE.md) 为默认游玩场景 `lake-easy`，提供 31 个地点和 8 项委托，参考风险次数为 1、2、1、2、2、2、2、2。任务、观察、界面和背景图使用虚构命名。Agent 与人类都能看到已提交的纯地理图，经验记忆仍由 Agent 自主保存。`start_ga.ps1` 默认选用 T1–T8，48 轮任务预算、6 轮整理预算；部署不自动启动模型实验。
