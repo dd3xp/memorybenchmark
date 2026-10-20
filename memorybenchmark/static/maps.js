@@ -57,10 +57,24 @@ window.Cartography = (() => {
       svg.classList.toggle('map-zoomed',svg._base[2]>svg._box[2]);
       const label=document.getElementById(prefix+'-zoom-label');
       if(label)label.textContent=Math.round(100*svg._base[2]/svg._box[2])+'%';
+      if(prefix==='play'){
+        const scale=svg.getScreenCTM()?.a;
+        if(scale>0){
+          // Map geometry zooms; interactive labels and hit targets stay readable.
+          svg.style.setProperty('--map-label-size',14/scale+'px');
+          svg.style.setProperty('--map-id-size',10/scale+'px');
+          svg.style.setProperty('--map-distance-size',11/scale+'px');
+          svg.style.setProperty('--map-label-y',28/scale+'px');
+          svg.style.setProperty('--map-id-y',-23/scale+'px');
+          svg.style.setProperty('--map-hit-radius',22/scale+'px');
+          svg.style.setProperty('--map-marker-scale',1/scale);
+        }
+      }
     };
     const clamp=()=>{
       const [x,y,w,h]=svg._base,b=svg._box;
-      b[0]=Math.max(x,Math.min(x+w-b[2],b[0]));b[1]=Math.max(y,Math.min(y+h-b[3],b[1]));
+      const px=prefix==='play'?b[2]*.45:0,py=prefix==='play'?b[3]*.45:0;
+      b[0]=Math.max(x-px,Math.min(x+w-b[2]+px,b[0]));b[1]=Math.max(y-py,Math.min(y+h-b[3]+py,b[1]));
     };
     function zoom(factor){
       if(!svg._box)return;
@@ -71,18 +85,44 @@ window.Cartography = (() => {
     document.getElementById(prefix+'-zoom-in').onclick=()=>zoom(1/1.4);
     document.getElementById(prefix+'-zoom-out').onclick=()=>zoom(1.4);
     document.getElementById(prefix+'-zoom-reset').onclick=()=>{if(svg._base){svg._box=[...svg._base];apply();}};
-    let drag;
+    // Exposed camera helpers are presentation only and never choose a route.
+    svg._revealPoint=(x,y)=>{
+      if(!svg._box||svg._box[2]>=svg._base[2])return;
+      const b=svg._box,margin=.17;
+      if(x<b[0]+b[2]*margin || x>b[0]+b[2]*(1-margin) || y<b[1]+b[3]*margin || y>b[1]+b[3]*(1-margin)){
+        svg._box=[x-b[2]/2,y-b[3]/2,b[2],b[3]];clamp();apply();
+      }
+    };
+    svg._locate=()=>{
+      if(!svg._base||!svg._focus)return;
+      const [x,y]=svg._focus,w=svg._base[2]/2,h=svg._base[3]/2;
+      svg._box=[x-w/2,y-h/2,w,h];clamp();apply();
+    };
+    const locate=document.getElementById(prefix+'-locate');
+    if(locate)locate.onclick=svg._locate;
+    let drag,suppressClick=false;
     svg.addEventListener('pointerdown',e=>{
+      suppressClick=false;
       if(e.button!==0||!svg._box||svg._box[2]===svg._base[2])return;
-      drag={x:e.clientX,y:e.clientY,box:[...svg._box]};svg.setPointerCapture(e.pointerId);
+      drag={x:e.clientX,y:e.clientY,box:[...svg._box],id:e.pointerId,moved:false};
     });
     svg.addEventListener('pointermove',e=>{
-      if(!drag)return;const rect=svg.getBoundingClientRect();
+      if(!drag||drag.id!==e.pointerId)return;
+      if(!drag.moved && Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<8)return;
+      if(!drag.moved){drag.moved=true;svg.setPointerCapture(e.pointerId);svg.classList.add('map-dragging');}
+      suppressClick=true;
+      const rect=svg.getBoundingClientRect();
       const scale=Math.min(rect.width/drag.box[2],rect.height/drag.box[3]);
       svg._box=[drag.box[0]-(e.clientX-drag.x)/scale,drag.box[1]-(e.clientY-drag.y)/scale,drag.box[2],drag.box[3]];clamp();apply();
     });
-    svg.addEventListener('pointerup',()=>{drag=null;});svg.addEventListener('pointercancel',()=>{drag=null;});
+    const endDrag=()=>{drag=null;svg.classList.remove('map-dragging');};
+    svg.addEventListener('pointerup',endDrag);svg.addEventListener('pointercancel',()=>{endDrag();suppressClick=false;});
+    svg.addEventListener('lostpointercapture',endDrag);
+    svg.addEventListener('click',e=>{if(suppressClick){e.preventDefault();e.stopImmediatePropagation();suppressClick=false;}},true);
+    // Opt in for the human map; read-only viewers keep their normal page scrolling.
+    if(prefix==='play')svg.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY>0?1.18:1/1.18);},{passive:false});
     svg._syncMap=apply;
+    if(prefix==='play')new ResizeObserver(()=>{if(svg._box)apply();}).observe(svg);
   }
   function current(map) {
     if(!map.current_nodes)return map;

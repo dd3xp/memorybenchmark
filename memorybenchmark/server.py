@@ -219,9 +219,9 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     self.reply(service.dispatch(token, {"command": "read"}))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/", "/play", "/watch", "/design", "/design.js", "/design.css", "/app.js", "/style.css", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
+            elif url.path in ("/", "/play", "/watch", "/design", "/design.js", "/design.css", "/app.js", "/style.css", "/play.css", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
                 name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
-                        "/design": "design.html", "/design.js": "design.js", "/design.css": "design.css",
+                        "/design": "design.html", "/design.js": "design.js", "/design.css": "design.css", "/play.css": "play.css",
                         "/watch.js":"watch.js","/watch.css":"watch.css", "/maps.js":"maps.js", "/lake.svg":"lake.svg"}[url.path]
                 mime = "image/svg+xml" if name.endswith(".svg") else ("text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css"))
                 body = (STATIC / name).read_bytes()

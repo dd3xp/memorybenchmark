@@ -188,7 +188,7 @@ class HTTPTests(unittest.TestCase):
             data=json.load(r)
             self.assertEqual(len(data['tasks']),8)
             self.assertEqual(data['scenario'],'lake-easy')
-        for path in ('/maps.js','/lake.svg'):
+        for path in ('/maps.js','/lake.svg','/play.css'):
             with urlopen(self.root+path) as r:
                 self.assertEqual(r.status,200)
 
