@@ -4,25 +4,26 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Cartographer’s Notebook（测绘手记）</title><link rel="stylesheet" href="/play.css">
 </head>
-<body>
+<body class="world-game">
 <header class="game-header">
   <a class="brand" href="/play"><span aria-hidden="true">⌖</span><span>测绘手记<small>Cartographer’s Notebook</small></span></a>
   <span id="region-name" class="region-name">雾汀湖 <span>初级勘测</span></span>
   <nav aria-label="游戏面板">
-    <button id="open-inventory" class="header-button">背包 <kbd>I</kbd><span id="inventory-count" class="badge">0</span></button>
-    <button id="open-journal" class="header-button">记录 <kbd>J</kbd></button>
-    <button id="open-menu" class="header-button">菜单 <span aria-hidden="true">☰</span></button>
+    <button id="open-inventory" class="header-button" aria-label="打开背包"><svg class="hud-icon bag-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5V3h8v2 M5 9q0-4 7-4t7 4v11H5Z M8 13h8v5H8Z M8 9v2 M16 9v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>背包</span> <kbd>I</kbd><span id="inventory-count" class="badge">0</span></button>
+    <button id="open-journal" class="header-button" aria-label="打开记录"><span class="hud-icon" aria-hidden="true">▤</span><span>手记</span> <kbd>J</kbd></button>
+    <button id="open-menu" class="header-button" aria-label="打开菜单"><span class="hud-icon" aria-hidden="true">☰</span><span>菜单</span></button>
   </nav>
 </header>
 <main class="expedition">
   <section class="map-stage" aria-label="探索地图">
     <div class="map-heading"><div><h1 id="sheet-title">雾汀湖</h1><p id="map-caption">每一次出发，都让地图更完整。</p></div><span class="sheet-seal" aria-hidden="true">地理勘测</span></div>
     <div class="map-canvas">
-      <svg id="map" viewBox="0 0 1200 800" role="group" aria-label="探索地图，点击相邻地点直接前往。也可使用 Tab 选择地点，按 Enter 前往。">
+      <svg id="map" data-world="true" viewBox="0 0 1200 800" role="group" aria-label="探索地图，点击相邻地点直接前往。也可使用 Tab 选择地点，按 Enter 前往。">
         <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0 H0 V40" fill="none" stroke="#a6bcb6" stroke-width=".5" opacity=".35"/></pattern></defs>
         <rect x="-1200" y="-800" width="3600" height="2400" fill="url(#grid)"/><g id="edges"></g><g id="recovery-edges"></g><g id="nodes"></g>
         <g class="compass" transform="translate(1140 750)" aria-hidden="true"><path d="M0 -21 L-7 8 L0 4 L7 8Z"/><text y="-31" text-anchor="middle">北</text></g>
       </svg>
+      <div class="weather-veil" aria-hidden="true"></div><div class="screen-vignette" aria-hidden="true"></div>
       <div class="map-controls" aria-label="地图控制">
         <button id="play-locate" title="回到当前位置" aria-label="定位当前位置">⌖</button>
         <button id="play-zoom-in" title="放大" aria-label="放大地图">＋</button>
@@ -33,18 +34,18 @@
       <div id="map-selection" class="map-selection" hidden><div><strong id="selection-name"></strong><p id="selection-description"></p></div><button id="clear-selection" class="icon-button" aria-label="关闭地点信息">×</button></div>
       <p id="map-hint" class="map-hint">从营地出发，点击地图上的相邻地点探索。</p>
     </div>
-    <div class="field-bar">
+    <div class="field-bar"><svg id="portrait" class="portrait" viewBox="-23 -68 46 72" aria-hidden="true"></svg>
       <div id="energy-panel" class="energy-panel"><div><span>体力</span><strong id="stamina">—</strong></div><div class="energy-track" id="energy" role="meter" aria-label="剩余体力" aria-valuemin="0" aria-valuemax="70" aria-valuenow="70"><span id="energy-fill"></span></div></div>
       <div class="weather-panel"><span id="weather-icon" aria-hidden="true">☀</span><span id="conditions">等待出发</span></div>
-      <span id="time" class="world-clock">游戏时间 —</span>
+      <span id="time" class="world-clock">游戏时间 —</span><div class="trip-stats"><span id="distance">路程 —</span><span id="steps">操作 —</span></div>
     </div>
-    <div class="map-footer"><div class="legend"><span><i class="current"></i>当前位置</span><span><i class="reachable"></i>可前往</span><span><i class="submitted"></i>已提交</span><span>△ 营地</span></div><label class="atlas-toggle"><input id="show-atlas" type="checkbox" checked>累计点亮</label></div>
+    <details class="map-footer"><summary>地图图例</summary><div class="legend"><span><i class="current"></i>当前位置</span><span><i class="reachable"></i>可前往</span><span><i class="submitted"></i>已提交</span><span>△ 营地</span></div><label class="atlas-toggle"><input id="show-atlas" type="checkbox" checked>累计点亮</label></details>
   </section>
   <aside class="expedition-panel" aria-label="当前探索">
-    <section class="quest-panel">
+    <section class="quest-panel"><div class="welcome-title"><span class="welcome-mark" aria-hidden="true">⌖</span><p>沿着湖岸，写下你的旅程。</p><h1>测绘手记</h1><span>Cartographer’s Notebook</span></div>
       <div class="panel-caption"><span>当前委托</span><span id="task-stage">1 / 8</span></div>
       <h2 id="task-name">正在读取委托…</h2>
-      <details id="brief" class="brief" open><summary>委托说明</summary><p id="instruction"></p></details>
+      <details id="brief" class="brief"><summary>委托说明</summary><p id="instruction"></p></details>
       <ul id="objectives" class="objectives" aria-label="测绘目标"></ul>
       <p id="camp-status" class="camp-status">到达自动测绘，回到指定营地提交。</p>
       <button id="begin" class="primary wide" data-game disabled>开始探索</button>
@@ -59,10 +60,10 @@
       <p class="action-note">观察与等待也会计入操作次数。</p>
     </section>
     <section class="feedback-panel" aria-label="行动反馈"><div class="panel-caption"><span>现场消息</span><button id="view-log" class="text-button">全部记录</button></div><p id="feedback" role="status" aria-live="polite">准备好后，接下你的第一项委托。</p><p id="recovery-status" class="recovery-status" hidden></p></section>
-    <div class="trip-stats"><span id="distance">路程 —</span><span id="steps">操作 —</span></div>
     <p id="error" class="error" role="alert" hidden></p>
   </aside>
 </main>
+<div id="scene-event" class="scene-event" aria-hidden="true" hidden><strong id="event-title"></strong><p id="event-detail"></p></div>
 <dialog id="notebook" class="notebook" aria-labelledby="notebook-title">
   <div class="dialog-heading"><h2 id="notebook-title">随行手记</h2><button class="icon-button" data-close="notebook" aria-label="关闭随行手记">×</button></div>
   <div class="notebook-tabs" role="tablist" aria-label="手记内容"><button id="tab-inventory" role="tab" aria-controls="inventory-page" aria-selected="true" tabindex="0">随身工具</button><button id="tab-journal" role="tab" aria-controls="journal-page" aria-selected="false" tabindex="-1">现场记录</button><button id="tab-help" role="tab" aria-controls="help-page" aria-selected="false" tabindex="-1">探索指南</button></div>
@@ -70,8 +71,8 @@
   <section id="journal-page" class="notebook-page" role="tabpanel" aria-labelledby="tab-journal" tabindex="0" hidden><p id="empty-log" class="empty-state">出发后，你的行动与发现会记录在这里。</p><ol id="log" class="journal-log"></ol></section>
   <section id="help-page" class="notebook-page help-page" role="tabpanel" aria-labelledby="tab-help" tabindex="0" hidden><h3>在地图上行走</h3><p>点击与当前位置直接相连的地点即可前往。描边突出的地点是当前可走的方向；悬停或键盘选中可查看地名和路程。点击其他已发现地点只查看信息。</p><h3>记录与提交</h3><p>抵达地点会自动测绘。完成委托目标后，回到委托指定的营地提交，成功提交的地理信息会在后续委托中点亮。</p><h3>工具与体力</h3><p>到达有工具的地点后可以取用，携带后自动生效。体力耗尽会返回本项出发营地，工具丢失，测绘进度保留，操作预算不重置。</p><h3>操作方式</h3><p>鼠标点击或触屏轻点地点移动，放大后拖动地图。使用 Tab 选择地点，Enter 或空格前往。<kbd>I</kbd> 背包，<kbd>J</kbd> 记录，<kbd>O</kbd> 观察，<kbd>W</kbd> 等待，<kbd>Esc</kbd> 关闭面板。</p></section>
 </dialog>
-<dialog id="menu" class="game-menu" aria-labelledby="menu-title"><div class="dialog-heading"><h2 id="menu-title">探索菜单</h2><button class="icon-button" data-close="menu" aria-label="关闭菜单">×</button></div><button id="help" class="menu-link">探索指南<span>操作与规则</span></button><a class="menu-link" href="/watch">观察 Agent<span>实验与轨迹回放</span></a><a id="map-design-link" class="menu-link" href="/design?scenario=lake-easy" target="_blank" rel="noopener">地图设计查看<span>包含未探索地点与触发点</span></a><div class="menu-divider"></div><button id="abandon" class="menu-link danger" data-game disabled>结束本次探索<span>保留已经发生的行动记录</span></button><button id="fresh" class="menu-link" data-game>重新开始<span>从第一项委托重新出发</span></button><form method="post" action="/logout"><button class="menu-link" type="submit">退出登录</button></form></dialog>
+<dialog id="menu" class="game-menu" aria-labelledby="menu-title"><div class="dialog-heading"><h2 id="menu-title">探索菜单</h2><button class="icon-button" data-close="menu" aria-label="关闭菜单">×</button></div><button id="sound-toggle" class="menu-link">音效：关</button><button id="fullscreen-toggle" class="menu-link">全屏模式</button><button id="help" class="menu-link">探索指南<span>操作与规则</span></button><a class="menu-link" href="/watch">观察 Agent<span>实验与轨迹回放</span></a><a id="map-design-link" class="menu-link" href="/design?scenario=lake-easy" target="_blank" rel="noopener">地图设计查看<span>包含未探索地点与触发点</span></a><div class="menu-divider"></div><button id="abandon" class="menu-link danger" data-game disabled>结束本次探索<span>保留已经发生的行动记录</span></button><button id="fresh" class="menu-link" data-game>重新开始<span>从第一项委托重新出发</span></button><form method="post" action="/logout"><button class="menu-link" type="submit">退出登录</button></form></dialog>
 <dialog id="confirm-dialog" class="confirmation" aria-labelledby="confirm-title"><h2 id="confirm-title"></h2><p id="confirm-description"></p><div class="dialog-actions"><button id="confirm-cancel" autofocus>继续探索</button><button id="confirm-accept" class="danger-button" data-game>确认</button></div></dialog>
-<script src="/maps.js"></script><script src="/app.js"></script>
+<script src="/scene.js"></script><script src="/maps.js"></script><script src="/app.js"></script>
 </body>
 </html>

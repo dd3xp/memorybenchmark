@@ -42,6 +42,10 @@ fs.mkdirSync(output, {recursive:true});
     await page.locator('#begin:not([disabled])').waitFor();
     await page.screenshot({path:path.join(output,'welcome.png'),fullPage:true});
     await page.locator('#begin').click(); await page.locator('#place-id').filter({hasText:'C0'}).waitFor(); await idle();
+    assert.equal(await page.locator('#explorer').count(),1,'missing explorer character');
+    assert.ok(await page.locator('.world-terrain').count(),'missing game scenery');
+    const sceneBox=await page.locator('#map').boundingBox();
+    assert.equal(sceneBox.width,1440,'scene must fill the viewport');
     await page.screenshot({path:path.join(output,'desktop.png'),fullPage:true});
     assert.equal(await page.locator('.is-neighbor').count(),3);
     assert.equal(await page.locator('#camp-actions').isVisible(),false);
@@ -57,7 +61,10 @@ fs.mkdirSync(output, {recursive:true});
     const doublePoint=await page.locator('[data-map-node="E1"] .node-circle').boundingBox();
     const pending=page.waitForResponse(r=>r.url().endsWith('/api/action'));
     await page.mouse.dblclick(doublePoint.x+doublePoint.width/2,doublePoint.y+doublePoint.height/2,{delay:30});
-    await pending;await idle();await page.unroute('**/api/action');
+    await pending;
+    await page.locator('#explorer.walking').waitFor();
+    await idle();await page.unroute('**/api/action');
+    assert.equal(await page.locator('#explorer').getAttribute('transform'),'translate(1100 150)','character failed to arrive');
     assert.equal(actions,beforeDrag+1,'double click issued a duplicate action');
     assert.equal(await page.locator('#place-id').textContent(),'E1');
     await move('E2',true);
@@ -103,7 +110,11 @@ fs.mkdirSync(output, {recursive:true});
     assert.equal(await page.locator('#stock-section').isVisible(),false);
     await page.keyboard.press('i');assert.equal(await page.locator('.inventory-item').count(),1);
     await page.screenshot({path:path.join(output,'inventory.png')});await page.keyboard.press('Escape');
-    await page.locator('#open-menu').click();await page.locator('#abandon').click();
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#menu').isVisible(),true,'Escape did not open game menu');
+    await page.locator('#sound-toggle').click();assert.match(await page.locator('#sound-toggle').textContent(),/开/);
+    await page.locator('#sound-toggle').click();assert.match(await page.locator('#sound-toggle').textContent(),/关/);
+    await page.locator('#abandon').click();
     await page.locator('#confirm-cancel').click();assert.equal(last.observation.done,false);
     await page.locator('#open-menu').click();await page.locator('#abandon').click();
     await action('#confirm-accept');assert.equal(last.observation.done,true);
@@ -114,10 +125,11 @@ fs.mkdirSync(output, {recursive:true});
       for (const [task,steps] of Object.entries(routes)) {
         assert.equal(last.observation.task_id,task);
         for (const step of steps) {
-          if(step.type==='move')await move(step.target,true);
+          if(step.type==='move')await move(step.target,process.argv[4]!=='pointer');
           else await action(step.type==='take'?`[data-tool="${step.target}"]`:`[data-action="${step.type}"]`);
         }
         assert.equal(last.observation.success,true,task);assert.equal(last.observation.recovery.deaths,0,task);
+        console.log('Completed through UI:',task);
         if(last.observation.next_task_id){await page.locator('#next').click();await idle();}
       }
     }
@@ -132,6 +144,7 @@ fs.mkdirSync(output, {recursive:true});
     assert.equal(await phone.locator('#brief').getAttribute('open'),null);
     await phone.locator('[data-map-node="E1"] .node-circle').tap();
     await phone.locator('#place-id').filter({hasText:'E1'}).waitFor();
+    await phone.locator('.map-stage[aria-busy="false"]').waitFor();
     assert.equal(await phone.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'mobile horizontal overflow');
     const labelSize=await phone.locator('.is-neighbor .node-label').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize)*el.getScreenCTM().a);
     assert.ok(labelSize>=13.9,'mobile map labels too small');
@@ -141,6 +154,12 @@ fs.mkdirSync(output, {recursive:true});
       await page.setViewportSize({width,height});
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`overflow at ${width}`);
     }
+    // Reduced motion skips the walk, while preserving the same game step.
+    await phone.keyboard.press('Escape');await phone.emulateMedia({reducedMotion:'reduce'});
+    const reducedResponse=phone.waitForResponse(r=>r.url().endsWith('/api/action'));
+    await phone.locator('[data-map-node="E2"]').focus();await phone.keyboard.press('Enter');await reducedResponse;
+    await phone.locator('.map-stage[aria-busy="false"]').waitFor();
+    assert.equal(await phone.locator('#explorer.walking').count(),0);
     await mobile.close();assert.deepEqual(errors,[],'browser exceptions');
     console.log('PASS: direct map moves, keyboard, drag, duplicate suppression, inspect-only nodes, refresh, camp submission, atlas, respawn, tools, dialogs, mobile and shared viewers.');
     if(process.argv[3])console.log('PASS: all 8 commissions completed through the UI with tools and zero deaths.');

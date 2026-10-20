@@ -20,4 +20,4 @@ memorybenchmark-run = "memorybenchmark.experiment:main"
 include = ["memorybenchmark*"]
 
 [tool.setuptools.package-data]
-memorybenchmark = ["data/*.json", "static/*.html", "static/*.css", "static/*.js", "static/*.svg"]
+memorybenchmark = ["data/*.json", "static/*.html", "static/*.css", "static/*.js", "static/*.svg", "static/*.png"]

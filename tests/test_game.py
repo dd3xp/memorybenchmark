@@ -188,9 +188,12 @@ class HTTPTests(unittest.TestCase):
             data=json.load(r)
             self.assertEqual(len(data['tasks']),8)
             self.assertEqual(data['scenario'],'lake-easy')
-        for path in ('/maps.js','/lake.svg','/play.css'):
+        for path in ('/maps.js','/lake.svg','/play.css','/scene.js','/terrain-ground.png'):
             with urlopen(self.root+path) as r:
                 self.assertEqual(r.status,200)
+                if path.endswith('.png'):
+                    self.assertEqual(r.headers.get_content_type(),'image/png')
+                    self.assertTrue(r.read().startswith(b'\x89PNG\r\n\x1a\n'))
 
 
 if __name__ == "__main__":

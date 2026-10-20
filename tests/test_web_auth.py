@@ -64,7 +64,7 @@ class WebAuthTests(unittest.TestCase):
         return headers
 
     def test_unauthenticated_requests_cannot_read_or_change_games(self):
-        for path in ("/", "/watch", "/play", "/design", "/design.js", "/design.css", "/watch.js", "/app.js", "/watch.css", "/style.css", "/play.css", "/maps.js", "/lake.svg"):
+        for path in ("/", "/watch", "/play", "/design", "/design.js", "/design.css", "/watch.js", "/app.js", "/watch.css", "/style.css", "/play.css", "/scene.js", "/terrain-ground.png", "/maps.js", "/lake.svg"):
             status, headers, body = self.request(path)
             self.assertEqual(status, 303, path)
             self.assertTrue(headers["Location"].startswith("/login"))
@@ -88,7 +88,7 @@ class WebAuthTests(unittest.TestCase):
         for attribute in ("HttpOnly", "Secure", "SameSite=Strict", "Path=/"):
             self.assertIn(attribute, headers["Set-Cookie"])
         self.assertIn("Max-Age=15552000", headers["Set-Cookie"])
-        for path in ("/", "/watch", "/play", "/play.css", "/design", "/design.js", "/design.css", "/api/design?scenario=lake-easy", "/watch.js", "/api/watch/runs", "/health"):
+        for path in ("/", "/watch", "/play", "/play.css", "/scene.js", "/terrain-ground.png", "/design", "/design.js", "/design.css", "/api/design?scenario=lake-easy", "/watch.js", "/api/watch/runs", "/health"):
             self.assertEqual(self.request(path, cookie=self.cookie)[0], 200, path)
         status, _, body = self.request("/api/start", "POST", {"task_id": "T1"}, cookie=self.cookie)
         self.assertEqual(status, 200)

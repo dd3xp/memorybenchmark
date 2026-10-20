@@ -54,7 +54,7 @@ function draw(o) {
   map.edges.forEach(([a,b])=>{
     if (!nodes[a] || !nodes[b]) return;
     const adjacent=!o.done && (a===o.location.id || b===o.location.id);
-    $('edges').append(svg('line',{x1:nodes[a].x,y1:nodes[a].y,x2:nodes[b].x,y2:nodes[b].y,class:`route-line${adjacent?' reachable':''}`}));
+    $('edges').append(WorldScene.route(nodes[a],nodes[b],adjacent));
     const route=adjacent && neighbors.get(a===o.location.id?b:a);
     if (route) $('edges').append(svg('text',{x:(nodes[a].x+nodes[b].x)/2+10,y:(nodes[a].y+nodes[b].y)/2-8,class:'distance-label'},`路程 ${route.distance}`));
   });
@@ -78,10 +78,11 @@ function draw(o) {
     const hint=()=>{$('map-hint').textContent=neighbor?`点击前往${n.name} · 路程 ${neighbor.distance}`:here?`当前位置：${n.name}`:`查看${n.name}的地理信息`;};
     group.addEventListener('mouseenter',hint); group.addEventListener('focus',()=>{if(group.matches(':focus-visible'))mapSvg._revealPoint?.(n.x,n.y);hint();});
     group.addEventListener('mouseleave',()=>$('map-hint').textContent=defaultHint()); group.addEventListener('blur',()=>$('map-hint').textContent=defaultHint());
-    $('nodes').append(group);
+    WorldScene.decorate(group,n,map.submitted.has(n.id));$('nodes').append(group);
   });
   if (focused) [...$('nodes').children].find(n=>n.dataset.mapNode===focused)?.focus({preventScroll:true});
   $('map-caption').textContent=`本次测绘 ${o.map.surveyed.length} 处，累计点亮 ${submittedAtlas.surveyed.length} 处`;
+  WorldScene.sync(mapSvg,o,map);
 }
 function renderInventory(o) {
   $('inventory-count').textContent=o.inventory.length; $('inventory').replaceChildren();
@@ -102,11 +103,15 @@ function syncControls() {
 function update(result,{addEntry=true}={}) {
   const previous=observation; observation=result.observation; instance=result.instance_id;
   const o=observation, objective=o.objective;
+  document.body.classList.add('is-playing');
+  document.body.classList.toggle('has-stock',Boolean(o.available_tools.length));
+  document.body.classList.toggle('can-submit',Boolean(objective?.at_submission_camp));
+  document.body.classList.toggle('task-ended',o.done);
   $('task-name').textContent=o.task_name; $('instruction').textContent=o.instruction; $('task-stage').textContent=`${o.task_id.replace(/^T/,'')} / ${taskCount}`;
   $('objectives').replaceChildren();
   (objective?.targets||[]).forEach(target=>{const item=html('li',target.recorded?'recorded':'');item.append(html('span','objective-icon',target.recorded?'✓':'○'),document.createTextNode(target.name));item.setAttribute('aria-label',`${target.name}，${target.recorded?'已测绘':'待测绘'}`);$('objectives').append(item);});
   const allRecorded=objective?.targets.every(n=>n.recorded), campNames=objective?.submission_camps.map(n=>n.name).join('、');
-  $('camp-status').textContent=objective?(objective.ready?'已抵达提交营地，可以交付记录。':`${allRecorded?'测绘完成，返回':'提交营地：'}${campNames}${allRecorded?'交付记录。':''}`):'完成测绘后提交记录。';
+  $('camp-status').textContent=o.done?(o.success?'记录已入册，本项委托完成。':'本项委托已结束。'):objective?(objective.ready?'已抵达提交营地，可以交付记录。':`${allRecorded?'测绘完成，返回':'提交营地：'}${campNames}${allRecorded?'交付记录。':''}`):'完成测绘后提交记录。';
   $('camp-status').classList.toggle('ready',Boolean(objective?.ready));
   $('begin').hidden=true; $('play').hidden=o.done; $('ending').hidden=!o.done;
   $('place').textContent=o.location.name; $('place-id').textContent=o.location.id;
@@ -138,9 +143,11 @@ async function run(action) {
   try{await action();}catch(error){notice(error.message||'连接失败，请稍后重试。');}finally{busy=false;syncControls();}
 }
 async function receive(result,options) {
+  const before=observation;
   // Do not lose an executed action if the separate atlas request fails.
   if(instance!==result.instance_id || result.observation.success){try{submittedAtlas=await request('/api/atlas?instance_id='+encodeURIComponent(result.instance_id));}catch(_){notice('已收到游戏结果，累计地图暂时无法更新。刷新页面可重试。');}}
   update(result,options);
+  if(options?.addEntry!==false)await WorldScene.transition($('map'),before,result);
 }
 function start(task,fresh=false) {
   return run(async()=>{const result=await request('/api/start',{task_id:task,scenario,...(!fresh&&instance?{instance_id:instance}:{})});journal=[];await receive(result);});
@@ -174,6 +181,8 @@ $('confirm-accept').onclick=()=>{$('confirm-dialog').close();confirmAction?.();}
 $('confirm-cancel').onclick=()=>{$('confirm-dialog').close();confirmAction=null;};
 $('open-inventory').onclick=()=>openNotebook('inventory'); $('open-journal').onclick=$('view-log').onclick=()=>openNotebook('journal');
 $('help').onclick=()=>openNotebook('help'); $('open-menu').onclick=()=>$('menu').showModal();
+$('sound-toggle').onclick=WorldScene.toggleSound;
+$('fullscreen-toggle').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(_){notice('当前浏览器不支持全屏，可以继续在此窗口探索。');}};
 document.querySelectorAll('[data-close]').forEach(button=>button.onclick=()=>$(button.dataset.close).close());
 document.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>act(button.dataset.action));
 document.querySelectorAll('[role=tab]').forEach(button=>{
@@ -194,7 +203,10 @@ document.addEventListener('keydown',event=>{
   const key=event.key.toLowerCase();
   if(key==='i'){event.preventDefault();openNotebook('inventory');}if(key==='j'){event.preventDefault();openNotebook('journal');}
   if(key==='o' && observation && !observation.done){event.preventDefault();act('observe');}if(key==='w' && observation && !observation.done){event.preventDefault();act('wait');}
-  if(key==='escape'){selection=null;$('map-selection').hidden=true;draw(observation);}
+  if(key==='escape'){
+    if(selection){selection=null;$('map-selection').hidden=true;draw(observation);}
+    else $('menu').showModal();
+  }
 });
 Cartography.controls($('map'),'play'); Cartography.prepare($('map'),{environment:{id:'lake-easy'}});
 if(matchMedia('(max-width:760px)').matches)$('brief').open=false;

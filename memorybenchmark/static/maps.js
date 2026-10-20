@@ -27,7 +27,7 @@ window.Cartography = (() => {
   function prepare(svg,o) {
     let terrain=svg.querySelector('.terrain');
     const lake=o.environment?.id==='lake-easy';
-    if(lake&&!terrain) {
+    if(lake&&!terrain&&svg.dataset.world!=='true') {
       terrain=document.createElementNS(NS,'image'); terrain.setAttribute('href','/lake.svg');
       terrain.setAttribute('width','1200'); terrain.setAttribute('height','800');
       terrain.setAttribute('class','terrain'); terrain.setAttribute('aria-hidden','true');
@@ -42,6 +42,7 @@ window.Cartography = (() => {
     }
     svg._focus=o.location?[o.location.x,o.location.y]:[base[2]/2,base[3]/2];
     svg.classList.toggle('lake-map',lake);
+    if(svg.dataset.world==='true')window.WorldScene?.prepare(svg,o);
     const compass=svg.querySelector('.compass');
     if(compass)compass.setAttribute('transform',lake?'translate(1140 750)':(svg.id==='map'?'translate(755 66)':'translate(756 42)'));
     return lake;
@@ -95,7 +96,8 @@ window.Cartography = (() => {
     };
     svg._locate=()=>{
       if(!svg._base||!svg._focus)return;
-      const [x,y]=svg._focus,w=svg._base[2]/2,h=svg._base[3]/2;
+      const [x,y]=svg._focus,w=svg.dataset.world==='true'?(innerWidth<760?480:600):svg._base[2]/2;
+      const h=svg.dataset.world==='true'?w*svg.clientHeight/svg.clientWidth:svg._base[3]/2;
       svg._box=[x-w/2,y-h/2,w,h];clamp();apply();
     };
     const locate=document.getElementById(prefix+'-locate');
@@ -112,7 +114,7 @@ window.Cartography = (() => {
       if(!drag.moved){drag.moved=true;svg.setPointerCapture(e.pointerId);svg.classList.add('map-dragging');}
       suppressClick=true;
       const rect=svg.getBoundingClientRect();
-      const scale=Math.min(rect.width/drag.box[2],rect.height/drag.box[3]);
+      const scale=svg.getScreenCTM()?.a||Math.min(rect.width/drag.box[2],rect.height/drag.box[3]);
       svg._box=[drag.box[0]-(e.clientX-drag.x)/scale,drag.box[1]-(e.clientY-drag.y)/scale,drag.box[2],drag.box[3]];clamp();apply();
     });
     const endDrag=()=>{drag=null;svg.classList.remove('map-dragging');};
@@ -122,7 +124,14 @@ window.Cartography = (() => {
     // Opt in for the human map; read-only viewers keep their normal page scrolling.
     if(prefix==='play')svg.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY>0?1.18:1/1.18);},{passive:false});
     svg._syncMap=apply;
-    if(prefix==='play')new ResizeObserver(()=>{if(svg._box)apply();}).observe(svg);
+    if(prefix==='play')new ResizeObserver(()=>{
+      if(!svg._box)return;
+      if(svg.dataset.world==='true'&&svg._box[2]<svg._base[2]){
+        const b=svg._box,h=b[2]*svg.clientHeight/svg.clientWidth;
+        svg._box=[b[0],b[1]+(b[3]-h)/2,b[2],h];clamp();
+      }
+      apply();
+    }).observe(svg);
   }
   function current(map) {
     if(!map.current_nodes)return map;
