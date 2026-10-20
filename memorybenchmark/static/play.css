@@ -140,6 +140,52 @@ ul,ol {
 .map-canvas>svg.map-dragging {
   cursor:grabbing
 }
+.map-stage[aria-busy=true] .map-dragging .map-node,.map-dragging .map-node {
+  cursor:grabbing
+}
+/* Information floats above the world; only actual controls consume input. */
+.is-playing .field-bar,.is-playing .map-heading,.is-playing .feedback-panel,.is-playing .quest-panel {
+  pointer-events:none
+}
+.is-playing .feedback-panel button,.is-playing .quest-panel button,.is-playing .quest-panel .brief {
+  pointer-events:auto
+}
+.map-controls button:active {
+  background:#9bae6766;
+  transform:translateY(1px)
+}
+.map-controls #play-locate {
+  position:relative;
+  min-height:52px
+}
+.map-controls #play-locate[aria-pressed=true] {
+  background:#8d9f5e42;
+  color:#f8eab8
+}
+.camera-mode {
+  display:block;
+  font-size:10px;
+  line-height:1.2
+}
+.journey-status {
+  font-size:12px;
+  color:#536540;
+  margin-top:6px
+}
+.journey-status::before {
+  content:'◌';
+  display:inline-block;
+  margin-right:6px;
+  animation:journey-turn 1.2s linear infinite
+}
+@keyframes journey-turn {
+  to {transform:rotate(360deg)}
+}
+.route-line.travelling {
+  stroke:#fff0b3;
+  stroke-width:4;
+  filter:drop-shadow(0 0 3px #ead59066)
+}
 .terrain,.world-fog,.compass {
   pointer-events:none
 }
@@ -1350,7 +1396,7 @@ dialog::backdrop {
     margin-top:10px
   }
   .feedback-panel {
-    bottom:175px;
+    bottom:var(--dock-clearance,175px);
     left:15px;
     width:calc(100% - 95px);
     padding:7px 10px;
@@ -1358,7 +1404,7 @@ dialog::backdrop {
     background:#17362be6
   }
   .feedback-panel>p {
-    font-size:10px;
+    font-size:12px;
     line-height:1.7;
     max-height:51px
   }
@@ -1370,22 +1416,22 @@ dialog::backdrop {
     max-height:34px
   }
   .has-stock .feedback-panel {
-    bottom:303px
+    bottom:var(--dock-clearance,303px)
   }
   .can-submit .feedback-panel {
-    bottom:259px
+    bottom:var(--dock-clearance,259px)
   }
   .map-hint {
     display:none
   }
   .map-controls {
     right:14px;
-    bottom:184px;
+    bottom:var(--dock-clearance,184px);
     padding:2px
   }
   .map-controls button {
-    width:42px;
-    min-height:40px;
+    width:44px;
+    min-height:44px;
     font-size:19px
   }
   .map-controls>span {

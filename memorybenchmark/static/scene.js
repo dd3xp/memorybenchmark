@@ -4,6 +4,8 @@ window.WorldScene = (() => {
   const NS = 'http://www.w3.org/2000/svg';
   const lakePath = 'M240 580 C300 550 340 500 400 470 L930 190 Q1000 150 1040 205 L1010 280 Q890 370 800 405 L390 600 Q290 650 240 580Z';
   let audio, soundEnabled = false;
+  try{soundEnabled=localStorage.getItem('cartography.sound')==='on';}catch(_){/* Optional preference. */}
+  document.getElementById('sound-toggle').textContent=`音效：${soundEnabled?'开':'关'}`;
   const reduced = () => matchMedia('(prefers-reduced-motion:reduce)').matches;
   function make(tag, attrs={}, text) {
     const node=document.createElementNS(NS,tag);
@@ -152,7 +154,7 @@ window.WorldScene = (() => {
     if(moved && !death && !reduced()){
       const line=[...svg.querySelectorAll('.route-line')].find(p=>[p.dataset.from,p.dataset.to].includes(before.location.id)&&[p.dataset.from,p.dataset.to].includes(o.location.id));
       const length=line?.getTotalLength(),reverse=line?.dataset.from!==before.location.id;
-      position(svg,before.location.x,before.location.y);hero.classList.add('walking');tone('move');
+      position(svg,before.location.x,before.location.y);hero.classList.add('walking');line?.classList.add('travelling');tone('move');
       await new Promise(resolve=>{
         let start;
         const tick=now=>{start??=now;const t=Math.min(1,(now-start)/380);let point;
@@ -160,7 +162,7 @@ window.WorldScene = (() => {
           position(svg,point.x,point.y);
           if(t<1)requestAnimationFrame(tick);else resolve();};requestAnimationFrame(tick);
       });
-      hero.classList.remove('walking');position(svg,o.location.x,o.location.y);
+      hero.classList.remove('walking');line?.classList.remove('travelling');position(svg,o.location.x,o.location.y);
     }
     if(death){tone('danger');showEvent('返回营地','体力耗尽，工具丢失；测绘进度保留。','danger');}
     else if(result.outcome==='success'){tone('success');showEvent('委托完成','这次旅途的地理记录，已经写入手记。','success');}
@@ -169,6 +171,6 @@ window.WorldScene = (() => {
     else if(o.objective?.targets.some(t=>t.recorded&&!before.objective?.targets.find(n=>n.id===t.id)?.recorded))showEvent('测绘完成',`已记录${o.location.name}，请到指定营地提交。`,'discovery');
     if(spent>10 || death){document.body.classList.remove('hurt');void document.body.offsetWidth;document.body.classList.add('hurt');}
   }
-  function toggleSound(){soundEnabled=!soundEnabled;document.getElementById('sound-toggle').textContent=`音效：${soundEnabled?'开':'关'}`;tone('take');}
+  function toggleSound(){soundEnabled=!soundEnabled;try{localStorage.setItem('cartography.sound',soundEnabled?'on':'off');}catch(_){/* Optional preference. */}document.getElementById('sound-toggle').textContent=`音效：${soundEnabled?'开':'关'}`;tone('take');}
   return {prepare,decorate,route,sync,transition,toggleSound};
 })();

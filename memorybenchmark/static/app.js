@@ -18,7 +18,8 @@ function svg(type, attrs, text) {
   return item;
 }
 function remember() {
-  try { sessionStorage.setItem(storageKey, JSON.stringify({instance, journal, taskRun:observation?.task_run_id})); } catch (_) { /* Storage is optional. */ }
+  if(!instance || !observation)return;
+  try { sessionStorage.setItem(storageKey, JSON.stringify({instance, journal, taskRun:observation?.task_run_id,camera:$('map')._getCamera?.()})); } catch (_) { /* Storage is optional. */ }
 }
 function notice(message = '') { $('error').textContent=message; $('error').hidden=!message; }
 async function request(path, body) {
@@ -76,11 +77,13 @@ function draw(o) {
     group.addEventListener('click',()=>pickNode(n));
     group.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();if(!event.repeat)pickNode(n);}});
     const hint=()=>{$('map-hint').textContent=neighbor?`点击前往${n.name} · 路程 ${neighbor.distance}`:here?`当前位置：${n.name}`:`查看${n.name}的地理信息`;};
-    group.addEventListener('mouseenter',hint); group.addEventListener('focus',()=>{if(group.matches(':focus-visible'))mapSvg._revealPoint?.(n.x,n.y);hint();});
+    group.addEventListener('mouseenter',hint); group.addEventListener('focus',()=>{if(!mapSvg._restoringFocus && group.matches(':focus-visible'))mapSvg._revealPoint?.(n.x,n.y);hint();});
     group.addEventListener('mouseleave',()=>$('map-hint').textContent=defaultHint()); group.addEventListener('blur',()=>$('map-hint').textContent=defaultHint());
     WorldScene.decorate(group,n,map.submitted.has(n.id));$('nodes').append(group);
   });
+  mapSvg._restoringFocus=true;
   if (focused) [...$('nodes').children].find(n=>n.dataset.mapNode===focused)?.focus({preventScroll:true});
+  mapSvg._restoringFocus=false;
   $('map-caption').textContent=`本次测绘 ${o.map.surveyed.length} 处，累计点亮 ${submittedAtlas.surveyed.length} 处`;
   WorldScene.sync(mapSvg,o,map);
 }
@@ -98,6 +101,7 @@ function syncControls() {
   $('begin').disabled=busy || !loaded; $('abandon').disabled=busy || !observation || observation.done;
   $('submit').disabled=busy || !observation || observation.done || Boolean(observation.objective && !observation.objective.ready);
   $('map').closest('.map-stage').setAttribute('aria-busy',String(busy));
+  $('journey-status').hidden=!busy;
   document.querySelectorAll('[data-map-node]').forEach(node=>node.setAttribute('aria-disabled',String(busy)));
 }
 function update(result,{addEntry=true}={}) {
@@ -135,7 +139,8 @@ function update(result,{addEntry=true}={}) {
   if(addEntry)journal.push({task:o.task_id,time:o.world_time,feedback:result.feedback});
   journal=journal.slice(-150); renderJournal(); $('feedback').textContent=result.feedback||'已恢复当前探索。'; $('map-hint').textContent=defaultHint();
   selection=null; $('map-selection').hidden=true; draw(o);
-  if(!previous || previous.task_run_id!==o.task_run_id)$('map')._locate?.(); else $('map')._revealPoint?.(o.location.x,o.location.y);
+  if(!previous || previous.task_run_id!==o.task_run_id)$('map')._locate?.({immediate:true});
+  else if(previous.location.id!==o.location.id)$('map')._followPoint?.(o.location.x,o.location.y);
   syncControls(); remember();
 }
 async function run(action) {
@@ -153,7 +158,9 @@ function start(task,fresh=false) {
   return run(async()=>{const result=await request('/api/start',{task_id:task,scenario,...(!fresh&&instance?{instance_id:instance}:{})});journal=[];await receive(result);});
 }
 function act(type,target) {
-  if(!instance || !observation || observation.done)return;
+  if(busy || !instance || !observation || observation.done)return;
+  const destination=observation.map.nodes.find(n=>n.id===target);
+  $('journey-status').textContent=type==='move'?`正在前往${destination?.name||target}…`:'正在记录行动…';
   return run(async()=>{
     const body={instance_id:instance,request_id:crypto.randomUUID(),expected_revision:observation.revision,action:{type,...(target?{target}:{})}};
     try{await receive(await request('/api/action',body));}catch(error){
@@ -202,6 +209,10 @@ document.addEventListener('keydown',event=>{
   if(event.ctrlKey || event.altKey || event.metaKey || event.repeat || event.target.closest('input,textarea,select,[contenteditable=true]') || document.querySelector('dialog[open]'))return;
   const key=event.key.toLowerCase();
   if(key==='i'){event.preventDefault();openNotebook('inventory');}if(key==='j'){event.preventDefault();openNotebook('journal');}
+  if(key==='f'){event.preventDefault();$('map')._locate?.();}
+  if(key==='+' || key==='='){event.preventDefault();$('play-zoom-in').click();}
+  if(key==='-'){event.preventDefault();$('play-zoom-out').click();}
+  if(key==='home'){event.preventDefault();$('play-zoom-reset').click();}
   if(key==='o' && observation && !observation.done){event.preventDefault();act('observe');}if(key==='w' && observation && !observation.done){event.preventDefault();act('wait');}
   if(key==='escape'){
     event.preventDefault();
@@ -210,6 +221,12 @@ document.addEventListener('keydown',event=>{
   }
 });
 Cartography.controls($('map'),'play'); Cartography.prepare($('map'),{environment:{id:'lake-easy'}});
+window.addEventListener('pagehide',remember);
+// Taller tool/camp panels must push floating controls up, rather than cover them.
+new ResizeObserver(()=>{
+  const dock=$('play');
+  if(!dock.hidden)document.documentElement.style.setProperty('--dock-clearance',Math.ceil(innerHeight-dock.getBoundingClientRect().top+14)+'px');
+}).observe($('play'));
 if(matchMedia('(max-width:760px)').matches)$('brief').open=false;
 async function boot() {
   try{
@@ -224,6 +241,7 @@ async function boot() {
       const result=await request('/api/observation?instance_id='+encodeURIComponent(saved.instance));
       journal=saved.taskRun===result.observation.task_run_id && Array.isArray(saved.journal)?saved.journal.filter(entry=>entry && typeof entry.feedback==='string').slice(-150):[];
       await receive(result,{addEntry:false});
+      if(saved.taskRun===result.observation.task_run_id)$('map')._restoreCamera?.(saved.camera);
     }catch(_){try{sessionStorage.removeItem(storageKey);}catch(_){/* Optional. */}$('feedback').textContent='上次探索已不可用。接下委托，开始一次新的探索。';}}
   }catch(error){notice(error.message);}syncControls();
 }

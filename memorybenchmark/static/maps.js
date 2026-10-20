@@ -52,6 +52,7 @@ window.Cartography = (() => {
     return !svg.classList.contains('lake-map') || n.id===o.location.id || n.kind==='camp' || targets.includes(n.id);
   }
   function controls(svg,prefix) {
+    if(prefix==='play' && svg.dataset.world==='true')return worldControls(svg);
     const apply=()=>{
       svg.setAttribute('viewBox',svg._box.join(' '));
       svg.classList.toggle('map-detail',svg._base[2]/svg._box[2]>=1.5);
@@ -131,6 +132,217 @@ window.Cartography = (() => {
         svg._box=[b[0],b[1]+(b[3]-h)/2,b[2],h];clamp();
       }
       apply();
+    }).observe(svg);
+  }
+  // The human world has its own camera. It never creates game actions, discovers
+  // locations, or changes the graph shown by the public observation.
+  function worldControls(svg) {
+    const pointers=new Map(), reduced=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const locate=document.getElementById('play-locate'), label=document.getElementById('play-zoom-label');
+    let following=true, gesture=null, suppressUntil=0, animation=0, overview=false;
+    let queued=null, frame=0;
+    const aspect=()=>Math.max(1,svg.clientWidth)/Math.max(1,svg.clientHeight);
+    const fitWidth=()=>Math.max(svg._base[2],svg._base[3]*aspect());
+    const minWidth=()=>svg._base[2]/4;
+    function clamp(box) {
+      const [x,y,w,h]=svg._base;
+      // Limit the camera centre, not the pointer's original displacement. The
+      // next reversed pixel works immediately, including at the world boundary.
+      box[0]=Math.max(x-box[2]/2,Math.min(x+w-box[2]/2,box[0]));
+      box[1]=Math.max(y-box[3]/2,Math.min(y+h-box[3]/2,box[1]));
+      return box;
+    }
+    function render() {
+      if(!svg._box)return;
+      const b=svg._box, scale=svg.clientWidth/b[2];
+      svg.setAttribute('viewBox',b.join(' '));
+      svg.classList.toggle('map-detail',svg._base[2]/b[2]>=1.5);
+      svg.classList.toggle('map-zoomed',b[2]<fitWidth()-.1);
+      svg.dataset.camera=following?'follow':'free';
+      label.textContent=Math.round(100*fitWidth()/b[2])+'%';
+      locate.setAttribute('aria-pressed',String(following));
+      locate.title=following?'镜头跟随中 · F 重新定位':'自由查看中 · F 回到角色并跟随';
+      locate.setAttribute('aria-label',locate.title);
+      document.getElementById('camera-mode').textContent=following?'跟随':'定位';
+      document.getElementById('play-zoom-in').disabled=b[2]<=minWidth()+.1;
+      document.getElementById('play-zoom-out').disabled=b[2]>=fitWidth()-.1;
+      svg.style.setProperty('--map-label-size',14/scale+'px');
+      svg.style.setProperty('--map-id-size',10/scale+'px');
+      svg.style.setProperty('--map-distance-size',11/scale+'px');
+      svg.style.setProperty('--map-label-y',28/scale+'px');
+      svg.style.setProperty('--map-id-y',-23/scale+'px');
+      svg.style.setProperty('--map-hit-radius',22/scale+'px');
+      svg.style.setProperty('--map-marker-scale',1/scale);
+    }
+    function stop() {cancelAnimationFrame(animation);animation=0;queued=null;}
+    function set(box) {svg._box=clamp(box);render();}
+    function animate(box,immediate=false) {
+      stop();box=clamp(box);
+      if(immediate || reduced()){set(box);return;}
+      const from=[...svg._box], start=performance.now();queued=box;
+      const tick=now=>{
+        const t=Math.min(1,(now-start)/180), ease=1-(1-t)**3;
+        set(from.map((v,i)=>v+(box[i]-v)*ease));
+        if(t<1)animation=requestAnimationFrame(tick);else{animation=0;queued=null;}
+      };
+      animation=requestAnimationFrame(tick);
+    }
+    function manual() {stop();following=false;overview=false;}
+    function clientPoint(x,y,box=svg._box) {
+      const rect=svg.getBoundingClientRect(),scale=rect.width/box[2];
+      return [box[0]+(x-rect.left)/scale,box[1]+(y-rect.top)/scale];
+    }
+    function zoom(factor,x,y,smooth=false) {
+      if(!svg._box)return;
+      const rect=svg.getBoundingClientRect(), b=[...(queued||svg._box)];
+      x??=rect.left+rect.width/2;y??=rect.top+rect.height/2;
+      const point=clientPoint(x,y,b),w=Math.max(minWidth(),Math.min(fitWidth(),b[2]*factor)),ratio=w/b[2];
+      overview=false;
+      animate([point[0]-(point[0]-b[0])*ratio,point[1]-(point[1]-b[1])*ratio,w,w/aspect()],!smooth);
+    }
+    function safeRect() {
+      const rect=svg.getBoundingClientRect(),w=rect.width,h=rect.height;
+      let left=24,right=w-24,top=24,bottom=h-100;
+      const bounds=selector=>{const e=document.querySelector(selector);return e && e.getClientRects().length?e.getBoundingClientRect():null;};
+      const field=bounds('.field-bar'),quest=bounds('.quest-panel'),dock=bounds('.location-panel');
+      if(field)top=Math.max(top,field.bottom-rect.top+20);
+      if(quest){if(w<=760)top=Math.max(top,quest.bottom-rect.top+20);else right=Math.min(right,quest.left-rect.left-24);}
+      if(dock)bottom=Math.min(bottom,dock.top-rect.top-26);
+      // Keep a usable camera window even in a short landscape phone viewport.
+      if(right-left<160){left=16;right=w-16;}
+      if(bottom-top<140){top=h*.27;bottom=h*.7;}
+      return {left,right,top,bottom};
+    }
+    function centred(x,y,w) {
+      const safe=safeRect(),scale=svg.clientWidth/w;
+      return [x-(safe.left+safe.right)/2/scale,y-(safe.top+safe.bottom)/2/scale,w,w/aspect()];
+    }
+    function reveal(x,y,{force=false,immediate=false}={}) {
+      if(!svg._box || gesture || (!following && !force))return;
+      const safe=safeRect(),b=svg._box,scale=svg.clientWidth/b[2],px=(x-b[0])*scale,py=(y-b[1])*scale;
+      if(px<safe.left+32 || px>safe.right-32 || py<safe.top+32 || py>safe.bottom-32){
+        if(force)manual();
+        animate(centred(x,y,b[2]),immediate);
+      }
+    }
+    svg._locate=({immediate=false}={})=>{
+      if(!svg._base||!svg._focus)return;
+      stop();following=true;overview=false;
+      const w=Math.min(fitWidth(),svg.clientWidth<=760?480:600);
+      animate(centred(...svg._focus,w),immediate);
+    };
+    // Keyboard focus deliberately reveals a node; restoring focus after redraw
+    // must not steal the camera back from a player inspecting somewhere else.
+    svg._revealPoint=(x,y)=>reveal(x,y,{force:true,immediate:true});
+    svg._followPoint=(x,y,immediate=false)=>reveal(x,y,{immediate});
+    svg._syncMap=()=>{
+      if(!svg._box)return;
+      stop();const b=svg._box,h=b[2]/aspect();svg._box=[b[0],b[1]+(b[3]-h)/2,b[2],h];render();
+    };
+    svg._getCamera=()=>svg._box?{box:[...svg._box],following,overview,key:svg._mapKey}:null;
+    svg._restoreCamera=camera=>{
+      if(!camera || camera.key!==svg._mapKey || !Array.isArray(camera.box) || camera.box.length!==4 || !camera.box.every(Number.isFinite))return;
+      const b=camera.box;
+      if(b[2]<minWidth() || b[2]>fitWidth()+1 || b[3]<=0)return;
+      stop();following=camera.following===true;overview=camera.overview===true;
+      set([b[0],b[1]+(b[3]-b[2]/aspect())/2,b[2],b[2]/aspect()]);
+    };
+    locate.onclick=()=>svg._locate();
+    document.getElementById('play-zoom-in').onclick=()=>zoom(1/1.35,undefined,undefined,true);
+    document.getElementById('play-zoom-out').onclick=()=>zoom(1.35,undefined,undefined,true);
+    document.getElementById('play-zoom-reset').onclick=()=>{
+      if(!svg._base)return;
+      manual();overview=true;
+      const [x,y,w,h]=svg._base,width=fitWidth();animate([x+(w-width)/2,y+(h-width/aspect())/2,width,width/aspect()]);
+    };
+    const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+    function beginGesture() {
+      const points=[...pointers.values()];
+      if(!points.length){gesture=null;return;}
+      gesture={moved:false,last:points[0],origin:points[0]};
+      if(points.length>=2){
+        manual();gesture.moved=true;gesture.pinch=true;gesture.span=distance(...points.slice(0,2));
+        gesture.last={x:(points[0].x+points[1].x)/2,y:(points[0].y+points[1].y)/2};
+        for(const id of pointers.keys())svg.setPointerCapture(id);
+        suppressUntil=performance.now()+500;svg.classList.add('map-dragging');
+      }
+    }
+    svg.addEventListener('pointerdown',e=>{
+      if(!svg._box || (e.pointerType==='mouse' && ![0,1,2].includes(e.button)))return;
+      stop();
+      if(!pointers.size)suppressUntil=0;
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      // Capture the original node so an ordinary tap still clicks that node.
+      // Capturing only after crossing the threshold loses fast exit/release.
+      const owner=e.target.closest('[data-map-node]')||svg;
+      owner.setPointerCapture(e.pointerId);
+      beginGesture();
+      if(e.button===1)e.preventDefault();
+    });
+    svg.addEventListener('pointermove',e=>{
+      if(!pointers.has(e.pointerId)||!gesture)return;
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      const points=[...pointers.values()];
+      if(points.length>=2){
+        const mid={x:(points[0].x+points[1].x)/2,y:(points[0].y+points[1].y)/2},span=Math.max(1,distance(...points.slice(0,2)));
+        const anchor=clientPoint(gesture.last.x,gesture.last.y),rect=svg.getBoundingClientRect();
+        const w=Math.max(minWidth(),Math.min(fitWidth(),svg._box[2]*gesture.span/span)),scale=rect.width/w;
+        set([anchor[0]-(mid.x-rect.left)/scale,anchor[1]-(mid.y-rect.top)/scale,w,w/aspect()]);
+        gesture.span=span;gesture.last=mid;
+      }else{
+        const point=points[0];
+        if(!gesture.moved && distance(point,gesture.origin)<(e.pointerType==='touch'?9:5))return;
+        if(!gesture.moved){manual();gesture.moved=true;svg.setPointerCapture(e.pointerId);svg.classList.add('map-dragging');}
+        const b=svg._box,scale=svg.clientWidth/b[2];
+        set([b[0]-(point.x-gesture.last.x)/scale,b[1]-(point.y-gesture.last.y)/scale,b[2],b[3]]);
+        gesture.last=point;
+      }
+      suppressUntil=performance.now()+500;
+    });
+    function release(e) {
+      if(!pointers.has(e.pointerId))return;
+      const moved=gesture?.moved;
+      pointers.delete(e.pointerId);
+      if(moved)suppressUntil=performance.now()+500;
+      if(pointers.size){beginGesture();gesture.moved=true;}
+      else{gesture=null;svg.classList.remove('map-dragging');}
+    }
+    svg.addEventListener('pointerup',release);
+    svg.addEventListener('pointercancel',release);
+    svg.addEventListener('lostpointercapture',e=>{if(!svg.hasPointerCapture(e.pointerId))release(e);});
+    svg.addEventListener('click',e=>{
+      if(e.detail>0 && performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();}
+    },true);
+    svg.addEventListener('contextmenu',e=>e.preventDefault());
+    // Some touch browsers still feed a completed pinch into their native tap
+    // recognizer. Consume map touch-moves so the following HUD tap stays a tap.
+    svg.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+    function cancel() {
+      if(gesture?.moved)suppressUntil=performance.now()+500;
+      const ids=[...pointers.keys()];pointers.clear();gesture=null;
+      for(const id of ids){
+        const owner=svg.hasPointerCapture(id)?svg:[...svg.querySelectorAll('[data-map-node]')].find(n=>n.hasPointerCapture(id));
+        if(owner)owner.releasePointerCapture(id);
+      }
+      svg.classList.remove('map-dragging');stop();
+    }
+    window.addEventListener('blur',cancel);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel();});
+    document.querySelectorAll('dialog').forEach(dialog=>new MutationObserver(()=>{if(dialog.open)cancel();}).observe(dialog,{attributes:true,attributeFilter:['open']}));
+    svg.addEventListener('wheel',e=>{
+      e.preventDefault();if(gesture || !e.deltaY)return;
+      // Exponential, bounded deltas work for both mouse notches and trackpads.
+      const delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?svg.clientHeight:1);
+      following=false;zoom(Math.exp(Math.max(-160,Math.min(160,delta))*.0025),e.clientX,e.clientY);
+    },{passive:false});
+    new ResizeObserver(()=>{
+      cancelAnimationFrame(frame);
+      frame=requestAnimationFrame(()=>{
+        if(!svg._base || !svg._box)return;
+        stop();
+        if(overview){const [x,y,w,h]=svg._base,width=fitWidth();set([x+(w-width)/2,y+(h-width/aspect())/2,width,width/aspect()]);}
+        else{const b=svg._box,w=Math.max(minWidth(),Math.min(fitWidth(),b[2])),h=w/aspect();set([b[0]+(b[2]-w)/2,b[1]+(b[3]-h)/2,w,h]);if(following && svg._focus)reveal(...svg._focus,{immediate:true});}
+      });
     }).observe(svg);
   }
   function current(map) {

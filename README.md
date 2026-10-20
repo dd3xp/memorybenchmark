@@ -94,6 +94,10 @@ python -m memorybenchmark.easy_calibration --output .runs/easy-calibration-new
 
 可选浏览器验收需要 Node.js、Playwright 与 Chrome，不属于游戏运行依赖。先以 `python -m memorybenchmark --port 8875 --log-dir .runs/ui-review` 启动本地测试服务，再执行 `node scripts/check_play_ui.cjs http://127.0.0.1:8875`。检查真实地图点击、拖动防误触、键盘、请求丢失后的状态同步、取用工具、复活与营地提交，并在 `.runs/ui-review/screenshots/` 输出桌面与手机截图。第三个命令行参数可传入按任务编号组织的参考动作 JSON，通过真实界面重放全部委托；再追加 `pointer` 可改用鼠标点击重放。此脚本只创建人类游玩实例。
 
+镜头专项验收执行 `node scripts/check_camera_ui.cjs http://127.0.0.1:8875`，覆盖全图拖动、边界反向拖动、鼠标位置缩放、视角保留、输入打断动画、响应返回时持续拖动，以及真实双指缩放／单指接续／取消和后续轻点。受保护的预览可通过环境变量 `MEMORYBENCH_UI_PIN` 提供登录 PIN。
+
+人类界面在任意倍率下可拖动地图；滚轮围绕鼠标位置缩放，触屏支持双指缩放。拖动和滚轮进入自由查看，观察、等待或游戏响应不会强制归位；点击定位或按 `F` 回到角色并恢复跟随。`＋`／`−` 缩放，`Home` 查看全图，同标签页刷新保留当前镜头。音效偏好保存在本地。镜头与 HUD 均只改变人类展示，不生成游戏动作或额外公开经验。
+
 渡口校准保留旧场景，区分两条都成功、移动 5 次、距离 8 的轨迹；其文字环境可用 `--stdio --scenario river` 启动。新工具校准包含四种都成功的行为，体力需求分别为 10、18、12、26；输出在 `.runs/tool-calibration/`。
 
 这些是人工行为校准，不能当作真实 Agent 的记忆效果或新颖性证据。静态求解器验证六项任务的可行性，明确使用全世界信息，不是未知世界 Agent 必须达到的记忆 GT；动态条件超出其范围时会拒绝求解。
