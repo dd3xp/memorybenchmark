@@ -204,6 +204,7 @@ document.addEventListener('keydown',event=>{
   if(key==='i'){event.preventDefault();openNotebook('inventory');}if(key==='j'){event.preventDefault();openNotebook('journal');}
   if(key==='o' && observation && !observation.done){event.preventDefault();act('observe');}if(key==='w' && observation && !observation.done){event.preventDefault();act('wait');}
   if(key==='escape'){
+    event.preventDefault();
     if(selection){selection=null;$('map-selection').hidden=true;draw(observation);}
     else $('menu').showModal();
   }
