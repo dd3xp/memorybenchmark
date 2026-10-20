@@ -92,7 +92,7 @@ python -m memorybenchmark.validation --scenario lake-easy
 python -m memorybenchmark.easy_calibration --output .runs/easy-calibration-new
 ```
 
-可选浏览器验收需要 Node.js、Playwright 与 Chrome，不属于游戏运行依赖。先以 `python -m memorybenchmark --port 8875 --log-dir .runs/ui-review` 启动本地测试服务，再执行 `node scripts/check_play_ui.cjs http://127.0.0.1:8875`。检查真实地图点击、拖动防误触、键盘、请求丢失后的状态同步、取用工具、复活与营地提交，并在 `.runs/ui-review/screenshots/` 输出桌面与手机截图。第三个命令行参数可传入按任务编号组织的参考动作 JSON，通过真实界面重放全部委托；此脚本只创建人类游玩实例。
+可选浏览器验收需要 Node.js、Playwright 与 Chrome，不属于游戏运行依赖。先以 `python -m memorybenchmark --port 8875 --log-dir .runs/ui-review` 启动本地测试服务，再执行 `node scripts/check_play_ui.cjs http://127.0.0.1:8875`。检查真实地图点击、拖动防误触、键盘、请求丢失后的状态同步、取用工具、复活与营地提交，并在 `.runs/ui-review/screenshots/` 输出桌面与手机截图。第三个命令行参数可传入按任务编号组织的参考动作 JSON，通过真实界面重放全部委托；再追加 `pointer` 可改用鼠标点击重放。此脚本只创建人类游玩实例。
 
 渡口校准保留旧场景，区分两条都成功、移动 5 次、距离 8 的轨迹；其文字环境可用 `--stdio --scenario river` 启动。新工具校准包含四种都成功的行为，体力需求分别为 10、18、12、26；输出在 `.runs/tool-calibration/`。
 
