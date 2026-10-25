@@ -1,0 +1,1224 @@
+{
+  "kind": "native_ga_station_single_world_pilot_not_statistical_effect_estimate",
+  "world": "omega_01",
+  "model_alias": "gpt-5.6-luna",
+  "source_pilot_sha256": "4c925187c661ddde4b82f5bbce9232bd33643e7e0420682a64994dcf5d81d680",
+  "analysis_sha256": "93a3e961da5681925fcbf630957ee3f9555ca780d74fc703799626d07957859c",
+  "rows": [
+    {
+      "task_id": "T1",
+      "task_run_id": "session-1",
+      "success": true,
+      "distance": 8,
+      "moves": 6,
+      "operations": 8,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "P",
+        "J",
+        "A",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [],
+      "prior_compatible_world_count": 4,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 5,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 4,
+          "exit": 6,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": 0.0,
+      "full_delivered_history_reference_expected_distance": 10.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "01-T1-prefix",
+      "condition": "prefix",
+      "llm_calls": 14,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 8,
+        "file_read": 2,
+        "file_write": 2,
+        "no_tool": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "52b16fe22d578b99d7afdffde20f35a45bc16f19c01ef0609a946e6303b1a28f",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T2",
+      "task_run_id": "session-2",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 5,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "Q",
+        "J",
+        "A"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        5
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 14,
+          "station": "A",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        }
+      ],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "02-T2-retain",
+      "condition": "retain",
+      "llm_calls": 9,
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 5,
+        "no_tool": 2,
+        "file_read": 3
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "fc7af2eb2c483ba07f49de3a5a796bcac392fe540644048a4733f29759d3a9ef",
+      "source_events_sha256": "fce7d8ce41e399803087a59227c28b862370dd7fb2d995d04be463b95d64c2f6",
+      "end_location": "A",
+      "end_raw": true,
+      "end_processed": false,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T2",
+      "task_run_id": "session-2",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 5,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "Q",
+        "J",
+        "A"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        5
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 14,
+          "station": "A",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [],
+      "station_excursions": [],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": null,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "02-T2-clear",
+      "condition": "clear",
+      "llm_calls": 11,
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 5,
+        "no_tool": 2,
+        "file_read": 2,
+        "code_run": 1,
+        "file_patch": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "978266b63a03becc2a565f9019d174a2df692da6566fb883a5c8165409775aa9",
+      "end_location": "A",
+      "end_raw": true,
+      "end_processed": false,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T3",
+      "task_run_id": "session-3",
+      "success": false,
+      "distance": 3,
+      "moves": 3,
+      "operations": 3,
+      "visited_nodes": [
+        "C",
+        "J",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "R",
+        "J"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        5,
+        14
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": null,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 10.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "03-T3-retain",
+      "condition": "retain",
+      "llm_calls": 10,
+      "memory_content_changed": [
+        "survey_game_t3_review.md"
+      ],
+      "tool_counts": {
+        "game_action": 3,
+        "no_tool": 1,
+        "file_read": 4,
+        "file_write": 3
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "df496528fea41440fbd4874a172be3ee8cd57da6f460b4ab383671c5c1dcc219",
+      "source_events_sha256": "ae301a3071a1d7d5b5cd7d340718239625355d4d624671f4c4573e4a5d49113f",
+      "end_location": "J",
+      "end_raw": true,
+      "end_processed": false,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T3",
+      "task_run_id": "session-3",
+      "success": true,
+      "distance": 12,
+      "moves": 8,
+      "operations": 11,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "R",
+        "J",
+        "D",
+        "J",
+        "E",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        5,
+        14
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 21,
+          "station": "D",
+          "supported": false,
+          "already_excluded_by_actual_history": false
+        },
+        {
+          "event_id": 24,
+          "station": "E",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 20,
+          "exit": 22,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "E",
+          "enter": 23,
+          "exit": 25,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": 4.0,
+      "full_delivered_history_reference_expected_distance": 10.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "03-T3-clear",
+      "condition": "clear",
+      "llm_calls": 18,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 11,
+        "no_tool": 1,
+        "file_read": 3,
+        "code_run": 1,
+        "file_write": 3
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "e38aae453e65ae7fd1598717698407552c3b741dc858b241c6fce9ab078a7dbc",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T4",
+      "task_run_id": "session-4",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 5,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "Q",
+        "J",
+        "A"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "A"
+      ],
+      "prior_evidence_events": [
+        5,
+        14
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 26,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "04-T4-retain",
+      "condition": "retain",
+      "llm_calls": 10,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 5,
+        "no_tool": 2,
+        "file_read": 3,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "a5b56bd6b14153470c04d32dd39bc7b679bb17d127b1bdab4b8f0ffc307c88f7",
+      "source_events_sha256": "178fb431307127904a926283c450668c1a31338fb0facd0fdb858356cc5f9f79",
+      "end_location": "A",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T4",
+      "task_run_id": "session-4",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 5,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "Q",
+        "J",
+        "A"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "A"
+      ],
+      "prior_evidence_events": [
+        5,
+        14
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 26,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "04-T4-clear",
+      "condition": "clear",
+      "llm_calls": 11,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 5,
+        "no_tool": 2,
+        "file_read": 4,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "178fb431307127904a926283c450668c1a31338fb0facd0fdb858356cc5f9f79",
+      "end_location": "A",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T5",
+      "task_run_id": "session-5",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 6,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "S",
+        "J",
+        "D"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        5,
+        14,
+        26
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 1.0,
+      "queries": [
+        {
+          "event_id": 33,
+          "station": "D",
+          "new_historical_bits": 1.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 34,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [],
+      "query_count": 1,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 10.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "05-T5-retain",
+      "condition": "retain",
+      "llm_calls": 13,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 6,
+        "no_tool": 1,
+        "file_read": 5,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "db9f334550998c2039c79ffe8a02c3d480b72dce44c81efa3e9ea76c132ee519",
+      "source_events_sha256": "95c67249cacc4c878d7e0e0acaafafc406ac029300084ee0d87ca4cd4d7d8524",
+      "end_location": "D",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T5",
+      "task_run_id": "session-5",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 6,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "S",
+        "J",
+        "D"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        5,
+        14,
+        26
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 1.0,
+      "queries": [
+        {
+          "event_id": 33,
+          "station": "D",
+          "new_historical_bits": 1.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 34,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [],
+      "query_count": 1,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 10.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "05-T5-clear",
+      "condition": "clear",
+      "llm_calls": 12,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 6,
+        "no_tool": 2,
+        "file_read": 3,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "95c67249cacc4c878d7e0e0acaafafc406ac029300084ee0d87ca4cd4d7d8524",
+      "end_location": "D",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T6",
+      "task_run_id": "session-6",
+      "success": false,
+      "distance": 9,
+      "moves": 6,
+      "operations": 8,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "S",
+        "J",
+        "D",
+        "J",
+        "E"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "E"
+      ],
+      "prior_evidence_events": [
+        5,
+        14,
+        26,
+        33,
+        34
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 41,
+          "station": "D",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 44,
+          "station": "E",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 40,
+          "exit": 42,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "06-T6-retain",
+      "condition": "retain",
+      "llm_calls": 15,
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 8,
+        "no_tool": 1,
+        "file_read": 6,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "cc605497b3d580ce31bfc073db7d96320303631859e171903087c7bd2d8157c0",
+      "source_events_sha256": "2f63fb5e7de182fb4ea0c46949702a9b05679c987b2a2bb66d87e15af8794d49",
+      "end_location": "E",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T6",
+      "task_run_id": "session-6",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 5,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "S",
+        "J",
+        "D"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "E"
+      ],
+      "prior_evidence_events": [
+        5,
+        14,
+        26,
+        33,
+        34
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 41,
+          "station": "D",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        }
+      ],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "06-T6-clear",
+      "condition": "clear",
+      "llm_calls": 12,
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 5,
+        "no_tool": 2,
+        "file_read": 4,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "5ec009eb2e8b00847f9113efb5bed728e7b8985093ed5632ce4bf37db11c06e0",
+      "end_location": "D",
+      "end_raw": true,
+      "end_processed": false,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T7",
+      "task_run_id": "session-7",
+      "success": false,
+      "distance": 3,
+      "moves": 3,
+      "operations": 3,
+      "visited_nodes": [
+        "C",
+        "J",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "P",
+        "J"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        5,
+        14,
+        26,
+        33,
+        34,
+        41,
+        44
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": null,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "07-T7-retain",
+      "condition": "retain",
+      "llm_calls": 10,
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 3,
+        "no_tool": 1,
+        "file_read": 5,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "ba2e7540a0bc604623b2871140ab80e27ab36103809a26e82a2cfc51bed4a915",
+      "source_events_sha256": "f1eceb8457c37891e573deffabd50f81889d4a8cb17f7393cb4e7c4055537ad7",
+      "end_location": "J",
+      "end_raw": true,
+      "end_processed": false,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T7",
+      "task_run_id": "session-7",
+      "success": false,
+      "distance": 5,
+      "moves": 4,
+      "operations": 4,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "P",
+        "J",
+        "A"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        5,
+        14,
+        26,
+        33,
+        34,
+        41,
+        44
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [],
+      "station_excursions": [],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": null,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "07-T7-clear",
+      "condition": "clear",
+      "llm_calls": 11,
+      "memory_content_changed": [
+        "survey_game_station_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 4,
+        "no_tool": 2,
+        "file_read": 4,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "555915f2e1f13b19d1077c029f50bea67af8799fb18c7467b570dda30d53c51f",
+      "end_location": "A",
+      "end_raw": true,
+      "end_processed": false,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T8",
+      "task_run_id": "session-8",
+      "success": false,
+      "distance": 7,
+      "moves": 5,
+      "operations": 7,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "R",
+        "J",
+        "D",
+        "J"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "D"
+      ],
+      "prior_evidence_events": [
+        5,
+        14,
+        26,
+        33,
+        34,
+        41,
+        44
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 56,
+          "station": "D",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 57,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 55,
+          "exit": 58,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "08-T8-retain",
+      "condition": "retain",
+      "llm_calls": 13,
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 7,
+        "no_tool": 2,
+        "file_read": 5,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "bdce914d1412783058e4bab5ab861bbed237d70ae79fb75770a52bebbaaacc0c",
+      "source_events_sha256": "adbec28e3799d4f2392daf32c5fdb1d9f691637abb4f50907c87055ef6cc3a17",
+      "end_location": "J",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "agent_stopped",
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task_id": "T8",
+      "task_run_id": "session-8",
+      "success": true,
+      "distance": 8,
+      "moves": 6,
+      "operations": 8,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "R",
+        "J",
+        "D",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "D"
+      ],
+      "prior_evidence_events": [
+        5,
+        14,
+        26,
+        33,
+        34,
+        41,
+        44
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 56,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 55,
+          "exit": 57,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": 8.0,
+      "successful_distance_excess": 0.0,
+      "full_delivered_history_reference_expected_distance": 8.0,
+      "nohistory_reference_expected_distance": 10.0,
+      "name": "08-T8-clear",
+      "condition": "clear",
+      "llm_calls": 16,
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 8,
+        "file_read": 5,
+        "code_run": 1,
+        "no_tool": 2,
+        "file_patch": 1,
+        "file_write": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "7c3c95694ee4f06b6374ac52d683cda20930d8885e47a02108b8cb54a284c0dc",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": []
+    }
+  ],
+  "paired_first_inputs": [
+    {
+      "task": "T2",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T3",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T4",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T5",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T6",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T7",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T8",
+      "first_forwarded_input_equal": true
+    }
+  ],
+  "comparison": "current-task clear probes at retained actual-history checkpoints",
+  "limitations": [
+    "one sampled world and one native history",
+    "each clear run is a current-task probe, not an independent full stream",
+    "model alias is not independently verified model identity",
+    "path matching is not retrieval proof"
+  ]
+}
