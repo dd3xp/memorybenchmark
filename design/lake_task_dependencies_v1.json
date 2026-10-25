@@ -1,0 +1,89 @@
+{
+  "design_id": "lake-task-dependencies-v1",
+  "status": "candidate_not_registered_or_deployed",
+  "base_scenario": "lake-easy",
+  "base_world_version": "lake-easy-3.0",
+  "world_version": "lake-task-dependencies-v1",
+  "added_edges": [["E2", "D2", 6], ["W2", "B6", 9]],
+  "information": {
+    "slope": {
+      "fact": "P1 has a slippery-slope entry cost",
+      "source": "An actual delivered encounter at P1"
+    },
+    "grip": {
+      "fact": "D1 offers grip_kit with a publicly described slope mitigation effect",
+      "source": "An actual delivered stock observation at D1"
+    },
+    "stream": {
+      "fact": "R1 has a stream-crossing entry cost",
+      "source": "An actual delivered encounter at R1"
+    },
+    "stream_tool": {
+      "fact": "B4 offers stream_kit with a publicly described stream mitigation effect",
+      "source": "An actual delivered stock observation at B4"
+    }
+  },
+  "tasks": {
+    "T1": {
+      "name": "坡口初测", "start": "C0", "goals": ["P1"], "submit_at": ["C1"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从苇湾营地 C0 出发，记录灰脊坡口 P1，再到岚丘营地 C1 提交。到达自动测绘，途中可自由探索和取用工具。",
+      "potential_information": ["slope", "grip"],
+      "later_choices": ["T2", "T5", "T7", "T8"]
+    },
+    "T2": {
+      "name": "林缘往返", "start": "C0", "goals": ["N1"], "submit_at": ["C0"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从苇湾营地 C0 出发，记录松影林缘 N1，再回苇湾营地 C0 提交。自行选择路线和沿途操作。",
+      "potential_information": ["slope", "grip"],
+      "later_choices": ["T5", "T7", "T8"]
+    },
+    "T3": {
+      "name": "浅滩初测", "start": "C2", "goals": ["R1"], "submit_at": ["C2"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从石湾营地 C2 出发，记录苔溪浅滩 R1，再回石湾营地 C2 提交。途中可自由探索和取用工具。",
+      "potential_information": ["stream", "stream_tool"],
+      "later_choices": ["T4", "T6", "T7", "T8"]
+    },
+    "T4": {
+      "name": "林道往返", "start": "C2", "goals": ["S1"], "submit_at": ["C2"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从石湾营地 C2 出发，记录杉影林道 S1，再回石湾营地 C2 提交。自行选择路线和沿途操作。",
+      "potential_information": ["stream", "stream_tool"],
+      "later_choices": ["T6", "T7", "T8"]
+    },
+    "T5": {
+      "name": "北岸接驳测绘", "start": "C0", "goals": ["N1"], "submit_at": ["C1"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从苇湾营地 C0 出发，记录松影林缘 N1，最后在岚丘营地 C1 提交。",
+      "potential_information": ["slope", "grip"],
+      "later_choices": ["T7", "T8"]
+    },
+    "T6": {
+      "name": "南岸接驳测绘", "start": "C2", "goals": ["S1"], "submit_at": ["C0"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从石湾营地 C2 出发，记录杉影林道 S1，最后在苇湾营地 C0 提交。",
+      "potential_information": ["stream", "stream_tool"],
+      "later_choices": ["T7", "T8"]
+    },
+    "T7": {
+      "name": "坡口浅滩联测", "start": "C0", "goals": ["P1", "R1"], "submit_at": ["C0"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从苇湾营地 C0 出发，本次记录灰脊坡口 P1 与苔溪浅滩 R1，再回苇湾营地 C0 提交。两个目标的访问顺序自行决定。",
+      "potential_information": ["slope", "grip", "stream", "stream_tool"],
+      "later_choices": ["T8"]
+    },
+    "T8": {
+      "name": "跨岸联测", "start": "C1", "goals": ["E2", "Q2"], "submit_at": ["C2"],
+      "stamina": 70, "max_steps": 40,
+      "instruction": "从岚丘营地 C1 出发，本次记录北端林道 E2 与东岭高台 Q2，最后在石湾营地 C2 提交。两个目标的访问顺序自行决定。",
+      "potential_information": ["slope", "grip", "stream", "stream_tool"],
+      "later_choices": []
+    }
+  },
+  "design_checks": [
+    {"tasks": ["T2", "T5"], "changing_requirement": "submission camp", "expected_best_tools": [["grip_kit"], []]},
+    {"tasks": ["T4", "T6"], "changing_requirement": "submission camp", "expected_best_tools": [["stream_kit"], []]},
+    {"tasks": ["T7"], "changing_requirement": "both hazard locations are survey targets", "expected_best_tools": [["grip_kit", "stream_kit"]]}
+  ]
+}
