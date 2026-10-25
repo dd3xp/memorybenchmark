@@ -1,0 +1,32 @@
+{
+  "design_id": "station-capability-v1",
+  "status": "isolated_mechanism_prototype_not_registered",
+  "public": {
+    "version": "station-capability-v1",
+    "rules": [
+      "每项委托从营地出发，到目标点自动采集本次原始资料，处理后回营提交。旧资料不能替代本次采集。",
+      "两座处理站各支持一种资料，剖面资料与岸线资料恰好各有一座站支持；分配在同一世界的不同委托间不变。",
+      "地图公开位置、道路和距离，不公开各站能力。到站不会自动获知能力；查询或实际处理会返回本站能力。",
+      "不支持的处理不会损坏原始资料，可以再去另一站。查询、处理和提交各用一次操作，移动用一次操作并累计道路距离。",
+      "每项委托重置位置、资料、处理状态、操作数和临时上下文。设施能力保持不变，过去的反馈不由环境向新 session 重发。"
+    ],
+    "kinds": {"profile": "剖面资料", "shore": "岸线资料"},
+    "locations": {
+      "C": {"name": "营地", "kind": "camp", "x": 250, "y": 330},
+      "J": {"name": "岔口", "kind": "junction", "x": 250, "y": 210},
+      "A": {"name": "处理站 A", "kind": "station", "x": 70, "y": 210},
+      "B": {"name": "处理站 B", "kind": "station", "x": 430, "y": 210},
+      "P": {"name": "测绘点 P", "kind": "survey", "x": 150, "y": 70},
+      "Q": {"name": "测绘点 Q", "kind": "survey", "x": 350, "y": 70}
+    },
+    "edges": [["C", "J", 1], ["J", "A", 2], ["J", "B", 2], ["J", "P", 1], ["J", "Q", 1]]
+  },
+  "private_worlds": {
+    "omega_0": {"A": "profile", "B": "shore"},
+    "omega_1": {"A": "shore", "B": "profile"}
+  },
+  "tasks": {
+    "profile": {"name": "剖面测绘", "start": "C", "target": "P", "required_kind": "profile", "submit_at": "C", "max_steps": 16},
+    "shore": {"name": "岸线测绘", "start": "C", "target": "Q", "required_kind": "shore", "submit_at": "C", "max_steps": 16}
+  }
+}

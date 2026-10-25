@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="440" viewBox="0 0 850 440" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#21628d"/></marker></defs>
+<rect width="850" height="440" fill="#fafbf8"/>
+<text x="24" y="27" font-size="17">profile-to-shore-completed_with_evidence-omega_0-no_history_reference</text>
+<text x="24" y="421" font-size="13">Distance 12 · 8 moves · arrow numbers show movement order</text>
+<line x1="250" y1="330" x2="250" y2="210" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="250" y1="210" x2="70" y2="210" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="250" y1="210" x2="430" y2="210" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="250" y1="210" x2="150" y2="70" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="250" y1="210" x2="350" y2="70" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="243.5" y1="309.0" x2="243.5" y2="233.0" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="248.5" y="271.0" font-size="13" fill="#163b55">1</text>
+<line x1="256.5" y1="231.0" x2="256.5" y2="307.0" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="261.5" y="269.0" font-size="13" fill="#163b55">8</text>
+<line x1="256.9" y1="189.1" x2="331.3" y2="84.9" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="298.2" y="139.9" font-size="13" fill="#163b55">2</text>
+<line x1="343.1" y1="90.9" x2="268.7" y2="195.1" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="309.9" y="145.9" font-size="13" fill="#163b55">3</text>
+<line x1="229.0" y1="203.5" x2="93.0" y2="203.5" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="161.0" y="208.5" font-size="13" fill="#163b55">4</text>
+<line x1="91.0" y1="216.5" x2="227.0" y2="216.5" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="159.0" y="221.5" font-size="13" fill="#163b55">5</text>
+<line x1="271.0" y1="216.5" x2="407.0" y2="216.5" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="339.0" y="211.5" font-size="13" fill="#163b55">6</text>
+<line x1="409.0" y1="203.5" x2="273.0" y2="203.5" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="341.0" y="198.5" font-size="13" fill="#163b55">7</text>
+<circle cx="250" cy="330" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="250" y="335" text-anchor="middle" font-size="15">C</text>
+<text x="250" y="369" text-anchor="middle" font-size="12">营地</text>
+<circle cx="250" cy="210" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="250" y="215" text-anchor="middle" font-size="15">J</text>
+<text x="250" y="249" text-anchor="middle" font-size="12">岔口</text>
+<circle cx="70" cy="210" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="70" y="215" text-anchor="middle" font-size="15">A</text>
+<text x="70" y="249" text-anchor="middle" font-size="12">处理站 A</text>
+<circle cx="430" cy="210" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="430" y="215" text-anchor="middle" font-size="15">B</text>
+<text x="430" y="249" text-anchor="middle" font-size="12">处理站 B</text>
+<circle cx="150" cy="70" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="150" y="75" text-anchor="middle" font-size="15">P</text>
+<text x="150" y="109" text-anchor="middle" font-size="12">测绘点 P</text>
+<circle cx="350" cy="70" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="350" y="75" text-anchor="middle" font-size="15">Q</text>
+<text x="350" y="109" text-anchor="middle" font-size="12">测绘点 Q</text>
+<text x="530" y="58" font-size="14">Recorded movement</text>
+<text x="530" y="83" font-size="13">1. C → J  (1)</text>
+<text x="530" y="104" font-size="13">2. J → Q  (1)</text>
+<text x="530" y="125" font-size="13">3. Q → J  (1)</text>
+<text x="530" y="146" font-size="13">4. J → A  (2)</text>
+<text x="530" y="167" font-size="13">5. A → J  (2)</text>
+<text x="530" y="188" font-size="13">6. J → B  (2)</text>
+<text x="530" y="209" font-size="13">7. B → J  (2)</text>
+<text x="530" y="230" font-size="13">8. J → C  (1)</text>
+<text x="530" y="264" font-size="14">Node operations</text>
+<text x="530" y="287" font-size="12">A: process / unsupported</text>
+<text x="530" y="306" font-size="12">B: process / processed</text>
+<text x="530" y="325" font-size="12">C: submit / submitted</text>
+</svg>
