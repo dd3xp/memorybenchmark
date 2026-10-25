@@ -20,9 +20,9 @@ class FixtureModel:
         else:
             script += f"assert Path('../memory/station_contract_marker.txt').exists() is {exists}"
         route = ["J", "P" if task == "T1" else "Q", "J", "A" if task == "T1" else "B"]
-        self.tools = iter([("code_run", {"type": "python", "script": script})] +
+        self.tools = iter([(None, {}), ("code_run", {"type": "python", "script": script})] +
             [("game_action", {"action": "move", "target": n}) for n in route] +
-            [("game_action", {"action": "process"})] +
+            [("game_action", {"action": "process"}), (None, {})] +
             [("game_action", {"action": "move", "target": n}) for n in ("J", "C")] +
             [("game_action", {"action": "submit"})])
         self.calls = 0
@@ -34,7 +34,7 @@ class FixtureModel:
         schema = next(t for t in payload["tools"] if t.get("name") == "game_action")
         assert schema["parameters"] == STATION_TOOL["parameters"]
         tool = next(self.tools, None)
-        if tool:
+        if tool and tool[0] is not None:
             name, args = tool
             events = [{"type": "response.output_item.added", "output_index": 0, "item": {
                 "type": "function_call", "call_id": f"contract-{self.calls}", "name": name}},
@@ -55,15 +55,31 @@ def check(archive, output, distro):
     game = StationGame("omega_00", load_design(DEFAULT_DESIGN))
     prefix = sessions.run(game, "T1", output / "baseline", output / "prefix", FixtureModel("T1", "prefix"), condition="prefix")
     assert prefix["infrastructure_ok"] and prefix["success"], prefix
+    assert len(prefix["continuations"]) == 2
+    assert prefix["initial_session"]["execution_protocol"] == "environment-gated-1"
     for condition in ("retain", "clear"):
         memory = output / "prefix" / "memory-after" if condition == "retain" else output / "baseline"
         result = sessions.run(deepcopy(game), "T2", memory, output / condition, FixtureModel("T2", condition), condition=condition)
         assert result["infrastructure_ok"] and result["success"], result
+        assert len(result["continuations"]) == 2
         initial = result["initial_session"]
         assert initial["initial_history_size"] == initial["initial_backend_history_size"] == 0
         assert initial["working"] == {}
         assert initial["isolation"]["evaluator_hidden"] and initial["isolation"]["network_blocked"]
         assert ("station_contract_marker.txt" in result["input_memory"]) == (condition == "retain")
+    budget_sessions = StationNativeSessions(source, output / "support", WSLJail(distro),
+        model_alias="scripted-contract", max_turns=3, final_turns=1)
+    class PlainReplies:
+        def __call__(self, payload):
+            return {"lines": ["data: " + json.dumps(e) for e in (
+                {"type": "response.output_text.done", "text": "<summary>I will continue.</summary>"},
+                {"type": "response.completed", "response": {"usage": {"input_tokens": 1, "output_tokens": 1}}})]}
+    budget_game = StationGame("omega_00", load_design(DEFAULT_DESIGN))
+    result = budget_sessions.run(budget_game, "T1", output / "baseline", output / "budget", PlainReplies(), condition="budget-contract")
+    assert result["infrastructure_ok"] and not result["success"], result
+    assert result["main_calls"] == 3 and result["final_calls"] == 1
+    assert len(result["continuations"]) == 2 and budget_game.steps == 0
+    assert budget_game.events[-1]["delivered"]["feedback"]["reason"] == "model_budget"
     print(json.dumps({"passed": True, "kind": "synthetic_native_contract_not_model_score", "output": str(output)}))
 
 

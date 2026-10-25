@@ -42,7 +42,7 @@ class WorkerSessions:
                                     worker_filename=self.worker_filename)
         messages = queue.Queue()
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
-                  "infrastructure_ok":False}
+                  "infrastructure_ok":False, "continuations":[]}
         final_phase = False
         error_log = (output / "worker.stderr").open("w", encoding="utf-8")
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=error_log,
@@ -82,6 +82,8 @@ class WorkerSessions:
                     audit.write(json.dumps(message,ensure_ascii=False) + "\n"); audit.flush()
                     if kind == "session":
                         report["initial_session"] = message
+                    elif kind == "continuation":
+                        report["continuations"].append(message)
                     elif kind == "tool":
                         report["tools"].append({"name":message["name"],"args":message["args"]})
                         if self.observer:
@@ -103,6 +105,9 @@ class WorkerSessions:
                         elif method == "task_end" and adapter is not None and not final_phase:
                             native = params.get("native_result") or {}
                             if not adapter.game.done:
+                                if report.get("initial_session", {}).get("execution_protocol") == "environment-gated-1":
+                                    if native.get("result") != "MAX_TURNS_EXCEEDED" or report["main_calls"] != self.max_turns:
+                                        raise InfrastructureError("premature task_end before environment completion or model budget")
                                 terminal = adapter.game.finish_incomplete("model_budget" if native.get("result") == "MAX_TURNS_EXCEEDED" else "agent_stopped")
                                 result = adapter._public(terminal)
                             else:

@@ -16,6 +16,7 @@ import types
 
 PROTOCOL = "ga-session-1"
 PROMPT_PROTOCOL = "cartography-native-memory-3"
+EXECUTION_PROTOCOL = "environment-gated-1"
 GUIDE = """
 你正在完成一个制图游戏任务。使用 game_action 操作游戏；move 的 target
 只传地点 ID，take 传工具 ID。到达自动测绘，满足目标后提交地理记录。
@@ -55,6 +56,45 @@ def pin_task_reminder(payload, reminder, *, finalizing=False):
     anchor = {"role": "developer", "content": [{"type": "input_text", "text":
         f"{reminder}\n当前阶段：{phase}"}]}
     return {**payload, "input": [anchor, *payload["input"]]}
+
+
+class ModelBudgetExhausted(BaseException):
+    """Host-controlled stop, not a retryable native tool/transport exception."""
+
+
+def exhaust_native_loop(loop, emit):
+    try:
+        while True:
+            emit("log", text=str(next(loop)))
+    except StopIteration as ended:
+        return ended.value
+    except ModelBudgetExhausted:
+        return {"result": "MAX_TURNS_EXCEEDED"}
+
+
+def run_environment_task(run_loop, read_current, calls_used, emit, *, initial_text, max_turns):
+    """Resume native responses in the same context until the environment ends.
+
+    Public read calls do not move the agent or add graph actions. A continuation
+    contains only current public state; it supplies no solution or memory facts.
+    Actual model requests, including calls inside native tools, share one budget.
+    """
+    prompt = initial_text
+    while calls_used() < max_turns:
+        before = calls_used()
+        result = exhaust_native_loop(run_loop(prompt, max_turns - before), emit)
+        current = read_current()
+        if current["observation"]["done"]:
+            return result
+        if calls_used() >= max_turns:
+            return {"result": "MAX_TURNS_EXCEEDED"}
+        if calls_used() <= before:
+            raise RuntimeError("native loop returned without a model request")
+        emit("continuation", execution_protocol=EXECUTION_PROTOCOL,
+             main_calls=calls_used(), remaining_calls=max_turns - calls_used(),
+             native_result=(result or {}).get("result"))
+        prompt = current["text"] + "\n当前委托尚未结束，请根据当前公开状态继续操作；普通文字回复不算提交。"
+    return {"result": "MAX_TURNS_EXCEEDED"}
 
 
 class Wire:
@@ -133,6 +173,8 @@ def main():
     # Both names must reach the same native persistent directory.
     Path("/agent/temp/memory").symlink_to("/agent/memory", target_is_directory=True)
     finalizing = False
+    in_final_opportunity = False
+    phase_calls = {"main": 0, "final": 0}
     # Virtual configuration contains only a dummy credential. Native serialization
     # and SSE parsing remain unchanged; authenticated HTTPS runs in the parent.
     credentials = types.ModuleType("mykey")
@@ -155,6 +197,11 @@ def main():
     def post(url, **kwargs):
         if url != "https://model.invalid/v1/responses":
             raise RuntimeError("unregistered model transport")
+        phase = "final" if in_final_opportunity else "main"
+        budget = config["final_turns"] if in_final_opportunity else config["max_turns"]
+        if phase_calls[phase] >= budget:
+            raise ModelBudgetExhausted()
+        phase_calls[phase] += 1
         payload = pin_task_reminder(kwargs["json"], reminder, finalizing=finalizing)
         return ProxiedResponse(wire.call("model", payload))
     requests.post = post
@@ -186,7 +233,7 @@ def main():
         return original_before(name, args, response)
     handler.tool_before_callback = before
     system = agentmain.get_system_prompt() + config.get("game_guide", GUIDE)
-    wire.emit("session", protocol=PROTOCOL, isolation=isolation,
+    wire.emit("session", protocol=PROTOCOL, isolation=isolation, execution_protocol=EXECUTION_PROTOCOL,
               prompt_protocol=config.get("prompt_protocol", PROMPT_PROTOCOL), task_reminder=reminder,
               system_prompt=system, initial_history_size=initial_history_size,
               initial_backend_history_size=initial_backend_size,
@@ -194,28 +241,24 @@ def main():
               runtime={"python":sys.version,"packages":{name:version(name) for name in
                        ("requests","beautifulsoup4","bottle","simple-websocket-server")}},
               working=handler.working, native_tools=[t["function"]["name"] for t in agentmain.TOOLS_SCHEMA])
-    loop = agentmain.agent_runner_loop(agent.llmclient, system, config["initial_text"], handler,
-                                      agentmain.TOOLS_SCHEMA, max_turns=config["max_turns"], verbose=False)
-    try:
-        while True:
-            wire.emit("log", text=str(next(loop)))
-    except StopIteration as ended:
-        result = ended.value
+    def run_loop(prompt, remaining):
+        return agentmain.agent_runner_loop(agent.llmclient, system, prompt, handler,
+                                          agentmain.TOOLS_SCHEMA, max_turns=remaining, verbose=False)
+    result = run_environment_task(run_loop, lambda: game_request({"command": "read"}),
+        lambda: phase_calls["main"], wire.emit, initial_text=config["initial_text"], max_turns=config["max_turns"])
     # Preserve the old runner's final opportunity, with identical wording and
     # budgets for both conditions. Retain this task's native backend history.
     terminal = wire.call("task_end", {"native_result":result})
     finalizing = True
+    in_final_opportunity = True
     final_loop = agentmain.agent_runner_loop(agent.llmclient, system,
         terminal["text"] + "\n" + FINAL_OPPORTUNITY, handler, agentmain.TOOLS_SCHEMA,
         max_turns=config["final_turns"], verbose=False)
-    try:
-        while True:
-            wire.emit("log", text=str(next(final_loop)))
-    except StopIteration as ended:
-        final_result = ended.value
+    final_result = exhaust_native_loop(final_loop, wire.emit)
     # Exiting the PID namespace also terminates tool subprocesses. No writable
     # directory except memory survives, and the host snapshots only after exit.
-    wire.emit("finished", native_result=result, finalization_result=final_result, isolation=isolation)
+    wire.emit("finished", native_result=result, finalization_result=final_result, isolation=isolation,
+              execution_protocol=EXECUTION_PROTOCOL, phase_calls=phase_calls)
 
 
 if __name__ == "__main__":

@@ -114,14 +114,18 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=40, final_turns=6, resume=False):
+          max_turns=40, final_turns=6, resume=False, world=None):
     output = Path(output).resolve()
     design = load_design(DEFAULT_DESIGN)
+    if world is not None and world not in design["private_worlds"]:
+        raise ValueError("Unknown private world fixture")
     tasks = list(tasks or design["tasks"])
     if not tasks or len(set(tasks)) != len(tasks) or any(t not in design["tasks"] for t in tasks):
         raise ValueError("Tasks must be unique members of this design")
     if resume:
         report = json.loads((output / "pilot.json").read_text(encoding="utf-8"))
+        if world is not None and world != report["world"]:
+            raise ValueError("Cannot change the private world when resuming")
         for path, digest in report["implementation_sha256"].items():
             if sha256(Path(path).read_bytes()).hexdigest() != digest:
                 raise RuntimeError("Pilot source changed; do not resume this run")
@@ -141,8 +145,9 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
                   "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
                   # The worker receives its RNG seed; hidden-world sampling must
                   # be independent so that seed cannot disclose the assignment.
-                  "world": choice(sorted(design["private_worlds"])),
-                  "world_sampling": "host-private choice independent of worker seed",
+                  "world": world if world is not None else choice(sorted(design["private_worlds"])),
+                  "world_sampling": ("host-selected private fixture independent of worker seed" if world is not None
+                                     else "host-private choice independent of worker seed"),
                   "comparison": "current-task clear probes at retained actual-history checkpoints",
                   "archive_sha256": sha256(Path(archive).read_bytes()).hexdigest(),
                   "implementation_sha256": {str(p.resolve()): sha256(p.read_bytes()).hexdigest() for p in paths},
@@ -216,6 +221,7 @@ def main():
     parser.add_argument("--distro", default="Ubuntu-24.04")
     parser.add_argument("--max-output-tokens", type=int, default=0)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--world", help="private host fixture for a controlled rerun; never sent to the worker")
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
@@ -227,7 +233,7 @@ def main():
         read_model = json.loads((args.output / "pilot.json").read_text(encoding="utf-8"))["model_alias"]
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
     pilot(args.archive, args.output, WSLJail(args.distro), model, seed=args.seed, model_alias=args.model,
-          tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume)
+          tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world)
 
 
 if __name__ == "__main__":
