@@ -10,11 +10,20 @@ from copy import deepcopy
 from dataclasses import dataclass, replace
 from fractions import Fraction
 from functools import lru_cache
+from itertools import product
 import json
 from pathlib import Path
 
 
 DESIGN_PATH = Path(__file__).resolve().parents[2] / "design" / "station_capability_v1.json"
+
+
+def capability_groups(design):
+    public = design["public"]
+    return public.get("capability_groups", {"default": {
+        "stations": [n for n, data in public["locations"].items() if data["kind"] == "station"],
+        "kinds": list(public["kinds"]),
+    }})
 
 
 def load_design(path=None):
@@ -24,14 +33,40 @@ def load_design(path=None):
     public = design["public"]
     stations = {n for n, data in public["locations"].items() if data["kind"] == "station"}
     kinds = set(public["kinds"])
-    if len(stations) != 2 or len(kinds) != 2 or len(design["private_worlds"]) != 2:
-        raise ValueError("The experiment requires exactly two stations, kinds and worlds")
+    groups = capability_groups(design)
+    grouped_stations, grouped_kinds = [], []
+    if not groups:
+        raise ValueError("Declare at least one independent capability pair")
+    for group in groups.values():
+        if (len(group["stations"]) != 2 or len(set(group["stations"])) != 2 or
+                len(group["kinds"]) != 2 or len(set(group["kinds"])) != 2):
+            raise ValueError("Each capability group requires two distinct stations and kinds")
+        grouped_stations.extend(group["stations"])
+        grouped_kinds.extend(group["kinds"])
+    if (set(grouped_stations) != stations or len(grouped_stations) != len(stations) or
+            set(grouped_kinds) != kinds or len(grouped_kinds) != len(kinds)):
+        raise ValueError("Capability groups must partition the stations and kinds")
+    if "private_worlds" not in design:
+        if design.get("world_generator") != "independent_pair_swaps":
+            raise ValueError("Unknown private-world generator")
+        design["private_worlds"] = {}
+        for bits in product((0, 1), repeat=len(groups)):
+            assignment = {}
+            for group, bit in zip(groups.values(), bits):
+                assignment.update({station: group["kinds"][index ^ bit]
+                                   for index, station in enumerate(group["stations"])})
+            design["private_worlds"]["omega_" + "".join(map(str, bits))] = assignment
+    if len(design["private_worlds"]) != 2 ** len(groups):
+        raise ValueError("The candidate family must contain every independent pair assignment")
     assignments = []
     for world in design["private_worlds"].values():
-        if set(world) != stations or set(world.values()) != kinds:
-            raise ValueError("Each world must assign one distinct kind to each station")
+        if set(world) != stations:
+            raise ValueError("Each world must assign a capability to every station")
+        for group in groups.values():
+            if {world[s] for s in group["stations"]} != set(group["kinds"]):
+                raise ValueError("Each group must assign one distinct kind to each station")
         assignments.append(tuple(sorted(world.items())))
-    if len(set(assignments)) != 2:
+    if len(set(assignments)) != len(assignments):
         raise ValueError("Worlds must have different capability assignments")
     seen_edges = set()
     for a, b, distance in public["edges"]:
@@ -47,6 +82,14 @@ def load_design(path=None):
         for key, kind in (("start", "camp"), ("submit_at", "camp"), ("target", "survey")):
             if public["locations"].get(task[key], {}).get("kind") != kind:
                 raise ValueError("Task locations have incompatible roles")
+    reached = {next(iter(public["locations"]))}
+    while True:
+        expanded = reached | {n for node in reached for n, _ in neighbors(design, node)}
+        if expanded == reached:
+            break
+        reached = expanded
+    if reached != set(public["locations"]):
+        raise ValueError("The public geographic graph must be connected")
     return design
 
 

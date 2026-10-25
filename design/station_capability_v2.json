@@ -1,0 +1,44 @@
+{
+  "design_id": "station-capability-v2",
+  "status": "isolated_multi_experience_prototype_not_registered",
+  "world_generator": "independent_pair_swaps",
+  "public": {
+    "version": "station-capability-v2",
+    "rules": [
+      "每项委托从营地出发，到目标点自动采集本次原始资料，处理后回营提交。旧资料不能替代本次采集。",
+      "A/B 各支持剖面、岸线资料中的一种，两种恰好各有一站；D/E 各支持方位、高程资料中的一种，也恰好各有一站。",
+      "两组能力分配相互独立，在同一世界的所有委托间不变；知道一组的分配不能推出另一组。",
+      "地图只公开地点、道路和距离；到站不自动揭示能力，查询或实际处理才返回该站的能力。",
+      "不支持的处理保留原始资料，可继续查询或到另一站重试；每项委托最多 16 次操作。",
+      "每项委托重置位置、资料、处理状态、计数、时钟与临时上下文。过去反馈不由环境自动重发，实际经验应由 Agent 自主保存。"
+    ],
+    "kinds": {"profile": "剖面资料", "shore": "岸线资料", "bearing": "方位资料", "elevation": "高程资料"},
+    "capability_groups": {
+      "AB": {"stations": ["A", "B"], "kinds": ["profile", "shore"]},
+      "DE": {"stations": ["D", "E"], "kinds": ["bearing", "elevation"]}
+    },
+    "locations": {
+      "C": {"name": "营地", "kind": "camp", "x": 250, "y": 330},
+      "J": {"name": "岔口", "kind": "junction", "x": 250, "y": 210},
+      "A": {"name": "处理站 A", "kind": "station", "x": 65, "y": 120},
+      "B": {"name": "处理站 B", "kind": "station", "x": 65, "y": 270},
+      "D": {"name": "处理站 D", "kind": "station", "x": 435, "y": 120},
+      "E": {"name": "处理站 E", "kind": "station", "x": 435, "y": 270},
+      "P": {"name": "测绘点 P", "kind": "survey", "x": 185, "y": 65},
+      "Q": {"name": "测绘点 Q", "kind": "survey", "x": 315, "y": 65},
+      "R": {"name": "测绘点 R", "kind": "survey", "x": 140, "y": 355},
+      "S": {"name": "测绘点 S", "kind": "survey", "x": 360, "y": 355}
+    },
+    "edges": [["C", "J", 1], ["J", "A", 2], ["J", "B", 2], ["J", "D", 2], ["J", "E", 2], ["J", "P", 1], ["J", "Q", 1], ["J", "R", 1], ["J", "S", 1]]
+  },
+  "tasks": {
+    "T1": {"name": "P 点剖面", "start": "C", "target": "P", "required_kind": "profile", "submit_at": "C", "max_steps": 16},
+    "T2": {"name": "Q 点岸线", "start": "C", "target": "Q", "required_kind": "shore", "submit_at": "C", "max_steps": 16},
+    "T3": {"name": "R 点方位", "start": "C", "target": "R", "required_kind": "bearing", "submit_at": "C", "max_steps": 16},
+    "T4": {"name": "Q 点剖面", "start": "C", "target": "Q", "required_kind": "profile", "submit_at": "C", "max_steps": 16},
+    "T5": {"name": "S 点高程", "start": "C", "target": "S", "required_kind": "elevation", "submit_at": "C", "max_steps": 16},
+    "T6": {"name": "S 点方位", "start": "C", "target": "S", "required_kind": "bearing", "submit_at": "C", "max_steps": 16},
+    "T7": {"name": "P 点岸线", "start": "C", "target": "P", "required_kind": "shore", "submit_at": "C", "max_steps": 16},
+    "T8": {"name": "R 点高程", "start": "C", "target": "R", "required_kind": "elevation", "submit_at": "C", "max_steps": 16}
+  }
+}

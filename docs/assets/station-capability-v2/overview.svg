@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="500" viewBox="0 0 1100 500" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<rect width="1100" height="500" fill="#f7faf8"/>
+<text x="24" y="32" font-size="21" fill="#183b30">八项普通委托：实际反馈逐步区分世界</text>
+<text x="24" y="59" font-size="14" fill="#52635b">参考策略与规则校验，不是真实 Agent 记忆成绩；无历史列是当前检查点的局部分支。</text>
+<text x="26" y="96" font-size="15" fill="#243d32">委托</text>
+<text x="126" y="96" font-size="15" fill="#243d32">当前目标与资料</text>
+<text x="420" y="96" font-size="15" fill="#243d32">相容世界数：执行前 → 后</text>
+<text x="720" y="96" font-size="15" fill="#243d32">历史参考距离</text>
+<text x="895" y="96" font-size="15" fill="#243d32">当前无历史距离</text>
+<rect x="16" y="109" width="1068" height="38" rx="5" fill="#e3efe7"/>
+<text x="26" y="134" font-size="16" fill="#19392d">T1</text>
+<text x="126" y="134" font-size="16" fill="#19392d">P 点剖面</text>
+<text x="420" y="134" font-size="16" fill="#19392d">4 → 2</text>
+<text x="720" y="134" font-size="16" fill="#19392d">10</text>
+<text x="895" y="134" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="149" width="1068" height="38" rx="5" fill="#eff4f0"/>
+<text x="26" y="174" font-size="16" fill="#19392d">T2</text>
+<text x="126" y="174" font-size="16" fill="#19392d">Q 点岸线</text>
+<text x="420" y="174" font-size="16" fill="#19392d">2 → 2</text>
+<text x="720" y="174" font-size="16" fill="#19392d">8</text>
+<text x="895" y="174" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="189" width="1068" height="38" rx="5" fill="#e3efe7"/>
+<text x="26" y="214" font-size="16" fill="#19392d">T3</text>
+<text x="126" y="214" font-size="16" fill="#19392d">R 点方位</text>
+<text x="420" y="214" font-size="16" fill="#19392d">2 → 1</text>
+<text x="720" y="214" font-size="16" fill="#19392d">10</text>
+<text x="895" y="214" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="229" width="1068" height="38" rx="5" fill="#eff4f0"/>
+<text x="26" y="254" font-size="16" fill="#19392d">T4</text>
+<text x="126" y="254" font-size="16" fill="#19392d">Q 点剖面</text>
+<text x="420" y="254" font-size="16" fill="#19392d">1 → 1</text>
+<text x="720" y="254" font-size="16" fill="#19392d">8</text>
+<text x="895" y="254" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="269" width="1068" height="38" rx="5" fill="#ffffff"/>
+<text x="26" y="294" font-size="16" fill="#19392d">T5</text>
+<text x="126" y="294" font-size="16" fill="#19392d">S 点高程</text>
+<text x="420" y="294" font-size="16" fill="#19392d">1 → 1</text>
+<text x="720" y="294" font-size="16" fill="#19392d">8</text>
+<text x="895" y="294" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="309" width="1068" height="38" rx="5" fill="#eff4f0"/>
+<text x="26" y="334" font-size="16" fill="#19392d">T6</text>
+<text x="126" y="334" font-size="16" fill="#19392d">S 点方位</text>
+<text x="420" y="334" font-size="16" fill="#19392d">1 → 1</text>
+<text x="720" y="334" font-size="16" fill="#19392d">8</text>
+<text x="895" y="334" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="349" width="1068" height="38" rx="5" fill="#ffffff"/>
+<text x="26" y="374" font-size="16" fill="#19392d">T7</text>
+<text x="126" y="374" font-size="16" fill="#19392d">P 点岸线</text>
+<text x="420" y="374" font-size="16" fill="#19392d">1 → 1</text>
+<text x="720" y="374" font-size="16" fill="#19392d">8</text>
+<text x="895" y="374" font-size="16" fill="#19392d">10</text>
+<rect x="16" y="389" width="1068" height="38" rx="5" fill="#eff4f0"/>
+<text x="26" y="414" font-size="16" fill="#19392d">T8</text>
+<text x="126" y="414" font-size="16" fill="#19392d">R 点高程</text>
+<text x="420" y="414" font-size="16" fill="#19392d">1 → 1</text>
+<text x="720" y="414" font-size="16" fill="#19392d">8</text>
+<text x="895" y="414" font-size="16" fill="#19392d">10</text>
+<text x="24" y="457" font-size="13" fill="#52635b">浅绿色行的相容集合缩小；相容集合由已交付反馈计算，不表示 Agent 已经学会。</text>
+<text x="24" y="480" font-size="13" fill="#52635b">同样剩两个世界，历史可能只帮助其中一类任务：集合大小不能代替信息的行动价值。</text>
+</svg>
