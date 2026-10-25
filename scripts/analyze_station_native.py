@@ -28,11 +28,17 @@ def main():
     output.mkdir(parents=True,exist_ok=False)
     design=read(root/"design.json")
     baseline=memory_manifest(root/"baseline")
+    baseline_global=(root/"baseline"/"global_mem_insight.txt").read_text(encoding="utf-8")
+    main_memory=root/"baseline"
     rows=[]
     graphs={}
     for session in pilot["sessions"]:
         folder=root/"sessions"/session["name"]
         summary=read(folder/"summary.json")
+        input_memory=root/"baseline" if session["condition"]=="clear" else main_memory
+        global_memory=(input_memory/"global_mem_insight.txt").read_text(encoding="utf-8")
+        first_request=read(folder/"model"/"001-request.json")
+        global_in_input=json.dumps(global_memory,ensure_ascii=False)[1:-1] in json.dumps(first_request,ensure_ascii=False)
         events=[json.loads(line) for line in (folder/"events.jsonl").read_text(encoding="utf-8").splitlines()]
         graph=read(folder/"graph.json")
         messages=[json.loads(line) for line in (folder/"audit.jsonl").read_text(encoding="utf-8").splitlines()]
@@ -60,6 +66,10 @@ def main():
              "main_calls":summary["main_calls"],"final_calls":summary["final_calls"],
              "execution_protocol":summary["initial_session"].get("execution_protocol","native-return-terminal-legacy"),
              "continuation_count":len(summary.get("continuations",[])),
+             "native_global_memory_changed_from_baseline":global_memory!=baseline_global,
+             "native_global_memory_verbatim_in_first_input":global_in_input,
+             "self_generated_global_memory_in_first_input":global_memory!=baseline_global and global_in_input,
+             "input_global_memory_sha256":sha256(global_memory.encode("utf-8")).hexdigest(),
              "memory_content_changed":summary.get("content_changed",[]),
              "tool_counts":dict(Counter(m["name"] for m in messages if m.get("kind")=="tool")),
              "input_memory_differs_from_baseline":summary["input_memory"] != baseline,
@@ -83,6 +93,8 @@ def main():
         assert all(v for k,v in initial["isolation"].items() if k!="pid")
         rows.append(row)
         graphs[row["name"]]=graph
+        if session["condition"]!="clear":
+            main_memory=folder/"memory-after"
     pair_inputs=[]
     for task in pilot["tasks"][1:]:
         pair=[]
@@ -94,6 +106,10 @@ def main():
     artifact={"kind":"native_ga_station_single_world_pilot_not_statistical_effect_estimate",
               "world":pilot["world"],"model_alias":pilot["model_alias"],"source_pilot_sha256":sha256((root/"pilot.json").read_bytes()).hexdigest(),
               "analysis_sha256":sha256(Path(__file__).read_bytes()).hexdigest(),"rows":rows,"paired_first_inputs":pair_inputs,
+              "execution_protocols":sorted({r["execution_protocol"] for r in rows}),
+              "infrastructure_attempts":[{"name":s["name"],"llm_call_attempts":s["llm_calls"],
+                  "error":s["infrastructure_error"],"excluded_from_valid_rows":True}
+                  for s in pilot.get("attempt_history",[])],
               "comparison":pilot["comparison"],"limitations":["one sampled world and one native history",
                  "each clear run is a current-task probe, not an independent full stream",
                  "model alias is not independently verified model identity","path matching is not retrieval proof"]}
@@ -130,12 +146,14 @@ def main():
         ax.plot(x,[r["distance"] for r in retained],marker="o",label="Retained history branch (T1 prefix)")
         ax.plot(x,[r["distance"] if r else float('nan') for r in cleared],marker="s",linestyle="--",label="Current-task baseline-memory probe")
         failed=[(i,row["distance"]) for branch in (retained,cleared) for i,row in zip(x,branch) if row and not row["success"]]
-        ax.scatter([p[0] for p in failed],[p[1] for p in failed],marker="x",s=90,c="black",linewidths=1.5,zorder=5,label="Task ended before submission")
+        if failed:
+            ax.scatter([p[0] for p in failed],[p[1] for p in failed],marker="x",s=90,c="black",linewidths=1.5,zorder=5,label="Task ended before submission")
         ax.set_xticks(x,[f"T{i}" for i in x]);ax.set(ylabel="Actual walked distance",ylim=(0,max(r["distance"] for r in rows)+4))
         ax.spines[["top","right"]].set_visible(False);ax.grid(axis="y",alpha=0.2)
         ax.legend(frameon=False,fontsize=9,loc="upper center")
         fig.suptitle("Native GA pilot: all eight commissions",fontsize=14)
-        fig.text(0.08,0.025,"One observation per condition/task; no uncertainty intervals. Early failure can have low distance. No baseline probe exists for T1.",fontsize=8.5)
+        status_note="Early failure can have low distance." if failed else "All 15 sessions submitted successfully."
+        fig.text(0.08,0.025,f"One observation per condition/task; no uncertainty intervals. {status_note} No baseline probe exists for T1.",fontsize=8.5)
         fig.subplots_adjust(left=0.09,right=0.98,bottom=0.19,top=0.88)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-all-tasks.{suffix}",dpi=180,facecolor="white")
