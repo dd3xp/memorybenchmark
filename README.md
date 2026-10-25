@@ -7,7 +7,8 @@
 共享规则核心供人类和 Agent 操作。网页和命令行默认进入 **雾汀湖 Easy**：31 个地点、31 条通路、3 个营地与 8 项委托，每项参考路线仅遇险 1–2 次。公开地图跨 session 点亮；现有原型围绕风险与工具经验产生行动差异，新版不默认沿用这一机制。
 
 - [环境重设计范围](docs/ENVIRONMENT_REDESIGN.md)：当前已确认约束、开放规则与首份环境规格。
-- [多项经验原型与试玩](docs/MULTI_EXPERIENCE_PROTOTYPE.md)：两组独立信息、部分知识、八项普通委托及共用规则的终端／JSONL 入口；288 条参考重放通过，未运行真实 Agent。
+- [多项经验原型与试玩](docs/MULTI_EXPERIENCE_PROTOTYPE.md)：两组独立信息、部分知识、八项普通委托、终端与原生接入检查；288 条参考重放通过，尚无有效真实模型轨迹。
+- [执行图与可测行为](reports/STATION_GRAPH_MEASUREMENT_PILOT.md)：实际参考成图、逐例描述量、图表示的必要信息及原生试跑故障记录。
 - [首个可执行机制样例](docs/STATION_CAPABILITY_PROTOTYPE.md)：局部设施能力、两个匹配世界、参考搜索与真实交互图；已校验信息价值，未运行真实 Agent。
 - [问题建模与解决方法](reports/记忆环境%20重设计%20问题建模.md)：多回合未知世界决策、匹配世界与机制校验的技术依据。
 - [实验设计](EXPERIMENT_DESIGN.md)：最新研究边界与历史方案。

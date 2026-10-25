@@ -25,23 +25,25 @@ GAME_TOOL = {
 
 
 class GameTool:
-    def __init__(self, rpc):
+    def __init__(self, rpc, *, definition=None, target_actions=("move", "take")):
         self.rpc = rpc
+        self.definition = deepcopy(GAME_TOOL if definition is None else definition)
+        self.target_actions = tuple(target_actions)
         self.lock = threading.RLock()
 
     def __call__(self, args):
         if not isinstance(args, dict) or set(args) - {"action", "target"}:
             return {"error": "invalid_arguments", "message": "需要 action 和可选的 target。"}
         action = args.get("action")
-        if action not in GAME_TOOL["parameters"]["properties"]["action"]["enum"]:
+        if action not in self.definition["parameters"]["properties"]["action"]["enum"]:
             return {"error": "invalid_arguments", "message": "未知动作。"}
-        if action in ("move", "take") and not isinstance(args.get("target"), str):
+        if action in self.target_actions and not isinstance(args.get("target"), str):
             return {"error": "invalid_arguments", "message": "移动／取用需要 target。"}
         # Some strict-schema gateways materialize an unused optional string as
         # empty/null. It carries no target and must not obstruct submit/read.
-        if action not in ("move", "take") and args.get("target", "") not in ("", None):
+        if action not in self.target_actions and args.get("target", "") not in ("", None):
             return {"error": "invalid_arguments", "message": "该动作不接受 target。"}
-        args = {k:v for k,v in args.items() if k != "target" or action in ("move", "take")}
+        args = {k:v for k,v in args.items() if k != "target" or action in self.target_actions}
         with self.lock:
             request = {"command": "read"} if action == "read" else {
                 "command": "action", "request_id": uuid4().hex,
@@ -110,7 +112,7 @@ def register_genericagent(agent_module, agent, step_outcome, game_tool):
 
     agent_module.GenericAgentHandler.do_game_action = do_game_action
     agent_module.TOOLS_SCHEMA[:] = [t for t in agent_module.TOOLS_SCHEMA if t.get("function", {}).get("name") != "game_action"]
-    agent_module.TOOLS_SCHEMA.append({"type": "function", "function": deepcopy(GAME_TOOL)})
+    agent_module.TOOLS_SCHEMA.append({"type": "function", "function": deepcopy(getattr(game_tool, "definition", GAME_TOOL))})
     for entry in agent_module.TOOLS_SCHEMA:
         if entry.get("function", {}).get("name") == "submit":
             entry["function"]["description"] = "提交当前游戏的地理记录；必须满足当前委托的全部目标和提交地点要求。answer 不用于修改游戏状态。"

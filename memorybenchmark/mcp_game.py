@@ -32,16 +32,18 @@ def require_mcp():
     return installed
 
 
-def transport_identity():
+def transport_identity(definition=None):
+    definition = GAME_TOOL if definition is None else definition
     return {"game_transport": GAME_TRANSPORT, "mcp_sdk_version": require_mcp(),
-            "game_tool_sha256": sha256(json.dumps(GAME_TOOL, sort_keys=True, ensure_ascii=False).encode()).hexdigest(),
+            "game_tool_sha256": sha256(json.dumps(definition, sort_keys=True, ensure_ascii=False).encode()).hexdigest(),
             "mcp_implementation": {name: sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
                                    for name in ("mcp_game.py", "game_session.py")}}
 
 
-def create_server(rpc):
+def create_server(rpc, *, definition=None, target_actions=("move", "take")):
     """rpc accepts only the bound current task's public read/action requests."""
     require_mcp()
+    definition = deepcopy(GAME_TOOL if definition is None else definition)
     import anyio
     from mcp.server import Server
     from mcp.types import CallToolResult, TextContent, Tool, ToolAnnotations
@@ -51,8 +53,8 @@ def create_server(rpc):
 
     @server.list_tools()
     async def list_tools():
-        return [Tool(name=GAME_TOOL["name"], description=GAME_TOOL["description"],
-                     inputSchema=deepcopy(GAME_TOOL["parameters"]),
+        return [Tool(name=definition["name"], description=definition["description"],
+                     inputSchema=deepcopy(definition["parameters"]),
                      annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=False,
                                                  idempotentHint=False, openWorldHint=False))]
 
@@ -71,7 +73,7 @@ def create_server(rpc):
                 def bound(request):
                     return rpc({**request, **fields} if request["command"] == "action" else request)
                 async with lock:
-                    result = GameTool(bound)(arguments)
+                    result = GameTool(bound, definition=definition, target_actions=target_actions)(arguments)
         return CallToolResult(content=[TextContent(type="text", text=json.dumps(result, ensure_ascii=False))],
                               structuredContent=result, isError="error" in result)
 
@@ -79,13 +81,14 @@ def create_server(rpc):
 
 
 @asynccontextmanager
-async def connect_memory(rpc):
+async def connect_memory(rpc, *, definition=None, target_actions=("move", "take")):
     """Full MCP initialization/discovery/calls without a public network port."""
     import anyio
     from mcp import ClientSession
     from mcp.shared.memory import create_client_server_memory_streams
 
-    server = create_server(rpc)
+    definition = deepcopy(GAME_TOOL if definition is None else definition)
+    server = create_server(rpc, definition=definition, target_actions=target_actions)
     async with create_client_server_memory_streams() as (client_streams, server_streams):
         async with anyio.create_task_group() as tasks:
             tasks.start_soon(server.run, *server_streams, server.create_initialization_options())
@@ -94,9 +97,9 @@ async def connect_memory(rpc):
                 tools = await client.list_tools()
                 if len(tools.tools) != 1 or tools.tools[0].name != "game_action":
                     raise RuntimeError("unexpected game MCP tool list")
-                if tools.tools[0].inputSchema != GAME_TOOL["parameters"]:
+                if tools.tools[0].inputSchema != definition["parameters"]:
                     raise RuntimeError("unexpected game MCP input schema")
-                yield client, {**transport_identity(), "mcp_protocol": initialized.protocolVersion}
+                yield client, {**transport_identity(definition), "mcp_protocol": initialized.protocolVersion}
             tasks.cancel_scope.cancel()
 
 
@@ -106,8 +109,10 @@ class MCPGameClient:
     The client/server exchange uses real MCP messages through the SDK. Only the
     game protocol changes; native agent loops and memory tools remain native.
     """
-    def __init__(self, rpc):
+    def __init__(self, rpc, *, definition=None, target_actions=("move", "take")):
         self.rpc = rpc
+        self.definition = deepcopy(GAME_TOOL if definition is None else definition)
+        self.target_actions = tuple(target_actions)
         self.lock = threading.RLock()
 
     def __enter__(self):
@@ -116,7 +121,8 @@ class MCPGameClient:
         self._portal_context = start_blocking_portal(name="game-mcp")
         self._portal = self._portal_context.__enter__()
         try:
-            self._session_context = self._portal.wrap_async_context_manager(connect_memory(self.rpc))
+            self._session_context = self._portal.wrap_async_context_manager(connect_memory(
+                self.rpc, definition=self.definition, target_actions=self.target_actions))
             self.client, self.identity = self._session_context.__enter__()
         except BaseException:
             self._portal_context.__exit__(*sys.exc_info())

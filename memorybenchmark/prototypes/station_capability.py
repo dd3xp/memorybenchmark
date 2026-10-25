@@ -180,6 +180,21 @@ class StationGame:
         self._runs = 0
 
     @property
+    def done(self):
+        return self.state is not None and self.state.done
+
+    def finish_incomplete(self, reason):
+        """Host termination, never a fabricated agent action or commute."""
+        if not self.done:
+            self.state = replace(self.state, done=True)
+            delivered = {"observation": self.observation(),
+                         "feedback": {"kind": "runner_terminated", "reason": reason}}
+            self._record({"kind": "runner_terminated", "position": self.state.position,
+                          "time": self.clock, "delivered": delivered, "evidence_delivered": []})
+            return deepcopy(delivered)
+        return {"observation": self.observation(), "feedback": {"kind": "current_observation"}}
+
+    @property
     def task(self):
         return self.design["tasks"][self.task_id]
 

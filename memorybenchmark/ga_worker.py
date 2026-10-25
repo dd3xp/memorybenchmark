@@ -127,7 +127,7 @@ def main():
     if config.get("probe_only"):
         wire.emit("finished", isolation=isolation)
         return
-    reminder = build_task_reminder(config["task_observation"])
+    reminder = config.get("task_reminder") or build_task_reminder(config["task_observation"])
     # Native GA's long-term-update tool reads ./memory, while its file tools
     # and system prompt also support ../memory from the temporary working dir.
     # Both names must reach the same native persistent directory.
@@ -177,16 +177,17 @@ def main():
         if result.get("observation", {}).get("done"):
             finalizing = True
         return result
-    register_genericagent(agentmain, agent, StepOutcome, GameTool(game_request))
+    register_genericagent(agentmain, agent, StepOutcome, GameTool(game_request,
+        definition=config.get("game_tool"), target_actions=config.get("game_target_actions", ("move", "take"))))
     original_before = handler.tool_before_callback
     def before(name, args, response):
         wire.emit("tool", name=name, args={k:v for k,v in args.items() if not k.startswith("_")},
                   response_text=response.content)
         return original_before(name, args, response)
     handler.tool_before_callback = before
-    system = agentmain.get_system_prompt() + GUIDE
+    system = agentmain.get_system_prompt() + config.get("game_guide", GUIDE)
     wire.emit("session", protocol=PROTOCOL, isolation=isolation,
-              prompt_protocol=PROMPT_PROTOCOL, task_reminder=reminder,
+              prompt_protocol=config.get("prompt_protocol", PROMPT_PROTOCOL), task_reminder=reminder,
               system_prompt=system, initial_history_size=initial_history_size,
               initial_backend_history_size=initial_backend_size,
               current_task_history_size=len(handler.history_info),
