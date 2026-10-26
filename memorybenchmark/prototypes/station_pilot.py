@@ -114,14 +114,9 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=40, final_turns=6, resume=False, world=None):
+          max_turns=40, final_turns=6, resume=False, world=None, design_path=None):
     output = Path(output).resolve()
-    design = load_design(DEFAULT_DESIGN)
-    if world is not None and world not in design["private_worlds"]:
-        raise ValueError("Unknown private world fixture")
-    tasks = list(tasks or design["tasks"])
-    if not tasks or len(set(tasks)) != len(tasks) or any(t not in design["tasks"] for t in tasks):
-        raise ValueError("Tasks must be unique members of this design")
+    selected_design = Path(design_path) if design_path is not None else DEFAULT_DESIGN
     if resume:
         report = json.loads((output / "pilot.json").read_text(encoding="utf-8"))
         if world is not None and world != report["world"]:
@@ -133,15 +128,21 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         tasks, seed, model_alias = report["tasks"], report["seed"], report["model_alias"]
         max_turns, final_turns = report["max_turns"], report["final_turns"]
     else:
+        design = load_design(selected_design)
+        if world is not None and world not in design["private_worlds"]:
+            raise ValueError("Unknown private world fixture")
+        tasks = list(tasks or design["tasks"])
+        if not tasks or len(set(tasks)) != len(tasks) or any(t not in design["tasks"] for t in tasks):
+            raise ValueError("Tasks must be unique members of this design")
         output.mkdir(parents=True, exist_ok=False)
         source = extract_native(archive, output / "source")
         copy_memory(source / "memory", output / "baseline")
         make_support(output / "support")
-        paths = [Path(__file__), DEFAULT_DESIGN, Path(__file__).with_name("station_capability.py"),
+        paths = [Path(__file__), selected_design, Path(__file__).with_name("station_capability.py"),
                  Path(__file__).with_name("station_session.py")]
         paths += [Path(__file__).parents[1] / name for name in
                   ("ga_worker.py", "agent_bridge.py", "mcp_game.py", "agent_sessions.py", "ga_runtime.py", "model_gateway.py")]
-        report = {"protocol": "station-native-pilot-1", "status": "running", "seed": seed,
+        report = {"protocol": "station-native-pilot-1", "status": "running", "seed": seed, "design_id": design["design_id"],
                   "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
                   # The worker receives its RNG seed; hidden-world sampling must
                   # be independent so that seed cannot disclose the assignment.
@@ -222,6 +223,7 @@ def main():
     parser.add_argument("--max-output-tokens", type=int, default=0)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--world", help="private host fixture for a controlled rerun; never sent to the worker")
+    parser.add_argument("--design", type=Path, help="map configuration; defaults to the original eight-task prototype")
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
@@ -233,7 +235,8 @@ def main():
         read_model = json.loads((args.output / "pilot.json").read_text(encoding="utf-8"))["model_alias"]
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
     pilot(args.archive, args.output, WSLJail(args.distro), model, seed=args.seed, model_alias=args.model,
-          tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world)
+          tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
+          design_path=args.design)
 
 
 if __name__ == "__main__":

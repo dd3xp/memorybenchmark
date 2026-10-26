@@ -14,6 +14,7 @@ from .watch import WatchStore
 from .web_auth import PinAuth
 from .tls import HTTPSGameServer
 from .map_design import map_design
+from .prototypes.field_service import FieldService
 
 STATIC = Path(__file__).parent / "static"
 
@@ -60,6 +61,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
     if tls_cert is not None and not secure_cookie:
         raise ValueError("HTTPS sessions require Secure cookies.")
     service = GameService(log_root, scenario)
+    field = FieldService(log_root)
     watch=(WatchStore(Path(log_root)/"agent-cross-session",Path(log_root)/"ga-cross-session")
            if watch_root is None else WatchStore(watch_root))
     auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
@@ -95,7 +97,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
 
         @staticmethod
         def destination(value):
-            return value if value in ("/", "/watch", "/play", "/design") else "/watch"
+            return value if value in ("/", "/watch", "/play", "/design", "/easy20") else "/watch"
 
         def login_page(self, message="", status=200, destination="/watch", extra=None):
             body = (STATIC / "login.html").read_text(encoding="utf-8")
@@ -219,6 +221,18 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     self.reply(service.dispatch(token, {"command": "read"}))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
+            elif url.path in ("/api/field/observation", "/api/field/design"):
+                token = parse_qs(url.query).get("instance_id", [None])[0]
+                try:
+                    self.reply(field.design_view(token) if url.path.endswith("/design") else field.read(token))
+                except ProtocolError as e:
+                    self.reply({"error": "protocol_error", "message": str(e)}, 400)
+            elif url.path in ("/easy20", "/field.js", "/field.css", "/field-terrain.svg"):
+                name = {"/easy20": "field.html", "/field.js": "field.js", "/field.css": "field.css", "/field-terrain.svg": "field-terrain.svg"}[url.path]
+                mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css" if name.endswith(".css") else "image/svg+xml"
+                body = (STATIC / name).read_bytes()
+                self.response_headers(200, mime + "; charset=utf-8", len(body))
+                self.wfile.write(body)
             elif url.path in ("/", "/play", "/watch", "/design", "/design.js", "/design.css", "/app.js", "/style.css", "/play.css", "/scene.js", "/terrain-ground.png", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
                 name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
                         "/design": "design.html", "/design.js": "design.js", "/design.css": "design.css", "/play.css": "play.css",
@@ -258,7 +272,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     auth.logout(self.headers.get("Cookie"))
                 self.redirect("/login", {"Set-Cookie": auth.cookie()} if auth else None)
                 return
-            if self.path not in ("/api/start", "/api/action"):
+            if self.path not in ("/api/start", "/api/action", "/api/field/start", "/api/field/action", "/api/field/next"):
                 self.reply({"error": "not_found"}, 404)
                 return
             try:
@@ -267,7 +281,10 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 request = json.loads(self.read_body())
                 if not isinstance(request, dict):
                     raise ProtocolError("请求必须是对象。")
-                if self.path == "/api/start":
+                if self.path.startswith("/api/field/"):
+                    result = {"/api/field/start": field.start, "/api/field/action": field.action,
+                              "/api/field/next": field.advance}[self.path](request)
+                elif self.path == "/api/start":
                     result = service.start(request)
                 else:
                     result = service.dispatch(request.get("instance_id"), {**request, "command": "action"})
@@ -281,6 +298,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
     else:
         server = ThreadingHTTPServer((host, port), Handler)
     server.service = service
+    server.field = field
     server.watch = watch
     server.auth = auth
     return server

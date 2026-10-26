@@ -64,16 +64,16 @@ class WebAuthTests(unittest.TestCase):
         return headers
 
     def test_unauthenticated_requests_cannot_read_or_change_games(self):
-        for path in ("/", "/watch", "/play", "/design", "/design.js", "/design.css", "/watch.js", "/app.js", "/watch.css", "/style.css", "/play.css", "/scene.js", "/terrain-ground.png", "/maps.js", "/lake.svg"):
+        for path in ("/", "/watch", "/play", "/easy20", "/field.js", "/field.css", "/field-terrain.svg", "/design", "/design.js", "/design.css", "/watch.js", "/app.js", "/watch.css", "/style.css", "/play.css", "/scene.js", "/terrain-ground.png", "/maps.js", "/lake.svg"):
             status, headers, body = self.request(path)
             self.assertEqual(status, 303, path)
             self.assertTrue(headers["Location"].startswith("/login"))
             self.assertEqual(body, b"")
-        for path in ("/health", "/api/watch/runs", "/api/watch/run?id=anything", "/api/tasks", "/api/design?scenario=lake-easy", "/api/observation", "/api/atlas?instance_id=anything"):
+        for path in ("/api/field/observation?instance_id=anything", "/api/field/design?instance_id=anything", "/health", "/api/watch/runs", "/api/watch/run?id=anything", "/api/tasks", "/api/design?scenario=lake-easy", "/api/observation", "/api/atlas?instance_id=anything"):
             status, _, body = self.request(path)
             self.assertEqual(status, 401, path)
             self.assertEqual(json.loads(body)["error"], "authentication_required")
-        for path in ("/api/start", "/api/action"):
+        for path in ("/api/start", "/api/action", "/api/field/start", "/api/field/action", "/api/field/next"):
             status, _, _ = self.request(path, "POST", {"task_id": "T1"})
             self.assertEqual(status, 401)
         self.assertEqual(self.server.service.games, {})
@@ -88,7 +88,7 @@ class WebAuthTests(unittest.TestCase):
         for attribute in ("HttpOnly", "Secure", "SameSite=Strict", "Path=/"):
             self.assertIn(attribute, headers["Set-Cookie"])
         self.assertIn("Max-Age=15552000", headers["Set-Cookie"])
-        for path in ("/", "/watch", "/play", "/play.css", "/scene.js", "/terrain-ground.png", "/design", "/design.js", "/design.css", "/api/design?scenario=lake-easy", "/watch.js", "/api/watch/runs", "/health"):
+        for path in ("/", "/watch", "/play", "/easy20", "/field.js", "/field.css", "/field-terrain.svg", "/play.css", "/scene.js", "/terrain-ground.png", "/design", "/design.js", "/design.css", "/api/design?scenario=lake-easy", "/watch.js", "/api/watch/runs", "/health"):
             self.assertEqual(self.request(path, cookie=self.cookie)[0], 200, path)
         status, _, body = self.request("/api/start", "POST", {"task_id": "T1"}, cookie=self.cookie)
         self.assertEqual(status, 200)
@@ -105,6 +105,26 @@ class WebAuthTests(unittest.TestCase):
         self.assertEqual(status, 303)
         self.assertIn("Max-Age=0", headers["Set-Cookie"])
         self.assertEqual(self.request("/api/watch/runs", cookie=self.cookie)[0], 401)
+
+    def test_easy20_authenticated_current_task_and_explicit_design_view(self):
+        self.login()
+        status, _, body = self.request("/api/field/start", "POST", {}, cookie=self.cookie)
+        self.assertEqual(status, 200)
+        first = json.loads(body)
+        self.assertEqual(first["task_count"], 20)
+        self.assertNotIn("private_worlds", body.decode())
+        token = first["instance_id"]
+        self.assertEqual(self.request(f"/api/field/design?instance_id={token}", cookie=self.cookie)[0], 200)
+        request = {"instance_id": token, "task_run_id": first["task_run_id"], "request_id": "human-move", "expected_revision": 0, "action": {"type":"move", "target":"J"}}
+        status, _, body = self.request("/api/field/action", "POST", request, cookie=self.cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(body)["observation"]["location"], "J")
+        request["task_run_id"] = "old-task"
+        self.assertEqual(self.request("/api/field/action", "POST", request, cookie=self.cookie)[0], 400)
+        self.assertEqual(self.request("/api/field/start", "POST", {"world":"omega_0000"}, cookie=self.cookie)[0], 400)
+        self.assertEqual(self.request("/api/field/observation?instance_id=missing", cookie=self.cookie)[0], 400)
+        status, headers, _ = self.request("/login", "POST", urlencode({"pin":self.pin,"next":"/easy20"}), {"Content-Type":"application/x-www-form-urlencoded"})
+        self.assertEqual((status, headers["Location"]), (303, "/easy20"))
 
     def test_wrong_pin_is_rate_limited_globally_and_success_preserves_leading_zero(self):
         for _ in range(4):
@@ -158,7 +178,7 @@ class WebAuthTests(unittest.TestCase):
     def test_cross_site_login_actions_and_logout_are_rejected(self):
         self.login()
         hostile = {"Origin": "https://untrusted.example"}
-        for path, data in (("/login", {"pin": self.pin}), ("/api/start", {"task_id": "T1"}), ("/logout", {})):
+        for path, data in (("/login", {"pin": self.pin}), ("/api/start", {"task_id": "T1"}), ("/logout", {}), ("/api/field/start", {}), ("/api/field/action", {}), ("/api/field/next", {})):
             self.assertEqual(self.request(path, "POST", data, hostile, self.cookie)[0], 403)
         self.assertEqual(self.request("/health", cookie=self.cookie)[0], 200)
         self.assertEqual(self.server.service.games, {})

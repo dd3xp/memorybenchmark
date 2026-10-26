@@ -62,12 +62,14 @@ def trace_graph(game):
 def render_svg(design, graph, title):
     """Draw the actual ordered multigraph; gray edges are public geography."""
     locations = design["public"]["locations"]
+    bounds = design["public"].get("view_box")
+    width, height, panel = (bounds[2] + 350, bounds[3] + 80, bounds[2] + 30) if bounds else (850, 440, 530)
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="850" height="440" viewBox="0 0 850 440" font-family="Segoe UI, Microsoft YaHei, sans-serif">',
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" font-family="Segoe UI, Microsoft YaHei, sans-serif">',
         '<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#21628d"/></marker></defs>',
-        '<rect width="850" height="440" fill="#fafbf8"/>',
+        f'<rect width="{width}" height="{height}" fill="#fafbf8"/>',
         f'<text x="24" y="27" font-size="17">{escape(title)}</text>',
-        f'<text x="24" y="421" font-size="13">Distance {graph["distance"]} · {len(graph["edges"])} moves · arrow numbers show movement order</text>',
+        f'<text x="24" y="{height-19}" font-size="13">Distance {graph["distance"]} · {len(graph["edges"])} moves · arrow numbers show movement order</text>',
     ]
     for a, b, _ in design["public"]["edges"]:
         p, q = locations[a], locations[b]
@@ -94,16 +96,16 @@ def render_svg(design, graph, title):
         parts.append(f'<circle cx="{data["x"]}" cy="{data["y"]}" r="19" fill="{fill}" stroke="#455b51" stroke-width="2"/>')
         parts.append(f'<text x="{data["x"]}" y="{data["y"]+5}" text-anchor="middle" font-size="15">{escape(node)}</text>')
         parts.append(f'<text x="{data["x"]}" y="{data["y"]+39}" text-anchor="middle" font-size="12">{escape(data["name"])}</text>')
-    parts.append('<text x="530" y="58" font-size="14">Recorded movement</text>')
+    parts.append(f'<text x="{panel}" y="58" font-size="14">Recorded movement</text>')
     for i, edge in enumerate(graph["edges"]):
-        parts.append(f'<text x="530" y="{83+i*21}" font-size="13">{i+1}. {edge["source"]} → {edge["target"]}  ({edge["weight"]})</text>')
+        parts.append(f'<text x="{panel}" y="{83+i*21}" font-size="13">{i+1}. {edge["source"]} → {edge["target"]}  ({edge["weight"]})</text>')
     y = max(264, 95 + len(graph["edges"]) * 21)
-    parts.append(f'<text x="530" y="{y}" font-size="14">Node operations</text>')
+    parts.append(f'<text x="{panel}" y="{y}" font-size="14">Node operations</text>')
     for i, event in enumerate(graph["node_events"]):
         feedback = event["feedback"]
         description = feedback.get("result", feedback["kind"])
         text = f'{event["location"]}: {event["action"]["type"]} / {description}'
-        parts.append(f'<text x="530" y="{y+23+i*19}" font-size="12">{escape(text)}</text>')
+        parts.append(f'<text x="{panel}" y="{y+23+i*19}" font-size="12">{escape(text)}</text>')
     parts.append('</svg>')
     return "\n".join(parts)
 

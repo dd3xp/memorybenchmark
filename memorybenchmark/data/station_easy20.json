@@ -1,0 +1,77 @@
+{
+  "design_id": "lanting-easy20-v1",
+  "status": "playable_design_pending_native_agent_calibration",
+  "world_generator": "independent_pair_swaps",
+  "public": {
+    "version": "lanting-easy20-v1",
+    "name": "岚汀丘地",
+    "difficulty": "Easy",
+    "view_box": [0, 0, 1200, 900],
+    "rules": [
+      "每项委托从手记营地 C 出发，到目标点自动采集本次原始资料；在支持该种资料的站处理，再回 C 提交。旧资料不能代替本次采集。",
+      "每个站群的两个处理站各支持两种公开资料中的一种，恰好各有一站。四个站群的分配相互独立，同一轮二十项委托中保持不变。",
+      "所有地点、道路和距离均公开。地名、地貌和站点字母不能确定能力；只有查询或实际处理返回能力反馈。",
+      "查询 inspect 和处理 process 都占一次操作。不支持的处理保留原始资料，可以转站重试。每项最多十八次操作，read 不消耗操作。",
+      "可以自由前往其他地点和站群，不必按委托顺序探索。某次失败仍可能提供经验；后续能否复用取决于此前实际获得的反馈。",
+      "每项委托重置位置、资料、处理状态、操作数、时钟和临时上下文。游戏不自动重发历史能力，Agent 须自主保存并检索经验。"
+    ],
+    "kinds": {"profile": "剖面资料", "shore": "岸线资料", "bearing": "方位资料", "elevation": "高程资料", "vegetation": "植被资料", "lithology": "岩性资料", "drainage": "水系资料", "contour": "等高线资料"},
+    "capability_groups": {
+      "AB": {"name": "北砾坡站群", "stations": ["A", "B"], "kinds": ["profile", "shore"]},
+      "DE": {"name": "东苇湾站群", "stations": ["D", "E"], "kinds": ["bearing", "elevation"]},
+      "FG": {"name": "南阶地站群", "stations": ["F", "G"], "kinds": ["vegetation", "lithology"]},
+      "HK": {"name": "西杉岭站群", "stations": ["H", "K"], "kinds": ["drainage", "contour"]}
+    },
+    "locations": {
+      "C": {"name": "手记营地", "kind": "camp", "x": 710, "y": 535},
+      "J": {"name": "风标岔口", "kind": "junction", "x": 600, "y": 455},
+      "JN": {"name": "北砾坡口", "kind": "junction", "x": 600, "y": 205},
+      "JE": {"name": "苇湾路口", "kind": "junction", "x": 920, "y": 455},
+      "JS": {"name": "南阶地口", "kind": "junction", "x": 600, "y": 705},
+      "JW": {"name": "杉岭路口", "kind": "junction", "x": 280, "y": 455},
+      "A": {"name": "A 处理站", "kind": "station", "x": 430, "y": 85},
+      "B": {"name": "B 处理站", "kind": "station", "x": 770, "y": 85},
+      "D": {"name": "D 处理站", "kind": "station", "x": 1090, "y": 300},
+      "E": {"name": "E 处理站", "kind": "station", "x": 1090, "y": 595},
+      "F": {"name": "F 处理站", "kind": "station", "x": 430, "y": 830},
+      "G": {"name": "G 处理站", "kind": "station", "x": 770, "y": 830},
+      "H": {"name": "H 处理站", "kind": "station", "x": 105, "y": 300},
+      "K": {"name": "K 处理站", "kind": "station", "x": 105, "y": 595},
+      "P": {"name": "砾溪断面", "kind": "survey", "x": 465, "y": 255},
+      "Q": {"name": "北湾石滩", "kind": "survey", "x": 735, "y": 255},
+      "R": {"name": "东坡石标", "kind": "survey", "x": 885, "y": 310},
+      "S": {"name": "苇湾高台", "kind": "survey", "x": 885, "y": 605},
+      "U": {"name": "阶地草甸", "kind": "survey", "x": 465, "y": 660},
+      "V": {"name": "南坡露岩", "kind": "survey", "x": 735, "y": 660},
+      "X": {"name": "杉岭溪头", "kind": "survey", "x": 305, "y": 310},
+      "Y": {"name": "西坡鞍部", "kind": "survey", "x": 305, "y": 605}
+    },
+    "edges": [["C", "J", 1], ["J", "JN", 1], ["J", "JE", 1], ["J", "JS", 1], ["J", "JW", 1], ["JN", "A", 2], ["JN", "B", 2], ["JN", "P", 1], ["JN", "Q", 1], ["JE", "D", 2], ["JE", "E", 2], ["JE", "R", 1], ["JE", "S", 1], ["JS", "F", 2], ["JS", "G", 2], ["JS", "U", 1], ["JS", "V", 1], ["JW", "H", 2], ["JW", "K", 2], ["JW", "X", 1], ["JW", "Y", 1]]
+  },
+  "presentation": {
+    "subtitle": "四方站群，二十封测绘委托",
+    "regions": [{"name": "北砾坡", "x": 600, "y": 30}, {"name": "东苇湾", "x": 1035, "y": 730}, {"name": "南阶地", "x": 600, "y": 890}, {"name": "西杉岭", "x": 150, "y": 730}]
+  },
+  "tasks": {
+    "T1": {"name": "砾溪初测", "start": "C", "target": "P", "required_kind": "profile", "submit_at": "C", "max_steps": 18},
+    "T2": {"name": "东坡定向", "start": "C", "target": "R", "required_kind": "bearing", "submit_at": "C", "max_steps": 18},
+    "T3": {"name": "北湾岸线", "start": "C", "target": "Q", "required_kind": "shore", "submit_at": "C", "max_steps": 18},
+    "T4": {"name": "草甸植被", "start": "C", "target": "U", "required_kind": "vegetation", "submit_at": "C", "max_steps": 18},
+    "T5": {"name": "苇湾高程", "start": "C", "target": "S", "required_kind": "elevation", "submit_at": "C", "max_steps": 18},
+    "T6": {"name": "溪头水系", "start": "C", "target": "X", "required_kind": "drainage", "submit_at": "C", "max_steps": 18},
+    "T7": {"name": "南坡岩性", "start": "C", "target": "V", "required_kind": "lithology", "submit_at": "C", "max_steps": 18},
+    "T8": {"name": "石滩剖面", "start": "C", "target": "Q", "required_kind": "profile", "submit_at": "C", "max_steps": 18},
+    "T9": {"name": "高台定向", "start": "C", "target": "S", "required_kind": "bearing", "submit_at": "C", "max_steps": 18},
+    "T10": {"name": "露岩植被", "start": "C", "target": "V", "required_kind": "vegetation", "submit_at": "C", "max_steps": 18},
+    "T11": {"name": "石标高程", "start": "C", "target": "R", "required_kind": "elevation", "submit_at": "C", "max_steps": 18},
+    "T12": {"name": "草甸岩性", "start": "C", "target": "U", "required_kind": "lithology", "submit_at": "C", "max_steps": 18},
+    "T13": {"name": "东坡复测", "start": "C", "target": "R", "required_kind": "bearing", "submit_at": "C", "max_steps": 18},
+    "T14": {"name": "鞍部等高线", "start": "C", "target": "Y", "required_kind": "contour", "submit_at": "C", "max_steps": 18},
+    "T15": {"name": "草甸复测", "start": "C", "target": "U", "required_kind": "vegetation", "submit_at": "C", "max_steps": 18},
+    "T16": {"name": "西坡水系", "start": "C", "target": "Y", "required_kind": "drainage", "submit_at": "C", "max_steps": 18},
+    "T17": {"name": "砾溪岸线", "start": "C", "target": "P", "required_kind": "shore", "submit_at": "C", "max_steps": 18},
+    "T18": {"name": "溪头等高线", "start": "C", "target": "X", "required_kind": "contour", "submit_at": "C", "max_steps": 18},
+    "T19": {"name": "砾溪复测", "start": "C", "target": "P", "required_kind": "profile", "submit_at": "C", "max_steps": 18},
+    "T20": {"name": "溪头复测", "start": "C", "target": "X", "required_kind": "drainage", "submit_at": "C", "max_steps": 18}
+  }
+}

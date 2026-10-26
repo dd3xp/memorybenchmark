@@ -17,6 +17,7 @@ from .station_capability import StationGame, capability_groups, load_design, nei
 
 
 DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capability_v2.json"
+EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.json"
 
 
 def render_text(response):
