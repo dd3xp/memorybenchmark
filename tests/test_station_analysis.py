@@ -1,5 +1,6 @@
 from copy import deepcopy
 import unittest
+from unittest.mock import patch
 
 from memorybenchmark.prototypes.station_analysis import analyze_trace
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
@@ -30,6 +31,19 @@ class StationAnalysisTests(unittest.TestCase):
         self.assertEqual(traces[0]["distance"], traces[1]["distance"])
         self.assertEqual(traces[1]["within_session_repeated_queries"], 1)
         self.assertEqual(traces[0]["query_count"], 0)
+
+    def test_descriptive_analysis_can_omit_policy_search_without_inventing_reference_values(self):
+        game = StationGame("omega_00", self.design)
+        game.start_task("T1")
+        for n in ("J", "A"):
+            game.step({"type":"move", "target":n})
+        game.step({"type":"inspect"});game.step({"type":"abandon"})
+        with patch("memorybenchmark.prototypes.station_analysis.ReferencePlanner", side_effect=AssertionError("search must not run")):
+            row=analyze_trace(self.design, game.events, game.task_run_id, exact_references=False)
+        self.assertEqual((row["distance"], row["query_count"], row["historical_new_bits"]), (3,1,1))
+        self.assertIsNone(row["physical_min_distance"])
+        self.assertIsNone(row["nohistory_reference_expected_distance"])
+        self.assertFalse(row["exact_references_computed"])
 
     def test_relevant_history_is_distinct_from_total_information(self):
         for task_id, relevant in (("T2", True), ("T3", False)):

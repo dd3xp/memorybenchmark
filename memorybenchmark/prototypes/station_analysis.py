@@ -6,7 +6,7 @@ from math import log2
 from .station_capability import ReferencePlanner, compatible_worlds
 
 
-def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True):
+def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_references=True):
     selected = [e for e in events if e["task_run_id"] == task_run_id]
     start = next(e for e in selected if e["kind"] == "task_started")
     task_id, task = start["task_id"], design["tasks"][start["task_id"]]
@@ -37,14 +37,16 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True):
     distance = sum(e["movement_cost"] for e in moves)
     success = selected[-1]["delivered"]["observation"]["success"] if infrastructure_ok else None
     all_worlds = tuple(design["private_worlds"])
-    planner = ReferencePlanner(design, task_id)
-    history_reference = planner.initial(tuple(prior_worlds))
-    nohistory_reference = planner.initial(all_worlds)
-    # A known-world physical reference is not an unknown-world agent's attainable policy.
-    physical = [planner.initial((w,)).distance for w in all_worlds]
-    if len(set(physical)) != 1:
-        raise ValueError("This diagnostic requires a common physical reference across the matched worlds")
-    physical_distance = float(physical[0])
+    history_distance = nohistory_distance = physical_distance = None
+    if exact_references:
+        planner = ReferencePlanner(design, task_id)
+        history_distance = float(planner.initial(tuple(prior_worlds)).distance)
+        nohistory_distance = float(planner.initial(all_worlds).distance)
+        # A known-world physical reference is not an unknown-world agent's attainable policy.
+        physical = [planner.initial((w,)).distance for w in all_worlds]
+        if len(set(physical)) != 1:
+            raise ValueError("This diagnostic requires a common physical reference across the matched worlds")
+        physical_distance = float(physical[0])
     station_excursions = []
     for incoming, outgoing in zip(moves, moves[1:]):
         station = incoming["to"]
@@ -74,7 +76,8 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True):
         "first_processing_correct": processing[0]["supported"] if processing else None,
         "history_contradicting_processing_count": sum(p["already_excluded_by_actual_history"] for p in processing),
         "physical_min_distance": physical_distance,
-        "successful_distance_excess": distance - physical_distance if success else None,
-        "full_delivered_history_reference_expected_distance": float(history_reference.distance),
-        "nohistory_reference_expected_distance": float(nohistory_reference.distance),
+        "successful_distance_excess": distance - physical_distance if success and physical_distance is not None else None,
+        "full_delivered_history_reference_expected_distance": history_distance,
+        "nohistory_reference_expected_distance": nohistory_distance,
+        "exact_references_computed": exact_references,
     }

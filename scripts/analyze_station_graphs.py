@@ -64,7 +64,9 @@ def draw_graph(ax, design, graph, row, title):
     ax.text(0, -0.10, "; ".join(labels), transform=ax.transAxes, fontsize=8.5)
     ax.text(0, -0.17, f'Success={row["success"]} | distance={row["distance"]} | moves={row["moves"]} | ops={row["operations"]}',
             transform=ax.transAxes, fontsize=9, color="#263f4a")
-    ax.set(xlim=(20, 480), ylim=(390, 25), aspect="equal")
+    bounds=design["public"].get("view_box")
+    ax.set(xlim=(bounds[0],bounds[0]+bounds[2]) if bounds else (20,480),
+           ylim=(bounds[1]+bounds[3],bounds[1]) if bounds else (390,25), aspect="equal")
     ax.axis("off")
 
 

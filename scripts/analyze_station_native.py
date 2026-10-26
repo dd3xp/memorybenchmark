@@ -20,6 +20,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--skip-exact-references", action="store_true", help="report trace evidence without expensive unknown-world policy search")
+    parser.add_argument("--trace-tasks", nargs=2, default=("T2","T4"), help="two paired trace examples, selected explicitly")
     args=parser.parse_args()
     root,output=args.run.resolve(),args.output.resolve()
     pilot=read(root/"pilot.json")
@@ -61,7 +63,7 @@ def main():
                     break
             if message.get("kind")=="tool" and message.get("name")=="file_read":
                 before_first_station.append(message.get("args",{}).get("path"))
-        row={**analyze_trace(design,events,graph["task_run_id"],infrastructure_ok=summary["infrastructure_ok"]),
+        row={**analyze_trace(design,events,graph["task_run_id"],infrastructure_ok=summary["infrastructure_ok"],exact_references=not args.skip_exact_references),
              "name":session["name"],"condition":session["condition"],"llm_calls":summary["llm_calls"],
              "main_calls":summary["main_calls"],"final_calls":summary["final_calls"],
              "execution_protocol":summary["initial_session"].get("execution_protocol","native-return-terminal-legacy"),
@@ -110,11 +112,12 @@ def main():
               "infrastructure_attempts":[{"name":s["name"],"llm_call_attempts":s["llm_calls"],
                   "error":s["infrastructure_error"],"excluded_from_valid_rows":True}
                   for s in pilot.get("attempt_history",[])],
-              "comparison":pilot["comparison"],"limitations":["one sampled world and one native history",
+              "comparison":pilot["comparison"],"exact_references_computed":not args.skip_exact_references,
+              "limitations":["one sampled world and one native history",
                  "each clear run is a current-task probe, not an independent full stream",
                  "model alias is not independently verified model identity","path matching is not retrieval proof"]}
     (output/"measurements.json").write_text(json.dumps(artifact,ensure_ascii=False,indent=2),encoding="utf-8")
-    lines=["# Native GA station pilot", "", f'Model alias: {pilot["model_alias"]}. One sampled world, 15 fresh sessions. No statistical effect estimate.',"",
+    lines=["# Native GA station pilot", "", f'Model alias: {pilot["model_alias"]}. One sampled world, {len(rows)} fresh sessions. No statistical effect estimate.',"",
            "|Task|Condition|Success|Distance|Moves|Ops|Queries|Unsupported|Relevant prior exposure|LLM calls|Continuations|Memory changes|",
            "|---|---|---|---:|---:|---:|---:|---:|---|---:|---:|---|"]
     for row in rows:
@@ -124,9 +127,9 @@ def main():
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     with plt.rc_context({"font.family":"DejaVu Sans","svg.fonttype":"none","font.size":10}):
-        fig,axes=plt.subplots(2,2,figsize=(11,10))
+        fig,axes=plt.subplots(2,2,figsize=(14,13) if design["public"].get("view_box") else (11,10))
         selected=[]
-        for index,task in enumerate(("T2","T4")):
+        for index,task in enumerate(args.trace_tasks):
             for column,condition in enumerate(("retain","clear")):
                 row=next(r for r in rows if r["task_id"]==task and r["condition"]==condition)
                 selected.append(row["name"])
@@ -134,32 +137,54 @@ def main():
                            f'{task} / {"Retained native memory" if condition=="retain" else "Baseline native memory"}')
         fig.subplots_adjust(left=0.05,right=0.97,top=0.89,bottom=0.20,hspace=0.64,wspace=0.16)
         fig.suptitle("Native GA: executed cross-session trajectories",fontsize=16,x=0.05,ha="left",y=0.98)
-        fig.text(0.05,0.935,"One world, one pilot. Fixed T2 and T4 examples; all 15 sessions are reported separately.",fontsize=10)
+        fig.text(0.05,0.935,f'One world, one pilot. Selected {" and ".join(args.trace_tasks)} examples; all {len(rows)} sessions are reported separately.',fontsize=10)
         fig.text(0.05,0.025,"Arrows are actual moves; numbers preserve movement order. Node operations are listed beneath each graph.\nIncomplete paths end at task termination. These observations alone do not establish a memory effect.",fontsize=9)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-trace-comparison.{suffix}",dpi=180,facecolor="white")
         plt.close(fig)
-        fig,ax=plt.subplots(figsize=(10.5,4.4))
-        x=list(range(1,9))
-        retained=[next(r for r in rows if r["task_id"]==f"T{i}" and r["condition"] in ("prefix","retain")) for i in x]
-        cleared=[next((r for r in rows if r["task_id"]==f"T{i}" and r["condition"]=="clear"),None) for i in x]
+        tasks=pilot["tasks"]
+        fig,ax=plt.subplots(figsize=(max(10.5,len(tasks)*.56),4.4))
+        x=list(range(1,len(tasks)+1))
+        retained=[next(r for r in rows if r["task_id"]==task and r["condition"] in ("prefix","retain")) for task in tasks]
+        cleared=[next((r for r in rows if r["task_id"]==task and r["condition"]=="clear"),None) for task in tasks]
         ax.plot(x,[r["distance"] for r in retained],marker="o",label="Retained history branch (T1 prefix)")
         ax.plot(x,[r["distance"] if r else float('nan') for r in cleared],marker="s",linestyle="--",label="Current-task baseline-memory probe")
         failed=[(i,row["distance"]) for branch in (retained,cleared) for i,row in zip(x,branch) if row and not row["success"]]
         if failed:
             ax.scatter([p[0] for p in failed],[p[1] for p in failed],marker="x",s=90,c="black",linewidths=1.5,zorder=5,label="Task ended before submission")
-        ax.set_xticks(x,[f"T{i}" for i in x]);ax.set(ylabel="Actual walked distance",ylim=(0,max(r["distance"] for r in rows)+4))
+        ax.set_xticks(x,tasks);ax.set(ylabel="Actual walked distance",ylim=(0,max(r["distance"] for r in rows)+4))
         ax.spines[["top","right"]].set_visible(False);ax.grid(axis="y",alpha=0.2)
         ax.legend(frameon=False,fontsize=9,loc="upper center")
-        fig.suptitle("Native GA pilot: all eight commissions",fontsize=14)
-        status_note="Early failure can have low distance." if failed else "All 15 sessions submitted successfully."
+        fig.suptitle(f"Native GA pilot: all {len(tasks)} commissions",fontsize=14)
+        status_note="Early failure can have low distance." if failed else f"All {len(rows)} sessions submitted successfully."
         fig.text(0.08,0.025,f"One observation per condition/task; no uncertainty intervals. {status_note} No baseline probe exists for T1.",fontsize=8.5)
         fig.subplots_adjust(left=0.09,right=0.98,bottom=0.19,top=0.88)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-all-tasks.{suffix}",dpi=180,facecolor="white")
         plt.close(fig)
+        fig,axes=plt.subplots(3,1,figsize=(max(10.5,len(tasks)*.56),7.4),sharex=True)
+        for ax,(field,label) in zip(axes,(("query_count","Paid queries"),
+                                         ("historically_repeated_queries","Repeated evidence\nqueries"),
+                                         ("unsupported_processing_count","Unsupported\nprocessing"))):
+            ax.plot(x,[r[field] for r in retained],marker="o",color="#0072B2",label="Retained native memory")
+            ax.plot(x,[r[field] if r else float('nan') for r in cleared],marker="s",linestyle="--",color="#D55E00",label="Current-task baseline-memory probe")
+            failed_points=[(i,row[field]) for branch in (retained,cleared) for i,row in zip(x,branch) if row and not row["success"]]
+            if failed_points:
+                ax.scatter([p[0] for p in failed_points],[p[1] for p in failed_points],marker="x",c="black",s=70,linewidths=1.4,zorder=5)
+            ax.set_ylabel(label,fontsize=9);ax.set_ylim(-.15,max(1,max(r[field] for r in rows))+.5)
+            ax.spines[["top","right"]].set_visible(False);ax.grid(axis="y",alpha=.2)
+            ax.yaxis.get_major_locator().set_params(integer=True)
+        axes[-1].set_xticks(x,tasks)
+        handles,labels=axes[0].get_legend_handles_labels()
+        fig.legend(handles,labels,frameon=False,fontsize=9,loc="upper left",bbox_to_anchor=(.10,.955),ncol=2)
+        fig.suptitle("Native GA: information-seeking and processing behavior",fontsize=14)
+        fig.text(.09,.025,"Repetition uses actual canonical delivered evidence, including facts unavailable in a clear probe.\nOne observation per condition/task; black crosses mark incomplete tasks; T1 has no baseline probe.",fontsize=8.5)
+        fig.subplots_adjust(left=.10,right=.98,bottom=.13,top=.91,hspace=.27)
+        for suffix in ("png","svg","pdf"):
+            fig.savefig(output/f"native-query-behavior.{suffix}",dpi=180,facecolor="white")
+        plt.close(fig)
     (output/"figure-manifest.json").write_text(json.dumps({"kind":artifact["kind"],"source":str(root),"selected_cases":selected,
-        "selection_rule":"fixed T2/T4 paired examples plus all-task distance plot","transforms":["ordered multigraph projection","actual node event labels","no smoothing or aggregation"],
+        "selection_rule":f'explicit {"/".join(args.trace_tasks)} paired examples plus all-task distance plot',"transforms":["ordered multigraph projection","actual node event labels","no smoothing or aggregation"],
         "matplotlib_version":matplotlib.__version__},indent=2),encoding="utf-8")
     print(json.dumps({"cases":len(rows),"successes":sum(r["success"] for r in rows),"calls":sum(r["llm_calls"] for r in rows),"output":str(output)}))
 
