@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2350" height="1780" viewBox="0 0 2350 1780" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#21628d"/></marker></defs>
+<rect width="2350" height="1780" fill="#fafbf8"/>
+<text x="24" y="27" font-size="17">current_task_nearest_first</text>
+<text x="24" y="1761" font-size="13">Distance 21 · 15 moves · arrow numbers show movement order</text>
+<line x1="1120" y1="970" x2="1000" y2="850" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="850" x2="1000" y2="630" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="630" x2="820" y2="450" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="630" x2="1180" y2="450" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="450" x2="1180" y2="450" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="450" x2="700" y2="370" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="450" x2="800" y2="200" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="450" x2="1300" y2="370" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="450" x2="1200" y2="200" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="450" x2="920" y2="520" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="450" x2="1080" y2="520" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="920" y1="520" x2="1080" y2="520" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="850" x2="1220" y2="850" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1220" y1="850" x2="1400" y2="670" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1220" y1="850" x2="1400" y2="1030" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="670" x2="1400" y2="1030" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="670" x2="1480" y2="550" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="670" x2="1650" y2="650" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="1030" x2="1480" y2="1150" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="1030" x2="1650" y2="1050" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="670" x2="1330" y2="770" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1400" y1="1030" x2="1330" y2="930" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1330" y1="770" x2="1330" y2="930" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="850" x2="1000" y2="1070" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="1070" x2="1180" y2="1250" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="1070" x2="820" y2="1250" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="1250" x2="820" y2="1250" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="1250" x2="1300" y2="1330" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="1250" x2="1200" y2="1500" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="1250" x2="700" y2="1330" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="1250" x2="800" y2="1500" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1180" y1="1250" x2="1080" y2="1180" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="820" y1="1250" x2="920" y2="1180" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1080" y1="1180" x2="920" y2="1180" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1000" y1="850" x2="780" y2="850" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="780" y1="850" x2="600" y2="1030" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="780" y1="850" x2="600" y2="670" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="1030" x2="600" y2="670" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="1030" x2="520" y2="1150" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="1030" x2="350" y2="1050" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="670" x2="520" y2="550" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="670" x2="350" y2="650" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="1030" x2="670" y2="930" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="600" y1="670" x2="670" y2="770" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="670" y1="930" x2="670" y2="770" stroke="#c8d0cb" stroke-width="2"/>
+<line x1="1100.6" y1="959.7" x2="1011.7" y2="870.9" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="1059.6" y="911.8" font-size="13" fill="#163b55">1</text>
+<line x1="1019.4" y1="860.3" x2="1108.3" y2="949.1" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="1067.4" y="901.2" font-size="13" fill="#163b55">15</text>
+<line x1="993.5" y1="829.0" x2="993.5" y2="653.0" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="998.5" y="741.0" font-size="13" fill="#163b55">2</text>
+<line x1="1006.5" y1="651.0" x2="1006.5" y2="827.0" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="1011.5" y="739.0" font-size="13" fill="#163b55">14</text>
+<line x1="985.2" y1="615.2" x2="836.3" y2="466.3" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="914.2" y="537.2" font-size="13" fill="#163b55">3</text>
+<line x1="840.9" y1="456.7" x2="904.9" y2="501.5" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="870.0" y="483.2" font-size="13" fill="#163b55">4</text>
+<line x1="899.1" y1="513.3" x2="835.1" y2="468.5" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="864.2" y="495.0" font-size="13" fill="#163b55">5</text>
+<line x1="806.1" y1="432.9" x2="722.7" y2="377.3" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="761.7" y="409.3" font-size="13" fill="#163b55">6</text>
+<line x1="713.9" y1="387.1" x2="797.3" y2="442.7" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="752.8" y="419.0" font-size="13" fill="#163b55">7</text>
+<line x1="824.8" y1="428.5" x2="808.3" y2="222.4" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="811.6" y="325.9" font-size="13" fill="#163b55">8</text>
+<line x1="795.2" y1="221.5" x2="811.7" y2="427.6" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="798.5" y="324.9" font-size="13" fill="#163b55">9</text>
+<line x1="841.0" y1="450.0" x2="1157.0" y2="450.0" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="999.0" y="455.0" font-size="13" fill="#163b55">10</text>
+<line x1="1201.1" y1="443.8" x2="1284.5" y2="388.2" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="1240.0" y="411.8" font-size="13" fill="#163b55">11</text>
+<line x1="1278.9" y1="376.2" x2="1195.5" y2="431.8" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="1234.5" y="399.9" font-size="13" fill="#163b55">12</text>
+<line x1="1165.2" y1="464.8" x2="1016.3" y2="613.7" stroke="#21628d" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="1094.2" y="542.8" font-size="13" fill="#163b55">13</text>
+<circle cx="1120" cy="970" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="1120" y="975" text-anchor="middle" font-size="15">C</text>
+<text x="1120" y="1009" text-anchor="middle" font-size="12">手记营地</text>
+<circle cx="1000" cy="850" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="1000" y="855" text-anchor="middle" font-size="15">J</text>
+<text x="1000" y="889" text-anchor="middle" font-size="12">风标岔口</text>
+<circle cx="1000" cy="630" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="1000" y="635" text-anchor="middle" font-size="15">JN</text>
+<text x="1000" y="669" text-anchor="middle" font-size="12">北砾坡口</text>
+<circle cx="820" cy="450" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="820" y="455" text-anchor="middle" font-size="15">NL</text>
+<text x="820" y="489" text-anchor="middle" font-size="12">北砾坡站群侧岔1</text>
+<circle cx="1180" cy="450" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="1180" y="455" text-anchor="middle" font-size="15">NR</text>
+<text x="1180" y="489" text-anchor="middle" font-size="12">北砾坡站群侧岔2</text>
+<circle cx="700" cy="370" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="700" y="375" text-anchor="middle" font-size="15">A</text>
+<text x="700" y="409" text-anchor="middle" font-size="12">A 处理站</text>
+<circle cx="800" cy="200" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="800" y="205" text-anchor="middle" font-size="15">B</text>
+<text x="800" y="239" text-anchor="middle" font-size="12">B 处理站</text>
+<circle cx="1300" cy="370" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="1300" y="375" text-anchor="middle" font-size="15">N1</text>
+<text x="1300" y="409" text-anchor="middle" font-size="12">N1 处理站</text>
+<circle cx="1200" cy="200" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1200" y="205" text-anchor="middle" font-size="15">N2</text>
+<text x="1200" y="239" text-anchor="middle" font-size="12">N2 处理站</text>
+<circle cx="920" cy="520" r="19" fill="#e1efe6" stroke="#455b51" stroke-width="2"/>
+<text x="920" y="525" text-anchor="middle" font-size="15">P</text>
+<text x="920" y="559" text-anchor="middle" font-size="12">砾溪断面</text>
+<circle cx="1080" cy="520" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1080" y="525" text-anchor="middle" font-size="15">Q</text>
+<text x="1080" y="559" text-anchor="middle" font-size="12">北湾石滩</text>
+<circle cx="1220" cy="850" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1220" y="855" text-anchor="middle" font-size="15">JE</text>
+<text x="1220" y="889" text-anchor="middle" font-size="12">苇湾路口</text>
+<circle cx="1400" cy="670" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1400" y="675" text-anchor="middle" font-size="15">EL</text>
+<text x="1400" y="709" text-anchor="middle" font-size="12">东苇湾站群侧岔1</text>
+<circle cx="1400" cy="1030" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1400" y="1035" text-anchor="middle" font-size="15">ER</text>
+<text x="1400" y="1069" text-anchor="middle" font-size="12">东苇湾站群侧岔2</text>
+<circle cx="1480" cy="550" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1480" y="555" text-anchor="middle" font-size="15">D</text>
+<text x="1480" y="589" text-anchor="middle" font-size="12">D 处理站</text>
+<circle cx="1650" cy="650" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1650" y="655" text-anchor="middle" font-size="15">E</text>
+<text x="1650" y="689" text-anchor="middle" font-size="12">E 处理站</text>
+<circle cx="1480" cy="1150" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1480" y="1155" text-anchor="middle" font-size="15">E1</text>
+<text x="1480" y="1189" text-anchor="middle" font-size="12">E1 处理站</text>
+<circle cx="1650" cy="1050" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1650" y="1055" text-anchor="middle" font-size="15">E2</text>
+<text x="1650" y="1089" text-anchor="middle" font-size="12">E2 处理站</text>
+<circle cx="1330" cy="770" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1330" y="775" text-anchor="middle" font-size="15">R</text>
+<text x="1330" y="809" text-anchor="middle" font-size="12">东坡石标</text>
+<circle cx="1330" cy="930" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1330" y="935" text-anchor="middle" font-size="15">S</text>
+<text x="1330" y="969" text-anchor="middle" font-size="12">苇湾高台</text>
+<circle cx="1000" cy="1070" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1000" y="1075" text-anchor="middle" font-size="15">JS</text>
+<text x="1000" y="1109" text-anchor="middle" font-size="12">南阶地口</text>
+<circle cx="1180" cy="1250" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1180" y="1255" text-anchor="middle" font-size="15">SL</text>
+<text x="1180" y="1289" text-anchor="middle" font-size="12">南阶地站群侧岔1</text>
+<circle cx="820" cy="1250" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="820" y="1255" text-anchor="middle" font-size="15">SR</text>
+<text x="820" y="1289" text-anchor="middle" font-size="12">南阶地站群侧岔2</text>
+<circle cx="1300" cy="1330" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1300" y="1335" text-anchor="middle" font-size="15">F</text>
+<text x="1300" y="1369" text-anchor="middle" font-size="12">F 处理站</text>
+<circle cx="1200" cy="1500" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1200" y="1505" text-anchor="middle" font-size="15">G</text>
+<text x="1200" y="1539" text-anchor="middle" font-size="12">G 处理站</text>
+<circle cx="700" cy="1330" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="700" y="1335" text-anchor="middle" font-size="15">S1</text>
+<text x="700" y="1369" text-anchor="middle" font-size="12">S1 处理站</text>
+<circle cx="800" cy="1500" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="800" y="1505" text-anchor="middle" font-size="15">S2</text>
+<text x="800" y="1539" text-anchor="middle" font-size="12">S2 处理站</text>
+<circle cx="1080" cy="1180" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="1080" y="1185" text-anchor="middle" font-size="15">U</text>
+<text x="1080" y="1219" text-anchor="middle" font-size="12">阶地草甸</text>
+<circle cx="920" cy="1180" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="920" y="1185" text-anchor="middle" font-size="15">V</text>
+<text x="920" y="1219" text-anchor="middle" font-size="12">南坡露岩</text>
+<circle cx="780" cy="850" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="780" y="855" text-anchor="middle" font-size="15">JW</text>
+<text x="780" y="889" text-anchor="middle" font-size="12">杉岭路口</text>
+<circle cx="600" cy="1030" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="600" y="1035" text-anchor="middle" font-size="15">WL</text>
+<text x="600" y="1069" text-anchor="middle" font-size="12">西杉岭站群侧岔1</text>
+<circle cx="600" cy="670" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="600" y="675" text-anchor="middle" font-size="15">WR</text>
+<text x="600" y="709" text-anchor="middle" font-size="12">西杉岭站群侧岔2</text>
+<circle cx="520" cy="1150" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="520" y="1155" text-anchor="middle" font-size="15">H</text>
+<text x="520" y="1189" text-anchor="middle" font-size="12">H 处理站</text>
+<circle cx="350" cy="1050" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="350" y="1055" text-anchor="middle" font-size="15">K</text>
+<text x="350" y="1089" text-anchor="middle" font-size="12">K 处理站</text>
+<circle cx="520" cy="550" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="520" y="555" text-anchor="middle" font-size="15">W1</text>
+<text x="520" y="589" text-anchor="middle" font-size="12">W1 处理站</text>
+<circle cx="350" cy="650" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="350" y="655" text-anchor="middle" font-size="15">W2</text>
+<text x="350" y="689" text-anchor="middle" font-size="12">W2 处理站</text>
+<circle cx="670" cy="930" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="670" y="935" text-anchor="middle" font-size="15">X</text>
+<text x="670" y="969" text-anchor="middle" font-size="12">杉岭溪头</text>
+<circle cx="670" cy="770" r="19" fill="#ffffff" stroke="#455b51" stroke-width="2"/>
+<text x="670" y="775" text-anchor="middle" font-size="15">Y</text>
+<text x="670" y="809" text-anchor="middle" font-size="12">西坡鞍部</text>
+<text x="2030" y="58" font-size="14">Recorded movement</text>
+<text x="2030" y="83" font-size="13">1. C → J  (1)</text>
+<text x="2030" y="104" font-size="13">2. J → JN  (1)</text>
+<text x="2030" y="125" font-size="13">3. JN → NL  (2)</text>
+<text x="2030" y="146" font-size="13">4. NL → P  (1)</text>
+<text x="2030" y="167" font-size="13">5. P → NL  (1)</text>
+<text x="2030" y="188" font-size="13">6. NL → A  (1)</text>
+<text x="2030" y="209" font-size="13">7. A → NL  (1)</text>
+<text x="2030" y="230" font-size="13">8. NL → B  (2)</text>
+<text x="2030" y="251" font-size="13">9. B → NL  (2)</text>
+<text x="2030" y="272" font-size="13">10. NL → NR  (3)</text>
+<text x="2030" y="293" font-size="13">11. NR → N1  (1)</text>
+<text x="2030" y="314" font-size="13">12. N1 → NR  (1)</text>
+<text x="2030" y="335" font-size="13">13. NR → JN  (2)</text>
+<text x="2030" y="356" font-size="13">14. JN → J  (1)</text>
+<text x="2030" y="377" font-size="13">15. J → C  (1)</text>
+<text x="2030" y="410" font-size="14">Node operations</text>
+<text x="2030" y="433" font-size="12">A: process / unsupported</text>
+<text x="2030" y="452" font-size="12">B: process / unsupported</text>
+<text x="2030" y="471" font-size="12">N1: process / processed</text>
+<text x="2030" y="490" font-size="12">C: submit / submitted</text>
+</svg>

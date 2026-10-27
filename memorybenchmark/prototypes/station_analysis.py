@@ -4,9 +4,12 @@ from __future__ import annotations
 from math import log2
 
 from .station_capability import ReferencePlanner, compatible_worlds
+from .station_choice import choice_context
 
 
 def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_references=True):
+    if exact_references and design.get("world_generator") == "independent_balanced_allocations":
+        raise ValueError("Multi-station maps use descriptive analysis; set exact_references=False or --skip-exact-references")
     selected = [e for e in events if e["task_run_id"] == task_run_id]
     start = next(e for e in selected if e["kind"] == "task_started")
     task_id, task = start["task_id"], design["tasks"][start["task_id"]]
@@ -58,7 +61,7 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_
                 "unsupported_attempts": sum(e["delivered"]["feedback"].get("result") == "unsupported" for e in operations),
                 "processed": any(e["delivered"]["feedback"].get("result") == "processed" for e in operations)})
     prior_sources = [e["event_id"] for e in prior if e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information"]
-    return {
+    result = {
         "task_id": task_id, "task_run_id": task_run_id, "success": success,
         "distance": distance, "moves": len(moves), "operations": len(actions),
         "visited_nodes": sorted({start["position"]} | {e["to"] for e in moves}),
@@ -81,3 +84,7 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_
         "nohistory_reference_expected_distance": nohistory_distance,
         "exact_references_computed": exact_references,
     }
+    if any(len(group["stations"]) > 2 for group in design["public"].get("capability_groups", {}).values()):
+        first = next((e["to"] for e in moves if e["to"] in stations), None)
+        result["first_station_choice"] = choice_context(design, task_id, prior, first)
+    return result

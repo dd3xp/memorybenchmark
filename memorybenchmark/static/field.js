@@ -47,6 +47,10 @@ async function action(type,target){
 function button(text,fn,disabled=false){const b=html('button',text);b.disabled=disabled||busy;b.addEventListener('click',fn);return b;}
 function render(){
   const o=state.observation,p=o.environment,t=o.task,places=p.locations;
+  document.querySelector('.identity h1').textContent=p.name;
+  document.querySelector('.identity p').textContent=state.presentation.subtitle;
+  const bounds=worldBounds(),terrain=map.querySelector('image');
+  for(const [key,value] of Object.entries({x:bounds[0],y:bounds[1],width:bounds[2],height:bounds[3],preserveAspectRatio:'none'}))terrain.setAttribute(key,value);
   $('task-number').textContent=`委托 ${state.task_index} / ${state.task_count}`;
   $('mission-title').textContent=t.name;
   $('mission-instruction').textContent=`到${places[t.target].name}（${t.target}）采集${p.kinds[t.required_kind]}，在支持该资料的站处理，再回营地 C 交件。`;
@@ -101,7 +105,7 @@ function draw(){
   for(const r of state.presentation.regions||[])$('region-labels').append(node('text',{x:r.x,y:r.y,class:'region-label'},r.name));
   for(const [a,b,w] of p.edges){
     const d=roadPath(a,b);$('roads').append(node('path',{d,class:'road-back'}),node('path',{d,class:`road${a===o.location||b===o.location?' road-near':''}`}));
-    if(a===o.location||b===o.location){const x=(p.locations[a].x+p.locations[b].x)/2,y=(p.locations[a].y+p.locations[b].y)/2;
+    if(a===o.location||b===o.location||z>.55){const x=(p.locations[a].x+p.locations[b].x)/2,y=(p.locations[a].y+p.locations[b].y)/2;
       const g=node('g',{transform:`translate(${x} ${y}) scale(${inv})`});g.append(node('text',{x:6,y:-7,class:'road-label'},w));$('roads').append(g);}
   }
   if(showTrace)for(const edge of state.trace.edges){$('trace').append(node('path',{d:roadPath(edge.source,edge.target),class:'trace-line'}));}
@@ -130,11 +134,13 @@ function activate(id){
   if(state.observation.available_actions.some(a=>a.type==='move'&&a.target===id))action('move',id);
   else{renderPlace();draw();}
 }
-function setCamera(value){camera=value;const cx=Math.max(-80,Math.min(1280,camera.x+camera.w/2)),cy=Math.max(-80,Math.min(980,camera.y+camera.h/2));camera.x=cx-camera.w/2;camera.y=cy-camera.h/2;draw();save();}
-function fit(){const r=viewport.getBoundingClientRect();if(!r.width||!r.height)return;const z=Math.min(r.width/1340,r.height/1020);camera={x:600-r.width/z/2,y:450-r.height/z/2,w:r.width/z,h:r.height/z};draw();save();}
+function worldBounds(){return state?.observation.environment.view_box||[0,0,1200,900];}
+function fitScale(r){const b=worldBounds();return Math.min(r.width/(b[2]+140),r.height/(b[3]+120));}
+function setCamera(value){camera=value;const b=worldBounds(),cx=Math.max(b[0]-80,Math.min(b[0]+b[2]+80,camera.x+camera.w/2)),cy=Math.max(b[1]-80,Math.min(b[1]+b[3]+80,camera.y+camera.h/2));camera.x=cx-camera.w/2;camera.y=cy-camera.h/2;draw();save();}
+function fit(){const r=viewport.getBoundingClientRect();if(!r.width||!r.height)return;const b=worldBounds(),z=fitScale(r);camera={x:b[0]+b[2]/2-r.width/z/2,y:b[1]+b[3]/2-r.height/z/2,w:r.width/z,h:r.height/z};draw();save();}
 function center(x,y){setCamera({...camera,x:x-camera.w/2,y:y-camera.h/2});}
 function worldPoint(x,y){const m=map.getScreenCTM();return new DOMPoint(x,y).matrixTransform(m.inverse());}
-function zoom(factor,x,y){const r=viewport.getBoundingClientRect(),old=scale(),min=Math.min(r.width/1340,r.height/1020)*.7;
+function zoom(factor,x,y){const r=viewport.getBoundingClientRect(),old=scale(),min=fitScale(r)*.7;
   const next=Math.min(2.5,Math.max(min,old*factor)),point=worldPoint(x,y),w=r.width/next,h=r.height/next;
   setCamera({x:point.x-(point.x-camera.x)*w/camera.w,y:point.y-(point.y-camera.y)*h/camera.h,w,h});}
 function gestureStart(){const points=[...pointers.values()];gesture={camera:{...camera},points:points.map(p=>({...p})),moved:points.length>1,node:points[0]?.node};}
@@ -144,7 +150,7 @@ viewport.addEventListener('pointerdown',e=>{
 viewport.addEventListener('pointermove',e=>{
   if(!pointers.has(e.pointerId)||!gesture)return;pointers.set(e.pointerId,{...pointers.get(e.pointerId),x:e.clientX,y:e.clientY});const points=[...pointers.values()];
   if(points.length===1){const dx=points[0].x-gesture.points[0].x,dy=points[0].y-gesture.points[0].y;if(Math.hypot(dx,dy)<6&&!gesture.moved)return;gesture.moved=true;viewport.classList.add('dragging');const z=viewport.getBoundingClientRect().width/gesture.camera.w;setCamera({...gesture.camera,x:gesture.camera.x-dx/z,y:gesture.camera.y-dy/z});}
-  else if(points.length===2&&gesture.points.length===2){const [a,b]=points,[a0,b0]=gesture.points,r=viewport.getBoundingClientRect();const ratio=Math.hypot(a.x-b.x,a.y-b.y)/Math.max(1,Math.hypot(a0.x-b0.x,a0.y-b0.y));const initial=gesture.camera,w0=initial.w;const min=Math.min(r.width/1340,r.height/1020)*.7,z=Math.min(2.5,Math.max(min,r.width/w0*ratio));const anchor={x:initial.x+((a0.x+b0.x)/2-r.left)*initial.w/r.width,y:initial.y+((a0.y+b0.y)/2-r.top)*initial.h/r.height};setCamera({x:anchor.x-((a.x+b.x)/2-r.left)/z,y:anchor.y-((a.y+b.y)/2-r.top)/z,w:r.width/z,h:r.height/z});gesture.moved=true;}
+  else if(points.length===2&&gesture.points.length===2){const [a,b]=points,[a0,b0]=gesture.points,r=viewport.getBoundingClientRect();const ratio=Math.hypot(a.x-b.x,a.y-b.y)/Math.max(1,Math.hypot(a0.x-b0.x,a0.y-b0.y));const initial=gesture.camera,w0=initial.w;const min=fitScale(r)*.7,z=Math.min(2.5,Math.max(min,r.width/w0*ratio));const anchor={x:initial.x+((a0.x+b0.x)/2-r.left)*initial.w/r.width,y:initial.y+((a0.y+b0.y)/2-r.top)*initial.h/r.height};setCamera({x:anchor.x-((a.x+b.x)/2-r.left)/z,y:anchor.y-((a.y+b.y)/2-r.top)/z,w:r.width/z,h:r.height/z});gesture.moved=true;}
 });
 function pointerEnd(e,cancel=false){
   if(!pointers.has(e.pointerId))return;const click=!cancel&&pointers.size===1&&!gesture?.moved,target=gesture?.node;
@@ -159,12 +165,12 @@ async function showDesign(){
   if(busy)return;try{const data=await api(`/api/field/design?instance_id=${encodeURIComponent(instance)}`);renderDesign(data);openPanel('design');}catch(e){$('error-text').textContent=e.message;$('error').hidden=false;}
 }
 function renderDesign(data){
-  const p=state.observation.environment;const svg=$('design-map');svg.replaceChildren(node('image',{href:'/field-terrain.svg',width:1200,height:900}));
-  for(const [a,b] of p.edges)svg.append(node('path',{d:roadPath(a,b),class:'road'}));
+  const p=state.observation.environment,b=worldBounds();const svg=$('design-map');svg.setAttribute('viewBox',b.join(' '));svg.replaceChildren(node('image',{href:'/field-terrain.svg',x:b[0],y:b[1],width:b[2],height:b[3],preserveAspectRatio:'none'}));
+  for(const [a,b,w] of p.edges){svg.append(node('path',{d:roadPath(a,b),class:'road'}));svg.append(node('text',{x:(p.locations[a].x+p.locations[b].x)/2+8,y:(p.locations[a].y+p.locations[b].y)/2-8,'font-size':18,fill:'#294637'},w));}
   for(const [id,n] of Object.entries(p.locations)){svg.append(node('circle',{cx:n.x,cy:n.y,r:15,fill:'#f4f1dc',stroke:'#3a5b48','stroke-width':2}),node('text',{x:n.x,y:n.y+5,'text-anchor':'middle','font-size':17,fill:'#294637'},id));
     if(data.capabilities[id])svg.append(node('text',{x:n.x,y:n.y+36,'text-anchor':'middle','font-size':19,fill:'#725020'},p.kinds[data.capabilities[id]]));}
   $('design-groups').replaceChildren();for(const group of Object.values(p.capability_groups)){const box=html('section',undefined,'design-group');box.append(html('h3',group.name));for(const s of group.stations)box.append(html('p',`${s} → ${p.kinds[data.capabilities[s]]}`));$('design-groups').append(box);}
-  $('design-tasks').replaceChildren();for(const task of data.tasks){const tr=html('tr');for(const value of [`${task.id} ${task.name}`,`${task.target} ${p.kinds[task.required_kind]}`,task.group,task.intervening_tasks_since_same_group??'首次',`${task.known_world_route.join(' → ')}　路程 ${task.known_world_distance}`])tr.append(html('td',value));$('design-tasks').append(tr);}
+  $('design-tasks').replaceChildren();for(const task of data.tasks){const tr=html('tr');for(const value of [`${task.id} ${task.name}`,`${task.target} ${p.kinds[task.required_kind]}`,task.group,task.intervening_tasks_since_same_group??'首次',(task.station_options||[]).map(s=>`${s.station}：${s.matches?'匹配':'不匹配'}，总路程 ${s.completion_distance}`).join('；'),`${task.known_world_route.join(' → ')}　路程 ${task.known_world_distance}`])tr.append(html('td',value));$('design-tasks').append(tr);}
 }
 async function newGame(){closePanel();await run(()=>api('/api/field/start',{}));}
 $('journal-open').onclick=()=>openPanel('journal');$('journal-close').onclick=closePanel;$('design-close').onclick=closePanel;$('design-open').onclick=showDesign;

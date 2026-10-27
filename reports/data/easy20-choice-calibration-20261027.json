@@ -1,0 +1,2785 @@
+{
+  "kind": "scripted_route_choice_calibration_not_native_memory_score",
+  "design_id": "lanting-easy20-choice-v2",
+  "design_sha256": "8ed30ac8090fb2bdc8964de3c43d7367f0c2cee88e1eb87bd54b61a9cc624bad",
+  "world_count": 1296,
+  "nodes": 38,
+  "edges": 45,
+  "cycle_rank": 8,
+  "task_count": 20,
+  "world_task_choices_checked": 25920,
+  "proximity_distribution": [
+    {
+      "task": "T1",
+      "nearest_station": "A",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "A",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "B",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "N1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "N2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T2",
+      "nearest_station": "D",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "D",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "E",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "E1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "E2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T3",
+      "nearest_station": "N1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "N1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "N2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "A",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "B",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T4",
+      "nearest_station": "F",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "F",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "G",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "S1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "S2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T5",
+      "nearest_station": "E1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "E1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "E2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "D",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "E",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T6",
+      "nearest_station": "H",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "H",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "K",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "W1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "W2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T7",
+      "nearest_station": "S1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "S1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "S2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "F",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "G",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T8",
+      "nearest_station": "N1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "N1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "N2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "A",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "B",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T9",
+      "nearest_station": "E1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "E1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "E2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "D",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "E",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T10",
+      "nearest_station": "S1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "S1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "S2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "F",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "G",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T11",
+      "nearest_station": "D",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "D",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "E",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "E1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "E2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T12",
+      "nearest_station": "F",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "F",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "G",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "S1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "S2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T13",
+      "nearest_station": "D",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "D",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "E",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "E1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "E2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T14",
+      "nearest_station": "W1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "W1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "W2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "H",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "K",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T15",
+      "nearest_station": "F",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "F",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "G",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "S1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "S2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T16",
+      "nearest_station": "W1",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "W1",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "W2",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "H",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "K",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T17",
+      "nearest_station": "A",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "A",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "B",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "N1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "N2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T18",
+      "nearest_station": "H",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "H",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "K",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "W1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "W2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T19",
+      "nearest_station": "A",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "A",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "B",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "N1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "N2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    },
+    {
+      "task": "T20",
+      "nearest_station": "H",
+      "nearest_matches_worlds": 648,
+      "nearest_misses_worlds": 648,
+      "options": [
+        {
+          "station": "H",
+          "distance_from_target": 2,
+          "completion_distance": 12
+        },
+        {
+          "station": "K",
+          "distance_from_target": 3,
+          "completion_distance": 14
+        },
+        {
+          "station": "W1",
+          "distance_from_target": 5,
+          "completion_distance": 15
+        },
+        {
+          "station": "W2",
+          "distance_from_target": 6,
+          "completion_distance": 17
+        }
+      ]
+    }
+  ],
+  "feedback_policy_replays": [
+    {
+      "world": "omega_0000",
+      "task": "T1",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T3",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T8",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T17",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T19",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T1",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T3",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T8",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T17",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T19",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T1",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T3",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_1000",
+      "task": "T8",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T17",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T19",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T1",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T3",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_1000",
+      "task": "T8",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_1000",
+      "task": "T17",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_1000",
+      "task": "T19",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_2000",
+      "task": "T1",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_2000",
+      "task": "T3",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_2000",
+      "task": "T8",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_2000",
+      "task": "T17",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_2000",
+      "task": "T19",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_2000",
+      "task": "T1",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_2000",
+      "task": "T3",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_2000",
+      "task": "T8",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_2000",
+      "task": "T17",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_2000",
+      "task": "T19",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_3000",
+      "task": "T1",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_3000",
+      "task": "T3",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_3000",
+      "task": "T8",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_3000",
+      "task": "T17",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_3000",
+      "task": "T19",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_3000",
+      "task": "T1",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_3000",
+      "task": "T3",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_3000",
+      "task": "T8",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_3000",
+      "task": "T17",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_3000",
+      "task": "T19",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_4000",
+      "task": "T1",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_4000",
+      "task": "T3",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_4000",
+      "task": "T8",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_4000",
+      "task": "T17",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_4000",
+      "task": "T19",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_4000",
+      "task": "T1",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_4000",
+      "task": "T3",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_4000",
+      "task": "T8",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_4000",
+      "task": "T17",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_4000",
+      "task": "T19",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_5000",
+      "task": "T1",
+      "retained_feedback_policy": true,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_5000",
+      "task": "T3",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_5000",
+      "task": "T8",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_5000",
+      "task": "T17",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_5000",
+      "task": "T19",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_5000",
+      "task": "T1",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_5000",
+      "task": "T3",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_5000",
+      "task": "T8",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_5000",
+      "task": "T17",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_5000",
+      "task": "T19",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T2",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T5",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T9",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T11",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T13",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T2",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T5",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T9",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T11",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T13",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T2",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T5",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0100",
+      "task": "T9",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T11",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T13",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T2",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T5",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0100",
+      "task": "T9",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0100",
+      "task": "T11",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0100",
+      "task": "T13",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0200",
+      "task": "T2",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0200",
+      "task": "T5",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0200",
+      "task": "T9",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0200",
+      "task": "T11",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0200",
+      "task": "T13",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0200",
+      "task": "T2",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0200",
+      "task": "T5",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0200",
+      "task": "T9",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0200",
+      "task": "T11",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0200",
+      "task": "T13",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0300",
+      "task": "T2",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0300",
+      "task": "T5",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0300",
+      "task": "T9",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_0300",
+      "task": "T11",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0300",
+      "task": "T13",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0300",
+      "task": "T2",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0300",
+      "task": "T5",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0300",
+      "task": "T9",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0300",
+      "task": "T11",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0300",
+      "task": "T13",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0400",
+      "task": "T2",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0400",
+      "task": "T5",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0400",
+      "task": "T9",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_0400",
+      "task": "T11",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0400",
+      "task": "T13",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0400",
+      "task": "T2",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0400",
+      "task": "T5",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0400",
+      "task": "T9",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0400",
+      "task": "T11",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0400",
+      "task": "T13",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0500",
+      "task": "T2",
+      "retained_feedback_policy": true,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0500",
+      "task": "T5",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0500",
+      "task": "T9",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0500",
+      "task": "T11",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0500",
+      "task": "T13",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0500",
+      "task": "T2",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0500",
+      "task": "T5",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0500",
+      "task": "T9",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0500",
+      "task": "T11",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0500",
+      "task": "T13",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T4",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T7",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T10",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T12",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T15",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T4",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T7",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T10",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T12",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T15",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T4",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T7",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0010",
+      "task": "T10",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T12",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T15",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T4",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T7",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0010",
+      "task": "T10",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0010",
+      "task": "T12",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0010",
+      "task": "T15",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0020",
+      "task": "T4",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0020",
+      "task": "T7",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0020",
+      "task": "T10",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0020",
+      "task": "T12",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0020",
+      "task": "T15",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0020",
+      "task": "T4",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0020",
+      "task": "T7",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0020",
+      "task": "T10",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0020",
+      "task": "T12",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0020",
+      "task": "T15",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0030",
+      "task": "T4",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0030",
+      "task": "T7",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0030",
+      "task": "T10",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_0030",
+      "task": "T12",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0030",
+      "task": "T15",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0030",
+      "task": "T4",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0030",
+      "task": "T7",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0030",
+      "task": "T10",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0030",
+      "task": "T12",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0030",
+      "task": "T15",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0040",
+      "task": "T4",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0040",
+      "task": "T7",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0040",
+      "task": "T10",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_0040",
+      "task": "T12",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0040",
+      "task": "T15",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0040",
+      "task": "T4",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0040",
+      "task": "T7",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0040",
+      "task": "T10",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0040",
+      "task": "T12",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0040",
+      "task": "T15",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0050",
+      "task": "T4",
+      "retained_feedback_policy": true,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0050",
+      "task": "T7",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0050",
+      "task": "T10",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0050",
+      "task": "T12",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0050",
+      "task": "T15",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0050",
+      "task": "T4",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0050",
+      "task": "T7",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0050",
+      "task": "T10",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0050",
+      "task": "T12",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0050",
+      "task": "T15",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T6",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T14",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T16",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T18",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0000",
+      "task": "T20",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T6",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T14",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0000",
+      "task": "T16",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T18",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0000",
+      "task": "T20",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T6",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T14",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0001",
+      "task": "T16",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T18",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T20",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T6",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T14",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0001",
+      "task": "T16",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0001",
+      "task": "T18",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0001",
+      "task": "T20",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0002",
+      "task": "T6",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0002",
+      "task": "T14",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0002",
+      "task": "T16",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0002",
+      "task": "T18",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0002",
+      "task": "T20",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0002",
+      "task": "T6",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0002",
+      "task": "T14",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0002",
+      "task": "T16",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0002",
+      "task": "T18",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0002",
+      "task": "T20",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0003",
+      "task": "T6",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0003",
+      "task": "T14",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0003",
+      "task": "T16",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_0003",
+      "task": "T18",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0003",
+      "task": "T20",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0003",
+      "task": "T6",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0003",
+      "task": "T14",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0003",
+      "task": "T16",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0003",
+      "task": "T18",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0003",
+      "task": "T20",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0004",
+      "task": "T6",
+      "retained_feedback_policy": true,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0004",
+      "task": "T14",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0004",
+      "task": "T16",
+      "retained_feedback_policy": true,
+      "distance": 17,
+      "operations": 13
+    },
+    {
+      "world": "omega_0004",
+      "task": "T18",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0004",
+      "task": "T20",
+      "retained_feedback_policy": true,
+      "distance": 14,
+      "operations": 12
+    },
+    {
+      "world": "omega_0004",
+      "task": "T6",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0004",
+      "task": "T14",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0004",
+      "task": "T16",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0004",
+      "task": "T18",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0004",
+      "task": "T20",
+      "retained_feedback_policy": false,
+      "distance": 16,
+      "operations": 15
+    },
+    {
+      "world": "omega_0005",
+      "task": "T6",
+      "retained_feedback_policy": true,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0005",
+      "task": "T14",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0005",
+      "task": "T16",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0005",
+      "task": "T18",
+      "retained_feedback_policy": true,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0005",
+      "task": "T20",
+      "retained_feedback_policy": true,
+      "distance": 15,
+      "operations": 13
+    },
+    {
+      "world": "omega_0005",
+      "task": "T6",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0005",
+      "task": "T14",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    },
+    {
+      "world": "omega_0005",
+      "task": "T16",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0005",
+      "task": "T18",
+      "retained_feedback_policy": false,
+      "distance": 12,
+      "operations": 12
+    },
+    {
+      "world": "omega_0005",
+      "task": "T20",
+      "retained_feedback_policy": false,
+      "distance": 21,
+      "operations": 19
+    }
+  ],
+  "candidate_order_replays": 1152,
+  "max_candidate_order_operations": 22,
+  "witnesses": [
+    {
+      "name": "history_excludes_nearest",
+      "success": true,
+      "distance": 15,
+      "moves": 11,
+      "operations": 13,
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "NL",
+        "P",
+        "NL",
+        "NR",
+        "N1",
+        "NR",
+        "JN",
+        "J",
+        "C"
+      ],
+      "station_events": [
+        {
+          "event_id": 18,
+          "location": "N1",
+          "time": 10,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "N1",
+            "capability": "profile",
+            "result": "processed"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true
+          }
+        },
+        {
+          "event_id": 23,
+          "location": "C",
+          "time": 16,
+          "action": {
+            "type": "submit"
+          },
+          "feedback": {
+            "kind": "submitted"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": true
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true
+          }
+        }
+      ],
+      "log": "easy20-choice-cases-20261027/history_excludes_nearest.jsonl",
+      "graph": "easy20-choice-cases-20261027/history_excludes_nearest.graph.json",
+      "svg": "easy20-choice-cases-20261027/history_excludes_nearest.svg",
+      "choice_context": {
+        "selected_station": "N1",
+        "candidate_options": [
+          {
+            "station": "A",
+            "distance_from_target": 2,
+            "completion_distance": 12,
+            "historical_status": "known_nonmatch"
+          },
+          {
+            "station": "B",
+            "distance_from_target": 3,
+            "completion_distance": 14,
+            "historical_status": "known_nonmatch"
+          },
+          {
+            "station": "N1",
+            "distance_from_target": 5,
+            "completion_distance": 15,
+            "historical_status": "known_match"
+          },
+          {
+            "station": "N2",
+            "distance_from_target": 6,
+            "completion_distance": 17,
+            "historical_status": "known_match"
+          }
+        ],
+        "nearest_candidates": [
+          "A"
+        ],
+        "selected_is_geographically_nearest": false,
+        "selected_historical_status": "known_match",
+        "lowest_cost_known_matching_stations": [
+          "N1"
+        ],
+        "best_matching_cost_provable_from_history": true,
+        "conditional_distance_reference": 15
+      }
+    },
+    {
+      "name": "current_task_nearest_first",
+      "success": true,
+      "distance": 21,
+      "moves": 15,
+      "operations": 19,
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "NL",
+        "P",
+        "NL",
+        "A",
+        "NL",
+        "B",
+        "NL",
+        "NR",
+        "N1",
+        "NR",
+        "JN",
+        "J",
+        "C"
+      ],
+      "station_events": [
+        {
+          "event_id": 17,
+          "location": "A",
+          "time": 7,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "A",
+            "capability": "shore",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false
+          }
+        },
+        {
+          "event_id": 20,
+          "location": "B",
+          "time": 11,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "B",
+            "capability": "shore",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false
+          }
+        },
+        {
+          "event_id": 24,
+          "location": "N1",
+          "time": 18,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "N1",
+            "capability": "profile",
+            "result": "processed"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true
+          }
+        },
+        {
+          "event_id": 29,
+          "location": "C",
+          "time": 24,
+          "action": {
+            "type": "submit"
+          },
+          "feedback": {
+            "kind": "submitted"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": true
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true
+          }
+        }
+      ],
+      "log": "easy20-choice-cases-20261027/current_task_nearest_first.jsonl",
+      "graph": "easy20-choice-cases-20261027/current_task_nearest_first.graph.json",
+      "svg": "easy20-choice-cases-20261027/current_task_nearest_first.svg",
+      "choice_context": {
+        "selected_station": "A",
+        "candidate_options": [
+          {
+            "station": "A",
+            "distance_from_target": 2,
+            "completion_distance": 12,
+            "historical_status": "known_nonmatch"
+          },
+          {
+            "station": "B",
+            "distance_from_target": 3,
+            "completion_distance": 14,
+            "historical_status": "known_nonmatch"
+          },
+          {
+            "station": "N1",
+            "distance_from_target": 5,
+            "completion_distance": 15,
+            "historical_status": "known_match"
+          },
+          {
+            "station": "N2",
+            "distance_from_target": 6,
+            "completion_distance": 17,
+            "historical_status": "known_match"
+          }
+        ],
+        "nearest_candidates": [
+          "A"
+        ],
+        "selected_is_geographically_nearest": true,
+        "selected_historical_status": "known_nonmatch",
+        "lowest_cost_known_matching_stations": [
+          "N1"
+        ],
+        "best_matching_cost_provable_from_history": true,
+        "conditional_distance_reference": 15
+      }
+    }
+  ],
+  "partial_history_witness": {
+    "selected_station": "A",
+    "candidate_options": [
+      {
+        "station": "N1",
+        "distance_from_target": 2,
+        "completion_distance": 12,
+        "historical_status": "unresolved"
+      },
+      {
+        "station": "N2",
+        "distance_from_target": 3,
+        "completion_distance": 14,
+        "historical_status": "unresolved"
+      },
+      {
+        "station": "A",
+        "distance_from_target": 5,
+        "completion_distance": 15,
+        "historical_status": "known_match"
+      },
+      {
+        "station": "B",
+        "distance_from_target": 6,
+        "completion_distance": 17,
+        "historical_status": "unresolved"
+      }
+    ],
+    "nearest_candidates": [
+      "N1"
+    ],
+    "selected_is_geographically_nearest": false,
+    "selected_historical_status": "known_match",
+    "lowest_cost_known_matching_stations": [
+      "A"
+    ],
+    "best_matching_cost_provable_from_history": false,
+    "conditional_distance_reference": null
+  },
+  "schedule": [
+    {
+      "id": "T1",
+      "name": "砾溪初测",
+      "start": "C",
+      "target": "P",
+      "required_kind": "profile",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "AB",
+      "intervening_tasks_since_same_group": null
+    },
+    {
+      "id": "T2",
+      "name": "东坡定向",
+      "start": "C",
+      "target": "R",
+      "required_kind": "bearing",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "DE",
+      "intervening_tasks_since_same_group": null
+    },
+    {
+      "id": "T3",
+      "name": "北湾岸线",
+      "start": "C",
+      "target": "Q",
+      "required_kind": "shore",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "AB",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T4",
+      "name": "草甸植被",
+      "start": "C",
+      "target": "U",
+      "required_kind": "vegetation",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "FG",
+      "intervening_tasks_since_same_group": null
+    },
+    {
+      "id": "T5",
+      "name": "苇湾高程",
+      "start": "C",
+      "target": "S",
+      "required_kind": "elevation",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "DE",
+      "intervening_tasks_since_same_group": 2
+    },
+    {
+      "id": "T6",
+      "name": "溪头水系",
+      "start": "C",
+      "target": "X",
+      "required_kind": "drainage",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "HK",
+      "intervening_tasks_since_same_group": null
+    },
+    {
+      "id": "T7",
+      "name": "南坡岩性",
+      "start": "C",
+      "target": "V",
+      "required_kind": "lithology",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "FG",
+      "intervening_tasks_since_same_group": 2
+    },
+    {
+      "id": "T8",
+      "name": "石滩剖面",
+      "start": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "AB",
+      "intervening_tasks_since_same_group": 4
+    },
+    {
+      "id": "T9",
+      "name": "高台定向",
+      "start": "C",
+      "target": "S",
+      "required_kind": "bearing",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "DE",
+      "intervening_tasks_since_same_group": 3
+    },
+    {
+      "id": "T10",
+      "name": "露岩植被",
+      "start": "C",
+      "target": "V",
+      "required_kind": "vegetation",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "FG",
+      "intervening_tasks_since_same_group": 2
+    },
+    {
+      "id": "T11",
+      "name": "石标高程",
+      "start": "C",
+      "target": "R",
+      "required_kind": "elevation",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "DE",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T12",
+      "name": "草甸岩性",
+      "start": "C",
+      "target": "U",
+      "required_kind": "lithology",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "FG",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T13",
+      "name": "东坡复测",
+      "start": "C",
+      "target": "R",
+      "required_kind": "bearing",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "DE",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T14",
+      "name": "鞍部等高线",
+      "start": "C",
+      "target": "Y",
+      "required_kind": "contour",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "HK",
+      "intervening_tasks_since_same_group": 7
+    },
+    {
+      "id": "T15",
+      "name": "草甸复测",
+      "start": "C",
+      "target": "U",
+      "required_kind": "vegetation",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "FG",
+      "intervening_tasks_since_same_group": 2
+    },
+    {
+      "id": "T16",
+      "name": "西坡水系",
+      "start": "C",
+      "target": "Y",
+      "required_kind": "drainage",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "HK",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T17",
+      "name": "砾溪岸线",
+      "start": "C",
+      "target": "P",
+      "required_kind": "shore",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "AB",
+      "intervening_tasks_since_same_group": 8
+    },
+    {
+      "id": "T18",
+      "name": "溪头等高线",
+      "start": "C",
+      "target": "X",
+      "required_kind": "contour",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "HK",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T19",
+      "name": "砾溪复测",
+      "start": "C",
+      "target": "P",
+      "required_kind": "profile",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "AB",
+      "intervening_tasks_since_same_group": 1
+    },
+    {
+      "id": "T20",
+      "name": "溪头复测",
+      "start": "C",
+      "target": "X",
+      "required_kind": "drainage",
+      "submit_at": "C",
+      "max_steps": 24,
+      "group": "HK",
+      "intervening_tasks_since_same_group": 1
+    }
+  ],
+  "limitations": [
+    "scripted calibration, no model or agent-generated memory",
+    "nearest matching behavior alone is not retrieval proof",
+    "only history-proven alternatives justify history-conditioned avoidable cost"
+  ]
+}

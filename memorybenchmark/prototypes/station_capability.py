@@ -5,12 +5,12 @@ The runtime keeps its evaluator log private from the public observation.
 """
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from copy import deepcopy
 from dataclasses import dataclass, replace
 from fractions import Fraction
 from functools import lru_cache
-from itertools import product
+from itertools import combinations, product
 import json
 from pathlib import Path
 
@@ -36,35 +36,54 @@ def load_design(path=None):
     groups = capability_groups(design)
     grouped_stations, grouped_kinds = [], []
     if not groups:
-        raise ValueError("Declare at least one independent capability pair")
+        raise ValueError("Declare at least one independent capability group")
+    generator = design.get("world_generator", "independent_pair_swaps")
+    balanced = generator == "independent_balanced_allocations"
+    if generator not in ("independent_pair_swaps", "independent_balanced_allocations"):
+        raise ValueError("Unknown private-world generator")
+    allocations = []
     for group in groups.values():
-        if (len(group["stations"]) != 2 or len(set(group["stations"])) != 2 or
+        size = 4 if balanced else 2
+        if (len(group["stations"]) != size or len(set(group["stations"])) != size or
                 len(group["kinds"]) != 2 or len(set(group["kinds"])) != 2):
-            raise ValueError("Each capability group requires two distinct stations and kinds")
+            raise ValueError("Each capability group requires distinct stations and two kinds")
+        counts = group.get("counts", {kind: 1 for kind in group["kinds"]})
+        if counts != {kind: size // 2 for kind in group["kinds"]}:
+            raise ValueError("Declare the balanced public count for each capability")
+        choices = []
+        for first in combinations(group["stations"], size // 2):
+            choices.append({station: group["kinds"][0 if station in first else 1]
+                            for station in group["stations"]})
+        # Preserve the historical binary world IDs and assignments exactly.
+        if not balanced:
+            choices = [{station: group["kinds"][index ^ bit]
+                        for index, station in enumerate(group["stations"])} for bit in (0, 1)]
+        allocations.append(choices)
         grouped_stations.extend(group["stations"])
         grouped_kinds.extend(group["kinds"])
     if (set(grouped_stations) != stations or len(grouped_stations) != len(stations) or
             set(grouped_kinds) != kinds or len(grouped_kinds) != len(kinds)):
         raise ValueError("Capability groups must partition the stations and kinds")
     if "private_worlds" not in design:
-        if design.get("world_generator") != "independent_pair_swaps":
-            raise ValueError("Unknown private-world generator")
         design["private_worlds"] = {}
-        for bits in product((0, 1), repeat=len(groups)):
+        for indices in product(*(range(len(choices)) for choices in allocations)):
             assignment = {}
-            for group, bit in zip(groups.values(), bits):
-                assignment.update({station: group["kinds"][index ^ bit]
-                                   for index, station in enumerate(group["stations"])})
-            design["private_worlds"]["omega_" + "".join(map(str, bits))] = assignment
-    if len(design["private_worlds"]) != 2 ** len(groups):
-        raise ValueError("The candidate family must contain every independent pair assignment")
+            for choices, index in zip(allocations, indices):
+                assignment.update(choices[index])
+            design["private_worlds"]["omega_" + "".join(map(str, indices))] = assignment
+    expected = 1
+    for choices in allocations:
+        expected *= len(choices)
+    if len(design["private_worlds"]) != expected:
+        raise ValueError("The candidate family must contain every independent balanced assignment")
     assignments = []
     for world in design["private_worlds"].values():
         if set(world) != stations:
             raise ValueError("Each world must assign a capability to every station")
         for group in groups.values():
-            if {world[s] for s in group["stations"]} != set(group["kinds"]):
-                raise ValueError("Each group must assign one distinct kind to each station")
+            counts = group.get("counts", {kind: 1 for kind in group["kinds"]})
+            if Counter(world[s] for s in group["stations"]) != counts:
+                raise ValueError("Each group must satisfy its public capability counts")
         assignments.append(tuple(sorted(world.items())))
     if len(set(assignments)) != len(assignments):
         raise ValueError("Worlds must have different capability assignments")

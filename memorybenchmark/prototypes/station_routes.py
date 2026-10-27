@@ -36,8 +36,21 @@ def task_group(design, task_id):
     return next(key for key, group in capability_groups(design).items() if kind in group["kinds"])
 
 
+def station_options(design, task_id):
+    """Public weighted route costs; no station capability or world ID is read."""
+    task = design["tasks"][task_id]
+    prefix = shortest_route(design, task["start"], task["target"])[1]
+    result = []
+    for station in capability_groups(design)[task_group(design, task_id)]["stations"]:
+        outward = shortest_route(design, task["target"], station)[1]
+        home = shortest_route(design, station, task["submit_at"])[1]
+        result.append({"station": station, "distance_from_target": outward,
+                       "completion_distance": prefix + outward + home})
+    return sorted(result, key=lambda row: (row["completion_distance"], row["station"]))
+
+
 def feedback_policy(game, *, retain_history=True):
-    """Collect, select using delivered evidence, try the other station if needed."""
+    """Collect and choose using delivered evidence, never the hidden world ID."""
     walk(game, game.task["target"])
     group = capability_groups(game.design)[task_group(game.design, game.task_id)]
     while not game.state.processed:
@@ -45,7 +58,14 @@ def feedback_policy(game, *, retain_history=True):
         possible = compatible_worlds(game.design, evidence)
         matching = [s for s in group["stations"] if all(
             game.design["private_worlds"][w][s] == game.task["required_kind"] for w in possible)]
-        station = matching[0] if matching else group["stations"][0]
+        if len(group["stations"]) == 2:
+            station = matching[0] if matching else group["stations"][0]
+        else:
+            candidates = matching or [s for s in group["stations"] if any(
+                game.design["private_worlds"][w][s] == game.task["required_kind"] for w in possible)]
+            station = min(candidates, key=lambda s: (
+                shortest_route(game.design, game.state.position, s)[1]
+                + shortest_route(game.design, s, game.task["submit_at"])[1], s))
         walk(game, station)
         game.step({"type": "process"})
         if game.done:

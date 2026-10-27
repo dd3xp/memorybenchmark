@@ -1,0 +1,316 @@
+{
+  "nodes": [
+    "C",
+    "J",
+    "JN",
+    "N1",
+    "NL",
+    "NR",
+    "P"
+  ],
+  "edges": [
+    {
+      "id": 11,
+      "kind": "commute",
+      "source": "C",
+      "target": "J",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 0,
+      "time": 0,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false
+      }
+    },
+    {
+      "id": 12,
+      "kind": "commute",
+      "source": "J",
+      "target": "JN",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 1,
+      "time": 1,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false
+      }
+    },
+    {
+      "id": 13,
+      "kind": "commute",
+      "source": "JN",
+      "target": "NL",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 2,
+      "time": 2,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false
+      }
+    },
+    {
+      "id": 14,
+      "kind": "commute",
+      "source": "NL",
+      "target": "P",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 3,
+      "time": 4,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false
+      }
+    },
+    {
+      "id": 15,
+      "kind": "commute",
+      "source": "P",
+      "target": "NL",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 4,
+      "time": 5,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false
+      }
+    },
+    {
+      "id": 16,
+      "kind": "commute",
+      "source": "NL",
+      "target": "NR",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 5,
+      "time": 6,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false
+      }
+    },
+    {
+      "id": 17,
+      "kind": "commute",
+      "source": "NR",
+      "target": "N1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 6,
+      "time": 9,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false
+      }
+    },
+    {
+      "id": 19,
+      "kind": "commute",
+      "source": "N1",
+      "target": "NR",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 7,
+      "time": 11,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true
+      }
+    },
+    {
+      "id": 20,
+      "kind": "commute",
+      "source": "NR",
+      "target": "JN",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 8,
+      "time": 12,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true
+      }
+    },
+    {
+      "id": 21,
+      "kind": "commute",
+      "source": "JN",
+      "target": "J",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 9,
+      "time": 14,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true
+      }
+    },
+    {
+      "id": 22,
+      "kind": "commute",
+      "source": "J",
+      "target": "C",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 10,
+      "time": 15,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true
+      }
+    }
+  ],
+  "distance": 15,
+  "effort": 15,
+  "deaths": 0,
+  "respawn_penalty": 0,
+  "total_weight": 15,
+  "stamina_spent": null,
+  "node_events": [
+    {
+      "event_id": 18,
+      "location": "N1",
+      "time": 10,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "N1",
+        "capability": "profile",
+        "result": "processed"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true
+      }
+    },
+    {
+      "event_id": 23,
+      "location": "C",
+      "time": 16,
+      "action": {
+        "type": "submit"
+      },
+      "feedback": {
+        "kind": "submitted"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": true
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true
+      }
+    }
+  ],
+  "task_run_id": "session-2"
+}

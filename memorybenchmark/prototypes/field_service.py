@@ -14,13 +14,13 @@ from ..analysis import commute_graph
 from ..game import ProtocolError
 from ..watch import atomic_json
 from .station_capability import StationGame, load_design
-from .station_routes import schedule, shortest_route, task_group
-from .station_session import EASY20_DESIGN, StationSession
+from .station_routes import schedule, shortest_route, station_options, task_group
+from .station_session import EASY20_CHOICE_DESIGN, StationSession
 
 
 class FieldService:
     def __init__(self, log_root, design=None):
-        self.design = deepcopy(design) if design is not None else load_design(EASY20_DESIGN)
+        self.design = deepcopy(design) if design is not None else load_design(EASY20_CHOICE_DESIGN)
         self.log_root = Path(log_root) / "station-human"
         self.instances = {}
         self.lock = RLock()
@@ -128,12 +128,16 @@ class FieldService:
             assignment = deepcopy(game.design["private_worlds"][game._world_id])
             tasks = []
             for row in schedule(game.design):
-                station = next(s for s, kind in assignment.items() if kind == row["required_kind"])
+                options = station_options(game.design, row["id"])
+                matches = [r for r in options if assignment[r["station"]] == row["required_kind"]]
+                station = matches[0]["station"]
                 path, distance = [row["start"]], 0
                 for target in (row["target"], station, row["submit_at"]):
                     leg, cost = shortest_route(game.design, path[-1], target)
                     path.extend(leg[1:]); distance += cost
-                tasks.append({**row, "known_world_route": path, "known_world_distance": distance})
+                tasks.append({**row, "known_world_route": path, "known_world_distance": distance,
+                              "matching_stations": [r["station"] for r in matches],
+                              "station_options": [{**r, "matches": assignment[r["station"]] == row["required_kind"]} for r in options]})
             return {"viewer": "human_design_only", "name": game.design["public"]["name"],
                     "capabilities": assignment, "tasks": tasks,
                     "triggers": [{"station": s, "group": task_group(game.design, next(

@@ -18,13 +18,15 @@ from .station_capability import StationGame, capability_groups, load_design, nei
 
 DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capability_v2.json"
 EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.json"
+EASY20_CHOICE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_choice.json"
 
 
 def render_text(response):
     observation, feedback = response["observation"], response["feedback"]
     public, task = observation["environment"], observation["task"]
     kind = public["kinds"][task["required_kind"]]
-    groups = "；".join("/".join(group["stations"]) + "：" + "/".join(public["kinds"][k] for k in group["kinds"]) + "各一站"
+    groups = "；".join("/".join(group["stations"]) + "：" + "/".join(public["kinds"][k] for k in group["kinds"])
+                       + ("各两站" if len(group["stations"]) == 4 else "各一站")
                        for group in capability_groups({"public": public}).values())
     routes = "；".join(f"{node}（距离 {distance}）" for node, distance in neighbors({"public": public}, observation["location"]))
     message = {"started": "新委托开始。", "current_observation": "当前观察。", "arrived": "已到达。",
