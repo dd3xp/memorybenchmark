@@ -130,6 +130,7 @@ def main():
               "analysis_sources_sha256":{name:sha256((Path(__file__).resolve().parents[1]/name).read_bytes()).hexdigest() for name in
                   ("scripts/analyze_station_native.py","scripts/analyze_station_graphs.py",
                    "memorybenchmark/prototypes/station_analysis.py","memorybenchmark/prototypes/station_capability.py",
+                   "memorybenchmark/prototypes/station_choice.py","memorybenchmark/prototypes/station_routes.py",
                    "memorybenchmark/ga_runtime.py")},
               "execution_protocols":sorted({r["execution_protocol"] for r in rows}),
               "infrastructure_attempts":[{"name":s["name"],"llm_call_attempts":s["llm_calls"],
@@ -160,12 +161,16 @@ def main():
             for column,condition in enumerate(("retain","clear")):
                 row=next(r for r in rows if r["task_id"]==task and r["condition"]==condition)
                 selected.append(row["name"])
+                title = f'{task} / {"Retained native memory" if condition=="retain" else "Baseline native memory"}'
+                if not row["success"]:
+                    title += f'\nStopped: {row["termination_reason"]}'
                 draw_graph(axes[index,column],design,graphs[row["name"]],row,
-                           f'{task} / {"Retained native memory" if condition=="retain" else "Baseline native memory"}')
+                           title,
+                           focus_task=bool(design["public"].get("view_box")))
         fig.subplots_adjust(left=0.05,right=0.97,top=0.89,bottom=0.20,hspace=0.64,wspace=0.16)
         fig.suptitle("Native GA: executed cross-session trajectories",fontsize=16,x=0.05,ha="left",y=0.98)
         fig.text(0.05,0.935,f'One world, one pilot. Selected {" and ".join(args.trace_tasks)} examples; all {len(rows)} sessions are reported separately.',fontsize=10)
-        fig.text(0.05,0.025,"Arrows are actual moves; numbers show movement order. Node operations are listed beneath each graph.\nDashed red: station trip containing unsupported processing. Blue: other moves.\nIncomplete paths end at task termination; input and retrieval audits accompany the graphs.",fontsize=9)
+        fig.text(0.05,0.025,"Arrows are actual moves; numbers show movement order. Node operations are listed beneath each graph.\nDashed red: station trip containing unsupported processing. Blue: other moves. Grey: public roads in the task-region context.\nAll executed edges are shown, including any outside that region. Incomplete paths end at task termination.",fontsize=9)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-trace-comparison.{suffix}",dpi=180,facecolor="white")
         plt.close(fig)
@@ -211,7 +216,10 @@ def main():
             fig.savefig(output/f"native-query-behavior.{suffix}",dpi=180,facecolor="white")
         plt.close(fig)
     (output/"figure-manifest.json").write_text(json.dumps({"kind":artifact["kind"],"source":str(root),"selected_cases":selected,
-        "selection_rule":f'explicit {"/".join(args.trace_tasks)} paired examples plus all-task distance plot',"transforms":["ordered multigraph projection","actual node event labels","no smoothing or aggregation"],
+        "source_measurements_sha256":sha256((output/"measurements.json").read_bytes()).hexdigest(),
+        "source_trace_projection_sha256":sha256((output/"trace-projection.json").read_bytes()).hexdigest(),
+        "png_dpi":180,"uncertainty":"one observation per condition/task; no uncertainty intervals or population effect estimate",
+        "selection_rule":f'explicit {"/".join(args.trace_tasks)} paired examples plus all-task distance plot',"transforms":["ordered multigraph projection","actual node event labels","task-region public context with all executed nodes and edges retained","no smoothing or aggregation"],
         "matplotlib_version":matplotlib.__version__},indent=2),encoding="utf-8")
     print(json.dumps({"cases":len(rows),"successes":sum(r["success"] for r in rows),"calls":sum(r["llm_calls"] for r in rows),"output":str(output)}))
 

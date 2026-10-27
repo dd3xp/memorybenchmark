@@ -20,14 +20,25 @@ def read_json(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def draw_graph(ax, design, graph, row, title):
+def draw_graph(ax, design, graph, row, title, *, focus_task=False):
     from matplotlib.patches import Circle, FancyArrowPatch
     locations = design["public"]["locations"]
     bounds=design["public"].get("view_box")
+    if focus_task:
+        from memorybenchmark.prototypes.station_routes import shortest_route, station_options
+        task = design["tasks"][row["task_id"]]
+        focus = set(graph["nodes"])
+        for node in [task["target"], *(r["station"] for r in station_options(design, row["task_id"]))]:
+            focus.update(shortest_route(design, task["start"], node)[0])
+        locations = {n: data for n, data in locations.items() if n in focus}
+        xs, ys = [d["x"] for d in locations.values()], [d["y"] for d in locations.values()]
+        bounds = [min(xs)-65, min(ys)-65, max(xs)-min(xs)+130, max(ys)-min(ys)+130]
     spacing,shrink,radius=(23,9,24) if bounds else (13,15,17)
     wrong_edges = {event for x in row["station_excursions"] if x["unsupported_attempts"]
                    for event in (x["enter"], x["exit"])}
     for a, b, _ in design["public"]["edges"]:
+        if a not in locations or b not in locations:
+            continue
         p, q = locations[a], locations[b]
         ax.plot([p["x"], q["x"]], [p["y"], q["y"]], color="#c8cecf", linewidth=1, zorder=0)
     groups = defaultdict(list)
@@ -62,9 +73,12 @@ def draw_graph(ax, design, graph, row, title):
         elif verb == "inspect":
             labels.append(f'{event["location"]}: inspect {feedback["capability"]}')
     ax.set_title(title, loc="left", fontsize=12, fontweight="bold", pad=9)
-    ax.text(0, -0.025, "Path: " + " > ".join(row["path"]), transform=ax.transAxes, fontsize=9)
-    ax.text(0, -0.10, "; ".join(labels), transform=ax.transAxes, fontsize=8.5)
-    ax.text(0, -0.17, f'Success={row["success"]} | distance={row["distance"]} | moves={row["moves"]} | ops={row["operations"]}',
+    from textwrap import fill
+    path_text = "Path: " + " > ".join(row["path"])
+    event_text = "; ".join(labels)
+    ax.text(0, -0.025, fill(path_text, 64) if focus_task else path_text, transform=ax.transAxes, fontsize=8.5 if focus_task else 9, va="top")
+    ax.text(0, -0.14 if focus_task else -0.10, fill(event_text, 64) if focus_task else event_text, transform=ax.transAxes, fontsize=8.5, va="top")
+    ax.text(0, -0.25 if focus_task else -0.17, f'Success={row["success"]} | distance={row["distance"]} | moves={row["moves"]} | ops={row["operations"]}',
             transform=ax.transAxes, fontsize=9, color="#263f4a")
     ax.set(xlim=(bounds[0],bounds[0]+bounds[2]) if bounds else (20,480),
            ylim=(bounds[1]+bounds[3],bounds[1]) if bounds else (390,25), aspect="equal")

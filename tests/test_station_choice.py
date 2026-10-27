@@ -6,7 +6,7 @@ import unittest
 
 from memorybenchmark.prototypes.field_service import FieldService
 from memorybenchmark.prototypes.station_capability import StationGame, compatible_worlds, load_design
-from memorybenchmark.prototypes.station_choice import choice_context
+from memorybenchmark.prototypes.station_choice import choice_context, station_decisions
 from memorybenchmark.prototypes.station_routes import feedback_policy, station_options, walk
 from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN, StationSession
 
@@ -72,6 +72,38 @@ class StationChoiceTests(unittest.TestCase):
             import json
             p=Path(directory)/'invalid.json';p.write_text(json.dumps(bad),encoding='utf-8')
             with self.assertRaises(ValueError):load_design(p)
+
+    def test_prior_feedback_is_not_current_session_knowledge(self):
+        g = StationGame('omega_5000', self.design);g.start_task('T1')
+        walk(g, 'A');g.step({'type':'inspect'});g.step({'type':'abandon'})
+        g.start_task('T19');walk(g, 'P');walk(g, 'A')
+        row = station_decisions(self.design, g.events, g.task_run_id)
+        first = row['first_postcollection_station']
+        self.assertEqual(first['pre_task_history']['selected_historical_status'], 'known_nonmatch')
+        self.assertEqual(first['current_session_only']['selected_historical_status'], 'unresolved')
+        self.assertEqual(row['postcollection_entries_known_nonmatch_by_history'], 1)
+        self.assertEqual(row['postcollection_entries_known_nonmatch_in_current_session'], 0)
+
+    def test_precollection_inspection_stays_within_session_evidence(self):
+        g = StationGame('omega_5000', self.design);g.start_task('T1')
+        walk(g, 'A');g.step({'type':'inspect'});walk(g, 'P');walk(g, 'A')
+        row = station_decisions(self.design, g.events, g.task_run_id)
+        self.assertEqual(len(row['precollection_station_entries']), 1)
+        self.assertEqual(len(row['postcollection_station_entries']), 1)
+        first = row['first_postcollection_station']
+        self.assertEqual(first['pre_task_history']['selected_historical_status'], 'unresolved')
+        self.assertEqual(first['current_session_only']['selected_historical_status'], 'known_nonmatch')
+        self.assertEqual(row['postcollection_entries_known_nonmatch_in_current_session'], 1)
+
+    def test_prior_exclusion_fact_counts_even_without_a_known_match(self):
+        from memorybenchmark.prototypes.station_analysis import analyze_trace
+        g = StationGame('omega_0010', self.design);g.start_task('T4')
+        walk(g, 'F');g.step({'type':'inspect'});g.step({'type':'abandon'})
+        g.start_task('T7');g.step({'type':'abandon'})
+        row = analyze_trace(self.design, g.events, g.task_run_id, exact_references=False)
+        self.assertTrue(row['prior_related_station_feedback_received'])
+        self.assertFalse(row['prior_relevant_exposure'])
+        self.assertEqual(row['historically_determined_matching_stations'], [])
 
     def test_default_human_view_and_native_observation_keep_answer_boundary(self):
         with tempfile.TemporaryDirectory() as directory:

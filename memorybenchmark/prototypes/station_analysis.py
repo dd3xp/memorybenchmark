@@ -3,8 +3,9 @@ from __future__ import annotations
 
 from math import log2
 
-from .station_capability import ReferencePlanner, compatible_worlds
-from .station_choice import choice_context
+from .station_capability import ReferencePlanner, capability_groups, compatible_worlds
+from .station_choice import choice_context, station_decisions
+from .station_routes import task_group
 
 
 def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_references=True):
@@ -61,12 +62,18 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_
                 "unsupported_attempts": sum(e["delivered"]["feedback"].get("result") == "unsupported" for e in operations),
                 "processed": any(e["delivered"]["feedback"].get("result") == "processed" for e in operations)})
     prior_sources = [e["event_id"] for e in prior if e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information"]
+    relevant_stations = capability_groups(design)[task_group(design, task_id)]["stations"]
+    related_prior_sources = [e["event_id"] for e in prior if
+        e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information" and
+        e["delivered"]["feedback"]["station"] in relevant_stations]
     result = {
         "task_id": task_id, "task_run_id": task_run_id, "success": success,
         "distance": distance, "moves": len(moves), "operations": len(actions),
         "visited_nodes": sorted({start["position"]} | {e["to"] for e in moves}),
         "path": [start["position"]] + [e["to"] for e in moves],
         "prior_relevant_exposure": bool(known_match), "historically_determined_matching_stations": known_match,
+        "prior_related_station_feedback_received": bool(related_prior_sources),
+        "prior_related_station_feedback_events": related_prior_sources,
         "prior_evidence_events": prior_sources,
         "prior_compatible_world_count": len(prior_worlds),
         "after_compatible_world_count": len(compatible_worlds(design, history)),
@@ -87,4 +94,5 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_
     if any(len(group["stations"]) > 2 for group in design["public"].get("capability_groups", {}).values()):
         first = next((e["to"] for e in moves if e["to"] in stations), None)
         result["first_station_choice"] = choice_context(design, task_id, prior, first)
+        result["station_decisions"] = station_decisions(design, events, task_run_id)
     return result

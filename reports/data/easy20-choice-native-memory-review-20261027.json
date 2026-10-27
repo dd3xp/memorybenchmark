@@ -1,0 +1,268 @@
+{
+  "reviews": [
+    {
+      "task": "T1",
+      "file": "global_mem_insight.txt",
+      "facts": {},
+      "note": "Adds the self-authored game SOP filename to the index; no station-capability facts in the index."
+    },
+    {
+      "task": "T1",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile"
+      },
+      "note": "A/B observed; N1/N2 inferred by public counts, N1 also processed successfully."
+    },
+    {
+      "task": "T2",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "E": "elevation",
+        "E1": "bearing"
+      },
+      "note": "Preserves AB. Adds E and E1; does not explicitly save the observed D fact."
+    },
+    {
+      "task": "T5",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing"
+      },
+      "note": "Preserves earlier facts and adds D and E2."
+    },
+    {
+      "task": "T6",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "note": "Adds H; also notes WL is a junction, not a processing station."
+    },
+    {
+      "task": "T8",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "note": "Preserves facts; adds current Q-to-N1 workflow and repeated N1 confirmation."
+    },
+    {
+      "task": "T10",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation"
+      },
+      "note": "Adds S1 vegetation; does not explicitly save T4 F or T7 S2 facts."
+    },
+    {
+      "task": "T11",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation"
+      },
+      "note": "Preserves facts and appends a repeated D confirmation and current workflow."
+    },
+    {
+      "task": "T12",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "note": "Preserves prior facts; adds the newly reconfirmed F and successful G capabilities. Together with S1 vegetation, public counts also determine S2 lithology."
+    },
+    {
+      "task": "T15",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "note": "Preserves facts; appends a repeated F confirmation and workflow."
+    },
+    {
+      "task": "T16",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage"
+      },
+      "note": "Preserves earlier facts and adds W1 drainage. Together with H drainage, public counts determine K and W2 contour."
+    },
+    {
+      "task": "T17",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage"
+      },
+      "note": "Preserves earlier facts; appends a repeated A shore confirmation and workflow."
+    },
+    {
+      "task": "T18",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "note": "Preserves all prior capability facts and adds W2 contour. The route prose says WR-X, which is not a public road; route prose is not used as trace truth."
+    },
+    {
+      "task": "T19",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "note": "Preserves earlier station facts and appends repeated B/N1 outcomes. The abbreviated route omits actual A/B visits; measured paths come only from game events."
+    },
+    {
+      "task": "T20",
+      "file": "lanting_survey_game_sop.md",
+      "facts": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "note": "Preserves earlier facts and appends another H drainage confirmation."
+    }
+  ],
+  "retrieval_reviews": [
+    {
+      "task": "T9",
+      "file": "lanting_survey_game_sop.md",
+      "forwarded_request": "002-request.json",
+      "reviewed_game_fact_fragments": [
+        "E1支持方位",
+        "E2支持方位"
+      ],
+      "note": "Self-authored facts occur in the returned file-read text forwarded as a user-role item, before any game movement. Selected E2 is supported but costlier than E1. This is evidence delivery and behavior consistency, not a causal benefit estimate."
+    }
+  ]
+}

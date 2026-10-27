@@ -1,0 +1,2034 @@
+{
+  "kind": "manually_reviewed_self_generated_game_facts_not_model_reasoning",
+  "source_pilot_sha256": "1571433e50777601fd4a91da029ee0f58a45319cff7416281e707aacae7797eb",
+  "scope": "All mainline content changes; reviewed station facts only. No native baseline SOP body, raw model input or reasoning is published. Facts are extracted manually, support and delivery checked algorithmically.",
+  "changes": [
+    {
+      "task": "T1",
+      "file": "global_mem_insight.txt",
+      "sha256_before": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "sha256_after": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+      "reviewed_explicit_station_facts_after": {},
+      "support": {},
+      "review_note": "Adds the self-authored game SOP filename to the index; no station-capability facts in the index.",
+      "source_audit_sha256": "52306da5e6182c4cfc32770f2e94936d7558f3dd9380c878d43ec8c2161e05bc"
+    },
+    {
+      "task": "T1",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": null,
+      "sha256_after": "b1c12b0bd58e578ff55704f734a7d5867301ce2ac773a11f3612892e4514ca6c",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": []
+        }
+      },
+      "review_note": "A/B observed; N1/N2 inferred by public counts, N1 also processed successfully.",
+      "source_audit_sha256": "52306da5e6182c4cfc32770f2e94936d7558f3dd9380c878d43ec8c2161e05bc"
+    },
+    {
+      "task": "T2",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "b1c12b0bd58e578ff55704f734a7d5867301ce2ac773a11f3612892e4514ca6c",
+      "sha256_after": "8c39833097ce58044047f590023d156e4dcbe06280b7153b0c8fd65a8a43e881",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "E": "elevation",
+        "E1": "bearing"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": []
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35
+          ]
+        }
+      },
+      "review_note": "Preserves AB. Adds E and E1; does not explicitly save the observed D fact.",
+      "source_audit_sha256": "84dd0f65f84cf9c927d61c6125aced0ccb13fb8631ce54365f3615ddc2df1673"
+    },
+    {
+      "task": "T5",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "8c39833097ce58044047f590023d156e4dcbe06280b7153b0c8fd65a8a43e881",
+      "sha256_after": "c8923ea2f408e5834fc8102c3d17b7a4615b74b5801a07924abca089de566091",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86
+          ]
+        }
+      },
+      "review_note": "Preserves earlier facts and adds D and E2.",
+      "source_audit_sha256": "c5f46cf00b2dd7f0288d62c534dbfbf8e3367a32285dcdb8f3eb02f24d1bee1e"
+    },
+    {
+      "task": "T6",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "c8923ea2f408e5834fc8102c3d17b7a4615b74b5801a07924abca089de566091",
+      "sha256_after": "12f562491064ea959b079f21eb5a4da4b49917583098a327a8df33fe11fe8a31",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        }
+      },
+      "review_note": "Adds H; also notes WL is a junction, not a processing station.",
+      "source_audit_sha256": "33f765ced5551a345110a14f15a4346b6faddfbc5c9b93d3a45b211254a320c2"
+    },
+    {
+      "task": "T8",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "12f562491064ea959b079f21eb5a4da4b49917583098a327a8df33fe11fe8a31",
+      "sha256_after": "b1326451ff98d5ad865a68be237d072904f29ce8db9a98db8c5e9216b424443e",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        }
+      },
+      "review_note": "Preserves facts; adds current Q-to-N1 workflow and repeated N1 confirmation.",
+      "source_audit_sha256": "a21d0c9ba59a48eb4472b008f5df3e4573d4fcaf994934555f52a9768b115cca"
+    },
+    {
+      "task": "T10",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "b1326451ff98d5ad865a68be237d072904f29ce8db9a98db8c5e9216b424443e",
+      "sha256_after": "dd266b8c4a2633747c3de72232f5903426b4677a6d4676a0fd438cef2bab47ac",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        }
+      },
+      "review_note": "Adds S1 vegetation; does not explicitly save T4 F or T7 S2 facts.",
+      "source_audit_sha256": "6c4d1f1dfab1452c1aae0506f765fc8a5a507d359d6dc823ef035a51c62621d1"
+    },
+    {
+      "task": "T11",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "dd266b8c4a2633747c3de72232f5903426b4677a6d4676a0fd438cef2bab47ac",
+      "sha256_after": "488a0a7d0bf6f0b0346dbc51a243563ed1b60783a15037c9b38e5c75874dd82a",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        }
+      },
+      "review_note": "Preserves facts and appends a repeated D confirmation and current workflow.",
+      "source_audit_sha256": "34648e0b2329534b4fa940cb1f08a54bd37e987be97d8e00028d13975558780c"
+    },
+    {
+      "task": "T12",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "488a0a7d0bf6f0b0346dbc51a243563ed1b60783a15037c9b38e5c75874dd82a",
+      "sha256_after": "c4390335f4ac44a2e7fbf5e71f9fd17c1af880a12c0dab5adf5e118552850c8b",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        }
+      },
+      "review_note": "Preserves prior facts; adds the newly reconfirmed F and successful G capabilities. Together with S1 vegetation, public counts also determine S2 lithology.",
+      "source_audit_sha256": "0b651fa1820fa9893c6e7e5b214c20f8e825d305c834c9147a245671a1c61b5c"
+    },
+    {
+      "task": "T15",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "c4390335f4ac44a2e7fbf5e71f9fd17c1af880a12c0dab5adf5e118552850c8b",
+      "sha256_after": "e7fc3da6f0c561e4a1be03b8ed586ba85ae356c606d0f977d0d8b318e2ca185c",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174,
+            203
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30,
+            206
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83,
+            210
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187,
+            239,
+            240
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        }
+      },
+      "review_note": "Preserves facts; appends a repeated F confirmation and workflow.",
+      "source_audit_sha256": "e9929ff83323c12eb68f66eb731562703b9b6af33f884e277101c2bbe6eb2e35"
+    },
+    {
+      "task": "T16",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "e7fc3da6f0c561e4a1be03b8ed586ba85ae356c606d0f977d0d8b318e2ca185c",
+      "sha256_after": "cb61b8b7b63a959e16c7e1f6df1472bbe5206c007d2deab665d6898df1d36be6",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174,
+            203
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30,
+            206
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83,
+            210
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187,
+            239,
+            240
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        },
+        "W1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            223,
+            253
+          ]
+        }
+      },
+      "review_note": "Preserves earlier facts and adds W1 drainage. Together with H drainage, public counts determine K and W2 contour.",
+      "source_audit_sha256": "e4894e1663c0244cb380f79453ccc4d7c63789eb378b2bb1f03feb7c6ac68590"
+    },
+    {
+      "task": "T17",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "cb61b8b7b63a959e16c7e1f6df1472bbe5206c007d2deab665d6898df1d36be6",
+      "sha256_after": "48833de4aa06480951954737b0bc6c776163df4c4426ae6d78789121a047198c",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56,
+            266,
+            267
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174,
+            203
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30,
+            206
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83,
+            210
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187,
+            239,
+            240
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        },
+        "W1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            223,
+            253
+          ]
+        }
+      },
+      "review_note": "Preserves earlier facts; appends a repeated A shore confirmation and workflow.",
+      "source_audit_sha256": "a52b08f21cf8f96d022d065a82c6878a56a3248a0aca13a2d6c7a68a9eb90928"
+    },
+    {
+      "task": "T18",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "48833de4aa06480951954737b0bc6c776163df4c4426ae6d78789121a047198c",
+      "sha256_after": "ee2da4455b8c64afc667e4e12c55b0bc315c284266b23fdbfcefb029392dac64",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56,
+            266,
+            267
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174,
+            203
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30,
+            206
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83,
+            210
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104,
+            280
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187,
+            239,
+            240
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        },
+        "W1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            223,
+            253,
+            284
+          ]
+        },
+        "W2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            226,
+            287,
+            288
+          ]
+        }
+      },
+      "review_note": "Preserves all prior capability facts and adds W2 contour. The route prose says WR-X, which is not a public road; route prose is not used as trace truth.",
+      "source_audit_sha256": "b755e30a4a4b37a41cb38c5fa1591c76b9fbfe325056d1990001dbf76402572d"
+    },
+    {
+      "task": "T19",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "ee2da4455b8c64afc667e4e12c55b0bc315c284266b23fdbfcefb029392dac64",
+      "sha256_after": "1707b01f6e6e8900bd35979a7e4e33cf3f98ae230a30069de8b20376d7844649",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56,
+            266,
+            267,
+            301
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10,
+            304
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134,
+            308
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174,
+            203
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30,
+            206
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83,
+            210
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104,
+            280
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187,
+            239,
+            240
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        },
+        "W1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            223,
+            253,
+            284
+          ]
+        },
+        "W2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            226,
+            287,
+            288
+          ]
+        }
+      },
+      "review_note": "Preserves earlier station facts and appends repeated B/N1 outcomes. The abbreviated route omits actual A/B visits; measured paths come only from game events.",
+      "source_audit_sha256": "61f6d14b14698a03d9af0e6181ec286c642c72f041e4c8518e8063de947cb674"
+    },
+    {
+      "task": "T20",
+      "file": "lanting_survey_game_sop.md",
+      "sha256_before": "1707b01f6e6e8900bd35979a7e4e33cf3f98ae230a30069de8b20376d7844649",
+      "sha256_after": "21887d2a9fd0b2ce08222324ad01bb156395d0d5ee244b512d7575d65c72698c",
+      "reviewed_explicit_station_facts_after": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "support": {
+        "A": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            7,
+            55,
+            56,
+            266,
+            267,
+            301
+          ]
+        },
+        "B": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            10,
+            304
+          ]
+        },
+        "N1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            14,
+            48,
+            133,
+            134,
+            308
+          ]
+        },
+        "N2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            51
+          ]
+        },
+        "D": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            27,
+            90,
+            91,
+            173,
+            174,
+            203
+          ]
+        },
+        "E": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            30,
+            206
+          ]
+        },
+        "E1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            34,
+            35,
+            83,
+            210
+          ]
+        },
+        "E2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            86,
+            147
+          ]
+        },
+        "H": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            104,
+            280,
+            321,
+            322
+          ]
+        },
+        "S1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            117,
+            160
+          ]
+        },
+        "F": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            69,
+            70,
+            187,
+            239,
+            240
+          ]
+        },
+        "G": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            190
+          ]
+        },
+        "W1": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            223,
+            253,
+            284
+          ]
+        },
+        "W2": {
+          "entailed_by_actual_delivered_history": true,
+          "direct_source_events": [
+            226,
+            287,
+            288
+          ]
+        }
+      },
+      "review_note": "Preserves earlier facts and appends another H drainage confirmation.",
+      "source_audit_sha256": "8a451bf9c09fa2b1cf77afaa05ad47e5537177fe525ae40f41fae79e64a7b8d8"
+    }
+  ],
+  "main_task_availability": [
+    {
+      "task": "T1",
+      "actual_related_prior_feedback_received": false,
+      "explicit_reviewed_station_facts_in_input_memory": {},
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": false,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "A",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {},
+      "self_generated_global_index_in_first_input": false
+    },
+    {
+      "task": "T2",
+      "actual_related_prior_feedback_received": false,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": false,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "D",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "b1c12b0bd58e578ff55704f734a7d5867301ce2ac773a11f3612892e4514ca6c"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T3",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "E": "elevation",
+        "E1": "bearing"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "A",
+        "B"
+      ],
+      "first_postcollection_station": "N1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_nonmatch",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "8c39833097ce58044047f590023d156e4dcbe06280b7153b0c8fd65a8a43e881"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T4",
+      "actual_related_prior_feedback_received": false,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "E": "elevation",
+        "E1": "bearing"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": false,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "F",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "8c39833097ce58044047f590023d156e4dcbe06280b7153b0c8fd65a8a43e881"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T5",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "E": "elevation",
+        "E1": "bearing"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "E"
+      ],
+      "first_postcollection_station": "E1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_nonmatch",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "8c39833097ce58044047f590023d156e4dcbe06280b7153b0c8fd65a8a43e881"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T6",
+      "actual_related_prior_feedback_received": false,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": false,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "H",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "c8923ea2f408e5834fc8102c3d17b7a4615b74b5801a07924abca089de566091"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T7",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": false,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "S1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "12f562491064ea959b079f21eb5a4da4b49917583098a327a8df33fe11fe8a31"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T8",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "N1",
+        "N2"
+      ],
+      "first_postcollection_station": "N1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_match",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "12f562491064ea959b079f21eb5a4da4b49917583098a327a8df33fe11fe8a31"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T9",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "E1",
+        "E2"
+      ],
+      "first_postcollection_station": "E2",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_match",
+      "file_reads_before_first_postcollection_station": [
+        "lanting_survey_game_sop.md"
+      ],
+      "file_reads_before_game_terminal_event": [
+        "lanting_survey_game_sop.md"
+      ],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "b1326451ff98d5ad865a68be237d072904f29ce8db9a98db8c5e9216b424443e"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T10",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": false,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "S1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "b1326451ff98d5ad865a68be237d072904f29ce8db9a98db8c5e9216b424443e"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T11",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "D",
+        "E"
+      ],
+      "first_postcollection_station": "D",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_match",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "dd266b8c4a2633747c3de72232f5903426b4677a6d4676a0fd438cef2bab47ac"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T12",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "F",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "488a0a7d0bf6f0b0346dbc51a243563ed1b60783a15037c9b38e5c75874dd82a"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T13",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "E1",
+        "E2"
+      ],
+      "first_postcollection_station": "D",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_nonmatch",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "c4390335f4ac44a2e7fbf5e71f9fd17c1af880a12c0dab5adf5e118552850c8b"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T14",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [],
+      "first_postcollection_station": "W1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "c4390335f4ac44a2e7fbf5e71f9fd17c1af880a12c0dab5adf5e118552850c8b"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T15",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "F",
+        "S1"
+      ],
+      "first_postcollection_station": "F",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_match",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "c4390335f4ac44a2e7fbf5e71f9fd17c1af880a12c0dab5adf5e118552850c8b"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T16",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "H"
+      ],
+      "first_postcollection_station": "W1",
+      "first_station_status_from_reviewed_memory_and_public_counts": "unresolved",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "e7fc3da6f0c561e4a1be03b8ed586ba85ae356c606d0f977d0d8b318e2ca185c"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T17",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "A",
+        "B"
+      ],
+      "first_postcollection_station": "A",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_match",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "cb61b8b7b63a959e16c7e1f6df1472bbe5206c007d2deab665d6898df1d36be6"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T18",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "K",
+        "W2"
+      ],
+      "first_postcollection_station": "H",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_nonmatch",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "48833de4aa06480951954737b0bc6c776163df4c4426ae6d78789121a047198c"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T19",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "N1",
+        "N2"
+      ],
+      "first_postcollection_station": "A",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_nonmatch",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "ee2da4455b8c64afc667e4e12c55b0bc315c284266b23fdbfcefb029392dac64"
+      },
+      "self_generated_global_index_in_first_input": true
+    },
+    {
+      "task": "T20",
+      "actual_related_prior_feedback_received": true,
+      "explicit_reviewed_station_facts_in_input_memory": {
+        "A": "shore",
+        "B": "shore",
+        "N1": "profile",
+        "N2": "profile",
+        "D": "elevation",
+        "E": "elevation",
+        "E1": "bearing",
+        "E2": "bearing",
+        "H": "drainage",
+        "S1": "vegetation",
+        "F": "vegetation",
+        "G": "lithology",
+        "W1": "drainage",
+        "W2": "contour"
+      },
+      "conflicting_stations": [],
+      "related_reviewed_fact_available": true,
+      "matching_stations_determined_from_reviewed_memory_facts_and_public_counts": [
+        "H",
+        "W1"
+      ],
+      "first_postcollection_station": "H",
+      "first_station_status_from_reviewed_memory_and_public_counts": "known_match",
+      "file_reads_before_first_postcollection_station": [],
+      "file_reads_before_game_terminal_event": [],
+      "input_game_memory_file_sha256": {
+        "global_mem_insight.txt": "7dfa1db7f46e7e140b713a50aaf6eb9340e4f2a4609b3ff96190776730ddf28d",
+        "lanting_survey_game_sop.md": "1707b01f6e6e8900bd35979a7e4e33cf3f98ae230a30069de8b20376d7844649"
+      },
+      "self_generated_global_index_in_first_input": true
+    }
+  ],
+  "verified_retrieval_cases": [
+    {
+      "task": "T9",
+      "file": "lanting_survey_game_sop.md",
+      "forwarded_request": "002-request.json",
+      "reviewed_game_fact_fragments": [
+        "E1支持方位",
+        "E2支持方位"
+      ],
+      "note": "Self-authored facts occur in the returned file-read text forwarded as a user-role item, before any game movement. Selected E2 is supported but costlier than E1. This is evidence delivery and behavior consistency, not a causal benefit estimate.",
+      "source_request_sha256": "acebb94b6c591c6802f68693550a3929abfc5612c793b58c875a46ae874cce22",
+      "source_memory_sha256": "b1326451ff98d5ad865a68be237d072904f29ce8db9a98db8c5e9216b424443e",
+      "verified_fact_delivery_before_station_entry": true
+    }
+  ],
+  "review_manifest_sha256": "662e0d480edd92cb24de35a2e065d5a37873c0554ce592fc896d982efc54818f",
+  "audit_transform_sha256": "669efea0487a42c04a337b2149e87c25c8db5d5923ce5ca32f760da7de9a3953"
+}

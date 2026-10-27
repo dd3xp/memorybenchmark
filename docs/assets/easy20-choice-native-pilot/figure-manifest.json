@@ -1,0 +1,22 @@
+{
+  "kind": "native_ga_station_single_world_pilot_not_statistical_effect_estimate",
+  "source": "C:\\Codes\\benchmark\\.runs\\easy20-choice-native-pilot-final-20261027",
+  "selected_cases": [
+    "03-T3-retain",
+    "03-T3-clear",
+    "17-T17-retain",
+    "17-T17-clear"
+  ],
+  "source_measurements_sha256": "9e758baafbb3d260884bb349ed904b68d58ba93d85f595a6bc40499c2178c03c",
+  "source_trace_projection_sha256": "94f418e404e5a09476bf27517c9e2121843f47b9793365b0ca731170ddd6927d",
+  "png_dpi": 180,
+  "uncertainty": "one observation per condition/task; no uncertainty intervals or population effect estimate",
+  "selection_rule": "explicit T3/T17 paired examples plus all-task distance plot",
+  "transforms": [
+    "ordered multigraph projection",
+    "actual node event labels",
+    "task-region public context with all executed nodes and edges retained",
+    "no smoothing or aggregation"
+  ],
+  "matplotlib_version": "3.10.8"
+}
