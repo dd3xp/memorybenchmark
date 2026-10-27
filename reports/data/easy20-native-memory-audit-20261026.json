@@ -1,0 +1,354 @@
+{
+  "kind": "manually_reviewed_self_generated_game_facts_not_model_reasoning",
+  "source_pilot_sha256": "fc016f706d565930a0f1cc9e205d7725c4002bc972fad0ae87a49356dcb1dc28",
+  "scope": "Only reviewed game facts, hashes and tool argument metadata; native prompts, reasoning and baseline SOP bodies remain private.",
+  "changes": [
+    {
+      "task": "T1",
+      "file": "lanting_survey_sop.md",
+      "sha256_after": "460d5a0035db3e1eae70fd29f660e6c0e631996f14875518e2a17b07bf5900ec",
+      "sha256_before": null,
+      "reviewed_explicit_game_facts_after": {
+        "A": "profile",
+        "B": "shore"
+      },
+      "review_note": "A directly observed; B inferred by the public complementary-pair rule",
+      "source_audit_sha256": "987c64a40e012b884fbdecc86ae3fe3f3f87d97c4a3bd7bb625b5eb3e33b6179"
+    },
+    {
+      "task": "T5",
+      "file": "survey_game_t5.md",
+      "sha256_after": "f4c7eac0465449f9b7694dd6c43bb164025c691eef35506d6383838fb349513a",
+      "sha256_before": null,
+      "reviewed_explicit_game_facts_after": {
+        "D": "bearing",
+        "E": "elevation"
+      },
+      "review_note": "both station capabilities directly observed",
+      "source_audit_sha256": "c01bf8c09f680c4405d0ebcc2ec2a9c8dcca7ec233c7c9ab91424720f8224e46"
+    },
+    {
+      "task": "T7",
+      "file": "lanting_easy20_game_sop.md",
+      "sha256_after": "027fc52ee7602d74e53a8e63eea804c65e6ddbf06b02c2de2af78817ebe09143",
+      "sha256_before": null,
+      "reviewed_explicit_game_facts_after": {
+        "F": "lithology"
+      },
+      "review_note": "F directly observed",
+      "source_audit_sha256": "1ed5eb27a44398585b9906c90f4d08a0fe89f1dc9f798e307e84724db0ecab91"
+    },
+    {
+      "task": "T10",
+      "file": "lanting_easy20_game_sop.md",
+      "sha256_after": "586c67121150ff60f6699949ee56402c8d46efa4f501b252880e27f9e909aad8",
+      "sha256_before": "027fc52ee7602d74e53a8e63eea804c65e6ddbf06b02c2de2af78817ebe09143",
+      "reviewed_explicit_game_facts_after": {
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "review_note": "both capabilities directly observed; previous F note retained",
+      "source_audit_sha256": "b954acfc00417b79559da83512155f97492b74536482819f567c86bb2127ba17"
+    },
+    {
+      "task": "T16",
+      "file": "lanting_easy20_game_sop.md",
+      "sha256_after": "5075162286b686b59d4419724f2c6ee94aa1d8235e2679df851b25ba9d3cc714",
+      "sha256_before": "586c67121150ff60f6699949ee56402c8d46efa4f501b252880e27f9e909aad8",
+      "reviewed_explicit_game_facts_after": {
+        "F": "lithology",
+        "G": "vegetation",
+        "H": "drainage"
+      },
+      "review_note": "H directly observed; prior F/G notes retained",
+      "source_audit_sha256": "894899b039fb3c9da1503ac79e421e4e3b26d759ed1659d3ee2ab8d594e8cd21"
+    },
+    {
+      "task": "T20",
+      "file": "lanting_survey_sop.md",
+      "sha256_after": "2347aa9bf688a994b1f0fd6e3fff8c8fce1d45c2624b057bf045fb339fb87806",
+      "sha256_before": "460d5a0035db3e1eae70fd29f660e6c0e631996f14875518e2a17b07bf5900ec",
+      "reviewed_explicit_game_facts_after": {
+        "H": "drainage",
+        "K": "contour"
+      },
+      "review_note": "H directly observed; K inferred; replaces the prior A/B file content",
+      "source_audit_sha256": "fef8427c947d7b3fbad969993bc5f41a2341b9e072344efc68b4fac0b86350c0"
+    }
+  ],
+  "main_task_availability": [
+    {
+      "task": "T1",
+      "actual_relevant_prior_feedback": false,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {},
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T2",
+      "actual_relevant_prior_feedback": false,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T3",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T4",
+      "actual_relevant_prior_feedback": false,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T5",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T6",
+      "actual_relevant_prior_feedback": false,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T7",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T8",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T9",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T10",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T11",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T12",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T13",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T14",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T15",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T16",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": false,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T17",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation",
+        "H": "drainage"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T18",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation",
+        "H": "drainage"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T19",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation",
+        "H": "drainage"
+      },
+      "file_reads_before_first_station_move": []
+    },
+    {
+      "task": "T20",
+      "actual_relevant_prior_feedback": true,
+      "reviewed_related_fact_available_in_input_files": true,
+      "explicit_game_facts_in_input_files": {
+        "A": "profile",
+        "B": "shore",
+        "D": "bearing",
+        "E": "elevation",
+        "F": "lithology",
+        "G": "vegetation",
+        "H": "drainage"
+      },
+      "file_reads_before_first_station_move": []
+    }
+  ],
+  "main_tasks_with_actual_relevant_prior_feedback": 16,
+  "main_tasks_with_related_fact_available_in_input_files": 12,
+  "global_memory_index_changed_from_baseline": false,
+  "terminal_overwrite": {
+    "task": "T20",
+    "file": "lanting_survey_sop.md",
+    "tool": "file_write",
+    "mode": "overwrite",
+    "removed_game_facts": {
+      "A": "profile",
+      "B": "shore"
+    },
+    "remaining_game_fact_groups": [
+      "DE",
+      "FG",
+      "HK"
+    ],
+    "later_behavioral_effect_observed": false
+  }
+}

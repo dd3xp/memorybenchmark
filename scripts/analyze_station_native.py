@@ -34,6 +34,7 @@ def main():
     main_memory=root/"baseline"
     rows=[]
     graphs={}
+    projections=[]
     for session in pilot["sessions"]:
         folder=root/"sessions"/session["name"]
         summary=read(folder/"summary.json")
@@ -47,6 +48,7 @@ def main():
         terminal=next(e for e in reversed(events) if e["task_run_id"]==graph["task_run_id"])
         final_observation=terminal["delivered"]["observation"]
         before_first_station=[]
+        tools_before_first_station=[]
         memory_reads_before_end=[]
         for message in messages:
             if message.get("kind")=="request" and message.get("method")=="task_end":
@@ -63,11 +65,15 @@ def main():
                     break
             if message.get("kind")=="tool" and message.get("name")=="file_read":
                 before_first_station.append(message.get("args",{}).get("path"))
+            if message.get("kind")=="tool":
+                tools_before_first_station.append(message.get("name"))
         row={**analyze_trace(design,events,graph["task_run_id"],infrastructure_ok=summary["infrastructure_ok"],exact_references=not args.skip_exact_references),
              "name":session["name"],"condition":session["condition"],"llm_calls":summary["llm_calls"],
              "main_calls":summary["main_calls"],"final_calls":summary["final_calls"],
              "execution_protocol":summary["initial_session"].get("execution_protocol","native-return-terminal-legacy"),
              "continuation_count":len(summary.get("continuations",[])),
+             "finalization_native_result":summary.get("worker_result",{}).get("finalization_result",{}).get("result"),
+             "finalization_calls_at_limit":summary["final_calls"]==pilot["final_turns"],
              "native_global_memory_changed_from_baseline":global_memory!=baseline_global,
              "native_global_memory_verbatim_in_first_input":global_in_input,
              "self_generated_global_memory_in_first_input":global_memory!=baseline_global and global_in_input,
@@ -81,6 +87,7 @@ def main():
              "end_processed":final_observation["processed"],
              "termination_reason":terminal["delivered"]["feedback"].get("reason",terminal["delivered"]["feedback"].get("termination",terminal["delivered"]["feedback"]["kind"])),
              "file_reads_before_first_station_move":before_first_station,
+             "tool_names_before_first_station_move":tools_before_first_station,
              "file_reads_before_task_end":memory_reads_before_end}
         assert row["distance"]==summary["distance"]==graph["distance"]
         assert row["success"]==summary["success"]
@@ -95,6 +102,18 @@ def main():
         assert all(v for k,v in initial["isolation"].items() if k!="pid")
         rows.append(row)
         graphs[row["name"]]=graph
+        start=next(e for e in events if e["task_run_id"]==graph["task_run_id"] and e["kind"]=="task_started")
+        event_fields=("event_id","task_id","task_run_id","world_version","kind","position","action","from","to",
+                      "moved","movement_cost","effort_cost","time","time_before","time_after","state_before","state_after","evidence_delivered")
+        projections.append({"name":row["name"],"task_id":row["task_id"],"condition":row["condition"],
+            "source_events_sha256":row["source_events_sha256"],"graph":graph,
+            "prior_evidence":[{"event_id":e["event_id"],"task_id":e["task_id"],"task_run_id":e["task_run_id"],
+                               "feedback":e["delivered"]["feedback"]} for e in events if e["event_id"]<start["event_id"]
+                              and e.get("delivered",{}).get("feedback",{}).get("kind")=="station_information"],
+            "current_events":[{**{k:e[k] for k in event_fields if k in e},"feedback":e["delivered"]["feedback"],
+                               "observation":{k:e["delivered"]["observation"][k] for k in
+                                    ("location","raw","processed","steps","distance","time","clock","done","success") if k in e["delivered"]["observation"]}}
+                              for e in events if e["task_run_id"]==graph["task_run_id"]]})
         if session["condition"]!="clear":
             main_memory=folder/"memory-after"
     pair_inputs=[]
@@ -108,6 +127,10 @@ def main():
     artifact={"kind":"native_ga_station_single_world_pilot_not_statistical_effect_estimate",
               "world":pilot["world"],"model_alias":pilot["model_alias"],"source_pilot_sha256":sha256((root/"pilot.json").read_bytes()).hexdigest(),
               "analysis_sha256":sha256(Path(__file__).read_bytes()).hexdigest(),"rows":rows,"paired_first_inputs":pair_inputs,
+              "analysis_sources_sha256":{name:sha256((Path(__file__).resolve().parents[1]/name).read_bytes()).hexdigest() for name in
+                  ("scripts/analyze_station_native.py","scripts/analyze_station_graphs.py",
+                   "memorybenchmark/prototypes/station_analysis.py","memorybenchmark/prototypes/station_capability.py",
+                   "memorybenchmark/ga_runtime.py")},
               "execution_protocols":sorted({r["execution_protocol"] for r in rows}),
               "infrastructure_attempts":[{"name":s["name"],"llm_call_attempts":s["llm_calls"],
                   "error":s["infrastructure_error"],"excluded_from_valid_rows":True}
@@ -117,6 +140,10 @@ def main():
                  "each clear run is a current-task probe, not an independent full stream",
                  "model alias is not independently verified model identity","path matching is not retrieval proof"]}
     (output/"measurements.json").write_text(json.dumps(artifact,ensure_ascii=False,indent=2),encoding="utf-8")
+    (output/"trace-projection.json").write_text(json.dumps({"kind":"public_game_trace_projection_not_model_transcript",
+        "design_id":design["design_id"],"public_map":design["public"],"tasks":design["tasks"],
+        "source_pilot_sha256":artifact["source_pilot_sha256"],"prior_evidence_scope":"evaluator canonical actual history; not automatically supplied to the agent",
+        "sessions":projections},ensure_ascii=False,indent=2),encoding="utf-8")
     lines=["# Native GA station pilot", "", f'Model alias: {pilot["model_alias"]}. One sampled world, {len(rows)} fresh sessions. No statistical effect estimate.',"",
            "|Task|Condition|Success|Distance|Moves|Ops|Queries|Unsupported|Relevant prior exposure|LLM calls|Continuations|Memory changes|",
            "|---|---|---|---:|---:|---:|---:|---:|---|---:|---:|---|"]
@@ -138,7 +165,7 @@ def main():
         fig.subplots_adjust(left=0.05,right=0.97,top=0.89,bottom=0.20,hspace=0.64,wspace=0.16)
         fig.suptitle("Native GA: executed cross-session trajectories",fontsize=16,x=0.05,ha="left",y=0.98)
         fig.text(0.05,0.935,f'One world, one pilot. Selected {" and ".join(args.trace_tasks)} examples; all {len(rows)} sessions are reported separately.',fontsize=10)
-        fig.text(0.05,0.025,"Arrows are actual moves; numbers preserve movement order. Node operations are listed beneath each graph.\nIncomplete paths end at task termination. These observations alone do not establish a memory effect.",fontsize=9)
+        fig.text(0.05,0.025,"Arrows are actual moves; numbers show movement order. Node operations are listed beneath each graph.\nDashed red: station trip containing unsupported processing. Blue: other moves.\nIncomplete paths end at task termination; input and retrieval audits accompany the graphs.",fontsize=9)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-trace-comparison.{suffix}",dpi=180,facecolor="white")
         plt.close(fig)

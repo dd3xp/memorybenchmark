@@ -17,11 +17,15 @@ def read(path):
     return path.read_text(encoding="utf-8-sig")
 
 
-def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw"):
+def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw", native_archive=None):
     root=Path(root)
     pilot=json.loads(read(root/"pilot.json"));design=json.loads(read(root/"design.json"))
     if not allow_partial and pilot["status"]!="completed":
         raise ValueError("Pilot is incomplete; partial auditing must be explicit")
+    archive_verified=None
+    if native_archive:
+        archive_verified=sha256(Path(native_archive).read_bytes()).hexdigest()==pilot["archive_sha256"]
+        assert archive_verified,"Native archive differs from declared source"
     game=StationGame(pilot["world"],design)
     baseline=memory_manifest(root/"baseline");main_memory=baseline
     checked_events=checked_current_events=0;rows=[];session_ids=[]
@@ -79,7 +83,8 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             "sessions":len(rows),"cumulative_event_records_replayed":checked_events,
             "current_session_event_records_replayed":checked_current_events,"canonical_tasks":game._runs,
             "memory_chains_verified":True,"fresh_sessions_and_isolation_verified":True,
-            "source_commit":source_commit,"source_newlines":source_newlines,"source_files_verified":verified_sources,"rows":rows}
+            "source_commit":source_commit,"source_newlines":source_newlines,"source_files_verified":verified_sources,
+            "native_archive_verified":archive_verified,"rows":rows}
 
 
 def main():
@@ -87,7 +92,8 @@ def main():
     parser.add_argument('--run',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--allow-partial',action='store_true');parser.add_argument('--source-commit')
     parser.add_argument('--source-newlines',choices=('raw','crlf'),default='raw',help='explicit Git checkout newline conversion for frozen Windows files')
-    args=parser.parse_args();result=audit(args.run,allow_partial=args.allow_partial,source_commit=args.source_commit,source_newlines=args.source_newlines)
+    parser.add_argument('--native-archive',type=Path)
+    args=parser.parse_args();result=audit(args.run,allow_partial=args.allow_partial,source_commit=args.source_commit,source_newlines=args.source_newlines,native_archive=args.native_archive)
     with args.output.open('x',encoding='utf-8') as stream:json.dump(result,stream,ensure_ascii=False,indent=2)
     print(json.dumps({k:v for k,v in result.items() if k not in ('rows','source_files_verified')}))
 

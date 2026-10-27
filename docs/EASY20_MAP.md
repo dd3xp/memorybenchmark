@@ -64,7 +64,7 @@
 - 之后是否选择与已有证据一致的站，是否重复付费查询，是否发生可避免的跨站往返。
 - 短间隔、长间隔、换目标和换同组资料时，以上行为如何变化。
 
-这些是可观察行为与受控对比的材料，不能只凭一次最短路线断言内部检索了记忆。更细指标和真实 Agent 校准仍需后续完成。
+这些是可观察行为与受控对比的材料，不能只凭一次最短路线断言内部检索了记忆。首轮真实 Agent 校准已完成，见[完整 GA 试跑](../reports/EASY20_NATIVE_GA_PILOT.md)；更细指标仍待确定。
 
 ## 游玩、设计查看与接入
 
@@ -82,7 +82,7 @@ python -m memorybenchmark --port 8765
 python -m memorybenchmark.prototypes.station_session --design memorybenchmark/data/station_easy20.json --human --all-tasks
 ```
 
-原生 GA 运行器现在接受 `--design memorybenchmark/data/station_easy20.json`。省略 `--tasks` 时运行该地图全部二十项；保留主流加 T2–T20 的清除探针共 39 个有效 session。清除探针从对应主流实际历史检查点分叉，不推进主流历史。`--resume` 继续使用运行目录冻结的设计和源码指纹。此地图交付时尚未运行这 39 个真实 session。
+原生 GA 运行器现在接受 `--design memorybenchmark/data/station_easy20.json`。省略 `--tasks` 时运行该地图全部二十项；保留主流加 T2–T20 的清除探针共 39 个有效 session。清除探针从对应主流实际历史检查点分叉，不推进主流历史。`--resume` 继续使用运行目录冻结的设计和源码指纹。2026-10-26 首轮完整试跑已完成：39 个 session 全部成功，实际自主经验与成图见[试跑报告](../reports/EASY20_NATIVE_GA_PILOT.md)。
 
 ## 已完成的检查
 

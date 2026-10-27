@@ -23,6 +23,8 @@ def read_json(path):
 def draw_graph(ax, design, graph, row, title):
     from matplotlib.patches import Circle, FancyArrowPatch
     locations = design["public"]["locations"]
+    bounds=design["public"].get("view_box")
+    spacing,shrink,radius=(23,9,24) if bounds else (13,15,17)
     wrong_edges = {event for x in row["station_excursions"] if x["unsupported_attempts"]
                    for event in (x["enter"], x["exit"])}
     for a, b, _ in design["public"]["edges"]:
@@ -37,18 +39,18 @@ def draw_graph(ax, design, graph, row, title):
         nx, ny = -(q["y"] - p["y"]) / length, (q["x"] - p["x"]) / length
         for index, edge in enumerate(edges):
             p, q = locations[edge["source"]], locations[edge["target"]]
-            shift = (index - (len(edges) - 1) / 2) * 13
+            shift = (index - (len(edges) - 1) / 2) * spacing
             offset = nx * shift, ny * shift
             colour, style = ("#a33c21", "--") if edge["id"] in wrong_edges else ("#007299", "-")
             ax.add_patch(FancyArrowPatch((p["x"] + offset[0], p["y"] + offset[1]),
                 (q["x"] + offset[0], q["y"] + offset[1]), arrowstyle="-|>", mutation_scale=12,
-                shrinkA=15, shrinkB=15, linewidth=1.7, color=colour, linestyle=style, zorder=1))
+                shrinkA=shrink, shrinkB=shrink, linewidth=1.7, color=colour, linestyle=style, zorder=1))
             ax.text((p["x"] + q["x"]) / 2 + offset[0] * 1.5,
                     (p["y"] + q["y"]) / 2 + offset[1] * 1.5, str(edge["order"] + 1),
                     fontsize=8, color=colour, bbox={"facecolor": "white", "edgecolor": "none", "pad": 0.5}, zorder=2)
     for node, data in locations.items():
         visited = node in graph["nodes"]
-        ax.add_patch(Circle((data["x"], data["y"]), 17, facecolor="#e5f0ed" if visited else "white",
+        ax.add_patch(Circle((data["x"], data["y"]), radius, facecolor="#e5f0ed" if visited else "white",
                            edgecolor="#374d56" if visited else "#a2adb0", linewidth=1.2, zorder=3))
         ax.text(data["x"], data["y"], node, ha="center", va="center", fontsize=10, zorder=4)
     labels = []
@@ -64,7 +66,6 @@ def draw_graph(ax, design, graph, row, title):
     ax.text(0, -0.10, "; ".join(labels), transform=ax.transAxes, fontsize=8.5)
     ax.text(0, -0.17, f'Success={row["success"]} | distance={row["distance"]} | moves={row["moves"]} | ops={row["operations"]}',
             transform=ax.transAxes, fontsize=9, color="#263f4a")
-    bounds=design["public"].get("view_box")
     ax.set(xlim=(bounds[0],bounds[0]+bounds[2]) if bounds else (20,480),
            ylim=(bounds[1]+bounds[3],bounds[1]) if bounds else (390,25), aspect="equal")
     ax.axis("off")

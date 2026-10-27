@@ -1,0 +1,5355 @@
+{
+  "kind": "native_ga_station_single_world_pilot_not_statistical_effect_estimate",
+  "world": "omega_0010",
+  "model_alias": "gpt-5.6-luna",
+  "source_pilot_sha256": "fc016f706d565930a0f1cc9e205d7725c4002bc972fad0ae87a49356dcb1dc28",
+  "analysis_sha256": "8b3b4d66bffd2b1ce8446bef0e793b3720d8892da4e2e9c018413fd94bec414f",
+  "rows": [
+    {
+      "task_id": "T1",
+      "task_run_id": "session-1",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "JN",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "P",
+        "JN",
+        "A",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [],
+      "prior_compatible_world_count": 16,
+      "after_compatible_world_count": 8,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 6,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 5,
+          "exit": 7,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "01-T1-prefix",
+      "condition": "prefix",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 4,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_survey_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 6,
+        "file_read": 3,
+        "file_write": 3
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "dfb93ea57997e779cc5415c415a6baed5da757963e3e7b4836f52ed994905187",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T2",
+      "task_run_id": "session-2",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 11,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "JE",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "R",
+        "JE",
+        "D",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        6
+      ],
+      "prior_compatible_world_count": 8,
+      "after_compatible_world_count": 4,
+      "historical_new_bits": 1.0,
+      "queries": [
+        {
+          "event_id": 17,
+          "station": "D",
+          "new_historical_bits": 1.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 18,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 16,
+          "exit": 19,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "02-T2-retain",
+      "condition": "retain",
+      "llm_calls": 20,
+      "main_calls": 14,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 2,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 11,
+        "no_tool": 4,
+        "file_read": 4,
+        "file_patch": 1,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "9d9261b8df77b19bf86c5bfc3f59ab51fd7e02afcd73f5fb46a8057265d413f7",
+      "source_events_sha256": "1b0e23c4f2d53b62657b08bb18565428f0f843389b4399dae27a66f392a6f90e",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T2",
+      "task_run_id": "session-2",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 11,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "JE",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "R",
+        "JE",
+        "D",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        6
+      ],
+      "prior_compatible_world_count": 8,
+      "after_compatible_world_count": 4,
+      "historical_new_bits": 1.0,
+      "queries": [
+        {
+          "event_id": 17,
+          "station": "D",
+          "new_historical_bits": 1.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 18,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 16,
+          "exit": 19,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "02-T2-clear",
+      "condition": "clear",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 3,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 11,
+        "no_tool": 5,
+        "file_read": 3,
+        "file_patch": 1,
+        "file_write": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "1b0e23c4f2d53b62657b08bb18565428f0f843389b4399dae27a66f392a6f90e",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T3",
+      "task_run_id": "session-3",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "B",
+        "C",
+        "J",
+        "JN",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "Q",
+        "JN",
+        "B",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18
+      ],
+      "prior_compatible_world_count": 4,
+      "after_compatible_world_count": 4,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 29,
+          "station": "B",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "B",
+          "enter": 28,
+          "exit": 30,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "03-T3-retain",
+      "condition": "retain",
+      "llm_calls": 16,
+      "main_calls": 15,
+      "final_calls": 1,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "file_read": 3,
+        "file_patch": 1,
+        "file_write": 1,
+        "no_tool": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "61b60e5e69b2e969fc8d07561a0b5912bdd1e8ce3a1ac8c0bef3a103358ef12d",
+      "source_events_sha256": "2d663198190e6c00186ea204a2db4609332182fe989aa3ff42c81242763f6939",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md",
+        "../memory/global_mem.txt",
+        "../memory/global_mem_insight.txt"
+      ]
+    },
+    {
+      "task_id": "T3",
+      "task_run_id": "session-3",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "A",
+        "B",
+        "C",
+        "J",
+        "JN",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "Q",
+        "JN",
+        "A",
+        "JN",
+        "B",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18
+      ],
+      "prior_compatible_world_count": 4,
+      "after_compatible_world_count": 4,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 29,
+          "station": "A",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 32,
+          "station": "B",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 28,
+          "exit": 30,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "B",
+          "enter": 31,
+          "exit": 33,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "03-T3-clear",
+      "condition": "clear",
+      "llm_calls": 30,
+      "main_calls": 24,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 10,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 11,
+        "file_read": 5,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "4fd6337cb1b136d763d39d22dcbecd12f5309e63d8424c9fa0aaeed3a8c17d08",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T4",
+      "task_run_id": "session-4",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "F",
+        "G",
+        "J",
+        "JS",
+        "U"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "U",
+        "JS",
+        "F",
+        "JS",
+        "G",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29
+      ],
+      "prior_compatible_world_count": 4,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 40,
+          "station": "F",
+          "supported": false,
+          "already_excluded_by_actual_history": false
+        },
+        {
+          "event_id": 43,
+          "station": "G",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 39,
+          "exit": 41,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "G",
+          "enter": 42,
+          "exit": 44,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "04-T4-retain",
+      "condition": "retain",
+      "llm_calls": 20,
+      "main_calls": 14,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 2,
+        "file_read": 4,
+        "file_write": 1,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "ba2b00d1346191d41ae2fedb90b447cb1fe166773b7af864081f56373c4bc39d",
+      "source_events_sha256": "65a78f444308a56eef2bbdc74e88de2c656152ade0ec237a31cc0ef300f9452f",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T4",
+      "task_run_id": "session-4",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "F",
+        "G",
+        "J",
+        "JS",
+        "U"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "U",
+        "JS",
+        "F",
+        "JS",
+        "G",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29
+      ],
+      "prior_compatible_world_count": 4,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 40,
+          "station": "F",
+          "supported": false,
+          "already_excluded_by_actual_history": false
+        },
+        {
+          "event_id": 43,
+          "station": "G",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 39,
+          "exit": 41,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "G",
+          "enter": 42,
+          "exit": 44,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "04-T4-clear",
+      "condition": "clear",
+      "llm_calls": 22,
+      "main_calls": 16,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 2,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 3,
+        "file_read": 9,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "65a78f444308a56eef2bbdc74e88de2c656152ade0ec237a31cc0ef300f9452f",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T5",
+      "task_run_id": "session-5",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 14,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "JE",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "S",
+        "JE",
+        "D",
+        "JE",
+        "E",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "E"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 54,
+          "station": "D",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        },
+        {
+          "event_id": 57,
+          "station": "E",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 0.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 58,
+          "station": "E",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 53,
+          "exit": 55,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "E",
+          "enter": 56,
+          "exit": 59,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 2,
+      "historically_repeated_queries": 2,
+      "within_session_repeated_queries": 1,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "05-T5-retain",
+      "condition": "retain",
+      "llm_calls": 23,
+      "main_calls": 18,
+      "final_calls": 5,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 3,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "survey_game_t5.md"
+      ],
+      "tool_counts": {
+        "game_action": 14,
+        "no_tool": 5,
+        "file_read": 3,
+        "file_write": 1,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "9156f72926983a746d428a56bf8b99bbbe61af2be5781f6a51009fd935e1d23a",
+      "source_events_sha256": "6edd0a0f0ddbe2d0471fd7b47ad18d549b3ea2a842aa237e1e21087cf2ba4f36",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T5",
+      "task_run_id": "session-5",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "JE",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "S",
+        "JE",
+        "D",
+        "JE",
+        "E",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "E"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 2,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 54,
+          "station": "D",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 57,
+          "station": "E",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 53,
+          "exit": 55,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "E",
+          "enter": 56,
+          "exit": 58,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "05-T5-clear",
+      "condition": "clear",
+      "llm_calls": 22,
+      "main_calls": 21,
+      "final_calls": 1,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_survey_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 13,
+        "file_read": 6,
+        "file_write": 3,
+        "code_run": 1,
+        "no_tool": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "b958e8a29f403964201703b4afd3eb889c24889010114168bbbfb378a77d3366",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md",
+        "../memory/global_mem.txt",
+        "../memory/global_mem_insight.txt",
+        "../memory/memory_management_sop.md",
+        "../memory/global_mem.txt",
+        "../memory/global_mem_insight.txt"
+      ]
+    },
+    {
+      "task_id": "T6",
+      "task_run_id": "session-6",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "X"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "X",
+        "JW",
+        "H",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 69,
+          "station": "H",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 68,
+          "exit": 70,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "06-T6-retain",
+      "condition": "retain",
+      "llm_calls": 19,
+      "main_calls": 13,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 2,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 3,
+        "file_read": 10,
+        "file_write": 1,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "1c59737b8156988026524acb78589b3c20a62dddbc5273eb3850c420449ec0c9",
+      "source_events_sha256": "c5cdd1e2db8eb623e1bf35270673866114f33dae452605de4a61795309b54de2",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T6",
+      "task_run_id": "session-6",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "X"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "X",
+        "JW",
+        "H",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": false,
+      "historically_determined_matching_stations": [],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58
+      ],
+      "prior_compatible_world_count": 2,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 1.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 69,
+          "station": "H",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 68,
+          "exit": 70,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "06-T6-clear",
+      "condition": "clear",
+      "llm_calls": 18,
+      "main_calls": 14,
+      "final_calls": 4,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 3,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 5,
+        "file_read": 4,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "c5cdd1e2db8eb623e1bf35270673866114f33dae452605de4a61795309b54de2",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T7",
+      "task_run_id": "session-7",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "F",
+        "J",
+        "JS",
+        "V"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "V",
+        "JS",
+        "F",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "F"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 80,
+          "station": "F",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 79,
+          "exit": 81,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "07-T7-retain",
+      "condition": "retain",
+      "llm_calls": 17,
+      "main_calls": 11,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_easy20_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 1,
+        "file_read": 5,
+        "file_patch": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "1b73bea9c8bfd75fa85385b9fe95480c47a8248f5bd963efed95774ecdb9d810",
+      "source_events_sha256": "51a777a50b8e208db3f9a4402543cd2bb428415cf89631a6d011defcae772e43",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T7",
+      "task_run_id": "session-7",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "F",
+        "J",
+        "JS",
+        "V"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "V",
+        "JS",
+        "F",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "F"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 80,
+          "station": "F",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 79,
+          "exit": 81,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "07-T7-clear",
+      "condition": "clear",
+      "llm_calls": 17,
+      "main_calls": 12,
+      "final_calls": 5,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 10,
+        "file_read": 4,
+        "no_tool": 2,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "51a777a50b8e208db3f9a4402543cd2bb428415cf89631a6d011defcae772e43",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md"
+      ]
+    },
+    {
+      "task_id": "T8",
+      "task_run_id": "session-8",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "JN",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "Q",
+        "JN",
+        "A",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "A"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 91,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 90,
+          "exit": 92,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "08-T8-retain",
+      "condition": "retain",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 4,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 5,
+        "file_read": 10,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "31add90213320ca01fd9acd6e68edc2059122d764fb5085d09fadaf7561e6967",
+      "source_events_sha256": "6ec55a903420c282947b48bb02af63c3efaf48e28b94b8b0c5108894c56ef2db",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T8",
+      "task_run_id": "session-8",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "A",
+        "B",
+        "C",
+        "J",
+        "JN",
+        "Q"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "Q",
+        "JN",
+        "B",
+        "JN",
+        "A",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "A"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 91,
+          "station": "B",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 94,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "B",
+          "enter": 90,
+          "exit": 92,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "A",
+          "enter": 93,
+          "exit": 95,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "08-T8-clear",
+      "condition": "clear",
+      "llm_calls": 22,
+      "main_calls": 16,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 2,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_easy20_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 4,
+        "file_read": 3,
+        "file_write": 3,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "608efcccd8cf5a017d1b42ec1c3f8c8002be5743a3a1c737cb4a72e14d553ca1",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T9",
+      "task_run_id": "session-9",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "JE",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "S",
+        "JE",
+        "D",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "D"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 102,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 101,
+          "exit": 103,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "09-T9-retain",
+      "condition": "retain",
+      "llm_calls": 25,
+      "main_calls": 19,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 8,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 9,
+        "file_read": 9,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "e2deb9233696bb92b368c76be9233570c4a0b4f59bfe941dcf5ff9b059f3496f",
+      "source_events_sha256": "d5c07d049f7489c2c1457a1eca82b82c95c474109cfe3ec1197e921bd31c4793",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T9",
+      "task_run_id": "session-9",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "JE",
+        "S"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "S",
+        "JE",
+        "E",
+        "JE",
+        "D",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "D"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 102,
+          "station": "E",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 105,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "E",
+          "enter": 101,
+          "exit": 103,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "D",
+          "enter": 104,
+          "exit": 106,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "09-T9-clear",
+      "condition": "clear",
+      "llm_calls": 34,
+      "main_calls": 28,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 12,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 15,
+        "no_tool": 13,
+        "file_read": 5,
+        "code_run": 2,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "b901aec9d088e6e055d41dd9d4d59e816058db77d515fa2e2d4438a39705bf80",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T10",
+      "task_run_id": "session-10",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 14,
+      "visited_nodes": [
+        "C",
+        "F",
+        "G",
+        "J",
+        "JS",
+        "V"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "V",
+        "JS",
+        "F",
+        "JS",
+        "G",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "G"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 113,
+          "station": "F",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        },
+        {
+          "event_id": 116,
+          "station": "G",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 0.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 117,
+          "station": "G",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 112,
+          "exit": 114,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "G",
+          "enter": 115,
+          "exit": 118,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 2,
+      "historically_repeated_queries": 2,
+      "within_session_repeated_queries": 1,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "10-T10-retain",
+      "condition": "retain",
+      "llm_calls": 24,
+      "main_calls": 18,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 3,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_easy20_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 14,
+        "no_tool": 4,
+        "file_read": 11,
+        "code_run": 1,
+        "file_patch": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "8e032e81e7c2d949733f06153b9870cbb48f566fda2d0cabd4b6c8b174a21b29",
+      "source_events_sha256": "1aa01771eec70d8f8eb53de0a22698dc24bbf7d07e52944bbab9731bd3cfd1c6",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T10",
+      "task_run_id": "session-10",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "F",
+        "G",
+        "J",
+        "JS",
+        "V"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "V",
+        "JS",
+        "F",
+        "JS",
+        "G",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "G"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 113,
+          "station": "F",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 116,
+          "station": "G",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 112,
+          "exit": 114,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "G",
+          "enter": 115,
+          "exit": 117,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "10-T10-clear",
+      "condition": "clear",
+      "llm_calls": 25,
+      "main_calls": 19,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 5,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_easy20_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 12,
+        "no_tool": 6,
+        "submit": 1,
+        "file_read": 6,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "9434daa10ffdd375e1857a0ca6ca0a82ee9f63ca27f7fd185b09a4b6bfae8e42",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T11",
+      "task_run_id": "session-11",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "JE",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "R",
+        "JE",
+        "D",
+        "JE",
+        "E",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "E"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 128,
+          "station": "D",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 131,
+          "station": "E",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 127,
+          "exit": 129,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "E",
+          "enter": 130,
+          "exit": 132,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "11-T11-retain",
+      "condition": "retain",
+      "llm_calls": 26,
+      "main_calls": 20,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 6,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 7,
+        "file_read": 7,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "3abd1257e1399de9ca88977123306e7681e598697754aaa44b03282a8e1c2790",
+      "source_events_sha256": "d12bf738a6bc5014bdc5e9b0086302026b10594134de6ae7741c593d2ba6733d",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T11",
+      "task_run_id": "session-11",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 14,
+      "visited_nodes": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "JE",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "R",
+        "JE",
+        "D",
+        "JE",
+        "E",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "E"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 128,
+          "station": "D",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        },
+        {
+          "event_id": 131,
+          "station": "E",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 0.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 132,
+          "station": "E",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 127,
+          "exit": 129,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "E",
+          "enter": 130,
+          "exit": 133,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 2,
+      "historically_repeated_queries": 2,
+      "within_session_repeated_queries": 1,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "11-T11-clear",
+      "condition": "clear",
+      "llm_calls": 22,
+      "main_calls": 16,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 14,
+        "file_read": 7,
+        "no_tool": 2,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "3a1972fc70ab2268539e7eea8bfd1b9641949cc837fc84a62c1e8e697557b7a9",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md"
+      ]
+    },
+    {
+      "task_id": "T12",
+      "task_run_id": "session-12",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "F",
+        "J",
+        "JS",
+        "U"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "U",
+        "JS",
+        "F",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "F"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 142,
+          "station": "F",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 141,
+          "exit": 143,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "12-T12-retain",
+      "condition": "retain",
+      "llm_calls": 19,
+      "main_calls": 13,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 2,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 3,
+        "file_read": 13,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "d11866f1eae99917fc40b35865ecee4436116313aad17b4524e684c31d1d51d3",
+      "source_events_sha256": "33ebe6dcd085cd43d768bee38af536a9bebeb5c5abe8efb60a38473f130ab683",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T12",
+      "task_run_id": "session-12",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "F",
+        "J",
+        "JS",
+        "U"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "U",
+        "JS",
+        "F",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "F"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 142,
+          "station": "F",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 141,
+          "exit": 143,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "12-T12-clear",
+      "condition": "clear",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 4,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 5,
+        "file_read": 4,
+        "code_run": 1,
+        "file_write": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "33ebe6dcd085cd43d768bee38af536a9bebeb5c5abe8efb60a38473f130ab683",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T13",
+      "task_run_id": "session-13",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "JE",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "R",
+        "JE",
+        "D",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "D"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 153,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 152,
+          "exit": 154,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "13-T13-retain",
+      "condition": "retain",
+      "llm_calls": 14,
+      "main_calls": 11,
+      "final_calls": 3,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 2,
+        "file_read": 3
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "a5412533a4cf1e5c87c42fb2cc6bf7565933de711783433e566edab0d15b79db",
+      "source_events_sha256": "607c826e3065b47367bf54d157d05d501eacd7a769740a83c3224c084c5a3620",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T13",
+      "task_run_id": "session-13",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "D",
+        "J",
+        "JE",
+        "R"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JE",
+        "R",
+        "JE",
+        "D",
+        "JE",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "D"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 153,
+          "station": "D",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "D",
+          "enter": 152,
+          "exit": 154,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "13-T13-clear",
+      "condition": "clear",
+      "llm_calls": 17,
+      "main_calls": 12,
+      "final_calls": 5,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 1,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 3,
+        "file_read": 4,
+        "file_write": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "607c826e3065b47367bf54d157d05d501eacd7a769740a83c3224c084c5a3620",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T14",
+      "task_run_id": "session-14",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "K",
+        "Y"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "Y",
+        "JW",
+        "H",
+        "JW",
+        "K",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "K"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 164,
+          "station": "H",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 167,
+          "station": "K",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 163,
+          "exit": 165,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "K",
+          "enter": 166,
+          "exit": 168,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "14-T14-retain",
+      "condition": "retain",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 1,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 2,
+        "file_read": 7,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "07b60ca859f1b176ac985485ed3f2e3c72660d3ad84aca26b3e7352a7b4a5506",
+      "source_events_sha256": "78443f54c4076a73d4e32e0f7d91e96feb89423a83178d30c064c68fd0832203",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T14",
+      "task_run_id": "session-14",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 14,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "K",
+        "Y"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "Y",
+        "JW",
+        "H",
+        "JW",
+        "K",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "K"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 164,
+          "station": "H",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        },
+        {
+          "event_id": 167,
+          "station": "K",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 0.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 168,
+          "station": "K",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 163,
+          "exit": 165,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "K",
+          "enter": 166,
+          "exit": 169,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 2,
+      "historically_repeated_queries": 2,
+      "within_session_repeated_queries": 1,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "14-T14-clear",
+      "condition": "clear",
+      "llm_calls": 43,
+      "main_calls": 37,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 22,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 14,
+        "no_tool": 23,
+        "file_read": 5,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "23ffb6a702828db4d899e8a488a5bf33007b911ece2e08ae6dfc37ed836c5828",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "no_tool",
+        "no_tool",
+        "no_tool",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T15",
+      "task_run_id": "session-15",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 14,
+      "visited_nodes": [
+        "C",
+        "F",
+        "G",
+        "J",
+        "JS",
+        "U"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "U",
+        "JS",
+        "F",
+        "JS",
+        "G",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "G"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 178,
+          "station": "F",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        },
+        {
+          "event_id": 181,
+          "station": "G",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 0.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 182,
+          "station": "G",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 177,
+          "exit": 179,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "G",
+          "enter": 180,
+          "exit": 183,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 2,
+      "historically_repeated_queries": 2,
+      "within_session_repeated_queries": 1,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "15-T15-retain",
+      "condition": "retain",
+      "llm_calls": 27,
+      "main_calls": 21,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 5,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 15,
+        "no_tool": 6,
+        "file_read": 10,
+        "code_run": 1,
+        "file_patch": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "ab1a04be05ecf141c48cc4c270ad2f54dfa68a221d8662a09af1922ba6a81ca4",
+      "source_events_sha256": "4958fcf43a42c57442d6b7ea5341ff9f1b3095437ccf19a3bb571f1c54e83b15",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T15",
+      "task_run_id": "session-15",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "F",
+        "G",
+        "J",
+        "JS",
+        "U"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JS",
+        "U",
+        "JS",
+        "F",
+        "JS",
+        "G",
+        "JS",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "G"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 178,
+          "station": "F",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 181,
+          "station": "G",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "F",
+          "enter": 177,
+          "exit": 179,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "G",
+          "enter": 180,
+          "exit": 182,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "15-T15-clear",
+      "condition": "clear",
+      "llm_calls": 27,
+      "main_calls": 21,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 7,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 8,
+        "file_read": 5,
+        "code_run": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "4982c82b5aa9177391575dec8a10376e14c57426472d132429157388b5964be0",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T16",
+      "task_run_id": "session-16",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "Y"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "Y",
+        "JW",
+        "H",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "H"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 193,
+          "station": "H",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 192,
+          "exit": 194,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "16-T16-retain",
+      "condition": "retain",
+      "llm_calls": 18,
+      "main_calls": 17,
+      "final_calls": 1,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_easy20_game_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 10,
+        "file_read": 7,
+        "code_run": 1,
+        "file_patch": 1,
+        "no_tool": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "3a7cd7ca26dff4313c5c9905e1a2fbd28e84b3a9bc8bed7320271ef426fcd445",
+      "source_events_sha256": "5863eb3344bd80ea1c9ce196ae8bb65dc74dbebf975d75bd1769b89fba108642",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md",
+        "../memory/global_mem.txt",
+        "../memory/global_mem_insight.txt",
+        "../memory/lanting_easy20_game_sop.md",
+        "../memory/lanting_survey_sop.md",
+        "../memory/survey_game_t5.md",
+        "../memory/lanting_easy20_game_sop.md"
+      ]
+    },
+    {
+      "task_id": "T16",
+      "task_run_id": "session-16",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "Y"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "Y",
+        "JW",
+        "H",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "H"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 193,
+          "station": "H",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 192,
+          "exit": 194,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "16-T16-clear",
+      "condition": "clear",
+      "llm_calls": 17,
+      "main_calls": 14,
+      "final_calls": 3,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 0,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "survey_game_lanting_easy20.md"
+      ],
+      "tool_counts": {
+        "game_action": 10,
+        "file_read": 4,
+        "code_run": 1,
+        "no_tool": 2,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "5863eb3344bd80ea1c9ce196ae8bb65dc74dbebf975d75bd1769b89fba108642",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md",
+        "../memory/global_mem.txt",
+        "../memory/global_mem_insight.txt",
+        "../memory/memory_management_sop.md"
+      ]
+    },
+    {
+      "task_id": "T17",
+      "task_run_id": "session-17",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 14,
+      "visited_nodes": [
+        "A",
+        "B",
+        "C",
+        "J",
+        "JN",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "P",
+        "JN",
+        "A",
+        "JN",
+        "B",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 204,
+          "station": "A",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        },
+        {
+          "event_id": 207,
+          "station": "B",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 0.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 208,
+          "station": "B",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 203,
+          "exit": 205,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "B",
+          "enter": 206,
+          "exit": 209,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 2,
+      "historically_repeated_queries": 2,
+      "within_session_repeated_queries": 1,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "17-T17-retain",
+      "condition": "retain",
+      "llm_calls": 32,
+      "main_calls": 28,
+      "final_calls": 4,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 13,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 14,
+        "no_tool": 15,
+        "file_read": 5,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "30cb8fa8c5147b29322e69461fced6f40796d4b9b84970adeeff90c078fc1e2c",
+      "source_events_sha256": "21e2733607e41d4e69aa032c4e7a8d0fcf5dc50757cc28a7415703532788d9c3",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T17",
+      "task_run_id": "session-17",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "A",
+        "B",
+        "C",
+        "J",
+        "JN",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "P",
+        "JN",
+        "A",
+        "JN",
+        "B",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "B"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 204,
+          "station": "A",
+          "supported": false,
+          "already_excluded_by_actual_history": true
+        },
+        {
+          "event_id": 207,
+          "station": "B",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 203,
+          "exit": 205,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 1,
+          "processed": false
+        },
+        {
+          "station": "B",
+          "enter": 206,
+          "exit": 208,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 1,
+      "first_processing_correct": false,
+      "history_contradicting_processing_count": 1,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "17-T17-clear",
+      "condition": "clear",
+      "llm_calls": 27,
+      "main_calls": 21,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 6,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_survey_game_sop.md"
+      ],
+      "tool_counts": {
+        "file_read": 7,
+        "game_action": 13,
+        "no_tool": 7,
+        "code_run": 2,
+        "file_write": 1
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "7cb72883fba762586e56a4d474fa9f17c67c90b6710cd9c169d77c5527d64f08",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [
+        "../memory/global_mem.txt"
+      ],
+      "tool_names_before_first_station_move": [
+        "file_read",
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/global_mem.txt"
+      ]
+    },
+    {
+      "task_id": "T18",
+      "task_run_id": "session-18",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "K",
+        "X"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "X",
+        "JW",
+        "H",
+        "JW",
+        "K",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "K"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193,
+        204,
+        207,
+        208
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 219,
+          "station": "H",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 222,
+          "station": "K",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 218,
+          "exit": 220,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "K",
+          "enter": 221,
+          "exit": 223,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "18-T18-retain",
+      "condition": "retain",
+      "llm_calls": 27,
+      "main_calls": 21,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 7,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 8,
+        "file_read": 5,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "8235751b791d102671a52081e57201988d52a73678ace9924c72abbc4ab2318c",
+      "source_events_sha256": "9c39556c67cfff31ce35b0fb840b6caad2dda66580adc140f2c2837da5eba50f",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T18",
+      "task_run_id": "session-18",
+      "success": true,
+      "distance": 14,
+      "moves": 10,
+      "operations": 13,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "K",
+        "X"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "X",
+        "JW",
+        "H",
+        "JW",
+        "K",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "K"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193,
+        204,
+        207,
+        208
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 219,
+          "station": "H",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 222,
+          "station": "K",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 218,
+          "exit": 220,
+          "distance": 4,
+          "operations": [
+            "inspect"
+          ],
+          "unsupported_attempts": 0,
+          "processed": false
+        },
+        {
+          "station": "K",
+          "enter": 221,
+          "exit": 223,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "18-T18-clear",
+      "condition": "clear",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 1,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_survey_experience.md"
+      ],
+      "tool_counts": {
+        "game_action": 13,
+        "no_tool": 2,
+        "file_read": 5,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "9c39556c67cfff31ce35b0fb840b6caad2dda66580adc140f2c2837da5eba50f",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T19",
+      "task_run_id": "session-19",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "JN",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "P",
+        "JN",
+        "A",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "A"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193,
+        204,
+        207,
+        208,
+        219,
+        222
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 233,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 232,
+          "exit": 234,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "19-T19-retain",
+      "condition": "retain",
+      "llm_calls": 19,
+      "main_calls": 14,
+      "final_calls": 5,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 3,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 5,
+        "file_read": 5,
+        "code_run": 1
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "3e3dc4aaa0d99e3da12ed48ecbe28070357d4c9e54f87c9de36deee135b6c20e",
+      "source_events_sha256": "3cc2b09169536976603cea32f21e977680d17dccdd62a54cb91de42abc0b8750",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T19",
+      "task_run_id": "session-19",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 11,
+      "visited_nodes": [
+        "A",
+        "C",
+        "J",
+        "JN",
+        "P"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JN",
+        "P",
+        "JN",
+        "A",
+        "JN",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "A"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193,
+        204,
+        207,
+        208,
+        219,
+        222
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 233,
+          "station": "A",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 234,
+          "station": "A",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "A",
+          "enter": 232,
+          "exit": 235,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "19-T19-clear",
+      "condition": "clear",
+      "llm_calls": 23,
+      "main_calls": 17,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 5,
+      "finalization_native_result": "MAX_TURNS_EXCEEDED",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "survey_game_t19.md"
+      ],
+      "tool_counts": {
+        "game_action": 11,
+        "no_tool": 6,
+        "file_read": 3,
+        "file_write": 4
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "c90ce628475557e90ffa94ecf3526604ab85261a00d86cb92a20e55fc47caad7",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "no_tool",
+        "game_action",
+        "no_tool",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    },
+    {
+      "task_id": "T20",
+      "task_run_id": "session-20",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 11,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "X"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "X",
+        "JW",
+        "H",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "H"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193,
+        204,
+        207,
+        208,
+        219,
+        222,
+        233
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [
+        {
+          "event_id": 244,
+          "station": "H",
+          "new_historical_bits": 0.0,
+          "new_within_session_bits": 1.0
+        }
+      ],
+      "processing": [
+        {
+          "event_id": 245,
+          "station": "H",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 243,
+          "exit": 246,
+          "distance": 4,
+          "operations": [
+            "inspect",
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 1,
+      "historically_repeated_queries": 1,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "20-T20-retain",
+      "condition": "retain",
+      "llm_calls": 18,
+      "main_calls": 17,
+      "final_calls": 1,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 1,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": false,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "lanting_survey_sop.md"
+      ],
+      "tool_counts": {
+        "game_action": 11,
+        "no_tool": 3,
+        "file_read": 3,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": true,
+      "memory_before_sha256": "8da20739383dab642e3b246f905f56479edd4d4a96518896a255d6ee1b1b6f02",
+      "source_events_sha256": "44aca78f15eace184bdf03d3511d20081254ab9f1b9b411b95479d3513f636ab",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": [
+        "../memory/memory_management_sop.md",
+        "../memory/global_mem.txt",
+        "../memory/global_mem_insight.txt"
+      ]
+    },
+    {
+      "task_id": "T20",
+      "task_run_id": "session-20",
+      "success": true,
+      "distance": 10,
+      "moves": 8,
+      "operations": 10,
+      "visited_nodes": [
+        "C",
+        "H",
+        "J",
+        "JW",
+        "X"
+      ],
+      "path": [
+        "C",
+        "J",
+        "JW",
+        "X",
+        "JW",
+        "H",
+        "JW",
+        "J",
+        "C"
+      ],
+      "prior_relevant_exposure": true,
+      "historically_determined_matching_stations": [
+        "H"
+      ],
+      "prior_evidence_events": [
+        6,
+        17,
+        18,
+        29,
+        40,
+        43,
+        54,
+        57,
+        58,
+        69,
+        80,
+        91,
+        102,
+        113,
+        116,
+        117,
+        128,
+        131,
+        142,
+        153,
+        164,
+        167,
+        178,
+        181,
+        182,
+        193,
+        204,
+        207,
+        208,
+        219,
+        222,
+        233
+      ],
+      "prior_compatible_world_count": 1,
+      "after_compatible_world_count": 1,
+      "historical_new_bits": 0.0,
+      "queries": [],
+      "processing": [
+        {
+          "event_id": 244,
+          "station": "H",
+          "supported": true,
+          "already_excluded_by_actual_history": false
+        }
+      ],
+      "station_excursions": [
+        {
+          "station": "H",
+          "enter": 243,
+          "exit": 245,
+          "distance": 4,
+          "operations": [
+            "process"
+          ],
+          "unsupported_attempts": 0,
+          "processed": true
+        }
+      ],
+      "query_count": 0,
+      "historically_repeated_queries": 0,
+      "within_session_repeated_queries": 0,
+      "unsupported_processing_count": 0,
+      "first_processing_correct": true,
+      "history_contradicting_processing_count": 0,
+      "physical_min_distance": null,
+      "successful_distance_excess": null,
+      "full_delivered_history_reference_expected_distance": null,
+      "nohistory_reference_expected_distance": null,
+      "exact_references_computed": false,
+      "name": "20-T20-clear",
+      "condition": "clear",
+      "llm_calls": 21,
+      "main_calls": 15,
+      "final_calls": 6,
+      "execution_protocol": "environment-gated-1",
+      "continuation_count": 4,
+      "finalization_native_result": "CURRENT_TASK_DONE",
+      "finalization_calls_at_limit": true,
+      "native_global_memory_changed_from_baseline": false,
+      "native_global_memory_verbatim_in_first_input": true,
+      "self_generated_global_memory_in_first_input": false,
+      "input_global_memory_sha256": "7cc234433f35d1796ed3ecf17c7045da8b54b7601cfcdab5c3ae13ff2fdc140c",
+      "memory_content_changed": [
+        "survey_game_lanting_easy20.md"
+      ],
+      "tool_counts": {
+        "game_action": 10,
+        "no_tool": 6,
+        "file_read": 4,
+        "code_run": 1,
+        "file_write": 2
+      },
+      "input_memory_differs_from_baseline": false,
+      "memory_before_sha256": "6b4afe57b868569eb653bbcd1922501985c1133f01f2e69ff553a084440d7222",
+      "source_events_sha256": "9eaa440ef255a7e955f54b0fc6811eb603069a67f2c5033e31c61313f8063d7a",
+      "end_location": "C",
+      "end_raw": true,
+      "end_processed": true,
+      "termination_reason": "submitted",
+      "file_reads_before_first_station_move": [],
+      "tool_names_before_first_station_move": [
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action",
+        "game_action"
+      ],
+      "file_reads_before_task_end": []
+    }
+  ],
+  "paired_first_inputs": [
+    {
+      "task": "T2",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T3",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T4",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T5",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T6",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T7",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T8",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T9",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T10",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T11",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T12",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T13",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T14",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T15",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T16",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T17",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T18",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T19",
+      "first_forwarded_input_equal": true
+    },
+    {
+      "task": "T20",
+      "first_forwarded_input_equal": true
+    }
+  ],
+  "analysis_sources_sha256": {
+    "scripts/analyze_station_native.py": "8b3b4d66bffd2b1ce8446bef0e793b3720d8892da4e2e9c018413fd94bec414f",
+    "scripts/analyze_station_graphs.py": "275d1d37e21c453883ce47fe34e3559a26b0a871c935eeb36df1265da761ecf3",
+    "memorybenchmark/prototypes/station_analysis.py": "3ae879eb29e76c67d754427f50f3493230b60939bdad489b183498d156476c3c",
+    "memorybenchmark/prototypes/station_capability.py": "fc47b431790c6dd0486677367b7328a81469e38c4099f3c1e1a1c0cebcf55495",
+    "memorybenchmark/ga_runtime.py": "cc1229a90f3bd1c01803eba49b3c0d16ff0cc4f8960e976369878d08c15cba05"
+  },
+  "execution_protocols": [
+    "environment-gated-1"
+  ],
+  "infrastructure_attempts": [
+    {
+      "name": "01-T1-prefix",
+      "llm_call_attempts": 1,
+      "error": "gateway_transport_error",
+      "excluded_from_valid_rows": true
+    },
+    {
+      "name": "01-T1-prefix",
+      "llm_call_attempts": 1,
+      "error": "gateway_transport_error",
+      "excluded_from_valid_rows": true
+    }
+  ],
+  "comparison": "current-task clear probes at retained actual-history checkpoints",
+  "exact_references_computed": false,
+  "limitations": [
+    "one sampled world and one native history",
+    "each clear run is a current-task probe, not an independent full stream",
+    "model alias is not independently verified model identity",
+    "path matching is not retrieval proof"
+  ]
+}
