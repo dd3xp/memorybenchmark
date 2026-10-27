@@ -1,0 +1,172 @@
+{
+  "kind": "deployment_and_scripted_native_contract_checks_not_agent_memory_scores",
+  "source_commit": "a8c94a10dd2ee7817272f11b71619965d02756e7",
+  "native_check_source_sha256": "e722bc90793536ce1935ff405aeb9cb7767e7c86c1415e93ab2ff797d575a6a9",
+  "source_hash_scope": "Raw Windows checkout bytes",
+  "real_model_calls": 0,
+  "native_contracts": [
+    {
+      "agent": "ga",
+      "passed": true,
+      "cases": [
+        {
+          "case": "probe",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 0,
+          "main_calls": 0,
+          "final_calls": 0,
+          "summary_sha256": "42a49d1ab272d9ad3e4d023e96cd1178ff5f561fb26863f8a07650903f9ff596"
+        },
+        {
+          "case": "prefix",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 4,
+          "main_calls": 3,
+          "final_calls": 1,
+          "summary_sha256": "259b00e01cb69a18a17876f989f2a94f92f30407f095389802f5ae5956702a83"
+        },
+        {
+          "case": "retain",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 4,
+          "main_calls": 3,
+          "final_calls": 1,
+          "summary_sha256": "d890005c84c71e9ba952fcf7e90549a0fa06b855992be4be82506f92054e79af"
+        },
+        {
+          "case": "clear",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 4,
+          "main_calls": 3,
+          "final_calls": 1,
+          "summary_sha256": "e7e1673e14f83e73a6187670deec1e4a5f182b97f41cd75b8de0f2ea3e5e9d67"
+        },
+        {
+          "case": "budget",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 11,
+          "main_calls": 10,
+          "final_calls": 1,
+          "summary_sha256": "7eaea4a338973e797dbc2054b4866e30e91983b7e99714ac8d9a202d746f16fb"
+        },
+        {
+          "case": "linked",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 31,
+          "main_calls": 30,
+          "final_calls": 1,
+          "summary_sha256": "485f6eafa9d9012f595196de3f66df63d4ecc36ec400795e22e43967df4c1bf2"
+        }
+      ],
+      "real_model_calls": 0,
+      "linked": {
+        "success": true,
+        "stages_completed": 2,
+        "one_session": true,
+        "fresh_empty_history": true,
+        "first_stage_done_false": true,
+        "operations": 29,
+        "distance": 30
+      },
+      "events_sha256": "a4436a6e91294cf6d7e1f257b22fda80795bc7e7735762e55a16db8dd1dfd6de"
+    },
+    {
+      "agent": "hermes",
+      "passed": true,
+      "cases": [
+        {
+          "case": "probe",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 0,
+          "main_calls": 0,
+          "final_calls": 0,
+          "summary_sha256": "05d2726532f51184dad2c5172448451b92fe55a4a231c24bb44d8102435fb6c1"
+        },
+        {
+          "case": "prefix",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 6,
+          "main_calls": 4,
+          "final_calls": 2,
+          "summary_sha256": "1172c0bbb0813dd45745d6dd3d0f78073811779dca0f1afd8537f7ae4235f6d2"
+        },
+        {
+          "case": "retain",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 5,
+          "main_calls": 3,
+          "final_calls": 2,
+          "summary_sha256": "d9e1458312cc3b8691e31aceaedbcd654636b55918e93463ce3210708d279942"
+        },
+        {
+          "case": "clear",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 5,
+          "main_calls": 3,
+          "final_calls": 2,
+          "summary_sha256": "f06f1b0ab3436031c1a7ce094295587d96ba5069659099eb5d46d43cf0a94dbc"
+        },
+        {
+          "case": "budget",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 13,
+          "main_calls": 10,
+          "final_calls": 3,
+          "summary_sha256": "f631ae25d1bfb99112c7bfce6b9f42249785c6e97e553c6c9a1002e28e4f1785"
+        },
+        {
+          "case": "linked",
+          "infrastructure_ok": true,
+          "scripted_model_requests": 33,
+          "main_calls": 32,
+          "final_calls": 1,
+          "summary_sha256": "709ace831d8fcbafab38d2f676263f6983a5a35b647f478c54add2ca003dfddf"
+        }
+      ],
+      "real_model_calls": 0,
+      "linked": {
+        "success": true,
+        "stages_completed": 2,
+        "one_session": true,
+        "fresh_empty_history": true,
+        "first_stage_done_false": true,
+        "operations": 29,
+        "distance": 30
+      },
+      "events_sha256": "a4436a6e91294cf6d7e1f257b22fda80795bc7e7735762e55a16db8dd1dfd6de"
+    }
+  ],
+  "public_https": {
+    "kind": "public_https_human_api_smoke_not_agent_score",
+    "normal_tls_validation": true,
+    "unauthenticated_api_status": 401,
+    "authenticated_new_map": "lanting-easy20-linked-v3",
+    "nodes": 70,
+    "edges": 77,
+    "first_stage_done_false": true,
+    "both_stages_submitted": true,
+    "new_task_progress_reset": true,
+    "real_model_calls": 0,
+    "test_instance_gameplay": {
+      "operations": 29,
+      "distance": 32
+    },
+    "only_test_cookie_logged_out": true,
+    "validation_vantage": "Squishy client through the public hostname and tunnel, with normal TLS certificate validation"
+  },
+  "local_client_curl_login_http_status": 200,
+  "regression": {
+    "server_tests": 163,
+    "server_passed": true,
+    "ci": "https://github.com/dd3xp/memorybenchmark/actions/runs/40603606104",
+    "ci_matrix_passed": true
+  },
+  "browser_ui": {
+    "normal_https": true,
+    "new_map_and_two_stage_header_visible": true,
+    "console_errors_and_warnings": 0,
+    "preview": "public-preview.jpg",
+    "viewport": "default in-app browser; no viewport override"
+  },
+  "verification_client_note": "Local Python 3.12 HTTPS validation encountered a connection reset. Native curl and the in-app browser connected successfully; the authenticated complete API flow was validated by a Squishy client through the public endpoint. TLS and tunnel settings were unchanged."
+}

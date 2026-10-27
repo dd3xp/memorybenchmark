@@ -84,3 +84,7 @@ python -m memorybenchmark.prototypes.station_session --design memorybenchmark/da
 原生入口沿用同一个 MCP 和薄适配器，只替换 `--design memorybenchmark/data/station_easy20_linked.json`。该地图默认每任务最多 100 次主阶段模型调用，加同一 session 内最多 6 次收尾调用；可显式覆盖 `--max-turns`，旧地图仍默认 40。预算是上限，不要求用满。运行新地图必须创建新实验目录、恢复各 Agent 自己的原始库，不能把旧世界经验带入。
 
 `scripts/check_station_native_sessions.py` 另有脚本模型的两段完整行程检查：两次 process 与最终 submit 必须在一个原生 session，第一段不得提前结束。这是接入检查，不是 Agent 的游戏或记忆成绩。
+
+2026-10-27 已以 `a8c94a1` 部署 Squishy，163 项服务器回归及 [Windows／Linux、Python 3.10／3.12 CI](https://github.com/dd3xp/memorybenchmark/actions/runs/40603606104) 通过。GA 与 Hermes 的真实原生循环均通过脚本模型检查，固定两段行程各为 29 次操作、距离 30；全新空历史、记忆保留／清除、预算后同会话收尾也通过。公网按正常 TLS 校验完成 PIN 登录、两段提交和下一项重置；[验收数据](assets/easy20-linked/deployment-validation.json)记录验证位置和指纹。整轮修改与验收调用真实模型零次，尚无新版 Agent 记忆成绩。
+
+公网浏览器已显示两段行程和当前段编号，控制台无警告或错误；[实际窄屏截图](assets/easy20-linked/public-preview.jpg)随验收包保存。
