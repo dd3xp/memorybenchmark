@@ -1,6 +1,5 @@
 """Pristine native source, bounded memory snapshots and fail-closed WSL jail."""
 from hashlib import sha256
-from copy import copy
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -84,9 +83,20 @@ def extract_native(archive, destination, *, native="ga"):
             total += member.size
             if total > 512 * 1024**2:
                 raise ValueError("native archive too large")
-            member = copy(member)
-            member.name = PurePosixPath(expected_root, *path.parts[1:]).as_posix()
-            bundle.extract(member, extraction_destination, filter="data")
+            # Windows' last Python 3.10 binary predates tar extraction filters.
+            # Copy only already-validated regular files/directories, never links
+            # or special entries, and verify the resolved target before writing.
+            target = extraction_destination.joinpath(expected_root, *path.parts[1:])
+            if not target.resolve().is_relative_to(extraction_destination.resolve()):
+                raise ValueError("native archive target escaped its destination")
+            if member.isdir():
+                target.mkdir(parents=True, exist_ok=True)
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with bundle.extractfile(member) as incoming, target.open("wb") as outgoing:
+                    shutil.copyfileobj(incoming, outgoing)
+                if os.name != "nt":
+                    target.chmod(member.mode & 0o777)
     source = destination / expected_root
     required_files = (("agentmain.py", "agent_loop.py", "ga.py", "memory/memory_management_sop.md")
                       if native == "ga" else ("run_agent.py", "tools/memory_tool.py", "agent/conversation_loop.py"))
