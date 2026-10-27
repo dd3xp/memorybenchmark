@@ -1,0 +1,47 @@
+{
+  "kind": "reviewed_self_generated_fact_delivery_and_station_choice_not_internal_causality",
+  "agent": "ga",
+  "task": "T3",
+  "session": "03-T3-retain",
+  "required_kind": "shore",
+  "first_postcollection_station": "N2",
+  "reviewed_fact": {
+    "station": "N2",
+    "capability": "profile",
+    "verbatim_game_memory_fragment": "N1/N2 为剖面"
+  },
+  "review_scope": "Human-selected literal game fact; support and delivery verified algorithmically. No model reasoning is published.",
+  "choice_relation_to_reviewed_fact": "known_nonmatch",
+  "fact_entailed_by_actual_prior_delivered_history": true,
+  "prior_direct_support_event_ids": [],
+  "prior_station_feedback_event_ids": [
+    7,
+    10,
+    14,
+    27,
+    30,
+    34,
+    35
+  ],
+  "input_memory_file": "survey_game_sop.md",
+  "input_memory_sha256": "fb87420dcca4a1ce0347aa59a62d05da37d41a0b05e76401b64c590871f67538",
+  "forwarded_request_number": 2,
+  "forwarded_request_sha256": "9a22d1ca29bf4125cfca1c68fbb6a34cdf269710675ea7fa637a2f26284e2cbd",
+  "model_requests_before_first_postcollection_station": 7,
+  "verified_delivery_before_first_postcollection_station_entry": true,
+  "actual_station_feedback": [
+    {
+      "event_id": 48,
+      "feedback": {
+        "kind": "station_information",
+        "station": "N2",
+        "capability": "profile",
+        "result": "unsupported"
+      }
+    }
+  ],
+  "source_pilot_sha256": "e21e0482f016bb877efe1ad8c330b43e6a17856b2fabee3cef931df6c477fbef",
+  "source_events_sha256": "01cfd44081b5e83810640dbb5cbd8add0f0e168a734c75137af25d95008acaa1",
+  "source_audit_sha256": "127f2eea5d795737fb3a13f33ecb6811ea6e2633092203d5532b40232c31d7b7",
+  "analysis_sha256": "13a1bb2197d0865dd8e7e88c86fda2ec99012db62197e9fd1cd3a18fd4ae8157"
+}

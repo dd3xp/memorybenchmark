@@ -87,7 +87,7 @@ def main():
              "native_memory_carrier":global_relative,
              "native_global_memory_verbatim_in_first_input":global_in_input,
              "native_global_memory_body_in_first_input":global_body_in_input,
-             "self_generated_global_memory_in_first_input":global_memory!=baseline_global and global_in_input,
+             "self_generated_global_memory_in_first_input":global_memory!=baseline_global and global_body_in_input,
              "input_global_memory_sha256":sha256(global_memory.encode("utf-8")).hexdigest(),
              "memory_content_changed":summary.get("content_changed",[]),
              "tool_counts":dict(Counter(m["name"] for m in messages if m.get("kind")=="tool")),
@@ -148,6 +148,7 @@ def main():
                   "error":s["infrastructure_error"],"excluded_from_valid_rows":True}
                   for s in pilot.get("attempt_history",[])],
               "comparison":pilot["comparison"],"exact_references_computed":not args.skip_exact_references,
+              "memory_injection_matching":"Strict file-text and outer-whitespace-stripped body markers are reported separately; self-generated delivery uses the body marker.",
               "limitations":["one sampled world and one native history",
                  "each clear run is a current-task probe, not an independent full stream",
                  "model alias is not independently verified model identity","path matching is not retrieval proof"]}

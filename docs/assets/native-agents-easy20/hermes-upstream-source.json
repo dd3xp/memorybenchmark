@@ -1,0 +1,8 @@
+{
+  "agent": "hermes",
+  "upstream": "NousResearch/hermes-agent",
+  "commit": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6",
+  "committed_at": "2026-10-27T15:02:46Z",
+  "subject": "Revert \"fix(gateway): the worker reservation always binds the owner's OS subject\"",
+  "archive_sha256": "d23ec65ea39b29fd946e829483659840b021f92be225534e7997f21eb8487c9a"
+}

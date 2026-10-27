@@ -48,6 +48,7 @@ inspect 是在站查询能力；process 是处理当前原始资料。两者都�
 
 class StationNativeSessions(WorkerSessions):
     def __init__(self, *args, agent="ga", **kwargs):
+        self.agent = agent
         super().__init__(*args, worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
                          worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
                          prompt_protocol=PROMPT_PROTOCOL, **kwargs)
@@ -87,7 +88,8 @@ class StationNativeSessions(WorkerSessions):
         save_json(output / "graph.json", graph)
         (output / "events.jsonl").write_text("".join(json.dumps(e, ensure_ascii=False) + "\n"
             for e in game.events), encoding="utf-8")
-        (output / "graph.svg").write_text(render_svg(game.design, graph, f"Native GA / {task_id} / {condition}"), encoding="utf-8")
+        label = {"ga": "GA", "hermes": "Hermes"}[self.agent]
+        (output / "graph.svg").write_text(render_svg(game.design, graph, f"Native {label} / {task_id} / {condition}"), encoding="utf-8")
         save_json(output / "summary.json", report)
         return report
 
@@ -132,6 +134,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         design = json.loads((output / "design.json").read_text(encoding="utf-8"))
         tasks, seed, model_alias = report["tasks"], report["seed"], report["model_alias"]
         max_turns, final_turns = report["max_turns"], report["final_turns"]
+        report["status"] = "running"
+        save_json(output / "pilot.json", report)
     else:
         design = load_design(selected_design)
         if world is not None and world not in design["private_worlds"]:

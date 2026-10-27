@@ -1,0 +1,454 @@
+{
+  "kind": "single_world_native_agent_comparison_not_population_or_causal_effect",
+  "world": "omega_5511",
+  "model_alias": "gpt-5.6-luna",
+  "tasks": [
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
+    "T8",
+    "T9",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T16",
+    "T17",
+    "T18",
+    "T19",
+    "T20"
+  ],
+  "agents": [
+    {
+      "agent": "ga",
+      "all": {
+        "sessions": 39,
+        "successes": 39,
+        "distance": 612,
+        "moves": 466,
+        "operations": 589,
+        "query_count": 32,
+        "unsupported_processing_count": 13,
+        "historically_repeated_queries": 21,
+        "llm_calls": 852,
+        "main_calls": 685,
+        "final_calls": 167
+      },
+      "main": {
+        "sessions": 20,
+        "successes": 20,
+        "distance": 317,
+        "moves": 239,
+        "operations": 301,
+        "query_count": 16,
+        "unsupported_processing_count": 6,
+        "historically_repeated_queries": 9,
+        "llm_calls": 424,
+        "main_calls": 355,
+        "final_calls": 69
+      },
+      "clear": {
+        "sessions": 19,
+        "successes": 19,
+        "distance": 295,
+        "moves": 227,
+        "operations": 288,
+        "query_count": 16,
+        "unsupported_processing_count": 7,
+        "historically_repeated_queries": 12,
+        "llm_calls": 428,
+        "main_calls": 330,
+        "final_calls": 98
+      },
+      "pairs": [
+        {
+          "task": "T2",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 21,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T3",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 22,
+          "clear_distance": 22,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T4",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T5",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 21,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T6",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T7",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 21,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": -5
+        },
+        {
+          "task": "T8",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T9",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T10",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T11",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T12",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 16,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 5
+        },
+        {
+          "task": "T13",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 21,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T14",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 16,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T15",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T16",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 15,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": -3
+        },
+        {
+          "task": "T17",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T18",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 20,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": -4
+        },
+        {
+          "task": "T19",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 15,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 6
+        },
+        {
+          "task": "T20",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        }
+      ],
+      "both_success_pairs": 19,
+      "both_success_main_distance": 296,
+      "both_success_clear_distance": 295,
+      "first_station_nearest_main_count": 16,
+      "first_station_known_nonmatch_from_actual_history_main_count": 4,
+      "native_memory_carrier": [
+        "global_mem_insight.txt"
+      ],
+      "input_memory_delivery_scope": "Automatic carrier body only; not relevance or causal use. SOP and skill reads are audited separately.",
+      "input_memory_body_delivered_main_count": 19
+    },
+    {
+      "agent": "hermes",
+      "all": {
+        "sessions": 39,
+        "successes": 39,
+        "distance": 599,
+        "moves": 457,
+        "operations": 569,
+        "query_count": 18,
+        "unsupported_processing_count": 16,
+        "historically_repeated_queries": 14,
+        "llm_calls": 983,
+        "main_calls": 903,
+        "final_calls": 80
+      },
+      "main": {
+        "sessions": 20,
+        "successes": 20,
+        "distance": 308,
+        "moves": 232,
+        "operations": 283,
+        "query_count": 3,
+        "unsupported_processing_count": 8,
+        "historically_repeated_queries": 1,
+        "llm_calls": 472,
+        "main_calls": 444,
+        "final_calls": 28
+      },
+      "clear": {
+        "sessions": 19,
+        "successes": 19,
+        "distance": 291,
+        "moves": 225,
+        "operations": 286,
+        "query_count": 15,
+        "unsupported_processing_count": 8,
+        "historically_repeated_queries": 13,
+        "llm_calls": 511,
+        "main_calls": 459,
+        "final_calls": 52
+      },
+      "pairs": [
+        {
+          "task": "T2",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 21,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T3",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 22,
+          "clear_distance": 22,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T4",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T5",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 21,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T6",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T7",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 16,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T8",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T9",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T10",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 15,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": -3
+        },
+        {
+          "task": "T11",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T12",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 17,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": -1
+        },
+        {
+          "task": "T13",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 15,
+          "clear_distance": 21,
+          "distance_difference_clear_minus_main_if_both_success": 6
+        },
+        {
+          "task": "T14",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 16,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T15",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T16",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 15,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": -3
+        },
+        {
+          "task": "T17",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        },
+        {
+          "task": "T18",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 17,
+          "clear_distance": 16,
+          "distance_difference_clear_minus_main_if_both_success": -1
+        },
+        {
+          "task": "T19",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 16,
+          "clear_distance": 22,
+          "distance_difference_clear_minus_main_if_both_success": 6
+        },
+        {
+          "task": "T20",
+          "main_success": true,
+          "clear_success": true,
+          "main_distance": 12,
+          "clear_distance": 12,
+          "distance_difference_clear_minus_main_if_both_success": 0
+        }
+      ],
+      "both_success_pairs": 19,
+      "both_success_main_distance": 287,
+      "both_success_clear_distance": 291,
+      "first_station_nearest_main_count": 14,
+      "first_station_known_nonmatch_from_actual_history_main_count": 2,
+      "native_memory_carrier": [
+        "memories/MEMORY.md"
+      ],
+      "input_memory_delivery_scope": "Automatic carrier body only; not relevance or causal use. SOP and skill reads are audited separately.",
+      "input_memory_body_delivered_main_count": 19
+    }
+  ],
+  "source_measurements_sha256": {
+    "ga": "81bb54743216c65a77008d194f9abb22aff87b5bdc13cbe284e2d5a9ac9de083",
+    "hermes": "0b3efab395e1196a2957e3a2393386dc3fd5fd1e61db794c3eef1af4a6d998a1"
+  },
+  "analysis_sha256": "508d35f7ecc04a942af0ddf8dc660251a7f96b93eaf65136f3bee90ed5a64d58",
+  "limitations": [
+    "one sampled world and one main history per native agent",
+    "clear runs are current-task probes, not independent complete streams",
+    "native prompts, tools, context management and acquired histories differ",
+    "shared task instructions specify bounded completion, not an explicit weighted-distance minimization objective",
+    "historical evidence is not proof of saved or delivered memory",
+    "failed low-distance tasks are not efficient successes"
+  ]
+}

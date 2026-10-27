@@ -1,0 +1,1521 @@
+{
+  "protocol": "station-native-pilot-1",
+  "agent": "hermes",
+  "status": "completed",
+  "seed": 20261027,
+  "design_id": "lanting-easy20-choice-v2",
+  "model_alias": "gpt-5.6-luna",
+  "tasks": [
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
+    "T8",
+    "T9",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T16",
+    "T17",
+    "T18",
+    "T19",
+    "T20"
+  ],
+  "max_turns": 40,
+  "final_turns": 6,
+  "world": "omega_5511",
+  "world_sampling": "host-selected private fixture independent of worker seed",
+  "comparison": "current-task clear probes at retained actual-history checkpoints",
+  "archive_sha256": "d23ec65ea39b29fd946e829483659840b021f92be225534e7997f21eb8487c9a",
+  "kind": "whitelisted_native_pilot_configuration_not_conversation_dump",
+  "source_private_pilot_sha256": "da137ad62c8f6338f7d5d0eb29b9d861eb0ae9ef2cfc4726cade26893c5fcf04",
+  "sessions": [
+    {
+      "name": "01-T1-prefix",
+      "task_id": "T1",
+      "condition": "prefix",
+      "session_id": "c27d63c17f77436cb1282282692618fd",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 30,
+      "main_calls": 28,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/cfc71096f5447fa97804e139ee75c68f4be9502ab87cc9b31bdb6e9d24fe6469.lock",
+        "skills/.usage.json",
+        "skills/.usage.json.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "02-T2-retain",
+      "task_id": "T2",
+      "condition": "retain",
+      "session_id": "c42f907900e1449b876841f083ea5d16",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 21,
+      "llm_calls": 29,
+      "main_calls": 28,
+      "final_calls": 1,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "skills/.locks/41702247d7ad9fa137e072a604797c58a1b5e3038021a6f725dd9e345e4433af.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "02-T2-clear",
+      "task_id": "T2",
+      "condition": "clear",
+      "session_id": "250ca62061b2421cad56b506aca603ab",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 31,
+      "main_calls": 26,
+      "final_calls": 5,
+      "content_changed": [
+        "memories/surveying-game.md",
+        "skills/.locks/6364806fd0d50f3175ae1bd64328bb9cc10481f66cd45c63f1526d7fea441572.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "03-T3-retain",
+      "task_id": "T3",
+      "condition": "retain",
+      "session_id": "8ebf8c9f9d1a4668bfd3eb724d2edbf2",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 22,
+      "llm_calls": 33,
+      "main_calls": 31,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "skills/.locks/380d0ae457d65c2e8b5ac464570e6f80c2e6edcecd4baac5d8ec6afc1657f7ee.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "03-T3-clear",
+      "task_id": "T3",
+      "condition": "clear",
+      "session_id": "68ad12d4426e4e1aada4718f638f6839",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 21,
+      "distance": 22,
+      "llm_calls": 36,
+      "main_calls": 33,
+      "final_calls": 3,
+      "content_changed": [
+        "memories/game-survey.md",
+        "skills/.locks/6364806fd0d50f3175ae1bd64328bb9cc10481f66cd45c63f1526d7fea441572.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "04-T4-retain",
+      "task_id": "T4",
+      "condition": "retain",
+      "session_id": "a83033d7d435420eaeaea3b4b1b13950",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 22,
+      "main_calls": 20,
+      "final_calls": 2,
+      "content_changed": [
+        ".curator_backups/blobs/1a28f4077be781e30c482e04f7a2216248e940afad9d8ac20ae8ffdefc9ca921",
+        ".curator_backups/blobs/c6fe30ea1ac5ed4fe9f82f80fcd1a24b3dcc7a8f7d39caf5090df4ac2f5f515d",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock",
+        "skills/.locks/ledger.lock",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md",
+        "skills/games/cartography-game/references/route-planning.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "04-T4-clear",
+      "task_id": "T4",
+      "condition": "clear",
+      "session_id": "2c49fae0427c477a85f9a0ef783a9ce9",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 21,
+      "main_calls": 19,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/d0388aabcca9ccc2b6b3ca1872c5a62e369b2ca76aa73bef1f96da624cdbdc93.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "05-T5-retain",
+      "task_id": "T5",
+      "condition": "retain",
+      "session_id": "3bba73e6d15a486a8e6e1c205fc6746d",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 30,
+      "main_calls": 28,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "skills/.usage.json"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "05-T5-clear",
+      "task_id": "T5",
+      "condition": "clear",
+      "session_id": "ff3f5eb7fcf74e34b4aa7526cc289954",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 21,
+      "llm_calls": 29,
+      "main_calls": 27,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/6364806fd0d50f3175ae1bd64328bb9cc10481f66cd45c63f1526d7fea441572.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "06-T6-retain",
+      "task_id": "T6",
+      "condition": "retain",
+      "session_id": "e297072cc13f44b0bc3440df00c47f2e",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 22,
+      "main_calls": 21,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/ab3b85fdd73833d81f4d3c97881b83a5c9866a28ebad1ef961b3f6307c2792b2",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "06-T6-clear",
+      "task_id": "T6",
+      "condition": "clear",
+      "session_id": "4a1e0f9202fc4417b32913d0994beb4c",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 21,
+      "main_calls": 19,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "07-T7-retain",
+      "task_id": "T7",
+      "condition": "retain",
+      "session_id": "b96a0f44fe2d4ca8979d066365d5a2a6",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 15,
+      "distance": 16,
+      "llm_calls": 25,
+      "main_calls": 24,
+      "final_calls": 1,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "skills/.usage.json"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "07-T7-clear",
+      "task_id": "T7",
+      "condition": "clear",
+      "session_id": "da1a8e3242de4a1bb47b2d12b14f958a",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 33,
+      "main_calls": 30,
+      "final_calls": 3,
+      "content_changed": [
+        "cartography-lessons.md",
+        "skills/.usage.json",
+        "skills/.usage.json.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "08-T8-retain",
+      "task_id": "T8",
+      "condition": "retain",
+      "session_id": "6a2c89ef09194eb1befe422eec56811d",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 22,
+      "main_calls": 21,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/9b67a58d3fa14a65dae0ce71b036a785e19e469a74041da29b52dba4e7cf2c00",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "08-T8-clear",
+      "task_id": "T8",
+      "condition": "clear",
+      "session_id": "3f8d3a72ba2b43519ca86ed8859b3d92",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 26,
+      "main_calls": 24,
+      "final_calls": 2,
+      "content_changed": [
+        "game-survey.md",
+        "skills/.usage.json",
+        "skills/.usage.json.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "09-T9-retain",
+      "task_id": "T9",
+      "condition": "retain",
+      "session_id": "5a4582e6f5da4cd1a284dcd8d5f14f6c",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 21,
+      "main_calls": 20,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/6e2f32e7714bca2f0a1a6759f9db8b8c482b225d76cdb38ded6603f93d8b3989",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "09-T9-clear",
+      "task_id": "T9",
+      "condition": "clear",
+      "session_id": "a427825ce1b24a61aa982822d24f0633",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 24,
+      "main_calls": 20,
+      "final_calls": 4,
+      "content_changed": [
+        "cartography-lessons.txt",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "10-T10-retain",
+      "task_id": "T10",
+      "condition": "retain",
+      "session_id": "87881541b1514917bc8bdf0241e7a501",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 15,
+      "llm_calls": 21,
+      "main_calls": 20,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/0ace449acbb905bfa5d7c228c6f4fa60fa06b2cbedc239cc21a6c47d877501f9",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "10-T10-clear",
+      "task_id": "T10",
+      "condition": "clear",
+      "session_id": "757f9df884dc4494b7ca2ac80d726ef2",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 23,
+      "main_calls": 21,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "11-T11-retain",
+      "task_id": "T11",
+      "condition": "retain",
+      "session_id": "5bb575c8feba4116bfc7e6b845d6ac39",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 22,
+      "main_calls": 21,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/f55e7c173fd961e6c6467fc7f1a9ccc78e5fc8bcba315600e6109db30f29b12d",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "11-T11-clear",
+      "task_id": "T11",
+      "condition": "clear",
+      "session_id": "115d0dcd96204b83854089669d1d7e66",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 22,
+      "main_calls": 20,
+      "final_calls": 2,
+      "content_changed": [
+        ".curator_backups/blobs/235057ee7e2d90d0ff2d6ee0346076009b8269083138db86711647623874b319",
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.curator_ledger.jsonl",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock",
+        "skills/.locks/ledger.lock",
+        "skills/.usage.json",
+        "skills/.usage.json.lock",
+        "skills/productivity/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "12-T12-retain",
+      "task_id": "T12",
+      "condition": "retain",
+      "session_id": "b17cab7c76fb40e19d7319a05745f717",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 17,
+      "llm_calls": 22,
+      "main_calls": 21,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/b7c56d5a229267938b6dc9bf688df1b8d58654b50f6c26e5c2a7844eafef61de",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "12-T12-clear",
+      "task_id": "T12",
+      "condition": "clear",
+      "session_id": "43df0023fd0b4f34bcee6ba3c12e7532",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 15,
+      "distance": 16,
+      "llm_calls": 27,
+      "main_calls": 25,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "13-T13-retain",
+      "task_id": "T13",
+      "condition": "retain",
+      "session_id": "18b2a1c71487414c9e24f29a7668dda4",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 15,
+      "llm_calls": 23,
+      "main_calls": 20,
+      "final_calls": 3,
+      "content_changed": [
+        ".curator_backups/blobs/01e6cb28229f4544642bcbfbe38a89f66e12ecea2f8e344bc233d35c12618b1e",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "13-T13-clear",
+      "task_id": "T13",
+      "condition": "clear",
+      "session_id": "0b2f592b4c1147d4b63b4ad1c671521b",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 32,
+      "main_calls": 30,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "14-T14-retain",
+      "task_id": "T14",
+      "condition": "retain",
+      "session_id": "6c41c425fc194422bc35a318b9c492cd",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 15,
+      "distance": 16,
+      "llm_calls": 24,
+      "main_calls": 23,
+      "final_calls": 1,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "skills/.usage.json"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "14-T14-clear",
+      "task_id": "T14",
+      "condition": "clear",
+      "session_id": "d073d2053dd54eaab80819eaec06a9a1",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 30,
+      "main_calls": 27,
+      "final_calls": 3,
+      "content_changed": [
+        "skills/.usage.json",
+        "skills/.usage.json.lock",
+        "survey-game.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "15-T15-retain",
+      "task_id": "T15",
+      "condition": "retain",
+      "session_id": "45ccb9770fa048c8935b545d88f6130f",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 22,
+      "main_calls": 20,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "skills/.usage.json"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "15-T15-clear",
+      "task_id": "T15",
+      "condition": "clear",
+      "session_id": "a78f437d2a4842d3a558af72e5d82934",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 24,
+      "main_calls": 19,
+      "final_calls": 5,
+      "content_changed": [
+        ".curator_backups/blobs/7217e9bdc6ee7587ea9c698d94947521a333260de6520faebb4290004eb79900",
+        "cartography.txt",
+        "skills/.curator_ledger.jsonl",
+        "skills/.locks/b4c2638e39debe36f8e1ecf59610018acb657d56261887946f6a6cef7d878332.lock",
+        "skills/.locks/ledger.lock",
+        "skills/.usage.json",
+        "skills/.usage.json.lock",
+        "skills/productivity/cartography-survey-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "16-T16-retain",
+      "task_id": "T16",
+      "condition": "retain",
+      "session_id": "f704006410734bfabdd6cf101e367ba6",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 15,
+      "llm_calls": 21,
+      "main_calls": 20,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/2c732735fb112cf9d516be01804ef67509c67d2bbfee309e0fa0260627c2ef22",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/references/route-planning.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "16-T16-clear",
+      "task_id": "T16",
+      "condition": "clear",
+      "session_id": "3890473c3fde4724ae12cdfb5124ab09",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 24,
+      "main_calls": 22,
+      "final_calls": 2,
+      "content_changed": [
+        "cartography-t16.md",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "17-T17-retain",
+      "task_id": "T17",
+      "condition": "retain",
+      "session_id": "f09af959c2d94420ab7b3c584334623e",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 18,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/d6b387601735d0652b32031d02e363c1280ec0447b12c5765d59207f35a6af5c",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "17-T17-clear",
+      "task_id": "T17",
+      "condition": "clear",
+      "session_id": "8f5b327f20ea41718bd30a0283e9686c",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 25,
+      "main_calls": 22,
+      "final_calls": 3,
+      "content_changed": [
+        "skills/.locks/0783ebb17faf96a6f6928f3b95cd0e5d12b0eb58098132f2a6d124ecb3700ee3.lock",
+        "t17-cartography-lessons.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "18-T18-retain",
+      "task_id": "T18",
+      "condition": "retain",
+      "session_id": "e5479a2733d24cd88b397c9590963e4e",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 17,
+      "llm_calls": 23,
+      "main_calls": 21,
+      "final_calls": 2,
+      "content_changed": [
+        ".curator_backups/blobs/563171d2a3de4df5d0b885bcc0fcbf2dc64377be5b75d9e47506ddd69b897d42",
+        ".curator_backups/blobs/6a364975e99ccc69962da81c10a88e2889dedaf16109c59f68c9ab3cf7e7d3e3",
+        "memories/MEMORY.md",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "18-T18-clear",
+      "task_id": "T18",
+      "condition": "clear",
+      "session_id": "e10efe44c16c4a6fafd7d5f1b57b3288",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 15,
+      "distance": 16,
+      "llm_calls": 29,
+      "main_calls": 27,
+      "final_calls": 2,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/3f2a515c71507c9577eb62a95c0ca0c1a013b2a5abcdf609bbbf38333dc9f4d1.lock",
+        "skills/.usage.json",
+        "skills/.usage.json.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "19-T19-retain",
+      "task_id": "T19",
+      "condition": "retain",
+      "session_id": "852260403e534f8e93f55460c389002e",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 14,
+      "distance": 16,
+      "llm_calls": 21,
+      "main_calls": 20,
+      "final_calls": 1,
+      "content_changed": [
+        "skills/.usage.json"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "19-T19-clear",
+      "task_id": "T19",
+      "condition": "clear",
+      "session_id": "7fe58f75aaf343abb602295984f7b596",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 22,
+      "llm_calls": 31,
+      "main_calls": 27,
+      "final_calls": 4,
+      "content_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.locks/cfc71096f5447fa97804e139ee75c68f4be9502ab87cc9b31bdb6e9d24fe6469.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "20-T20-retain",
+      "task_id": "T20",
+      "condition": "retain",
+      "session_id": "f2aaa709c93947929eb93cd59af221ac",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 20,
+      "main_calls": 19,
+      "final_calls": 1,
+      "content_changed": [
+        ".curator_backups/blobs/da95cd03d8cbd04e291bc1f658fd2892644c6481b217dd13915c634d9a59ced1",
+        "skills/.curator_ledger.jsonl",
+        "skills/.usage.json",
+        "skills/games/cartography-game/SKILL.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    },
+    {
+      "name": "20-T20-clear",
+      "task_id": "T20",
+      "condition": "clear",
+      "session_id": "0d0178910aa04c2d9c5ca7d8b62cea91",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 23,
+      "main_calls": 21,
+      "final_calls": 2,
+      "content_changed": [
+        "cartography-experience.txt",
+        "skills/.locks/0eddb003b023b4c5b3fa867a8f89e11b176280d0f10ac9ee3c0cdd983e48685e.lock"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE",
+          "native_failed": false,
+          "native_interrupted": false
+        }
+      }
+    }
+  ],
+  "task_operation_budgets": {
+    "T1": 24,
+    "T2": 24,
+    "T3": 24,
+    "T4": 24,
+    "T5": 24,
+    "T6": 24,
+    "T7": 24,
+    "T8": 24,
+    "T9": 24,
+    "T10": 24,
+    "T11": 24,
+    "T12": 24,
+    "T13": 24,
+    "T14": 24,
+    "T15": 24,
+    "T16": 24,
+    "T17": 24,
+    "T18": 24,
+    "T19": 24,
+    "T20": 24
+  },
+  "infrastructure_attempts": [
+    {
+      "name": "14-T14-clear",
+      "task_id": "T14",
+      "condition": "clear",
+      "session_id": "4c584b4fe0914658baa81fba9cf377bf",
+      "infrastructure_ok": false,
+      "infrastructure_error": "OSError",
+      "success": null,
+      "done": true,
+      "game_actions": 15,
+      "distance": 16,
+      "llm_calls": 26,
+      "main_calls": 26,
+      "final_calls": 0,
+      "content_changed": null,
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "archived_at": "failed-attempts\\14-T14-clear-1"
+    }
+  ],
+  "native_initial_runtime": null,
+  "native_context_configuration": {
+    "model_context_length": 64000
+  },
+  "configuration_note": "Native prompts, memory defaults, tools and context management differ; worker RNG seed does not control provider sampling.",
+  "task_objective_note": "The shared task brief requires successful completion within its operation budget; it does not explicitly require minimizing weighted travel distance. Distance comparisons are descriptive.",
+  "exporter_sha256": "290168517d22076fe495d6f6133e02aa37ace3f7d591d3bcf451c6cc2e023c48"
+}

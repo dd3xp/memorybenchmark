@@ -1,0 +1,265 @@
+{
+  "kind": "native_station_replay_and_memory_chain_audit",
+  "pilot_completed": true,
+  "sessions": 39,
+  "cumulative_event_records_replayed": 7142,
+  "current_session_event_records_replayed": 628,
+  "canonical_tasks": 20,
+  "memory_chains_verified": true,
+  "fresh_sessions_and_isolation_verified": true,
+  "source_commit": null,
+  "source_newlines": "raw",
+  "source_files_verified": {
+    "memorybenchmark/prototypes/station_pilot.py": "c02fc54de4fa3ca3cb347333015714cb65687608a8d57fe11950f8dea19816cd",
+    "memorybenchmark/data/station_easy20_choice.json": "8ed30ac8090fb2bdc8964de3c43d7367f0c2cee88e1eb87bd54b61a9cc624bad",
+    "memorybenchmark/prototypes/station_capability.py": "a229262daa9e5b863251e575be2d2182eb7085bd22914eb52f29cc8c1aead5f2",
+    "memorybenchmark/prototypes/station_session.py": "218de0dc0b565adcc81831c5a3a531617142c3cd356463040e6a5e1c18c7b3f7",
+    "memorybenchmark/ga_worker.py": "2a1dd01fbdae0ab5281cdcd13daead8fa4de7363f4c24a9bd1ce0e38d7a45fac",
+    "memorybenchmark/agent_bridge.py": "840be5ed16c41b2297a21fb62491547874fce13fa90b6f623ade8987aed564bc",
+    "memorybenchmark/mcp_game.py": "2e5c1fd7e8697d80067ca66aaf49dfb75bceeafe867b1e7f99ccbc4f628233f8",
+    "memorybenchmark/agent_sessions.py": "9b5573ed008d924bd91e4fd55a29d0eafd668d3b10ff971e1a9fdf233eb6b697",
+    "memorybenchmark/ga_runtime.py": "fd0b3b70cffca4da03e3480b6d1e0937f1f8d5cbfaab8c9f6c1e8705b9a60c5a",
+    "memorybenchmark/model_gateway.py": "dfab4c47b634564bb4dbd05121d75ee4fe2772fc2bc3ffe9a0c9b96aaf8e141a"
+  },
+  "support_files_verified": {
+    "ga_worker.py": "2a1dd01fbdae0ab5281cdcd13daead8fa4de7363f4c24a9bd1ce0e38d7a45fac",
+    "agent_bridge.py": "840be5ed16c41b2297a21fb62491547874fce13fa90b6f623ade8987aed564bc"
+  },
+  "native_archive_verified": true,
+  "rows": [
+    {
+      "name": "01-T1-prefix",
+      "success": true,
+      "events": 20,
+      "calls": 27
+    },
+    {
+      "name": "02-T2-retain",
+      "success": true,
+      "events": 21,
+      "calls": 25
+    },
+    {
+      "name": "02-T2-clear",
+      "success": true,
+      "events": 21,
+      "calls": 27
+    },
+    {
+      "name": "03-T3-retain",
+      "success": true,
+      "events": 21,
+      "calls": 29
+    },
+    {
+      "name": "03-T3-clear",
+      "success": true,
+      "events": 21,
+      "calls": 29
+    },
+    {
+      "name": "04-T4-retain",
+      "success": true,
+      "events": 14,
+      "calls": 19
+    },
+    {
+      "name": "04-T4-clear",
+      "success": true,
+      "events": 13,
+      "calls": 21
+    },
+    {
+      "name": "05-T5-retain",
+      "success": true,
+      "events": 21,
+      "calls": 25
+    },
+    {
+      "name": "05-T5-clear",
+      "success": true,
+      "events": 20,
+      "calls": 28
+    },
+    {
+      "name": "06-T6-retain",
+      "success": true,
+      "events": 14,
+      "calls": 18
+    },
+    {
+      "name": "06-T6-clear",
+      "success": true,
+      "events": 13,
+      "calls": 18
+    },
+    {
+      "name": "07-T7-retain",
+      "success": true,
+      "events": 20,
+      "calls": 27
+    },
+    {
+      "name": "07-T7-clear",
+      "success": true,
+      "events": 17,
+      "calls": 25
+    },
+    {
+      "name": "08-T8-retain",
+      "success": true,
+      "events": 13,
+      "calls": 17
+    },
+    {
+      "name": "08-T8-clear",
+      "success": true,
+      "events": 13,
+      "calls": 19
+    },
+    {
+      "name": "09-T9-retain",
+      "success": true,
+      "events": 13,
+      "calls": 16
+    },
+    {
+      "name": "09-T9-clear",
+      "success": true,
+      "events": 13,
+      "calls": 18
+    },
+    {
+      "name": "10-T10-retain",
+      "success": true,
+      "events": 14,
+      "calls": 18
+    },
+    {
+      "name": "10-T10-clear",
+      "success": true,
+      "events": 13,
+      "calls": 19
+    },
+    {
+      "name": "11-T11-retain",
+      "success": true,
+      "events": 14,
+      "calls": 20
+    },
+    {
+      "name": "11-T11-clear",
+      "success": true,
+      "events": 14,
+      "calls": 19
+    },
+    {
+      "name": "12-T12-retain",
+      "success": true,
+      "events": 17,
+      "calls": 21
+    },
+    {
+      "name": "12-T12-clear",
+      "success": true,
+      "events": 20,
+      "calls": 28
+    },
+    {
+      "name": "13-T13-retain",
+      "success": true,
+      "events": 20,
+      "calls": 24
+    },
+    {
+      "name": "13-T13-clear",
+      "success": true,
+      "events": 20,
+      "calls": 26
+    },
+    {
+      "name": "14-T14-retain",
+      "success": true,
+      "events": 17,
+      "calls": 21
+    },
+    {
+      "name": "14-T14-clear",
+      "success": true,
+      "events": 17,
+      "calls": 23
+    },
+    {
+      "name": "15-T15-retain",
+      "success": true,
+      "events": 13,
+      "calls": 16
+    },
+    {
+      "name": "15-T15-clear",
+      "success": true,
+      "events": 14,
+      "calls": 20
+    },
+    {
+      "name": "16-T16-retain",
+      "success": true,
+      "events": 14,
+      "calls": 19
+    },
+    {
+      "name": "16-T16-clear",
+      "success": true,
+      "events": 13,
+      "calls": 19
+    },
+    {
+      "name": "17-T17-retain",
+      "success": true,
+      "events": 13,
+      "calls": 18
+    },
+    {
+      "name": "17-T17-clear",
+      "success": true,
+      "events": 14,
+      "calls": 18
+    },
+    {
+      "name": "18-T18-retain",
+      "success": true,
+      "events": 15,
+      "calls": 26
+    },
+    {
+      "name": "18-T18-clear",
+      "success": true,
+      "events": 17,
+      "calls": 26
+    },
+    {
+      "name": "19-T19-retain",
+      "success": true,
+      "events": 14,
+      "calls": 20
+    },
+    {
+      "name": "19-T19-clear",
+      "success": true,
+      "events": 21,
+      "calls": 26
+    },
+    {
+      "name": "20-T20-retain",
+      "success": true,
+      "events": 13,
+      "calls": 18
+    },
+    {
+      "name": "20-T20-clear",
+      "success": true,
+      "events": 13,
+      "calls": 19
+    }
+  ]
+}

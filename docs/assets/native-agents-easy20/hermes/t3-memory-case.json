@@ -1,0 +1,49 @@
+{
+  "kind": "reviewed_self_generated_fact_delivery_and_station_choice_not_internal_causality",
+  "agent": "hermes",
+  "task": "T3",
+  "session": "03-T3-retain",
+  "required_kind": "shore",
+  "first_postcollection_station": "N1",
+  "reviewed_fact": {
+    "station": "N1",
+    "capability": "profile",
+    "verbatim_game_memory_fragment": "N1 支持 profile"
+  },
+  "review_scope": "Human-selected literal game fact; support and delivery verified algorithmically. No model reasoning is published.",
+  "choice_relation_to_reviewed_fact": "known_nonmatch",
+  "fact_entailed_by_actual_prior_delivered_history": true,
+  "prior_direct_support_event_ids": [
+    14
+  ],
+  "prior_station_feedback_event_ids": [
+    7,
+    10,
+    14,
+    27,
+    30,
+    34,
+    35
+  ],
+  "input_memory_file": "memories/MEMORY.md",
+  "input_memory_sha256": "653753ff3f33618be3858872205eac9a6173eac08a9ce715aa54f3e44188201e",
+  "forwarded_request_number": 1,
+  "forwarded_request_sha256": "674ac14edc8f9dd24f4a8b18bf8db39835134f9888308e18e6c770a9ad7bcfd7",
+  "model_requests_before_first_postcollection_station": 9,
+  "verified_delivery_before_first_postcollection_station_entry": true,
+  "actual_station_feedback": [
+    {
+      "event_id": 48,
+      "feedback": {
+        "kind": "station_information",
+        "station": "N1",
+        "capability": "profile",
+        "result": "unsupported"
+      }
+    }
+  ],
+  "source_pilot_sha256": "da137ad62c8f6338f7d5d0eb29b9d861eb0ae9ef2cfc4726cade26893c5fcf04",
+  "source_events_sha256": "3506c2eaacee335919f5349d7321f6c438bdedbca98c14bcd064fa02c7f282aa",
+  "source_audit_sha256": "c49e36acd5f51696e9088e99b525408515e0fe53df47f96050a2dd6bb5eb7e5b",
+  "analysis_sha256": "13a1bb2197d0865dd8e7e88c86fda2ec99012db62197e9fd1cd3a18fd4ae8157"
+}

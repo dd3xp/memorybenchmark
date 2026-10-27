@@ -1,0 +1,158 @@
+{
+  "kind": "native_adapter_deployment_validation_not_model_scores",
+  "contracts": [
+    {
+      "agent": "ga",
+      "passed": true,
+      "cases": [
+        {
+          "case": "probe",
+          "infrastructure_ok": true,
+          "scripted_calls": 0,
+          "main_calls": 0,
+          "final_calls": 0,
+          "summary_sha256": "37bcf809e059a7b85e924b62cf0f26119efbfa08ac85ff1099bd2f2fae85ba56"
+        },
+        {
+          "case": "prefix",
+          "infrastructure_ok": true,
+          "scripted_calls": 4,
+          "main_calls": 3,
+          "final_calls": 1,
+          "summary_sha256": "cb412f7c1e4c72c457f77a50c99a350096b0bb0264f4be1ed576795575a56c6e"
+        },
+        {
+          "case": "retain",
+          "infrastructure_ok": true,
+          "scripted_calls": 4,
+          "main_calls": 3,
+          "final_calls": 1,
+          "summary_sha256": "425b2ec7a53f251c8c2eefa41d2637df2c34ede8761b11ac81fb4a1687f684cc"
+        },
+        {
+          "case": "clear",
+          "infrastructure_ok": true,
+          "scripted_calls": 4,
+          "main_calls": 3,
+          "final_calls": 1,
+          "summary_sha256": "3345a60df1dcc7ae7fcee525f49f9ef314dd8c5c3d89464a10e9cf957abe0189"
+        },
+        {
+          "case": "budget",
+          "infrastructure_ok": true,
+          "scripted_calls": 11,
+          "main_calls": 10,
+          "final_calls": 1,
+          "summary_sha256": "c20153fb2ed548470cdd83b4b75b858cb79ea6c852f0296d18c5be42a2d99a17"
+        }
+      ],
+      "checks": [
+        "fresh sessions",
+        "retain versus clear",
+        "native persistent writes",
+        "main budget and same-session finalization"
+      ]
+    },
+    {
+      "agent": "hermes",
+      "passed": true,
+      "cases": [
+        {
+          "case": "probe",
+          "infrastructure_ok": true,
+          "scripted_calls": 0,
+          "main_calls": 0,
+          "final_calls": 0,
+          "summary_sha256": "0bab7d37ab11b04cb5a361fe4b4875be0cf83690ca0fb3ffc37cf00791b21f37"
+        },
+        {
+          "case": "prefix",
+          "infrastructure_ok": true,
+          "scripted_calls": 6,
+          "main_calls": 4,
+          "final_calls": 2,
+          "summary_sha256": "ae65bcd43e7e23e0ef78bf9778e3185352dedd4523c602c8f4e80b906ed51b5c"
+        },
+        {
+          "case": "retain",
+          "infrastructure_ok": true,
+          "scripted_calls": 5,
+          "main_calls": 3,
+          "final_calls": 2,
+          "summary_sha256": "f61901146158c1b874e641ccf104807038df72ecb4a9abaa33f03d6cdacd179b"
+        },
+        {
+          "case": "clear",
+          "infrastructure_ok": true,
+          "scripted_calls": 5,
+          "main_calls": 3,
+          "final_calls": 2,
+          "summary_sha256": "6bf7324af7ddedcb08476b6924feaab0b9f5004d2e95c075aba9d815e477aab8"
+        },
+        {
+          "case": "budget",
+          "infrastructure_ok": true,
+          "scripted_calls": 13,
+          "main_calls": 10,
+          "final_calls": 3,
+          "summary_sha256": "243c8e74363f7ad565476e41e73fa1d4ec968ce3a5705536c5a55cb57bb94c38"
+        }
+      ],
+      "checks": [
+        "fresh sessions",
+        "retain versus clear",
+        "native persistent writes",
+        "main budget and same-session finalization",
+        "skill rollback blobs"
+      ]
+    }
+  ],
+  "earlier_hermes_startup_attempt": {
+    "status": "interrupted",
+    "valid_sessions": 0,
+    "source_pilot_sha256": "3d4918cd98764321234cf91096dc139be0431b14d3f82a55df63eea3880afa90",
+    "sessions": [
+      {
+        "name": "01-T1-prefix",
+        "infrastructure_ok": false,
+        "error": "worker cleanup unconfirmed; do not snapshot or advance",
+        "request_records": 21,
+        "response_records": 20,
+        "excluded_from_valid_comparison": true
+      }
+    ],
+    "handling": "Kept separately; no canonical game or memory checkpoint advanced; new adapter run started from baseline."
+  },
+  "scripted_contract_real_model_calls": 0,
+  "in_stream_hermes_infrastructure_attempts": [
+    {
+      "name": "14-T14-clear",
+      "task_id": "T14",
+      "condition": "clear",
+      "infrastructure_error": "OSError",
+      "archived_at": "failed-attempts\\14-T14-clear-1",
+      "game_actions": 15,
+      "distance": 16,
+      "done": true,
+      "request_records": 26,
+      "response_records": 26,
+      "excluded_from_valid_comparison": true,
+      "source_pilot_sha256": "da137ad62c8f6338f7d5d0eb29b9d861eb0ae9ef2cfc4726cade26893c5fcf04",
+      "handling": "Preserved failed attempt; same frozen source, task checkpoint and baseline memory retried. No canonical task or memory advance from this clear probe.",
+      "underlying_worker_failure_cause": "Unknown: original detail was masked by a host response-pipe OSError.",
+      "valid_retry": {
+        "name": "14-T14-clear",
+        "llm_calls": 30,
+        "model_requests": 30,
+        "game_actions": 16,
+        "distance": 16,
+        "success": true
+      }
+    }
+  ],
+  "excluded_infrastructure_totals": {
+    "request_records": 47,
+    "response_records": 46,
+    "valid_game_failures_rerun": 0
+  }
+}

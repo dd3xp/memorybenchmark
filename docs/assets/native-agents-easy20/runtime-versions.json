@@ -1,0 +1,22 @@
+{
+  "kind": "installed_runtime_versions",
+  "host": {
+    "collection_scope": "Installed immutable runtime checked after the model run",
+    "python": "3.13.7",
+    "packages": {
+      "mcp": "1.30.0"
+    }
+  },
+  "hermes": {
+    "collection_scope": "Installed immutable runtime checked after the model run",
+    "python": "3.14.10",
+    "packages": {
+      "openai": "2.54.0",
+      "httpx": "0.28.1"
+    }
+  },
+  "ga": {
+    "collection_scope": "Native runtime Python version emitted by the worker and verified in run analysis",
+    "python": "3.12.3"
+  }
+}

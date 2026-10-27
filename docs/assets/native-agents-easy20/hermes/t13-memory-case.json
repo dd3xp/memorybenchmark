@@ -1,0 +1,67 @@
+{
+  "kind": "reviewed_self_generated_fact_delivery_and_station_choice_not_internal_causality",
+  "agent": "hermes",
+  "task": "T13",
+  "session": "13-T13-retain",
+  "required_kind": "bearing",
+  "first_postcollection_station": "E1",
+  "reviewed_fact": {
+    "station": "E1",
+    "capability": "bearing",
+    "verbatim_game_memory_fragment": "E1 支持 bearing"
+  },
+  "review_scope": "Human-selected literal game fact; support and delivery verified algorithmically. No model reasoning is published.",
+  "choice_relation_to_reviewed_fact": "known_match",
+  "fact_entailed_by_actual_prior_delivered_history": true,
+  "prior_direct_support_event_ids": [
+    34,
+    35,
+    82,
+    144
+  ],
+  "prior_station_feedback_event_ids": [
+    7,
+    10,
+    14,
+    27,
+    30,
+    34,
+    35,
+    48,
+    51,
+    56,
+    69,
+    82,
+    85,
+    89,
+    102,
+    115,
+    118,
+    131,
+    144,
+    158,
+    171,
+    185
+  ],
+  "input_memory_file": "memories/MEMORY.md",
+  "input_memory_sha256": "40fad386beae89c3434f2a9aa97cef645f2c85a46a4aece1dde698679835b514",
+  "forwarded_request_number": 1,
+  "forwarded_request_sha256": "9a7ef9fdcd91ad65c50029889d0c1a5ec281c0aac35e2967f271ebc343dcfcc9",
+  "model_requests_before_first_postcollection_station": 10,
+  "verified_delivery_before_first_postcollection_station_entry": true,
+  "actual_station_feedback": [
+    {
+      "event_id": 199,
+      "feedback": {
+        "kind": "station_information",
+        "station": "E1",
+        "capability": "bearing",
+        "result": "processed"
+      }
+    }
+  ],
+  "source_pilot_sha256": "da137ad62c8f6338f7d5d0eb29b9d861eb0ae9ef2cfc4726cade26893c5fcf04",
+  "source_events_sha256": "bf06d8067b7d67f8a7867595a0c40a8a12820a696280e4010e9a0e4ae9e1f32f",
+  "source_audit_sha256": "4c426bc17f7668f94c05759915f0866f1c30c6c7bda0e4736aab70655177c40a",
+  "analysis_sha256": "13a1bb2197d0865dd8e7e88c86fda2ec99012db62197e9fd1cd3a18fd4ae8157"
+}

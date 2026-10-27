@@ -1,0 +1,1286 @@
+{
+  "protocol": "station-native-pilot-1",
+  "agent": "ga",
+  "status": "completed",
+  "seed": 20261027,
+  "design_id": "lanting-easy20-choice-v2",
+  "model_alias": "gpt-5.6-luna",
+  "tasks": [
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
+    "T8",
+    "T9",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T16",
+    "T17",
+    "T18",
+    "T19",
+    "T20"
+  ],
+  "max_turns": 40,
+  "final_turns": 6,
+  "world": "omega_5511",
+  "world_sampling": "host-selected private fixture independent of worker seed",
+  "comparison": "current-task clear probes at retained actual-history checkpoints",
+  "archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2",
+  "kind": "whitelisted_native_pilot_configuration_not_conversation_dump",
+  "source_private_pilot_sha256": "e21e0482f016bb877efe1ad8c330b43e6a17856b2fabee3cef931df6c477fbef",
+  "sessions": [
+    {
+      "name": "01-T1-prefix",
+      "task_id": "T1",
+      "condition": "prefix",
+      "session_id": "eaac58f8e9b646b392182f06a1446e2b",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 27,
+      "main_calls": 21,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "02-T2-retain",
+      "task_id": "T2",
+      "condition": "retain",
+      "session_id": "713fd7e5d2294b8795a9da00d191189d",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 21,
+      "llm_calls": 25,
+      "main_calls": 22,
+      "final_calls": 3,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "02-T2-clear",
+      "task_id": "T2",
+      "condition": "clear",
+      "session_id": "4fb2dabec48a4e1a8400389e500c63ad",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 21,
+      "llm_calls": 27,
+      "main_calls": 22,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "03-T3-retain",
+      "task_id": "T3",
+      "condition": "retain",
+      "session_id": "24a25e411a5d44929c4198c448981c56",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 22,
+      "llm_calls": 29,
+      "main_calls": 23,
+      "final_calls": 6,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "MAX_TURNS_EXCEEDED"
+        }
+      }
+    },
+    {
+      "name": "03-T3-clear",
+      "task_id": "T3",
+      "condition": "clear",
+      "session_id": "ef139c8dda7147848d4ece9f8ead89bf",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 22,
+      "llm_calls": 29,
+      "main_calls": 23,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "land_survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "04-T4-retain",
+      "task_id": "T4",
+      "condition": "retain",
+      "session_id": "ca30b4b25be140a08f6a3e10589f7db4",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 14,
+      "final_calls": 5,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "04-T4-clear",
+      "task_id": "T4",
+      "condition": "clear",
+      "session_id": "d01224c2725a4dcda4b522a7c99521d8",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 21,
+      "main_calls": 19,
+      "final_calls": 2,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "lanting_survey_game.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "05-T5-retain",
+      "task_id": "T5",
+      "condition": "retain",
+      "session_id": "c798a2b4d9e04257966994ba88e56fdf",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 21,
+      "llm_calls": 25,
+      "main_calls": 22,
+      "final_calls": 3,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "05-T5-clear",
+      "task_id": "T5",
+      "condition": "clear",
+      "session_id": "aed5ea1b7d444c5fb3ed4c9d40168215",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 28,
+      "main_calls": 22,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_t5_lanting.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "06-T6-retain",
+      "task_id": "T6",
+      "condition": "retain",
+      "session_id": "829f28dbcc0542a4aadd04b7f9d51f6b",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 14,
+      "final_calls": 4,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "06-T6-clear",
+      "task_id": "T6",
+      "condition": "clear",
+      "session_id": "f28ad47aa075400da4f53bf9ba7dceb5",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 13,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "lanting_survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "07-T7-retain",
+      "task_id": "T7",
+      "condition": "retain",
+      "session_id": "04dcad2ab4bb4c99a05a615102844fca",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 27,
+      "main_calls": 23,
+      "final_calls": 4,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "07-T7-clear",
+      "task_id": "T7",
+      "condition": "clear",
+      "session_id": "e8b01a50b2a14bbd95d7f59906648b63",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 25,
+      "main_calls": 19,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_experience.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "08-T8-retain",
+      "task_id": "T8",
+      "condition": "retain",
+      "session_id": "3acc6ef1b12946489e68aae12dcf7c23",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 17,
+      "main_calls": 13,
+      "final_calls": 4,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "08-T8-clear",
+      "task_id": "T8",
+      "condition": "clear",
+      "session_id": "8a4a621b5b914d3fbeb9d25f74d488b7",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 13,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "09-T9-retain",
+      "task_id": "T9",
+      "condition": "retain",
+      "session_id": "e9659d53138d44d2ba8d9247d6a986d0",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 16,
+      "main_calls": 13,
+      "final_calls": 3,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "09-T9-clear",
+      "task_id": "T9",
+      "condition": "clear",
+      "session_id": "d1c0a55f9a9542d6b0cfc5f62aa3756a",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 13,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "10-T10-retain",
+      "task_id": "T10",
+      "condition": "retain",
+      "session_id": "98217c17183348809c13f2c50e05f347",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 17,
+      "final_calls": 1,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "10-T10-clear",
+      "task_id": "T10",
+      "condition": "clear",
+      "session_id": "f973f600a7aa4fce8a40e654df39fe0a",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 13,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "11-T11-retain",
+      "task_id": "T11",
+      "condition": "retain",
+      "session_id": "1a71689c558b4ac2bf237cb5f2331b04",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 20,
+      "main_calls": 14,
+      "final_calls": 6,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "11-T11-clear",
+      "task_id": "T11",
+      "condition": "clear",
+      "session_id": "43c197b10f494087b9631729fb58d262",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 14,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "12-T12-retain",
+      "task_id": "T12",
+      "condition": "retain",
+      "session_id": "f9488e0dd91f425886d0ea2331a75241",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 21,
+      "main_calls": 17,
+      "final_calls": 4,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "12-T12-clear",
+      "task_id": "T12",
+      "condition": "clear",
+      "session_id": "07eac223e2034821a6bc62b6839c41a6",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 28,
+      "main_calls": 22,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "13-T13-retain",
+      "task_id": "T13",
+      "condition": "retain",
+      "session_id": "a6e48dba0a6446e0962b18531e8ac6ec",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 24,
+      "main_calls": 21,
+      "final_calls": 3,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "13-T13-clear",
+      "task_id": "T13",
+      "condition": "clear",
+      "session_id": "28d87cd19963449892123b4f769338a5",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 19,
+      "distance": 21,
+      "llm_calls": 26,
+      "main_calls": 21,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "lanting_survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "14-T14-retain",
+      "task_id": "T14",
+      "condition": "retain",
+      "session_id": "c963a246bbb749239203da3c70eb8129",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 21,
+      "main_calls": 19,
+      "final_calls": 2,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "14-T14-clear",
+      "task_id": "T14",
+      "condition": "clear",
+      "session_id": "28762c10c4ff4084903ebcb1d6fd4616",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 23,
+      "main_calls": 17,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "MAX_TURNS_EXCEEDED"
+        }
+      }
+    },
+    {
+      "name": "15-T15-retain",
+      "task_id": "T15",
+      "condition": "retain",
+      "session_id": "ce5182c088fc44eeb7b9f47aea27f272",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 16,
+      "main_calls": 13,
+      "final_calls": 3,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "15-T15-clear",
+      "task_id": "T15",
+      "condition": "clear",
+      "session_id": "14912690db924b74999e185118edfbd1",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 20,
+      "main_calls": 15,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "16-T16-retain",
+      "task_id": "T16",
+      "condition": "retain",
+      "session_id": "06455bf752b14869a95ba0cc175c7522",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 15,
+      "llm_calls": 19,
+      "main_calls": 15,
+      "final_calls": 4,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "16-T16-clear",
+      "task_id": "T16",
+      "condition": "clear",
+      "session_id": "dcb8e1501e0c40dfb609c9b38bc42cdc",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 13,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_experience.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "MAX_TURNS_EXCEEDED"
+        }
+      }
+    },
+    {
+      "name": "17-T17-retain",
+      "task_id": "T17",
+      "condition": "retain",
+      "session_id": "e7213b6dab314e5d96849b4a1c6ded95",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 14,
+      "final_calls": 4,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "17-T17-clear",
+      "task_id": "T17",
+      "condition": "clear",
+      "session_id": "249f9646ba1b4aba843907416537a1b3",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 17,
+      "final_calls": 1,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "lanting_survey_experience.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "18-T18-retain",
+      "task_id": "T18",
+      "condition": "retain",
+      "session_id": "14b116d44c014509a4f924414b068624",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 14,
+      "distance": 20,
+      "llm_calls": 26,
+      "main_calls": 24,
+      "final_calls": 2,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "18-T18-clear",
+      "task_id": "T18",
+      "condition": "clear",
+      "session_id": "f0d5bd1b2e6f446aaabd06bcce6de4f5",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 16,
+      "distance": 16,
+      "llm_calls": 26,
+      "main_calls": 20,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "19-T19-retain",
+      "task_id": "T19",
+      "condition": "retain",
+      "session_id": "4101ffb45ec54697aee01c7864215e8a",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 13,
+      "distance": 15,
+      "llm_calls": 20,
+      "main_calls": 19,
+      "final_calls": 1,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "19-T19-clear",
+      "task_id": "T19",
+      "condition": "clear",
+      "session_id": "3e1b1793cddb462a91b8947031905b9b",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 20,
+      "distance": 21,
+      "llm_calls": 26,
+      "main_calls": 21,
+      "final_calls": 5,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "20-T20-retain",
+      "task_id": "T20",
+      "condition": "retain",
+      "session_id": "482c26149e6346998e124fbd5090d14f",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 18,
+      "main_calls": 17,
+      "final_calls": 1,
+      "content_changed": [
+        "survey_game_sop.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    },
+    {
+      "name": "20-T20-clear",
+      "task_id": "T20",
+      "condition": "clear",
+      "session_id": "773d7600820d44fc82bb72da03b43c56",
+      "infrastructure_ok": true,
+      "infrastructure_error": null,
+      "success": true,
+      "done": true,
+      "game_actions": 12,
+      "distance": 12,
+      "llm_calls": 19,
+      "main_calls": 13,
+      "final_calls": 6,
+      "content_changed": [
+        "global_mem.txt",
+        "global_mem_insight.txt",
+        "survey_game_experience.md"
+      ],
+      "game_transport": "cartography-mcp-1",
+      "mcp_sdk_version": "1.30.0",
+      "mcp_protocol": "2025-11-25",
+      "game_tool_sha256": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+      "native_statuses": {
+        "native_result": {
+          "result": "CURRENT_TASK_DONE"
+        },
+        "finalization_result": {
+          "result": "CURRENT_TASK_DONE"
+        }
+      }
+    }
+  ],
+  "task_operation_budgets": {
+    "T1": 24,
+    "T2": 24,
+    "T3": 24,
+    "T4": 24,
+    "T5": 24,
+    "T6": 24,
+    "T7": 24,
+    "T8": 24,
+    "T9": 24,
+    "T10": 24,
+    "T11": 24,
+    "T12": 24,
+    "T13": 24,
+    "T14": 24,
+    "T15": 24,
+    "T16": 24,
+    "T17": 24,
+    "T18": 24,
+    "T19": 24,
+    "T20": 24
+  },
+  "infrastructure_attempts": [],
+  "native_initial_runtime": {
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "packages": {
+      "requests": "2.34.2",
+      "beautifulsoup4": "4.15.0",
+      "bottle": "0.13.4",
+      "simple-websocket-server": "0.4.4"
+    }
+  },
+  "native_context_configuration": null,
+  "configuration_note": "Native prompts, memory defaults, tools and context management differ; worker RNG seed does not control provider sampling.",
+  "task_objective_note": "The shared task brief requires successful completion within its operation budget; it does not explicitly require minimizing weighted travel distance. Distance comparisons are descriptive.",
+  "exporter_sha256": "290168517d22076fe495d6f6133e02aa37ace3f7d591d3bcf451c6cc2e023c48"
+}

@@ -1,0 +1,8 @@
+{
+  "agent": "ga",
+  "upstream": "lsdefine/GenericAgent",
+  "commit": "e4d956f0207a2d268704634473196353946481bc",
+  "committed_at": "2026-10-27T07:24:49Z",
+  "subject": "Clarify self-descriptive SOP indexing rule",
+  "archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2"
+}

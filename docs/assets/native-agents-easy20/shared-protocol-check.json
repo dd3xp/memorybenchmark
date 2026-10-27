@@ -1,0 +1,30 @@
+{
+  "kind": "frozen_game_core_and_shared_instructions_equivalence_not_identical_native_agents",
+  "shared_constant_sha256": {
+    "GUIDE": "165f362ac7201048817c92acb37d4d1ab960826432bcb72e8e9785b63176d9ba",
+    "STATION_TOOL": "1ffc5969cdbeaffaf80fec5acbe2b1b5e4e591f58c3f8370fe9a9a8aea90c1f0",
+    "FINAL_OPPORTUNITY": "298bc6532b1ccde98035607309f636f31f3d107c8f25ee3c7932120d87d2ce62",
+    "EXECUTION_PROTOCOL": "51aa36e98e86accb4dbefa1547b2316b792ddeb142a2755e530383df052c8131"
+  },
+  "shared_core_file_sha256": {
+    "memorybenchmark/prototypes/station_capability.py": "a229262daa9e5b863251e575be2d2182eb7085bd22914eb52f29cc8c1aead5f2",
+    "memorybenchmark/prototypes/station_session.py": "218de0dc0b565adcc81831c5a3a531617142c3cd356463040e6a5e1c18c7b3f7",
+    "memorybenchmark/data/station_easy20_choice.json": "8ed30ac8090fb2bdc8964de3c43d7367f0c2cee88e1eb87bd54b61a9cc624bad",
+    "memorybenchmark/mcp_game.py": "2e5c1fd7e8697d80067ca66aaf49dfb75bceeafe867b1e7f99ccbc4f628233f8"
+  },
+  "different_owned_runtime_files": [
+    "memorybenchmark/agent_sessions.py",
+    "memorybenchmark/agents/genericagent.py",
+    "memorybenchmark/agents/hermes.py",
+    "memorybenchmark/experiment.py",
+    "memorybenchmark/ga_runtime.py",
+    "memorybenchmark/ga_worker.py",
+    "memorybenchmark/hermes_worker.py",
+    "memorybenchmark/model_gateway.py",
+    "memorybenchmark/prototypes/station_pilot.py",
+    "scripts/analyze_station_native.py",
+    "scripts/audit_station_decisions.py",
+    "scripts/check_station_native_sessions.py"
+  ],
+  "scope": "Native prompts, context configuration, memory stores and transport integration retain agent-specific differences; exact per-agent runner snapshots are provided."
+}

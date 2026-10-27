@@ -1,0 +1,22 @@
+{
+  "kind": "native_agent_station_single_world_pilot_not_statistical_effect_estimate",
+  "source": "C:\\Codes\\benchmark\\.runs\\native-upgrade-20261027\\hermes-final-evidence",
+  "selected_cases": [
+    "03-T3-retain",
+    "03-T3-clear",
+    "17-T17-retain",
+    "17-T17-clear"
+  ],
+  "source_measurements_sha256": "0b3efab395e1196a2957e3a2393386dc3fd5fd1e61db794c3eef1af4a6d998a1",
+  "source_trace_projection_sha256": "060a6d5e9df54dee6aba8b28275954ad77e645f213cc0d91729573d2eb2179c8",
+  "png_dpi": 180,
+  "uncertainty": "one observation per condition/task; no uncertainty intervals or population effect estimate",
+  "selection_rule": "explicit T3/T17 paired examples plus all-task distance plot",
+  "transforms": [
+    "ordered multigraph projection",
+    "actual node event labels",
+    "task-region public context with all executed nodes and edges retained",
+    "no smoothing or aggregation"
+  ],
+  "matplotlib_version": "3.10.8"
+}

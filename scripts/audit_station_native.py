@@ -67,6 +67,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
     if pilot["status"]=="completed":
         assert len(rows)==1+2*(len(pilot["tasks"])-1)
     verified_sources={}
+    verified_support={}
     frozen_root=root/"provenance"/"frozen-source"
     if source_commit or frozen_root.exists():
         for name,digest in pilot["implementation_sha256"].items():
@@ -82,12 +83,18 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             if frozen_root.exists():
                 assert frozen.is_file(),(relative,"missing frozen source")
                 assert sha256(frozen.read_bytes()).hexdigest()==digest,(relative,"frozen source checksum mismatch")
+            support=root/"support"/Path(relative).name
+            if relative in ("memorybenchmark/ga_worker.py", "memorybenchmark/hermes_worker.py", "memorybenchmark/agent_bridge.py") and (root/"support").exists():
+                assert support.is_file(),(relative,"missing executed worker support")
+                assert sha256(support.read_bytes()).hexdigest()==digest,(relative,"executed support differs from frozen source")
+                verified_support[support.name]=digest
             verified_sources[relative]=digest
     return {"kind":"native_station_replay_and_memory_chain_audit","pilot_completed":pilot["status"]=="completed",
             "sessions":len(rows),"cumulative_event_records_replayed":checked_events,
             "current_session_event_records_replayed":checked_current_events,"canonical_tasks":game._runs,
             "memory_chains_verified":True,"fresh_sessions_and_isolation_verified":True,
             "source_commit":source_commit,"source_newlines":source_newlines,"source_files_verified":verified_sources,
+            "support_files_verified":verified_support,
             "native_archive_verified":archive_verified,"rows":rows}
 
 

@@ -1,0 +1,195 @@
+{
+  "kind": "self_authored_skill_body_delivery_not_internal_causal_use",
+  "agent": "hermes",
+  "matching": "Complete Markdown body after YAML frontmatter; only outer whitespace stripped. Nested JSON tool strings decoded.",
+  "coverage": "All main tasks, including absent skills and unverified reads",
+  "cases": [
+    {
+      "task": "T1",
+      "input_skill_exists": false,
+      "verified_before_first_postcollection_station": false,
+      "predecision_skill_view_requested": false
+    },
+    {
+      "task": "T2",
+      "input_skill_exists": false,
+      "verified_before_first_postcollection_station": false,
+      "predecision_skill_view_requested": false
+    },
+    {
+      "task": "T3",
+      "input_skill_exists": false,
+      "verified_before_first_postcollection_station": false,
+      "predecision_skill_view_requested": false
+    },
+    {
+      "task": "T4",
+      "input_skill_exists": false,
+      "verified_before_first_postcollection_station": false,
+      "predecision_skill_view_requested": false
+    },
+    {
+      "task": "T5",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "c6fe30ea1ac5ed4fe9f82f80fcd1a24b3dcc7a8f7d39caf5090df4ac2f5f515d",
+      "request_number": 2,
+      "request_sha256": "11bb5c3d681d0abfb019fcafd2d128738957a0508142edfb92242d2c63d13fee"
+    },
+    {
+      "task": "T6",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "c6fe30ea1ac5ed4fe9f82f80fcd1a24b3dcc7a8f7d39caf5090df4ac2f5f515d",
+      "request_number": 2,
+      "request_sha256": "5ba41a6a06c5c127005d1b7e0b0c21142f8ed7de53d4d34047fa85fb597fb622"
+    },
+    {
+      "task": "T7",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "ab3b85fdd73833d81f4d3c97881b83a5c9866a28ebad1ef961b3f6307c2792b2",
+      "request_number": 2,
+      "request_sha256": "50a81581772330c51cd047b1b86233c98e73a8531e061fdb4dfc222b8f2da148"
+    },
+    {
+      "task": "T8",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "ab3b85fdd73833d81f4d3c97881b83a5c9866a28ebad1ef961b3f6307c2792b2",
+      "request_number": 2,
+      "request_sha256": "9851619552a2a1fd00428c8a75a70169d7143359b23518831d2cffc1d04807ba"
+    },
+    {
+      "task": "T9",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "9b67a58d3fa14a65dae0ce71b036a785e19e469a74041da29b52dba4e7cf2c00",
+      "request_number": 2,
+      "request_sha256": "34f372e904a8a3509209c35d93eb89414b2dc9e0c085bbcdf7fa284269ebd8cc"
+    },
+    {
+      "task": "T10",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "6e2f32e7714bca2f0a1a6759f9db8b8c482b225d76cdb38ded6603f93d8b3989",
+      "request_number": 2,
+      "request_sha256": "85c6b48cd1c79d9ccfa908d721935a41e7a959c1aa6b9864981f3fc3d12dddc8"
+    },
+    {
+      "task": "T11",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "0ace449acbb905bfa5d7c228c6f4fa60fa06b2cbedc239cc21a6c47d877501f9",
+      "request_number": 2,
+      "request_sha256": "2d51057ac0b8958a02bbdc46d481b052c5115d76cb72d6b7d8f10fdc1f940099"
+    },
+    {
+      "task": "T12",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "f55e7c173fd961e6c6467fc7f1a9ccc78e5fc8bcba315600e6109db30f29b12d",
+      "request_number": 2,
+      "request_sha256": "9c41a9f901d20c07dfb931ab67f8ce804d35ca514d591df9918471c1741b984d"
+    },
+    {
+      "task": "T13",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "b7c56d5a229267938b6dc9bf688df1b8d58654b50f6c26e5c2a7844eafef61de",
+      "request_number": 2,
+      "request_sha256": "0cb235668e75a0846631e93ce0d577a77e6b8d8ae84d197dec9f16bf68c45b6d"
+    },
+    {
+      "task": "T14",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "01e6cb28229f4544642bcbfbe38a89f66e12ecea2f8e344bc233d35c12618b1e",
+      "request_number": 2,
+      "request_sha256": "e5e37a9c0622f3c7c26a41f4c3b026b45ba6e46313d2ce7aaa212b10118e5737"
+    },
+    {
+      "task": "T15",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "01e6cb28229f4544642bcbfbe38a89f66e12ecea2f8e344bc233d35c12618b1e",
+      "request_number": 2,
+      "request_sha256": "e017afb8dcc03864cb2bbd891cf199296eabb7b42feee2f53decdc37e927805a"
+    },
+    {
+      "task": "T16",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "01e6cb28229f4544642bcbfbe38a89f66e12ecea2f8e344bc233d35c12618b1e",
+      "request_number": 2,
+      "request_sha256": "708f6974114617d1358f75f995d445fad77d8e4215c4b169f659827d7f1515c1"
+    },
+    {
+      "task": "T17",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "01e6cb28229f4544642bcbfbe38a89f66e12ecea2f8e344bc233d35c12618b1e",
+      "request_number": 2,
+      "request_sha256": "0def9e3f777d556aa6a51b5cf7b06f4946a8b5344335e67c7d8f7819092f8e4f"
+    },
+    {
+      "task": "T18",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "d6b387601735d0652b32031d02e363c1280ec0447b12c5765d59207f35a6af5c",
+      "request_number": 2,
+      "request_sha256": "d8e2e79cdfcec1d34af91259d3f61f5e0a7b46fd31ad530127069adccb510dcc"
+    },
+    {
+      "task": "T19",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "6a364975e99ccc69962da81c10a88e2889dedaf16109c59f68c9ab3cf7e7d3e3",
+      "request_number": 2,
+      "request_sha256": "ff78c0c58c0173212db2d521042dcb89431d908c06616bce6e19da9e5c3dec5f"
+    },
+    {
+      "task": "T20",
+      "input_skill_exists": true,
+      "verified_before_first_postcollection_station": true,
+      "predecision_skill_view_requested": true,
+      "skill_file": "skills/games/cartography-game/SKILL.md",
+      "skill_sha256": "6a364975e99ccc69962da81c10a88e2889dedaf16109c59f68c9ab3cf7e7d3e3",
+      "request_number": 2,
+      "request_sha256": "d690bed297c83964357ebebfab489405f65534b06c49ee8563c248719789508f"
+    }
+  ],
+  "source_pilot_sha256": "da137ad62c8f6338f7d5d0eb29b9d861eb0ae9ef2cfc4726cade26893c5fcf04",
+  "source_decisions_sha256": "1295482a9d16043f480ba45896675d8baeabbd07c53e14e8e59bbee86674907d",
+  "analysis_sha256": "cf965dd2c30e51b645afb53804a3f311c15aa97ccd6f5b5a91c39410ca5d91ff"
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "native_agent_station_single_world_pilot_not_statistical_effect_estimate",
+  "source": "C:\\Codes\\benchmark\\.runs\\native-upgrade-20261027\\ga-final-evidence",
+  "selected_cases": [
+    "03-T3-retain",
+    "03-T3-clear",
+    "17-T17-retain",
+    "17-T17-clear"
+  ],
+  "source_measurements_sha256": "81bb54743216c65a77008d194f9abb22aff87b5bdc13cbe284e2d5a9ac9de083",
+  "source_trace_projection_sha256": "0f541e479f347a9dc1de0aa557faaa7684b8180df825220be19839150ef6235d",
+  "png_dpi": 180,
+  "uncertainty": "one observation per condition/task; no uncertainty intervals or population effect estimate",
+  "selection_rule": "explicit T3/T17 paired examples plus all-task distance plot",
+  "transforms": [
+    "ordered multigraph projection",
+    "actual node event labels",
+    "task-region public context with all executed nodes and edges retained",
+    "no smoothing or aggregation"
+  ],
+  "matplotlib_version": "3.10.8"
+}

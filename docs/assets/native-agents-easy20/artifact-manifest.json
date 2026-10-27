@@ -1,0 +1,282 @@
+{
+  "kind": "reviewed_native_agent_rerun_public_artifact_manifest",
+  "scope": "One shared game world; 20 main tasks and 19 current-task clear probes per native agent. Raw model messages and native baseline libraries are private.",
+  "valid_sessions": 78,
+  "valid_model_requests": 1835,
+  "valid_model_responses": 1835,
+  "game_operations": 1158,
+  "actual_commutes": 923,
+  "rejected_game_requests": 18,
+  "archives": {
+    "ga": {
+      "private_raw_evidence": {
+        "filename": "ga-final.zip",
+        "bytes": 37135430,
+        "sha256": "5fee524068571a4ec587fbc48a1d164181a145a0fccd4412da50b510d567d96a",
+        "members_verified": 4035,
+        "published": false
+      },
+      "public_frozen_runtime": {
+        "filename": "ga-frozen-runtime-source.zip",
+        "files_verified": 59,
+        "sha256": "9d72bd23f8445ca2d6c0e3f105424e241d198bed052dfcca9bc5b066fe494838"
+      },
+      "replay": {
+        "sessions": 39,
+        "cumulative_event_records_replayed": 7142,
+        "current_session_event_records_replayed": 628,
+        "memory_chains_verified": true,
+        "fresh_sessions_and_isolation_verified": true,
+        "native_archive_verified": true
+      }
+    },
+    "hermes": {
+      "private_raw_evidence": {
+        "filename": "hermes-final.zip",
+        "bytes": 161751590,
+        "sha256": "7b8e582f61d4c73c2febea52ddb1451ce917e0e359042ee6cf1688e637f4bded",
+        "members_verified": 16430,
+        "published": false
+      },
+      "public_frozen_runtime": {
+        "filename": "hermes-frozen-runtime-source.zip",
+        "files_verified": 59,
+        "sha256": "b01eeaeed1255c8e25f1e184854634f1a12251241a7af96f2d92875f9e06300f"
+      },
+      "replay": {
+        "sessions": 39,
+        "cumulative_event_records_replayed": 6764,
+        "current_session_event_records_replayed": 608,
+        "memory_chains_verified": true,
+        "fresh_sessions_and_isolation_verified": true,
+        "native_archive_verified": true
+      }
+    }
+  },
+  "public_files": {
+    "combined/comparison.json": {
+      "bytes": 13975,
+      "sha256": "19453c3a2b5fe0bcfd3a67af0dc45624893f9644d8dd3929405adc1af41ea7af"
+    },
+    "combined/figure-manifest.json": {
+      "bytes": 1690,
+      "sha256": "2b21971dcdc96baf9a6c15e787bfe27e79cd728619d75cfee52aeaeeb4e8efe1"
+    },
+    "combined/native-agents-all-operations.pdf": {
+      "bytes": 21154,
+      "sha256": "61e7f8e68d8bd313c453f04a15692972e692243c41054146059ede167c74f273"
+    },
+    "combined/native-agents-all-operations.png": {
+      "bytes": 179158,
+      "sha256": "b556de3d27148bf200ebf74c139ded1d3b845ca8a083c414264c880b765dff86"
+    },
+    "combined/native-agents-all-operations.svg": {
+      "bytes": 37764,
+      "sha256": "8d3ec08687b7269f4dac5fdfb57be14d37abf1a708e501cccdcd50820877ee5b"
+    },
+    "combined/native-agents-all-tasks.pdf": {
+      "bytes": 21382,
+      "sha256": "c93bd4e8b58dd9cab76c6b81ecee48d62ee29d331ac5a011fde3dde1e6f296bd"
+    },
+    "combined/native-agents-all-tasks.png": {
+      "bytes": 179821,
+      "sha256": "953b1a794617f87d126cbdeb59beae45aece05b5cdf5dbaa3ec59a988609cab8"
+    },
+    "combined/native-agents-all-tasks.svg": {
+      "bytes": 38009,
+      "sha256": "6b78bf873902b2d5f46cc6339644e72e4266442c2e998f9d92db4980411f7e19"
+    },
+    "combined/native-agents-t19-traces.pdf": {
+      "bytes": 33314,
+      "sha256": "bf749f70950ce6d54ee3dde2b1703dabdf11b09e18f592b9ee226ba2c4409368"
+    },
+    "combined/native-agents-t19-traces.png": {
+      "bytes": 165257,
+      "sha256": "10b87c6f4d8895c45987c9624497b02d95840708ca20925451dda0707364bde8"
+    },
+    "combined/native-agents-t19-traces.svg": {
+      "bytes": 45550,
+      "sha256": "8bd9509340194aca4bd26310d8f87b7107ea76c62ba37de240bb9e26842b622e"
+    },
+    "deployment-validation.json": {
+      "bytes": 5236,
+      "sha256": "7d3772e40ebe31e76994687f889aa4ba785304daac8a9435c90f108251acdd79"
+    },
+    "ga/figure-manifest.json": {
+      "bytes": 954,
+      "sha256": "13c042683b84c46e78d0c09acb6493221423243ab7fed59a98c78c67ff65923c"
+    },
+    "ga/measurements.json": {
+      "bytes": 702780,
+      "sha256": "81bb54743216c65a77008d194f9abb22aff87b5bdc13cbe284e2d5a9ac9de083"
+    },
+    "ga/native-all-tasks.pdf": {
+      "bytes": 18560,
+      "sha256": "592e3c11cab7201166be2d164919f94ce7a8ccc5afad1309672fb9418a8b07d3"
+    },
+    "ga/native-all-tasks.png": {
+      "bytes": 111041,
+      "sha256": "6d795a0286ca9f056eb96612fd11f20b6ef41137c22ffeaad044c7e4723e3381"
+    },
+    "ga/native-all-tasks.svg": {
+      "bytes": 22647,
+      "sha256": "a6b2724df5f52ae2dc917c6d6ab1b38e5c00a1635a76ce0244810a5f6a3bd17e"
+    },
+    "ga/native-query-behavior.pdf": {
+      "bytes": 21239,
+      "sha256": "7b3d0d0c62cc84ee5b332ffed8955c4bd5aba93db23b4e5500658c50fc0fec44"
+    },
+    "ga/native-query-behavior.png": {
+      "bytes": 216204,
+      "sha256": "9edd8964560b214fa7f363561c972924a3170a225d40ce4674d85ec0dbbbdd1a"
+    },
+    "ga/native-query-behavior.svg": {
+      "bytes": 48375,
+      "sha256": "288c97541217da506b56e86e0b5eb63a532c6d570385976112c06f014e5b8daa"
+    },
+    "ga/native-trace-comparison.pdf": {
+      "bytes": 41426,
+      "sha256": "4f7ae8d278ab0b51a6ca30bb55731abe3897d579b6b51fb85d8289097fd3ba92"
+    },
+    "ga/native-trace-comparison.png": {
+      "bytes": 293638,
+      "sha256": "d44794bd946a50903994a8d823d141b9178deb11b1a32ac262f463fb6c9865e0"
+    },
+    "ga/native-trace-comparison.svg": {
+      "bytes": 96024,
+      "sha256": "805994b67f08395fcab102edf73034d252bd608a6e372c67a0153604fbf79149"
+    },
+    "ga/replay-audit.json": {
+      "bytes": 6103,
+      "sha256": "8cfbac2d944419f706dec2ccadbd1e37365f7ba49c5f764dd163ac00ba997b10"
+    },
+    "ga/run-configuration.json": {
+      "bytes": 37850,
+      "sha256": "655b37b291b9d49ff2b0dc245c22e2159fbf3e44f3a2a1f37c5ae96a6b678810"
+    },
+    "ga/station-decisions.json": {
+      "bytes": 577555,
+      "sha256": "4ff020c25029ec4163002eb3c7f0dfa3792f671f1682dc4da14b09a81c0a4532"
+    },
+    "ga/summary.md": {
+      "bytes": 3532,
+      "sha256": "2c534ecfcb01a40199c17d057366a39047014852a5a0d149021b0dbcd3d4ee8d"
+    },
+    "ga/t19-memory-case.json": {
+      "bytes": 2144,
+      "sha256": "170dbb059768d33b09077602d18c5c7c822c0f6a674acf9c56424f40bb5411ac"
+    },
+    "ga/t3-memory-case.json": {
+      "bytes": 1786,
+      "sha256": "97e004b68ce3be637fabd299c0331eb5730e26c430fb05f9587ace7997acde55"
+    },
+    "ga/trace-projection.json": {
+      "bytes": 1378872,
+      "sha256": "0f541e479f347a9dc1de0aa557faaa7684b8180df825220be19839150ef6235d"
+    },
+    "ga-frozen-runtime-source.zip": {
+      "bytes": 152025,
+      "sha256": "9d72bd23f8445ca2d6c0e3f105424e241d198bed052dfcca9bc5b066fe494838"
+    },
+    "ga-upstream-source.json": {
+      "bytes": 310,
+      "sha256": "167d447ece394d4f7ec746c99900ba0d90f8f36e79c61358262ad67027a3c1db"
+    },
+    "hermes/figure-manifest.json": {
+      "bytes": 958,
+      "sha256": "d3343159dbde0ed6214c80e879c2658324d9bb41edf1805889a1ea74ea01c5b8"
+    },
+    "hermes/measurements.json": {
+      "bytes": 679630,
+      "sha256": "0b3efab395e1196a2957e3a2393386dc3fd5fd1e61db794c3eef1af4a6d998a1"
+    },
+    "hermes/native-all-tasks.pdf": {
+      "bytes": 18423,
+      "sha256": "174c9fc4da900660f8bba594d4433b720ff3205543ef6b759e8629676c1f5eae"
+    },
+    "hermes/native-all-tasks.png": {
+      "bytes": 108321,
+      "sha256": "f8e114d398cd9f04d141a79de9ef0be9d2de2b39043c9216c415e292d6df8a1d"
+    },
+    "hermes/native-all-tasks.svg": {
+      "bytes": 22659,
+      "sha256": "4621c032bfeb7cf95b3ec8261ecd7f3ea17df3e90534f71b597a0892339c4f2a"
+    },
+    "hermes/native-query-behavior.pdf": {
+      "bytes": 20845,
+      "sha256": "8f2d64bb1b2000973d4b26422cb97846f669d728e4d2712c5e6e4cd09b771443"
+    },
+    "hermes/native-query-behavior.png": {
+      "bytes": 198767,
+      "sha256": "e439d377909fba53983ba0bf970d93046cda22f5e1b17c7adbec7d218fb3ea23"
+    },
+    "hermes/native-query-behavior.svg": {
+      "bytes": 48389,
+      "sha256": "4488e9bf9a0b425fac1f74df601e7d2185247579983242215f796d97459d178a"
+    },
+    "hermes/native-trace-comparison.pdf": {
+      "bytes": 41632,
+      "sha256": "1f22c0753c70737f4482a67026c935cf710a8dbbe3e146eda751ebf8b6b0879f"
+    },
+    "hermes/native-trace-comparison.png": {
+      "bytes": 295738,
+      "sha256": "1da6eca445530991e436e0db0b12389185814e43ed3dc9a8cbdc91e06f527bfa"
+    },
+    "hermes/native-trace-comparison.svg": {
+      "bytes": 95904,
+      "sha256": "a2fc38d88513631fa3c0f60c271954fc61310fc769f98a5ac9f2a86e847080f3"
+    },
+    "hermes/replay-audit.json": {
+      "bytes": 6414,
+      "sha256": "5d41c3328b9396377ef13ff14c09cd392142aa7a339fca28534dca566579badb"
+    },
+    "hermes/run-configuration.json": {
+      "bytes": 49080,
+      "sha256": "f8b58df7984a195716f6a399c69df53e609bd5656499a53d69c6df4754c301cc"
+    },
+    "hermes/skill-delivery-audit.json": {
+      "bytes": 8631,
+      "sha256": "dca982648a1f1d483b51431f09c3c8fc90ed0981af3776371ad92648890b145a"
+    },
+    "hermes/station-decisions.json": {
+      "bytes": 566200,
+      "sha256": "1295482a9d16043f480ba45896675d8baeabbd07c53e14e8e59bbee86674907d"
+    },
+    "hermes/summary.md": {
+      "bytes": 7706,
+      "sha256": "4c5a9ca0ccaffb719ab2601c303e2c20f3ca73dcb9173ba0a23a0c173555fadb"
+    },
+    "hermes/t13-memory-case.json": {
+      "bytes": 1976,
+      "sha256": "827c44e001ba0e1692b0dfd5c312d2ab9806658d942f864aa789bba0a75969a8"
+    },
+    "hermes/t19-memory-case.json": {
+      "bytes": 2037,
+      "sha256": "40017ead66321d58eb13df5efdce0b435c1e56f005da403201b2703348a044f2"
+    },
+    "hermes/t3-memory-case.json": {
+      "bytes": 1804,
+      "sha256": "9973b64f494dd2e201a9559c904681d61b3f7659bf2055e9e9dbe64571d41c74"
+    },
+    "hermes/trace-projection.json": {
+      "bytes": 1285276,
+      "sha256": "060a6d5e9df54dee6aba8b28275954ad77e645f213cc0d91729573d2eb2179c8"
+    },
+    "hermes-frozen-runtime-source.zip": {
+      "bytes": 153855,
+      "sha256": "b01eeaeed1255c8e25f1e184854634f1a12251241a7af96f2d92875f9e06300f"
+    },
+    "hermes-upstream-source.json": {
+      "bytes": 359,
+      "sha256": "7961b72229c314417e153482f048680d5135643810ff9699321fc1e1b6c50c0f"
+    },
+    "runtime-versions.json": {
+      "bytes": 582,
+      "sha256": "db0def96212961b700bf693ee97d66c6d4c253c8b693d9db0595b7208b2ade21"
+    },
+    "shared-protocol-check.json": {
+      "bytes": 1736,
+      "sha256": "bc3485d5fa3771209bbc0dd9dd9fe1a801606e69bd293af45dfba252a619ef9f"
+    }
+  }
+}

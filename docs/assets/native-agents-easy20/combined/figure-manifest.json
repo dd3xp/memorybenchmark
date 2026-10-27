@@ -1,0 +1,28 @@
+{
+  "kind": "single_world_native_agent_comparison_not_population_or_causal_effect",
+  "source_comparison_sha256": "19453c3a2b5fe0bcfd3a67af0dc45624893f9644d8dd3929405adc1af41ea7af",
+  "matplotlib_version": "3.10.8",
+  "png_dpi": 180,
+  "transforms": [
+    "ordered task sequence",
+    "all observed distances and operation counts",
+    "shared axes per quantity",
+    "no smoothing or aggregation"
+  ],
+  "uncertainty": "one observation per condition/task; no uncertainty intervals",
+  "missing": "no clear probe for T1",
+  "failures": "preserved and marked with black crosses",
+  "selected_trace_task": "T19",
+  "trace_selection": "post hoc illustration; no filtering of measured sessions",
+  "figures_sha256": {
+    "native-agents-all-operations.pdf": "61e7f8e68d8bd313c453f04a15692972e692243c41054146059ede167c74f273",
+    "native-agents-all-operations.png": "b556de3d27148bf200ebf74c139ded1d3b845ca8a083c414264c880b765dff86",
+    "native-agents-all-operations.svg": "8d3ec08687b7269f4dac5fdfb57be14d37abf1a708e501cccdcd50820877ee5b",
+    "native-agents-all-tasks.pdf": "c93bd4e8b58dd9cab76c6b81ecee48d62ee29d331ac5a011fde3dde1e6f296bd",
+    "native-agents-all-tasks.png": "953b1a794617f87d126cbdeb59beae45aece05b5cdf5dbaa3ec59a988609cab8",
+    "native-agents-all-tasks.svg": "6b78bf873902b2d5f46cc6339644e72e4266442c2e998f9d92db4980411f7e19",
+    "native-agents-t19-traces.pdf": "bf749f70950ce6d54ee3dde2b1703dabdf11b09e18f592b9ee226ba2c4409368",
+    "native-agents-t19-traces.png": "10b87c6f4d8895c45987c9624497b02d95840708ca20925451dda0707364bde8",
+    "native-agents-t19-traces.svg": "8bd9509340194aca4bd26310d8f87b7107ea76c62ba37de240bb9e26842b622e"
+  }
+}
