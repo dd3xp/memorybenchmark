@@ -154,6 +154,9 @@ class WorkerSessions:
         except Exception as error:
             # No raw upstream auth-bearing exception is written or printed.
             report["infrastructure_error"] = str(error)[:400] if isinstance(error, InfrastructureError) else type(error).__name__
+            if isinstance(error, OSError):
+                report["host_io_error"] = {"type": type(error).__name__, "errno": error.errno,
+                    "winerror": getattr(error, "winerror", None), "worker_returncode": process.poll()}
         finally:
             try: process.stdin.close()
             except (BrokenPipeError,OSError): pass
@@ -168,6 +171,22 @@ class WorkerSessions:
             process.stdout.close()
             reader.join(timeout=2)
             error_log.close()
+            report["worker_returncode"] = process.poll()
+            # A worker can report its failure while the parent is servicing its
+            # last model request. Sending that response then hits a closed pipe;
+            # preserve the already queued root error instead of losing it.
+            while not messages.empty():
+                pending = messages.get_nowait()
+                if pending is None:
+                    continue
+                try: queued = json.loads(pending)
+                except (TypeError, ValueError): continue
+                if isinstance(queued, dict) and queued.get("kind") == "worker_error" and not report["infrastructure_ok"]:
+                    detail = {"error_type": str(queued.get("error_type", "unknown"))[:80],
+                              "message": str(queued.get("message", ""))[:300]}
+                    report["underlying_worker_error"] = detail
+                    if report.get("host_io_error", {}).get("worker_returncode") is not None and report["infrastructure_error"] != "worker cleanup unconfirmed; do not snapshot or advance":
+                        report["infrastructure_error"] = "worker_" + detail["error_type"] + ": " + detail["message"]
         return report
 
     _game = staticmethod(dispatch_current)
