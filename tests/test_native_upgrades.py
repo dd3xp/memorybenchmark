@@ -60,7 +60,9 @@ class NativeUpgradeTests(unittest.TestCase):
         self.assertEqual(json.loads(handler({"action": "inspect"}))["request"]["action"]["type"], "inspect")
 
     def test_deep_skill_paths_survive_complete_memory_snapshot(self):
-        with tempfile.TemporaryDirectory() as directory:
+        # The cleanup path must also use Windows extended syntax; otherwise
+        # Python's TemporaryDirectory can leave a correctly copied deep tree.
+        with tempfile.TemporaryDirectory(dir=filesystem_path(tempfile.gettempdir())) as directory:
             root = Path(directory)
             source = root / "baseline"
             relative = Path(*(["long-native-skill-directory"] * 8)) / "SKILL.md"
