@@ -67,3 +67,7 @@ python -m memorybenchmark.prototypes.station_session --design memorybenchmark/da
 `/easy20` 的“手记与地图 → 查看完整设计图”显示本轮能力、全部匹配站、每个候选的完成成本和最佳匹配参考路线。读取不产生游戏事件；关闭后移除设计内容。此入口只供人检查，不进入 Agent MCP。
 
 文字和原生 GA 使用 `--design memorybenchmark/data/station_easy20_choice.json`。新旧地图分别保留配置和版本标识，不在旧实验目录上恢复新地图。新一轮记忆从 Agent 原生基础快照开始，不把旧地图的自存经验带入新的能力世界。
+
+2026-10-27，实施提交 `c79e215` 已部署至[公网试玩](https://s.roundsquisheen.v6.navy:43821/easy20)。Squishy 的 140 项测试全部通过；公网通过正常 TLS、PIN、未登录 API 401、38 地点／45 道路／16 站、每项两个匹配站与最佳匹配参考核验。原有隧道、180 天登录和模型后台任务配置未变。浏览器页面无警告或脚本错误，实际拖动改变镜头而未增加操作。旧标签页刷新后如提示实例已失效，开始一轮新探索即可。
+
+![已上线的四站巡测地图](assets/easy20-choice-map/desktop.jpg)
