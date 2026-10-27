@@ -13,14 +13,14 @@ from uuid import uuid4
 from ..analysis import commute_graph
 from ..game import ProtocolError
 from ..watch import atomic_json
-from .station_capability import StationGame, load_design
-from .station_routes import schedule, shortest_route, station_options, task_group
-from .station_session import EASY20_CHOICE_DESIGN, StationSession
+from .station_capability import StationGame, capability_groups, load_design, task_stages
+from .station_routes import known_world_route, schedule, station_options
+from .station_session import EASY20_LINKED_DESIGN, StationSession
 
 
 class FieldService:
     def __init__(self, log_root, design=None):
-        self.design = deepcopy(design) if design is not None else load_design(EASY20_CHOICE_DESIGN)
+        self.design = deepcopy(design) if design is not None else load_design(EASY20_LINKED_DESIGN)
         self.log_root = Path(log_root) / "station-human"
         self.instances = {}
         self.lock = RLock()
@@ -130,16 +130,22 @@ class FieldService:
             for row in schedule(game.design):
                 options = station_options(game.design, row["id"])
                 matches = [r for r in options if assignment[r["station"]] == row["required_kind"]]
-                station = matches[0]["station"]
-                path, distance = [row["start"]], 0
-                for target in (row["target"], station, row["submit_at"]):
-                    leg, cost = shortest_route(game.design, path[-1], target)
-                    path.extend(leg[1:]); distance += cost
-                tasks.append({**row, "known_world_route": path, "known_world_distance": distance,
+                reference = known_world_route(game.design, row["id"], assignment)
+                record = {**row, "known_world_route": reference["path"], "known_world_distance": reference["distance"],
                               "matching_stations": [r["station"] for r in matches],
-                              "station_options": [{**r, "matches": assignment[r["station"]] == row["required_kind"]} for r in options]})
+                              "station_options": [{**r, "matches": assignment[r["station"]] == row["required_kind"]} for r in options]}
+                if "stages" in row:
+                    record["stage_options"] = []
+                    for i, stage in enumerate(task_stages(row)):
+                        begin = row["start"] if i == 0 else reference["stations"][i-1]
+                        record["stage_options"].append({**row["stage_schedule"][i],
+                            "matching_stations": [s for s in capability_groups(game.design)[row["stage_schedule"][i]["group"]]["stations"]
+                                                  if assignment[s] == stage["required_kind"]],
+                            "options": [{**r, "matches": assignment[r["station"]] == stage["required_kind"]}
+                                        for r in station_options(game.design, row["id"], stage_index=i, start=begin)],
+                            "cost_scope": "From this stage's start on the known-world design route through its target/station to the next target or final camp. Local costs are not additive."})
+                tasks.append(record)
             return {"viewer": "human_design_only", "name": game.design["public"]["name"],
                     "capabilities": assignment, "tasks": tasks,
-                    "triggers": [{"station": s, "group": task_group(game.design, next(
-                        t for t, task in game.design["tasks"].items() if task["required_kind"] == kind)),
+                    "triggers": [{"station": s, "group": next(key for key, group in capability_groups(game.design).items() if s in group["stations"]),
                         "capability": kind} for s, kind in assignment.items()]}

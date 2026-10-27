@@ -56,6 +56,12 @@ def align_tools(events, task_run_id, messages, decision):
               "rejected_native_game_requests": rejected}
     first = decision["first_postcollection_station"]
     result["before_first_postcollection_station"] = tool_window(messages[:offsets[first["event_id"]]]) if first else None
+    if "stages" in decision:
+        result["stages"] = [{"stage_index":s["stage_index"],
+            **{name: tool_window(messages[:offsets[s[key]["event_id"]]]) if s[key] else None
+               for name,key in (("before_first_postcollection_station","first_postcollection_station"),
+                                ("before_first_postcollection_branch_choice","first_postcollection_branch_choice"))}}
+            for s in decision["stages"]]
     return result
 
 

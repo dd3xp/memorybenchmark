@@ -24,7 +24,7 @@ from .station_session import DEFAULT_DESIGN, StationSession
 from scripts.check_station_capability import trace_graph, render_svg
 
 
-PROMPT_PROTOCOL = "station-native-memory-1"
+PROMPT_PROTOCOL = "station-native-memory-2"
 STATION_TOOL = {
     "name": "game_action",
     "description": "操作当前测绘委托。move 到相邻地点，到目标自动采集本次资料；inspect 查询当前站能力；process 在当前站尝试处理本次资料；submit 回指定营地提交；read 读取当前公开状态。结束后用原生工具自主整理经验。",
@@ -35,7 +35,7 @@ STATION_TOOL = {
 }
 GUIDE = """
 你正在完成测绘游戏的一项委托。游戏只通过 game_action 访问，没有网页、人工或真实桌面。
-只操作当前委托；未来委托不提前提供。到目标自动采集本次原始资料，需要在支持该种资料的站处理，再回指定营地提交。
+只操作当前委托；未来委托不提前提供。按当前委托的公开行程逐段完成：到目标自动采集当前段资料，在支持该种资料的站处理；全部行程完成后回指定营地提交。处理一段成功不一定代表整项委托结束，以最新公开进度为准。
 inspect 是在站查询能力；process 是处理当前原始资料。两者都会给出实际反馈，不支持的处理保留资料。
 每项委托开始新的会话；历史对话、工作记忆和临时文件不保留。只有你自主保存到 ../memory/ 的经验跨会话传递。
 公开地理图不会保存历史能力分配或处理反馈。地点能力在同一世界跨委托保持不变。
@@ -117,7 +117,7 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=40, final_turns=6, resume=False, world=None, design_path=None, agent="ga"):
+          max_turns=None, final_turns=6, resume=False, world=None, design_path=None, agent="ga"):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
     output = Path(output).resolve()
@@ -138,6 +138,10 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         save_json(output / "pilot.json", report)
     else:
         design = load_design(selected_design)
+        if max_turns is None:
+            max_turns = design.get("native_session_budget", {}).get("main_model_calls", 40)
+        if type(max_turns) is not int or max_turns < 1 or type(final_turns) is not int or final_turns < 0:
+            raise ValueError("Native call budgets must be positive main calls and nonnegative final calls")
         if world is not None and world not in design["private_worlds"]:
             raise ValueError("Unknown private world fixture")
         tasks = list(tasks or design["tasks"])
@@ -234,7 +238,7 @@ def main():
     parser.add_argument("--model", default="gpt-5.6-luna")
     parser.add_argument("--seed", type=int, default=20261025)
     parser.add_argument("--tasks", nargs="+")
-    parser.add_argument("--max-turns", type=int, default=40)
+    parser.add_argument("--max-turns", type=int, help="override map-specific main model-call budget; legacy maps default to 40")
     parser.add_argument("--final-turns", type=int, default=6)
     parser.add_argument("--distro", default="Ubuntu-24.04")
     parser.add_argument("--runtime")

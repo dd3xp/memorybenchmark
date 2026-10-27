@@ -1,0 +1,48 @@
+{
+  "kind": "scripted_calibration_and_game_trace_export_not_agent_scores",
+  "source_report_sha256": "2ad56225ed22d199c8cfda11e6aeca66a4cd3b18ce9ec533e4b2bc5d063f642f",
+  "analysis_sha256": "929b1b426d25158950b418fdce32c61d0a8c6fd0c35c78ed8a1bd5617117710d",
+  "renderer_sha256": "67e2739ac4288bc2c1c1e6a33b08224ffc3480b511dac6588f4d42e74e67ed6d",
+  "runtime_sources_sha256": {
+    "memorybenchmark/prototypes/station_capability.py": "e7c8afac0fd5eab4ab26090288d0eda1efc886036c9eb9584380c86553066675",
+    "memorybenchmark/prototypes/station_routes.py": "b6392240213c7346ca3834735ddfb80f588534870980a31ed41afa76a33501bd",
+    "memorybenchmark/prototypes/station_choice.py": "bb1a3d6882fd3120de99a3c33b56ab0e394bede69f55e9146f346c0b8c64d4d9",
+    "memorybenchmark/prototypes/station_analysis.py": "fc0a9c2d9c94d456a655d20dc056a631bcbd119d500b22fef14b96673ccfad0f",
+    "memorybenchmark/prototypes/station_session.py": "f63109d9cdace09f5623f3c489ee5bbae54d31c88ef41d4101d122f423ceb571",
+    "scripts/build_easy20_linked_map.py": "71201d43faa360707c97feb5e8dab57e253352edd0597e1255846082b659ace6",
+    "scripts/check_easy20_linked.py": "dc777e88f7e55bcf3f13be6a283f5a17f2ae63d3236c34c24ff1c33b93655252"
+  },
+  "matplotlib_version": "3.10.8",
+  "png_dpi": 180,
+  "transforms": [
+    "exact finite-world ECDF; no smoothing",
+    "mean task counts across all worlds, including zeros and adverse differences",
+    "ordered multigraphs retain all actual moves and node actions",
+    "lossless gzip of full authoritative event logs"
+  ],
+  "uncertainty": "No sampling intervals: these are exhaustive deterministic results for one fixed heuristic, not population agent performance.",
+  "files_sha256": {
+    "calibration.json": "c11a41c8f76deaa53387bf0a75fc40035a9bef8d27759652822143af70d05d89",
+    "cases/omega_0000-T3-clear.graph.json": "25b674ff81cf5b793e8783e315a479c1d163829c109fc79f9f0d6fb8bcf19ec6",
+    "cases/omega_0000-T3-clear.jsonl.gz": "03f134d607ceeeeefc23498d73f4e22bdfda7bce28115c02282aac1c09f31a6a",
+    "cases/omega_0000-T3-clear.svg": "4a3458a3b98be92863a915464b41f9782fe4022e17b96daeaa203246a87a78be",
+    "cases/omega_0000-T3-retain.graph.json": "25b674ff81cf5b793e8783e315a479c1d163829c109fc79f9f0d6fb8bcf19ec6",
+    "cases/omega_0000-T3-retain.jsonl.gz": "03f134d607ceeeeefc23498d73f4e22bdfda7bce28115c02282aac1c09f31a6a",
+    "cases/omega_0000-T3-retain.svg": "9c73a1a18d3ff3680c2e24ba04f096733a4f40f33499176a75971d27ca40bebd",
+    "cases/omega_5555-T3-clear.graph.json": "9707481ec7cc6df356b97814579d150393358485938f1e9ed5dd1f506715332d",
+    "cases/omega_5555-T3-clear.jsonl.gz": "e8a686abf7b022edde92bb001a80041fe9601db98e8b50718fdd8581bd913f5d",
+    "cases/omega_5555-T3-clear.svg": "55c21c5499847ef5de0f9dce4dd1959667b51bc0e970c35cd4957b2b77de1de4",
+    "cases/omega_5555-T3-retain.graph.json": "de8285cb5f1dd0a5667354a251ce84e2d6b1749442e6d5adcbf47558afc8eb25",
+    "cases/omega_5555-T3-retain.jsonl.gz": "e2de8b871d0142ec0042ef16855aefbf984b93151c7efafbb3bf98d41ef67d14",
+    "cases/omega_5555-T3-retain.svg": "0d1ea62d15ceaca1e1a1a532d5d7d2daed76bebfe87e762cfa7dbf88726f2f15",
+    "omega_0000-t3.pdf": "d85d2acf8ef286bd64e8c4d28d7e296f01289f1839904e6d9a22953c70657e8e",
+    "omega_0000-t3.png": "a221a5c216951f10e93166a548315852440578faf432c3f8d58d5ec5151b9cc8",
+    "omega_0000-t3.svg": "53b3487569ab671f389727445530fc96cdc521f1d95e214f1ce9edf600878da0",
+    "omega_5555-t3.pdf": "0717df48f3f99f1d4292d98b4dbb340763a30587a7c04fa9be4fa4932ab6a72c",
+    "omega_5555-t3.png": "0b9bbb61cf5084828c00a9e9c048a3f335b2faaef2db7af6df80e1469f82eab5",
+    "omega_5555-t3.svg": "4f64493f5b12a3baa9cbfa6fc76f5d8c81aaaa7862ab815aa9efdf6cafa6c052",
+    "world-calibration.pdf": "de939a3bbc8b194952782df160dfe11ac9e61261d5f1608cbe5e9b848475a846",
+    "world-calibration.png": "53fb7fa4d8b690a2bfc5c3f1fb5181ef62262aca0f5b9efd8b666df40d2bf83e",
+    "world-calibration.svg": "0d0c57a41531a2dea407f1cec358a4e52383745b8ac0f98def280fd6329ca970"
+  }
+}

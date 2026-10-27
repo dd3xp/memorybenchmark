@@ -1,5 +1,7 @@
 # Easy20 首轮原生 GA 试跑约定
 
+当前网页使用[联程巡测](EASY20_LINKED_MAP.md)；下一轮实验选择 `--design memorybenchmark/data/station_easy20_linked.json`。每封有两段，仍在同一个 loop 完成后收尾；该地图默认主阶段模型调用上限 100、收尾上限 6，旧地图默认 40／6。两段要求同时保留在当前任务提醒中，最新反馈另报当前段与完成数。以下保留首轮单段流程及历史预算。
+
 本轮使用 `655339f` 的独立源码快照与 `lanting-easy20-v1`，同一轮世界分配由宿主私有抽样，与 Agent 随机种子独立。被测主体为原生 GenericAgent，网关模型别名为 `gpt-5.6-luna`。
 
 ## 执行与干预

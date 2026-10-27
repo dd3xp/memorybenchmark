@@ -11,7 +11,8 @@ from memorybenchmark.agent_adapters import load_adapter, PreparedAgent
 from memorybenchmark.ga_runtime import WSLJail
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
 from memorybenchmark.prototypes.station_pilot import StationNativeSessions
-from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN
+from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN, EASY20_LINKED_DESIGN
+from memorybenchmark.prototypes.station_routes import shortest_route
 
 MARKER = "synthetic_native_contract_marker_74931"
 
@@ -26,7 +27,9 @@ class ScriptedResponses:
     def __call__(self, payload):
         self.requests.append(deepcopy(payload))
         self.calls += 1
-        call = next(self.tools, None)
+        # Native background review can issue tool-free requests. It must not
+        # consume a scheduled game action from the synthetic conversation.
+        call = next(self.tools, None) if payload.get("tools") else None
         events = []
         response_id = f"resp_fixture_{self.calls}"
         if call:
@@ -115,6 +118,24 @@ def run(args):
     assert budget["main_calls"] == 10 and budget["final_calls"] >= 1
     assert budget["worker_result"]["native_result"]["result"] == "MAX_TURNS_EXCEEDED"
     assert context_marker in json.dumps(model.requests[10], ensure_ascii=False), "final opportunity lost native task context"
+    linked = StationGame("omega_0000", load_design(EASY20_LINKED_DESIGN))
+    itinerary_tools = []; position = "C"
+    # Synthetic model supplies a fixed valid itinerary; this is not learned memory.
+    for destination, process in (("P",False),("A",True),("R",False),("D",True),("C",False)):
+        for node in shortest_route(linked.design, position, destination)[0][1:]:
+            itinerary_tools.append(("game_action",{"action":"move","target":node}))
+        position = destination
+        if process:itinerary_tools.append(("game_action",{"action":"process"}))
+    itinerary_tools.append(("game_action",{"action":"submit"}))
+    linked_sessions = StationNativeSessions(prepared.source, prepared.support, jail, agent=args.agent,
+                                            model_alias="fixture", max_turns=80, final_turns=3, seed=1)
+    linked_model = ScriptedResponses(itinerary_tools,args.agent)
+    result = linked_sessions.run(linked,"T1",prepared.baseline,output / "linked",linked_model,condition="prefix")
+    assert result["infrastructure_ok"],result.get("infrastructure_error")
+    assert linked.state.success and linked.observation()["stages_completed"] == 2
+    processing = [e for e in linked.events if e.get("action",{}).get("type") == "process"]
+    assert len(processing) == 2 and not processing[0]["delivered"]["observation"]["done"]
+    assert len({e["task_run_id"] for e in linked.events}) == 1, "Two stages must share a native session"
     print(json.dumps({"passed": True, "agent": args.agent, "llm_calls": 0,
                       "kind": "scripted_real_native_contract", "output": str(output.resolve())}))
 

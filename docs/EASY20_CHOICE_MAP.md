@@ -1,6 +1,6 @@
 # 岚汀丘地：四站巡测与就近策略对照
 
-版本 `lanting-easy20-choice-v2`；配置 `memorybenchmark/data/station_easy20_choice.json`。网页 `/easy20` 使用本版。此前真实 GA 试跑的 `lanting-easy20-v1` 保留在原配置 `station_easy20.json`，旧成绩和数据不变。
+版本 `lanting-easy20-choice-v2`；配置 `memorybenchmark/data/station_easy20_choice.json`。本版与原生成绩保留；当前网页 `/easy20` 已改用[联程巡测](EASY20_LINKED_MAP.md)。此前 `lanting-easy20-v1` 也保留在原配置 `station_easy20.json`，旧成绩和数据不变。
 
 ## 地图与经验
 

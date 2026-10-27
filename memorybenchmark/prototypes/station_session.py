@@ -19,6 +19,7 @@ from .station_capability import StationGame, capability_groups, load_design, nei
 DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capability_v2.json"
 EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.json"
 EASY20_CHOICE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_choice.json"
+EASY20_LINKED_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_linked.json"
 
 
 def render_text(response):
@@ -38,9 +39,17 @@ def render_text(response):
             message += "本次资料已处理。" if feedback["result"] == "processed" else "不支持本次资料，原始资料保留。"
     if feedback.get("raw_collected"):
         message += "已自动采集本次原始资料。"
+    if "next_stage" in feedback:
+        message += f"第 {feedback['stage_completed']} 段处理完成，已进入第 {feedback['next_stage']} 段；当前段需要重新采集。"
     if feedback.get("termination") == "budget_exhausted":
         message += "操作预算耗尽，委托结束；本次反馈仍已交付。"
-    return (f"当前委托 {task['id']}：到 {task['target']} 采集{kind}，在支持该资料的站处理，再回 {task['submit_at']} 提交。\n"
+    mission = f"到 {task['target']} 采集{kind}，在支持该资料的站处理，再回 {task['submit_at']} 提交。"
+    progress = ""
+    if "stages" in task:
+        mission = "；".join(f"第 {i+1} 段：{s['target']} 采集{public['kinds'][s['required_kind']]}并在匹配站处理"
+                            for i, s in enumerate(task["stages"])) + f"；全部完成后回 {task['submit_at']} 提交。尽量减少道路总距离，距离相同时减少操作。"
+        progress = f"当前第 {observation['stage_index']+1}/{observation['stage_count']} 段，已完成 {observation['stages_completed']} 段；本段目标 {task['target']}，资料 {kind}。\n"
+    return (f"当前委托 {task['id']}：{mission}\n" + progress +
             f"当前位置：{observation['location']}；原始资料：{'已采集' if observation['raw'] else '未采集'}；"
             f"处理：{'已完成' if observation['processed'] else '未完成'}。\n"
             f"公开能力范围（不代表已知分配）：{groups}。\n通路：{routes}\n"

@@ -26,6 +26,15 @@ def capability_groups(design):
     }})
 
 
+def task_stages(task):
+    """Public itinerary; legacy commissions have exactly one stage."""
+    return task.get("stages", [{"target": task["target"], "required_kind": task["required_kind"]}])
+
+
+def active_stage(task, state):
+    return task_stages(task)[state.stage]
+
+
 def load_design(path=None):
     # This developer prototype deliberately lives outside packaged/live scenarios.
     path = Path(path) if path else DESIGN_PATH
@@ -101,6 +110,13 @@ def load_design(path=None):
         for key, kind in (("start", "camp"), ("submit_at", "camp"), ("target", "survey")):
             if public["locations"].get(task[key], {}).get("kind") != kind:
                 raise ValueError("Task locations have incompatible roles")
+        stages = task_stages(task)
+        if not isinstance(stages, list) or not stages or stages[0] != {"target": task["target"], "required_kind": task["required_kind"]}:
+            raise ValueError("Stage itinerary must start with the declared target and kind")
+        for stage in stages:
+            if (set(stage) != {"target", "required_kind"} or stage["required_kind"] not in kinds or
+                    public["locations"].get(stage["target"], {}).get("kind") != "survey"):
+                raise ValueError("Invalid stage target or kind")
     reached = {next(iter(public["locations"]))}
     while True:
         expanded = reached | {n for node in reached for n, _ in neighbors(design, node)}
@@ -119,6 +135,7 @@ class State:
     processed: bool = False
     done: bool = False
     success: bool = False
+    stage: int = 0
 
 
 def neighbors(design, position):
@@ -148,18 +165,22 @@ def transition(design, task, world_id, state, action):
     verb = action["type"]
     distance = 0
     after = state
+    stage = active_stage(task, state)
     if verb == "move":
         target = action["target"]
         distance = dict(neighbors(design, state.position))[target]
-        after = replace(state, position=target, raw=state.raw or target == task["target"])
-        feedback = {"kind": "arrived", "location": target, "raw_collected": target == task["target"]}
+        after = replace(state, position=target, raw=state.raw or target == stage["target"])
+        feedback = {"kind": "arrived", "location": target, "raw_collected": target == stage["target"]}
     elif verb in ("inspect", "process"):
         capability = design["private_worlds"][world_id][state.position]
         feedback = {"kind": "station_information", "station": state.position, "capability": capability}
         if verb == "process":
-            supported = capability == task["required_kind"]
+            supported = capability == stage["required_kind"]
             after = replace(state, processed=state.processed or supported)
             feedback["result"] = "processed" if supported else "unsupported"
+            if supported and state.stage + 1 < len(task_stages(task)):
+                after = replace(after, stage=state.stage + 1, raw=False, processed=False)
+                feedback.update(stage_completed=state.stage + 1, next_stage=after.stage + 1)
     elif verb == "submit":
         if state.raw and state.processed:
             after = replace(state, done=True, success=True)
@@ -220,12 +241,16 @@ class StationGame:
     def observation(self):
         if self.state is None:
             raise ValueError("Start a task first")
-        return {"environment": deepcopy(self.design["public"]),
-                "task": {"id": self.task_id, **deepcopy(self.task)},
+        result = {"environment": deepcopy(self.design["public"]),
+                "task": {"id": self.task_id, **deepcopy(self.task), **active_stage(self.task, self.state)},
                 "location": self.state.position, "raw": self.state.raw, "processed": self.state.processed,
                 "steps": self.steps, "distance": self.distance, "time": self.clock,
                 "done": self.state.done, "success": self.state.success,
                 "available_actions": actions_for(self.design, self.task, self.state)}
+        if "stages" in self.task:
+            result.update(stage_index=self.state.stage, stage_count=len(task_stages(self.task)),
+                          stages_completed=self.state.stage + int(self.state.processed))
+        return result
 
     def _record(self, event):
         event.update(event_id=len(self.events), task_id=self.task_id,
@@ -268,8 +293,10 @@ class StationGame:
                       "to": after.position, "moved": action["type"] == "move",
                       "movement_cost": cost, "effort_cost": cost, "time_before": time_before,
                       "time_after": self.clock, "inventory_before": [],
-                      "state_before": {"raw": before.raw, "processed": before.processed},
-                      "state_after": {"raw": after.raw, "processed": after.processed},
+                      "state_before": {"raw": before.raw, "processed": before.processed,
+                                       **({"stage": before.stage} if "stages" in self.task else {})},
+                      "state_after": {"raw": after.raw, "processed": after.processed,
+                                      **({"stage": after.stage} if "stages" in self.task else {})},
                       "delivered": delivered, "evidence_delivered": evidence})
         return deepcopy(delivered)
 

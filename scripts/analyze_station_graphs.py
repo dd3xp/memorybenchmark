@@ -26,9 +26,12 @@ def draw_graph(ax, design, graph, row, title, *, focus_task=False):
     bounds=design["public"].get("view_box")
     if focus_task:
         from memorybenchmark.prototypes.station_routes import shortest_route, station_options
+        from memorybenchmark.prototypes.station_capability import task_stages
         task = design["tasks"][row["task_id"]]
         focus = set(graph["nodes"])
-        for node in [task["target"], *(r["station"] for r in station_options(design, row["task_id"]))]:
+        context_nodes = [node for i, stage in enumerate(task_stages(task))
+                         for node in [stage["target"], *(r["station"] for r in station_options(design,row["task_id"],stage_index=i))]]
+        for node in context_nodes:
             focus.update(shortest_route(design, task["start"], node)[0])
         locations = {n: data for n, data in locations.items() if n in focus}
         xs, ys = [d["x"] for d in locations.values()], [d["y"] for d in locations.values()]
@@ -36,6 +39,8 @@ def draw_graph(ax, design, graph, row, title, *, focus_task=False):
     spacing,shrink,radius=(23,9,24) if bounds else (13,15,17)
     wrong_edges = {event for x in row["station_excursions"] if x["unsupported_attempts"]
                    for event in (x["enter"], x["exit"])}
+    wrong_edges.update(event for x in row.get("branch_excursions",[]) if x["unsupported_attempts"]
+                       for event in x["move_event_ids"])
     for a, b, _ in design["public"]["edges"]:
         if a not in locations or b not in locations:
             continue
@@ -61,9 +66,10 @@ def draw_graph(ax, design, graph, row, title, *, focus_task=False):
                     fontsize=8, color=colour, bbox={"facecolor": "white", "edgecolor": "none", "pad": 0.5}, zorder=2)
     for node, data in locations.items():
         visited = node in graph["nodes"]
-        ax.add_patch(Circle((data["x"], data["y"]), radius, facecolor="#e5f0ed" if visited else "white",
+        ax.add_patch(Circle((data["x"], data["y"]), 7 if data.get("transit") else radius, facecolor="#e5f0ed" if visited else "white",
                            edgecolor="#374d56" if visited else "#a2adb0", linewidth=1.2, zorder=3))
-        ax.text(data["x"], data["y"], node, ha="center", va="center", fontsize=10, zorder=4)
+        if not data.get("transit"):
+            ax.text(data["x"], data["y"], node, ha="center", va="center", fontsize=10, zorder=4)
     labels = []
     for event in graph["node_events"]:
         verb, feedback = event["action"]["type"], event["feedback"]
@@ -76,10 +82,16 @@ def draw_graph(ax, design, graph, row, title, *, focus_task=False):
     from textwrap import fill
     path_text = "Path: " + " > ".join(row["path"])
     event_text = "; ".join(labels)
-    ax.text(0, -0.025, fill(path_text, 64) if focus_task else path_text, transform=ax.transAxes, fontsize=8.5 if focus_task else 9, va="top")
-    ax.text(0, -0.14 if focus_task else -0.10, fill(event_text, 64) if focus_task else event_text, transform=ax.transAxes, fontsize=8.5, va="top")
-    ax.text(0, -0.25 if focus_task else -0.17, f'Success={row["success"]} | distance={row["distance"]} | moves={row["moves"]} | ops={row["operations"]}',
-            transform=ax.transAxes, fontsize=9, color="#263f4a")
+    wrapped_path = fill(path_text,64) if focus_task else path_text
+    wrapped_events = fill(event_text,64) if focus_task else event_text
+    ax.text(0,-.025,wrapped_path,transform=ax.transAxes,fontsize=8.5 if focus_task else 9,va='top')
+    path_height = max(1,len(wrapped_path.splitlines())) * 11
+    event_height = max(1,len(wrapped_events.splitlines())) * 11
+    ax.annotate(wrapped_events,xy=(0,-.025),xycoords='axes fraction',xytext=(0,-path_height-8),
+                textcoords='offset points',fontsize=8.5,va='top')
+    ax.annotate(f'Success={row["success"]} | distance={row["distance"]} | moves={row["moves"]} | ops={row["operations"]}',
+                xy=(0,-.025),xycoords='axes fraction',xytext=(0,-path_height-event_height-16),
+                textcoords='offset points',fontsize=9,color='#263f4a',va='top')
     ax.set(xlim=(bounds[0],bounds[0]+bounds[2]) if bounds else (20,480),
            ylim=(bounds[1]+bounds[3],bounds[1]) if bounds else (390,25), aspect="equal")
     ax.axis("off")

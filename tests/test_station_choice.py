@@ -105,9 +105,9 @@ class StationChoiceTests(unittest.TestCase):
         self.assertFalse(row['prior_relevant_exposure'])
         self.assertEqual(row['historically_determined_matching_stations'], [])
 
-    def test_default_human_view_and_native_observation_keep_answer_boundary(self):
+    def test_choice_human_view_and_native_observation_keep_answer_boundary(self):
         with tempfile.TemporaryDirectory() as directory:
-            service = FieldService(Path(directory))
+            service = FieldService(Path(directory), self.design)
             data = service.start({});token=data['instance_id'];game=service.instances[token]['game']
             self.assertEqual(data['observation']['environment']['version'], 'lanting-easy20-choice-v2')
             self.assertIn('各两站',data['text'])

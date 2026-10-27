@@ -20,15 +20,15 @@ async function api(path, body){
   if(response.status===401){location.href='/login?next=/easy20';throw Error('请先登录。');}
   const data=await response.json();if(!response.ok||data.error)throw Error(data.message||'操作未完成，请读取当前观察。');return data;
 }
-function setBusy(value){busy=value;viewport.setAttribute('aria-busy',String(value));if(state)renderPlace();}
+function setBusy(value){busy=value;viewport.setAttribute('aria-busy',String(value));if(state){$('abandon').disabled=value||state.observation.done;renderPlace();}}
 function feedbackText(data){
   const f=data.feedback,o=data.observation,p=o.environment;
   if(f.kind==='started')return `已领取 ${o.task.id}。点击相邻地点出发，到达目标会自动采集。`;
   if(f.kind==='submitted')return data.stream_finished?'二十项委托已结束，记录已入册。':'交件成功。可以在营地领取下一项委托。';
   if(f.termination==='budget_exhausted')return '操作次数已用尽。本次反馈仍已获得，可以继续下一项委托。';
   if(f.kind==='abandoned')return '本项委托已放弃。已经观察到的信息仍可成为以后的经验。';
-  if(f.kind==='station_information')return `${f.station} 支持${p.kinds[f.capability]}。${f.result==='processed'?'本次资料已处理，回营地交件。':f.result==='unsupported'?'本次不匹配，原始资料保留。':'查询已计入一次操作。'}`;
-  if(f.kind==='arrived')return f.raw_collected?'已自动采集本次资料。选择处理站，完成后回营交件。':`已到达${p.locations[o.location].name}。`;
+  if(f.kind==='station_information')return `${f.station} 支持${p.kinds[f.capability]}。${f.next_stage?`第 ${f.stage_completed} 段完成，现在前往 ${o.task.target} 完成第 ${f.next_stage} 段。`:f.result==='processed'?'本次资料已处理，回营地交件。':f.result==='unsupported'?'本次不匹配，原始资料保留。':'查询已计入一次操作。'}`;
+  if(f.kind==='arrived')return f.raw_collected?'已自动采集当前段资料，请选择匹配的处理站。':`已到达${p.locations[o.location].name}。`;
   return o.done?'本项委托已结束。':'当前观察已更新。';
 }
 function apply(data){
@@ -51,10 +51,11 @@ function render(){
   document.querySelector('.identity p').textContent=state.presentation.subtitle;
   const bounds=worldBounds(),terrain=map.querySelector('image');
   for(const [key,value] of Object.entries({x:bounds[0],y:bounds[1],width:bounds[2],height:bounds[3],preserveAspectRatio:'none'}))terrain.setAttribute(key,value);
-  $('task-number').textContent=`委托 ${state.task_index} / ${state.task_count}`;
+  $('task-number').textContent=`委托 ${state.task_index} / ${state.task_count}${t.stages?` · ${o.stages_completed===o.stage_count?'两段已完成':`行程 ${o.stage_index+1}/${o.stage_count}`}`:''}`;
   $('mission-title').textContent=t.name;
-  $('mission-instruction').textContent=`到${places[t.target].name}（${t.target}）采集${p.kinds[t.required_kind]}，在支持该资料的站处理，再回营地 C 交件。`;
-  $('mission-short').textContent=`${t.target} 采集${p.kinds[t.required_kind]} → 对应站处理 → C 交件`;
+  $('mission-instruction').textContent=`${t.stages?`当前第 ${o.stage_index+1}/${o.stage_count} 段：`:''}到${places[t.target].name}（${t.target}）采集${p.kinds[t.required_kind]}，在匹配站处理${t.stages&&o.stage_index+1<o.stage_count?'后继续下一段。':'后回营地 C 交件。'}`;
+  $('mission-short').textContent=t.stages?t.stages.map((s,i)=>`${i<o.stages_completed?'✓':`${i+1}.`} ${s.target}·${p.kinds[s.required_kind]}`).join(' → ')+' → C 交件':`${t.target} 采集${p.kinds[t.required_kind]} → 对应站处理 → C 交件`;
+  $('stage-raw').textContent=t.stages?`第 ${o.stage_index+1} 段采集`:'采集资料';$('stage-process').textContent=t.stages?`第 ${o.stage_index+1} 段处理`:'到站处理';
   $('steps').textContent=`${o.steps} / ${t.max_steps}`;$('distance').textContent=o.distance;
   $('stage-raw').classList.toggle('done',o.raw);$('stage-process').classList.toggle('done',o.processed);$('stage-submit').classList.toggle('done',o.success);
   $('completion').textContent=`已交件 ${state.completed.filter(t=>t.success).length} / ${state.task_count}`;
@@ -69,7 +70,7 @@ function render(){
 function eventText(e,p){
   const f=e.delivered.feedback;
   if(e.moved)return `${e.from} → ${e.to}　路程 ${e.movement_cost}${f.raw_collected?'，自动采集':''}`;
-  if(f.kind==='station_information')return `${e.from} ${e.action.type==='inspect'?'查询':'处理'}：${p.kinds[f.capability]}${f.result==='processed'?'，处理成功':f.result==='unsupported'?'，不匹配':''}`;
+  if(f.kind==='station_information')return `${e.from} ${e.action.type==='inspect'?'查询':'处理'}：${p.kinds[f.capability]}${f.result==='processed'?'，处理成功':f.result==='unsupported'?'，不匹配':''}${f.next_stage?`，进入第 ${f.next_stage} 段`:''}`;
   return f.kind==='submitted'?'回营交件成功':f.kind==='abandoned'?'放弃当前委托':'尝试交件，资料尚未完成';
 }
 function currentCapability(id){
@@ -114,12 +115,12 @@ function draw(){
     const here=id===o.location,adj=neighbors.has(id),goal=id===o.task.target;
     const g=node('g',{transform:`translate(${n.x} ${n.y})`,class:`place-node ${here?'current':adj?'neighbor':'distant'}${id===selected?' selected':''}`,role:'button',tabindex:'0','data-node':id,'aria-label':`${id} ${n.name}${here?'，当前位置':adj?'，可直接前往':'，查看地点'}`});
     g.append(node('title',{},`${n.name} ${id}`));const marker=node('g',{transform:`scale(${inv})`});
-    marker.append(node('circle',{r:24,class:'node-hit'}),node('circle',{r:21,class:'selection-ring'}));
-    marker.append(n.kind==='station'?node('rect',{x:-13,y:-13,width:26,height:26,rx:3,class:'node-mark'}):node('circle',{r:n.kind==='junction'?10:15,class:'node-mark'}));
+    marker.append(node('circle',{r:n.transit?15:24,class:'node-hit'}),node('circle',{r:n.transit?12:21,class:'selection-ring'}));
+    marker.append(n.kind==='station'?node('rect',{x:-13,y:-13,width:26,height:26,rx:3,class:'node-mark'}):node('circle',{r:n.transit?4:n.kind==='junction'?10:15,class:'node-mark'}));
     const icon=n.kind==='camp'?'M-10 7 0-9 10 7Z M0-4V7':n.kind==='station'?'M-6 6V-6H6V6Z M-6 0H6':n.kind==='survey'?'M-5 1 0-6 5 1 0 8Z':'';
     if(icon)marker.append(node('path',{d:icon,class:'node-symbol'}));
-    marker.append(node('text',{x:0,y:n.kind==='junction'?-18:-22,class:'node-id'},id));
-    if(z>.58||here||id===selected)marker.append(node('text',{x:0,y:33,class:'node-name'},n.name));
+    if(!n.transit||here||adj||id===selected||z>.8)marker.append(node('text',{x:0,y:n.kind==='junction'?-18:-22,class:'node-id'},id));
+    if((!n.transit&&z>.58)||here||id===selected)marker.append(node('text',{x:0,y:33,class:'node-name'},n.name));
     if(goal&&!o.raw)marker.append(node('path',{d:'M19-28 27-19 19-10 11-19Z',class:'goal-flag'}));
     if(here)marker.append(node('circle',{cx:18,cy:14,r:5,class:'current-dot'}));
     g.append(marker);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate(id);}});
@@ -170,7 +171,12 @@ function renderDesign(data){
   for(const [id,n] of Object.entries(p.locations)){svg.append(node('circle',{cx:n.x,cy:n.y,r:15,fill:'#f4f1dc',stroke:'#3a5b48','stroke-width':2}),node('text',{x:n.x,y:n.y+5,'text-anchor':'middle','font-size':17,fill:'#294637'},id));
     if(data.capabilities[id])svg.append(node('text',{x:n.x,y:n.y+36,'text-anchor':'middle','font-size':19,fill:'#725020'},p.kinds[data.capabilities[id]]));}
   $('design-groups').replaceChildren();for(const group of Object.values(p.capability_groups)){const box=html('section',undefined,'design-group');box.append(html('h3',group.name));for(const s of group.stations)box.append(html('p',`${s} → ${p.kinds[data.capabilities[s]]}`));$('design-groups').append(box);}
-  $('design-tasks').replaceChildren();for(const task of data.tasks){const tr=html('tr');for(const value of [`${task.id} ${task.name}`,`${task.target} ${p.kinds[task.required_kind]}`,task.group,task.intervening_tasks_since_same_group??'首次',(task.station_options||[]).map(s=>`${s.station}：${s.matches?'匹配':'不匹配'}，总路程 ${s.completion_distance}`).join('；'),`${task.known_world_route.join(' → ')}　路程 ${task.known_world_distance}`])tr.append(html('td',value));$('design-tasks').append(tr);}
+  $('design-tasks').replaceChildren();for(const task of data.tasks){const tr=html('tr'),stages=task.stage_options;
+    const requirements=stages?stages.map((s,i)=>`${i+1}. ${s.target} ${p.kinds[s.required_kind]}`).join('；'):`${task.target} ${p.kinds[task.required_kind]}`;
+    const groups=stages?stages.map(s=>s.group).join(' → '):task.group;
+    const gaps=stages?stages.map(s=>`${s.group}：${s.intervening_tasks_since_same_group??'首次'}`).join('；'):task.intervening_tasks_since_same_group??'首次';
+    const options=stages?stages.map((s,i)=>`第${i+1}段：`+s.options.map(c=>`${c.station} ${c.matches?'匹配':'不匹配'}，至下一目标/营地 ${c.completion_distance}`).join('；')).join(' / '):(task.station_options||[]).map(s=>`${s.station}：${s.matches?'匹配':'不匹配'}，总路程 ${s.completion_distance}`).join('；');
+    for(const value of [`${task.id} ${task.name}`,requirements,groups,gaps,options,`${task.known_world_route.join(' → ')}　路程 ${task.known_world_distance}`])tr.append(html('td',value));$('design-tasks').append(tr);}
 }
 async function newGame(){closePanel();await run(()=>api('/api/field/start',{}));}
 $('journal-open').onclick=()=>openPanel('journal');$('journal-close').onclick=closePanel;$('design-close').onclick=closePanel;$('design-open').onclick=showDesign;
