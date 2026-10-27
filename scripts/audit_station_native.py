@@ -67,17 +67,21 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
     if pilot["status"]=="completed":
         assert len(rows)==1+2*(len(pilot["tasks"])-1)
     verified_sources={}
-    if source_commit:
+    frozen_root=root/"provenance"/"frozen-source"
+    if source_commit or frozen_root.exists():
         for name,digest in pilot["implementation_sha256"].items():
             normalized=name.replace("\\","/")
             candidates=[marker+normalized.rsplit('/'+marker,1)[1] for marker in ('memorybenchmark/','design/','scripts/') if '/'+marker in normalized]
             if len(candidates)!=1:raise ValueError("Ambiguous frozen source path")
             relative=candidates[0]
-            content=subprocess.run(['git','show',f'{source_commit}:{relative}'],check=True,capture_output=True).stdout
-            if source_newlines=="crlf":content=content.replace(b'\r\n',b'\n').replace(b'\n',b'\r\n')
-            assert sha256(content).hexdigest()==digest,(relative,"frozen source differs from declared commit")
-            frozen=root/"provenance"/"frozen-source"/relative
-            if frozen.exists():assert sha256(frozen.read_bytes()).hexdigest()==digest
+            if source_commit:
+                content=subprocess.run(['git','show',f'{source_commit}:{relative}'],check=True,capture_output=True).stdout
+                if source_newlines=="crlf":content=content.replace(b'\r\n',b'\n').replace(b'\n',b'\r\n')
+                assert sha256(content).hexdigest()==digest,(relative,"frozen source differs from declared commit")
+            frozen=frozen_root/relative
+            if frozen_root.exists():
+                assert frozen.is_file(),(relative,"missing frozen source")
+                assert sha256(frozen.read_bytes()).hexdigest()==digest,(relative,"frozen source checksum mismatch")
             verified_sources[relative]=digest
     return {"kind":"native_station_replay_and_memory_chain_audit","pilot_completed":pilot["status"]=="completed",
             "sessions":len(rows),"cumulative_event_records_replayed":checked_events,

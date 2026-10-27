@@ -48,6 +48,9 @@ def main():
         global_memory=memory_text(input_memory)
         first_request=read(folder/"model"/"001-request.json")
         global_in_input=bool(global_memory) and json.dumps(global_memory,ensure_ascii=False)[1:-1] in json.dumps(first_request,ensure_ascii=False)
+        # Native Hermes strips the outer file whitespace before prompt injection.
+        global_body=global_memory.strip()
+        global_body_in_input=bool(global_body) and json.dumps(global_body,ensure_ascii=False)[1:-1] in json.dumps(first_request,ensure_ascii=False)
         events=[json.loads(line) for line in (folder/"events.jsonl").read_text(encoding="utf-8").splitlines()]
         graph=read(folder/"graph.json")
         messages=[json.loads(line) for line in (folder/"audit.jsonl").read_text(encoding="utf-8").splitlines()]
@@ -83,6 +86,7 @@ def main():
              "native_global_memory_changed_from_baseline":global_memory!=baseline_global,
              "native_memory_carrier":global_relative,
              "native_global_memory_verbatim_in_first_input":global_in_input,
+             "native_global_memory_body_in_first_input":global_body_in_input,
              "self_generated_global_memory_in_first_input":global_memory!=baseline_global and global_in_input,
              "input_global_memory_sha256":sha256(global_memory.encode("utf-8")).hexdigest(),
              "memory_content_changed":summary.get("content_changed",[]),

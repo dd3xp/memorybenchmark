@@ -122,6 +122,17 @@ Hermes 的后台经验整理保留，实际模型调用计入当前阶段的公�
 
 Hermes 当前上游使用 Python 3.14。用其 `uv.lock` 和 `[tool.uv]` 配置安装依赖；普通 `pip install` 不会应用上游的依赖覆盖规则。可通过 `--runtime` 指定独立环境，通过重复的 `--runtime-dependency` 只读挂载该环境所依赖的 Python 安装目录。不得挂载用户主目录或评测源码。
 
+例如，在 WSL 内已安装 `uv`、已解压固定版本源码后，使用上游锁文件建立独立环境：
+
+```bash
+uv python install 3.14 --install-dir /path/to/hermes-python
+# 下面替换成上一条命令实际安装的解释器路径。
+/path/to/hermes-python/cpython-3.14.x-linux-x86_64-gnu/bin/python3.14 -m venv --copies /path/to/hermes-runtime
+UV_PROJECT_ENVIRONMENT=/path/to/hermes-runtime uv sync --project /path/to/extracted-hermes --no-dev --locked --python /path/to/hermes-python/cpython-3.14.x-linux-x86_64-gnu/bin/python3.14
+```
+
+保留 `hermes-python` 的实际路径，因为独立解释器与 venv 会引用它。先通过下面的离线原生契约检查，再运行真实模型。检查包括空会话、经验与技能保留／清除、技能回滚文件，以及主阶段预算耗尽后的同会话整理。
+
 四站 Easy20 的同协议入口如下；将路径替换为自己独立安装的运行环境：
 
 ```powershell
