@@ -47,8 +47,9 @@ inspect 是在站查询能力；process 是处理当前原始资料。两者都�
 
 
 class StationNativeSessions(WorkerSessions):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, worker_protocol="ga-session-1", worker_filename="ga_worker.py",
+    def __init__(self, *args, agent="ga", **kwargs):
+        super().__init__(*args, worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
+                         worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
                          prompt_protocol=PROMPT_PROTOCOL, **kwargs)
 
     def run(self, game, task_id, input_memory, output, model, *, condition):
@@ -114,11 +115,15 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=40, final_turns=6, resume=False, world=None, design_path=None):
+          max_turns=40, final_turns=6, resume=False, world=None, design_path=None, agent="ga"):
+    if agent not in ("ga", "hermes"):
+        raise ValueError("unsupported native agent")
     output = Path(output).resolve()
     selected_design = Path(design_path) if design_path is not None else DEFAULT_DESIGN
     if resume:
         report = json.loads((output / "pilot.json").read_text(encoding="utf-8"))
+        if report.get("agent", "ga") != agent:
+            raise ValueError("Cannot change native agent when resuming")
         if world is not None and world != report["world"]:
             raise ValueError("Cannot change the private world when resuming")
         for path, digest in report["implementation_sha256"].items():
@@ -135,14 +140,20 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         if not tasks or len(set(tasks)) != len(tasks) or any(t not in design["tasks"] for t in tasks):
             raise ValueError("Tasks must be unique members of this design")
         output.mkdir(parents=True, exist_ok=False)
-        source = extract_native(archive, output / "source")
-        copy_memory(source / "memory", output / "baseline")
-        make_support(output / "support")
+        if agent == "ga":
+            source = extract_native(archive, output / "source")
+            copy_memory(source / "memory", output / "baseline")
+            make_support(output / "support")
+        else:
+            from ..agent_adapters import load_adapter
+            load_adapter(agent).prepare(archive, output)
         paths = [Path(__file__), selected_design, Path(__file__).with_name("station_capability.py"),
                  Path(__file__).with_name("station_session.py")]
         paths += [Path(__file__).parents[1] / name for name in
                   ("ga_worker.py", "agent_bridge.py", "mcp_game.py", "agent_sessions.py", "ga_runtime.py", "model_gateway.py")]
-        report = {"protocol": "station-native-pilot-1", "status": "running", "seed": seed, "design_id": design["design_id"],
+        if agent == "hermes":
+            paths += [Path(__file__).parents[1] / "hermes_worker.py", Path(__file__).parents[1] / "agents/hermes.py"]
+        report = {"protocol": "station-native-pilot-1", "agent": agent, "status": "running", "seed": seed, "design_id": design["design_id"],
                   "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
                   # The worker receives its RNG seed; hidden-world sampling must
                   # be independent so that seed cannot disclose the assignment.
@@ -155,7 +166,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
                   "sessions": []}
         save_json(output / "design.json", design)
         save_json(output / "pilot.json", report)
-    sessions = StationNativeSessions(output / "source" / "GenericAgent", output / "support", jail,
+    sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"), output / "support", jail,
+                                     agent=agent,
                                      model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns)
     if not (output / "probe" / "summary.json").exists():
         sessions.probe(output / "baseline", output / "probe")
@@ -212,6 +224,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
+    parser.add_argument("--agent", choices=("ga", "hermes"), default="ga")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--model", default="gpt-5.6-luna")
@@ -220,6 +233,8 @@ def main():
     parser.add_argument("--max-turns", type=int, default=40)
     parser.add_argument("--final-turns", type=int, default=6)
     parser.add_argument("--distro", default="Ubuntu-24.04")
+    parser.add_argument("--runtime")
+    parser.add_argument("--runtime-dependency", action="append", default=[])
     parser.add_argument("--max-output-tokens", type=int, default=0)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--world", help="private host fixture for a controlled rerun; never sent to the worker")
@@ -234,9 +249,9 @@ def main():
     if args.resume:
         read_model = json.loads((args.output / "pilot.json").read_text(encoding="utf-8"))["model_alias"]
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
-    pilot(args.archive, args.output, WSLJail(args.distro), model, seed=args.seed, model_alias=args.model,
+    pilot(args.archive, args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model, seed=args.seed, model_alias=args.model,
           tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
-          design_path=args.design)
+          design_path=args.design, agent=args.agent)
 
 
 if __name__ == "__main__":

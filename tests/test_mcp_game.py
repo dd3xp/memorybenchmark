@@ -40,9 +40,10 @@ class AdapterSelectionTests(unittest.TestCase):
         self.assertIn("尚未适配", error.getvalue())
         self.assertNotIn("GATEWAY_KEY", error.getvalue())
 
-    def test_hermes_tool_bridge_is_not_advertised_as_a_complete_adapter(self):
-        with self.assertRaisesRegex(AdapterError, "完整评测适配器尚未提供"):
-            load_adapter("hermes")
+    def test_hermes_selects_its_native_worker_and_persistence_adapter(self):
+        adapter = load_adapter("hermes")
+        self.assertEqual(adapter.worker_filename, "hermes_worker.py")
+        self.assertEqual(adapter.worker_protocol, "hermes-session-1")
 
     def test_explicit_user_plugin_can_reuse_the_shared_lifecycle_runner(self):
         plugin = load_adapter("custom", "examples.custom_agent_adapter:create_adapter")

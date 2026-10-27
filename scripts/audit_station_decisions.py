@@ -15,9 +15,11 @@ def tool_window(messages):
     return {
         "model_request_count": sum(m.get("kind") == "request" and m.get("method") == "model" for m in messages),
         "tool_counts": dict(Counter(m["name"] for m in tools)),
-        "file_read_basenames": [Path(m["args"].get("path", "")).name for m in tools if m["name"] == "file_read"],
+        "file_read_basenames": [Path(m["args"].get("path", "")).name for m in tools if m["name"] in ("file_read", "read_file")],
         "code_run_argument_sha256": [sha256(json.dumps(m["args"], sort_keys=True, ensure_ascii=False).encode()).hexdigest()
                                      for m in tools if m["name"] == "code_run"],
+        "native_retrieval_tool_names": [m["name"] for m in tools if m["name"] in
+            ("file_read", "read_file", "code_run", "terminal", "skill_view", "session_search")],
         "scope": "tool invocations only; file reads and scripts require content review to establish relevant evidence delivery",
     }
 

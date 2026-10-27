@@ -22,9 +22,11 @@ class GatewayModel:
             raise InfrastructureError("invalid native model payload")
         # No caller URL/header forwarding, server-side stored conversation, or
         # unmanaged built-in tools. Native file/memory tools run in the jail.
-        if any(t.get("type") != "function" for t in payload.get("tools", [])):
+        if any(t.get("type") != "function" for t in (payload.get("tools") or [])):
             raise InfrastructureError("unregistered remote tool")
-        payload = {k:v for k,v in payload.items() if k in ("input", "tools", "reasoning")}
+        payload = {k:v for k,v in payload.items() if k in
+                   ("input", "instructions", "tools", "reasoning", "include", "tool_choice", "parallel_tool_calls")
+                   and v is not None}
         payload.update(model=self.model, stream=True, store=False)
         if self.max_output_tokens is not None:
             payload["max_output_tokens"] = self.max_output_tokens

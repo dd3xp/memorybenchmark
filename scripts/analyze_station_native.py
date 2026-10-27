@@ -1,4 +1,4 @@
-"""Audit completed native GA station sessions and plot all-task measurements."""
+"""Audit completed native agent station sessions and plot all-task measurements."""
 from __future__ import annotations
 
 import argparse
@@ -29,8 +29,14 @@ def main():
         raise ValueError("Only completed pilots are reported as completed experiments")
     output.mkdir(parents=True,exist_ok=False)
     design=read(root/"design.json")
+    agent_id = pilot.get("agent", "ga")
+    agent_label = {"ga": "GA", "hermes": "Hermes"}[agent_id]
+    global_relative = "global_mem_insight.txt" if agent_id == "ga" else "memories/MEMORY.md"
+    def memory_text(directory):
+        path = directory / global_relative
+        return path.read_text(encoding="utf-8") if path.exists() else ""
     baseline=memory_manifest(root/"baseline")
-    baseline_global=(root/"baseline"/"global_mem_insight.txt").read_text(encoding="utf-8")
+    baseline_global=memory_text(root/"baseline")
     main_memory=root/"baseline"
     rows=[]
     graphs={}
@@ -39,9 +45,9 @@ def main():
         folder=root/"sessions"/session["name"]
         summary=read(folder/"summary.json")
         input_memory=root/"baseline" if session["condition"]=="clear" else main_memory
-        global_memory=(input_memory/"global_mem_insight.txt").read_text(encoding="utf-8")
+        global_memory=memory_text(input_memory)
         first_request=read(folder/"model"/"001-request.json")
-        global_in_input=json.dumps(global_memory,ensure_ascii=False)[1:-1] in json.dumps(first_request,ensure_ascii=False)
+        global_in_input=bool(global_memory) and json.dumps(global_memory,ensure_ascii=False)[1:-1] in json.dumps(first_request,ensure_ascii=False)
         events=[json.loads(line) for line in (folder/"events.jsonl").read_text(encoding="utf-8").splitlines()]
         graph=read(folder/"graph.json")
         messages=[json.loads(line) for line in (folder/"audit.jsonl").read_text(encoding="utf-8").splitlines()]
@@ -53,7 +59,7 @@ def main():
         for message in messages:
             if message.get("kind")=="request" and message.get("method")=="task_end":
                 break
-            if message.get("kind")=="tool" and message.get("name")=="file_read":
+            if message.get("kind")=="tool" and message.get("name") in ("file_read", "read_file"):
                 memory_reads_before_end.append(message.get("args",{}).get("path"))
         station_ids={n for n,d in design["public"]["locations"].items() if d["kind"]=="station"}
         for message in messages:
@@ -63,7 +69,7 @@ def main():
                 action=message.get("params",{}).get("action",{})
                 if action.get("type")=="move" and action.get("target") in station_ids:
                     break
-            if message.get("kind")=="tool" and message.get("name")=="file_read":
+            if message.get("kind")=="tool" and message.get("name") in ("file_read", "read_file"):
                 before_first_station.append(message.get("args",{}).get("path"))
             if message.get("kind")=="tool":
                 tools_before_first_station.append(message.get("name"))
@@ -75,6 +81,7 @@ def main():
              "finalization_native_result":summary.get("worker_result",{}).get("finalization_result",{}).get("result"),
              "finalization_calls_at_limit":summary["final_calls"]==pilot["final_turns"],
              "native_global_memory_changed_from_baseline":global_memory!=baseline_global,
+             "native_memory_carrier":global_relative,
              "native_global_memory_verbatim_in_first_input":global_in_input,
              "self_generated_global_memory_in_first_input":global_memory!=baseline_global and global_in_input,
              "input_global_memory_sha256":sha256(global_memory.encode("utf-8")).hexdigest(),
@@ -122,9 +129,9 @@ def main():
         for condition in ("retain","clear"):
             row=next(r for r in rows if r["task_id"]==task and r["condition"]==condition)
             payload=read(root/"sessions"/row["name"]/"model"/"001-request.json")
-            pair.append({k:v for k,v in payload.items() if k in ("input","tools","reasoning")})
+            pair.append({k:v for k,v in payload.items() if k in ("input","instructions","tools","reasoning")})
         pair_inputs.append({"task":task,"first_forwarded_input_equal":pair[0]==pair[1]})
-    artifact={"kind":"native_ga_station_single_world_pilot_not_statistical_effect_estimate",
+    artifact={"kind":"native_agent_station_single_world_pilot_not_statistical_effect_estimate", "agent":agent_id,
               "world":pilot["world"],"model_alias":pilot["model_alias"],"source_pilot_sha256":sha256((root/"pilot.json").read_bytes()).hexdigest(),
               "analysis_sha256":sha256(Path(__file__).read_bytes()).hexdigest(),"rows":rows,"paired_first_inputs":pair_inputs,
               "analysis_sources_sha256":{name:sha256((Path(__file__).resolve().parents[1]/name).read_bytes()).hexdigest() for name in
@@ -145,7 +152,7 @@ def main():
         "design_id":design["design_id"],"public_map":design["public"],"tasks":design["tasks"],
         "source_pilot_sha256":artifact["source_pilot_sha256"],"prior_evidence_scope":"evaluator canonical actual history; not automatically supplied to the agent",
         "sessions":projections},ensure_ascii=False,indent=2),encoding="utf-8")
-    lines=["# Native GA station pilot", "", f'Model alias: {pilot["model_alias"]}. One sampled world, {len(rows)} fresh sessions. No statistical effect estimate.',"",
+    lines=[f"# Native {agent_label} station pilot", "", f'Model alias: {pilot["model_alias"]}. One sampled world, {len(rows)} fresh sessions. No statistical effect estimate.',"",
            "|Task|Condition|Success|Distance|Moves|Ops|Queries|Unsupported|Relevant prior exposure|LLM calls|Continuations|Memory changes|",
            "|---|---|---|---:|---:|---:|---:|---:|---|---:|---:|---|"]
     for row in rows:
@@ -168,7 +175,7 @@ def main():
                            title,
                            focus_task=bool(design["public"].get("view_box")))
         fig.subplots_adjust(left=0.05,right=0.97,top=0.89,bottom=0.20,hspace=0.64,wspace=0.16)
-        fig.suptitle("Native GA: executed cross-session trajectories",fontsize=16,x=0.05,ha="left",y=0.98)
+        fig.suptitle(f"Native {agent_label}: executed cross-session trajectories",fontsize=16,x=0.05,ha="left",y=0.98)
         fig.text(0.05,0.935,f'One world, one pilot. Selected {" and ".join(args.trace_tasks)} examples; all {len(rows)} sessions are reported separately.',fontsize=10)
         fig.text(0.05,0.025,"Arrows are actual moves; numbers show movement order. Node operations are listed beneath each graph.\nDashed red: station trip containing unsupported processing. Blue: other moves. Grey: public roads in the task-region context.\nAll executed edges are shown, including any outside that region. Incomplete paths end at task termination.",fontsize=9)
         for suffix in ("png","svg","pdf"):
@@ -187,7 +194,7 @@ def main():
         ax.set_xticks(x,tasks);ax.set(ylabel="Actual walked distance",ylim=(0,max(r["distance"] for r in rows)+4))
         ax.spines[["top","right"]].set_visible(False);ax.grid(axis="y",alpha=0.2)
         ax.legend(frameon=False,fontsize=9,loc="upper center")
-        fig.suptitle(f"Native GA pilot: all {len(tasks)} commissions",fontsize=14)
+        fig.suptitle(f"Native {agent_label} pilot: all {len(tasks)} commissions",fontsize=14)
         status_note="Early failure can have low distance." if failed else f"All {len(rows)} sessions submitted successfully."
         fig.text(0.08,0.025,f"One observation per condition/task; no uncertainty intervals. {status_note} No baseline probe exists for T1.",fontsize=8.5)
         fig.subplots_adjust(left=0.09,right=0.98,bottom=0.19,top=0.88)
@@ -209,7 +216,7 @@ def main():
         axes[-1].set_xticks(x,tasks)
         handles,labels=axes[0].get_legend_handles_labels()
         fig.legend(handles,labels,frameon=False,fontsize=9,loc="upper left",bbox_to_anchor=(.10,.955),ncol=2)
-        fig.suptitle("Native GA: information-seeking and processing behavior",fontsize=14)
+        fig.suptitle(f"Native {agent_label}: information-seeking and processing behavior",fontsize=14)
         fig.text(.09,.025,"Repetition uses actual canonical delivered evidence, including facts unavailable in a clear probe.\nOne observation per condition/task; black crosses mark incomplete tasks; T1 has no baseline probe.",fontsize=8.5)
         fig.subplots_adjust(left=.10,right=.98,bottom=.13,top=.91,hspace=.27)
         for suffix in ("png","svg","pdf"):

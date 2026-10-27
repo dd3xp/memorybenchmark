@@ -73,7 +73,8 @@ def load_adapter(agent_id, factory=None):
             from .agents.genericagent import GenericAgentAdapter
             adapter = GenericAgentAdapter()
         elif agent_id == "hermes":
-            raise AdapterError("Hermes 尚只有工具注册桥，完整评测适配器尚未提供；不能作为零分运行。")
+            from .agents.hermes import HermesAdapter
+            adapter = HermesAdapter()
         else:
             raise AdapterError(f"agent '{agent_id}' 尚未适配；请用 --adapter your_module:create_adapter 提供适配器。")
     else:
@@ -116,4 +117,4 @@ def adapter_identity(adapter, factory=None):
 
 def available_adapters():
     return [{"agent": "ga", "status": "ready", "native_memory": True},
-            {"agent": "hermes", "status": "tool_bridge_only", "native_memory": None}]
+            {"agent": "hermes", "status": "ready", "native_memory": True}]

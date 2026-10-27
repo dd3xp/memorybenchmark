@@ -129,7 +129,15 @@ class WorkerSessions:
                             calls = output / "model"
                             calls.mkdir(exist_ok=True)
                             save_json(calls / f"{report['llm_calls']:03d}-request.json", params)
-                            result = model(params)
+                            try:
+                                result = model(params)
+                            except Exception as error:
+                                detail = str(error)[:400] if isinstance(error, InfrastructureError) else type(error).__name__
+                                report["model_error_at_call"] = report["llm_calls"]
+                                audit.write(json.dumps({"kind": "model_transport_error", "call": report["llm_calls"],
+                                                        "error": detail}, ensure_ascii=False) + "\n")
+                                audit.flush()
+                                raise
                             if self.observer:
                                 self.observer.activity(watch_id,"model_complete","模型已响应",phase="finalizing" if final_phase else "acting")
                                 if before_memory is not None:
@@ -155,6 +163,7 @@ class WorkerSessions:
                 try: process.wait(timeout=3)
                 except subprocess.TimeoutExpired: process.kill(); process.wait(timeout=3)
                 report["infrastructure_ok"] = False
+                report["underlying_infrastructure_error"] = report.get("infrastructure_error")
                 report["infrastructure_error"] = "worker cleanup unconfirmed; do not snapshot or advance"
             process.stdout.close()
             reader.join(timeout=2)

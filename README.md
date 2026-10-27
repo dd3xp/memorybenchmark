@@ -72,7 +72,7 @@ python -m memorybenchmark.experiment --list-agents
 python -m memorybenchmark.experiment path/to/GenericAgent_src.tar.xz --agent ga --base-url https://your-model-gateway --tasks T1 T2 T3 T4 T5 T6 T7 T8
 ```
 
-GA 已经通过同一 MCP 服务接入公共运行器；旧 GA 入口继续兼容。新 agent 使用 `--adapter module:create_adapter` 提供插件；没有适配器时提前报配置错误，不产生零分或自动切换裸模型。当前只有 GA 完成全流程适配，Hermes 仍只有工具注册契约。运行条件、记忆边界与扩展方法见 [接入说明](docs/AGENT_INTEGRATION.md)。新运行在 `.runs/agent-cross-session/`，观测台同时兼容旧 GA 运行目录。
+GA 与 Hermes 通过同一 MCP 服务接入公共运行器；旧 GA 入口继续兼容。GA 支持当前上游类名与工具分发，Hermes 保留原生 MemoryStore、技能与后台整理，逐任务清空会话数据库。新 agent 使用 `--adapter module:create_adapter` 提供插件；没有适配器时提前报配置错误，不产生零分或自动切换裸模型。运行条件、记忆边界、独立运行环境和扩展方法见 [接入说明](docs/AGENT_INTEGRATION.md)。新运行在 `.runs/agent-cross-session/`，观测台同时兼容旧 GA 运行目录。
 
 下面保留原有 JSON Lines 与 HTTP 开发接口：
 

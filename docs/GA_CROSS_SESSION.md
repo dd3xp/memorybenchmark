@@ -1,6 +1,6 @@
 # GA 跨 session 运行与对照
 
-统一入口是 `python -m memorybenchmark.experiment --agent ga`，`python -m memorybenchmark.ga_experiment` 保留为兼容入口。使用旧复现包中的原生 GenericAgent，类名保留其原始拼写 `GeneraticAgent`；没有用自写规划器替代 Agent。
+统一入口是 `python -m memorybenchmark.experiment --agent ga`，`python -m memorybenchmark.ga_experiment` 保留为兼容入口。适配同时支持旧复现包的 `GeneraticAgent` 与当前上游的 `GenericAgent`，没有用自写规划器替代 Agent。2026-10-27 更新固定至上游 `e4d956f0207a2d268704634473196353946481bc`；历史运行继续按各自归档和冻结 worker 解释。
 
 2026-10-20 游戏接入迁移到共用 MCP 服务，初始化／工具发现／调用均通过官方 SDK。GA 没有原生 MCP 客户端，原生工具桥经宿主 MCP 客户端连接同一个服务，使用内存传输，不新增网络端口。公共 `WorkerSessions` 负责会话、预算、记忆快照，公共运行器负责配对与恢复；GA 适配器只保留原生准备与调用绑定。架构、安装和扩展见 [统一接入说明](AGENT_INTEGRATION.md)。
 

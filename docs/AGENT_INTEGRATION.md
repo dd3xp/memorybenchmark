@@ -31,7 +31,7 @@ Linux 的独立 MCP 试玩使用 `.venv/bin/python`。正式 GA 适配当前使�
 
 安装后也可使用 `memorybenchmark-run`。新入口默认写入 `.runs/agent-cross-session/<运行编号>/`；观测台同时读取此目录和旧的 `.runs/ga-cross-session/`。`python -m memorybenchmark.ga_experiment` 保留为 GA 兼容入口。恢复使用 `--resume <运行目录>`，不改变记录的 agent、提示、预算或游戏传输。
 
-未知 agent、缺少插件、插件协议不匹配会在创建实验和调用模型之前以配置错误退出，不生成任务零分，也不退回裸模型。`hermes` 当前明确标记为 `tool_bridge_only`，没有将它作为已完成的全流程适配器发布。
+未知 agent、缺少插件、插件协议不匹配会在创建实验和调用模型之前以配置错误退出，不生成任务零分，也不退回裸模型。内置 `ga` 与 `hermes` 分别使用原生循环及记忆机制。
 
 ## 原生 MCP 客户端如何试玩
 
@@ -114,6 +114,21 @@ python scripts/check_native_contracts.py reproducibility_package_upload/agents
 
 GA 离线契约检查使用真实原生 GA、WSL 隔离与新的 MCP 通路，模型响应为人工脚本。检查真实上下文裁剪、原生整理工具读取规范、新 session 的空上下文、记忆保留／清除与失败恢复。测试标记不是经验，结果不是模型记忆成绩，也不调用真实模型。
 
-Hermes 的 `register_hermes()` 原生工具注册契约继续保留；完整 session 与持久化范围的适配尚未完成。旧开发脚本 `native_ga_smoke.py` 和 `HTTPGameClient` 仅用于开发，不作为正式隔离运行器。
+Hermes 使用原生 `AIAgent.run_conversation()`、`memory` 与 skills 工具。`HERMES_HOME`、会话数据库、日志和缓存在每项委托重建；原生 `memories/`、`skills/` 与技能回滚数据 `.curator_backups/` 指向持久目录，普通文件工具保存到 `../memory/` 的内容也按同一快照协议传递。默认技能从固定上游源码复制，初始记忆不含游戏经验。保留原生 Tool Search：`game_action` 可以通过其 `tool_describe` / `tool_call` 发现和调用，内部仍进入相同游戏 MCP。
+
+Hermes 的后台经验整理保留，实际模型调用计入当前阶段的公共预算；切换阶段和生成快照前等待整理结束。预算终止时保留当前原生上下文，用于同会话末尾整理。原生 MemoryStore 自动注入的经验与显式文件／技能读取应分别核查，不能只统计 `file_read`。
+
+2026-10-27 固定源码：GA `e4d956f0207a2d268704634473196353946481bc`；Hermes `e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6`。GA 兼容旧 `GeneraticAgent` 与新版 `GenericAgent`、新版 dispatch。源码归档不进入公共仓库。
+
+Hermes 当前上游使用 Python 3.14。用其 `uv.lock` 和 `[tool.uv]` 配置安装依赖；普通 `pip install` 不会应用上游的依赖覆盖规则。可通过 `--runtime` 指定独立环境，通过重复的 `--runtime-dependency` 只读挂载该环境所依赖的 Python 安装目录。不得挂载用户主目录或评测源码。
+
+四站 Easy20 的同协议入口如下；将路径替换为自己独立安装的运行环境：
+
+```powershell
+python -m memorybenchmark.prototypes.station_pilot path/to/hermes-source.tar.gz --agent hermes --output .runs/hermes-easy20 --design memorybenchmark/data/station_easy20_choice.json --base-url https://your-gateway --model your-model --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime --max-turns 40 --final-turns 6 --max-output-tokens 0
+python scripts/check_station_native_sessions.py path/to/native-source.tar.gz --agent hermes --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime
+```
+
+第二条命令使用脚本响应检查真实原生运行链路，不产生真实模型调用，也不构成记忆成绩。旧开发脚本 `native_ga_smoke.py` 和 `HTTPGameClient` 仅用于开发，不作为正式隔离运行器。
 
 官方协议与 SDK 依据：[MCP 工具](https://modelcontextprotocol.io/specification/2025-11-25/server/tools)、[Python SDK v1.30.0](https://github.com/modelcontextprotocol/python-sdk/tree/v1.30.0)。

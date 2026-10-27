@@ -11,7 +11,6 @@ from pathlib import Path
 import random
 import sys
 import threading
-import types
 
 
 PROTOCOL = "ga-session-1"
@@ -163,6 +162,8 @@ def main():
         raise RuntimeError("protocol mismatch")
     sys.stdout = sys.stderr = LogSink(wire)
     random.seed(config["seed"])
+    # Keep the experiment language stable across old and current GA releases.
+    os.environ["GA_LANG"] = "zh"
     isolation = probe()
     if config.get("probe_only"):
         wire.emit("finished", isolation=isolation)
@@ -177,12 +178,13 @@ def main():
     phase_calls = {"main": 0, "final": 0}
     # Virtual configuration contains only a dummy credential. Native serialization
     # and SSE parsing remain unchanged; authenticated HTTPS runs in the parent.
-    credentials = types.ModuleType("mykey")
-    credentials.proxy = None
-    credentials.native_oai_config = {"apikey": "runner-managed", "apibase": "https://model.invalid",
+    native_config = {"apikey": "runner-managed", "apibase": "https://model.invalid",
         "model": config["model"], "api_mode": "responses", "reasoning_effort": "low",
         "max_retries": 0, "connect_timeout": 5, "read_timeout": 45, "context_win": 50000, "proxy": None}
-    sys.modules["mykey"] = credentials
+    # Current GA reloads mykey using find_spec and an on-disk timestamp. A
+    # per-session dummy file supports that native loader without any real key.
+    Path("/agent/temp/mykey.py").write_text("proxy = None\nnative_oai_config = " + repr(native_config), encoding="utf-8")
+    sys.path.insert(0, "/agent/temp")
     import requests
 
     class ProxiedResponse:
@@ -208,7 +210,8 @@ def main():
     import agentmain
     from agent_loop import StepOutcome
     from agent_bridge import GameTool, register_genericagent
-    agent = agentmain.GeneraticAgent()
+    agent_class = getattr(agentmain, "GenericAgent", None) or agentmain.GeneraticAgent
+    agent = agent_class()
     agent.next_llm(0)
     agent.task_dir = "/agent/temp"
     agent.verbose = False
@@ -226,12 +229,14 @@ def main():
         return result
     register_genericagent(agentmain, agent, StepOutcome, GameTool(game_request,
         definition=config.get("game_tool"), target_actions=config.get("game_target_actions", ("move", "take"))))
-    original_before = handler.tool_before_callback
-    def before(name, args, response):
+    # Current GA replaced tool_before_callback with plugin hooks. Observe the
+    # shared dispatch boundary without replacing native tool or memory logic.
+    original_dispatch = handler.dispatch
+    def dispatch(name, args, response, *args_, **kwargs):
         wire.emit("tool", name=name, args={k:v for k,v in args.items() if not k.startswith("_")},
                   response_text=response.content)
-        return original_before(name, args, response)
-    handler.tool_before_callback = before
+        return original_dispatch(name, args, response, *args_, **kwargs)
+    handler.dispatch = dispatch
     system = agentmain.get_system_prompt() + config.get("game_guide", GUIDE)
     wire.emit("session", protocol=PROTOCOL, isolation=isolation, execution_protocol=EXECUTION_PROTOCOL,
               prompt_protocol=config.get("prompt_protocol", PROMPT_PROTOCOL), task_reminder=reminder,

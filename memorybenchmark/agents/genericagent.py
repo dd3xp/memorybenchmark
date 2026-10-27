@@ -7,6 +7,7 @@ from ..ga_worker import PROMPT_PROTOCOL
 class GenericAgentAdapter(AgentAdapter):
     agent_id = "ga"
     label = "bundled_GenericAgent"
+    version = "2"
     prompt_protocol = PROMPT_PROTOCOL
     task_anchor = "public_current_task_on_every_model_call"
     worker_protocol = "ga-session-1"

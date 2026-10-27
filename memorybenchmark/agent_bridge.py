@@ -86,8 +86,9 @@ def register_hermes(registry, create_custom_toolset, game_tool):
     """Register through Hermes' existing tool registry; no memory replacement."""
     def handler(args, **kwargs):
         return json.dumps(game_tool(args), ensure_ascii=False)
-    registry.register(name="game_action", toolset="cartography", schema=deepcopy(GAME_TOOL),
-                      handler=handler, description=GAME_TOOL["description"])
+    definition = deepcopy(getattr(game_tool, "definition", GAME_TOOL))
+    registry.register(name="game_action", toolset="cartography", schema=definition,
+                      handler=handler, description=definition["description"])
     create_custom_toolset("cartography", "Cartography game", tools=["game_action"], includes=[])
     return handler
 

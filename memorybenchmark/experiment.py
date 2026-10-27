@@ -206,6 +206,7 @@ def main(argv=None):
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--distro", default="Ubuntu-24.04")
     parser.add_argument("--runtime")
+    parser.add_argument("--runtime-dependency", action="append", default=[])
     parser.add_argument("--infra-retries", type=int, default=1, choices=range(4))
     args = parser.parse_args(argv)
     if args.list_agents:
@@ -236,7 +237,7 @@ def main(argv=None):
     if saved is None and args.archive is None:
         parser.error("archive is required for a new run")
     output = args.resume or args.output or Path(".runs/agent-cross-session") / uuid4().hex
-    jail = WSLJail(args.distro, args.runtime)
+    jail = WSLJail(args.distro, args.runtime, args.runtime_dependency)
     model = GatewayModel(args.base_url, key, saved["model_alias"] if saved else args.model,
                          saved["max_output_tokens"] if saved else args.max_output_tokens or None)
     if saved:

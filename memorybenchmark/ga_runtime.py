@@ -1,6 +1,8 @@
 """Pristine native source, bounded memory snapshots and fail-closed WSL jail."""
 from hashlib import sha256
+from copy import copy
 import json
+import os
 from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
@@ -11,9 +13,17 @@ class IsolationError(RuntimeError):
     pass
 
 
+def filesystem_path(path):
+    """Use extended Windows paths for deep upstream skills and snapshots."""
+    path = Path(path)
+    if os.name == "nt" and not str(path).startswith("\\\\?\\"):
+        return Path("\\\\?\\" + str(path.resolve()))
+    return path
+
+
 def memory_manifest(root):
     """Reject links/special files; snapshots must not follow an agent out of jail."""
-    root = Path(root)
+    root = filesystem_path(root)
     if root.is_symlink() or not root.is_dir():
         raise ValueError("memory must be a real directory")
     result, total = {}, 0
@@ -37,7 +47,7 @@ def copy_memory(source, destination):
     destination = Path(destination)
     if destination.exists():
         raise FileExistsError("snapshot destination must be new")
-    shutil.copytree(source, destination, symlinks=False)
+    shutil.copytree(filesystem_path(source), filesystem_path(destination), symlinks=False)
     if memory_manifest(destination) != expected:
         raise RuntimeError("memory changed during snapshot")
     return expected
@@ -47,17 +57,21 @@ def changed_files(before, after):
     return sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
 
 
-def extract_native(archive, destination):
+def extract_native(archive, destination, *, native="ga"):
     """Preserve shipped memory/SOPs. No old temp, credentials, caches or links."""
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=False)
+    # GitHub source trees can contain deeply nested UI/tests unrelated to the
+    # worker. Preserve the complete tree even on Windows with MAX_PATH enabled.
+    extraction_destination = filesystem_path(destination)
     total = 0
+    expected_root = "GenericAgent" if native == "ga" else "hermes-agent"
     with tarfile.open(archive) as bundle:
         for member in bundle:
             path = PurePosixPath(member.name)
             if path.is_absolute() or ".." in path.parts or not path.parts:
                 raise ValueError("unsafe archive member")
-            if path.parts[0] != "GenericAgent":
+            if path.parts[0] != expected_root and not path.parts[0].startswith(expected_root + "-"):
                 continue
             if member.issym() or member.islnk():
                 continue
@@ -68,16 +82,22 @@ def extract_native(archive, destination):
             if path.name.startswith(".env") or path.name in ("mykey.py", "mykey.json") or path.suffix in (".pyc", ".log"):
                 continue
             total += member.size
-            if total > 256 * 1024**2:
+            if total > 512 * 1024**2:
                 raise ValueError("native archive too large")
-            bundle.extract(member, destination, filter="data")
-    source = destination / "GenericAgent"
-    for required in ("agentmain.py", "agent_loop.py", "ga.py", "memory/memory_management_sop.md"):
+            member = copy(member)
+            member.name = PurePosixPath(expected_root, *path.parts[1:]).as_posix()
+            bundle.extract(member, extraction_destination, filter="data")
+    source = destination / expected_root
+    required_files = (("agentmain.py", "agent_loop.py", "ga.py", "memory/memory_management_sop.md")
+                      if native == "ga" else ("run_agent.py", "tools/memory_tool.py", "agent/conversation_loop.py"))
+    for required in required_files:
         if not (source / required).is_file():
             raise ValueError("native source or memory SOP missing: " + required)
     # The archive may omit this empty runtime directory; its mount target exists.
     (source / "temp").mkdir(exist_ok=True)
-    memory_manifest(source / "memory")
+    (source / "memory").mkdir(exist_ok=True)
+    if native == "ga":
+        memory_manifest(source / "memory")
     return source
 
 
@@ -87,10 +107,11 @@ class WSLJail:
     No host network, host PID namespace, /mnt/c, credentials or evaluator mount.
     Requires WSL2 Ubuntu with bubblewrap; there is no unisolated fallback.
     """
-    def __init__(self, distro="Ubuntu-24.04", runtime=None):
+    def __init__(self, distro="Ubuntu-24.04", runtime=None, runtime_dependencies=()):
         self.distro = distro
         self.runtime = runtime or self._run(["python3", "-c",
             "from pathlib import Path; print(Path.home()/'.local/share/memorybenchmark/runtime')"]).strip()
+        self.runtime_dependencies = tuple(runtime_dependencies)
 
     def _run(self, args):
         result = subprocess.run(["wsl", "-d", self.distro, "--exec", *args],
@@ -110,12 +131,18 @@ class WSLJail:
                 raise ValueError("jail mounts must be real directories")
         if Path(worker_filename).name != worker_filename or not worker_filename.endswith(".py"):
             raise ValueError("worker must be a Python file directly inside support")
+        dependency_mounts = []
+        for dependency in self.runtime_dependencies:
+            if not str(dependency).startswith("/") or str(dependency) in ("/", "/home", "/root"):
+                raise ValueError("runtime dependency must name a specific absolute runtime directory")
+            dependency_mounts += ["--ro-bind", str(dependency), str(dependency)]
         argv = ["timeout", "--signal=KILL", str(wall_seconds), "bwrap", "--unshare-all",
                 "--die-with-parent", "--new-session", "--cap-drop", "ALL",
                 "--ro-bind", "/usr", "/usr", "--symlink", "usr/bin", "/bin",
                 "--symlink", "usr/lib", "/lib", "--symlink", "usr/lib64", "/lib64",
                 "--proc", "/proc", "--dev", "/dev", "--tmpfs", "/tmp",
                 "--tmpfs", "/home", "--dir", "/home/agent", "--tmpfs", "/run",
+                *dependency_mounts,
                 "--ro-bind", self.runtime, "/opt/ga-runtime",
                 "--ro-bind", self.path(source), "/agent",
                 "--bind", self.path(memory), "/agent/memory", "--tmpfs", "/agent/temp",
