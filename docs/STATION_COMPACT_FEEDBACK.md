@@ -29,3 +29,9 @@ python -m scripts.check_station_feedback --output .runs/feedback-check.json
 两种模式共享同一游戏内核、MCP 工具、GA／Hermes 原生循环和记忆工具。后续真实对照应使用新目录、相同世界与预算，并分别从各 Agent 的原生基础库开始。
 
 真实原生接入可使用脚本模型离线检查，支持 `scripts/check_station_native_sessions.py --feedback-mode compact` 或 `full`。该检查核对完整 `read` 和精简动作确实进入原生模型请求、交付日志哈希、两段同 session、记忆保留／清除、空历史和预算后同会话整理；人工标记仅用于软件测试。
+
+## 部署验收
+
+2026-10-28，`68072cd` 已同步 Squishy，服务器 173 项回归全部通过。本机同套回归通过，6 项因可选 SDK／系统权限跳过；[Windows／Linux、Python 3.10／3.12 CI](https://github.com/dd3xp/memorybenchmark/actions/runs/40789647142) 全部通过。GA 和 Hermes 各自真实原生循环的脚本检查通过，固定两段行程均为 29 次游戏操作、距离 30；完整查询与精简动作响应在实际模型请求中核对通过。
+
+[验收记录](assets/station-compact-feedback/deployment-validation.json)保留源码提交、上游归档和交付日志指纹。观测服务继续运行，公网 TLS、登录页 200、未登录实验接口 401 均正常；旧模型实验任务处于待命状态。本次没有调用真实模型，新协议的记忆效果尚待独立实跑。

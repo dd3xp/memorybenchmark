@@ -1,0 +1,53 @@
+{
+  "kind": "squishy_compact_feedback_deployment",
+  "source_commit": "68072cd5864e42ef5ea112b59edbad124b13889f",
+  "server_tests": "Ran 173 tests in 87.421s",
+  "server_tests_passed": true,
+  "native_contracts": [
+    {
+      "agent": "ga",
+      "passed": true,
+      "feedback_protocol": "station-compact-feedback-1",
+      "feedback_mode": "compact",
+      "linked_actions": 29,
+      "linked_distance": 30,
+      "archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2",
+      "game_deliveries_sha256": "fab115533be8344a3922e9f04390d44b8c2883e123b4209fd2c71932232ea53e",
+      "real_model_calls": 0
+    },
+    {
+      "agent": "hermes",
+      "passed": true,
+      "feedback_protocol": "station-compact-feedback-1",
+      "feedback_mode": "compact",
+      "linked_actions": 29,
+      "linked_distance": 30,
+      "archive_sha256": "d23ec65ea39b29fd946e829483659840b021f92be225534e7997f21eb8487c9a",
+      "game_deliveries_sha256": "0716ce6a756b3820d52c973047bcd8cdb41aa691c8ba40c9bc0ae7659105ad96",
+      "real_model_calls": 0
+    }
+  ],
+  "watch_state": "Running",
+  "trial_state": "Ready",
+  "real_model_calls": 0,
+  "collected_at_utc": "2026-10-28T23:54:21.6459139Z",
+  "local_regression": {
+    "tests": 173,
+    "skipped": 6,
+    "passed": true
+  },
+  "ci": [
+    {
+      "id": 40789647142,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/dd3xp/memorybenchmark/actions/runs/40789647142"
+    }
+  ],
+  "public_https": {
+    "tls_verified": true,
+    "login_page_status": 200,
+    "unauthenticated_watch_api_status": 401
+  },
+  "unrelated_deployment_doc_preserved": true
+}
