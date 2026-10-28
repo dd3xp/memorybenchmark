@@ -11,6 +11,33 @@ from memorybenchmark.errors import InfrastructureError
 
 
 class WorkerErrorReportingTests(unittest.TestCase):
+    def test_wall_expiry_during_model_response_is_not_a_generic_pipe_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            script = root / "worker.py"
+            script.write_text(
+                "import json,sys\n"
+                "sys.stdin.readline()\n"
+                "print(json.dumps({'kind':'request','id':1,'method':'model','params':{'input':[]}}),flush=True)\n"
+                "raise SystemExit(9)\n", encoding="utf-8")
+            class Jail:
+                def command(self, *args, **kwargs):
+                    return [sys.executable, "-u", str(script)]
+            output = root / "session"; output.mkdir()
+            sessions = WorkerSessions(root, root, Jail(), model_alias="fixture", game_transport="legacy-rpc")
+            with patch("memorybenchmark.agent_sessions.time.monotonic", return_value=100) as clock:
+                def model(payload):
+                    clock.return_value = 1001
+                    return {"lines": []}
+                report = sessions._worker(root, output, {}, model=model)
+            self.assertFalse(report["infrastructure_ok"])
+            self.assertEqual(report["infrastructure_error"], "worker_wall_timeout")
+            self.assertEqual(report["worker_returncode"], 9)
+            self.assertEqual(report["worker_elapsed_seconds"], 901)
+            self.assertEqual(report["wall_seconds"], 900)
+            self.assertEqual(report["llm_calls"], 1)
+            self.assertNotIn("host_io_error", report)
+
     def test_queued_worker_failure_survives_closed_model_response_pipe(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

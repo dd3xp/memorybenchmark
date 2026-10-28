@@ -42,9 +42,10 @@ class WorkerSessions:
                                     worker_filename=self.worker_filename)
         messages = queue.Queue()
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
-                  "infrastructure_ok":False, "continuations":[]}
+                  "infrastructure_ok":False, "continuations":[], "wall_seconds":self.wall_seconds}
         final_phase = False
         error_log = (output / "worker.stderr").open("w", encoding="utf-8")
+        started = time.monotonic()
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=error_log,
                                    text=True, encoding="utf-8", errors="replace", bufsize=1)
         report["host_process_id"] = process.pid
@@ -59,6 +60,10 @@ class WorkerSessions:
         reader = threading.Thread(target=read, daemon=True)
         reader.start()
         def send(value):
+            # A model response can arrive after timeout(1) has killed the jail.
+            # Classify the elapsed wall budget before writing to its dead pipe.
+            if time.monotonic() - started >= self.wall_seconds:
+                raise InfrastructureError("worker_wall_timeout")
             process.stdin.write(json.dumps(value, ensure_ascii=False) + "\n")
             process.stdin.flush()
         deadline = time.monotonic() + self.wall_seconds + 10
@@ -172,6 +177,7 @@ class WorkerSessions:
             reader.join(timeout=2)
             error_log.close()
             report["worker_returncode"] = process.poll()
+            report["worker_elapsed_seconds"] = round(time.monotonic() - started, 3)
             # A worker can report its failure while the parent is servicing its
             # last model request. Sending that response then hits a closed pipe;
             # preserve the already queued root error instead of losing it.

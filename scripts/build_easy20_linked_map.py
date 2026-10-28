@@ -56,7 +56,7 @@ def build():
         tasks[f"T{index+1}"] = {"name": f"联程巡测 {index+1:02d}", "start": "C", "submit_at": "C",
                                **stages[0], "stages": stages, "max_steps": 72}
     design.update(design_id=public["version"], status="linked_itinerary_pending_native_agent_calibration", tasks=tasks)
-    design["native_session_budget"] = {"main_model_calls": 100}
+    design["native_session_budget"] = {"main_model_calls": 100, "wall_seconds": 3600}
     design["presentation"]["subtitle"] = "联程巡测 · 两段委托与支路选择"
     return design
 

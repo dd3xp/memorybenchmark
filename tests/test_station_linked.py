@@ -146,7 +146,7 @@ class LinkedStationTests(unittest.TestCase):
         from memorybenchmark.prototypes.station_pilot import pilot
         budgets=[];completed=[]
         class ScriptedFixture:
-            def __init__(self,*args,**kwargs):budgets.append(kwargs['max_turns'])
+            def __init__(self,*args,**kwargs):budgets.append((kwargs['max_turns'],kwargs['wall_seconds']))
             def probe(self,baseline,output):output.mkdir();(output/'summary.json').write_text('{}')
             def run(self,game,task,memory,output,model,*,condition):
                 output.mkdir(parents=True);game.start_task(task);feedback_policy(game,retain_history=condition!='clear')
@@ -166,7 +166,11 @@ class LinkedStationTests(unittest.TestCase):
                  patch('memorybenchmark.prototypes.station_pilot.StationNativeSessions',ScriptedFixture),redirect_stdout(io.StringIO()):
                 report=pilot(archive,root/'pilot',None,None,design_path=EASY20_LINKED_DESIGN,
                              tasks=['T1','T2','T3'],world='omega_5555')
-            self.assertEqual(budgets,[100]);self.assertEqual(report['max_turns'],100)
+            self.assertEqual(budgets,[(100,3600)]);self.assertEqual(report['max_turns'],100)
+            self.assertEqual(report['wall_seconds'],3600)
+            with self.assertRaisesRegex(ValueError,'wall-clock budget'):
+                pilot(archive,root/'pilot',None,None,design_path=EASY20_LINKED_DESIGN,
+                      resume=True,wall_seconds=900)
             self.assertEqual(len(completed),5);self.assertTrue(all(n==2 for _,_,n in completed))
 
 

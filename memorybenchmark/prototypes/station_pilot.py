@@ -117,7 +117,7 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=None, final_turns=6, resume=False, world=None, design_path=None, agent="ga"):
+          max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga"):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
     output = Path(output).resolve()
@@ -128,6 +128,10 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             raise ValueError("Cannot change native agent when resuming")
         if world is not None and world != report["world"]:
             raise ValueError("Cannot change the private world when resuming")
+        recorded_wall = report.get("wall_seconds", 900)
+        if wall_seconds is not None and wall_seconds != recorded_wall:
+            raise ValueError("Cannot change the wall-clock budget when resuming")
+        wall_seconds = recorded_wall
         for path, digest in report["implementation_sha256"].items():
             if sha256(Path(path).read_bytes()).hexdigest() != digest:
                 raise RuntimeError("Pilot source changed; do not resume this run")
@@ -140,8 +144,12 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         design = load_design(selected_design)
         if max_turns is None:
             max_turns = design.get("native_session_budget", {}).get("main_model_calls", 40)
+        if wall_seconds is None:
+            wall_seconds = design.get("native_session_budget", {}).get("wall_seconds", 900)
         if type(max_turns) is not int or max_turns < 1 or type(final_turns) is not int or final_turns < 0:
             raise ValueError("Native call budgets must be positive main calls and nonnegative final calls")
+        if type(wall_seconds) is not int or not 10 <= wall_seconds <= 3600:
+            raise ValueError("Native wall-clock budget must be 10..3600 seconds")
         if world is not None and world not in design["private_worlds"]:
             raise ValueError("Unknown private world fixture")
         tasks = list(tasks or design["tasks"])
@@ -163,6 +171,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             paths += [Path(__file__).parents[1] / "hermes_worker.py", Path(__file__).parents[1] / "agents/hermes.py"]
         report = {"protocol": "station-native-pilot-1", "agent": agent, "status": "running", "seed": seed, "design_id": design["design_id"],
                   "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
+                  "wall_seconds": wall_seconds,
                   # The worker receives its RNG seed; hidden-world sampling must
                   # be independent so that seed cannot disclose the assignment.
                   "world": world if world is not None else choice(sorted(design["private_worlds"])),
@@ -176,7 +185,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         save_json(output / "pilot.json", report)
     sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"), output / "support", jail,
                                      agent=agent,
-                                     model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns)
+                                     model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns,
+                                     wall_seconds=wall_seconds)
     if not (output / "probe" / "summary.json").exists():
         sessions.probe(output / "baseline", output / "probe")
     canonical = []
@@ -240,6 +250,7 @@ def main():
     parser.add_argument("--tasks", nargs="+")
     parser.add_argument("--max-turns", type=int, help="override map-specific main model-call budget; legacy maps default to 40")
     parser.add_argument("--final-turns", type=int, default=6)
+    parser.add_argument("--wall-seconds", type=int, help="per-session wall-clock limit including native review; map-specific, legacy default 900")
     parser.add_argument("--distro", default="Ubuntu-24.04")
     parser.add_argument("--runtime")
     parser.add_argument("--runtime-dependency", action="append", default=[])
@@ -259,7 +270,7 @@ def main():
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
     pilot(args.archive, args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model, seed=args.seed, model_alias=args.model,
           tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
-          design_path=args.design, agent=args.agent)
+          design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds)
 
 
 if __name__ == "__main__":

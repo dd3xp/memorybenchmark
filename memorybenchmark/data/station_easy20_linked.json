@@ -1331,6 +1331,7 @@
     }
   },
   "native_session_budget": {
-    "main_model_calls": 100
+    "main_model_calls": 100,
+    "wall_seconds": 3600
   }
 }

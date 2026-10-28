@@ -81,7 +81,9 @@ python -m unittest discover -s tests -v
 python -m memorybenchmark.prototypes.station_session --design memorybenchmark/data/station_easy20_linked.json --human --all-tasks
 ```
 
-原生入口沿用同一个 MCP 和薄适配器，只替换 `--design memorybenchmark/data/station_easy20_linked.json`。该地图默认每任务最多 100 次主阶段模型调用，加同一 session 内最多 6 次收尾调用；可显式覆盖 `--max-turns`，旧地图仍默认 40。预算是上限，不要求用满。运行新地图必须创建新实验目录、恢复各 Agent 自己的原始库，不能把旧世界经验带入。
+原生入口沿用同一个 MCP 和薄适配器，只替换 `--design memorybenchmark/data/station_easy20_linked.json`。该地图默认每任务最多 100 次主阶段模型调用，加同一 session 内最多 6 次收尾调用；可显式覆盖 `--max-turns`，旧地图仍默认 40。每个原生进程的总时限为 3,600 秒，包含初始化、会话内压缩和经验整理；`--wall-seconds` 可显式指定，记录后续跑沿用原值，旧日志缺省仍为 900 秒。预算是上限，不要求用满。运行新地图必须创建新实验目录、恢复各 Agent 自己的原始库，不能把旧世界经验带入。
+
+2026-10-28 排查首轮 Hermes 中断：启动器此前遗漏了联程版的进程时限配置，仍使用旧版 900 秒。T1 已完成两段并提交（36 次游戏操作、距离 38），但原生经验整理尚未结束，模型响应在进程时限后返回，宿主向已关闭的管道发送响应产生 `OSError`。该尝试没有完整记忆快照，不计作有效任务成绩。修复后显式记录时限与实际进程耗时，到期标记 `worker_wall_timeout`；新一轮使用原隐藏配置，重新从原生基础库开始，保留旧尝试。
 
 `scripts/check_station_native_sessions.py` 另有脚本模型的两段完整行程检查：两次 process 与最终 submit 必须在一个原生 session，第一段不得提前结束。这是接入检查，不是 Agent 的游戏或记忆成绩。
 
