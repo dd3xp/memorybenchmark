@@ -1,0 +1,980 @@
+{
+  "kind": "fixed_historical_actions_feedback_replay_not_agent_performance",
+  "passed": true,
+  "llm_calls": 0,
+  "design_id": "lanting-easy20-linked-v3",
+  "private_fixture": "omega_3051",
+  "source_traces_sha256": "10a1bd11693ef0b91ac7669db707803c7adab3d977b16fd756a17dc9c90b9635",
+  "source_pilot_sha256": "7498cc1c2a6070f00e6e60642f9a94c716862e229780b46ffd811c94a3a6cb3c",
+  "feedback_protocols": {
+    "full": "station-full-feedback-1",
+    "compact": "station-compact-feedback-1"
+  },
+  "sessions": 39,
+  "actions": 1747,
+  "moves": 1542,
+  "successes": 35,
+  "comparison_scope": "Action response JSON only, ensure_ascii=False and default separators; excludes initial map, explicit reads, native wrappers and model tokens",
+  "same_canonical_events_and_published_graphs": true,
+  "full_map_read_is_free": true,
+  "totals": {
+    "full_chars": 16103871,
+    "compact_chars": 1776586,
+    "full_utf8_bytes": 19355656,
+    "compact_utf8_bytes": 2129874
+  },
+  "mean_chars_per_action": {
+    "full": 9218.014310246137,
+    "compact": 1016.9353176874642
+  },
+  "character_reduction_fraction": 0.8896795683472626,
+  "utf8_byte_reduction_fraction": 0.8899611565735618,
+  "per_session": [
+    {
+      "session": "01-T1-prefix",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331703,
+      "compact_chars": 36479,
+      "full_utf8_bytes": 398707,
+      "compact_utf8_bytes": 43759
+    },
+    {
+      "session": "02-T2-retain",
+      "actions": 46,
+      "moves": 41,
+      "distance": 51,
+      "success": true,
+      "full_chars": 424351,
+      "compact_chars": 47073,
+      "full_utf8_bytes": 509961,
+      "compact_utf8_bytes": 56369
+    },
+    {
+      "session": "02-T2-clear",
+      "actions": 44,
+      "moves": 39,
+      "distance": 47,
+      "success": true,
+      "full_chars": 405687,
+      "compact_chars": 44831,
+      "full_utf8_bytes": 487529,
+      "compact_utf8_bytes": 53677
+    },
+    {
+      "session": "03-T3-retain",
+      "actions": 58,
+      "moves": 51,
+      "distance": 61,
+      "success": true,
+      "full_chars": 534330,
+      "compact_chars": 58658,
+      "full_utf8_bytes": 642180,
+      "compact_utf8_bytes": 70286
+    },
+    {
+      "session": "03-T3-clear",
+      "actions": 52,
+      "moves": 45,
+      "distance": 55,
+      "success": true,
+      "full_chars": 479128,
+      "compact_chars": 52642,
+      "full_utf8_bytes": 575834,
+      "compact_utf8_bytes": 63080
+    },
+    {
+      "session": "04-T4-retain",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 332032,
+      "compact_chars": 36800,
+      "full_utf8_bytes": 399166,
+      "compact_utf8_bytes": 44194
+    },
+    {
+      "session": "04-T4-clear",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 332032,
+      "compact_chars": 36800,
+      "full_utf8_bytes": 399166,
+      "compact_utf8_bytes": 44194
+    },
+    {
+      "session": "05-T5-retain",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331761,
+      "compact_chars": 36537,
+      "full_utf8_bytes": 398765,
+      "compact_utf8_bytes": 43817
+    },
+    {
+      "session": "05-T5-clear",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331761,
+      "compact_chars": 36537,
+      "full_utf8_bytes": 398765,
+      "compact_utf8_bytes": 43817
+    },
+    {
+      "session": "06-T6-retain",
+      "actions": 44,
+      "moves": 39,
+      "distance": 47,
+      "success": true,
+      "full_chars": 405700,
+      "compact_chars": 44844,
+      "full_utf8_bytes": 487572,
+      "compact_utf8_bytes": 53720
+    },
+    {
+      "session": "06-T6-clear",
+      "actions": 67,
+      "moves": 58,
+      "distance": 67,
+      "success": false,
+      "full_chars": 616782,
+      "compact_chars": 67323,
+      "full_utf8_bytes": 741345,
+      "compact_utf8_bytes": 80733
+    },
+    {
+      "session": "07-T7-retain",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331888,
+      "compact_chars": 36664,
+      "full_utf8_bytes": 398892,
+      "compact_utf8_bytes": 43944
+    },
+    {
+      "session": "07-T7-clear",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331888,
+      "compact_chars": 36664,
+      "full_utf8_bytes": 398892,
+      "compact_utf8_bytes": 43944
+    },
+    {
+      "session": "08-T8-retain",
+      "actions": 37,
+      "moves": 33,
+      "distance": 41,
+      "success": true,
+      "full_chars": 341390,
+      "compact_chars": 37933,
+      "full_utf8_bytes": 410405,
+      "compact_utf8_bytes": 45547
+    },
+    {
+      "session": "08-T8-clear",
+      "actions": 51,
+      "moves": 45,
+      "distance": 55,
+      "success": true,
+      "full_chars": 470154,
+      "compact_chars": 51867,
+      "full_utf8_bytes": 565175,
+      "compact_utf8_bytes": 62233
+    },
+    {
+      "session": "09-T9-retain",
+      "actions": 51,
+      "moves": 45,
+      "distance": 55,
+      "success": true,
+      "full_chars": 469965,
+      "compact_chars": 51701,
+      "full_utf8_bytes": 564826,
+      "compact_utf8_bytes": 61953
+    },
+    {
+      "session": "09-T9-clear",
+      "actions": 53,
+      "moves": 47,
+      "distance": 57,
+      "success": true,
+      "full_chars": 488502,
+      "compact_chars": 53829,
+      "full_utf8_bytes": 587115,
+      "compact_utf8_bytes": 64515
+    },
+    {
+      "session": "10-T10-retain",
+      "actions": 29,
+      "moves": 26,
+      "distance": 32,
+      "success": true,
+      "full_chars": 267713,
+      "compact_chars": 29889,
+      "full_utf8_bytes": 321830,
+      "compact_utf8_bytes": 35879
+    },
+    {
+      "session": "10-T10-clear",
+      "actions": 38,
+      "moves": 34,
+      "distance": 40,
+      "success": true,
+      "full_chars": 350657,
+      "compact_chars": 39016,
+      "full_utf8_bytes": 421551,
+      "compact_utf8_bytes": 46852
+    },
+    {
+      "session": "11-T11-retain",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331833,
+      "compact_chars": 36609,
+      "full_utf8_bytes": 398837,
+      "compact_utf8_bytes": 43889
+    },
+    {
+      "session": "11-T11-clear",
+      "actions": 36,
+      "moves": 32,
+      "distance": 38,
+      "success": true,
+      "full_chars": 331833,
+      "compact_chars": 36609,
+      "full_utf8_bytes": 398837,
+      "compact_utf8_bytes": 43889
+    },
+    {
+      "session": "12-T12-retain",
+      "actions": 64,
+      "moves": 56,
+      "distance": 65,
+      "success": false,
+      "full_chars": 589421,
+      "compact_chars": 64620,
+      "full_utf8_bytes": 708431,
+      "compact_utf8_bytes": 77454
+    },
+    {
+      "session": "12-T12-clear",
+      "actions": 69,
+      "moves": 60,
+      "distance": 69,
+      "success": false,
+      "full_chars": 635220,
+      "compact_chars": 69418,
+      "full_utf8_bytes": 763491,
+      "compact_utf8_bytes": 83218
+    },
+    {
+      "session": "13-T13-retain",
+      "actions": 67,
+      "moves": 58,
+      "distance": 67,
+      "success": false,
+      "full_chars": 616942,
+      "compact_chars": 67484,
+      "full_utf8_bytes": 741505,
+      "compact_utf8_bytes": 80894
+    },
+    {
+      "session": "13-T13-clear",
+      "actions": 68,
+      "moves": 60,
+      "distance": 70,
+      "success": true,
+      "full_chars": 626518,
+      "compact_chars": 68831,
+      "full_utf8_bytes": 752968,
+      "compact_utf8_bytes": 82469
+    },
+    {
+      "session": "14-T14-retain",
+      "actions": 29,
+      "moves": 26,
+      "distance": 30,
+      "success": true,
+      "full_chars": 267751,
+      "compact_chars": 29935,
+      "full_utf8_bytes": 321766,
+      "compact_utf8_bytes": 35839
+    },
+    {
+      "session": "14-T14-clear",
+      "actions": 30,
+      "moves": 26,
+      "distance": 30,
+      "success": true,
+      "full_chars": 276928,
+      "compact_chars": 30890,
+      "full_utf8_bytes": 332788,
+      "compact_utf8_bytes": 36980
+    },
+    {
+      "session": "15-T15-retain",
+      "actions": 29,
+      "moves": 26,
+      "distance": 30,
+      "success": true,
+      "full_chars": 267490,
+      "compact_chars": 29674,
+      "full_utf8_bytes": 321505,
+      "compact_utf8_bytes": 35578
+    },
+    {
+      "session": "15-T15-clear",
+      "actions": 29,
+      "moves": 26,
+      "distance": 30,
+      "success": true,
+      "full_chars": 267490,
+      "compact_chars": 29674,
+      "full_utf8_bytes": 321505,
+      "compact_utf8_bytes": 35578
+    },
+    {
+      "session": "16-T16-retain",
+      "actions": 47,
+      "moves": 42,
+      "distance": 52,
+      "success": true,
+      "full_chars": 433790,
+      "compact_chars": 48292,
+      "full_utf8_bytes": 521465,
+      "compact_utf8_bytes": 57976
+    },
+    {
+      "session": "16-T16-clear",
+      "actions": 51,
+      "moves": 45,
+      "distance": 55,
+      "success": true,
+      "full_chars": 470085,
+      "compact_chars": 51798,
+      "full_utf8_bytes": 565106,
+      "compact_utf8_bytes": 62164
+    },
+    {
+      "session": "17-T17-retain",
+      "actions": 29,
+      "moves": 26,
+      "distance": 30,
+      "success": true,
+      "full_chars": 267637,
+      "compact_chars": 29821,
+      "full_utf8_bytes": 321652,
+      "compact_utf8_bytes": 35725
+    },
+    {
+      "session": "17-T17-clear",
+      "actions": 29,
+      "moves": 26,
+      "distance": 30,
+      "success": true,
+      "full_chars": 267637,
+      "compact_chars": 29821,
+      "full_utf8_bytes": 321652,
+      "compact_utf8_bytes": 35725
+    },
+    {
+      "session": "18-T18-retain",
+      "actions": 45,
+      "moves": 40,
+      "distance": 48,
+      "success": true,
+      "full_chars": 415082,
+      "compact_chars": 46028,
+      "full_utf8_bytes": 498813,
+      "compact_utf8_bytes": 55104
+    },
+    {
+      "session": "18-T18-clear",
+      "actions": 66,
+      "moves": 58,
+      "distance": 68,
+      "success": true,
+      "full_chars": 608197,
+      "compact_chars": 66919,
+      "full_utf8_bytes": 730865,
+      "compact_utf8_bytes": 80093
+    },
+    {
+      "session": "19-T19-retain",
+      "actions": 67,
+      "moves": 57,
+      "distance": 67,
+      "success": true,
+      "full_chars": 616906,
+      "compact_chars": 67382,
+      "full_utf8_bytes": 741435,
+      "compact_utf8_bytes": 80758
+    },
+    {
+      "session": "19-T19-clear",
+      "actions": 51,
+      "moves": 45,
+      "distance": 53,
+      "success": true,
+      "full_chars": 469924,
+      "compact_chars": 51660,
+      "full_utf8_bytes": 564785,
+      "compact_utf8_bytes": 61912
+    },
+    {
+      "session": "20-T20-retain",
+      "actions": 37,
+      "moves": 33,
+      "distance": 41,
+      "success": true,
+      "full_chars": 341437,
+      "compact_chars": 37981,
+      "full_utf8_bytes": 410454,
+      "compact_utf8_bytes": 45599
+    },
+    {
+      "session": "20-T20-clear",
+      "actions": 46,
+      "moves": 41,
+      "distance": 49,
+      "success": true,
+      "full_chars": 424326,
+      "compact_chars": 47053,
+      "full_utf8_bytes": 510120,
+      "compact_utf8_bytes": 56517
+    }
+  ],
+  "samples": {
+    "arrived": {
+      "session": "01-T1-prefix",
+      "request": {
+        "command": "action",
+        "request_id": "0",
+        "action": {
+          "type": "move",
+          "target": "J"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T1",
+            "name": "联程巡测 01",
+            "start": "C",
+            "submit_at": "C",
+            "target": "P",
+            "required_kind": "profile",
+            "stages": [
+              {
+                "target": "P",
+                "required_kind": "profile"
+              },
+              {
+                "target": "R",
+                "required_kind": "bearing"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "J",
+          "raw": false,
+          "processed": false,
+          "steps": 1,
+          "distance": 1,
+          "time": 1,
+          "done": false,
+          "success": false,
+          "available_actions": [
+            {
+              "type": "move",
+              "target": "C"
+            },
+            {
+              "type": "move",
+              "target": "JN"
+            },
+            {
+              "type": "move",
+              "target": "JE"
+            },
+            {
+              "type": "move",
+              "target": "JS"
+            },
+            {
+              "type": "move",
+              "target": "JW"
+            },
+            {
+              "type": "abandon"
+            }
+          ],
+          "stage_index": 0,
+          "stage_count": 2,
+          "stages_completed": 0,
+          "revision": 1,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "剖面资料",
+          "neighbors": [
+            {
+              "id": "C",
+              "distance": 1
+            },
+            {
+              "id": "JN",
+              "distance": 1
+            },
+            {
+              "id": "JE",
+              "distance": 1
+            },
+            {
+              "id": "JS",
+              "distance": 1
+            },
+            {
+              "id": "JW",
+              "distance": 1
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "arrived",
+          "location": "J",
+          "raw_collected": false
+        },
+        "text": "当前委托 T1；全部完成后回 C 提交。\n当前第 1/2 段，已完成 0 段；本段目标 P，资料 剖面资料。\n位置 J；原始资料未采集；处理未完成。\n相邻：C（距离 1）；JN（距离 1）；JE（距离 1）；JS（距离 1）；JW（距离 1）\n操作 1/72；距离 1。\n本次反馈：已到达。\n结束：False；成功：False"
+      }
+    },
+    "unsupported": {
+      "session": "01-T1-prefix",
+      "request": {
+        "command": "action",
+        "request_id": "8",
+        "action": {
+          "type": "process"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T1",
+            "name": "联程巡测 01",
+            "start": "C",
+            "submit_at": "C",
+            "target": "P",
+            "required_kind": "profile",
+            "stages": [
+              {
+                "target": "P",
+                "required_kind": "profile"
+              },
+              {
+                "target": "R",
+                "required_kind": "bearing"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "A",
+          "raw": true,
+          "processed": false,
+          "steps": 9,
+          "distance": 9,
+          "time": 10,
+          "done": false,
+          "success": false,
+          "available_actions": [
+            {
+              "type": "move",
+              "target": "ap2"
+            },
+            {
+              "type": "inspect"
+            },
+            {
+              "type": "process"
+            },
+            {
+              "type": "abandon"
+            }
+          ],
+          "stage_index": 0,
+          "stage_count": 2,
+          "stages_completed": 0,
+          "revision": 9,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "剖面资料",
+          "neighbors": [
+            {
+              "id": "ap2",
+              "distance": 1
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "station_information",
+          "station": "A",
+          "capability": "shore",
+          "result": "unsupported"
+        },
+        "text": "当前委托 T1；全部完成后回 C 提交。\n当前第 1/2 段，已完成 0 段；本段目标 P，资料 剖面资料。\n位置 A；原始资料已采集；处理未完成。\n相邻：ap2（距离 1）\n操作 9/72；距离 9。\n本次反馈：A 支持岸线资料。不支持本次资料，原始资料保留。\n结束：False；成功：False"
+      }
+    },
+    "stage_transition": {
+      "session": "01-T1-prefix",
+      "request": {
+        "command": "action",
+        "request_id": "15",
+        "action": {
+          "type": "process"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T1",
+            "name": "联程巡测 01",
+            "start": "C",
+            "submit_at": "C",
+            "target": "R",
+            "required_kind": "bearing",
+            "stages": [
+              {
+                "target": "P",
+                "required_kind": "profile"
+              },
+              {
+                "target": "R",
+                "required_kind": "bearing"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "B",
+          "raw": false,
+          "processed": false,
+          "steps": 16,
+          "distance": 16,
+          "time": 18,
+          "done": false,
+          "success": false,
+          "available_actions": [
+            {
+              "type": "move",
+              "target": "bp2"
+            },
+            {
+              "type": "inspect"
+            },
+            {
+              "type": "abandon"
+            }
+          ],
+          "stage_index": 1,
+          "stage_count": 2,
+          "stages_completed": 1,
+          "revision": 16,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "方位资料",
+          "neighbors": [
+            {
+              "id": "bp2",
+              "distance": 2
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "station_information",
+          "station": "B",
+          "capability": "profile",
+          "result": "processed",
+          "stage_completed": 1,
+          "next_stage": 2
+        },
+        "text": "当前委托 T1；全部完成后回 C 提交。\n当前第 2/2 段，已完成 1 段；本段目标 R，资料 方位资料。\n位置 B；原始资料未采集；处理未完成。\n相邻：bp2（距离 2）\n操作 16/72；距离 16。\n本次反馈：B 支持剖面资料。本次资料已处理。第 1 段处理完成，已进入第 2 段；当前段需要重新采集。\n结束：False；成功：False"
+      }
+    },
+    "processed": {
+      "session": "01-T1-prefix",
+      "request": {
+        "command": "action",
+        "request_id": "28",
+        "action": {
+          "type": "process"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T1",
+            "name": "联程巡测 01",
+            "start": "C",
+            "submit_at": "C",
+            "target": "R",
+            "required_kind": "bearing",
+            "stages": [
+              {
+                "target": "P",
+                "required_kind": "profile"
+              },
+              {
+                "target": "R",
+                "required_kind": "bearing"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "D",
+          "raw": true,
+          "processed": true,
+          "steps": 29,
+          "distance": 31,
+          "time": 34,
+          "done": false,
+          "success": false,
+          "available_actions": [
+            {
+              "type": "move",
+              "target": "dp2"
+            },
+            {
+              "type": "inspect"
+            },
+            {
+              "type": "process"
+            },
+            {
+              "type": "abandon"
+            }
+          ],
+          "stage_index": 1,
+          "stage_count": 2,
+          "stages_completed": 2,
+          "revision": 29,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "方位资料",
+          "neighbors": [
+            {
+              "id": "dp2",
+              "distance": 1
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "station_information",
+          "station": "D",
+          "capability": "bearing",
+          "result": "processed"
+        },
+        "text": "当前委托 T1；全部完成后回 C 提交。\n当前第 2/2 段，已完成 2 段；本段目标 R，资料 方位资料。\n位置 D；原始资料已采集；处理已完成。\n相邻：dp2（距离 1）\n操作 29/72；距离 31。\n本次反馈：D 支持方位资料。本次资料已处理。\n结束：False；成功：False"
+      }
+    },
+    "submitted": {
+      "session": "01-T1-prefix",
+      "request": {
+        "command": "action",
+        "request_id": "35",
+        "action": {
+          "type": "submit"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T1",
+            "name": "联程巡测 01",
+            "start": "C",
+            "submit_at": "C",
+            "target": "R",
+            "required_kind": "bearing",
+            "stages": [
+              {
+                "target": "P",
+                "required_kind": "profile"
+              },
+              {
+                "target": "R",
+                "required_kind": "bearing"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "C",
+          "raw": true,
+          "processed": true,
+          "steps": 36,
+          "distance": 38,
+          "time": 42,
+          "done": true,
+          "success": true,
+          "available_actions": [],
+          "stage_index": 1,
+          "stage_count": 2,
+          "stages_completed": 2,
+          "revision": 36,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "方位资料",
+          "neighbors": [
+            {
+              "id": "J",
+              "distance": 1
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "submitted"
+        },
+        "text": "当前委托 T1；全部完成后回 C 提交。\n当前第 2/2 段，已完成 2 段；本段目标 R，资料 方位资料。\n位置 C；原始资料已采集；处理已完成。\n相邻：J（距离 1）\n操作 36/72；距离 38。\n本次反馈：本次委托完成。\n结束：True；成功：True"
+      }
+    },
+    "station_information": {
+      "session": "02-T2-clear",
+      "request": {
+        "command": "action",
+        "request_id": "8",
+        "action": {
+          "type": "inspect"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T2",
+            "name": "联程巡测 02",
+            "start": "C",
+            "submit_at": "C",
+            "target": "U",
+            "required_kind": "vegetation",
+            "stages": [
+              {
+                "target": "U",
+                "required_kind": "vegetation"
+              },
+              {
+                "target": "X",
+                "required_kind": "drainage"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "F",
+          "raw": true,
+          "processed": false,
+          "steps": 9,
+          "distance": 9,
+          "time": 10,
+          "done": false,
+          "success": false,
+          "available_actions": [
+            {
+              "type": "move",
+              "target": "fp2"
+            },
+            {
+              "type": "inspect"
+            },
+            {
+              "type": "process"
+            },
+            {
+              "type": "abandon"
+            }
+          ],
+          "stage_index": 0,
+          "stage_count": 2,
+          "stages_completed": 0,
+          "revision": 9,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "植被资料",
+          "neighbors": [
+            {
+              "id": "fp2",
+              "distance": 1
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "station_information",
+          "station": "F",
+          "capability": "lithology"
+        },
+        "text": "当前委托 T2；全部完成后回 C 提交。\n当前第 1/2 段，已完成 0 段；本段目标 U，资料 植被资料。\n位置 F；原始资料已采集；处理未完成。\n相邻：fp2（距离 1）\n操作 9/72；距离 9。\n本次反馈：F 支持岩性资料。\n结束：False；成功：False"
+      }
+    },
+    "abandoned": {
+      "session": "06-T6-clear",
+      "request": {
+        "command": "action",
+        "request_id": "66",
+        "action": {
+          "type": "abandon"
+        }
+      },
+      "compact_response": {
+        "observation": {
+          "task": {
+            "id": "T6",
+            "name": "联程巡测 06",
+            "start": "C",
+            "submit_at": "C",
+            "target": "U",
+            "required_kind": "vegetation",
+            "stages": [
+              {
+                "target": "R",
+                "required_kind": "bearing"
+              },
+              {
+                "target": "U",
+                "required_kind": "vegetation"
+              }
+            ],
+            "max_steps": 72
+          },
+          "location": "F",
+          "raw": true,
+          "processed": false,
+          "steps": 67,
+          "distance": 67,
+          "time": 76,
+          "done": true,
+          "success": false,
+          "available_actions": [],
+          "stage_index": 1,
+          "stage_count": 2,
+          "stages_completed": 1,
+          "revision": 67,
+          "environment_version": "lanting-easy20-linked-v3",
+          "required_kind_name": "植被资料",
+          "neighbors": [
+            {
+              "id": "fp2",
+              "distance": 1
+            }
+          ]
+        },
+        "feedback": {
+          "kind": "abandoned"
+        },
+        "text": "当前委托 T6；全部完成后回 C 提交。\n当前第 2/2 段，已完成 1 段；本段目标 U，资料 植被资料。\n位置 F；原始资料已采集；处理未完成。\n相邻：fp2（距离 1）\n操作 67/72；距离 67。\n本次反馈：本次委托已放弃。\n结束：True；成功：False"
+      }
+    }
+  }
+}

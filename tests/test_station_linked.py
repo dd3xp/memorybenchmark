@@ -168,6 +168,10 @@ class LinkedStationTests(unittest.TestCase):
                              tasks=['T1','T2','T3'],world='omega_5555')
             self.assertEqual(budgets,[(100,3600)]);self.assertEqual(report['max_turns'],100)
             self.assertEqual(report['wall_seconds'],3600)
+            self.assertEqual(report['feedback_mode'],'compact')
+            self.assertEqual(report['feedback_protocol'],'station-compact-feedback-1')
+            with self.assertRaisesRegex(ValueError,'feedback mode'):
+                pilot(archive,root/'pilot',None,None,resume=True,feedback_mode='full')
             with self.assertRaisesRegex(ValueError,'wall-clock budget'):
                 pilot(archive,root/'pilot',None,None,design_path=EASY20_LINKED_DESIGN,
                       resume=True,wall_seconds=900)

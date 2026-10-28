@@ -20,9 +20,10 @@ DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capab
 EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.json"
 EASY20_CHOICE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_choice.json"
 EASY20_LINKED_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_linked.json"
+FEEDBACK_PROTOCOLS = {"full": "station-full-feedback-1", "compact": "station-compact-feedback-1"}
 
 
-def render_text(response):
+def render_text(response, *, compact=False):
     observation, feedback = response["observation"], response["feedback"]
     public, task = observation["environment"], observation["task"]
     kind = public["kinds"][task["required_kind"]]
@@ -49,6 +50,13 @@ def render_text(response):
         mission = "；".join(f"第 {i+1} 段：{s['target']} 采集{public['kinds'][s['required_kind']]}并在匹配站处理"
                             for i, s in enumerate(task["stages"])) + f"；全部完成后回 {task['submit_at']} 提交。尽量减少道路总距离，距离相同时减少操作。"
         progress = f"当前第 {observation['stage_index']+1}/{observation['stage_count']} 段，已完成 {observation['stages_completed']} 段；本段目标 {task['target']}，资料 {kind}。\n"
+    if compact:
+        current = (progress if progress else f"当前委托 {task['id']}：到 {task['target']} 采集{kind}并处理。\n")
+        return (f"当前委托 {task['id']}；全部完成后回 {task['submit_at']} 提交。\n" + current +
+                f"位置 {observation['location']}；原始资料{'已采集' if observation['raw'] else '未采集'}；"
+                f"处理{'已完成' if observation['processed'] else '未完成'}。\n"
+                f"相邻：{routes}\n操作 {observation['steps']}/{task['max_steps']}；距离 {observation['distance']}。\n"
+                f"本次反馈：{message}\n结束：{observation['done']}；成功：{observation['success']}")
     return (f"当前委托 {task['id']}：{mission}\n" + progress +
             f"当前位置：{observation['location']}；原始资料：{'已采集' if observation['raw'] else '未采集'}；"
             f"处理：{'已完成' if observation['processed'] else '未完成'}。\n"
@@ -60,21 +68,44 @@ def render_text(response):
 
 class StationSession:
     """Thin current-task adapter, with exact request replay and no memory policy."""
-    def __init__(self, game, task_id):
+    def __init__(self, game, task_id, *, feedback_mode="full", on_delivery=None):
+        if feedback_mode not in FEEDBACK_PROTOCOLS:
+            raise ValueError("Unknown station feedback mode")
         self.game = game
+        self.feedback_mode = feedback_mode
+        self.on_delivery = on_delivery
         self.revision = 0
         self.requests = {}
         response = game.start_task(task_id)
         self._bound_run_id = game.task_run_id
-        self.initial = self._public(response)
+        self.initial = self._public(response, full=True)
 
-    def _public(self, response):
+    def _record_delivery(self, request, response):
+        if self.on_delivery is not None:
+            self.on_delivery(deepcopy(request), deepcopy(response))
+
+    def _public(self, response, *, full=False, record=True):
         response = deepcopy(response)
         response["observation"]["revision"] = self.revision
-        response["text"] = render_text(response)
+        compact = self.feedback_mode == "compact" and not full
+        response["text"] = render_text(response, compact=compact)
+        if compact:
+            observation = response["observation"]
+            public = observation.pop("environment")
+            observation["environment_version"] = public["version"]
+            observation["required_kind_name"] = public["kinds"][observation["task"]["required_kind"]]
+            observation["neighbors"] = [{"id": node, "distance": distance} for node, distance in
+                                        neighbors({"public": public}, observation["location"])]
+        if record:
+            self._record_delivery(None, response)
         return response
 
     def dispatch(self, request):
+        response = self._dispatch(request)
+        self._record_delivery(request, response)
+        return response
+
+    def _dispatch(self, request):
         if self.game.task_run_id != self._bound_run_id:
             return {"error": "session_closed", "message": "原委托已关闭，此连接不能访问下一委托。"}
         error = {"error": "invalid_request", "message": "只接受当前委托的 read 或 action 请求。"}
@@ -84,7 +115,7 @@ class StationSession:
         if command == "read":
             if set(request) != {"command"}:
                 return error
-            return self._public({"observation": self.game.observation(), "feedback": {"kind": "current_observation"}})
+            return self._public({"observation": self.game.observation(), "feedback": {"kind": "current_observation"}}, full=True, record=False)
         if command != "action" or set(request) - {"command", "action", "request_id", "expected_revision"}:
             return error
         request_id, action = request.get("request_id"), request.get("action")
@@ -111,7 +142,7 @@ class StationSession:
         except ValueError:
             return {"error": "invalid_action", "message": "当前公开状态不允许该动作，或委托已结束。"}
         self.revision += 1
-        result = self._public(result)
+        result = self._public(result, record=False)
         self.requests[request_id] = (signature, deepcopy(result))
         return result
 

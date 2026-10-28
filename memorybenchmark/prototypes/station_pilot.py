@@ -20,14 +20,14 @@ from ..mcp_game import MCPGameClient
 from ..model_gateway import GatewayModel
 from ..watch import atomic_json as save_json
 from .station_capability import StationGame, compatible_worlds, load_design
-from .station_session import DEFAULT_DESIGN, StationSession
+from .station_session import DEFAULT_DESIGN, FEEDBACK_PROTOCOLS, StationSession
 from scripts.check_station_capability import trace_graph, render_svg
 
 
-PROMPT_PROTOCOL = "station-native-memory-2"
+PROMPT_PROTOCOL = "station-native-memory-3"
 STATION_TOOL = {
     "name": "game_action",
-    "description": "操作当前测绘委托。move 到相邻地点，到目标自动采集本次资料；inspect 查询当前站能力；process 在当前站尝试处理本次资料；submit 回指定营地提交；read 读取当前公开状态。结束后用原生工具自主整理经验。",
+    "description": "操作当前测绘委托。move 到相邻地点，到目标自动采集本次资料；inspect 查询当前站能力；process 在当前站尝试处理本次资料；submit 回指定营地提交；read 查询完整公开地图和当前状态，不消耗游戏操作。结束后用原生工具自主整理经验。",
     "parameters": {"type": "object", "properties": {
         "action": {"type": "string", "enum": ["move", "inspect", "process", "submit", "abandon", "read"]},
         "target": {"type": "string", "description": "仅 move 传相邻地点 ID；其他动作不传。"}},
@@ -43,12 +43,16 @@ inspect 是在站查询能力；process 是处理当前原始资料。两者都�
 结束后复盘实际经历；有可迁移经验时使用原生工具保存、更新或纠正，内容与组织方式由你决定。
 普通回复不会持久保存；不必强行新增无价值条目。done=true 后停止游戏操作，整理后结束。
 当前任务要求会在每次反馈和每次模型请求中出现；状态以最新反馈为准，不确定时 read。
+开局提供完整公开地图；需要再次查看地图与规则时可用 read，不消耗游戏操作。
 """
 
 
 class StationNativeSessions(WorkerSessions):
-    def __init__(self, *args, agent="ga", **kwargs):
+    def __init__(self, *args, agent="ga", feedback_mode="compact", **kwargs):
+        if feedback_mode not in FEEDBACK_PROTOCOLS:
+            raise ValueError("Unknown station feedback mode")
         self.agent = agent
+        self.feedback_mode = feedback_mode
         super().__init__(*args, worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
                          worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
                          prompt_protocol=PROMPT_PROTOCOL, **kwargs)
@@ -64,16 +68,23 @@ class StationNativeSessions(WorkerSessions):
         copy_memory(input_memory, state)
         save_json(output / "memory-before.json", before)
         save_json(output / "prior-events.json", before_history)
-        adapter = StationSession(game, task_id)
-        initial = adapter.initial
-        save_json(output / "initial-public.json", initial)
-        config = self.task_config(initial)
-        config.update(task_reminder=initial["text"].splitlines()[0], game_guide=GUIDE,
-                      game_tool=STATION_TOOL, game_target_actions=["move"], prompt_protocol=PROMPT_PROTOCOL)
-        config["initial_text"] += "\n公开地图与规则：" + json.dumps(initial["observation"]["environment"], ensure_ascii=False)
-        with MCPGameClient(adapter.dispatch, definition=STATION_TOOL, target_actions=("move",)) as client:
-            report = self._worker(state, output, config, adapter, model, game_client=client)
-            report.update(client.identity)
+        deliveries_path = output / "game-deliveries.jsonl"
+        with deliveries_path.open("w", encoding="utf-8") as deliveries:
+            def record_delivery(request, response):
+                deliveries.write(json.dumps({"request": request, "response": response}, ensure_ascii=False) + "\n")
+                deliveries.flush()
+            adapter = StationSession(game, task_id, feedback_mode=self.feedback_mode, on_delivery=record_delivery)
+            initial = adapter.initial
+            save_json(output / "initial-public.json", initial)
+            config = self.task_config(initial)
+            config.update(task_reminder=initial["text"].splitlines()[0], game_guide=GUIDE,
+                          game_tool=STATION_TOOL, game_target_actions=["move"], prompt_protocol=PROMPT_PROTOCOL)
+            config["initial_text"] += "\n公开地图与规则：" + json.dumps(initial["observation"]["environment"], ensure_ascii=False)
+            with MCPGameClient(adapter.dispatch, definition=STATION_TOOL, target_actions=("move",)) as client:
+                report = self._worker(state, output, config, adapter, model, game_client=client)
+                report.update(client.identity)
+        report.update(feedback_mode=self.feedback_mode, feedback_protocol=FEEDBACK_PROTOCOLS[self.feedback_mode],
+                      game_deliveries_sha256=sha256(deliveries_path.read_bytes()).hexdigest())
         if report["infrastructure_ok"]:
             after = copy_memory(state, output / "memory-after")
             report.update(input_memory=before, output_memory=after,
@@ -117,9 +128,11 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga"):
+          max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga", feedback_mode=None):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
+    if feedback_mode is not None and feedback_mode not in FEEDBACK_PROTOCOLS:
+        raise ValueError("Unknown station feedback mode")
     output = Path(output).resolve()
     selected_design = Path(design_path) if design_path is not None else DEFAULT_DESIGN
     if resume:
@@ -128,6 +141,10 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             raise ValueError("Cannot change native agent when resuming")
         if world is not None and world != report["world"]:
             raise ValueError("Cannot change the private world when resuming")
+        recorded_feedback = report.get("feedback_mode", "full")
+        if feedback_mode is not None and feedback_mode != recorded_feedback:
+            raise ValueError("Cannot change feedback mode when resuming")
+        feedback_mode = recorded_feedback
         recorded_wall = report.get("wall_seconds", 900)
         if wall_seconds is not None and wall_seconds != recorded_wall:
             raise ValueError("Cannot change the wall-clock budget when resuming")
@@ -141,6 +158,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         report["status"] = "running"
         save_json(output / "pilot.json", report)
     else:
+        feedback_mode = feedback_mode or "compact"
         design = load_design(selected_design)
         if max_turns is None:
             max_turns = design.get("native_session_budget", {}).get("main_model_calls", 40)
@@ -171,7 +189,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             paths += [Path(__file__).parents[1] / "hermes_worker.py", Path(__file__).parents[1] / "agents/hermes.py"]
         report = {"protocol": "station-native-pilot-1", "agent": agent, "status": "running", "seed": seed, "design_id": design["design_id"],
                   "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
-                  "wall_seconds": wall_seconds,
+                  "wall_seconds": wall_seconds, "prompt_protocol": PROMPT_PROTOCOL,
+                  "feedback_mode": feedback_mode, "feedback_protocol": FEEDBACK_PROTOCOLS[feedback_mode],
                   # The worker receives its RNG seed; hidden-world sampling must
                   # be independent so that seed cannot disclose the assignment.
                   "world": world if world is not None else choice(sorted(design["private_worlds"])),
@@ -184,7 +203,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         save_json(output / "design.json", design)
         save_json(output / "pilot.json", report)
     sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"), output / "support", jail,
-                                     agent=agent,
+                                     agent=agent, feedback_mode=feedback_mode,
                                      model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns,
                                      wall_seconds=wall_seconds)
     if not (output / "probe" / "summary.json").exists():
@@ -258,6 +277,7 @@ def main():
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--world", help="private host fixture for a controlled rerun; never sent to the worker")
     parser.add_argument("--design", type=Path, help="map configuration; defaults to the original eight-task prototype")
+    parser.add_argument("--feedback-mode", choices=("compact", "full"), help="new runs default to compact action results; initial/read always include the full public map; frozen on resume")
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
@@ -270,7 +290,7 @@ def main():
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
     pilot(args.archive, args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model, seed=args.seed, model_alias=args.model,
           tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
-          design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds)
+          design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds, feedback_mode=args.feedback_mode)
 
 
 if __name__ == "__main__":
