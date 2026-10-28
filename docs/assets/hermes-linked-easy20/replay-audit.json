@@ -1,0 +1,268 @@
+{
+  "kind": "native_station_replay_and_memory_chain_audit",
+  "pilot_completed": true,
+  "sessions": 39,
+  "cumulative_event_records_replayed": 18264,
+  "current_session_event_records_replayed": 1786,
+  "canonical_tasks": 20,
+  "memory_chains_verified": true,
+  "fresh_sessions_and_isolation_verified": true,
+  "source_commit": "c4f9dc3e3a3f9f60cbd1feddb770ed2e25a49320",
+  "source_newlines": "crlf",
+  "source_files_verified": {
+    "memorybenchmark/prototypes/station_pilot.py": "acf2f6e757bcf9c5e275560e78d1b103a6c803086984052cbfd2b37e22bbccce",
+    "memorybenchmark/data/station_easy20_linked.json": "6471fdb75ba4350bc9bb725bbc1a1085c80a84cdb8a337775e269fef88cc6eb7",
+    "memorybenchmark/prototypes/station_capability.py": "5766f35ce64df1499d0cc41833627d6f23c20e29fea42eeccaddc42ad1626a70",
+    "memorybenchmark/prototypes/station_session.py": "71785ca4edf9a2d1bc998f569cf483f592f9226c03166bcf1139f2f1f3a9123f",
+    "memorybenchmark/ga_worker.py": "970f997f241694a55fe5e8450531eee96dc91ba5e673f6d6dbf1f64de3485962",
+    "memorybenchmark/agent_bridge.py": "1c5bd4915bf8238e10c7831b55160b79af0c7022fdf02402136847343a9ef58c",
+    "memorybenchmark/mcp_game.py": "928b241e8a579aedd26d8eba7f4bfdc5bc6a4210a0426aea15e7e93d7d3b2574",
+    "memorybenchmark/agent_sessions.py": "2f25180958b6b7fdaa654ecd217e201c7ae11393615b8e52b1be1a036b0d84d8",
+    "memorybenchmark/ga_runtime.py": "c301c30a73e85fd8a6f68e8ecc083d38d1a4b49364f92cf4a1104e706bd90b1c",
+    "memorybenchmark/model_gateway.py": "b6a4ec8871a83e26d999d20b7593a9ed37332b3c76a51eb1eb28af7773c8b513",
+    "memorybenchmark/hermes_worker.py": "80d0a7ecf0cc44b98a09c2166dd3ef9ed30022dba433b53f4bb00045981e40a3",
+    "memorybenchmark/agents/hermes.py": "356b607ac6a03a4e64ffbe34675db839774032627f2d41a9b6901d74f21ab73f"
+  },
+  "support_files_verified": {
+    "ga_worker.py": "970f997f241694a55fe5e8450531eee96dc91ba5e673f6d6dbf1f64de3485962",
+    "agent_bridge.py": "1c5bd4915bf8238e10c7831b55160b79af0c7022fdf02402136847343a9ef58c",
+    "hermes_worker.py": "80d0a7ecf0cc44b98a09c2166dd3ef9ed30022dba433b53f4bb00045981e40a3"
+  },
+  "native_archive_verified": true,
+  "rows": [
+    {
+      "name": "01-T1-prefix",
+      "success": true,
+      "events": 37,
+      "calls": 53
+    },
+    {
+      "name": "02-T2-retain",
+      "success": true,
+      "events": 47,
+      "calls": 63
+    },
+    {
+      "name": "02-T2-clear",
+      "success": true,
+      "events": 45,
+      "calls": 63
+    },
+    {
+      "name": "03-T3-retain",
+      "success": true,
+      "events": 59,
+      "calls": 81
+    },
+    {
+      "name": "03-T3-clear",
+      "success": true,
+      "events": 53,
+      "calls": 74
+    },
+    {
+      "name": "04-T4-retain",
+      "success": true,
+      "events": 37,
+      "calls": 55
+    },
+    {
+      "name": "04-T4-clear",
+      "success": true,
+      "events": 37,
+      "calls": 57
+    },
+    {
+      "name": "05-T5-retain",
+      "success": true,
+      "events": 37,
+      "calls": 54
+    },
+    {
+      "name": "05-T5-clear",
+      "success": true,
+      "events": 37,
+      "calls": 55
+    },
+    {
+      "name": "06-T6-retain",
+      "success": true,
+      "events": 45,
+      "calls": 67
+    },
+    {
+      "name": "06-T6-clear",
+      "success": false,
+      "events": 68,
+      "calls": 89
+    },
+    {
+      "name": "07-T7-retain",
+      "success": true,
+      "events": 37,
+      "calls": 58
+    },
+    {
+      "name": "07-T7-clear",
+      "success": true,
+      "events": 37,
+      "calls": 55
+    },
+    {
+      "name": "08-T8-retain",
+      "success": true,
+      "events": 38,
+      "calls": 54
+    },
+    {
+      "name": "08-T8-clear",
+      "success": true,
+      "events": 52,
+      "calls": 72
+    },
+    {
+      "name": "09-T9-retain",
+      "success": true,
+      "events": 52,
+      "calls": 76
+    },
+    {
+      "name": "09-T9-clear",
+      "success": true,
+      "events": 54,
+      "calls": 78
+    },
+    {
+      "name": "10-T10-retain",
+      "success": true,
+      "events": 30,
+      "calls": 47
+    },
+    {
+      "name": "10-T10-clear",
+      "success": true,
+      "events": 39,
+      "calls": 58
+    },
+    {
+      "name": "11-T11-retain",
+      "success": true,
+      "events": 37,
+      "calls": 55
+    },
+    {
+      "name": "11-T11-clear",
+      "success": true,
+      "events": 37,
+      "calls": 53
+    },
+    {
+      "name": "12-T12-retain",
+      "success": false,
+      "events": 65,
+      "calls": 89
+    },
+    {
+      "name": "12-T12-clear",
+      "success": false,
+      "events": 70,
+      "calls": 95
+    },
+    {
+      "name": "13-T13-retain",
+      "success": false,
+      "events": 68,
+      "calls": 92
+    },
+    {
+      "name": "13-T13-clear",
+      "success": true,
+      "events": 69,
+      "calls": 96
+    },
+    {
+      "name": "14-T14-retain",
+      "success": true,
+      "events": 30,
+      "calls": 45
+    },
+    {
+      "name": "14-T14-clear",
+      "success": true,
+      "events": 31,
+      "calls": 51
+    },
+    {
+      "name": "15-T15-retain",
+      "success": true,
+      "events": 30,
+      "calls": 42
+    },
+    {
+      "name": "15-T15-clear",
+      "success": true,
+      "events": 30,
+      "calls": 47
+    },
+    {
+      "name": "16-T16-retain",
+      "success": true,
+      "events": 48,
+      "calls": 70
+    },
+    {
+      "name": "16-T16-clear",
+      "success": true,
+      "events": 52,
+      "calls": 72
+    },
+    {
+      "name": "17-T17-retain",
+      "success": true,
+      "events": 30,
+      "calls": 45
+    },
+    {
+      "name": "17-T17-clear",
+      "success": true,
+      "events": 30,
+      "calls": 47
+    },
+    {
+      "name": "18-T18-retain",
+      "success": true,
+      "events": 46,
+      "calls": 67
+    },
+    {
+      "name": "18-T18-clear",
+      "success": true,
+      "events": 67,
+      "calls": 93
+    },
+    {
+      "name": "19-T19-retain",
+      "success": true,
+      "events": 68,
+      "calls": 93
+    },
+    {
+      "name": "19-T19-clear",
+      "success": true,
+      "events": 52,
+      "calls": 79
+    },
+    {
+      "name": "20-T20-retain",
+      "success": true,
+      "events": 38,
+      "calls": 54
+    },
+    {
+      "name": "20-T20-clear",
+      "success": true,
+      "events": 47,
+      "calls": 67
+    }
+  ]
+}

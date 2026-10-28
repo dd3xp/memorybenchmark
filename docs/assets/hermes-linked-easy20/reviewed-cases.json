@@ -1,0 +1,472 @@
+{
+  "kind": "posthoc_literal_game_fact_delivery_and_action_compatibility_audit",
+  "selection": "T16 illustrates different behavior in its two stages; T20 illustrates another mismatching choice. Not a representative sample.",
+  "scope": "Verifies authored fact, prior game support, and presence in actual inputs before fork departure. Does not prove internal causal use or conscious disregard.",
+  "cases": [
+    {
+      "task": "T16",
+      "stage_index": 0,
+      "session": "16-T16-retain",
+      "required_kind": "elevation",
+      "first_branch": {
+        "event_id": 656,
+        "station": "E1",
+        "fork": "ER",
+        "stage_index": 0,
+        "pre_task_history": {
+          "selected_station": "E1",
+          "candidate_options": [
+            {
+              "station": "D",
+              "distance_from_target": 4,
+              "completion_distance": 19,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "E",
+              "distance_from_target": 5,
+              "completion_distance": 21,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "E1",
+              "distance_from_target": 7,
+              "completion_distance": 22,
+              "historical_status": "known_match"
+            },
+            {
+              "station": "E2",
+              "distance_from_target": 8,
+              "completion_distance": 24,
+              "historical_status": "known_match"
+            }
+          ],
+          "nearest_candidates": [
+            "D"
+          ],
+          "selected_is_geographically_nearest": false,
+          "selected_historical_status": "known_match",
+          "lowest_cost_known_matching_stations": [
+            "E1"
+          ],
+          "best_matching_cost_provable_from_history": true,
+          "conditional_distance_reference": 22
+        },
+        "current_session_only": {
+          "selected_station": "E1",
+          "candidate_options": [
+            {
+              "station": "D",
+              "distance_from_target": 4,
+              "completion_distance": 19,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "E",
+              "distance_from_target": 5,
+              "completion_distance": 21,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "E1",
+              "distance_from_target": 7,
+              "completion_distance": 22,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "E2",
+              "distance_from_target": 8,
+              "completion_distance": 24,
+              "historical_status": "unresolved"
+            }
+          ],
+          "nearest_candidates": [
+            "D"
+          ],
+          "selected_is_geographically_nearest": false,
+          "selected_historical_status": "unresolved",
+          "lowest_cost_known_matching_stations": [],
+          "best_matching_cost_provable_from_history": false,
+          "conditional_distance_reference": null
+        },
+        "all_delivered_before_choice": {
+          "selected_station": "E1",
+          "candidate_options": [
+            {
+              "station": "D",
+              "distance_from_target": 4,
+              "completion_distance": 19,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "E",
+              "distance_from_target": 5,
+              "completion_distance": 21,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "E1",
+              "distance_from_target": 7,
+              "completion_distance": 22,
+              "historical_status": "known_match"
+            },
+            {
+              "station": "E2",
+              "distance_from_target": 8,
+              "completion_distance": 24,
+              "historical_status": "known_match"
+            }
+          ],
+          "nearest_candidates": [
+            "D"
+          ],
+          "selected_is_geographically_nearest": false,
+          "selected_historical_status": "known_match",
+          "lowest_cost_known_matching_stations": [
+            "E1"
+          ],
+          "best_matching_cost_provable_from_history": true,
+          "conditional_distance_reference": 22
+        }
+      },
+      "reviewed_facts": [
+        {
+          "station": "E1",
+          "capability": "elevation",
+          "literal_game_memory_fragment": "E1为高程匹配站",
+          "prior_direct_support_event_ids": [
+            152,
+            291,
+            398,
+            543,
+            557,
+            573,
+            587
+          ],
+          "fragment_present_in_input_memory_and_first_and_decision_requests": true
+        }
+      ],
+      "model_request_for_branch_choice": 9,
+      "input_memory_sha256": "63ed2d16f3876c90d1008303c1a32903a1454c3c9d48f9ad2937e8db2c560623",
+      "decision_request_sha256": "ebe2645d9ad1f9a0931c9ce1e0e3c4cf8652c5ad3cfc0556394556b8eadc9435",
+      "source_events_sha256": "6bbb145911d14ec5881d43f7b94f4725e3c539d2f0bf92c9c0550b1a2faaafc2",
+      "source_audit_sha256": "fd594f8fa1fabae8655e2fc43c2e5a4444d6f6dc0d36d52bcb4aa267f2fccec1"
+    },
+    {
+      "task": "T16",
+      "stage_index": 1,
+      "session": "16-T16-retain",
+      "required_kind": "contour",
+      "first_branch": {
+        "event_id": 669,
+        "station": "H",
+        "fork": "WL",
+        "stage_index": 1,
+        "pre_task_history": {
+          "selected_station": "H",
+          "candidate_options": [
+            {
+              "station": "H",
+              "distance_from_target": 4,
+              "completion_distance": 21,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "K",
+              "distance_from_target": 5,
+              "completion_distance": 23,
+              "historical_status": "known_match"
+            },
+            {
+              "station": "W1",
+              "distance_from_target": 7,
+              "completion_distance": 24,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "W2",
+              "distance_from_target": 8,
+              "completion_distance": 26,
+              "historical_status": "known_match"
+            }
+          ],
+          "nearest_candidates": [
+            "H"
+          ],
+          "selected_is_geographically_nearest": true,
+          "selected_historical_status": "known_nonmatch",
+          "lowest_cost_known_matching_stations": [
+            "K"
+          ],
+          "best_matching_cost_provable_from_history": true,
+          "conditional_distance_reference": 23
+        },
+        "current_session_only": {
+          "selected_station": "H",
+          "candidate_options": [
+            {
+              "station": "H",
+              "distance_from_target": 4,
+              "completion_distance": 21,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "K",
+              "distance_from_target": 5,
+              "completion_distance": 23,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "W1",
+              "distance_from_target": 7,
+              "completion_distance": 24,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "W2",
+              "distance_from_target": 8,
+              "completion_distance": 26,
+              "historical_status": "unresolved"
+            }
+          ],
+          "nearest_candidates": [
+            "H"
+          ],
+          "selected_is_geographically_nearest": true,
+          "selected_historical_status": "unresolved",
+          "lowest_cost_known_matching_stations": [],
+          "best_matching_cost_provable_from_history": false,
+          "conditional_distance_reference": null
+        },
+        "all_delivered_before_choice": {
+          "selected_station": "H",
+          "candidate_options": [
+            {
+              "station": "H",
+              "distance_from_target": 4,
+              "completion_distance": 21,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "K",
+              "distance_from_target": 5,
+              "completion_distance": 23,
+              "historical_status": "known_match"
+            },
+            {
+              "station": "W1",
+              "distance_from_target": 7,
+              "completion_distance": 24,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "W2",
+              "distance_from_target": 8,
+              "completion_distance": 26,
+              "historical_status": "known_match"
+            }
+          ],
+          "nearest_candidates": [
+            "H"
+          ],
+          "selected_is_geographically_nearest": true,
+          "selected_historical_status": "known_nonmatch",
+          "lowest_cost_known_matching_stations": [
+            "K"
+          ],
+          "best_matching_cost_provable_from_history": true,
+          "conditional_distance_reference": 23
+        }
+      },
+      "reviewed_facts": [
+        {
+          "station": "H",
+          "capability": "drainage",
+          "literal_game_memory_fragment": "H 站处理水系资料",
+          "prior_direct_support_event_ids": [
+            76,
+            209,
+            448
+          ],
+          "fragment_present_in_input_memory_and_first_and_decision_requests": true
+        },
+        {
+          "station": "W2",
+          "capability": "contour",
+          "literal_game_memory_fragment": "W2 处理等高线成功",
+          "prior_direct_support_event_ids": [
+            172,
+            329,
+            411
+          ],
+          "fragment_present_in_input_memory_and_first_and_decision_requests": true
+        }
+      ],
+      "model_request_for_branch_choice": 27,
+      "input_memory_sha256": "63ed2d16f3876c90d1008303c1a32903a1454c3c9d48f9ad2937e8db2c560623",
+      "decision_request_sha256": "563c979b44be7a57ef4ff518f0234930f1419a3a3dd2727289bacd13a7651a83",
+      "source_events_sha256": "6bbb145911d14ec5881d43f7b94f4725e3c539d2f0bf92c9c0550b1a2faaafc2",
+      "source_audit_sha256": "fd594f8fa1fabae8655e2fc43c2e5a4444d6f6dc0d36d52bcb4aa267f2fccec1"
+    },
+    {
+      "task": "T20",
+      "stage_index": 1,
+      "session": "20-T20-retain",
+      "required_kind": "contour",
+      "first_branch": {
+        "event_id": 861,
+        "station": "W1",
+        "fork": "WR",
+        "stage_index": 1,
+        "pre_task_history": {
+          "selected_station": "W1",
+          "candidate_options": [
+            {
+              "station": "H",
+              "distance_from_target": 4,
+              "completion_distance": 21,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "K",
+              "distance_from_target": 5,
+              "completion_distance": 23,
+              "historical_status": "known_match"
+            },
+            {
+              "station": "W1",
+              "distance_from_target": 7,
+              "completion_distance": 24,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "W2",
+              "distance_from_target": 8,
+              "completion_distance": 26,
+              "historical_status": "known_match"
+            }
+          ],
+          "nearest_candidates": [
+            "H"
+          ],
+          "selected_is_geographically_nearest": false,
+          "selected_historical_status": "known_nonmatch",
+          "lowest_cost_known_matching_stations": [
+            "K"
+          ],
+          "best_matching_cost_provable_from_history": true,
+          "conditional_distance_reference": 23
+        },
+        "current_session_only": {
+          "selected_station": "W1",
+          "candidate_options": [
+            {
+              "station": "H",
+              "distance_from_target": 4,
+              "completion_distance": 21,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "K",
+              "distance_from_target": 5,
+              "completion_distance": 23,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "W1",
+              "distance_from_target": 7,
+              "completion_distance": 24,
+              "historical_status": "unresolved"
+            },
+            {
+              "station": "W2",
+              "distance_from_target": 8,
+              "completion_distance": 26,
+              "historical_status": "unresolved"
+            }
+          ],
+          "nearest_candidates": [
+            "H"
+          ],
+          "selected_is_geographically_nearest": false,
+          "selected_historical_status": "unresolved",
+          "lowest_cost_known_matching_stations": [],
+          "best_matching_cost_provable_from_history": false,
+          "conditional_distance_reference": null
+        },
+        "all_delivered_before_choice": {
+          "selected_station": "W1",
+          "candidate_options": [
+            {
+              "station": "H",
+              "distance_from_target": 4,
+              "completion_distance": 21,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "K",
+              "distance_from_target": 5,
+              "completion_distance": 23,
+              "historical_status": "known_match"
+            },
+            {
+              "station": "W1",
+              "distance_from_target": 7,
+              "completion_distance": 24,
+              "historical_status": "known_nonmatch"
+            },
+            {
+              "station": "W2",
+              "distance_from_target": 8,
+              "completion_distance": 26,
+              "historical_status": "known_match"
+            }
+          ],
+          "nearest_candidates": [
+            "H"
+          ],
+          "selected_is_geographically_nearest": false,
+          "selected_historical_status": "known_nonmatch",
+          "lowest_cost_known_matching_stations": [
+            "K"
+          ],
+          "best_matching_cost_provable_from_history": true,
+          "conditional_distance_reference": 23
+        }
+      },
+      "reviewed_facts": [
+        {
+          "station": "W1",
+          "capability": "drainage",
+          "literal_game_memory_fragment": "水系在 W1 处理",
+          "prior_direct_support_event_ids": [
+            165,
+            322,
+            611,
+            682,
+            719
+          ],
+          "fragment_present_in_input_memory_and_first_and_decision_requests": true
+        },
+        {
+          "station": "W2",
+          "capability": "contour",
+          "literal_game_memory_fragment": "W2 处理等高线成功",
+          "prior_direct_support_event_ids": [
+            172,
+            329,
+            411,
+            689
+          ],
+          "fragment_present_in_input_memory_and_first_and_decision_requests": true
+        }
+      ],
+      "model_request_for_branch_choice": 27,
+      "input_memory_sha256": "9f7ad39a33c087fe08f093dd0af9227ff27b41cde4611327b0fd0c3255d1c296",
+      "decision_request_sha256": "a21969b96c740da3e4f1e1a96eec28cea8f1ff26c9a718fa082bbd3a1fcda8fd",
+      "source_events_sha256": "e942eab2c6d502e9616a3e3289d7341adf43e325d0af51f8c3db4ca31c330f68",
+      "source_audit_sha256": "28b763225653b42b5902c1c9d2789e69b9097171915f4f14464c0668fa70989f"
+    }
+  ],
+  "analysis_sha256": "dea80546f6b4bff8f9e4701453bc5e0158264677b982703f618412059355f46d"
+}

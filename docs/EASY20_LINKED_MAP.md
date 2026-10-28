@@ -1,6 +1,6 @@
 # 岚汀丘地：联程巡测与历史信息校验
 
-版本 `lanting-easy20-linked-v3`，配置 [station_easy20_linked.json](../memorybenchmark/data/station_easy20_linked.json)。本版接替 `/easy20` 的四站巡测版；四站配置、原生 GA／Hermes 的旧成绩和完整证据保留。本版已完成机制校验，尚未取得新地图上的真实 Agent 成绩。
+版本 `lanting-easy20-linked-v3`，配置 [station_easy20_linked.json](../memorybenchmark/data/station_easy20_linked.json)。本版接替 `/easy20` 的四站巡测版；四站配置、原生 GA／Hermes 的旧成绩和完整证据保留。本版已完成机制校验及 [Hermes 单世界真实试跑](../reports/HERMES_LINKED_EASY20_PILOT.md)：39 个有效 session，相同任务成功数均为 17/19；双方都成功的 16 对任务中，保留记忆操作少 5.3%、路程少 4.3%。实际输入与图已核对，不将单轮结果当成总体记忆效应。
 
 ## 任务怎样改变
 
@@ -41,7 +41,7 @@
 
 ![全世界的脚本操作降幅及更少、相同、更多操作的任务数量](assets/easy20-linked/world-calibration.png)
 
-两张地图的任务段数、支路及任务顺序一起改变；这个对照检查整体设计能否提供更清楚的历史信息信号，不把差异归因于单独某一个改动。真实 Agent 是否自主保存、检索并正确利用，仍须独立实跑。
+两张地图的任务段数、支路及任务顺序一起改变；这个对照检查整体设计能否提供更清楚的历史信息信号，不把差异归因于单独某一个改动。真实 Agent 是否自主保存、检索并正确利用，另由独立实跑核查；首轮 Hermes 结果见本文开头链接。
 
 ## 固定轨迹与补救空间
 
@@ -87,6 +87,6 @@ python -m memorybenchmark.prototypes.station_session --design memorybenchmark/da
 
 `scripts/check_station_native_sessions.py` 另有脚本模型的两段完整行程检查：两次 process 与最终 submit 必须在一个原生 session，第一段不得提前结束。这是接入检查，不是 Agent 的游戏或记忆成绩。
 
-2026-10-27 已以 `a8c94a1` 部署 Squishy，163 项服务器回归及 [Windows／Linux、Python 3.10／3.12 CI](https://github.com/dd3xp/memorybenchmark/actions/runs/40603606104) 通过。GA 与 Hermes 的真实原生循环均通过脚本模型检查，固定两段行程各为 29 次操作、距离 30；全新空历史、记忆保留／清除、预算后同会话收尾也通过。公网按正常 TLS 校验完成 PIN 登录、两段提交和下一项重置；[验收数据](assets/easy20-linked/deployment-validation.json)记录验证位置和指纹。整轮修改与验收调用真实模型零次，尚无新版 Agent 记忆成绩。
+2026-10-27 已以 `a8c94a1` 部署 Squishy，163 项服务器回归及 [Windows／Linux、Python 3.10／3.12 CI](https://github.com/dd3xp/memorybenchmark/actions/runs/40603606104) 通过。GA 与 Hermes 的真实原生循环均通过脚本模型检查，固定两段行程各为 29 次操作、距离 30；全新空历史、记忆保留／清除、预算后同会话收尾也通过。公网按正常 TLS 校验完成 PIN 登录、两段提交和下一项重置；[验收数据](assets/easy20-linked/deployment-validation.json)记录验证位置和指纹。当次修改与软件验收调用真实模型零次；此后完成的 Hermes 模型试跑单独报告。
 
 公网浏览器已显示两段行程和当前段编号，控制台无警告或错误；[实际窄屏截图](assets/easy20-linked/public-preview.jpg)随验收包保存。

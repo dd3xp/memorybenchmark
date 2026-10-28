@@ -1,0 +1,101 @@
+{
+  "kind": "reviewed_public_pilot_artifacts_not_native_transcripts",
+  "execution_commit": "c4f9dc3e3a3f9f60cbd1feddb770ed2e25a49320",
+  "analysis_source": {
+    "path": "scripts/report_linked_hermes_pilot.py",
+    "sha256": "dea80546f6b4bff8f9e4701453bc5e0158264677b982703f618412059355f46d"
+  },
+  "files": {
+    "all-task-costs.pdf": {
+      "bytes": 18190,
+      "sha256": "3a74e4bd859899d22ab3dd79651d91a209fbcf39796fe452e11a757c2a430738"
+    },
+    "all-task-costs.png": {
+      "bytes": 230603,
+      "sha256": "a576d423c6b4be97e94e3fb6076b0428d494e2cae0465419e540ed5961a7f4cf",
+      "pixels": [
+        2160,
+        1404
+      ],
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ]
+    },
+    "all-task-costs.svg": {
+      "bytes": 41568,
+      "sha256": "9fb4338565ecbbef97c0f85de7b2ebcd67286ccfe56fdf86854d98542ad2f04b"
+    },
+    "comparison.json": {
+      "bytes": 5633,
+      "sha256": "b1e717e14e870d84d02bee6bd1a33cc5252096b5d11b426a11d6cf102565d782"
+    },
+    "figure-provenance.json": {
+      "bytes": 757,
+      "sha256": "f5827bf15a9a4862e9bea079dd2008ce296b9e0ddc4e2ae67b1ae630408f8e9d"
+    },
+    "fixed-t3-t17-traces.pdf": {
+      "bytes": 73753,
+      "sha256": "ff42b81c589ecd750df662528eec33680cfba8259a765a21a5b11f916e5e7861"
+    },
+    "fixed-t3-t17-traces.png": {
+      "bytes": 412512,
+      "sha256": "40e9c98096b13e31395cc7652fda704a77fe551e2b76154e601b653db25fc845",
+      "pixels": [
+        2520,
+        2340
+      ],
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ]
+    },
+    "fixed-t3-t17-traces.svg": {
+      "bytes": 279248,
+      "sha256": "345c6a74ba0c294dfde2168cba38e805190ace0903fa90f63cac9ebc8ed6ccba"
+    },
+    "measurements.json.gz": {
+      "bytes": 155780,
+      "sha256": "31ece9bfcc06356109720c6ee2e783dcdc296ad5452a3527536a3ee6c2a8eca7",
+      "decompressed_sha256": "729cbac6479413c7b24e58096b41bd28fea6c364a28ce534c53f902fa9f5eb4a"
+    },
+    "replay-audit.json": {
+      "bytes": 6459,
+      "sha256": "e42bfdf91e67dc6e3c875e449236d650e6fa38fd39de4a5463e3bb23c75223b8"
+    },
+    "reviewed-cases.json": {
+      "bytes": 16190,
+      "sha256": "54900f4e3954fae3ca78ca0707a0f7cb783669dfbada8d74c1c512bf5ba2ad41"
+    },
+    "run-provenance.json": {
+      "bytes": 1721,
+      "sha256": "f338116e4be0bd6ac0091510c522f192d6b587fc347adc9a1fc2e17ba7221a79"
+    },
+    "t16-reviewed-traces.pdf": {
+      "bytes": 46870,
+      "sha256": "75851363cfb9abecf52f581965d4f786321c4024526394e127bdbab16952fe47"
+    },
+    "t16-reviewed-traces.png": {
+      "bytes": 306270,
+      "sha256": "c5f586dfb73534823b6a1a78760602a62f1912c082bc6df38109a59bb37b12f1",
+      "pixels": [
+        2520,
+        1530
+      ],
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ]
+    },
+    "t16-reviewed-traces.svg": {
+      "bytes": 152100,
+      "sha256": "1068297a5b3ed592826168e1989a483854139d446bb581b2c2c48fb94fa3feb1"
+    },
+    "trace-projection.json.gz": {
+      "bytes": 149336,
+      "sha256": "10a1bd11693ef0b91ac7669db707803c7adab3d977b16fd756a17dc9c90b9635",
+      "decompressed_sha256": "100b59569c47f30938c83a5eb5fc44502cddf5749cb3d45caac9aa508b5ff308"
+    }
+  },
+  "review": "All figures visually inspected; all 20 tasks and four explicit abandon outcomes retained. Native prompts, response prose, and full memory directories excluded."
+}

@@ -1,0 +1,15 @@
+{
+  "kind": "descriptive_real_native_agent_pilot",
+  "matplotlib_version": "3.10.8",
+  "png_dpi": 180,
+  "selection": "All 20 tasks and all failures; T16 is an explicitly post-hoc paired trace illustration.",
+  "transformations": [
+    "No smoothing",
+    "T1 clear is missing, not zero",
+    "Actual ordered edges, node events, and raw task costs"
+  ],
+  "source_measurements_gzip_sha256": "31ece9bfcc06356109720c6ee2e783dcdc296ad5452a3527536a3ee6c2a8eca7",
+  "source_trace_projection_gzip_sha256": "10a1bd11693ef0b91ac7669db707803c7adab3d977b16fd756a17dc9c90b9635",
+  "analysis_sha256": "dea80546f6b4bff8f9e4701453bc5e0158264677b982703f618412059355f46d",
+  "uncertainty": "No population estimate; one sampled world and evolving history."
+}

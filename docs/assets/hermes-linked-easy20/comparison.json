@@ -1,0 +1,219 @@
+{
+  "kind": "descriptive_one_world_actual_history_checkpoint_comparison",
+  "paired_tasks": 19,
+  "both_success_pairs": 16,
+  "both_success_costs": {
+    "distance": {
+      "retain": 690,
+      "clear": 721,
+      "reduction_fraction": 0.04299583911234397,
+      "fewer": 6,
+      "equal": 7,
+      "more": 3
+    },
+    "operations": {
+      "retain": 648,
+      "clear": 684,
+      "reduction_fraction": 0.05263157894736842,
+      "fewer": 7,
+      "equal": 6,
+      "more": 3
+    }
+  },
+  "branch_behavior": {
+    "retain": {
+      "paired_tasks": 19,
+      "successes": 17,
+      "observed_first_branches": 38,
+      "nearest_first_branches": 34,
+      "history_excluded_first_branches": 14,
+      "unsupported_processes": 39,
+      "matching_first_branches": 21
+    },
+    "clear": {
+      "paired_tasks": 19,
+      "successes": 17,
+      "observed_first_branches": 38,
+      "nearest_first_branches": 38,
+      "history_excluded_first_branches": 17,
+      "unsupported_processes": 46,
+      "matching_first_branches": 18
+    }
+  },
+  "pairs": [
+    {
+      "task": "T2",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 51,
+      "retain_operations": 46,
+      "clear_distance": 47,
+      "clear_operations": 44
+    },
+    {
+      "task": "T3",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 61,
+      "retain_operations": 58,
+      "clear_distance": 55,
+      "clear_operations": 52
+    },
+    {
+      "task": "T4",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 38,
+      "retain_operations": 36,
+      "clear_distance": 38,
+      "clear_operations": 36
+    },
+    {
+      "task": "T5",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 38,
+      "retain_operations": 36,
+      "clear_distance": 38,
+      "clear_operations": 36
+    },
+    {
+      "task": "T6",
+      "retain_success": true,
+      "clear_success": false,
+      "retain_distance": 47,
+      "retain_operations": 44,
+      "clear_distance": 67,
+      "clear_operations": 67
+    },
+    {
+      "task": "T7",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 38,
+      "retain_operations": 36,
+      "clear_distance": 38,
+      "clear_operations": 36
+    },
+    {
+      "task": "T8",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 41,
+      "retain_operations": 37,
+      "clear_distance": 55,
+      "clear_operations": 51
+    },
+    {
+      "task": "T9",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 55,
+      "retain_operations": 51,
+      "clear_distance": 57,
+      "clear_operations": 53
+    },
+    {
+      "task": "T10",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 32,
+      "retain_operations": 29,
+      "clear_distance": 40,
+      "clear_operations": 38
+    },
+    {
+      "task": "T11",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 38,
+      "retain_operations": 36,
+      "clear_distance": 38,
+      "clear_operations": 36
+    },
+    {
+      "task": "T12",
+      "retain_success": false,
+      "clear_success": false,
+      "retain_distance": 65,
+      "retain_operations": 64,
+      "clear_distance": 69,
+      "clear_operations": 69
+    },
+    {
+      "task": "T13",
+      "retain_success": false,
+      "clear_success": true,
+      "retain_distance": 67,
+      "retain_operations": 67,
+      "clear_distance": 70,
+      "clear_operations": 68
+    },
+    {
+      "task": "T14",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 30,
+      "retain_operations": 29,
+      "clear_distance": 30,
+      "clear_operations": 30
+    },
+    {
+      "task": "T15",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 30,
+      "retain_operations": 29,
+      "clear_distance": 30,
+      "clear_operations": 29
+    },
+    {
+      "task": "T16",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 52,
+      "retain_operations": 47,
+      "clear_distance": 55,
+      "clear_operations": 51
+    },
+    {
+      "task": "T17",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 30,
+      "retain_operations": 29,
+      "clear_distance": 30,
+      "clear_operations": 29
+    },
+    {
+      "task": "T18",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 48,
+      "retain_operations": 45,
+      "clear_distance": 68,
+      "clear_operations": 66
+    },
+    {
+      "task": "T19",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 67,
+      "retain_operations": 67,
+      "clear_distance": 53,
+      "clear_operations": 51
+    },
+    {
+      "task": "T20",
+      "retain_success": true,
+      "clear_success": true,
+      "retain_distance": 41,
+      "retain_operations": 37,
+      "clear_distance": 49,
+      "clear_operations": 46
+    }
+  ],
+  "cost_scope": "Both-success subset only; all task outcomes remain in pairs and plots. Not an unconditional memory effect.",
+  "branch_scope": "History status belongs to evaluator canonical feedback, not automatically to agent memory. Matching uses actual feedback.",
+  "uncertainty": "One world and one evolving history; no significance or population effect estimate."
+}
