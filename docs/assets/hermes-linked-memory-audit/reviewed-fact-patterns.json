@@ -1,0 +1,22 @@
+{
+  "kind": "manually_reviewed_literal_station_fact_patterns_for_one_completed_run",
+  "scope": "All 20 retained output MEMORY.md snapshots were read, including unchanged text and every edit. Match explicit capability statements or an unambiguous link within one task review. Visits, station lists, success alone, and vague known-station advice do not establish a capability. This is a reviewed audit, not a general semantic extraction benchmark.",
+  "facts": [
+    {"station": "A", "capability": "shore", "alternatives": [["岸线在 A 处理"], ["岸线A"]]},
+    {"station": "B", "capability": "profile", "alternatives": []},
+    {"station": "D", "capability": "bearing", "alternatives": [["D 站确认可处理方位资料"], ["阶段1方位资料处理成功", "在 D 处理后直接前往 U"]]},
+    {"station": "E", "capability": "bearing", "alternatives": []},
+    {"station": "E1", "capability": "elevation", "alternatives": [["E1为高程匹配站"], ["高程在 E1 处理"], ["高程在E1"], ["高程E1"], ["到 E1 发现其支持高程而不匹配"]]},
+    {"station": "E2", "capability": "elevation", "alternatives": []},
+    {"station": "F", "capability": "lithology", "alternatives": [["F 站处理岩性资料成功"], ["岩性在 F 处理"], ["F 处理岩性资料"], ["岩性F"]]},
+    {"station": "G", "capability": "lithology", "alternatives": [["G 的 process 明确反馈为岩性资料"]]},
+    {"station": "H", "capability": "drainage", "alternatives": [["H 站处理水系资料"], ["H处理水系"]]},
+    {"station": "K", "capability": "contour", "alternatives": []},
+    {"station": "N1", "capability": "profile", "alternatives": [["剖面N1"]]},
+    {"station": "N2", "capability": "shore", "alternatives": []},
+    {"station": "S1", "capability": "vegetation", "alternatives": [["S1 可处理植被资料"], ["植被在 S1 处理"]]},
+    {"station": "S2", "capability": "vegetation", "alternatives": []},
+    {"station": "W1", "capability": "drainage", "alternatives": [["水系在 W1 处理"], ["水系W1"]]},
+    {"station": "W2", "capability": "contour", "alternatives": [["W2 处理等高线成功"], ["等高线在 W2 处理"], ["等高线在W2"], ["等高线W2"]]}
+  ]
+}

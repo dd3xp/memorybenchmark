@@ -1,0 +1,30 @@
+{
+  "kind": "independent_pipeline_consistency_and_native_capacity_case_checks",
+  "source_execution_commit": "c4f9dc3e3a3f9f60cbd1feddb770ed2e25a49320",
+  "main_tasks": 20,
+  "all_first_branch_actions_verified_in_actual_model_response": 40,
+  "all_decision_inputs_have_correct_current_required_kind": 40,
+  "native_feedback_checked": "All 80 main station-information events matched exact structured tool feedback in forwarded model input, including station, capability, result and operation step.",
+  "public_projection_direct_fact_count": 15,
+  "capacity_loss_case": {
+    "task": "T11",
+    "capacity_error_forwarded_request": 48,
+    "capacity_error_request_sha256": "f21512fffdd5fa8db466f6b2b9bda4e3e6926ddf1d89e3a8898a44295ea80174",
+    "successful_deletion_forwarded_request": 49,
+    "deletion_request_sha256": "104e4bab7a70f721876d5fa6adb4ac6dca8412b64073701c6a30cb2b7eaf90ec",
+    "deleted_fact_verified_from_removed_native_entry": "D=bearing",
+    "fact_present_after_T10": true,
+    "fact_absent_after_T11": true,
+    "limit_characters": 2200
+  },
+  "semantic_review": "All 20 native output MEMORY.md snapshots and their edits manually read. Literal fact patterns supplied separately. No model reasoning exported.",
+  "focused_tests_passed": 8,
+  "focused_test_modules": [
+    "tests.test_station_memory_pipeline",
+    "tests.test_station_decision_audit"
+  ],
+  "new_test_source_sha256": "f1d062a6fd7ad712bccbff88b319d76def53bdd692470277264da2b113c2a9d1",
+  "audit_source_sha256": "9e017bf7264574cd8dd5f0894516bafd747eee3bb84e09c870ada3679163bbf7",
+  "saved_relevant_fact_missing_in_first_request": 0,
+  "saved_relevant_fact_missing_in_decision_request": 0
+}

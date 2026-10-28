@@ -1,0 +1,23 @@
+{
+  "kind": "reviewed_public_game_fact_pipeline_audit",
+  "date": "2026-10-28",
+  "execution_commit": "c4f9dc3e3a3f9f60cbd1feddb770ed2e25a49320",
+  "files": {
+    "pipeline-audit.json": {
+      "sha256": "bd9342e438823900be76fc2207e7154925724ef3b95face57c5d9f7a481e81f3",
+      "bytes": 221707
+    },
+    "reviewed-fact-patterns.json": {
+      "sha256": "999695516a47391d0de5d24395971c559ea4c3c1cbb75ef9018e7caf23ecb5a9",
+      "bytes": 2208
+    },
+    "verification.json": {
+      "sha256": "8cdb4d1e815b0f532cd9bb017588372b3473e18fd3a3079923c1bb7ff754dde5",
+      "bytes": 1700
+    }
+  },
+  "analysis_source": "scripts/audit_linked_memory_pipeline.py",
+  "analysis_source_sha256": "9e017bf7264574cd8dd5f0894516bafd747eee3bb84e09c870ada3679163bbf7",
+  "review_scope": "All 20 retained end-of-task memory snapshots, all 40 first-branch decisions and all 80 station-information tool deliveries. Literal semantic review plus mechanical source and input checks.",
+  "excluded": "No native full memory text, compaction summaries, model response prose, reasoning or credentials."
+}
