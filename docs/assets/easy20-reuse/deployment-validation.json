@@ -1,0 +1,193 @@
+{
+  "source_commit": "30c7db1c1b88de3d454d6f657f917b46203b874d",
+  "design_id": "lanting-easy20-types-v4",
+  "server_tests": "Ran 184 tests in 89.928s",
+  "native_contracts": [
+    {
+      "passed": true,
+      "agent": "ga",
+      "llm_calls": 0,
+      "kind": "scripted_real_native_contract",
+      "feedback_mode": "compact",
+      "feedback_protocol": "station-compact-feedback-1",
+      "linked_actions": 29,
+      "linked_distance": 30,
+      "typed_actions": 29,
+      "typed_distance": 30,
+      "typed_public_labels_and_feedback_delivered": true,
+      "output": "C:\\Codes\\memorybenchmark-private\\typed-stations-20261029\\ga"
+    },
+    {
+      "passed": true,
+      "agent": "hermes",
+      "llm_calls": 0,
+      "kind": "scripted_real_native_contract",
+      "feedback_mode": "compact",
+      "feedback_protocol": "station-compact-feedback-1",
+      "linked_actions": 29,
+      "linked_distance": 30,
+      "typed_actions": 29,
+      "typed_distance": 30,
+      "typed_public_labels_and_feedback_delivered": true,
+      "output": "C:\\Codes\\memorybenchmark-private\\typed-stations-20261029\\hermes"
+    }
+  ],
+  "deployment_doc_preserved": true,
+  "watch_state": "Running",
+  "real_model_calls": 0,
+  "utc": "2026-10-29T17:32:37.5447401Z",
+  "server_tests_count": 184,
+  "ci": {
+    "conclusion": "success",
+    "tested_source_commit": "30c7db1c1b88de3d454d6f657f917b46203b874d",
+    "url": "https://github.com/dd3xp/memorybenchmark/actions/runs/40920870608"
+  },
+  "browser": {
+    "verified_via": "In-app browser, DOM-backed inspection and screenshot",
+    "url": "https://s.roundsquisheen.v6.navy:43821/easy20",
+    "design_id": "lanting-easy20-types-v4",
+    "public_station_labels_verified": 16,
+    "design_map_nodes": 70,
+    "type_cards": 8,
+    "commission_rows": 20,
+    "T13_requirements": "U profile; R drainage",
+    "initial_game_budget": "0 / 88"
+  },
+  "https_playback": {
+    "kind": "human_design_reference_https_QA_not_agent_memory_results",
+    "base_url": "https://s.roundsquisheen.v6.navy:43821",
+    "design_id": "lanting-easy20-types-v4",
+    "unauthenticated_api_status": 401,
+    "tls_certificate_verified": true,
+    "public_station_types": 8,
+    "physical_stations": 16,
+    "successful_tasks": 20,
+    "completed_stages": 40,
+    "fresh_task_actions_verified": true,
+    "human_design_view_used_as_QA_reference": true,
+    "real_model_calls": 0,
+    "tasks": [
+      {
+        "task": "T1",
+        "success": true,
+        "operations": 30,
+        "distance": 37
+      },
+      {
+        "task": "T2",
+        "success": true,
+        "operations": 30,
+        "distance": 37
+      },
+      {
+        "task": "T3",
+        "success": true,
+        "operations": 30,
+        "distance": 37
+      },
+      {
+        "task": "T4",
+        "success": true,
+        "operations": 30,
+        "distance": 37
+      },
+      {
+        "task": "T5",
+        "success": true,
+        "operations": 29,
+        "distance": 30
+      },
+      {
+        "task": "T6",
+        "success": true,
+        "operations": 31,
+        "distance": 36
+      },
+      {
+        "task": "T7",
+        "success": true,
+        "operations": 30,
+        "distance": 33
+      },
+      {
+        "task": "T8",
+        "success": true,
+        "operations": 30,
+        "distance": 33
+      },
+      {
+        "task": "T9",
+        "success": true,
+        "operations": 30,
+        "distance": 37
+      },
+      {
+        "task": "T10",
+        "success": true,
+        "operations": 30,
+        "distance": 37
+      },
+      {
+        "task": "T11",
+        "success": true,
+        "operations": 30,
+        "distance": 33
+      },
+      {
+        "task": "T12",
+        "success": true,
+        "operations": 30,
+        "distance": 33
+      },
+      {
+        "task": "T13",
+        "success": true,
+        "operations": 29,
+        "distance": 34
+      },
+      {
+        "task": "T14",
+        "success": true,
+        "operations": 31,
+        "distance": 40
+      },
+      {
+        "task": "T15",
+        "success": true,
+        "operations": 30,
+        "distance": 33
+      },
+      {
+        "task": "T16",
+        "success": true,
+        "operations": 30,
+        "distance": 33
+      },
+      {
+        "task": "T17",
+        "success": true,
+        "operations": 30,
+        "distance": 35
+      },
+      {
+        "task": "T18",
+        "success": true,
+        "operations": 31,
+        "distance": 38
+      },
+      {
+        "task": "T19",
+        "success": true,
+        "operations": 29,
+        "distance": 32
+      },
+      {
+        "task": "T20",
+        "success": true,
+        "operations": 30,
+        "distance": 35
+      }
+    ]
+  },
+  "scope": "Software and human-reference validation only. Synthetic native model responses and full human design view are test fixtures, not native-agent memory results."
+}
