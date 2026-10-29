@@ -123,7 +123,7 @@ class LinkedStationTests(unittest.TestCase):
 
     def test_default_human_design_view_covers_both_stages_without_leaking_to_play(self):
         with tempfile.TemporaryDirectory() as directory:
-            service=FieldService(Path(directory));public=service.start({});g=service.instances[public['instance_id']]['game']
+            service=FieldService(Path(directory), self.design);public=service.start({});g=service.instances[public['instance_id']]['game']
             self.assertEqual(public['observation']['environment']['version'],'lanting-easy20-linked-v3')
             self.assertNotIn('capabilities',public);before=deepcopy(g.events)
             design=service.design_view(public['instance_id']);self.assertEqual(g.events,before)

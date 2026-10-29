@@ -1,0 +1,17 @@
+{
+  "station_types": 8,
+  "physical_stations": 16,
+  "worlds": 576,
+  "first_task_after_which_all_type_mappings_are_determined_histogram": {
+    "1": 144,
+    "2": 256,
+    "5": 176
+  },
+  "min_median_max_task": [
+    1,
+    2.0,
+    5
+  ],
+  "scope": "Same fixed scripted feedback policy, evaluator-compatible worlds. Determined from delivered evidence is not equivalent to saved or used by a native agent.",
+  "recommendation": "Keep eight types for Easy mechanism validation; do not claim large-capacity memory or controlled interference. Add separate higher-cardinality conditions if that becomes a research target."
+}

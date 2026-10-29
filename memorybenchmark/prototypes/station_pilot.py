@@ -95,6 +95,9 @@ class StationNativeSessions(WorkerSessions):
                       done=game.done, game_actions=game.steps, distance=game.distance,
                       prior_compatible_worlds=list(compatible_worlds(game.design, before_history)),
                       after_compatible_worlds=list(compatible_worlds(game.design, game.events)))
+        if game.design.get("evaluation", {}).get("experience_protocol") == "station-experience-opportunity-1":
+            from .station_experience import experience_opportunities
+            report["experience_opportunities"] = experience_opportunities(game.design, game.events, game.task_run_id)
         graph = trace_graph(game)
         save_json(output / "graph.json", graph)
         (output / "events.jsonl").write_text("".join(json.dumps(e, ensure_ascii=False) + "\n"
@@ -183,6 +186,9 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             load_adapter(agent).prepare(archive, output)
         paths = [Path(__file__), selected_design, Path(__file__).with_name("station_capability.py"),
                  Path(__file__).with_name("station_session.py")]
+        if design.get("evaluation", {}).get("experience_protocol") == "station-experience-opportunity-1":
+            paths += [Path(__file__).with_name(name) for name in
+                      ("station_experience.py", "station_choice.py", "station_routes.py")]
         paths += [Path(__file__).parents[1] / name for name in
                   ("ga_worker.py", "agent_bridge.py", "mcp_game.py", "agent_sessions.py", "ga_runtime.py", "model_gateway.py")]
         if agent == "hermes":

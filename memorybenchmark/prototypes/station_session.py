@@ -20,6 +20,7 @@ DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capab
 EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.json"
 EASY20_CHOICE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_choice.json"
 EASY20_LINKED_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_linked.json"
+EASY20_REUSE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_reuse.json"
 FEEDBACK_PROTOCOLS = {"full": "station-full-feedback-1", "compact": "station-compact-feedback-1"}
 
 
@@ -28,14 +29,15 @@ def render_text(response, *, compact=False):
     public, task = observation["environment"], observation["task"]
     kind = public["kinds"][task["required_kind"]]
     groups = "；".join("/".join(group["stations"]) + "：" + "/".join(public["kinds"][k] for k in group["kinds"])
-                       + ("各两站" if len(group["stations"]) == 4 else "各一站")
+                       + ("各两站" if all(group.get("counts", {}).get(k) == 2 for k in group["kinds"]) else "各一站")
                        for group in capability_groups({"public": public}).values())
     routes = "；".join(f"{node}（距离 {distance}）" for node, distance in neighbors({"public": public}, observation["location"]))
     message = {"started": "新委托开始。", "current_observation": "当前观察。", "arrived": "已到达。",
                "not_ready": "本次原始资料尚未采集并处理，不能提交。", "submitted": "本次委托完成。",
                "abandoned": "本次委托已放弃。"}.get(feedback["kind"], "")
     if feedback["kind"] == "station_information":
-        message = f'{feedback["station"]} 支持{public["kinds"][feedback["capability"]]}。'
+        type_label = f'（{feedback["station_type"]} 型）' if "station_type" in feedback else ""
+        message = f'{feedback["station"]}{type_label}支持{public["kinds"][feedback["capability"]]}。'
         if "result" in feedback:
             message += "本次资料已处理。" if feedback["result"] == "processed" else "不支持本次资料，原始资料保留。"
     if feedback.get("raw_collected"):

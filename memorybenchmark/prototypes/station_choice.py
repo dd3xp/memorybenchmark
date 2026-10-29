@@ -11,14 +11,14 @@ def choice_context(design, task_id, prior_events, selected=None, *, stage_index=
     for row in options:
         values = {design["private_worlds"][w][row["station"]] == kind for w in possible}
         row["historical_status"] = "known_match" if values == {True} else "known_nonmatch" if values == {False} else "unresolved"
-    nearest = min(row["distance_from_target"] for row in options)
+    nearest = min(row["distance_from_target"] for row in options if row.get("publicly_possible", True))
     known = [row for row in options if row["historical_status"] == "known_match"]
     best = known[0]["completion_distance"] if known else None
     provable = best is not None and all(row["completion_distance"] >= best or row["historical_status"] == "known_nonmatch" for row in options)
     chosen = next((row for row in options if row["station"] == selected), None)
     return {"selected_station": selected, "candidate_options": options,
-            "nearest_candidates": [row["station"] for row in options if row["distance_from_target"] == nearest],
-            "selected_is_geographically_nearest": chosen["distance_from_target"] == nearest if chosen else None,
+            "nearest_candidates": [row["station"] for row in options if row.get("publicly_possible", True) and row["distance_from_target"] == nearest],
+            "selected_is_geographically_nearest": chosen.get("publicly_possible", True) and chosen["distance_from_target"] == nearest if chosen else None,
             "selected_historical_status": chosen["historical_status"] if chosen else None,
             "lowest_cost_known_matching_stations": [row["station"] for row in known if row["completion_distance"] == best],
             "best_matching_cost_provable_from_history": provable,
@@ -45,6 +45,8 @@ def station_decisions(design, events, task_run_id):
     for event in current:
         index = event.get("state_before", {}).get("stage", 0)
         stations = set(capability_groups(design)[task_group(design, task_id, index)]["stations"])
+        if design.get("world_generator") == "station_type_permutations":
+            stations = {s for s,p in design["public"]["locations"].items() if p["kind"] == "station"}
         branch_station = departures.get((event.get("from"),event.get("to"))) if event.get("moved") else None
         if branch_station in stations and event["state_before"]["raw"] and not event["state_before"]["processed"]:
             commitments.append({"event_id": event["event_id"],"station":branch_station,

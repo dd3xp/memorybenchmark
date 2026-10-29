@@ -10,7 +10,7 @@ from copy import deepcopy
 from dataclasses import dataclass, replace
 from fractions import Fraction
 from functools import lru_cache
-from itertools import combinations, product
+from itertools import combinations, permutations, product
 import json
 from pathlib import Path
 
@@ -48,10 +48,36 @@ def load_design(path=None):
         raise ValueError("Declare at least one independent capability group")
     generator = design.get("world_generator", "independent_pair_swaps")
     balanced = generator == "independent_balanced_allocations"
-    if generator not in ("independent_pair_swaps", "independent_balanced_allocations"):
+    typed = generator == "station_type_permutations"
+    if generator not in ("independent_pair_swaps", "independent_balanced_allocations", "station_type_permutations"):
         raise ValueError("Unknown private-world generator")
+    type_members = public.get("station_types", {})
+    if typed:
+        declared = [s for t in type_members.values() for s in t["stations"]]
+        if set(declared) != stations or len(declared) != len(stations):
+            raise ValueError("Station types must partition physical stations")
+        for type_id, data in type_members.items():
+            if len(data["stations"]) < 2 or any(public["locations"][s].get("station_type") != type_id for s in data["stations"]):
+                raise ValueError("Each station must declare its public type consistently")
     allocations = []
     for group in groups.values():
+        if typed:
+            types = group["station_types"]
+            size = len(types)
+            if size < 2 or len(set(types)) != size or len(group["kinds"]) != size or len(set(group["kinds"])) != size:
+                raise ValueError("Typed groups require a bijection of public types to hidden capabilities")
+            members = [s for t in types for s in type_members[t]["stations"]]
+            replica_counts = {len(type_members[t]["stations"]) for t in types}
+            if set(members) != set(group["stations"]) or len(members) != len(group["stations"]) or len(replica_counts) != 1:
+                raise ValueError("Typed group membership or replication is inconsistent")
+            count = next(iter(replica_counts))
+            if group.get("counts") != {kind: count for kind in group["kinds"]}:
+                raise ValueError("Typed groups must declare the physical matching-station counts")
+            allocations.append([{s: kind for t, kind in zip(types, ordering) for s in type_members[t]["stations"]}
+                                for ordering in permutations(group["kinds"])])
+            grouped_stations.extend(group["stations"])
+            grouped_kinds.extend(group["kinds"])
+            continue
         size = 4 if balanced else 2
         if (len(group["stations"]) != size or len(set(group["stations"])) != size or
                 len(group["kinds"]) != 2 or len(set(group["kinds"])) != 2):
@@ -79,7 +105,8 @@ def load_design(path=None):
             assignment = {}
             for choices, index in zip(allocations, indices):
                 assignment.update(choices[index])
-            design["private_worlds"]["omega_" + "".join(map(str, indices))] = assignment
+            world_id = "omega_" + ("_".join(f"{i:02d}" for i in indices) if typed else "".join(map(str, indices)))
+            design["private_worlds"][world_id] = assignment
     expected = 1
     for choices in allocations:
         expected *= len(choices)
@@ -93,6 +120,13 @@ def load_design(path=None):
             counts = group.get("counts", {kind: 1 for kind in group["kinds"]})
             if Counter(world[s] for s in group["stations"]) != counts:
                 raise ValueError("Each group must satisfy its public capability counts")
+        if typed:
+            for data in type_members.values():
+                if len({world[s] for s in data["stations"]}) != 1:
+                    raise ValueError("Same-type stations must share one capability")
+            for group in groups.values():
+                if {world[type_members[t]["stations"][0]] for t in group["station_types"]} != set(group["kinds"]):
+                    raise ValueError("Each typed group must contain every capability exactly once at type level")
         assignments.append(tuple(sorted(world.items())))
     if len(set(assignments)) != len(assignments):
         raise ValueError("Worlds must have different capability assignments")
@@ -174,6 +208,9 @@ def transition(design, task, world_id, state, action):
     elif verb in ("inspect", "process"):
         capability = design["private_worlds"][world_id][state.position]
         feedback = {"kind": "station_information", "station": state.position, "capability": capability}
+        station_type = design["public"]["locations"][state.position].get("station_type")
+        if station_type is not None:
+            feedback["station_type"] = station_type
         if verb == "process":
             supported = capability == stage["required_kind"]
             after = replace(state, processed=state.processed or supported)

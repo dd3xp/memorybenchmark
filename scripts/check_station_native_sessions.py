@@ -12,7 +12,7 @@ from memorybenchmark.agent_adapters import load_adapter, PreparedAgent
 from memorybenchmark.ga_runtime import WSLJail
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
 from memorybenchmark.prototypes.station_pilot import StationNativeSessions
-from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN, EASY20_LINKED_DESIGN, FEEDBACK_PROTOCOLS
+from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN, EASY20_LINKED_DESIGN, EASY20_REUSE_DESIGN, FEEDBACK_PROTOCOLS
 from memorybenchmark.prototypes.station_routes import shortest_route
 
 MARKER = "synthetic_native_contract_marker_74931"
@@ -181,10 +181,28 @@ def run(args):
     assert len(processing) == 2 and not processing[0]["delivered"]["observation"]["done"]
     assert len({e["task_run_id"] for e in linked.events}) == 1, "Two stages must share a native session"
     check_feedback_delivery(output / "linked", result, linked_model, args.feedback_mode)
+    typed = StationGame("omega_00_00",load_design(EASY20_REUSE_DESIGN))
+    typed_tools=[("game_action",{"action":"read"})];position="C"
+    for destination,process in (("P",False),("A1",True),("R",False),("E1",True),("C",False)):
+        for node in shortest_route(typed.design,position,destination)[0][1:]:
+            typed_tools.append(("game_action",{"action":"move","target":node}))
+        position=destination
+        if process:typed_tools.append(("game_action",{"action":"process"}))
+    typed_tools.append(("game_action",{"action":"submit"}))
+    typed_model=ScriptedResponses(typed_tools,args.agent)
+    typed_result=linked_sessions.run(typed,"T1",prepared.baseline,output/"typed",typed_model,condition="prefix")
+    assert typed_result["infrastructure_ok"] and typed.state.success,typed_result.get("infrastructure_error")
+    check_feedback_delivery(output/"typed",typed_result,typed_model,args.feedback_mode)
+    typed_outputs=list(response_observations(typed_model.requests))
+    assert any(r["feedback"].get("station_type")=="A" for r in typed_outputs)
+    assert all("evaluation" not in r["observation"].get("environment",{}) for r in typed_outputs)
+    assert "station_types" in json.dumps(typed_model.requests[0]),"Public class labels missing from actual native input"
+    assert all(not s["has_prior_matching_opportunity"] for s in typed_result["experience_opportunities"]["stages"])
     print(json.dumps({"passed": True, "agent": args.agent, "llm_calls": 0,
                       "kind": "scripted_real_native_contract", "feedback_mode": args.feedback_mode,
                       "feedback_protocol": result["feedback_protocol"], "linked_actions": linked.steps,
-                      "linked_distance": linked.distance, "output": str(output.resolve())}))
+                      "linked_distance": linked.distance, "typed_actions":typed.steps,"typed_distance":typed.distance,
+                      "typed_public_labels_and_feedback_delivered":True,"output": str(output.resolve())}))
 
 
 if __name__ == "__main__":

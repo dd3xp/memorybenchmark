@@ -9,7 +9,7 @@ from .station_routes import station_branches, task_group
 
 
 def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_references=True):
-    if exact_references and design.get("world_generator") == "independent_balanced_allocations":
+    if exact_references and design.get("world_generator") in ("independent_balanced_allocations", "station_type_permutations"):
         raise ValueError("Multi-station maps use descriptive analysis; set exact_references=False or --skip-exact-references")
     selected = [e for e in events if e["task_run_id"] == task_run_id]
     start = next(e for e in selected if e["kind"] == "task_started")
@@ -122,4 +122,8 @@ def analyze_trace(design, events, task_run_id, *, infrastructure_ok=True, exact_
                     "unsupported_attempts":sum(e["delivered"]["feedback"].get("result")=="unsupported" for e in segment),
                     "processed":any(e["delivered"]["feedback"].get("result")=="processed" for e in segment)})
         result["branch_excursions"] = sorted(excursions,key=lambda r:r["enter"])
+    if design.get("evaluation", {}).get("experience_protocol") == "station-experience-opportunity-1":
+        from .station_experience import experience_opportunities
+        result["experience_opportunities"] = experience_opportunities(
+            design, events, task_run_id, decisions=result.get("station_decisions"))
     return result

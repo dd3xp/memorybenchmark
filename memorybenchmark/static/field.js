@@ -8,7 +8,7 @@ let camera={x:0,y:0,w:1200,h:900}, initialized=false;
 const viewport=$('viewport'), map=$('field-map'), pointers=new Map();
 let gesture=null;
 let restoringFocus=false;
-const storageKey='survey-lanting-easy20';
+const storageKey='survey-lanting-easy20-types-v4';
 function save(){try{sessionStorage.setItem(storageKey,JSON.stringify({instance,camera}));}catch(_){}}
 function uuid(){return crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(16).slice(2)}`;}
 async function api(path, body){
@@ -27,7 +27,7 @@ function feedbackText(data){
   if(f.kind==='submitted')return data.stream_finished?'二十项委托已结束，记录已入册。':'交件成功。可以在营地领取下一项委托。';
   if(f.termination==='budget_exhausted')return '操作次数已用尽。本次反馈仍已获得，可以继续下一项委托。';
   if(f.kind==='abandoned')return '本项委托已放弃。已经观察到的信息仍可成为以后的经验。';
-  if(f.kind==='station_information')return `${f.station} 支持${p.kinds[f.capability]}。${f.next_stage?`第 ${f.stage_completed} 段完成，现在前往 ${o.task.target} 完成第 ${f.next_stage} 段。`:f.result==='processed'?'本次资料已处理，回营地交件。':f.result==='unsupported'?'本次不匹配，原始资料保留。':'查询已计入一次操作。'}`;
+  if(f.kind==='station_information')return `${f.station}${f.station_type?`（${f.station_type} 型）`:''} 支持${p.kinds[f.capability]}。${f.next_stage?`第 ${f.stage_completed} 段完成，现在前往 ${o.task.target} 完成第 ${f.next_stage} 段。`:f.result==='processed'?'本次资料已处理，回营地交件。':f.result==='unsupported'?'本次不匹配，原始资料保留。':'查询已计入一次操作。'}`;
   if(f.kind==='arrived')return f.raw_collected?'已自动采集当前段资料，请选择匹配的处理站。':`已到达${p.locations[o.location].name}。`;
   return o.done?'本项委托已结束。':'当前观察已更新。';
 }
@@ -74,12 +74,13 @@ function eventText(e,p){
   return f.kind==='submitted'?'回营交件成功':f.kind==='abandoned'?'放弃当前委托':'尝试交件，资料尚未完成';
 }
 function currentCapability(id){
-  return state.current_actions.filter(e=>e.delivered.feedback.kind==='station_information'&&e.delivered.feedback.station===id).at(-1)?.delivered.feedback.capability;
+  const type=state.observation.environment.locations[id]?.station_type;
+  return state.current_actions.filter(e=>e.delivered.feedback.kind==='station_information'&&(e.delivered.feedback.station===id||(type&&e.delivered.feedback.station_type===type))).at(-1)?.delivered.feedback.capability;
 }
 function renderPlace(){
   const o=state.observation,p=o.environment,id=selected||o.location,n=p.locations[id],here=id===o.location;
   const names={camp:'营地',station:'处理站',survey:'测绘点',junction:'路口'};
-  $('place-type').textContent=here?'当前位置':names[n.kind];$('place-id').textContent=id;$('place-name').textContent=n.name;
+  $('place-type').textContent=n.station_type?`${n.station_type} 型处理站${here?' · 当前位置':''}`:here?'当前位置':names[n.kind];$('place-id').textContent=id;$('place-name').textContent=n.name;
   const local=$('local-actions'),near=$('neighbors');local.replaceChildren();near.replaceChildren();
   if(!here){$('place-description').textContent='查看地点。请沿道路逐段前往；点击相邻地点可直接移动。';local.append(button('返回当前位置',()=>{selected=o.location;renderPlace();draw();}));return;}
   if(o.done){
@@ -161,22 +162,26 @@ function pointerEnd(e,cancel=false){
 viewport.addEventListener('pointerup',e=>pointerEnd(e));viewport.addEventListener('pointercancel',e=>pointerEnd(e,true));viewport.addEventListener('lostpointercapture',e=>pointerEnd(e,true));
 viewport.addEventListener('wheel',e=>{if(panel)return;e.preventDefault();zoom(Math.exp(-e.deltaY*.0015),e.clientX,e.clientY);},{passive:false});
 function openPanel(id){previousFocus=document.activeElement;if(panel)$(panel).hidden=true;panel=id;$(id).hidden=false;viewport.inert=true;$('journal-open').setAttribute('aria-expanded',String(id==='journal'));$(id).querySelector('button')?.focus();}
-function closePanel(){if(panel)$(panel).hidden=true;if(panel==='design')for(const id of ['design-map','design-groups','design-tasks'])$(id).replaceChildren();panel=null;viewport.inert=false;$('journal-open').setAttribute('aria-expanded','false');if(previousFocus?.getClientRects().length)previousFocus.focus();else $('journal-open').focus();}
+function closePanel(){if(panel)$(panel).hidden=true;if(panel==='design')for(const id of ['design-map','design-groups','design-tasks','design-experience','design-version'])$(id).replaceChildren();panel=null;viewport.inert=false;$('journal-open').setAttribute('aria-expanded','false');if(previousFocus?.getClientRects().length)previousFocus.focus();else $('journal-open').focus();}
 async function showDesign(){
   if(busy)return;try{const data=await api(`/api/field/design?instance_id=${encodeURIComponent(instance)}`);renderDesign(data);openPanel('design');}catch(e){$('error-text').textContent=e.message;$('error').hidden=false;}
 }
 function renderDesign(data){
+  $('design-version').textContent=`地图版本：${data.design_id}`;
   const p=state.observation.environment,b=worldBounds();const svg=$('design-map');svg.setAttribute('viewBox',b.join(' '));svg.replaceChildren(node('image',{href:'/field-terrain.svg',x:b[0],y:b[1],width:b[2],height:b[3],preserveAspectRatio:'none'}));
   for(const [a,b,w] of p.edges){svg.append(node('path',{d:roadPath(a,b),class:'road'}));svg.append(node('text',{x:(p.locations[a].x+p.locations[b].x)/2+8,y:(p.locations[a].y+p.locations[b].y)/2-8,'font-size':18,fill:'#294637'},w));}
-  for(const [id,n] of Object.entries(p.locations)){svg.append(node('circle',{cx:n.x,cy:n.y,r:15,fill:'#f4f1dc',stroke:'#3a5b48','stroke-width':2}),node('text',{x:n.x,y:n.y+5,'text-anchor':'middle','font-size':17,fill:'#294637'},id));
+  for(const [id,n] of Object.entries(p.locations)){const mark=node('circle',{cx:n.x,cy:n.y,r:n.transit?5:15,fill:'#f4f1dc',stroke:'#3a5b48','stroke-width':2});mark.append(node('title',{},`${id} · ${n.name}`));svg.append(mark);if(!n.transit)svg.append(node('text',{x:n.x,y:n.y+5,'text-anchor':'middle','font-size':17,fill:'#294637'},id));
     if(data.capabilities[id])svg.append(node('text',{x:n.x,y:n.y+36,'text-anchor':'middle','font-size':19,fill:'#725020'},p.kinds[data.capabilities[id]]));}
-  $('design-groups').replaceChildren();for(const group of Object.values(p.capability_groups)){const box=html('section',undefined,'design-group');box.append(html('h3',group.name));for(const s of group.stations)box.append(html('p',`${s} → ${p.kinds[data.capabilities[s]]}`));$('design-groups').append(box);}
+  $('design-groups').replaceChildren();for(const group of Object.values(p.station_types||p.capability_groups)){const box=html('section',undefined,'design-group');box.append(html('h3',group.name));for(const s of group.stations)box.append(html('p',`${s} → ${p.kinds[data.capabilities[s]]}`));$('design-groups').append(box);}
+  $('design-experience').replaceChildren();for(const s of data.experience_opportunities?.stages||[]){const box=html('section',undefined,'design-group');const sources=s.direct_matching_feedback.map(f=>`${f.task_id} 第${f.stage_index+1}段 ${f.station}${f.station_type?` / ${f.station_type}型`:''}（${f.operation}${f.result==='processed'?' 成功':f.result==='unsupported'?' 不匹配':''}）`);box.append(html('h3',`第${s.stage_index+1}段 · ${p.kinds[s.required_kind]}`),html('p',sources.length?`此前实际反馈：${sources.join('；')}`:'此前没有直接交付过匹配站能力。'),html('p',s.matching_stations_known_from_type?.length?`同型站均适用：${s.matching_stations_known_from_type.join('、')}`:'尚无已观测匹配站型。'),html('p',s.matching_stations_known_only_by_inference.length?`可由一一对应规则推断：${s.matching_stations_known_only_by_inference.join('、')}`:'无额外推断匹配站。'),html('p',s.first_branch_choice?`本次首次支路选择：${s.first_branch_choice.station}${s.first_branch_choice.new_station_of_previously_observed_type?'（此前未到过的同型站）':''}；这不单独证明使用记忆。`:'本段尚无选站记录。'));$('design-experience').append(box);}
   $('design-tasks').replaceChildren();for(const task of data.tasks){const tr=html('tr'),stages=task.stage_options;
     const requirements=stages?stages.map((s,i)=>`${i+1}. ${s.target} ${p.kinds[s.required_kind]}`).join('；'):`${task.target} ${p.kinds[task.required_kind]}`;
     const groups=stages?stages.map(s=>s.group).join(' → '):task.group;
-    const gaps=stages?stages.map(s=>`${s.group}：${s.intervening_tasks_since_same_group??'首次'}`).join('；'):task.intervening_tasks_since_same_group??'首次';
+    const deps=task.experience_dependencies?.stages;
+    const inheritance=deps?deps.map((s,i)=>`第${i+1}段：${s.earlier_same_kind_stages.length?s.earlier_same_kind_stages.map(r=>`${r.task_id}.${r.stage_index+1}`).join('、')+' 任一成功处理后可用':'首次需求；也可能用到此前探索反馈'}`).join('；'):'—';
+    const gaps=deps?deps.map((s,i)=>`第${i+1}段：${s.intervening_tasks_since_same_kind_requirement??'首次'}`).join('；'):'—';
     const options=stages?stages.map((s,i)=>`第${i+1}段：`+s.options.map(c=>`${c.station} ${c.matches?'匹配':'不匹配'}，至下一目标/营地 ${c.completion_distance}`).join('；')).join(' / '):(task.station_options||[]).map(s=>`${s.station}：${s.matches?'匹配':'不匹配'}，总路程 ${s.completion_distance}`).join('；');
-    for(const value of [`${task.id} ${task.name}`,requirements,groups,gaps,options,`${task.known_world_route.join(' → ')}　路程 ${task.known_world_distance}`])tr.append(html('td',value));$('design-tasks').append(tr);}
+    for(const value of [`${task.id} ${task.name}`,requirements,groups,inheritance,gaps,options,`${task.known_world_route.join(' → ')}　路程 ${task.known_world_distance}`])tr.append(html('td',value));$('design-tasks').append(tr);}
 }
 async function newGame(){closePanel();await run(()=>api('/api/field/start',{}));}
 $('journal-open').onclick=()=>openPanel('journal');$('journal-close').onclick=closePanel;$('design-close').onclick=closePanel;$('design-open').onclick=showDesign;

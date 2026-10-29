@@ -60,11 +60,15 @@ def station_options(design, task_id, *, stage_index=0, start=None):
     destination = stages[stage_index+1]["target"] if stage_index+1 < len(stages) else task["submit_at"]
     prefix = shortest_route(design, start or task["start"], stage["target"])[1]
     result = []
-    for station in capability_groups(design)[task_group(design, task_id, stage_index)]["stations"]:
+    group_stations = capability_groups(design)[task_group(design, task_id, stage_index)]["stations"]
+    typed = design.get("world_generator") == "station_type_permutations"
+    candidates = [s for s, p in design["public"]["locations"].items() if p["kind"] == "station"] if typed else group_stations
+    for station in candidates:
         outward = shortest_route(design, stage["target"], station)[1]
         home = shortest_route(design, station, destination)[1]
         result.append({"station": station, "distance_from_target": outward,
-                       "completion_distance": prefix + outward + home})
+                       "completion_distance": prefix + outward + home,
+                       **({"publicly_possible": station in group_stations} if typed else {})})
     return sorted(result, key=lambda row: (row["completion_distance"], row["station"]))
 
 

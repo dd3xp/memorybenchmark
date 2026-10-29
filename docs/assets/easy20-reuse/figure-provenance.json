@@ -1,0 +1,47 @@
+{
+  "kind": "complete_design_overview_not_agent_results",
+  "design_id": "lanting-easy20-types-v4",
+  "design_sha256": "d0ea10e2897b9dbc9aa547ff83e8b7731cdf9a3253a531dac95048bc31bd7423",
+  "renderer_sha256": "88b695e3ac75da32e63439785506266e67d80ce0fee4ea9e0e31595794c827fe",
+  "example_world": "omega_11_17",
+  "example_capabilities": {
+    "A1": "shore",
+    "A2": "shore",
+    "B1": "lithology",
+    "B2": "lithology",
+    "C1": "vegetation",
+    "C2": "vegetation",
+    "D1": "profile",
+    "D2": "profile",
+    "E1": "drainage",
+    "E2": "drainage",
+    "F1": "contour",
+    "F2": "contour",
+    "G1": "elevation",
+    "G2": "elevation",
+    "H1": "bearing",
+    "H2": "bearing"
+  },
+  "nodes": 70,
+  "roads": 77,
+  "font": "Microsoft YaHei",
+  "matplotlib": "3.10.8",
+  "png_dpi": 180,
+  "transformations": [
+    "All source nodes, roads, distances, and twenty commissions retained.",
+    "Coordinates are a schematic layout, not geographic distance.",
+    "Task table displays the most recent same-kind demand; machine-readable JSON/CSV retain all predecessors.",
+    "Example capabilities are evaluator-only; no agent memories created."
+  ],
+  "files_sha256": {
+    "complete-map.png": "761e89daec0db20b89cf19e421591ddff15303ef4afc4be318a18cdb120578e1",
+    "complete-map.svg": "f008c8bc5123e698e300293144a98e38ca6d0654cc400c4ba90c4b05a5f4d82c",
+    "complete-map.pdf": "dc35b8a20cce09b637eac1b2821f50b04b5c1fce86068dc49e4be4b3469a3599",
+    "twenty-task-dependencies.png": "098089aebf8a1b32a140dc2182b52113b28c2e245301ae6e736c4ecd59de62e5",
+    "twenty-task-dependencies.svg": "4349678d026c75f1e7cc37bd221722027dd42acf5215ac4391176c8b949118ef",
+    "twenty-task-dependencies.pdf": "1fc04f1c5d28b114bf7c585caa221bf6b23a905ad6991c74a538af109688a0e8",
+    "station-type-example.png": "7d9541fd8c7199f7bf0ecc5eef56fd0c438f2ab45a2289163ac78b245a2efc31",
+    "station-type-example.svg": "10b1def07542f4b0ee090fae54c7ca3a2465ca2648c2a37a4097f3142348624c",
+    "station-type-example.pdf": "c60e1e1d746dcf44be296b2fcfef1ba12d8c116dd1e4542c1e23ccf3c3d29ca6"
+  }
+}

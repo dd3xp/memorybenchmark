@@ -1,0 +1,954 @@
+[
+  {
+    "task_id": "T1",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "P",
+        "required_kind": "profile",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      },
+      {
+        "stage_index": 1,
+        "target": "R",
+        "required_kind": "bearing",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      }
+    ]
+  },
+  {
+    "task_id": "T2",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "U",
+        "required_kind": "vegetation",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      },
+      {
+        "stage_index": 1,
+        "target": "X",
+        "required_kind": "drainage",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      }
+    ]
+  },
+  {
+    "task_id": "T3",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "Q",
+        "required_kind": "profile",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 0,
+            "target": "P"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 1
+      },
+      {
+        "stage_index": 1,
+        "target": "V",
+        "required_kind": "vegetation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 0,
+            "target": "U"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 0
+      }
+    ]
+  },
+  {
+    "task_id": "T4",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "S",
+        "required_kind": "bearing",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 1,
+            "target": "R"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 2
+      },
+      {
+        "stage_index": 1,
+        "target": "Y",
+        "required_kind": "drainage",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 1,
+            "target": "X"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 1
+      }
+    ]
+  },
+  {
+    "task_id": "T5",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "P",
+        "required_kind": "shore",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      },
+      {
+        "stage_index": 1,
+        "target": "R",
+        "required_kind": "elevation",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      }
+    ]
+  },
+  {
+    "task_id": "T6",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "U",
+        "required_kind": "lithology",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      },
+      {
+        "stage_index": 1,
+        "target": "X",
+        "required_kind": "contour",
+        "earlier_same_kind_stages": [],
+        "has_success_conditioned_predecessor": false,
+        "intervening_tasks_since_same_kind_requirement": null
+      }
+    ]
+  },
+  {
+    "task_id": "T7",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "Q",
+        "required_kind": "shore",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 0,
+            "target": "P"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 1
+      },
+      {
+        "stage_index": 1,
+        "target": "V",
+        "required_kind": "lithology",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 0,
+            "target": "U"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 0
+      }
+    ]
+  },
+  {
+    "task_id": "T8",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "S",
+        "required_kind": "elevation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 1,
+            "target": "R"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 2
+      },
+      {
+        "stage_index": 1,
+        "target": "Y",
+        "required_kind": "contour",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 1,
+            "target": "X"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 1
+      }
+    ]
+  },
+  {
+    "task_id": "T9",
+    "exact_repeat_of": "T3",
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "Q",
+        "required_kind": "profile",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 0,
+            "target": "P"
+          },
+          {
+            "task_id": "T3",
+            "task_index": 2,
+            "stage_index": 0,
+            "target": "Q"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 5
+      },
+      {
+        "stage_index": 1,
+        "target": "V",
+        "required_kind": "vegetation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 0,
+            "target": "U"
+          },
+          {
+            "task_id": "T3",
+            "task_index": 2,
+            "stage_index": 1,
+            "target": "V"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 5
+      }
+    ]
+  },
+  {
+    "task_id": "T10",
+    "exact_repeat_of": "T4",
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "S",
+        "required_kind": "bearing",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 1,
+            "target": "R"
+          },
+          {
+            "task_id": "T4",
+            "task_index": 3,
+            "stage_index": 0,
+            "target": "S"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 5
+      },
+      {
+        "stage_index": 1,
+        "target": "Y",
+        "required_kind": "drainage",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 1,
+            "target": "X"
+          },
+          {
+            "task_id": "T4",
+            "task_index": 3,
+            "stage_index": 1,
+            "target": "Y"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 5
+      }
+    ]
+  },
+  {
+    "task_id": "T11",
+    "exact_repeat_of": "T7",
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "Q",
+        "required_kind": "shore",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 0,
+            "target": "P"
+          },
+          {
+            "task_id": "T7",
+            "task_index": 6,
+            "stage_index": 0,
+            "target": "Q"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "V",
+        "required_kind": "lithology",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 0,
+            "target": "U"
+          },
+          {
+            "task_id": "T7",
+            "task_index": 6,
+            "stage_index": 1,
+            "target": "V"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      }
+    ]
+  },
+  {
+    "task_id": "T12",
+    "exact_repeat_of": "T8",
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "S",
+        "required_kind": "elevation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 1,
+            "target": "R"
+          },
+          {
+            "task_id": "T8",
+            "task_index": 7,
+            "stage_index": 0,
+            "target": "S"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "Y",
+        "required_kind": "contour",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 1,
+            "target": "X"
+          },
+          {
+            "task_id": "T8",
+            "task_index": 7,
+            "stage_index": 1,
+            "target": "Y"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      }
+    ]
+  },
+  {
+    "task_id": "T13",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "U",
+        "required_kind": "profile",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 0,
+            "target": "P"
+          },
+          {
+            "task_id": "T3",
+            "task_index": 2,
+            "stage_index": 0,
+            "target": "Q"
+          },
+          {
+            "task_id": "T9",
+            "task_index": 8,
+            "stage_index": 0,
+            "target": "Q"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "R",
+        "required_kind": "drainage",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 1,
+            "target": "X"
+          },
+          {
+            "task_id": "T4",
+            "task_index": 3,
+            "stage_index": 1,
+            "target": "Y"
+          },
+          {
+            "task_id": "T10",
+            "task_index": 9,
+            "stage_index": 1,
+            "target": "Y"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 2
+      }
+    ]
+  },
+  {
+    "task_id": "T14",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "X",
+        "required_kind": "bearing",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 1,
+            "target": "R"
+          },
+          {
+            "task_id": "T4",
+            "task_index": 3,
+            "stage_index": 0,
+            "target": "S"
+          },
+          {
+            "task_id": "T10",
+            "task_index": 9,
+            "stage_index": 0,
+            "target": "S"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "P",
+        "required_kind": "vegetation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 0,
+            "target": "U"
+          },
+          {
+            "task_id": "T3",
+            "task_index": 2,
+            "stage_index": 1,
+            "target": "V"
+          },
+          {
+            "task_id": "T9",
+            "task_index": 8,
+            "stage_index": 1,
+            "target": "V"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 4
+      }
+    ]
+  },
+  {
+    "task_id": "T15",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "V",
+        "required_kind": "shore",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 0,
+            "target": "P"
+          },
+          {
+            "task_id": "T7",
+            "task_index": 6,
+            "stage_index": 0,
+            "target": "Q"
+          },
+          {
+            "task_id": "T11",
+            "task_index": 10,
+            "stage_index": 0,
+            "target": "Q"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "S",
+        "required_kind": "contour",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 1,
+            "target": "X"
+          },
+          {
+            "task_id": "T8",
+            "task_index": 7,
+            "stage_index": 1,
+            "target": "Y"
+          },
+          {
+            "task_id": "T12",
+            "task_index": 11,
+            "stage_index": 1,
+            "target": "Y"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 2
+      }
+    ]
+  },
+  {
+    "task_id": "T16",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "Y",
+        "required_kind": "elevation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 1,
+            "target": "R"
+          },
+          {
+            "task_id": "T8",
+            "task_index": 7,
+            "stage_index": 0,
+            "target": "S"
+          },
+          {
+            "task_id": "T12",
+            "task_index": 11,
+            "stage_index": 0,
+            "target": "S"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "Q",
+        "required_kind": "lithology",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 0,
+            "target": "U"
+          },
+          {
+            "task_id": "T7",
+            "task_index": 6,
+            "stage_index": 1,
+            "target": "V"
+          },
+          {
+            "task_id": "T11",
+            "task_index": 10,
+            "stage_index": 1,
+            "target": "V"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 4
+      }
+    ]
+  },
+  {
+    "task_id": "T17",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "U",
+        "required_kind": "profile",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 0,
+            "target": "P"
+          },
+          {
+            "task_id": "T3",
+            "task_index": 2,
+            "stage_index": 0,
+            "target": "Q"
+          },
+          {
+            "task_id": "T9",
+            "task_index": 8,
+            "stage_index": 0,
+            "target": "Q"
+          },
+          {
+            "task_id": "T13",
+            "task_index": 12,
+            "stage_index": 0,
+            "target": "U"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "R",
+        "required_kind": "contour",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 1,
+            "target": "X"
+          },
+          {
+            "task_id": "T8",
+            "task_index": 7,
+            "stage_index": 1,
+            "target": "Y"
+          },
+          {
+            "task_id": "T12",
+            "task_index": 11,
+            "stage_index": 1,
+            "target": "Y"
+          },
+          {
+            "task_id": "T15",
+            "task_index": 14,
+            "stage_index": 1,
+            "target": "S"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 1
+      }
+    ]
+  },
+  {
+    "task_id": "T18",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "X",
+        "required_kind": "bearing",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T1",
+            "task_index": 0,
+            "stage_index": 1,
+            "target": "R"
+          },
+          {
+            "task_id": "T4",
+            "task_index": 3,
+            "stage_index": 0,
+            "target": "S"
+          },
+          {
+            "task_id": "T10",
+            "task_index": 9,
+            "stage_index": 0,
+            "target": "S"
+          },
+          {
+            "task_id": "T14",
+            "task_index": 13,
+            "stage_index": 0,
+            "target": "X"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "P",
+        "required_kind": "lithology",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T6",
+            "task_index": 5,
+            "stage_index": 0,
+            "target": "U"
+          },
+          {
+            "task_id": "T7",
+            "task_index": 6,
+            "stage_index": 1,
+            "target": "V"
+          },
+          {
+            "task_id": "T11",
+            "task_index": 10,
+            "stage_index": 1,
+            "target": "V"
+          },
+          {
+            "task_id": "T16",
+            "task_index": 15,
+            "stage_index": 1,
+            "target": "Q"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 1
+      }
+    ]
+  },
+  {
+    "task_id": "T19",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "U",
+        "required_kind": "shore",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 0,
+            "target": "P"
+          },
+          {
+            "task_id": "T7",
+            "task_index": 6,
+            "stage_index": 0,
+            "target": "Q"
+          },
+          {
+            "task_id": "T11",
+            "task_index": 10,
+            "stage_index": 0,
+            "target": "Q"
+          },
+          {
+            "task_id": "T15",
+            "task_index": 14,
+            "stage_index": 0,
+            "target": "V"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "R",
+        "required_kind": "drainage",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 1,
+            "target": "X"
+          },
+          {
+            "task_id": "T4",
+            "task_index": 3,
+            "stage_index": 1,
+            "target": "Y"
+          },
+          {
+            "task_id": "T10",
+            "task_index": 9,
+            "stage_index": 1,
+            "target": "Y"
+          },
+          {
+            "task_id": "T13",
+            "task_index": 12,
+            "stage_index": 1,
+            "target": "R"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 5
+      }
+    ]
+  },
+  {
+    "task_id": "T20",
+    "exact_repeat_of": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "target": "X",
+        "required_kind": "elevation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T5",
+            "task_index": 4,
+            "stage_index": 1,
+            "target": "R"
+          },
+          {
+            "task_id": "T8",
+            "task_index": 7,
+            "stage_index": 0,
+            "target": "S"
+          },
+          {
+            "task_id": "T12",
+            "task_index": 11,
+            "stage_index": 0,
+            "target": "S"
+          },
+          {
+            "task_id": "T16",
+            "task_index": 15,
+            "stage_index": 0,
+            "target": "Y"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 3
+      },
+      {
+        "stage_index": 1,
+        "target": "P",
+        "required_kind": "vegetation",
+        "earlier_same_kind_stages": [
+          {
+            "task_id": "T2",
+            "task_index": 1,
+            "stage_index": 0,
+            "target": "U"
+          },
+          {
+            "task_id": "T3",
+            "task_index": 2,
+            "stage_index": 1,
+            "target": "V"
+          },
+          {
+            "task_id": "T9",
+            "task_index": 8,
+            "stage_index": 1,
+            "target": "V"
+          },
+          {
+            "task_id": "T14",
+            "task_index": 13,
+            "stage_index": 1,
+            "target": "P"
+          }
+        ],
+        "has_success_conditioned_predecessor": true,
+        "intervening_tasks_since_same_kind_requirement": 5
+      }
+    ]
+  }
+]

@@ -1,0 +1,1414 @@
+{
+  "design_id": "lanting-easy20-types-v4",
+  "status": "public_types_pending_native_agent_calibration",
+  "world_generator": "station_type_permutations",
+  "public": {
+    "version": "lanting-easy20-types-v4",
+    "name": "岚汀丘地 · 同型联程",
+    "difficulty": "Easy",
+    "view_box": [
+      0,
+      0,
+      2000,
+      1700
+    ],
+    "rules": [
+      "每封委托有两段公开行程，按顺序各到目标自动采集、在匹配站处理；两段完成后回 C 提交。第一段处理成功即进入第二段，不用中途回营。",
+      "目标是在操作预算内完成委托，并尽量减少道路总距离；距离相同时减少操作。允许自由探索、查询和改道。",
+      "地图公开 A 至 H 八种站型及每型两座站的位置。同型站功能完全一致；类型字母没有语义，站型与处理能力的对应关系每轮随机确定、轮内稳定。",
+      "A/B/C/D 型在南北各有一站，分别支持剖面、岸线、植被、岩性中的一种；E/F/G/H 型在东西各有一站，分别支持方位、高程、水系、等高线中的一种。每个站网内四种能力与四种站型一一对应，具体配对不公开。",
+      "只有现场 inspect 或 process 交付当前站的实际能力和公开站型。此反馈可以适用于远处同型站，但不会自动写入你的持久记忆。地图、站名和新委托不提供隐藏配对或历史反馈。",
+      "各站在独立支路末端；所有中间地点都要实际移动，不能跳过。不匹配的 process 保留当前段原始资料，也公开该站型能力。",
+      "两段资料分别采集、处理；提前走过下一段目标不算采集下一段资料。每项最多八十八次操作，read 免费。",
+      "每项开始新的 session，只有 Agent 自主维护的原生记忆跨 session；历史对话和环境反馈不会随地图传递。失败时已交付的经验仍然有效。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "shore": "岸线资料",
+      "bearing": "方位资料",
+      "elevation": "高程资料",
+      "vegetation": "植被资料",
+      "lithology": "岩性资料",
+      "drainage": "水系资料",
+      "contour": "等高线资料"
+    },
+    "capability_groups": {
+      "NS": {
+        "name": "南北同型站网",
+        "stations": [
+          "A1",
+          "A2",
+          "B1",
+          "B2",
+          "C1",
+          "C2",
+          "D1",
+          "D2"
+        ],
+        "station_types": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "kinds": [
+          "profile",
+          "shore",
+          "vegetation",
+          "lithology"
+        ],
+        "counts": {
+          "profile": 2,
+          "shore": 2,
+          "vegetation": 2,
+          "lithology": 2
+        }
+      },
+      "EW": {
+        "name": "东西同型站网",
+        "stations": [
+          "E1",
+          "E2",
+          "F1",
+          "F2",
+          "G1",
+          "G2",
+          "H1",
+          "H2"
+        ],
+        "station_types": [
+          "E",
+          "F",
+          "G",
+          "H"
+        ],
+        "kinds": [
+          "bearing",
+          "elevation",
+          "drainage",
+          "contour"
+        ],
+        "counts": {
+          "bearing": 2,
+          "elevation": 2,
+          "drainage": 2,
+          "contour": 2
+        }
+      }
+    },
+    "locations": {
+      "C": {
+        "name": "手记营地",
+        "kind": "camp",
+        "x": 1120,
+        "y": 970
+      },
+      "J": {
+        "name": "风标岔口",
+        "kind": "junction",
+        "x": 1000,
+        "y": 850
+      },
+      "JN": {
+        "name": "北砾坡口",
+        "kind": "junction",
+        "x": 1000,
+        "y": 630
+      },
+      "NL": {
+        "name": "北砾坡站群侧岔1",
+        "kind": "junction",
+        "x": 820,
+        "y": 450
+      },
+      "NR": {
+        "name": "北砾坡站群侧岔2",
+        "kind": "junction",
+        "x": 1180,
+        "y": 450
+      },
+      "A1": {
+        "name": "A 型站 · A1",
+        "kind": "station",
+        "x": 700,
+        "y": 370,
+        "station_type": "A"
+      },
+      "B1": {
+        "name": "B 型站 · B1",
+        "kind": "station",
+        "x": 800,
+        "y": 200,
+        "station_type": "B"
+      },
+      "C1": {
+        "name": "C 型站 · C1",
+        "kind": "station",
+        "x": 1300,
+        "y": 370,
+        "station_type": "C"
+      },
+      "D1": {
+        "name": "D 型站 · D1",
+        "kind": "station",
+        "x": 1200,
+        "y": 200,
+        "station_type": "D"
+      },
+      "P": {
+        "name": "砾溪断面",
+        "kind": "survey",
+        "x": 920,
+        "y": 520
+      },
+      "Q": {
+        "name": "北湾石滩",
+        "kind": "survey",
+        "x": 1080,
+        "y": 520
+      },
+      "JE": {
+        "name": "苇湾路口",
+        "kind": "junction",
+        "x": 1220,
+        "y": 850
+      },
+      "EL": {
+        "name": "东苇湾站群侧岔1",
+        "kind": "junction",
+        "x": 1400,
+        "y": 670
+      },
+      "ER": {
+        "name": "东苇湾站群侧岔2",
+        "kind": "junction",
+        "x": 1400,
+        "y": 1030
+      },
+      "E1": {
+        "name": "E 型站 · E1",
+        "kind": "station",
+        "x": 1480,
+        "y": 550,
+        "station_type": "E"
+      },
+      "F1": {
+        "name": "F 型站 · F1",
+        "kind": "station",
+        "x": 1650,
+        "y": 650,
+        "station_type": "F"
+      },
+      "G1": {
+        "name": "G 型站 · G1",
+        "kind": "station",
+        "x": 1480,
+        "y": 1150,
+        "station_type": "G"
+      },
+      "H1": {
+        "name": "H 型站 · H1",
+        "kind": "station",
+        "x": 1650,
+        "y": 1050,
+        "station_type": "H"
+      },
+      "R": {
+        "name": "东坡石标",
+        "kind": "survey",
+        "x": 1330,
+        "y": 770
+      },
+      "S": {
+        "name": "苇湾高台",
+        "kind": "survey",
+        "x": 1330,
+        "y": 930
+      },
+      "JS": {
+        "name": "南阶地口",
+        "kind": "junction",
+        "x": 1000,
+        "y": 1070
+      },
+      "SL": {
+        "name": "南阶地站群侧岔1",
+        "kind": "junction",
+        "x": 1180,
+        "y": 1250
+      },
+      "SR": {
+        "name": "南阶地站群侧岔2",
+        "kind": "junction",
+        "x": 820,
+        "y": 1250
+      },
+      "A2": {
+        "name": "A 型站 · A2",
+        "kind": "station",
+        "x": 1300,
+        "y": 1330,
+        "station_type": "A"
+      },
+      "B2": {
+        "name": "B 型站 · B2",
+        "kind": "station",
+        "x": 1200,
+        "y": 1500,
+        "station_type": "B"
+      },
+      "C2": {
+        "name": "C 型站 · C2",
+        "kind": "station",
+        "x": 700,
+        "y": 1330,
+        "station_type": "C"
+      },
+      "D2": {
+        "name": "D 型站 · D2",
+        "kind": "station",
+        "x": 800,
+        "y": 1500,
+        "station_type": "D"
+      },
+      "U": {
+        "name": "阶地草甸",
+        "kind": "survey",
+        "x": 1080,
+        "y": 1180
+      },
+      "V": {
+        "name": "南坡露岩",
+        "kind": "survey",
+        "x": 920,
+        "y": 1180
+      },
+      "JW": {
+        "name": "杉岭路口",
+        "kind": "junction",
+        "x": 780,
+        "y": 850
+      },
+      "WL": {
+        "name": "西杉岭站群侧岔1",
+        "kind": "junction",
+        "x": 600,
+        "y": 1030
+      },
+      "WR": {
+        "name": "西杉岭站群侧岔2",
+        "kind": "junction",
+        "x": 600,
+        "y": 670
+      },
+      "E2": {
+        "name": "E 型站 · E2",
+        "kind": "station",
+        "x": 520,
+        "y": 1150,
+        "station_type": "E"
+      },
+      "F2": {
+        "name": "F 型站 · F2",
+        "kind": "station",
+        "x": 350,
+        "y": 1050,
+        "station_type": "F"
+      },
+      "G2": {
+        "name": "G 型站 · G2",
+        "kind": "station",
+        "x": 520,
+        "y": 550,
+        "station_type": "G"
+      },
+      "H2": {
+        "name": "H 型站 · H2",
+        "kind": "station",
+        "x": 350,
+        "y": 650,
+        "station_type": "H"
+      },
+      "X": {
+        "name": "杉岭溪头",
+        "kind": "survey",
+        "x": 670,
+        "y": 930
+      },
+      "Y": {
+        "name": "西坡鞍部",
+        "kind": "survey",
+        "x": 670,
+        "y": 770
+      },
+      "a1p1": {
+        "name": "A1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 780,
+        "y": 423
+      },
+      "a1p2": {
+        "name": "A1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 740,
+        "y": 397
+      },
+      "b1p1": {
+        "name": "B1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 813,
+        "y": 367
+      },
+      "b1p2": {
+        "name": "B1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 807,
+        "y": 283
+      },
+      "c1p1": {
+        "name": "C1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1220,
+        "y": 423
+      },
+      "c1p2": {
+        "name": "C1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1260,
+        "y": 397
+      },
+      "d1p1": {
+        "name": "D1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1187,
+        "y": 367
+      },
+      "d1p2": {
+        "name": "D1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1193,
+        "y": 283
+      },
+      "e1p1": {
+        "name": "E1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1427,
+        "y": 630
+      },
+      "e1p2": {
+        "name": "E1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1453,
+        "y": 590
+      },
+      "f1p1": {
+        "name": "F1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1483,
+        "y": 663
+      },
+      "f1p2": {
+        "name": "F1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1567,
+        "y": 657
+      },
+      "g1p1": {
+        "name": "G1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1427,
+        "y": 1070
+      },
+      "g1p2": {
+        "name": "G1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1453,
+        "y": 1110
+      },
+      "h1p1": {
+        "name": "H1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1483,
+        "y": 1037
+      },
+      "h1p2": {
+        "name": "H1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1567,
+        "y": 1043
+      },
+      "a2p1": {
+        "name": "A2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1220,
+        "y": 1277
+      },
+      "a2p2": {
+        "name": "A2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1260,
+        "y": 1303
+      },
+      "b2p1": {
+        "name": "B2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1187,
+        "y": 1333
+      },
+      "b2p2": {
+        "name": "B2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1193,
+        "y": 1417
+      },
+      "c2p1": {
+        "name": "C2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 780,
+        "y": 1277
+      },
+      "c2p2": {
+        "name": "C2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 740,
+        "y": 1303
+      },
+      "d2p1": {
+        "name": "D2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 813,
+        "y": 1333
+      },
+      "d2p2": {
+        "name": "D2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 807,
+        "y": 1417
+      },
+      "e2p1": {
+        "name": "E2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 573,
+        "y": 1070
+      },
+      "e2p2": {
+        "name": "E2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 547,
+        "y": 1110
+      },
+      "f2p1": {
+        "name": "F2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 517,
+        "y": 1037
+      },
+      "f2p2": {
+        "name": "F2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 433,
+        "y": 1043
+      },
+      "g2p1": {
+        "name": "G2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 573,
+        "y": 630
+      },
+      "g2p2": {
+        "name": "G2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 547,
+        "y": 590
+      },
+      "h2p1": {
+        "name": "H2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 517,
+        "y": 663
+      },
+      "h2p2": {
+        "name": "H2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 433,
+        "y": 657
+      }
+    },
+    "edges": [
+      [
+        "C",
+        "J",
+        1
+      ],
+      [
+        "J",
+        "JN",
+        1
+      ],
+      [
+        "JN",
+        "NL",
+        2
+      ],
+      [
+        "JN",
+        "NR",
+        2
+      ],
+      [
+        "NL",
+        "NR",
+        3
+      ],
+      [
+        "NL",
+        "a1p1",
+        1
+      ],
+      [
+        "a1p1",
+        "a1p2",
+        1
+      ],
+      [
+        "a1p2",
+        "A1",
+        1
+      ],
+      [
+        "NL",
+        "b1p1",
+        1
+      ],
+      [
+        "b1p1",
+        "b1p2",
+        1
+      ],
+      [
+        "b1p2",
+        "B1",
+        2
+      ],
+      [
+        "NR",
+        "c1p1",
+        1
+      ],
+      [
+        "c1p1",
+        "c1p2",
+        1
+      ],
+      [
+        "c1p2",
+        "C1",
+        1
+      ],
+      [
+        "NR",
+        "d1p1",
+        1
+      ],
+      [
+        "d1p1",
+        "d1p2",
+        1
+      ],
+      [
+        "d1p2",
+        "D1",
+        2
+      ],
+      [
+        "NL",
+        "P",
+        1
+      ],
+      [
+        "NR",
+        "Q",
+        1
+      ],
+      [
+        "P",
+        "Q",
+        3
+      ],
+      [
+        "J",
+        "JE",
+        1
+      ],
+      [
+        "JE",
+        "EL",
+        2
+      ],
+      [
+        "JE",
+        "ER",
+        2
+      ],
+      [
+        "EL",
+        "ER",
+        3
+      ],
+      [
+        "EL",
+        "e1p1",
+        1
+      ],
+      [
+        "e1p1",
+        "e1p2",
+        1
+      ],
+      [
+        "e1p2",
+        "E1",
+        1
+      ],
+      [
+        "EL",
+        "f1p1",
+        1
+      ],
+      [
+        "f1p1",
+        "f1p2",
+        1
+      ],
+      [
+        "f1p2",
+        "F1",
+        2
+      ],
+      [
+        "ER",
+        "g1p1",
+        1
+      ],
+      [
+        "g1p1",
+        "g1p2",
+        1
+      ],
+      [
+        "g1p2",
+        "G1",
+        1
+      ],
+      [
+        "ER",
+        "h1p1",
+        1
+      ],
+      [
+        "h1p1",
+        "h1p2",
+        1
+      ],
+      [
+        "h1p2",
+        "H1",
+        2
+      ],
+      [
+        "EL",
+        "R",
+        1
+      ],
+      [
+        "ER",
+        "S",
+        1
+      ],
+      [
+        "R",
+        "S",
+        3
+      ],
+      [
+        "J",
+        "JS",
+        1
+      ],
+      [
+        "JS",
+        "SL",
+        2
+      ],
+      [
+        "JS",
+        "SR",
+        2
+      ],
+      [
+        "SL",
+        "SR",
+        3
+      ],
+      [
+        "SL",
+        "a2p1",
+        1
+      ],
+      [
+        "a2p1",
+        "a2p2",
+        1
+      ],
+      [
+        "a2p2",
+        "A2",
+        1
+      ],
+      [
+        "SL",
+        "b2p1",
+        1
+      ],
+      [
+        "b2p1",
+        "b2p2",
+        1
+      ],
+      [
+        "b2p2",
+        "B2",
+        2
+      ],
+      [
+        "SR",
+        "c2p1",
+        1
+      ],
+      [
+        "c2p1",
+        "c2p2",
+        1
+      ],
+      [
+        "c2p2",
+        "C2",
+        1
+      ],
+      [
+        "SR",
+        "d2p1",
+        1
+      ],
+      [
+        "d2p1",
+        "d2p2",
+        1
+      ],
+      [
+        "d2p2",
+        "D2",
+        2
+      ],
+      [
+        "SL",
+        "U",
+        1
+      ],
+      [
+        "SR",
+        "V",
+        1
+      ],
+      [
+        "U",
+        "V",
+        3
+      ],
+      [
+        "J",
+        "JW",
+        1
+      ],
+      [
+        "JW",
+        "WL",
+        2
+      ],
+      [
+        "JW",
+        "WR",
+        2
+      ],
+      [
+        "WL",
+        "WR",
+        3
+      ],
+      [
+        "WL",
+        "e2p1",
+        1
+      ],
+      [
+        "e2p1",
+        "e2p2",
+        1
+      ],
+      [
+        "e2p2",
+        "E2",
+        1
+      ],
+      [
+        "WL",
+        "f2p1",
+        1
+      ],
+      [
+        "f2p1",
+        "f2p2",
+        1
+      ],
+      [
+        "f2p2",
+        "F2",
+        2
+      ],
+      [
+        "WR",
+        "g2p1",
+        1
+      ],
+      [
+        "g2p1",
+        "g2p2",
+        1
+      ],
+      [
+        "g2p2",
+        "G2",
+        1
+      ],
+      [
+        "WR",
+        "h2p1",
+        1
+      ],
+      [
+        "h2p1",
+        "h2p2",
+        1
+      ],
+      [
+        "h2p2",
+        "H2",
+        2
+      ],
+      [
+        "WL",
+        "X",
+        1
+      ],
+      [
+        "WR",
+        "Y",
+        1
+      ],
+      [
+        "X",
+        "Y",
+        3
+      ]
+    ],
+    "station_types": {
+      "A": {
+        "name": "A 型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B 型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C 型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D 型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E 型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F 型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G 型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H 型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      }
+    }
+  },
+  "presentation": {
+    "subtitle": "八种站型 · 同型异站与跨委托复用",
+    "regions": [
+      {
+        "name": "北砾坡站群",
+        "x": 1000,
+        "y": 110
+      },
+      {
+        "name": "东苇湾站群",
+        "x": 1740,
+        "y": 850
+      },
+      {
+        "name": "南阶地站群",
+        "x": 1000,
+        "y": 1590
+      },
+      {
+        "name": "西杉岭站群",
+        "x": 260,
+        "y": 850
+      }
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "联程巡测 01",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "bearing"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T2": {
+      "name": "联程巡测 02",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "vegetation",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "vegetation"
+        },
+        {
+          "target": "X",
+          "required_kind": "drainage"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T3": {
+      "name": "联程巡测 03",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "profile"
+        },
+        {
+          "target": "V",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T4": {
+      "name": "联程巡测 04",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "bearing",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "bearing"
+        },
+        {
+          "target": "Y",
+          "required_kind": "drainage"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T5": {
+      "name": "联程巡测 05",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "shore"
+        },
+        {
+          "target": "R",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T6": {
+      "name": "联程巡测 06",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "X",
+          "required_kind": "contour"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T7": {
+      "name": "联程巡测 07",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "shore"
+        },
+        {
+          "target": "V",
+          "required_kind": "lithology"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T8": {
+      "name": "联程巡测 08",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "Y",
+          "required_kind": "contour"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T9": {
+      "name": "联程巡测 09",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "profile"
+        },
+        {
+          "target": "V",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T10": {
+      "name": "联程巡测 10",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "bearing",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "bearing"
+        },
+        {
+          "target": "Y",
+          "required_kind": "drainage"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T11": {
+      "name": "联程巡测 11",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "shore"
+        },
+        {
+          "target": "V",
+          "required_kind": "lithology"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T12": {
+      "name": "联程巡测 12",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "Y",
+          "required_kind": "contour"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T13": {
+      "name": "联程巡测 13",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "drainage"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T14": {
+      "name": "联程巡测 14",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "bearing",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "bearing"
+        },
+        {
+          "target": "P",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T15": {
+      "name": "联程巡测 15",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "shore"
+        },
+        {
+          "target": "S",
+          "required_kind": "contour"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T16": {
+      "name": "联程巡测 16",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "Q",
+          "required_kind": "lithology"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T17": {
+      "name": "联程巡测 17",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "contour"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T18": {
+      "name": "联程巡测 18",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "bearing",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "bearing"
+        },
+        {
+          "target": "P",
+          "required_kind": "lithology"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T19": {
+      "name": "联程巡测 19",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "shore"
+        },
+        {
+          "target": "R",
+          "required_kind": "drainage"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T20": {
+      "name": "联程巡测 20",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "P",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    }
+  },
+  "native_session_budget": {
+    "main_model_calls": 100,
+    "wall_seconds": 3600
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "opportunity_basis": "Actual delivered feedback before this session; inferred facts are reported separately from direct observations.",
+    "success_guarantee": "Successful processing reveals a matching type. All physical instances of that public type are equivalent, including unvisited ones. It does not guarantee saving, retrieval, reuse, or benefit.",
+    "failure_policy": "Use only feedback actually delivered, including failed processing. No answer injection or compulsory catch-up.",
+    "stream_policy": "Fixed twenty-task stream independent of agent choices. Every commission is ordinary play; no separate investigation or training phase.",
+    "diagnostic_scope": "Descriptive acquisition/reuse and paired costs. This design does not establish controlled retention or interference scores."
+  }
+}

@@ -14,13 +14,14 @@ from ..analysis import commute_graph
 from ..game import ProtocolError
 from ..watch import atomic_json
 from .station_capability import StationGame, capability_groups, load_design, task_stages
+from .station_experience import experience_opportunities, experience_schedule
 from .station_routes import known_world_route, schedule, station_options
-from .station_session import EASY20_LINKED_DESIGN, StationSession
+from .station_session import EASY20_REUSE_DESIGN, StationSession
 
 
 class FieldService:
     def __init__(self, log_root, design=None):
-        self.design = deepcopy(design) if design is not None else load_design(EASY20_LINKED_DESIGN)
+        self.design = deepcopy(design) if design is not None else load_design(EASY20_REUSE_DESIGN)
         self.log_root = Path(log_root) / "station-human"
         self.instances = {}
         self.lock = RLock()
@@ -126,12 +127,14 @@ class FieldService:
             item = self._instance(token)
             game = item["game"]
             assignment = deepcopy(game.design["private_worlds"][game._world_id])
+            dependencies = {row["task_id"]: row for row in experience_schedule(game.design)}
             tasks = []
             for row in schedule(game.design):
                 options = station_options(game.design, row["id"])
                 matches = [r for r in options if assignment[r["station"]] == row["required_kind"]]
                 reference = known_world_route(game.design, row["id"], assignment)
                 record = {**row, "known_world_route": reference["path"], "known_world_distance": reference["distance"],
+                              "experience_dependencies": dependencies[row["id"]],
                               "matching_stations": [r["station"] for r in matches],
                               "station_options": [{**r, "matches": assignment[r["station"]] == row["required_kind"]} for r in options]}
                 if "stages" in row:
@@ -146,6 +149,8 @@ class FieldService:
                             "cost_scope": "From this stage's start on the known-world design route through its target/station to the next target or final camp. Local costs are not additive."})
                 tasks.append(record)
             return {"viewer": "human_design_only", "name": game.design["public"]["name"],
+                    "design_id": game.design["design_id"],
+                    "experience_opportunities": experience_opportunities(game.design, game.events, game.task_run_id),
                     "capabilities": assignment, "tasks": tasks,
                     "triggers": [{"station": s, "group": next(key for key, group in capability_groups(game.design).items() if s in group["stations"]),
                         "capability": kind} for s, kind in assignment.items()]}
