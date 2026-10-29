@@ -1,0 +1,138 @@
+{
+  "kind": "same_observed_compaction_reference_definition_as_previous_audit_not_function_call_count",
+  "main_tasks": 20,
+  "tasks_with_compaction_references": 0,
+  "distinct_forwarded_compaction_summaries": 0,
+  "rows": [
+    {
+      "task": "T1",
+      "model_requests": 44,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 125194
+    },
+    {
+      "task": "T2",
+      "model_requests": 52,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 122449
+    },
+    {
+      "task": "T3",
+      "model_requests": 41,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 107490
+    },
+    {
+      "task": "T4",
+      "model_requests": 46,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 106287
+    },
+    {
+      "task": "T5",
+      "model_requests": 38,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 89687
+    },
+    {
+      "task": "T6",
+      "model_requests": 40,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 106646
+    },
+    {
+      "task": "T7",
+      "model_requests": 41,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 102690
+    },
+    {
+      "task": "T8",
+      "model_requests": 40,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 98301
+    },
+    {
+      "task": "T9",
+      "model_requests": 40,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 97431
+    },
+    {
+      "task": "T10",
+      "model_requests": 39,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 98711
+    },
+    {
+      "task": "T11",
+      "model_requests": 37,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 88900
+    },
+    {
+      "task": "T12",
+      "model_requests": 40,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 96908
+    },
+    {
+      "task": "T13",
+      "model_requests": 41,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 105896
+    },
+    {
+      "task": "T14",
+      "model_requests": 39,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 95924
+    },
+    {
+      "task": "T15",
+      "model_requests": 40,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 102772
+    },
+    {
+      "task": "T16",
+      "model_requests": 42,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 104603
+    },
+    {
+      "task": "T17",
+      "model_requests": 41,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 113318
+    },
+    {
+      "task": "T18",
+      "model_requests": 39,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 103389
+    },
+    {
+      "task": "T19",
+      "model_requests": 44,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 100161
+    },
+    {
+      "task": "T20",
+      "model_requests": 39,
+      "distinct_forwarded_compaction_summaries": 0,
+      "max_serialized_input_characters": 96351
+    }
+  ],
+  "source_pilot_sha256": "5681677e254beddd3e98e4987af3adb63a9cf1a1b3b9676d7f270563efcdff89",
+  "previous_audit_sha256": "bd9342e438823900be76fc2207e7154925724ef3b95face57c5d9f7a481e81f3",
+  "previous_main_tasks_with_compaction_references": 20,
+  "previous_distinct_forwarded_compaction_summaries": 181,
+  "definition": "For each valid main session, scan every model request input item. Count distinct content hashes where role=user and content starts with [CONTEXT COMPACTION. These are observed forwarded reference summaries, not compaction function-call counts.",
+  "scanner_sha256": "06357ac2aacf5f5fb1c6202e00f502d4a02bcea1c67ebd55da7a4e70f457385c",
+  "limitations": [
+    "absence of this native reference marker does not prove absence of every internal summarization or truncation",
+    "one evolving history per protocol; observational evidence, not isolated causal attribution"
+  ]
+}
