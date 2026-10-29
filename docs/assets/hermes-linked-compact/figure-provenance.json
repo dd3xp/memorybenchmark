@@ -1,0 +1,32 @@
+{
+  "kind": "descriptive_real_native_agent_pilot",
+  "matplotlib_version": "3.10.8",
+  "png_dpi": 180,
+  "selected_sessions": [
+    "03-T3-retain",
+    "03-T3-clear",
+    "17-T17-retain",
+    "17-T17-clear"
+  ],
+  "publisher_requirements": "not specified; provisional general research figures",
+  "source_sha256": {
+    "signal.json.gz": "9e2733d22f13288449b698fb2d0a40ebad4b4a2877dea8bbf0245d6b4e5f4f9f",
+    "trace-projection.json.gz": "db791d00acfd7620b14dde50e77cce9d4fc333d9c9940021ad717fb41b73e567"
+  },
+  "script_sha256": "4ed654e8bfbf65d38d0cdf321e28e1d4317b9d283b16b019ea890e733224afeb",
+  "transformations": [
+    "all task costs, no smoothing",
+    "T1 clear is missing, not zero",
+    "all actual ordered graph edges and node operations",
+    "unsupported-trip styling from recorded branch excursions"
+  ],
+  "uncertainty": "one world and one sequential history; no population effect or uncertainty interval",
+  "outputs": [
+    "all-task-costs.png",
+    "all-task-costs.svg",
+    "all-task-costs.pdf",
+    "fixed-t3-t17-traces.png",
+    "fixed-t3-t17-traces.svg",
+    "fixed-t3-t17-traces.pdf"
+  ]
+}

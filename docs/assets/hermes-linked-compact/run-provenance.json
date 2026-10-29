@@ -1,0 +1,84 @@
+{
+  "kind": "new_native_hermes_compact_feedback_rerun",
+  "created_at_utc": "2026-10-29T00:31:34.787652+00:00",
+  "source_commit": "b1f32471bb0e5b07bf51663b64c4b393c9f69679",
+  "source_newlines": "raw",
+  "source_zip_sha256": "14fab28fdd06ba1035d2a0458a786f67050d56fe106a6e71f250028427267322",
+  "native_archive_sha256": "d23ec65ea39b29fd946e829483659840b021f92be225534e7997f21eb8487c9a",
+  "native_commit": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6",
+  "world": "omega_3051",
+  "worker_seed": 20261027,
+  "model_alias": "gpt-5.6-luna",
+  "tasks": [
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
+    "T8",
+    "T9",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T16",
+    "T17",
+    "T18",
+    "T19",
+    "T20"
+  ],
+  "main_calls": 100,
+  "final_calls": 6,
+  "wall_seconds": 3600,
+  "context_tokens_configured": 64000,
+  "feedback_mode": "compact",
+  "feedback_protocol": "station-compact-feedback-1",
+  "prompt_protocol": "station-native-memory-3",
+  "public_game_and_tasks_unchanged": true,
+  "initial_memory": "fresh original native baseline; no prior run memory",
+  "conditions": "20-task retained main stream and 19 current-task baseline-memory probes",
+  "comparison_scope": "one world, newly generated history; descriptive protocol rerun, not a causal estimate",
+  "supervisor_execution_limit_hours": 24,
+  "status": "completed_and_audited",
+  "completed_sessions": 39,
+  "infrastructure_attempts": [
+    {
+      "name": "02-T2-retain",
+      "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance",
+      "underlying_infrastructure_error": "gateway_transport_error",
+      "llm_calls": 32,
+      "archived_at": "failed-attempts\\02-T2-retain-1"
+    },
+    {
+      "name": "03-T3-retain",
+      "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance",
+      "underlying_infrastructure_error": "gateway_transport_error",
+      "llm_calls": 9,
+      "archived_at": "failed-attempts\\03-T3-retain-2"
+    },
+    {
+      "name": "04-T4-clear",
+      "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance",
+      "underlying_infrastructure_error": "gateway_http_502",
+      "llm_calls": 13,
+      "archived_at": "failed-attempts\\04-T4-clear-3"
+    },
+    {
+      "name": "06-T6-clear",
+      "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance",
+      "underlying_infrastructure_error": "gateway_http_502",
+      "llm_calls": 34,
+      "archived_at": "failed-attempts\\06-T6-clear-4"
+    }
+  ],
+  "source_pilot_sha256": "5681677e254beddd3e98e4987af3adb63a9cf1a1b3b9676d7f270563efcdff89",
+  "private_archive": {
+    "filename": "hermes-linked-final.zip",
+    "bytes": 279125947,
+    "sha256": "3f6739d8b01fc6ba0fa9035731982c2272eb8f382ae8aab0c888aa836f0ca43b"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "public_completed_hermes_compact_pilot_artifacts",
+  "normalization": "JSON, CSV, SVG: CRLF converted to LF; all other formats: raw bytes",
+  "sha256": {
+    "all-sessions.csv": "7587762e2d57d68ebb2688c88da36fa7084bc7da23b529a913068072209058ad",
+    "all-task-costs.pdf": "7d6ede9982cf69c3f2ff41fe7e4aaeda9efe8ed25d00e6e476ed0150ae1d9b36",
+    "all-task-costs.png": "bb7a2b283c06abfe2d12bc532639f142105c82d21b79f47312577962f94a297d",
+    "all-task-costs.svg": "666fda7a5ccfd183ba625be9a4149e87a50e277ccd5ffb842233299649106ffd",
+    "comparison.json": "300c86d20b85bc1bf876887ce7b2e46014c502c8661e34fead167aa0d8cf642a",
+    "export-manifest.json": "b6f1ae65a223095f75a674b6477a8527e139fb1d2de3458cc5e300fb30fe4c10",
+    "feedback-delivery-audit.json": "9e39128bf6dd2d68210b9ee55a4dd56dd80ddbb69063c38c54618b75290df402",
+    "figure-provenance.json": "6f163a30130f78e3aa642e42967bffe9056b559d98793597aaabcad44fee54f9",
+    "fixed-t3-t17-traces.pdf": "0f86f94e46988b08bbec6b9215644a624d39208f3159499422680d210ae0db4f",
+    "fixed-t3-t17-traces.png": "f0209bfa9a09443d521451181e76f7975cc5fe0d196cc7e7ba8fc2e9b61287a7",
+    "fixed-t3-t17-traces.svg": "9067e42616232e8f360bb9d33522ba64fb61a3ac43aca7b5bb1f861dc448f81c",
+    "git-source-verification.json": "70552cb87c09c4dd52e232bf5f38d343628d6cd525dd0638022bb32082b649fa",
+    "result.json": "376b72c32e7781325bcaa3bba278f7f5152923d1734e55a055b470a8796bb6a8",
+    "run-provenance.json": "27fd25e96dbc43f01bcad86bc70b583db0cf59754f938cadd2e22fa99f8309bb",
+    "signal.json.gz": "9e2733d22f13288449b698fb2d0a40ebad4b4a2877dea8bbf0245d6b4e5f4f9f",
+    "trace-projection.json.gz": "db791d00acfd7620b14dde50e77cce9d4fc333d9c9940021ad717fb41b73e567",
+    "verification.json": "78aa1f27a0915fbd9e8772fb0e3956bd5f8fca25c3c6db33d704650b834acb8c"
+  }
+}

@@ -35,3 +35,5 @@ python -m scripts.check_station_feedback --output .runs/feedback-check.json
 2026-10-28，`68072cd` 已同步 Squishy，服务器 173 项回归全部通过。本机同套回归通过，6 项因可选 SDK／系统权限跳过；[Windows／Linux、Python 3.10／3.12 CI](https://github.com/dd3xp/memorybenchmark/actions/runs/40789647142) 全部通过。GA 和 Hermes 各自真实原生循环的脚本检查通过，固定两段行程均为 29 次游戏操作、距离 30；完整查询与精简动作响应在实际模型请求中核对通过。
 
 [验收记录](assets/station-compact-feedback/deployment-validation.json)保留源码提交、上游归档和交付日志指纹。观测服务继续运行，公网 TLS、登录页 200、未登录实验接口 401 均正常；旧模型实验任务处于待命状态。本次没有调用真实模型，新协议的记忆效果尚待独立实跑。
+
+后续 Hermes 真实运行已于 2026-10-29 完成：39 个 session 全部成功，19 对任务的操作减少 24.9%、路程减少 20.0%，首次分支匹配 36/38 对 18/38。完整任务、固定正反案例、记忆送达与独立归档的基础设施中断见[实跑报告](../reports/HERMES_LINKED_COMPACT_PILOT.md)；不将单世界两条不同历史的差值解释为确定的协议因果效应。
