@@ -87,7 +87,7 @@ class PilotStore:
             previous = self._cache.get(str(path))
             if previous is None or previous[0] != signature:
                 raw = read_json(path)
-                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks")
+                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task")
                 compact = {key: raw[key] for key in fields if key in raw}
                 session_fields = ("name", "task_id", "condition", "infrastructure_ok", "success", "game_actions", "distance", "llm_calls")
                 compact["sessions"] = [{key: row[key] for key in session_fields if key in row}
@@ -114,11 +114,11 @@ class PilotStore:
         order = {"prefix": 0, "retain": 1, "clear": 2}
         return sorted(result, key=lambda item: (int(item["task_id"][1:]), order[item["condition"]]))
 
-    def _header(self, identifier, root, pilot):
-        valid = [row for row in pilot.get("sessions", []) if row.get("infrastructure_ok")]
-        main = [row for row in valid if row["condition"] != "clear"]
-        clear = [row for row in valid if row["condition"] == "clear"]
+    def _header(self, identifier, root, pilot, condition):
+        valid = [row for row in pilot.get("sessions", []) if row.get("infrastructure_ok")
+                 and (row["condition"] == "clear") == (condition == "clear")]
         tasks = len(pilot.get("tasks", []))
+        total = tasks if condition == "retain" or pilot.get("clear_first_task", False) else max(0, tasks - 1)
         status = pilot.get("status", "interrupted")
         # Frozen directories are runtime/.runs/pilot-name.
         experiment = root.parent.parent.parent
@@ -127,6 +127,12 @@ class PilotStore:
             status = "complete" if result_path.is_file() else "auditing"
             if (experiment / "driver-exit.json").is_file() and read_json(experiment / "driver-exit.json").get("exit_code"):
                 status = "audit_error"
+        elif len(valid) == total and total:
+            status = "complete"
+        elif status == "running":
+            active = [row for row in self._sessions(root, pilot) if row["status"] == "running"]
+            if not any((row["condition"] == "clear") == (condition == "clear") for row in active):
+                status = "waiting"
         started = iso(root.stat().st_ctime)
         if (experiment / "driver-started.json").is_file():
             started = read_json(experiment / "driver-started.json").get("started_at", started)
@@ -135,12 +141,11 @@ class PilotStore:
         label = {"ga": "GA", "hermes": "Hermes"}.get(pilot.get("agent"), "Agent")
         if pilot.get("action_policy") == "single":
             label += " · 逐步"
-        return {"id": identifier, "agent": label,
+        return {"id": identifier + "-" + condition, "experiment_id": identifier, "condition": condition, "agent": label,
                 "model": pilot.get("model_alias", ""), "status": status, "started_at": started,
                 "updated_at": iso((root / "pilot.json").stat().st_mtime),
-                "main_completed": len(main), "main_total": tasks, "clear_completed": len(clear),
-                "clear_total": max(0, tasks - 1), "completed_sessions": len(valid),
-                "total_sessions": max(0, 2 * tasks - 1), "successes": sum(row.get("success") is True for row in valid),
+                "completed_sessions": len(valid), "total_sessions": total,
+                "successes": sum(row.get("success") is True for row in valid),
                 "failed_attempts": len(pilot.get("attempt_history", [])),
                 "interface": "native" if pilot.get("game_access") == "native" else "bridge"}
 
@@ -148,19 +153,23 @@ class PilotStore:
         rows = []
         for identifier, root in self._runs().items():
             try:
-                rows.append(self._header(identifier, root, self._pilot(root)))
+                pilot = self._pilot(root)
+                rows.extend(self._header(identifier, root, pilot, condition) for condition in ("retain", "clear"))
             except (OSError, ValueError, KeyError, TypeError):
                 continue
-        return sorted(rows, key=lambda row: (row["status"] == "running", row["started_at"]), reverse=True)[:60]
+        return sorted(rows, key=lambda row: (row["started_at"], row["experiment_id"], row["condition"] == "retain"), reverse=True)[:120]
 
     def snapshot(self, identifier, session_id=None):
-        if not isinstance(identifier, str) or not re.fullmatch(r"pilot-[0-9a-f]{16}", identifier):
+        match = re.fullmatch(r"(pilot-[0-9a-f]{16})(?:-(retain|clear))?", identifier) if isinstance(identifier, str) else None
+        if not match:
             raise ValueError("实验不存在。")
-        root = self._runs().get(identifier)
+        base_id, condition = match.group(1), match.group(2) or "retain"
+        root = self._runs().get(base_id)
         if root is None:
             raise ValueError("实验不存在。")
         pilot = self._pilot(root)
-        sessions = self._sessions(root, pilot)
+        sessions = [row for row in self._sessions(root, pilot)
+                    if (row["condition"] == "clear") == (condition == "clear")]
         if session_id is None:
             active = [row for row in sessions if row["status"] == "running"]
             session = (active or sessions)[-1] if sessions else None
@@ -170,7 +179,7 @@ class PilotStore:
                 raise ValueError("任务会话不存在。")
         design = read_json(root / "design.json")
         public = design["public"]
-        header = self._header(identifier, root, pilot)
+        header = self._header(base_id, root, pilot, condition)
         response = {**header, "name": public["name"], "sessions": sessions, "session": session,
                     "map": {"locations": deepcopy(public["locations"]), "edges": deepcopy(public["edges"]),
                             "view_box": public.get("view_box", [0, 0, 1200, 900])},

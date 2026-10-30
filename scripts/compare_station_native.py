@@ -42,7 +42,7 @@ def main():
         main_rows = [r for r in data["rows"] if r["condition"] != "clear"]
         clear_rows = [r for r in data["rows"] if r["condition"] == "clear"]
         assert [r["task_id"] for r in main_rows] == tasks
-        assert [r["task_id"] for r in clear_rows] == tasks[1:]
+        assert [r["task_id"] for r in clear_rows] == (tasks if data.get("clear_first_task",False) else tasks[1:])
         paired = []
         for task in tasks[1:]:
             a = next(r for r in main_rows if r["task_id"] == task)

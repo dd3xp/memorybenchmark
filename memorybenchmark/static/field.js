@@ -25,10 +25,10 @@ async function api(path, body){
 function setBusy(value){busy=value;viewport.setAttribute('aria-busy',String(value));if(state){$('abandon').disabled=value||state.observation.done;renderPlace();}}
 function feedbackText(data){
   const f=data.feedback,o=data.observation,p=o.environment;
-  if(f.kind==='started')return `已领取 ${o.task.id}。点击相邻地点出发，到达目标会自动采集。`;
-  if(f.kind==='submitted')return data.stream_finished?'全部委托已完成。':'交件成功，可以领取下一项委托。';
-  if(f.termination==='budget_exhausted')return '操作次数已用尽。本次反馈仍已获得，可以继续下一项委托。';
-  if(f.kind==='abandoned')return '本项委托已放弃。已经观察到的信息仍可成为以后的经验。';
+  if(f.kind==='started')return `已领取 ${o.task.id}`;
+  if(f.kind==='submitted')return data.stream_finished?'全部委托已完成。':'交件成功';
+  if(f.termination==='budget_exhausted')return '操作次数已用尽';
+  if(f.kind==='abandoned')return '已放弃委托';
   if(f.kind==='station_information')return `${f.station}${f.station_type?`（${f.station_type} 型）`:''} 支持${p.kinds[f.capability]}。${f.next_stage?`第 ${f.stage_completed} 段完成，现在前往 ${o.task.target} 完成第 ${f.next_stage} 段。`:f.result==='processed'?'本次资料已处理，回营地交件。':f.result==='unsupported'?'本次不匹配，原始资料保留。':'查询已计入一次操作。'}`;
   if(f.kind==='arrived')return f.raw_collected?'已自动采集当前段资料，请选择匹配的处理站。':`已到达${p.locations[o.location].name}。`;
   return o.done?'本项委托已结束。':'当前观察已更新。';
@@ -85,7 +85,7 @@ function renderPlace(){
   const local=$('local-actions'),near=$('neighbors');local.replaceChildren();near.replaceChildren();
   if(!here){$('place-description').textContent='未抵达';local.append(button('返回当前位置',()=>{selected=o.location;renderPlace();draw();}));return;}
   if(o.done){
-    $('place-description').textContent=o.success?'本项记录已交件。':'本项已结束，已获得的反馈仍然有效。';
+    $('place-description').textContent=o.success?'本项记录已交件。':'委托已结束';
     if(!state.stream_finished)local.append(button('领取下一项委托',()=>run(()=>api('/api/field/next',{instance_id:instance,request_id:uuid(),task_run_id:state.task_run_id,expected_revision:o.revision}))));
     else local.append(button('重新探索',newGame));return;
   }

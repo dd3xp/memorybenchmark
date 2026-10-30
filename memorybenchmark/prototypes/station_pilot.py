@@ -1,7 +1,9 @@
 """Isolated native GA pilot for the station mechanism, separate from live game.
 
 Each current-task clear probe starts at the retained branch's actual checkpoint.
-It is not an independently evolving NOMEM stream. No reference planner controls GA.
+New pilots run both conditions for every task, including the no-history first
+task. Frozen legacy pilots retain their original schedule on resume. The clear
+condition is not an independently evolving stream. No reference planner controls GA.
 """
 from __future__ import annotations
 
@@ -159,7 +161,7 @@ def replay_checkpoint(design, world, sessions):
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
           max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga", feedback_mode=None,
-          game_access=None, action_policy=None):
+          game_access=None, action_policy=None, clear_first_task=None):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
     if feedback_mode is not None and feedback_mode not in FEEDBACK_PROTOCOLS:
@@ -168,6 +170,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         raise ValueError("Unknown game access mode")
     if action_policy is not None and action_policy not in ACTION_POLICIES:
         raise ValueError("Unknown game action policy")
+    if clear_first_task is not None and type(clear_first_task) is not bool:
+        raise ValueError("clear_first_task must be boolean")
     output = Path(output).resolve()
     selected_design = Path(design_path) if design_path is not None else DEFAULT_DESIGN
     if resume:
@@ -182,6 +186,10 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         if action_policy is not None and action_policy != recorded_policy:
             raise ValueError("Cannot change game action policy when resuming")
         action_policy = recorded_policy
+        recorded_clear_first = report.get("clear_first_task", False)
+        if clear_first_task is not None and clear_first_task != recorded_clear_first:
+            raise ValueError("Cannot change first-task control when resuming")
+        clear_first_task = recorded_clear_first
         if world is not None and world != report["world"]:
             raise ValueError("Cannot change the private world when resuming")
         recorded_feedback = report.get("feedback_mode", "full")
@@ -203,6 +211,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
     else:
         game_access = game_access or "native"
         action_policy = action_policy or "batch"
+        clear_first_task = True if clear_first_task is None else clear_first_task
         if action_policy == "single" and (agent != "ga" or game_access != "native"):
             raise ValueError("Single-action control requires native GA")
         feedback_mode = feedback_mode or "compact"
@@ -244,6 +253,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
                   "feedback_mode": feedback_mode, "feedback_protocol": FEEDBACK_PROTOCOLS[feedback_mode],
                   "game_access": game_access,
                   "action_policy": action_policy,
+                  "clear_first_task": clear_first_task,
                   "agent_game_interface": ("ga-code-run-client-1" if agent == "ga" else "hermes-native-mcp-1")
                                           if game_access == "native" else "native-tool-bridge-1",
                   # The worker receives its RNG seed; hidden-world sampling must
@@ -269,7 +279,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
     try:
         for index, task_id in enumerate(tasks):
             checkpoint = deepcopy(game)
-            for condition in (("prefix",) if index == 0 else ("retain", "clear")):
+            conditions = ("prefix", "clear") if clear_first_task else ("prefix",)
+            for condition in (conditions if index == 0 else ("retain", "clear")):
                 name = f"{index + 1:02d}-{task_id}-{condition}"
                 folder = output / "sessions" / name
                 recorded = next((s for s in report["sessions"] if s["name"] == name), None)

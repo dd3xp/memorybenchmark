@@ -112,7 +112,13 @@ class StationNativeTests(unittest.TestCase):
                  patch("memorybenchmark.prototypes.station_pilot.make_support", support_fixture), \
                  patch("memorybenchmark.prototypes.station_pilot.StationNativeSessions", FixtureSessions):
                 with self.assertRaises(InfrastructureError):
-                    pilot(archive, output, None, None, tasks=["T1", "T2", "T3"])
+                    pilot(archive, output, None, None, tasks=["T1", "T2", "T3"], clear_first_task=False)
+                # Old pilots omit this field and must retain their original 2N-1 schedule.
+                metadata = json.loads((output / "pilot.json").read_text(encoding="utf-8"))
+                metadata.pop("clear_first_task")
+                (output / "pilot.json").write_text(json.dumps(metadata), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "first-task control"):
+                    pilot(archive, output, None, None, resume=True, clear_first_task=True)
                 report = pilot(archive, output, None, None, resume=True)
             self.assertEqual(report["status"], "completed")
             self.assertEqual(len(report["sessions"]), 5)

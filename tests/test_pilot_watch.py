@@ -63,7 +63,8 @@ class PilotWatchTests(unittest.TestCase):
         self.assertEqual(data["session"]["location"], "JN")
         self.assertEqual([frame["location"] for frame in data["frames"]], ["C", "J", "JN"])
         self.assertEqual(data["session"]["calls"], 1)
-        self.assertEqual(data["total_sessions"], 39)
+        self.assertEqual(data["total_sessions"], 20)
+        self.assertEqual(data["condition"], "retain")
         public = json.dumps(data)
         for secret in ("private_worlds", "private-world-sentinel", "private-key-sentinel", "private/path", "private-prompt-sentinel"):
             self.assertNotIn(secret, public)
@@ -83,8 +84,7 @@ class PilotWatchTests(unittest.TestCase):
         self.save()
         identifier = self.store.listing()[0]["id"]
         current = self.store.snapshot(identifier)
-        self.assertEqual(current["main_completed"], 1)
-        self.assertEqual(current["clear_completed"], 0)
+        self.assertEqual(current["completed_sessions"], 1)
         self.assertEqual(current["session"]["id"], "02-T2-retain")
         prior = self.store.snapshot(identifier, "01-T1-prefix")
         self.assertEqual(prior["session"]["status"], "complete")
@@ -96,6 +96,32 @@ class PilotWatchTests(unittest.TestCase):
         self.assertEqual(self.store.listing()[0]["status"], "auditing")
         (self.run.parent.parent.parent / "result.json").write_text("{}")
         self.assertEqual(self.store.listing()[0]["status"], "complete")
+
+    def test_condition_runs_have_independent_progress_and_session_selection(self):
+        self.pilot["clear_first_task"] = True
+        self.pilot["sessions"] = [{"name":"01-T1-prefix", "condition":"prefix", "task_id":"T1",
+                                   "infrastructure_ok":True, "success":True, "game_actions":2, "distance":2, "llm_calls":1}]
+        clear = self.run / "sessions/01-T1-clear"
+        clear.mkdir()
+        (clear / "game-deliveries.jsonl").write_text(json.dumps({"response":{"observation":{"location":"C", "steps":0, "distance":0}}}) + "\n")
+        self.save()
+        listing = self.store.listing()
+        self.assertEqual(len(listing), 2)
+        retained, cleared = listing
+        self.assertEqual([row["total_sessions"] for row in listing], [20, 20])
+        self.assertEqual([row["completed_sessions"] for row in listing], [1, 0])
+        self.assertEqual([row["status"] for row in listing], ["waiting", "running"])
+        a, b = self.store.snapshot(retained["id"]), self.store.snapshot(cleared["id"])
+        self.assertEqual(a["session"]["id"], "01-T1-prefix")
+        self.assertEqual(b["session"]["id"], "01-T1-clear")
+        self.assertEqual([row["id"] for row in b["sessions"]], ["01-T1-clear"])
+        self.assertEqual(b["frames"][0]["location"], "C")
+        with self.assertRaises(ValueError):
+            self.store.snapshot(cleared["id"], "01-T1-prefix")
+        self.assertEqual(self.store.snapshot(retained["experiment_id"])["id"], retained["id"])
+        self.pilot.pop("clear_first_task")
+        self.save()
+        self.assertEqual([row["total_sessions"] for row in self.store.listing()], [20, 19])
 
     def test_older_event_logs_replay_only_the_selected_task(self):
         (self.folder / "game-deliveries.jsonl").unlink()
@@ -135,11 +161,11 @@ class PilotWatchTests(unittest.TestCase):
                 cookie = response.headers["Set-Cookie"].split(";", 1)[0]
             def get(route):
                 return urlopen(Request(base + route, headers={"Cookie": cookie}))
-            for route in ("/experiments", "/maps", "/play", "/play?map=linked20", "/site.css", "/atlas-view.js"):
+            for route in ("/experiments", "/maps", "/play", "/play?map=linked20", "/site.css", "/atlas-view.js", "/select.js", "/select.css"):
                 with get(route) as response:
                     self.assertEqual(response.status, 200)
             with get("/api/experiments/runs") as response:
-                self.assertEqual(len(json.load(response)["runs"]), 1)
+                self.assertEqual(len(json.load(response)["runs"]), 2)
             for map_id in ("easy20", "station20", "choice20", "linked20", "capability-v1", "capability-v2"):
                 with urlopen(Request(base + "/api/field/start?map=" + map_id, data=b"{}", headers={"Cookie": cookie, "Content-Type": "application/json"})) as response:
                     result = json.load(response)

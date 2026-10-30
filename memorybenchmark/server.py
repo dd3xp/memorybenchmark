@@ -272,8 +272,8 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 body = (STATIC / name).read_bytes()
                 self.response_headers(200, mime + "; charset=utf-8", len(body))
                 self.wfile.write(body)
-            elif url.path in ("/maps", "/experiments", "/site.css", "/atlas-view.js", "/catalog.js", "/catalog.css"):
-                name = {"/maps": "catalog.html", "/experiments": "watch.html", "/site.css": "site.css", "/atlas-view.js": "atlas-view.js", "/catalog.js": "catalog.js", "/catalog.css": "catalog.css"}[url.path]
+            elif url.path in ("/maps", "/experiments", "/site.css", "/atlas-view.js", "/catalog.js", "/catalog.css", "/select.js", "/select.css"):
+                name = {"/maps": "catalog.html", "/experiments": "watch.html", "/site.css": "site.css", "/atlas-view.js": "atlas-view.js", "/catalog.js": "catalog.js", "/catalog.css": "catalog.css", "/select.js": "select.js", "/select.css": "select.css"}[url.path]
                 mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css"
                 body = (STATIC / name).read_bytes()
                 self.response_headers(200, mime + "; charset=utf-8", len(body))

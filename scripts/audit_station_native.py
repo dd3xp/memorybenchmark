@@ -71,7 +71,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         if recorded["condition"]!="clear":game=current;main_memory=summary["output_memory"]
     assert len(set(session_ids))==len(session_ids)
     if pilot["status"]=="completed":
-        assert len(rows)==1+2*(len(pilot["tasks"])-1)
+        assert len(rows)==2*len(pilot["tasks"])-(0 if pilot.get("clear_first_task",False) else 1)
     verified_sources={}
     verified_support={}
     frozen_root=root/"provenance"/"frozen-source"

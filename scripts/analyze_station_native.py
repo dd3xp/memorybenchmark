@@ -147,7 +147,8 @@ def main():
               "infrastructure_attempts":[{"name":s["name"],"llm_call_attempts":s["llm_calls"],
                   "error":s["infrastructure_error"],"excluded_from_valid_rows":True}
                   for s in pilot.get("attempt_history",[])],
-              "comparison":pilot["comparison"],"exact_references_computed":not args.skip_exact_references,
+              "comparison":pilot["comparison"],"clear_first_task":pilot.get("clear_first_task",False),
+              "exact_references_computed":not args.skip_exact_references,
               "memory_injection_matching":"Strict file-text and outer-whitespace-stripped body markers are reported separately; self-generated delivery uses the body marker.",
               "limitations":["one sampled world and one native history",
                  "each clear run is a current-task probe, not an independent full stream",
@@ -201,7 +202,8 @@ def main():
         ax.legend(frameon=False,fontsize=9,loc="upper center")
         fig.suptitle(f"Native {agent_label} pilot: all {len(tasks)} commissions",fontsize=14)
         status_note="Early failure can have low distance." if failed else f"All {len(rows)} sessions submitted successfully."
-        fig.text(0.08,0.025,f"One observation per condition/task; no uncertainty intervals. {status_note} No baseline probe exists for T1.",fontsize=8.5)
+        first_note="T1 is a no-history control, excluded from cross-session memory pairs." if pilot.get("clear_first_task",False) else "No baseline probe exists for T1."
+        fig.text(0.08,0.025,f"One observation per condition/task; no uncertainty intervals. {status_note}\n{first_note}",fontsize=8.5)
         fig.subplots_adjust(left=0.09,right=0.98,bottom=0.19,top=0.88)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-all-tasks.{suffix}",dpi=180,facecolor="white")
@@ -222,7 +224,7 @@ def main():
         handles,labels=axes[0].get_legend_handles_labels()
         fig.legend(handles,labels,frameon=False,fontsize=9,loc="upper left",bbox_to_anchor=(.10,.955),ncol=2)
         fig.suptitle(f"Native {agent_label}: information-seeking and processing behavior",fontsize=14)
-        fig.text(.09,.025,"Repetition uses actual canonical delivered evidence, including facts unavailable in a clear probe.\nOne observation per condition/task; black crosses mark incomplete tasks; T1 has no baseline probe.",fontsize=8.5)
+        fig.text(.09,.025,"Repetition uses actual canonical delivered evidence, including facts unavailable in a clear probe.\nOne observation per condition/task; black crosses mark incomplete tasks. " + first_note,fontsize=8.5)
         fig.subplots_adjust(left=.10,right=.98,bottom=.13,top=.91,hspace=.27)
         for suffix in ("png","svg","pdf"):
             fig.savefig(output/f"native-query-behavior.{suffix}",dpi=180,facecolor="white")

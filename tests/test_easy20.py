@@ -65,16 +65,20 @@ class Easy20Tests(unittest.TestCase):
         from memorybenchmark.ga_runtime import copy_memory
         from memorybenchmark.prototypes.station_pilot import pilot
         starts = []
+        inputs = []
         class ScriptedSessionFixture:
             def __init__(self, *args, **kwargs):pass
             def probe(self, baseline, output):
                 output.mkdir(); (output / "summary.json").write_text("{}")
             def run(self, game, task, memory, output, model, *, condition):
                 output.mkdir(parents=True)
+                marker = memory / "fixture-experience.txt"
+                inputs.append(marker.read_text() if marker.exists() else None)
                 session = StationSession(game, task)
                 starts.append((task, condition, session.initial["observation"]["steps"]))
                 feedback_policy(game, retain_history=condition != "clear")
                 copy_memory(memory, output / "memory-after")
+                (output / "memory-after/fixture-experience.txt").write_text(task + ":" + condition)
                 result = {"task_id":task,"success":game.state.success,"distance":game.distance,
                           "llm_calls":0,"content_changed":[],"infrastructure_ok":True}
                 (output / "summary.json").write_text(json.dumps(result))
@@ -92,7 +96,10 @@ class Easy20Tests(unittest.TestCase):
                 report = pilot(archive, root / "pilot", None, None, design_path=EASY20_DESIGN, world="omega_1111")
             self.assertEqual(report["design_id"], self.design["design_id"])
             self.assertEqual(report["tasks"], list(self.design["tasks"]))
-            self.assertEqual(len(report["sessions"]), 39)
+            self.assertEqual(len(report["sessions"]), 40)
+            self.assertTrue(report["clear_first_task"])
+            self.assertEqual(starts[:2], [('T1','prefix',0),('T1','clear',0)])
+            self.assertEqual(inputs[:4], [None, None, 'T1:prefix', None])
             self.assertTrue(all(row["success"] for row in report["sessions"]))
             self.assertTrue(all(steps == 0 for _, _, steps in starts))
             self.assertEqual(starts[-2:],[('T20','retain',0),('T20','clear',0)])

@@ -175,7 +175,7 @@ class LinkedStationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'wall-clock budget'):
                 pilot(archive,root/'pilot',None,None,design_path=EASY20_LINKED_DESIGN,
                       resume=True,wall_seconds=900)
-            self.assertEqual(len(completed),5);self.assertTrue(all(n==2 for _,_,n in completed))
+            self.assertEqual(len(completed),6);self.assertTrue(all(n==2 for _,_,n in completed))
 
 
 if __name__ == '__main__':unittest.main()

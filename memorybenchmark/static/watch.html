@@ -1,7 +1,44 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>实验 · 测绘手记</title><link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/watch.css"></head><body>
-<header class="appbar"><a class="app-brand" href="/experiments"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 21Q5 6 14 4Q24 3 25 14Q25 23 14 25Q7 25 8 16Q9 10 15 10Q21 10 20 16Q19 21 14 20"/></svg>测绘手记</a><nav class="app-nav" aria-label="主导航"><a href="/experiments" aria-current="page">实验</a><a href="/play">游玩</a><a href="/maps">地图</a></nav><div class="app-end"><span id="connection" class="status">连接中</span><form action="/logout" method="post"><button class="quiet" type="submit">退出</button></form></div></header>
-<main class="observatory"><aside class="run-rail"><div class="rail-heading"><h1>实验</h1><button id="refresh" class="quiet" aria-label="刷新实验">刷新</button></div><div class="rail-tabs" role="group" aria-label="实验筛选"><button id="filter-all" aria-pressed="true">全部</button><button id="filter-live" aria-pressed="false">进行中</button></div><div id="run-list" class="run-list" aria-label="实验列表"></div><p id="list-empty" class="subtle" hidden>暂无实验</p></aside>
-<section class="observe-main"><div id="page-error" class="page-error" role="alert" hidden></div><div id="empty" class="empty-state"><h2>暂无实验</h2><a href="/play" class="primary">开始游玩</a></div><div id="viewer" hidden>
-<section class="run-heading"><div><div class="heading-line"><h1 id="run-name"></h1><span id="run-state" class="status"></span></div><span id="run-meta" class="subtle"></span></div><div class="overall"><div><strong id="completion"></strong><span id="progress-label" class="subtle"></span></div><progress id="completion-bar" value="0" max="39" aria-label="整体实验进度"></progress><span id="branch-progress" class="subtle"></span></div></section>
-<section class="observation-panel"><header class="task-strip"><div><label class="screen-reader" for="session-select">任务会话</label><select id="session-select"></select><span id="session-state" class="subtle"></span></div><button id="follow" class="quiet" aria-pressed="true">跟随当前</button></header><div class="map-surface observe-map"><svg id="watch-map" class="atlas" tabindex="0" role="img" aria-label="实验地图和当前位置"></svg><div class="current-place"><span class="key-dot"></span><strong id="place">—</strong><span id="stage" class="subtle"></span></div><div class="map-tools"><button id="locate" aria-label="定位 Agent">定位</button><button id="zoom-out" aria-label="缩小地图">−</button><button id="zoom-in" aria-label="放大地图">＋</button><button id="fit">全图</button></div></div><div class="task-information"><div><strong id="task-title">准备任务</strong><p id="instruction"></p></div><dl class="run-numbers"><div><dt>操作</dt><dd id="metric-steps">—</dd></div><div><dt>路程</dt><dd id="metric-distance">—</dd></div><div><dt>模型调用</dt><dd id="metric-calls">—</dd></div></dl></div><div class="replay"><label class="screen-reader" for="frame-slider">轨迹回放</label><input id="frame-slider" type="range" min="0" max="0" value="0"><span id="frame-number">0 / 0</span><span id="last-updated" class="subtle"></span></div></section>
-<details class="history"><summary>任务记录 <span id="history-count"></span></summary><div class="table-scroll"><table><thead><tr><th>任务</th><th>记忆</th><th>状态</th><th>操作</th><th>路程</th><th>调用</th></tr></thead><tbody id="session-rows"></tbody></table></div></details></div></section></main><script src="/atlas-view.js"></script><script src="/watch.js"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>实验 · 测绘手记</title>
+  <link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/select.css"><link rel="stylesheet" href="/watch.css">
+</head>
+<body>
+<header class="appbar">
+  <a class="app-brand" href="/experiments"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 21Q5 6 14 4Q24 3 25 14Q25 23 14 25Q7 25 8 16Q9 10 15 10Q21 10 20 16Q19 21 14 20"/></svg>测绘手记</a>
+  <nav class="app-nav" aria-label="主导航"><a href="/experiments" aria-current="page">实验</a><a href="/play">游玩</a><a href="/maps">地图</a></nav>
+  <div class="app-end"><span id="connection" class="status">连接中</span><form action="/logout" method="post"><button class="quiet" type="submit">退出</button></form></div>
+</header>
+<main class="observatory">
+  <aside class="run-rail">
+    <div class="rail-heading"><h1>实验</h1><button id="refresh" class="quiet" aria-label="刷新实验">刷新</button></div>
+    <div class="rail-tabs" role="group" aria-label="实验筛选"><button id="filter-all" aria-pressed="true">全部</button><button id="filter-live" aria-pressed="false">进行中</button></div>
+    <div id="run-list" class="run-list" aria-label="实验列表"></div><p id="list-empty" class="subtle" hidden>暂无实验</p>
+  </aside>
+  <section class="observe-main">
+    <div id="page-error" class="page-error" role="alert" hidden></div>
+    <div id="empty" class="empty-state"><h2>暂无实验</h2><a href="/play" class="primary">开始游玩</a></div>
+    <div id="viewer" hidden>
+      <section class="run-heading">
+        <div class="heading-line"><h1 id="run-name"></h1><span id="run-state" class="status"></span></div>
+        <div class="overall"><strong id="completion"></strong><progress id="completion-bar" value="0" max="20" aria-label="任务进度"></progress></div>
+      </section>
+      <section class="observation-panel">
+        <header class="task-strip"><div><div id="session-select"></div><span id="session-state" class="status"></span></div><button id="follow" class="quiet" aria-pressed="true">跟随当前</button></header>
+        <div class="map-surface observe-map">
+          <svg id="watch-map" class="atlas" tabindex="0" role="img" aria-label="实验地图和当前位置"></svg>
+          <div class="current-place"><span class="key-dot"></span><strong id="place">—</strong><span id="stage" class="subtle"></span></div>
+          <div class="map-tools"><button id="locate" aria-label="定位 Agent">定位</button><button id="zoom-out" aria-label="缩小地图">−</button><button id="zoom-in" aria-label="放大地图">＋</button><button id="fit">全图</button></div>
+        </div>
+        <div class="task-information"><strong id="task-title">准备任务</strong><dl class="run-numbers"><div><dt>操作</dt><dd id="metric-steps">—</dd></div><div><dt>路程</dt><dd id="metric-distance">—</dd></div><div><dt>模型调用</dt><dd id="metric-calls">—</dd></div></dl></div>
+        <div class="replay"><label class="screen-reader" for="frame-slider">轨迹回放</label><input id="frame-slider" type="range" min="0" max="0" value="0"><span id="frame-number">0 / 0</span></div>
+      </section>
+      <details class="history"><summary>任务记录</summary><div class="table-scroll"><table><thead><tr><th>任务</th><th>状态</th><th>操作</th><th>路程</th><th>调用</th></tr></thead><tbody id="session-rows"></tbody></table></div></details>
+    </div>
+  </section>
+</main>
+<script src="/atlas-view.js"></script><script src="/select.js"></script><script src="/watch.js"></script>
+</body>
+</html>
