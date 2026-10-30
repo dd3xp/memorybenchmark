@@ -64,7 +64,11 @@ class PilotWatchTests(unittest.TestCase):
         public = json.dumps(data)
         for secret in ("private_worlds", "private-world-sentinel", "private-key-sentinel", "private/path", "private-prompt-sentinel"):
             self.assertNotIn(secret, public)
-        self.assertNotIn("T20", public)
+        # ISO timestamps can contain "T20" at 20:00 UTC. Check actual task
+        # fields rather than unrelated substrings in the serialized payload.
+        self.assertEqual([row["task_id"] for row in data["sessions"]], ["T1"])
+        self.assertTrue(all(frame["task"]["id"] == "T1" for frame in data["frames"]))
+        self.assertNotIn("tasks", data)
         self.assertEqual(before, {p: sha256(p.read_bytes()).hexdigest() for p in self.run.rglob("*") if p.is_file()})
 
     def test_completed_branches_and_current_selection_are_separate(self):
