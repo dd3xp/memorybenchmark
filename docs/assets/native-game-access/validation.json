@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-30",
+  "kind": "software_only_native_game_access_validation",
+  "real_model_calls": 0,
+  "formal_benchmark_reruns_started": false,
+  "unit_tests": {
+    "count": 191,
+    "passed": true
+  },
+  "native_source_commits": {
+    "ga": "e4d956f0207a2d268704634473196353946481bc",
+    "hermes": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6"
+  },
+  "checks": {
+    "ga": {
+      "interface": "ga-code-run-client-1",
+      "sessions_checked": 6,
+      "fresh_contexts_and_isolation_passed": true,
+      "retain_clear_marker_and_ephemeral_file_checks_passed": true,
+      "same_session_budget_context_passed": true,
+      "linked": {
+        "success": true,
+        "game_actions": 29,
+        "distance": 30
+      },
+      "typed": {
+        "success": true,
+        "game_actions": 29,
+        "distance": 30
+      },
+      "native_game_tool": "code_run",
+      "mcp_sdk_version": null
+    },
+    "hermes": {
+      "interface": "hermes-native-mcp-1",
+      "sessions_checked": 6,
+      "fresh_contexts_and_isolation_passed": true,
+      "retain_clear_marker_and_ephemeral_file_checks_passed": true,
+      "same_session_budget_context_passed": true,
+      "linked": {
+        "success": true,
+        "game_actions": 29,
+        "distance": 30
+      },
+      "typed": {
+        "success": true,
+        "game_actions": 29,
+        "distance": 30
+      },
+      "native_game_tool": "mcp__cartography__game_action",
+      "mcp_sdk_version": "2.3.0"
+    }
+  },
+  "source_hash_normalization": "CRLF to LF",
+  "executed_support_sha256_lf": {
+    "memorybenchmark/game_client.py": "514840df36b428295c23df372707d27f6a50ee2d29993a57ce72fe136bbf558a",
+    "memorybenchmark/native_game_io.py": "b4e6a62f6d9cb89aa68b1e9ee9b4807e54d11953e00950f140c8d29a32fe580f",
+    "memorybenchmark/ga_worker.py": "dce0c2d4b0da2e2ad327d543133cc637db956a663f5a285b6031eb8c39f90329",
+    "memorybenchmark/hermes_worker.py": "d1184b37c9ff9171746181cc60448ed9720ef2de38ab89db405e2859a8046659",
+    "memorybenchmark/game_mcp_stdio.py": "4b058b83c0cf579e159f3f49342376cb80c8c24e4ad1e322d856d0b4714ada2a"
+  },
+  "scope": [
+    "Fixed scripted responses exercise real native code; these are not agent capability scores.",
+    "Synthetic contract memories remain private and are never formal-run baselines.",
+    "Hermes MCP extra was installed from the same upstream lock in a separate runtime; the prior runtime was preserved."
+  ]
+}

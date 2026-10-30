@@ -1,6 +1,31 @@
 # 统一游戏 MCP 与原生 agent 适配
 
-游戏接口只实现一套。`mcp_game.py` 使用官方 MCP Python SDK，固定 `mcp==1.30.0`，协商协议为 `2025-11-25`。标准 stdio 服务与正式运行器的内存传输使用同一个 `create_server()`，唯一工具为 `game_action`。动作、公开观察和 trace 均由原有游戏核心产生。
+游戏接口只实现一套。宿主 `mcp_game.py` 使用官方 MCP Python SDK，固定 `mcp==1.30.0`，协商协议为 `2025-11-25`，唯一游戏工具为 `game_action`。动作、公开观察和 trace 均由原有游戏核心产生。原生 Hermes 接入另使用一个只转发公开 schema 和反馈的 stdio 门面，沿用其锁定运行环境中的 MCP SDK；门面不包含游戏规则或评测资料。
+
+## 2026-10-30：站点实验使用原生入口
+
+新的 `memorybenchmark.prototypes.station_pilot` 实验默认 `--game-access native`：
+
+| Agent | 模型直接使用的原生入口 | 游戏调用路径 |
+| --- | --- | --- |
+| GA | 上游 `code_run`，不新增工具 | `python -m game_client move J` → 当前任务的本地 IPC → 宿主游戏 MCP |
+| Hermes | 上游 MCP 客户端发现的工具；当前固定版命名为 `mcp__cartography__game_action` | 上游发现／注册／调用 → stdio 门面 → 当前任务的本地 IPC → 宿主游戏 MCP |
+
+GA 也可以用 Python `from game_client import action; print(action("move", target="J"))`。客户端只转发明确指定的操作，不规划、不检索记忆、不判断匹配站、不自动移动或重试。一个脚本内的多次调用仍逐次经过游戏内核，分别记录动作与图边；游戏操作数不按 `code_run` 次数计算。
+
+Hermes 使用上游 `discover_mcp_tools()` 的启动入口和 `mcp_servers` 配置，不再调用我们手写的 `register_hermes()`。它保留上游 MCP 的工具命名、工具发现、结果包装和后续上下文处理。GA 的工具列表、代码工具返回与其工作记忆提示均由原生实现处理，不再为游戏自行填写 `StepOutcome.next_prompt`。
+
+本地 IPC 是新会话临时端点，只提供公开工具定义和动作调用。沙箱外的游戏内核负责校验并保留权威日志；worker、客户端和 MCP 门面都看不到隐藏配对、未来委托或评分资料。临时端点与进程在任务结束后销毁，跨任务仅传递原定的自主记忆目录。
+
+`--game-access bridge` 保留此前新增原生 `game_action` 的方式，用于接口对照。模式、接口版本、客户端／门面源文件哈希写入运行记录，恢复时禁止切换。没有该字段的历史运行按 `bridge` 解释；恢复仍需它原来的冻结源码。此默认调整仅针对当前站点实验入口，通用 `memorybenchmark.experiment` 保留兼容行为。
+
+环境说明只替换操作入口的文字，不补充人工经验。每次请求的当前任务提醒、实际结束后的同会话复盘机会、记忆保留／清除规则均保留。工具名称与原生输出包装的差异属于新接口条件，需要与此前成绩分开记录；原生代码工具可能截断或压缩长输出，这由 agent 自己的上下文策略处理，权威交付日志另外保留原始公开反馈。
+
+Hermes 的原生 `untrusted_tool_result` 提示标签完整保留；校验器只在读取已记录证据时拆解这层包装。MCP 游戏调用和本地客户端响应等待上限为 300 秒，以容纳同一宿主管道中在先的有界模型／后台复盘请求；任务总时限仍由外层运行器控制。连接或反馈交付失败按基础设施问题处理，不作为 agent 的游戏失败。
+
+按用户最新要求，本次只完成实现和软件／原生契约校验，不启动两种 agent 的真实模型重跑。脚本模型的测试经验标记只存在于独立验证目录，不能用作正式实验的记忆基线。
+
+2026-10-30 软件验收：Squishy 的 191 项测试全部通过；GA 和 Hermes 各通过六段原生脚本契约，覆盖空上下文、记忆保留／清除、临时文件隔离、同 session 收尾与两段任务的公开反馈送达。Hermes 原生 MCP 使用其锁文件选定的 SDK `2.3.0`，宿主仍为 `1.30.0`，stdio 门面兼容两种接口。实际执行的 support 文件已与当前源码核对；[验证记录](assets/native-game-access/validation.json)保存版本、哈希和检查范围，真实模型调用为零。
 
 ```mermaid
 flowchart LR
@@ -49,7 +74,7 @@ python -m memorybenchmark.mcp_server --scenario lake-easy --task T1
 
 ## GA 如何复用服务
 
-归档中的 GA 没有现成 MCP 客户端，因此保留其原生工具注册桥：
+旧接口条件与通用实验兼容入口使用原生工具注册桥；当前站点原生入口见本文开头：
 
 ```text
 GA 原生 game_action 工具
@@ -128,7 +153,7 @@ Hermes 当前上游使用 Python 3.14。用其 `uv.lock` 和 `[tool.uv]` 配置�
 uv python install 3.14 --install-dir /path/to/hermes-python
 # 下面替换成上一条命令实际安装的解释器路径。
 /path/to/hermes-python/cpython-3.14.x-linux-x86_64-gnu/bin/python3.14 -m venv --copies /path/to/hermes-runtime
-UV_PROJECT_ENVIRONMENT=/path/to/hermes-runtime uv sync --project /path/to/extracted-hermes --no-dev --locked --python /path/to/hermes-python/cpython-3.14.x-linux-x86_64-gnu/bin/python3.14
+UV_PROJECT_ENVIRONMENT=/path/to/hermes-runtime uv sync --project /path/to/extracted-hermes --no-dev --locked --extra mcp --python /path/to/hermes-python/cpython-3.14.x-linux-x86_64-gnu/bin/python3.14
 ```
 
 保留 `hermes-python` 的实际路径，因为独立解释器与 venv 会引用它。先通过下面的离线原生契约检查，再运行真实模型。检查包括空会话、经验与技能保留／清除、技能回滚文件，以及主阶段预算耗尽后的同会话整理。
@@ -137,7 +162,7 @@ UV_PROJECT_ENVIRONMENT=/path/to/hermes-runtime uv sync --project /path/to/extrac
 
 ```powershell
 python -m memorybenchmark.prototypes.station_pilot path/to/hermes-source.tar.gz --agent hermes --output .runs/hermes-easy20 --design memorybenchmark/data/station_easy20_choice.json --base-url https://your-gateway --model your-model --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime --max-turns 40 --final-turns 6 --max-output-tokens 0
-python scripts/check_station_native_sessions.py path/to/native-source.tar.gz --agent hermes --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime
+python scripts/check_station_native_sessions.py path/to/native-source.tar.gz --agent hermes --game-access native --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime
 ```
 
 第二条命令使用脚本响应检查真实原生运行链路，不产生真实模型调用，也不构成记忆成绩。旧开发脚本 `native_ga_smoke.py` 和 `HTTPGameClient` 仅用于开发，不作为正式隔离运行器。

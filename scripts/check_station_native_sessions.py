@@ -4,12 +4,13 @@ from copy import deepcopy
 from hashlib import sha256
 import json
 from pathlib import Path
+import shutil
 import sys
 from uuid import uuid4
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from memorybenchmark.agent_adapters import load_adapter, PreparedAgent
-from memorybenchmark.ga_runtime import WSLJail
+from memorybenchmark.ga_runtime import WSLJail, make_support
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
 from memorybenchmark.prototypes.station_pilot import StationNativeSessions
 from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN, EASY20_LINKED_DESIGN, EASY20_REUSE_DESIGN, FEEDBACK_PROTOCOLS
@@ -30,6 +31,13 @@ def response_observations(value):
         for nested in value:
             yield from response_observations(nested)
     elif isinstance(value, str):
+        # Hermes intentionally labels MCP output as external data. Decode
+        # that native envelope for auditing only; never edit model inputs.
+        stripped = value.strip()
+        if stripped.startswith("<untrusted_tool_result ") and stripped.endswith("</untrusted_tool_result>"):
+            parts = stripped.split("\n\n", 1)
+            if len(parts) == 2:
+                value = parts[1].rsplit("</untrusted_tool_result>", 1)[0].strip()
         try:
             parsed = json.loads(value)
         except ValueError:
@@ -60,11 +68,12 @@ def check_feedback_delivery(folder, report, model, mode):
 
 
 class ScriptedResponses:
-    def __init__(self, tools, agent="ga"):
+    def __init__(self, tools, agent="ga", game_access="bridge"):
         self.tools = iter(tools)
         self.calls = 0
         self.requests = []
         self.agent = agent
+        self.game_access = game_access
 
     def __call__(self, payload):
         self.requests.append(deepcopy(payload))
@@ -76,7 +85,14 @@ class ScriptedResponses:
         response_id = f"resp_fixture_{self.calls}"
         if call:
             name, arguments = call
-            if self.agent == "hermes" and name == "game_action":
+            if self.game_access == "native" and name == "game_action":
+                if self.agent == "ga":
+                    name, arguments = "code_run", {"type": "python", "script":
+                        "import json; from game_client import action; print(json.dumps(action(**" +
+                        repr(arguments) + "), ensure_ascii=False))"}
+                else:
+                    name = "mcp__cartography__game_action"
+            if self.agent == "hermes" and name in ("game_action", "mcp__cartography__game_action"):
                 name, arguments = "tool_call", {"calls": [{"name": name, "arguments": arguments}]}
             item = {"type": "function_call", "id": f"fc_fixture_{self.calls}",
                     "call_id": f"call_fixture_{self.calls}", "name": name,
@@ -110,13 +126,16 @@ def run(args):
         # Reuse only the read-only upstream source and untouched native baseline
         # after a failed setup check; live state and all sessions remain fresh.
         previous = args.prepared_root
+        support = make_support(output / "support")
+        if args.agent == "hermes":
+            shutil.copyfile(Path(__file__).resolve().parents[1] / "memorybenchmark/hermes_worker.py", support / "hermes_worker.py")
         prepared = PreparedAgent(previous / "source" / ("GenericAgent" if args.agent == "ga" else "hermes-agent"),
-                                 previous / "support", previous / "baseline")
+                                 support, previous / "baseline")
     else:
         prepared = load_adapter(args.agent).prepare(args.archive, output)
     jail = WSLJail(args.distro, args.runtime, args.runtime_dependency)
     sessions = StationNativeSessions(prepared.source, prepared.support, jail, agent=args.agent,
-                                    feedback_mode=args.feedback_mode,
+                                    feedback_mode=args.feedback_mode, game_access=args.game_access,
                                     model_alias="fixture", max_turns=10, final_turns=3, seed=1)
     sessions.probe(prepared.baseline, output / "probe")
     game = StationGame("omega_5511", load_design(EASY20_CHOICE_DESIGN))
@@ -132,7 +151,7 @@ def run(args):
     if args.agent == "hermes":
         prefix_tools.append(("skill_manage", {"operations": [{"action": "create", "name": "native-fixture-skill",
             "content": "---\nname: native-fixture-skill\ndescription: Synthetic native persistence contract fixture.\n---\n# Fixture\nSynthetic contract data only.\n"}]}))
-    first_model = ScriptedResponses(prefix_tools + [("game_action", {"action": "abandon"})], args.agent)
+    first_model = ScriptedResponses(prefix_tools + [("game_action", {"action": "abandon"})], args.agent, args.game_access)
     first = sessions.run(game, "T1", prepared.baseline, output / "prefix", first_model, condition="prefix")
     assert first["infrastructure_ok"], first.get("infrastructure_error")
     assert any(MARKER in path.read_text(encoding="utf-8", errors="replace")
@@ -142,7 +161,7 @@ def run(args):
         assert first["initial_session"]["game_tool_registered"]
         assert "memory" in [tool["name"] for tool in first["tools"]], "native tool callback was not decoded"
     for condition in ("retain", "clear"):
-        model = ScriptedResponses([read, ("game_action", {"action": "abandon"})], args.agent)
+        model = ScriptedResponses([read, ("game_action", {"action": "abandon"})], args.agent, args.game_access)
         memory = output / "prefix/memory-after" if condition == "retain" else prepared.baseline
         result = sessions.run(deepcopy(game), "T2", memory, output / condition, model, condition=condition)
         assert result["infrastructure_ok"], result.get("infrastructure_error")
@@ -155,7 +174,7 @@ def run(args):
     context_marker = "synthetic_in_session_budget_context_95172"
     context_tool = (("code_run", {"type": "python", "code": f"print({context_marker!r})"})
                     if args.agent == "ga" else ("terminal", {"command": f"printf '{context_marker}'"}))
-    model = ScriptedResponses([context_tool] + [("game_action", {"action": "read"})] * 9, args.agent)
+    model = ScriptedResponses([context_tool] + [("game_action", {"action": "read"})] * 9, args.agent, args.game_access)
     budget = sessions.run(deepcopy(game), "T3", prepared.baseline, output / "budget", model, condition="clear")
     assert budget["infrastructure_ok"], budget.get("infrastructure_error")
     assert budget["main_calls"] == 10 and budget["final_calls"] >= 1
@@ -171,9 +190,9 @@ def run(args):
         if process:itinerary_tools.append(("game_action",{"action":"process"}))
     itinerary_tools.append(("game_action",{"action":"submit"}))
     linked_sessions = StationNativeSessions(prepared.source, prepared.support, jail, agent=args.agent,
-                                            feedback_mode=args.feedback_mode,
+                                            feedback_mode=args.feedback_mode, game_access=args.game_access,
                                             model_alias="fixture", max_turns=80, final_turns=3, seed=1)
-    linked_model = ScriptedResponses(itinerary_tools,args.agent)
+    linked_model = ScriptedResponses(itinerary_tools,args.agent,args.game_access)
     result = linked_sessions.run(linked,"T1",prepared.baseline,output / "linked",linked_model,condition="prefix")
     assert result["infrastructure_ok"],result.get("infrastructure_error")
     assert linked.state.success and linked.observation()["stages_completed"] == 2
@@ -189,7 +208,7 @@ def run(args):
         position=destination
         if process:typed_tools.append(("game_action",{"action":"process"}))
     typed_tools.append(("game_action",{"action":"submit"}))
-    typed_model=ScriptedResponses(typed_tools,args.agent)
+    typed_model=ScriptedResponses(typed_tools,args.agent,args.game_access)
     typed_result=linked_sessions.run(typed,"T1",prepared.baseline,output/"typed",typed_model,condition="prefix")
     assert typed_result["infrastructure_ok"] and typed.state.success,typed_result.get("infrastructure_error")
     check_feedback_delivery(output/"typed",typed_result,typed_model,args.feedback_mode)
@@ -200,6 +219,7 @@ def run(args):
     assert all(not s["has_prior_matching_opportunity"] for s in typed_result["experience_opportunities"]["stages"])
     print(json.dumps({"passed": True, "agent": args.agent, "llm_calls": 0,
                       "kind": "scripted_real_native_contract", "feedback_mode": args.feedback_mode,
+                      "game_access": args.game_access,
                       "feedback_protocol": result["feedback_protocol"], "linked_actions": linked.steps,
                       "linked_distance": linked.distance, "typed_actions":typed.steps,"typed_distance":typed.distance,
                       "typed_public_labels_and_feedback_delivered":True,"output": str(output.resolve())}))
@@ -215,4 +235,5 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path)
     parser.add_argument("--prepared-root", type=Path)
     parser.add_argument("--feedback-mode", choices=("compact", "full"), default="compact")
+    parser.add_argument("--game-access", choices=("native", "bridge"), default="bridge")
     run(parser.parse_args())

@@ -84,7 +84,8 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
                 assert frozen.is_file(),(relative,"missing frozen source")
                 assert sha256(frozen.read_bytes()).hexdigest()==digest,(relative,"frozen source checksum mismatch")
             support=root/"support"/Path(relative).name
-            if relative in ("memorybenchmark/ga_worker.py", "memorybenchmark/hermes_worker.py", "memorybenchmark/agent_bridge.py") and (root/"support").exists():
+            if relative in ("memorybenchmark/ga_worker.py", "memorybenchmark/hermes_worker.py", "memorybenchmark/agent_bridge.py",
+                            "memorybenchmark/game_client.py", "memorybenchmark/native_game_io.py", "memorybenchmark/game_mcp_stdio.py") and (root/"support").exists():
                 assert support.is_file(),(relative,"missing executed worker support")
                 assert sha256(support.read_bytes()).hexdigest()==digest,(relative,"executed support differs from frozen source")
                 verified_support[support.name]=digest

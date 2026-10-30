@@ -4,6 +4,7 @@ HTTP interception changes transport only. Hermes still builds prompts, selects
 tools, updates memory, manages skills and parses the native Responses stream.
 """
 import json
+from importlib.metadata import PackageNotFoundError, version
 from copy import deepcopy
 import os
 from pathlib import Path
@@ -79,8 +80,6 @@ def main():
 
     httpx.Client.send = send
     from agent_bridge import GameTool, register_hermes
-    from tools.registry import registry
-    from toolsets import create_custom_toolset
 
     def game_request(request):
         nonlocal finalizing
@@ -89,8 +88,48 @@ def main():
             finalizing = True
         return result
 
-    register_hermes(registry, create_custom_toolset, GameTool(game_request,
-        definition=config.get("game_tool"), target_actions=config.get("game_target_actions", ("move", "take"))))
+    broker = None
+    game_access = config.get("game_access", "bridge")
+    if game_access == "native":
+        try:
+            mcp_sdk_version = version("mcp")
+        except PackageNotFoundError:
+            raise RuntimeError("Native Hermes MCP requires its upstream locked mcp extra; install it in the selected runtime") from None
+        from native_game_io import GameBroker
+        broker = GameBroker(GameTool(game_request, definition=config.get("game_tool"),
+                                    target_actions=config.get("game_target_actions", ("move", "take")))).start()
+        os.environ["MEMORYBENCH_GAME_ENDPOINT"] = broker.endpoint
+        native_config["mcp_servers"] = {"cartography": {
+            "command": sys.executable, "args": ["/runner/game_mcp_stdio.py"],
+            "timeout": 300,
+            "env": {"MEMORYBENCH_GAME_ENDPOINT": broker.endpoint, "PYTHONPATH": "/runner:/agent"},
+            "tools": {"include": ["game_action"], "resources": False, "prompts": False},
+        }}
+        (native_home / "config.yaml").write_text(json.dumps(native_config), encoding="utf-8")
+        # Use the upstream startup/discovery path, not our registry wrapper.
+        from tools.mcp_tool_discovery import discover_mcp_tools
+        discovered_game_tools = discover_mcp_tools(allowed_mcp_names=["cartography"])
+        from tools.mcp_tool_config import _load_mcp_config
+        from tools.mcp_tool_discovery import get_mcp_status
+        wire.emit("native_mcp_discovery", sdk_version=mcp_sdk_version,
+                  configured_servers=sorted(_load_mcp_config()), registered_tools=discovered_game_tools,
+                  server_status=[{key: entry.get(key) for key in ("name", "status", "connected", "error", "tool_count")}
+                                 for entry in get_mcp_status()])
+        if len(discovered_game_tools) != 1:
+            stderr_log = native_home / "logs/mcp-stderr.log"
+            if stderr_log.is_file():
+                wire.emit("native_mcp_startup_error", text=stderr_log.read_text(encoding="utf-8", errors="replace")[-6000:])
+            raise RuntimeError("native Hermes MCP game discovery failed")
+        game_tool_name, game_toolset = discovered_game_tools[0], "mcp-cartography"
+    elif game_access == "bridge":
+        from tools.registry import registry
+        from toolsets import create_custom_toolset
+        register_hermes(registry, create_custom_toolset, GameTool(game_request,
+            definition=config.get("game_tool"), target_actions=config.get("game_target_actions", ("move", "take"))))
+        game_tool_name, game_toolset = "game_action", "cartography"
+    else:
+        raise RuntimeError("unsupported game access mode")
+    from tools.registry import registry
 
     # Wait for native review writes before changing phases or taking snapshots;
     # review calls share the same host budgets and audited model transport.
@@ -136,7 +175,7 @@ def main():
 
     agent = AIAgent(base_url="https://model.invalid/v1", api_key="runner-managed", provider="custom",
         api_mode="codex_responses", model=config["model"], max_iterations=100000,
-        enabled_toolsets=["terminal", "file", "memory", "skills", "session_search", "todo", "cartography"],
+        enabled_toolsets=["terminal", "file", "memory", "skills", "session_search", "todo", game_toolset],
         quiet_mode=True, verbose_logging=False, session_id=session_id, session_db=session_db,
         platform="benchmark", skip_context_files=False, skip_memory=False, skip_background_review=False,
         load_soul_identity=False, pass_session_id=True, reasoning_config={"effort": "low"},
@@ -159,7 +198,10 @@ def main():
               initial_history_size=len(session_db.get_messages(session_id)),
               initial_backend_history_size=len(getattr(agent, "_session_messages", [])), current_task_history_size=0, working={},
               native_tools=sorted(agent.valid_tool_names), native_session_id=session_id,
-              game_tool_registered=registry.get_entry("game_action") is not None,
+              game_tool_registered=registry.get_entry(game_tool_name) is not None,
+              game_access=game_access, agent_game_interface=("hermes-native-mcp-1" if broker else "native-tool-bridge-1"),
+              native_mcp_game_tools=[game_tool_name] if broker else [],
+              native_mcp_sdk_version=mcp_sdk_version if broker else None,
               native_memory_enabled=agent._memory_enabled,
               native_context_configuration={"model_context_length": 64000},
               persistence={"curated_memory": "/agent/memory/memories", "skills": "/agent/memory/skills",
@@ -197,8 +239,14 @@ def main():
     agent.close()
     drain_reviews()
     session_db.close()
+    if broker is not None:
+        from tools.mcp_tool_lifecycle import shutdown_mcp_servers
+        shutdown_mcp_servers()
+        broker.close()
     wire.emit("finished", native_result=result, finalization_result=final_result, isolation=isolation,
-              execution_protocol=EXECUTION_PROTOCOL, phase_calls=phase_calls)
+              execution_protocol=EXECUTION_PROTOCOL, phase_calls=phase_calls,
+              agent_game_interface=("hermes-native-mcp-1" if broker else "native-tool-bridge-1"),
+              native_game_client_calls=broker.calls if broker else None)
 
 
 if __name__ == "__main__":

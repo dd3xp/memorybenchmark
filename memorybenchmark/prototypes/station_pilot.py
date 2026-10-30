@@ -47,12 +47,31 @@ inspect 是在站查询能力；process 是处理当前原始资料。两者都�
 """
 
 
+def access_guide(agent, game_access):
+    """Change only public interface instructions, never supply experience."""
+    if game_access == "bridge":
+        return GUIDE
+    if game_access != "native":
+        raise ValueError("Unknown game access mode")
+    if agent == "ga":
+        access = ("游戏通过你原生的 code_run 工具调用预置客户端访问：执行 "
+                  "python -m game_client move J 可移动到 J；inspect、process、submit、read 等不带地点参数。"
+                  "也可在 Python 中 from game_client import action; print(action('move', target='J'))。"
+                  "客户端只执行指定操作并返回公开反馈，不会规划路线、查询记忆或自动补充动作。")
+    else:
+        access = "游戏通过你原生 MCP 客户端发现的游戏工具访问（服务 cartography，服务端工具 game_action）；以客户端发现后的工具名称为准。"
+    return GUIDE.replace("游戏只通过 game_action 访问，", access + "游戏中")
+
+
 class StationNativeSessions(WorkerSessions):
-    def __init__(self, *args, agent="ga", feedback_mode="compact", **kwargs):
+    def __init__(self, *args, agent="ga", feedback_mode="compact", game_access="bridge", **kwargs):
         if feedback_mode not in FEEDBACK_PROTOCOLS:
             raise ValueError("Unknown station feedback mode")
         self.agent = agent
         self.feedback_mode = feedback_mode
+        if game_access not in ("bridge", "native"):
+            raise ValueError("Unknown game access mode")
+        self.game_access = game_access
         super().__init__(*args, worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
                          worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
                          prompt_protocol=PROMPT_PROTOCOL, **kwargs)
@@ -77,7 +96,8 @@ class StationNativeSessions(WorkerSessions):
             initial = adapter.initial
             save_json(output / "initial-public.json", initial)
             config = self.task_config(initial)
-            config.update(task_reminder=initial["text"].splitlines()[0], game_guide=GUIDE,
+            config.update(task_reminder=initial["text"].splitlines()[0], game_guide=access_guide(self.agent, self.game_access),
+                          game_access=self.game_access,
                           game_tool=STATION_TOOL, game_target_actions=["move"], prompt_protocol=PROMPT_PROTOCOL)
             config["initial_text"] += "\n公开地图与规则：" + json.dumps(initial["observation"]["environment"], ensure_ascii=False)
             with MCPGameClient(adapter.dispatch, definition=STATION_TOOL, target_actions=("move",)) as client:
@@ -91,6 +111,7 @@ class StationNativeSessions(WorkerSessions):
                           memory_changed=changed_files(before, after),
                           content_changed=[p for p in changed_files(before, after) if p != "file_access_stats.json"])
         report.update(task_id=task_id, condition=condition, prompt_protocol=PROMPT_PROTOCOL,
+                      game_access=self.game_access,
                       success=game.state.success if report["infrastructure_ok"] else None,
                       done=game.done, game_actions=game.steps, distance=game.distance,
                       prior_compatible_worlds=list(compatible_worlds(game.design, before_history)),
@@ -131,17 +152,24 @@ def replay_checkpoint(design, world, sessions):
 
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga", feedback_mode=None):
+          max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga", feedback_mode=None,
+          game_access=None):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
     if feedback_mode is not None and feedback_mode not in FEEDBACK_PROTOCOLS:
         raise ValueError("Unknown station feedback mode")
+    if game_access is not None and game_access not in ("bridge", "native"):
+        raise ValueError("Unknown game access mode")
     output = Path(output).resolve()
     selected_design = Path(design_path) if design_path is not None else DEFAULT_DESIGN
     if resume:
         report = json.loads((output / "pilot.json").read_text(encoding="utf-8"))
         if report.get("agent", "ga") != agent:
             raise ValueError("Cannot change native agent when resuming")
+        recorded_access = report.get("game_access", "bridge")
+        if game_access is not None and game_access != recorded_access:
+            raise ValueError("Cannot change game access mode when resuming")
+        game_access = recorded_access
         if world is not None and world != report["world"]:
             raise ValueError("Cannot change the private world when resuming")
         recorded_feedback = report.get("feedback_mode", "full")
@@ -161,6 +189,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         report["status"] = "running"
         save_json(output / "pilot.json", report)
     else:
+        game_access = game_access or "native"
         feedback_mode = feedback_mode or "compact"
         design = load_design(selected_design)
         if max_turns is None:
@@ -190,13 +219,17 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             paths += [Path(__file__).with_name(name) for name in
                       ("station_experience.py", "station_choice.py", "station_routes.py")]
         paths += [Path(__file__).parents[1] / name for name in
-                  ("ga_worker.py", "agent_bridge.py", "mcp_game.py", "agent_sessions.py", "ga_runtime.py", "model_gateway.py")]
+                  ("ga_worker.py", "agent_bridge.py", "mcp_game.py", "agent_sessions.py", "ga_runtime.py", "model_gateway.py",
+                   "game_client.py", "native_game_io.py", "game_mcp_stdio.py")]
         if agent == "hermes":
             paths += [Path(__file__).parents[1] / "hermes_worker.py", Path(__file__).parents[1] / "agents/hermes.py"]
         report = {"protocol": "station-native-pilot-1", "agent": agent, "status": "running", "seed": seed, "design_id": design["design_id"],
                   "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
                   "wall_seconds": wall_seconds, "prompt_protocol": PROMPT_PROTOCOL,
                   "feedback_mode": feedback_mode, "feedback_protocol": FEEDBACK_PROTOCOLS[feedback_mode],
+                  "game_access": game_access,
+                  "agent_game_interface": ("ga-code-run-client-1" if agent == "ga" else "hermes-native-mcp-1")
+                                          if game_access == "native" else "native-tool-bridge-1",
                   # The worker receives its RNG seed; hidden-world sampling must
                   # be independent so that seed cannot disclose the assignment.
                   "world": world if world is not None else choice(sorted(design["private_worlds"])),
@@ -209,7 +242,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         save_json(output / "design.json", design)
         save_json(output / "pilot.json", report)
     sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"), output / "support", jail,
-                                     agent=agent, feedback_mode=feedback_mode,
+                                     agent=agent, feedback_mode=feedback_mode, game_access=game_access,
                                      model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns,
                                      wall_seconds=wall_seconds)
     if not (output / "probe" / "summary.json").exists():
@@ -284,6 +317,7 @@ def main():
     parser.add_argument("--world", help="private host fixture for a controlled rerun; never sent to the worker")
     parser.add_argument("--design", type=Path, help="map configuration; defaults to the original eight-task prototype")
     parser.add_argument("--feedback-mode", choices=("compact", "full"), help="new runs default to compact action results; initial/read always include the full public map; frozen on resume")
+    parser.add_argument("--game-access", choices=("native", "bridge"), help="new station pilots default to native GA code_run / Hermes MCP; bridge preserves the previous custom game_action interface; frozen on resume")
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
@@ -296,7 +330,8 @@ def main():
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
     pilot(args.archive, args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model, seed=args.seed, model_alias=args.model,
           tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
-          design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds, feedback_mode=args.feedback_mode)
+          design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds, feedback_mode=args.feedback_mode,
+          game_access=args.game_access)
 
 
 if __name__ == "__main__":

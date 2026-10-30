@@ -168,7 +168,7 @@ class WSLJail:
 def make_support(destination):
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=False)
-    for name in ("ga_worker.py", "agent_bridge.py"):
+    for name in ("ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py"):
         shutil.copyfile(Path(__file__).with_name(name), destination / name)
     return destination
 

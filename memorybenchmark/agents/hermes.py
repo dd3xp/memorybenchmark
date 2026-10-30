@@ -28,6 +28,6 @@ class HermesAdapter(AgentAdapter):
             (baseline / "skills").mkdir()
         support = root / "support"
         support.mkdir()
-        for name in ("hermes_worker.py", "ga_worker.py", "agent_bridge.py"):
+        for name in ("hermes_worker.py", "ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py"):
             shutil.copyfile(Path(__file__).parents[1] / name, support / name)
         return PreparedAgent(source, support, baseline)

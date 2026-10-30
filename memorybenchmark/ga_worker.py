@@ -213,6 +213,7 @@ def main():
     agent_class = getattr(agentmain, "GenericAgent", None) or agentmain.GeneraticAgent
     agent = agent_class()
     agent.next_llm(0)
+    native_tools_before_game = [t["function"]["name"] for t in agentmain.TOOLS_SCHEMA]
     agent.task_dir = "/agent/temp"
     agent.verbose = False
     initial_history_size = len(agent.history)
@@ -227,8 +228,18 @@ def main():
         if result.get("observation", {}).get("done"):
             finalizing = True
         return result
-    register_genericagent(agentmain, agent, StepOutcome, GameTool(game_request,
-        definition=config.get("game_tool"), target_actions=config.get("game_target_actions", ("move", "take"))))
+    broker = None
+    game_access = config.get("game_access", "bridge")
+    if game_access == "native":
+        from native_game_io import GameBroker
+        broker = GameBroker(GameTool(game_request, definition=config.get("game_tool"),
+                                    target_actions=config.get("game_target_actions", ("move", "take")))).start()
+        os.environ["MEMORYBENCH_GAME_ENDPOINT"] = broker.endpoint
+    elif game_access == "bridge":
+        register_genericagent(agentmain, agent, StepOutcome, GameTool(game_request,
+            definition=config.get("game_tool"), target_actions=config.get("game_target_actions", ("move", "take"))))
+    else:
+        raise RuntimeError("unsupported game access mode")
     # Current GA replaced tool_before_callback with plugin hooks. Observe the
     # shared dispatch boundary without replacing native tool or memory logic.
     original_dispatch = handler.dispatch
@@ -241,6 +252,8 @@ def main():
     wire.emit("session", protocol=PROTOCOL, isolation=isolation, execution_protocol=EXECUTION_PROTOCOL,
               prompt_protocol=config.get("prompt_protocol", PROMPT_PROTOCOL), task_reminder=reminder,
               system_prompt=system, initial_history_size=initial_history_size,
+              game_access=game_access, agent_game_interface=("ga-code-run-client-1" if broker else "native-tool-bridge-1"),
+              native_tool_registry_unchanged=native_tools_before_game == [t["function"]["name"] for t in agentmain.TOOLS_SCHEMA],
               initial_backend_history_size=initial_backend_size,
               current_task_history_size=len(handler.history_info),
               runtime={"python":sys.version,"packages":{name:version(name) for name in
@@ -260,10 +273,14 @@ def main():
         terminal["text"] + "\n" + FINAL_OPPORTUNITY, handler, agentmain.TOOLS_SCHEMA,
         max_turns=config["final_turns"], verbose=False)
     final_result = exhaust_native_loop(final_loop, wire.emit)
+    if broker is not None:
+        broker.close()
     # Exiting the PID namespace also terminates tool subprocesses. No writable
     # directory except memory survives, and the host snapshots only after exit.
     wire.emit("finished", native_result=result, finalization_result=final_result, isolation=isolation,
-              execution_protocol=EXECUTION_PROTOCOL, phase_calls=phase_calls)
+              execution_protocol=EXECUTION_PROTOCOL, phase_calls=phase_calls,
+              agent_game_interface=("ga-code-run-client-1" if broker else "native-tool-bridge-1"),
+              native_game_client_calls=broker.calls if broker else None)
 
 
 if __name__ == "__main__":
