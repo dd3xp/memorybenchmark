@@ -1,6 +1,7 @@
 /* Human presentation over the same public game protocol used by agents. */
 const $ = id => document.getElementById(id), svgNS = 'http://www.w3.org/2000/svg';
-const storageKey = 'cartography.play.v2';
+const chosenMap = new URLSearchParams(location.search).get('map') || 'lake-easy';
+const storageKey = 'cartography.play.v2.' + chosenMap;
 let instance = null, observation = null, busy = false, loaded = false;
 let submittedAtlas = {nodes:[], edges:[], surveyed:[]};
 let scenario = 'lake-easy', taskCount = 8, selection = null, journal = [], confirmAction;
@@ -230,7 +231,7 @@ new ResizeObserver(()=>{
 if(matchMedia('(max-width:760px)').matches)$('brief').open=false;
 async function boot() {
   try{
-    const data=await request('/api/tasks');scenario=data.scenario;taskCount=data.tasks.length;
+    const data=await request('/api/tasks?scenario='+encodeURIComponent(chosenMap));scenario=chosenMap;taskCount=data.tasks.length;
     $('map-design-link').href='/design?scenario='+encodeURIComponent(scenario);
     const name=scenario==='lake-easy'?'雾汀湖':(data.name||'勘测区域');
     $('region-name').replaceChildren(document.createTextNode(name),html('span','',data.difficulty==='Easy'?'初级勘测':'地理勘测'));

@@ -15,6 +15,8 @@ from .web_auth import PinAuth
 from .tls import HTTPSGameServer
 from .map_design import map_design
 from .prototypes.field_service import FieldService
+from .pilot_watch import PilotStore
+from .map_catalog import MAPS, map_detail, map_listing, station_design
 
 STATIC = Path(__file__).parent / "static"
 
@@ -55,13 +57,16 @@ class GameService:
 
 def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=None,
                 auth_file=None, secure_cookie=True, tls_cert=None, tls_key=None,
-                tls_reload_interval=60, scenario="valley"):
+                tls_reload_interval=60, scenario="valley", pilot_root=None):
     if (tls_cert is None) != (tls_key is None):
         raise ValueError("HTTPS requires both a certificate and a private key.")
     if tls_cert is not None and not secure_cookie:
         raise ValueError("HTTPS sessions require Secure cookies.")
     service = GameService(log_root, scenario)
     field = FieldService(log_root)
+    fields = {"easy20": field}
+    fields_lock = threading.RLock()
+    pilots = PilotStore(log_root, pilot_root)
     watch=(WatchStore(Path(log_root)/"agent-cross-session",Path(log_root)/"ga-cross-session")
            if watch_root is None else WatchStore(watch_root))
     auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
@@ -97,7 +102,25 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
 
         @staticmethod
         def destination(value):
-            return value if value in ("/", "/watch", "/play", "/design", "/easy20") else "/watch"
+            return value if value in ("/", "/watch", "/experiments", "/play", "/maps", "/design", "/easy20") else "/watch"
+
+        def field_service(self):
+            map_id = parse_qs(urlsplit(self.path).query).get("map", ["easy20"])[0]
+            with fields_lock:
+                if map_id not in fields:
+                    try:
+                        path = station_design(map_id)
+                    except ValueError as error:
+                        raise ProtocolError(str(error)) from None
+                    from .prototypes.station_capability import capability_groups, load_design
+                    design = load_design(path)
+                    # Old prototypes lack presentation metadata. Supply it only
+                    # in this human instance; frozen agent designs stay untouched.
+                    design["public"].setdefault("name", MAPS[map_id][0])
+                    design["public"].setdefault("capability_groups", capability_groups(design))
+                    design["public"].setdefault("view_box", map_detail(map_id)["map"]["view_box"])
+                    fields[map_id] = FieldService(Path(log_root) / map_id, design)
+                return fields[map_id]
 
         def login_page(self, message="", status=200, destination="/watch", extra=None):
             body = (STATIC / "login.html").read_text(encoding="utf-8")
@@ -187,6 +210,21 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 return
             if url.path == "/health":
                 self.reply({"ok": True,"watch":True})
+            elif url.path == "/api/experiments/runs":
+                self.reply({"runs": pilots.listing()})
+            elif url.path == "/api/experiments/run":
+                try:
+                    query = parse_qs(url.query)
+                    self.reply(pilots.snapshot(query.get("id", [None])[0], query.get("session", [None])[0]))
+                except (OSError, ValueError, KeyError, TypeError):
+                    self.reply({"error": "not_found", "message": "实验记录尚未准备好。"}, 404)
+            elif url.path == "/api/maps":
+                self.reply({"maps": map_listing()})
+            elif url.path == "/api/maps/detail":
+                try:
+                    self.reply(map_detail(parse_qs(url.query).get("id", ["easy20"])[0]))
+                except ValueError as error:
+                    self.reply({"error": "not_found", "message": str(error)}, 404)
             elif url.path == "/api/watch/runs":
                 self.reply({"runs":watch.listing()})
             elif url.path == "/api/watch/run":
@@ -224,12 +262,19 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
             elif url.path in ("/api/field/observation", "/api/field/design"):
                 token = parse_qs(url.query).get("instance_id", [None])[0]
                 try:
-                    self.reply(field.design_view(token) if url.path.endswith("/design") else field.read(token))
+                    current_field = self.field_service()
+                    self.reply(current_field.design_view(token) if url.path.endswith("/design") else current_field.read(token))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/easy20", "/field.js", "/field.css", "/field-terrain.svg"):
-                name = {"/easy20": "field.html", "/field.js": "field.js", "/field.css": "field.css", "/field-terrain.svg": "field-terrain.svg"}[url.path]
+            elif url.path in ("/easy20", "/field.js", "/field.css", "/field-terrain.svg") or (url.path == "/play" and parse_qs(url.query).get("map", ["easy20"])[0] not in ("lake-easy", "valley", "river")):
+                name = {"/easy20": "field.html", "/play": "field.html", "/field.js": "field.js", "/field.css": "field.css", "/field-terrain.svg": "field-terrain.svg"}[url.path]
                 mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css" if name.endswith(".css") else "image/svg+xml"
+                body = (STATIC / name).read_bytes()
+                self.response_headers(200, mime + "; charset=utf-8", len(body))
+                self.wfile.write(body)
+            elif url.path in ("/maps", "/experiments", "/site.css", "/atlas-view.js", "/catalog.js", "/catalog.css"):
+                name = {"/maps": "catalog.html", "/experiments": "watch.html", "/site.css": "site.css", "/atlas-view.js": "atlas-view.js", "/catalog.js": "catalog.js", "/catalog.css": "catalog.css"}[url.path]
+                mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css"
                 body = (STATIC / name).read_bytes()
                 self.response_headers(200, mime + "; charset=utf-8", len(body))
                 self.wfile.write(body)
@@ -272,7 +317,7 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     auth.logout(self.headers.get("Cookie"))
                 self.redirect("/login", {"Set-Cookie": auth.cookie()} if auth else None)
                 return
-            if self.path not in ("/api/start", "/api/action", "/api/field/start", "/api/field/action", "/api/field/next"):
+            if urlsplit(self.path).path not in ("/api/start", "/api/action", "/api/field/start", "/api/field/action", "/api/field/next"):
                 self.reply({"error": "not_found"}, 404)
                 return
             try:
@@ -281,9 +326,11 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 request = json.loads(self.read_body())
                 if not isinstance(request, dict):
                     raise ProtocolError("请求必须是对象。")
-                if self.path.startswith("/api/field/"):
-                    result = {"/api/field/start": field.start, "/api/field/action": field.action,
-                              "/api/field/next": field.advance}[self.path](request)
+                route = urlsplit(self.path).path
+                if route.startswith("/api/field/"):
+                    current_field = self.field_service()
+                    result = {"/api/field/start": current_field.start, "/api/field/action": current_field.action,
+                              "/api/field/next": current_field.advance}[route](request)
                 elif self.path == "/api/start":
                     result = service.start(request)
                 else:
@@ -300,5 +347,6 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
     server.service = service
     server.field = field
     server.watch = watch
+    server.pilots = pilots
     server.auth = auth
     return server

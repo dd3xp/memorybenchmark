@@ -2,19 +2,19 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>登录 · Cartographer’s Notebook（测绘手记）</title>
+<title>登录 · 测绘手记</title>
 <style>
 :root{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:#234455;background:#edf3f7}*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;background-image:linear-gradient(#cbdbe540 1px,transparent 1px),linear-gradient(90deg,#cbdbe540 1px,transparent 1px);background-size:40px 40px}main{width:min(100%,400px);padding:36px;background:#f9fcfe;border:1px solid #cbdbe5;border-radius:9px}.mark{font:48px Georgia,serif;color:#117f91}h1{font:26px SimSun,"Noto Serif SC",serif;letter-spacing:1px;margin:15px 0 12px}.intro{font-size:13px;color:#69828f;line-height:1.8;margin:0 0 28px}label{display:block;font-size:13px;margin-bottom:10px}input,button{width:100%;font:inherit;border-radius:5px}input{padding:13px;border:1px solid #99b6c6;background:#fff;color:#173f58;font-size:23px;letter-spacing:8px}button{margin-top:18px;padding:13px;border:1px solid #117f91;background:#117f91;color:#fff;cursor:pointer}button:hover{background:#126c7b}input:focus-visible,button:focus-visible{outline:3px solid #ae7a20;outline-offset:3px}.error{color:#a3513c;font-size:13px;line-height:1.8;margin:12px 0 0}.note{font-size:11px;color:#69828f;line-height:1.9;margin:22px 0 0}
 </style>
 </head>
 <body><main>
 <span class="mark" aria-hidden="true">⌖</span><h1>测绘手记</h1>
-<p class="intro">输入访问 PIN，查看实验进程与探索地图。</p>
+
 <form method="post" action="/login">
 <input type="hidden" name="next" value="{{NEXT}}">
 <label for="pin">访问 PIN</label><input id="pin" name="pin" type="password" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="current-password" required autofocus aria-describedby="login-error">
 <p id="login-error" class="error" role="alert">{{MESSAGE}}</p>
-<button type="submit">进入观测台</button>
+<button type="submit">进入</button>
 </form>
-<p class="note">登录有效期为 180 天，服务重启后仍保持登录。可随时退出登录。</p>
+
 </main></body></html>

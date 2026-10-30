@@ -8,23 +8,25 @@ let camera={x:0,y:0,w:1200,h:900}, initialized=false;
 const viewport=$('viewport'), map=$('field-map'), pointers=new Map();
 let gesture=null;
 let restoringFocus=false;
-const storageKey='survey-lanting-easy20-types-v4';
+const mapId=new URLSearchParams(location.search).get('map')||'easy20';
+const storageKey=mapId==='easy20'?'survey-lanting-easy20-types-v4':'survey-play-'+mapId;
 function save(){try{sessionStorage.setItem(storageKey,JSON.stringify({instance,camera}));}catch(_){}}
 function uuid(){return crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(16).slice(2)}`;}
 async function api(path, body){
+  path+=(path.includes('?')?'&':'?')+'map='+encodeURIComponent(mapId);
   const options=body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)};
   let response;
   for(let i=0;i<2;i++){
     try{response=await fetch(path,options);break;}catch(error){if(i||!body?.request_id)throw Error('连接中断，请重试读取当前观察。');}
   }
-  if(response.status===401){location.href='/login?next=/easy20';throw Error('请先登录。');}
+  if(response.status===401){location.href='/login?next=/play';throw Error('请先登录。');}
   const data=await response.json();if(!response.ok||data.error)throw Error(data.message||'操作未完成，请读取当前观察。');return data;
 }
 function setBusy(value){busy=value;viewport.setAttribute('aria-busy',String(value));if(state){$('abandon').disabled=value||state.observation.done;renderPlace();}}
 function feedbackText(data){
   const f=data.feedback,o=data.observation,p=o.environment;
   if(f.kind==='started')return `已领取 ${o.task.id}。点击相邻地点出发，到达目标会自动采集。`;
-  if(f.kind==='submitted')return data.stream_finished?'二十项委托已结束，记录已入册。':'交件成功。可以在营地领取下一项委托。';
+  if(f.kind==='submitted')return data.stream_finished?'全部委托已完成。':'交件成功，可以领取下一项委托。';
   if(f.termination==='budget_exhausted')return '操作次数已用尽。本次反馈仍已获得，可以继续下一项委托。';
   if(f.kind==='abandoned')return '本项委托已放弃。已经观察到的信息仍可成为以后的经验。';
   if(f.kind==='station_information')return `${f.station}${f.station_type?`（${f.station_type} 型）`:''} 支持${p.kinds[f.capability]}。${f.next_stage?`第 ${f.stage_completed} 段完成，现在前往 ${o.task.target} 完成第 ${f.next_stage} 段。`:f.result==='processed'?'本次资料已处理，回营地交件。':f.result==='unsupported'?'本次不匹配，原始资料保留。':'查询已计入一次操作。'}`;
@@ -47,13 +49,12 @@ async function action(type,target){
 function button(text,fn,disabled=false){const b=html('button',text);b.disabled=disabled||busy;b.addEventListener('click',fn);return b;}
 function render(){
   const o=state.observation,p=o.environment,t=o.task,places=p.locations;
-  document.querySelector('.identity h1').textContent=p.name;
-  document.querySelector('.identity p').textContent=state.presentation.subtitle;
+  document.querySelector('.identity h1').textContent=p.name.split(' · ')[0];
   const bounds=worldBounds(),terrain=map.querySelector('image');
   for(const [key,value] of Object.entries({x:bounds[0],y:bounds[1],width:bounds[2],height:bounds[3],preserveAspectRatio:'none'}))terrain.setAttribute(key,value);
   $('task-number').textContent=`委托 ${state.task_index} / ${state.task_count}${t.stages?` · ${o.stages_completed===o.stage_count?'两段已完成':`行程 ${o.stage_index+1}/${o.stage_count}`}`:''}`;
   $('mission-title').textContent=t.name;
-  $('mission-instruction').textContent=`${t.stages?`当前第 ${o.stage_index+1}/${o.stage_count} 段：`:''}到${places[t.target].name}（${t.target}）采集${p.kinds[t.required_kind]}，在匹配站处理${t.stages&&o.stage_index+1<o.stage_count?'后继续下一段。':'后回营地 C 交件。'}`;
+  $('mission-instruction').textContent=`${t.stages?`第 ${Math.min(o.stage_index+1,o.stage_count)}/${o.stage_count} 段　`:''}${places[t.target].name}（${t.target}）采集${p.kinds[t.required_kind]} → 匹配站处理${t.stages&&o.stage_index+1<o.stage_count?'':' → C 交件'}`;
   $('mission-short').textContent=t.stages?t.stages.map((s,i)=>`${i<o.stages_completed?'✓':`${i+1}.`} ${s.target}·${p.kinds[s.required_kind]}`).join(' → ')+' → C 交件':`${t.target} 采集${p.kinds[t.required_kind]} → 对应站处理 → C 交件`;
   $('stage-raw').textContent=t.stages?`第 ${o.stage_index+1} 段采集`:'采集资料';$('stage-process').textContent=t.stages?`第 ${o.stage_index+1} 段处理`:'到站处理';
   $('steps').textContent=`${o.steps} / ${t.max_steps}`;$('distance').textContent=o.distance;
@@ -61,7 +62,7 @@ function render(){
   $('completion').textContent=`已交件 ${state.completed.filter(t=>t.success).length} / ${state.task_count}`;
   $('rules').replaceChildren(...p.rules.map(r=>html('p',r)));
   $('finished-list').replaceChildren(...state.completed.map(t=>html('div',`${t.success?'✓':'○'} ${t.id} ${t.name}　路程 ${t.distance}`)));
-  if(!state.completed.length)$('finished-list').textContent='第一封委托正在路上。';
+  if(!state.completed.length)$('finished-list').textContent='暂无记录';
   $('action-log').replaceChildren(...state.current_actions.map(e=>html('li',eventText(e,p))));
   if(!state.current_actions.length)$('action-log').append(html('li','从手记营地出发。'));
   $('abandon').disabled=busy||o.done;
@@ -82,19 +83,19 @@ function renderPlace(){
   const names={camp:'营地',station:'处理站',survey:'测绘点',junction:'路口'};
   $('place-type').textContent=n.station_type?`${n.station_type} 型处理站${here?' · 当前位置':''}`:here?'当前位置':names[n.kind];$('place-id').textContent=id;$('place-name').textContent=n.name;
   const local=$('local-actions'),near=$('neighbors');local.replaceChildren();near.replaceChildren();
-  if(!here){$('place-description').textContent='查看地点。请沿道路逐段前往；点击相邻地点可直接移动。';local.append(button('返回当前位置',()=>{selected=o.location;renderPlace();draw();}));return;}
+  if(!here){$('place-description').textContent='未抵达';local.append(button('返回当前位置',()=>{selected=o.location;renderPlace();draw();}));return;}
   if(o.done){
     $('place-description').textContent=o.success?'本项记录已交件。':'本项已结束，已获得的反馈仍然有效。';
     if(!state.stream_finished)local.append(button('领取下一项委托',()=>run(()=>api('/api/field/next',{instance_id:instance,request_id:uuid(),task_run_id:state.task_run_id,expected_revision:o.revision}))));
-    else local.append(button('二十项已结束 · 重新探索',newGame));return;
+    else local.append(button('重新探索',newGame));return;
   }
   const capability=currentCapability(id);
-  $('place-description').textContent=capability?`本次已确认：支持${p.kinds[capability]}。`:n.kind==='station'?'能力尚未在本次确认。查询和处理各占一次操作。':n.kind==='survey'?(o.raw?'本次资料已采集，前往处理站。':'到达委托目标会自动采集资料。'):n.kind==='camp'?(o.processed?'资料已处理，可以交件。':'处理完资料后回到这里交件。'):'选择一条相邻道路继续前行。';
+  $('place-description').textContent=capability?`支持${p.kinds[capability]}`:n.kind==='station'?'能力未确认':n.kind==='survey'?(o.raw?'已采集资料':'到达目标自动采集'):n.kind==='camp'?(o.processed?'可以交件':'营地'):'';
   if(n.kind==='station'){
-    local.append(button('查询能力',()=>action('inspect')));
-    local.append(button(o.processed?'再次处理':'处理资料',()=>action('process'),!o.raw));
+    local.append(button('查询',()=>action('inspect')));
+    local.append(button('处理',()=>action('process'),!o.raw));
   }
-  if(n.kind==='camp')local.append(button('提交本项记录',()=>action('submit'),!o.raw||!o.processed));
+  if(n.kind==='camp')local.append(button('交件',()=>action('submit'),!o.raw||!o.processed));
   const routes=p.edges.filter(([a,b])=>a===id||b===id);
   for(const [a,b,w] of routes){const to=a===id?b:a;near.append(button(`去 ${to}　路程 ${w}`,()=>action('move',to)));}
 }
@@ -161,8 +162,8 @@ function pointerEnd(e,cancel=false){
 }
 viewport.addEventListener('pointerup',e=>pointerEnd(e));viewport.addEventListener('pointercancel',e=>pointerEnd(e,true));viewport.addEventListener('lostpointercapture',e=>pointerEnd(e,true));
 viewport.addEventListener('wheel',e=>{if(panel)return;e.preventDefault();zoom(Math.exp(-e.deltaY*.0015),e.clientX,e.clientY);},{passive:false});
-function openPanel(id){previousFocus=document.activeElement;if(panel)$(panel).hidden=true;panel=id;$(id).hidden=false;viewport.inert=true;$('journal-open').setAttribute('aria-expanded',String(id==='journal'));$(id).querySelector('button')?.focus();}
-function closePanel(){if(panel)$(panel).hidden=true;if(panel==='design')for(const id of ['design-map','design-groups','design-tasks','design-experience','design-version'])$(id).replaceChildren();panel=null;viewport.inert=false;$('journal-open').setAttribute('aria-expanded','false');if(previousFocus?.getClientRects().length)previousFocus.focus();else $('journal-open').focus();}
+function openPanel(id){if(!panel)previousFocus=document.activeElement;if(panel)$(panel).hidden=true;panel=id;$(id).hidden=false;viewport.inert=true;document.querySelector('.field-sidebar').inert=true;document.querySelector('.appbar').inert=true;$('journal-open').setAttribute('aria-expanded',String(id==='journal'));$(id).querySelector('button')?.focus();}
+function closePanel(){if(panel)$(panel).hidden=true;if(panel==='design')for(const id of ['design-map','design-groups','design-tasks','design-experience','design-version'])$(id).replaceChildren();panel=null;viewport.inert=false;document.querySelector('.field-sidebar').inert=false;document.querySelector('.appbar').inert=false;$('journal-open').setAttribute('aria-expanded','false');if(previousFocus?.getClientRects().length)previousFocus.focus();else $('journal-open').focus();}
 async function showDesign(){
   if(busy)return;try{const data=await api(`/api/field/design?instance_id=${encodeURIComponent(instance)}`);renderDesign(data);openPanel('design');}catch(e){$('error-text').textContent=e.message;$('error').hidden=false;}
 }
@@ -193,7 +194,7 @@ for(const [id,factor] of [['zoom-in',1.25],['zoom-out',.8]])$(id).onclick=()=>{c
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closePanel();return;}
   if(panel&&e.key==='Tab'){const items=[...$(panel).querySelectorAll('button,a,summary')].filter(el=>!el.disabled&&!el.hidden),first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}return;}
-  if(panel||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key.toLowerCase()==='f')$('locate').click();if(e.key==='Home'){e.preventDefault();fit();}if(e.key==='+'||e.key==='=')$('zoom-in').click();if(e.key==='-')$('zoom-out').click();
+  if(panel||e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,select,textarea'))return;if(e.key.toLowerCase()==='f')$('locate').click();if(e.key==='Home'){e.preventDefault();fit();}if(e.key==='+'||e.key==='=')$('zoom-in').click();if(e.key==='-')$('zoom-out').click();
 });
 let resizeFrame;new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{if(initialized){const r=viewport.getBoundingClientRect(),cx=camera.x+camera.w/2,cy=camera.y+camera.h/2;camera.h=camera.w*r.height/r.width;camera.y=cy-camera.h/2;camera.x=cx-camera.w/2;draw();}});}).observe(viewport);
-(async()=>{try{const old=JSON.parse(sessionStorage.getItem(storageKey)||'null');if(old?.instance){instance=old.instance;const result=await api(`/api/field/observation?instance_id=${encodeURIComponent(instance)}`);apply(result);if(old.camera&&Object.values(old.camera).every(Number.isFinite))setCamera(old.camera);}else await newGame();}catch(e){$('error-text').textContent=e.message;$('error').hidden=false;}})();
+(async()=>{try{const old=JSON.parse(sessionStorage.getItem(storageKey)||'null');if(old?.instance){instance=old.instance;const result=await api(`/api/field/observation?instance_id=${encodeURIComponent(instance)}`);apply(result);if(old.camera&&Object.values(old.camera).every(Number.isFinite))setCamera(old.camera);}else await newGame();if(new URLSearchParams(location.search).get('inspect')==='1')await showDesign();}catch(e){$('error-text').textContent=e.message;$('error').hidden=false;}})();

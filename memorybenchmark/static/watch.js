@@ -1,98 +1,15 @@
-const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
-let currentRun='', snapshot=null, selected='', index=0, follow=true, replayTimer=null, polling=false, pinnedRun=false;
-const conditionName={prefix:'历史任务',retain:'保留记忆',clear:'恢复基线'};
-const phaseName={thinking:'模型调用中',acting:'执行动作',playing:'任务开始',finalizing:'自主整理',finished:'会话结束'};
-const runName={running:'实验进行中',complete:'实验已完成',interrupted:'实验已中断'};
-function node(type,attrs={},text){const n=document.createElementNS(NS,type);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;return n;}
-function textElement(type,text,cls){const n=document.createElement(type);n.textContent=text;if(cls)n.className=cls;return n;}
-function clock(at){return at?new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(at)):'';}
-function session(){return snapshot?.sessions.find(s=>s.id===selected);}
-function stopReplay(){if(replayTimer)clearInterval(replayTimer);replayTimer=null;$('replay-toggle').textContent='回放';}
-async function get(path){const r=await fetch(path,{cache:'no-store'});if(r.status===401)location.assign('/login');if(!r.ok)throw new Error('无法读取实验记录');return r.json();}
-function chooseRun(id){stopReplay();currentRun=id;selected='';follow=true;snapshot=null;index=0;}
-async function poll(){
- if(polling)return;polling=true;
- try{
-  const listing=await get('/api/watch/runs');const runs=listing.runs;
-  $('run-select').replaceChildren();
-  runs.forEach(r=>{const option=document.createElement('option');option.value=r.id;option.textContent=`${r.id.slice(0,8)} · ${runName[r.status]||r.status}`;$('run-select').append(option);});
-  if(!runs.length){$('run-select').append(new Option('暂无实验记录',''));$('connection').textContent='已连接，等待实验';$('connection').classList.remove('offline');return;}
-  if(!currentRun||!runs.some(r=>r.id===currentRun))chooseRun(runs[0].id);
-  // Select a newly launched run automatically only until the user chooses one.
-  const active=runs.find(r=>r.status==='running');
-  if(!pinnedRun&&active&&active.id!==currentRun)chooseRun(active.id);
-  $('run-select').value=currentRun;
-  const requestedRun=currentRun, incoming=await get('/api/watch/run?id='+encodeURIComponent(requestedRun));
-  if(requestedRun!==currentRun)return;
-  snapshot=incoming;
-  if(!selected||!snapshot.sessions.some(s=>s.id===selected)||(follow&&snapshot.active_session_id))selected=snapshot.active_session_id||snapshot.sessions.at(-1)?.id||'';
-  const s=session();if(s&&follow)index=Math.max(0,s.frames.length-1);
-  $('connection').textContent='已连接 · 自动更新';$('connection').classList.remove('offline');render();
- }catch(e){$('connection').textContent='连接中断，正在重连';$('connection').classList.add('offline');}
- finally{polling=false;}
-}
-function render(){
- if(!snapshot)return;
- $('run-meta').textContent=`GenericAgent / ${snapshot.model}${snapshot.kind.includes('scripted')?' · 脚本化联调':''}`;
- $('run-state').textContent=runName[snapshot.status]||snapshot.status;
- $('completion').textContent=`${snapshot.completed_sessions} / ${snapshot.total_sessions}`;
- $('completion-bar').max=Math.max(1,snapshot.total_sessions);$('completion-bar').value=snapshot.completed_sessions;
- $('run-id').textContent='实验 '+snapshot.id;
- $('sessions').replaceChildren();
- snapshot.sessions.forEach(s=>{const b=document.createElement('button');b.className=`session-row ${s.status}${s.id===selected?' selected':''}`;b.setAttribute('aria-pressed',String(s.id===selected));
-  b.append(textElement('span','','dot'));const label=textElement('span',`${s.task_id} ${s.task_name||''}`,'label');label.append(textElement('small',conditionName[s.condition]||s.condition));b.append(label,textElement('span',s.status==='error'?'中断':(s.status==='complete'?(s.success?'成功':'未完成'):'运行中'),'result'));
-  b.onclick=()=>{stopReplay();selected=s.id;follow=false;index=Math.max(0,s.frames.length-1);render();};$('sessions').append(b);
- });
- const s=session();const ready=s&&s.frames.length;
- $('empty').hidden=Boolean(ready);$('viewer').hidden=!ready;$('details').hidden=!ready;if(!ready)return;
- index=Math.max(0,Math.min(index,s.frames.length-1));const f=s.frames[index],o=f.observation;
- $('watch-design-link').href='/design?scenario='+encodeURIComponent(o.environment?.id||snapshot.scenario||'valley');
- $('task-title').textContent=o.task_name;$('session-caption').textContent=`${s.task_id} / ${conditionName[s.condition]||s.condition}`;
- $('session-state').textContent=s.status==='complete'?(s.success?'任务成功':'任务未完成'):(s.status==='error'?'运行中断':(phaseName[s.phase]||'运行中'));
- $('session-state').classList.toggle('error',s.status==='error');
- $('map-meta').textContent=`已发现 ${o.map.nodes.length} 处 · 已记录 ${o.map.surveyed.length} 处${o.recovery?` · 复活 ${o.recovery.deaths} 次（+${o.recovery.penalty}）`:''}`;
- $('frame-mode').textContent=follow?'跟随运行':(index===s.frames.length-1?'会话末尾':'历史回放');
- $('frame-slider').max=Math.max(0,s.frames.length-1);$('frame-slider').value=index;$('frame-number').textContent=`动作 ${index} / ${s.frames.length-1}`;
- $('metric-distance').textContent=o.distance;$('metric-effort').textContent=o.effort;$('metric-stamina').textContent=`${o.stamina} / ${o.initial_stamina}`;$('metric-calls').textContent=s.calls;
- $('instruction').textContent=o.instruction;$('place').textContent=`${o.location.name} ${o.location.id}`;
- $('weather').textContent=`${{clear:'晴朗',rain:'下雨',snow:'下雪'}[o.conditions.weather]||o.conditions.weather} / ${{day:'白天',night:'夜间'}[o.conditions.period]||o.conditions.period}`;
- $('game-time').textContent=o.world_time;$('inventory').textContent=o.inventory.map(t=>t.name).join('、')||'未携带工具';
- $('memory-status').textContent=s.memory.final?'结算快照':'运行中';$('memory-summary').textContent=s.memory.changed.length?`本会话有 ${s.memory.changed.length} 个记忆文件发生变化。`:'本会话尚未观察到记忆内容变化。';
- $('memory-files').replaceChildren();s.memory.changed.forEach(p=>$('memory-files').append(textElement('li',p)));
- $('phase').textContent=phaseName[s.phase]||'';$('activity-log').replaceChildren();
- [...s.activity].reverse().forEach(a=>{const li=textElement('li',a.label,a.kind==='error'?'error':'');if(a.at)li.append(textElement('time',clock(a.at)));$('activity-log').append(li);});
- if(!s.activity.length)$('activity-log').append(textElement('li',snapshot.historical?'历史记录，可通过动作滑块回放。':'等待下一项执行动态。'));
- $('last-updated').textContent=snapshot.updated_at?'更新于 '+clock(snapshot.updated_at):'历史记录';
- $('action-log').replaceChildren();s.frames.slice(0,index+1).map((v,i)=>({v,i})).reverse().forEach(({v,i})=>{const li=document.createElement('li');li.append(textElement('span',String(i).padStart(2,'0'),'index'));const body=document.createElement('div');body.append(textElement('p',v.feedback));body.append(textElement('time',`游戏时间 ${v.observation.world_time}${v.at?' / '+clock(v.at):''}`));li.append(body);$('action-log').append(li);});
- draw(s.frames.slice(0,index+1),o);
-}
-function draw(frames,o){
- $('roads').replaceChildren();$('trace').replaceChildren();$('places').replaceChildren();
- Cartography.prepare($('watch-map'),o);
- const map=Cartography.merge(Cartography.current(o.map),...($('watch-atlas').checked?[session()?.prior_atlas,Cartography.atlas(frames)]:[]));
- const places=Object.fromEntries(map.nodes.map(n=>[n.id,n]));
- Cartography.recovery($('watch-map'),$('watch-recovery'),o.recovery?.history,places);
- map.edges.forEach(([a,b])=>{if(places[a]&&places[b])$('roads').append(node('line',{x1:places[a].x,y1:places[a].y,x2:places[b].x,y2:places[b].y,class:'road-line'}));});
- const seen={},moves=frames.filter(f=>f.moved);
- moves.forEach((f,i)=>{const a=places[f.source],b=places[f.target];if(!a||!b)return;const key=[f.source,f.target].sort().join('-');const count=seen[key]||0;seen[key]=count+1;
-  const dx=b.x-a.x,dy=b.y-a.y,length=Math.max(1,Math.hypot(dx,dy)),offset=count?16*Math.ceil(count/2)*(count%2?1:-1):0;
-  const mx=(a.x+b.x)/2-dy/length*offset,my=(a.y+b.y)/2+dx/length*offset;
-  $('trace').append(node('path',{d:`M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`,class:'trace-line',opacity:0.35+0.65*(i+1)/moves.length}));
-  $('trace').append(node('text',{x:mx+6,y:my-9,class:'step-label','text-anchor':'middle'},i+1));
- });
- map.nodes.forEach(n=>{
-  const current=n.id===o.location.id,visited=o.map.surveyed.includes(n.id);
-  const circle=node('circle',{cx:n.x,cy:n.y,r:current?10:6,class:`node${visited?' visited':''}${map.submitted.has(n.id)?' submitted':''}${current?' current':''}`});
-  circle.append(node('title',{},`${n.name} ${n.id}`));$('places').append(circle);
-  if(n.kind==='camp')$('places').append(node('path',{d:`M${n.x-12} ${n.y+10} L${n.x} ${n.y-14} L${n.x+12} ${n.y+10}Z`,class:'camp-mark'}));
-  $('places').append(node('text',{x:n.x,y:n.y+31,'text-anchor':'middle',class:`place-label ${Cartography.labels($('watch-map'),n,o)?'':'detail-label'}`},n.name));
-  $('places').append(node('text',{x:n.x,y:n.y-18,'text-anchor':'middle',class:'place-id'},n.id));
- });
-}
-$('run-select').onchange=e=>{pinnedRun=true;chooseRun(e.target.value);poll();};$('refresh').onclick=poll;
-$('frame-slider').oninput=e=>{stopReplay();follow=false;index=Number(e.target.value);render();};
-$('follow').onclick=()=>{stopReplay();follow=true;if(snapshot?.active_session_id)selected=snapshot.active_session_id;const s=session();if(s)index=s.frames.length-1;render();};
-$('replay-toggle').onclick=()=>{if(replayTimer){stopReplay();return;}const s=session();if(!s)return;follow=false;if(index>=s.frames.length-1)index=0;$('replay-toggle').textContent='暂停';render();replayTimer=setInterval(()=>{const current=session();if(!current||index>=current.frames.length-1){stopReplay();return;}index++;render();},1000);};
-$('watch-atlas').onchange=render;
-Cartography.controls($('watch-map'),'watch');
-poll();setInterval(poll,1500);
+'use strict';
+(()=>{const $=id=>document.getElementById(id),view=new AtlasView($('watch-map'));let runs=[],selected=new URLSearchParams(location.search).get('run'),session=null,data=null,follow=true,frame=null,onlyLive=false,loading=false,loadVersion=0;
+const states={running:'运行中',complete:'已完成',auditing:'整理结果',interrupted:'已中断',audit_error:'归档中断'};
+const condition=value=>({prefix:'首次',retain:'保留记忆',clear:'清除记忆'}[value]||value);
+const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
+async function api(path){const r=await fetch(path);if(r.status===401){location.assign('/login?next=/experiments');throw Error('请重新登录。');}const body=await r.json();if(!r.ok)throw Error(body.message||'读取失败，请刷新重试。');return body;}
+function date(value){return new Date(value).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false});}
+function renderList(){const signature=JSON.stringify([selected,onlyLive,runs.map(r=>[r.id,r.status,r.completed_sessions])]);if($('run-list').dataset.signature===signature)return;$('run-list').dataset.signature=signature;const list=$('run-list');list.replaceChildren();const visible=runs.filter(r=>!onlyLive||r.status==='running'||r.status==='auditing');$('list-empty').hidden=!!visible.length;for(const run of visible){const b=el('button',undefined,'run-item');b.setAttribute('aria-pressed',String(run.id===selected));const top=el('span',undefined,'run-item-top'),status=el('span',states[run.status]||'等待更新','status'+(run.status==='running'?' live':''));top.append(el('strong',run.agent),status);const bottom=el('span',undefined,'run-item-bottom'),bar=el('span',undefined,'mini-progress'),fill=el('i');fill.style.width=`${100*run.completed_sessions/Math.max(1,run.total_sessions)}%`;bar.append(fill);bottom.append(el('span',`${run.completed_sessions} / ${run.total_sessions}`),bar);b.append(top,el('span',date(run.started_at),'run-date'),bottom);b.onclick=()=>{selected=run.id;session=null;follow=true;frame=null;history.replaceState(null,'','?run='+selected);renderList();loadRun();};list.append(b);}}
+function render(){if(!data)return;$('viewer').hidden=false;$('empty').hidden=true;$('run-name').textContent=data.agent;$('run-state').textContent=states[data.status]||'等待更新';$('run-state').className='status'+(data.status==='running'?' live':'');$('run-meta').textContent=`${date(data.started_at)}　${data.name.split(' · ')[0]}`;$('completion').textContent=`${data.completed_sessions} / ${data.total_sessions}`;$('progress-label').textContent='会话完成';$('completion-bar').max=Math.max(1,data.total_sessions);$('completion-bar').value=data.completed_sessions;$('branch-progress').textContent=`主线 ${data.main_completed}/${data.main_total}　对照 ${data.clear_completed}/${data.clear_total}`;
+const select=$('session-select'),signature=data.sessions.map(s=>s.id).join('|');if(select.dataset.signature!==signature){select.replaceChildren();for(const row of data.sessions){const option=el('option',`${row.task_id} · ${condition(row.condition)}`);option.value=row.id;select.append(option);}select.dataset.signature=signature;}select.value=data.session?.id||'';select.disabled=!data.sessions.length;$('session-state').textContent=data.session?.status==='complete'?(data.session.success?'已完成':'未完成'):data.session?.phase||'准备中';$('follow').setAttribute('aria-pressed',String(follow));$('follow').textContent=follow?'正在跟随':'跟随当前';const count=data.frames.length;frame=follow||frame===null?count-1:Math.min(frame,count-1);$('frame-slider').max=Math.max(0,count-1);$('frame-slider').value=Math.max(0,frame);$('frame-slider').disabled=count<2;$('frame-number').textContent=`${Math.max(0,frame)} / ${Math.max(0,count-1)}`;paintFrame();$('history-count').textContent=`${data.completed_sessions}/${data.total_sessions}`;const rows=$('session-rows');rows.replaceChildren();for(const row of data.sessions){const tr=el('tr');tr.tabIndex=0;for(const value of[row.task_id,condition(row.condition),row.status==='complete'?(row.success?'成功':'未完成'):row.status==='error'?'中断':'进行中',row.operations??'—',row.distance??'—',row.calls??'—'])tr.append(el('td',value));const choose=()=>{session=row.id;follow=false;frame=null;loadRun();};tr.onclick=choose;tr.onkeydown=e=>{if(e.key==='Enter')choose();};rows.append(tr);}}
+function paintFrame(){const f=data.frames[Math.max(0,frame)]||null,places=data.map.locations;view.set(data.map,{key:data.id,terrain:data.terrain,location:f?.location,target:f?.task?.target,frames:data.frames.slice(0,Math.max(0,frame)+1)});$('place').textContent=f?`${places[f.location]?.name||f.location} ${f.location}`:'准备中';$('stage').textContent=f?.stage_count?`${Math.min((f.stage_index||0)+1,f.stage_count)}/${f.stage_count} 段`:'';$('task-title').textContent=f?.task?.name||'准备任务';const t=f?.task;$('instruction').textContent=t?`目标 ${places[t.target]?.name||t.target}（${t.target}）　${data.kinds?.[t.required_kind]||''}`:'';$('metric-steps').textContent=f?`${f.steps} / ${t?.max_steps||'—'}`:'—';$('metric-distance').textContent=f?.distance??'—';$('metric-calls').textContent=data.session?.calls??'—';$('last-updated').textContent=`更新 ${new Date(data.updated_at).toLocaleTimeString('zh-CN',{hour12:false})}`;}
+async function loadRun(){if(!selected)return;const version=++loadVersion;try{const next=await api('/api/experiments/run?id='+encodeURIComponent(selected)+(!follow&&session?'&session='+encodeURIComponent(session):''));if(version!==loadVersion)return;data=next;if(!follow)session=data.session?.id||null;render();$('page-error').hidden=true;}catch(e){if(version!==loadVersion)return;$('page-error').textContent=e.message;$('page-error').hidden=false;}}
+async function poll(){if(loading||document.hidden)return;loading=true;try{runs=(await api('/api/experiments/runs')).runs;if(!selected||!runs.some(r=>r.id===selected))selected=runs[0]?.id;renderList();if(selected)await loadRun();else{$('viewer').hidden=true;$('empty').hidden=false;}$('connection').textContent='已连接';$('connection').className='status live';}catch(e){$('connection').textContent='连接中断';$('connection').className='status error';$('page-error').textContent=e.message;$('page-error').hidden=false;}finally{loading=false;}}
+$('session-select').onchange=e=>{session=e.target.value;follow=false;frame=null;loadRun();};$('follow').onclick=()=>{follow=true;frame=null;session=null;loadRun();};$('frame-slider').oninput=e=>{follow=false;session=data.session?.id;frame=Number(e.target.value);$('follow').setAttribute('aria-pressed','false');$('follow').textContent='跟随当前';$('frame-number').textContent=`${frame} / ${Math.max(0,data.frames.length-1)}`;paintFrame();};$('refresh').onclick=poll;for(const[id,value]of[['filter-all',false],['filter-live',true]])$(id).onclick=()=>{onlyLive=value;$('filter-all').setAttribute('aria-pressed',String(!value));$('filter-live').setAttribute('aria-pressed',String(value));renderList();};$('zoom-in').onclick=()=>view.zoom(1.25);$('zoom-out').onclick=()=>view.zoom(.8);$('fit').onclick=()=>view.fit();$('locate').onclick=()=>view.locate();document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll();});poll();setInterval(poll,4000);
+})();
