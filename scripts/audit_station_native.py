@@ -59,6 +59,12 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         initial=summary["initial_session"]
         assert initial["initial_history_size"]==initial["initial_backend_history_size"]==0
         assert initial["working"]=={} and all(v for k,v in initial["isolation"].items() if k!="pid")
+        if pilot.get("action_policy") == "single":
+            from scripts.check_ga_single_action import check_boundaries
+            boundary = check_boundaries(folder)
+            assert summary["action_policy"] == "single"
+            assert initial["native_tool_registry_unchanged"]
+            assert boundary["rejected_extra_actions"] == summary["action_policy_rejections"]
         session_ids.append(summary["session_id"])
         checked_events+=len(events);checked_current_events+=len(current_events)
         rows.append({"name":recorded["name"],"success":current.state.success,"events":len(current_events),"calls":summary["llm_calls"]})

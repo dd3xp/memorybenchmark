@@ -12,6 +12,7 @@ from uuid import uuid4
 from .adapters import GameAdapter
 from .analysis import commute_graph, diagnose
 from .errors import InfrastructureError
+from .decision_gate import DecisionGate
 from .ga_runtime import changed_files, copy_memory, encode_state, memory_manifest, state_digest
 from .game_session import dispatch_current
 from .mcp_game import GAME_TRANSPORT, MCPGameClient, require_mcp
@@ -44,6 +45,7 @@ class WorkerSessions:
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
                   "infrastructure_ok":False, "continuations":[], "wall_seconds":self.wall_seconds}
         final_phase = False
+        gate = DecisionGate(config.get("action_policy", "batch"))
         error_log = (output / "worker.stderr").open("w", encoding="utf-8")
         started = time.monotonic()
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=error_log,
@@ -84,6 +86,9 @@ class WorkerSessions:
                     if kind == "log":
                         log.write(message["text"]); log.flush()
                         continue
+                    if (kind == "request" and message.get("method") == "game"
+                            and not gate.claim(message.get("params") or {})):
+                        message["action_policy_rejected"] = True
                     audit.write(json.dumps(message,ensure_ascii=False) + "\n"); audit.flush()
                     if kind == "session":
                         report["initial_session"] = message
@@ -105,8 +110,12 @@ class WorkerSessions:
                     elif kind == "request":
                         method, params = message.get("method"), message.get("params")
                         if method == "game" and adapter is not None:
-                            result = game_client(params) if game_client is not None else self._game(adapter, params)
-                            if self.observer: self.observer.observe(watch_id,result,params.get("action"))
+                            if message.get("action_policy_rejected"):
+                                result = gate.rejected()
+                            else:
+                                result = game_client(params) if game_client is not None else self._game(adapter, params)
+                                gate.observe(result)
+                                if self.observer: self.observer.observe(watch_id,result,params.get("action"))
                         elif method == "task_end" and adapter is not None and not final_phase:
                             native = params.get("native_result") or {}
                             if not adapter.game.done:
@@ -149,6 +158,7 @@ class WorkerSessions:
                                     try: self.observer.memory(watch_id,before_memory,memory_manifest(memory))
                                     except (ValueError,OSError): pass
                             save_json(calls / f"{report['llm_calls']:03d}-response.json", result)
+                            gate.begin_response(report["llm_calls"])
                         else:
                             raise InfrastructureError("unregistered worker RPC")
                         send({"id":message["id"],"result":result})
@@ -178,6 +188,8 @@ class WorkerSessions:
             error_log.close()
             report["worker_returncode"] = process.poll()
             report["worker_elapsed_seconds"] = round(time.monotonic() - started, 3)
+            if gate.policy != "batch":
+                report.update(action_policy=gate.policy, action_policy_rejections=gate.rejections)
             # A worker can report its failure while the parent is servicing its
             # last model request. Sending that response then hits a closed pipe;
             # preserve the already queued root error instead of losing it.

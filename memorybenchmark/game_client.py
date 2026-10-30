@@ -16,6 +16,13 @@ DEFAULT_ENDPOINT = "unix:/tmp/memorybenchmark-game.sock"
 MAX_MESSAGE = 4 * 1024**2
 
 
+class DecisionBoundaryReached(BaseException):
+    """End the current script while preserving feedback from its accepted step."""
+    def __init__(self, response):
+        self.response = response
+        super().__init__(json.dumps(response, ensure_ascii=False))
+
+
 def request(method, params=None, *, endpoint=None):
     endpoint = endpoint or os.environ.get(ENDPOINT_ENV, DEFAULT_ENDPOINT)
     if endpoint.startswith("unix:"):
@@ -45,7 +52,10 @@ def action(action, target=None, *, endpoint=None):
     args = {"action": action}
     if target is not None:
         args["target"] = target
-    return request("call", args, endpoint=endpoint)
+    result = request("call", args, endpoint=endpoint)
+    if result.get("error") == "decision_boundary":
+        raise DecisionBoundaryReached(result)
+    return result
 
 
 def describe(*, endpoint=None):
@@ -60,7 +70,12 @@ def main():
     parser.add_argument("action")
     parser.add_argument("target", nargs="?")
     args = parser.parse_args()
-    print(json.dumps(action(args.action, args.target), ensure_ascii=False))
+    try:
+        result = action(args.action, args.target)
+    except DecisionBoundaryReached as stopped:
+        print(json.dumps(stopped.response, ensure_ascii=False))
+        raise SystemExit(75)
+    print(json.dumps(result, ensure_ascii=False))
 
 
 if __name__ == "__main__":

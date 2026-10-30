@@ -51,11 +51,14 @@ class PilotWatchTests(unittest.TestCase):
         (self.folder / "game-deliveries.jsonl").write_text("".join(json.dumps(row) + "\n" for row in self.entries), encoding="utf-8")
 
     def test_active_location_trace_and_partial_line_are_read_only_and_public(self):
+        self.pilot["action_policy"] = "single"
+        self.save()
         path = self.folder / "game-deliveries.jsonl"
         with path.open("a", encoding="utf-8") as output:
             output.write('{"request":')
         before = {p: sha256(p.read_bytes()).hexdigest() for p in self.run.rglob("*") if p.is_file()}
         listing = self.store.listing()
+        self.assertEqual(listing[0]["agent"], "GA · 逐步")
         data = self.store.snapshot(listing[0]["id"])
         self.assertEqual(data["session"]["location"], "JN")
         self.assertEqual([frame["location"] for frame in data["frames"]], ["C", "J", "JN"])

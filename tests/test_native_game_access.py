@@ -11,7 +11,8 @@ import tempfile
 import unittest
 
 from memorybenchmark.agent_bridge import GameTool
-from memorybenchmark.game_client import action, describe, request
+from memorybenchmark.game_client import DecisionBoundaryReached, action, describe, request
+from memorybenchmark.decision_gate import DecisionGate
 from memorybenchmark.native_game_io import GameBroker
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
 from memorybenchmark.prototypes.station_pilot import GUIDE, STATION_TOOL, access_guide, pilot
@@ -85,6 +86,56 @@ class NativeAccessTests(unittest.TestCase):
             (root / "pilot.json").write_text(json.dumps({"agent": "ga", "game_access": "bridge"}), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Cannot change game access"):
                 pilot(None, root, None, None, resume=True, agent="ga", game_access="native")
+
+    def test_single_action_boundary_is_shared_by_clients_and_preserves_last_feedback(self):
+        game = StationGame("omega_15_05", load_design(EASY20_REUSE_DESIGN))
+        session = StationSession(game, "T1", feedback_mode="compact")
+        gate = DecisionGate("single")
+        def dispatch(params):
+            if not gate.claim(params):
+                return gate.rejected()
+            result = session.dispatch(params)
+            gate.observe(result)
+            return result
+        broker = GameBroker(GameTool(dispatch, definition=STATION_TOOL, target_actions=("move",)),
+                            endpoint="tcp:127.0.0.1:0")
+        with broker:
+            gate.begin_response(1)
+            first = action("move", "J", endpoint=broker.endpoint)
+            before = deepcopy(game.events)
+            with self.assertRaises(DecisionBoundaryReached) as stopped:
+                action("move", "JN", endpoint=broker.endpoint)
+            self.assertEqual(stopped.exception.response["last_game_response"], first)
+            self.assertEqual(game.events, before)
+            self.assertEqual(action("read", endpoint=broker.endpoint)["observation"]["location"], "J")
+            # A new process/connection cannot reset the runner-owned allowance.
+            completed = subprocess.run([sys.executable, "-m", "memorybenchmark.game_client", "move", "JN"],
+                env={**os.environ, "MEMORYBENCH_GAME_ENDPOINT": broker.endpoint}, capture_output=True,
+                text=True, encoding="utf-8", timeout=15)
+            self.assertEqual(completed.returncode, 75)
+            self.assertEqual(json.loads(completed.stdout)["last_game_response"]["observation"]["location"], "J")
+            gate.begin_response(2)
+            self.assertEqual(action("move", "JN", endpoint=broker.endpoint)["observation"]["location"], "JN")
+            self.assertEqual(game.steps, 2)
+            self.assertEqual(gate.rejections, 2)
+
+    def test_policy_counts_attempts_and_leaves_unrestricted_execution_unchanged(self):
+        for policy, expected in (("single", [True, False]), ("batch", [True, True])):
+            gate = DecisionGate(policy)
+            gate.begin_response(1)
+            attempt = {"command": "action", "action": {"type": "move", "target": "invalid"}}
+            self.assertEqual([gate.claim(attempt), gate.claim(attempt)], expected)
+            self.assertTrue(gate.claim({"command": "read"}))
+        with self.assertRaisesRegex(ValueError, "Unknown"):
+            DecisionGate("invalid")
+
+    def test_resume_cannot_switch_action_granularity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "pilot.json").write_text(json.dumps({"agent": "ga", "game_access": "native",
+                                                         "action_policy": "single"}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Cannot change game action policy"):
+                pilot(None, root, None, None, resume=True, action_policy="batch")
 
     def test_evidence_reader_recognizes_native_mcp_envelope_without_changing_model_input(self):
         feedback = {"observation": {"location": "J"}, "feedback": {"kind": "arrived"}}

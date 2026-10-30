@@ -30,7 +30,8 @@ def tool_window(messages):
 def align_tools(events, task_run_id, messages, decision):
     current = [e for e in events if e["task_run_id"] == task_run_id and e["kind"] == "action"]
     requests = [(i, m) for i, m in enumerate(messages) if m.get("kind") == "request" and
-                m.get("method") == "game" and m.get("params", {}).get("command") == "action"]
+                m.get("method") == "game" and m.get("params", {}).get("command") == "action"
+                and not m.get("action_policy_rejected")]
     initial = next(e for e in events if e["task_run_id"] == task_run_id and e["kind"] == "task_started")
     available = initial["delivered"]["observation"]["available_actions"]
     end = next(i for i, m in enumerate(messages) if m.get("kind") == "request" and m.get("method") == "task_end")
