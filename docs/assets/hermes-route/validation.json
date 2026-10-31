@@ -1,0 +1,30 @@
+{
+  "kind": "hermes_route_control_software_validation",
+  "code_revision": "af71c23649ed0364386e7c9d7c1ba0956b77585e",
+  "native_hermes_commit": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6",
+  "local_unit_tests": {
+    "count": 203,
+    "passed": true,
+    "sdk_optional_skips": 7
+  },
+  "ci": {
+    "all_four_platform_python_jobs_passed": true,
+    "url": "https://github.com/dd3xp/memorybenchmark/actions/runs/41161183847"
+  },
+  "software_only_native_contract": {
+    "passed": true,
+    "real_model_calls": 0,
+    "kind": "scripted_real_upstream_hermes_route_mcp_contract",
+    "game_operations": 29,
+    "distance": 30,
+    "batching": {
+      "sessions": 1,
+      "route_calls": 5,
+      "moves_in_routes": 26,
+      "multi_move_calls": 5
+    },
+    "all_atomic_feedback_reached_model": true,
+    "upstream_native_mcp_and_fresh_context_verified": true
+  },
+  "first_clear_excluded_from_19_task_comparisons_verified": true
+}
