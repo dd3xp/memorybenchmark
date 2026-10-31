@@ -220,7 +220,12 @@ def experiment(output, jail, model, *, archive=None, resume=False, **options):
         elif options:
             report = read(Path(output) / "pilot.json")
             for key, value in options.items():
-                if key in report and report[key] != value:
+                if key == "design_path":
+                    if sha256(Path(value).read_bytes()).hexdigest() != report["map_configuration_sha256"]:
+                        raise ValueError("Cannot change experiment design on resume")
+                    continue
+                recorded_key = "memory_condition" if key == "condition" else key
+                if recorded_key not in report or report[recorded_key] != value:
                     raise ValueError("Cannot change experiment configuration on resume: " + key)
         return execute(output, jail, model)
 

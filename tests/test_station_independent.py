@@ -154,6 +154,13 @@ class IndependentStationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "paired"):
                 execute(output, None, None)
 
+    def test_condition_and_budgets_cannot_change_when_resuming(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = self.make_run(Path(directory), "clear")
+            for options in ({"condition": "retain"}, {"max_turns": 1}, {"agent": "hermes"}, {"unexpected_option": True}):
+                with self.assertRaisesRegex(ValueError, "configuration"):
+                    experiment(output, None, None, resume=True, **options)
+
 
 if __name__ == "__main__":
     unittest.main()
