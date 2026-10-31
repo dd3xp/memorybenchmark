@@ -1,0 +1,219 @@
+"""Resume frozen station cohorts with isolated, concurrent current-task branches.
+
+Only scheduling changes. Each pair forks the same canonical checkpoint, the
+retained history advances in task order, and clear outputs are never inherited.
+The original runner/agent files and completed session records remain unchanged.
+"""
+from __future__ import annotations
+
+import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from copy import deepcopy
+from datetime import datetime, timezone
+from hashlib import sha256
+import json
+import os
+from pathlib import Path
+import threading
+from uuid import uuid4
+
+from ..errors import InfrastructureError
+from ..ga_runtime import WSLJail, memory_manifest
+from ..model_gateway import GatewayModel
+from ..watch import atomic_json as save_json
+from .station_capability import StationGame
+from .station_pilot import StationNativeSessions, replay_checkpoint
+
+
+PROTOCOL = "station-paired-parallel-1"
+GUARD = ".parallel-handoff.json"
+TRANSPORT_ERRORS = ("gateway_transport_error", "gateway_http_429", "gateway_http_500",
+                    "gateway_http_502", "gateway_http_503", "gateway_http_504",
+                    "incomplete model stream", "model response did not complete", "model stream budget exceeded")
+
+
+def read(path):
+    return json.loads(Path(path).read_text(encoding="utf-8-sig"))
+
+
+def transport_failure(row):
+    error = str(row.get("infrastructure_error", "")) + " " + str(row.get("underlying_infrastructure_error", ""))
+    return row.get("infrastructure_ok") is False and any(term in error for term in TRANSPORT_ERRORS)
+
+
+def schedule(report):
+    for index, task in enumerate(report["tasks"]):
+        keep = "prefix" if index == 0 else "retain"
+        conditions = (keep, "clear") if index or report.get("clear_first_task", False) else (keep,)
+        yield task, [(f"{index+1:02d}-{task}-{condition}", condition) for condition in conditions]
+
+
+def reserve_handoff(output):
+    """Reserve the next unopened session directory as a non-destructive barrier.
+
+    The serial runner finishes its active session, saves it, then its exclusive
+    mkdir stops before the next worker can start. No running worker is killed
+    and no frozen source is patched. The migration driver recognizes this
+    planned FileExistsError and releases only its own empty reservation.
+    """
+    output = Path(output).resolve()
+    report = read(output / "pilot.json")
+    if report["status"] == "completed":
+        raise ValueError("Cohort already completed")
+    for _, pair in schedule(report):
+        for name, _ in pair:
+            folder = output / "sessions" / name
+            try:
+                folder.mkdir()
+            except FileExistsError:
+                continue
+            reservation = {"protocol": PROTOCOL, "token": uuid4().hex, "reserved_session": name,
+                           "created_at_utc": datetime.now(timezone.utc).isoformat()}
+            save_json(folder / GUARD, reservation)
+            return reservation
+    raise ValueError("No unopened session remains")
+
+
+def release_handoff(output, reservation):
+    output = Path(output).resolve()
+    folder = output / "sessions" / reservation["reserved_session"]
+    if folder.is_symlink() or not folder.resolve().is_relative_to(output):
+        raise ValueError("Handoff escaped its experiment")
+    if read(folder / GUARD) != reservation or {p.name for p in folder.iterdir()} != {GUARD}:
+        raise ValueError("Handoff reservation contains unexpected data")
+    (folder / GUARD).unlink()
+    folder.rmdir()  # Deliberately nonrecursive; never discard a worker artifact.
+
+
+def _archive_failed(output, report, row):
+    if not transport_failure(row):
+        raise InfrastructureError("Unknown interruption; preserve evidence for review")
+    source = output / "sessions" / row["name"]
+    destination = output / "failed-attempts" / (row["name"] + "-" + str(len(report.get("attempt_history", [])) + 1))
+    if source.is_symlink() or not source.resolve(strict=True).is_relative_to(output) or not destination.resolve().is_relative_to(output):
+        raise ValueError("Attempt archive escaped its experiment")
+    destination.parent.mkdir(exist_ok=True)
+    if destination.exists():
+        raise FileExistsError("Attempt archive already exists")
+    source.rename(destination)
+    report.setdefault("attempt_history", []).append({**row, "archived_at": str(destination.relative_to(output))})
+    report["sessions"].remove(row)
+    save_json(output / "pilot.json", report)
+
+
+def resume_parallel(output, jail, model):
+    output = Path(output).resolve()
+    report = read(output / "pilot.json")
+    if report["status"] == "completed":
+        return report
+    if report.get("action_policy") != "single" or report.get("movement_mode") != "step":
+        raise ValueError("Parallel migration requires the existing single-step condition")
+    for path, digest in report["implementation_sha256"].items():
+        if sha256(Path(path).read_bytes()).hexdigest() != digest:
+            raise RuntimeError("Frozen pilot implementation changed")
+    design = read(output / "design.json")
+    if any(not row["infrastructure_ok"] and not transport_failure(row) for row in report["sessions"]):
+        raise InfrastructureError("Unknown interruption; preserve evidence for review")
+    agent = report["agent"]
+    sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"),
+        output / "support", jail, agent=agent, feedback_mode=report["feedback_mode"],
+        game_access=report["game_access"], action_policy=report["action_policy"], movement_mode=report["movement_mode"],
+        model_alias=report["model_alias"], seed=report["seed"], max_turns=report["max_turns"],
+        final_turns=report["final_turns"], wall_seconds=report["wall_seconds"])
+    if not (output / "probe/summary.json").is_file():
+        raise RuntimeError("Existing native isolation probe is missing")
+    baseline = output / "baseline"
+    baseline_manifest = memory_manifest(baseline)
+    report["scheduling_protocol"] = PROTOCOL
+    report.setdefault("scheduling_events", []).append({"at_utc": datetime.now(timezone.utc).isoformat(),
+        "scheduler_sha256": sha256(Path(__file__).read_bytes()).hexdigest(),
+        "completed_sessions_at_start": [r["name"] for r in report["sessions"] if r["infrastructure_ok"]]})
+    report["status"] = "running"
+    save_json(output / "pilot.json", report)
+    canonical, memory = [], baseline
+    game = StationGame(report["world"], design)
+    order = {name: i for i, (name, _) in enumerate(item for _, pair in schedule(report) for item in pair)}
+    log_lock = threading.Lock()
+    def event(kind, **fields):
+        with log_lock, (output / "scheduling.jsonl").open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps({"kind": kind, "utc": datetime.now(timezone.utc).isoformat(), **fields}) + "\n")
+    def branch(checkpoint, task, memory, folder, condition):
+        attempt = uuid4().hex
+        event("branch_started", name=folder.name, attempt=attempt)
+        try:
+            return sessions.run(checkpoint, task, memory, folder, model, condition=condition)
+        finally:
+            event("branch_finished", name=folder.name, attempt=attempt)
+    try:
+        for task, pair in schedule(report):
+            checkpoint = deepcopy(game)
+            pending = []
+            for name, condition in pair:
+                row = next((r for r in report["sessions"] if r["name"] == name), None)
+                if row and not row["infrastructure_ok"]:
+                    _archive_failed(output, report, row)
+                    row = None
+                folder = output / "sessions" / name
+                if row:
+                    expected = baseline_manifest if condition == "clear" else memory_manifest(memory)
+                    if read(folder / "memory-before.json") != expected or read(folder / "prior-events.json") != checkpoint.events:
+                        raise RuntimeError("Recorded branch does not match its canonical checkpoint")
+                    continue
+                if folder.exists():
+                    raise RuntimeError("Unrecorded session directory; inspect before retrying")
+                pending.append((name, condition, folder))
+            # Only the coordinator writes pilot.json. Branches have separate
+            # games, writable memory, jailed workers, MCP services and logs.
+            failures = []
+            event("pair_ready", task=task, pending=[name for name, _, _ in pending],
+                  prior_events_sha256=sha256(json.dumps(checkpoint.events, sort_keys=True).encode()).hexdigest())
+            with ThreadPoolExecutor(max_workers=2, thread_name_prefix="station-branch") as pool:
+                futures = {pool.submit(branch, deepcopy(checkpoint), task,
+                    baseline if condition == "clear" else memory, folder, condition): (name, condition)
+                    for name, condition, folder in pending}
+                for future in as_completed(futures):
+                    name, condition = futures[future]
+                    try:
+                        result = {"name": name, **future.result()}
+                    except Exception as error:
+                        failures.append(error)
+                        continue
+                    report["sessions"].append(result)
+                    report["sessions"].sort(key=lambda r: order[r["name"]])
+                    save_json(output / "pilot.json", report)
+                    if not result["infrastructure_ok"]:
+                        failures.append(InfrastructureError(result.get("infrastructure_error", "Native session failed")))
+                    print(json.dumps({k: result[k] for k in ("name", "success", "distance", "llm_calls", "content_changed")}, ensure_ascii=False), flush=True)
+            if failures:
+                raise failures[0]  # The other active branch has already settled and been saved.
+            keep_name = pair[0][0]
+            canonical.append(output / "sessions" / keep_name)
+            game = replay_checkpoint(design, report["world"], canonical)
+            memory = canonical[-1] / "memory-after"
+        report["status"] = "completed"
+    except Exception:
+        report["status"] = "interrupted"
+        save_json(output / "pilot.json", report)
+        raise
+    save_json(output / "pilot.json", report)
+    return report
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--base-url", required=True)
+    parser.add_argument("--distro", default="Ubuntu")
+    parser.add_argument("--runtime", required=True)
+    parser.add_argument("--runtime-dependency", action="append", default=[])
+    args = parser.parse_args()
+    key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
+    if not key:
+        parser.error("Set MEMORYBENCH_GATEWAY_KEY in the parent host")
+    report = read(args.output / "pilot.json")
+    model = GatewayModel(args.base_url, key, report["model_alias"], None)
+    resume_parallel(args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model)
+
+
+if __name__ == "__main__":
+    main()

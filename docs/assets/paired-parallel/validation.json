@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "kind": "paired_parallel_software_validation_not_agent_scores",
+  "checked_at_utc": "2026-10-31T21:26:27.053373+00:00",
+  "frozen_inner_source_commit": "a1681f707cea20f0c74c256b608499a39d0fc0dd",
+  "scheduler_sha256": "3c944877029deeca2d401f91654f270d1a0f646565eeae327987ae3e4eba951a",
+  "server_regression": {
+    "tests": 210,
+    "passed": true,
+    "skipped": 1
+  },
+  "real_model_calls": 0,
+  "agents": {
+    "ga": {
+      "passed": true,
+      "kind": "real_native_parallel_scripted_contract",
+      "agent": "ga",
+      "real_model_calls": 0,
+      "live_worker_overlap_verified": true,
+      "isolated_memory_writes_verified": true,
+      "rows": [
+        {
+          "condition": "retain",
+          "game_operations": 30,
+          "distance": 35,
+          "session_id": "0f21c880fbd3442ab3e84df00188e693",
+          "boundary": {
+            "model_responses_with_actions": 30,
+            "rejected_extra_actions": 0
+          }
+        },
+        {
+          "condition": "clear",
+          "game_operations": 30,
+          "distance": 35,
+          "session_id": "cffde6ac6ff14c308fb9a666e6b36fd5",
+          "boundary": {
+            "model_responses_with_actions": 30,
+            "rejected_extra_actions": 0
+          }
+        }
+      ]
+    },
+    "hermes": {
+      "passed": true,
+      "kind": "real_native_parallel_scripted_contract",
+      "agent": "hermes",
+      "real_model_calls": 0,
+      "live_worker_overlap_verified": true,
+      "isolated_memory_writes_verified": true,
+      "rows": [
+        {
+          "condition": "retain",
+          "game_operations": 30,
+          "distance": 35,
+          "session_id": "1b4b363e4c4f4f3bace4ba908302cebd",
+          "boundary": {
+            "model_responses_with_actions": 30,
+            "rejected_extra_actions": 0
+          }
+        },
+        {
+          "condition": "clear",
+          "game_operations": 30,
+          "distance": 35,
+          "session_id": "6dc41c2c6b2f4a02bebdbb4ce1494f57",
+          "boundary": {
+            "model_responses_with_actions": 30,
+            "rejected_extra_actions": 0
+          }
+        }
+      ]
+    }
+  }
+}

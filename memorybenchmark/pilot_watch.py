@@ -104,6 +104,8 @@ class PilotStore:
         for folder in folders[:100]:
             if not re.fullmatch(r"\d{2,3}-T\d+-(prefix|retain|clear)", folder.name) or not safe_directory(folder, root):
                 continue
+            if (folder / ".parallel-handoff.json").is_file():
+                continue
             row = recorded.get(folder.name, {})
             condition = folder.name.rsplit("-", 1)[1]
             item = {"id": folder.name, "task_id": folder.name.split("-")[1], "condition": condition,

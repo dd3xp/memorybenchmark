@@ -97,6 +97,14 @@ class PilotWatchTests(unittest.TestCase):
         (self.run.parent.parent.parent / "result.json").write_text("{}")
         self.assertEqual(self.store.listing()[0]["status"], "complete")
 
+    def test_reserved_handoff_directory_is_not_a_running_session(self):
+        guard = self.run / "sessions/01-T1-clear"
+        guard.mkdir()
+        (guard / ".parallel-handoff.json").write_text('{"token":"planned-handoff"}')
+        listing = self.store.listing()
+        self.assertEqual(next(r for r in listing if r["condition"] == "clear")["status"], "waiting")
+        self.assertEqual([r["id"] for r in self.store._sessions(self.run, self.pilot)], ["01-T1-prefix"])
+
     def test_condition_runs_have_independent_progress_and_session_selection(self):
         self.pilot["clear_first_task"] = True
         self.pilot["sessions"] = [{"name":"01-T1-prefix", "condition":"prefix", "task_id":"T1",
