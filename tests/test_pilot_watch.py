@@ -140,6 +140,19 @@ class PilotWatchTests(unittest.TestCase):
         self.assertEqual([frame["location"] for frame in data["frames"]], ["C", "J", "JN"])
         self.assertNotIn("private-prior-sentinel", json.dumps(data))
 
+    def test_independent_run_has_one_entry_and_cannot_select_a_phantom_peer(self):
+        self.pilot.update(experiment_mode="independent", memory_condition="clear", clear_first_task=True)
+        self.save()
+        listing = self.store.listing()
+        self.assertEqual(len(listing), 1)
+        row = listing[0]
+        self.assertEqual(row["condition"], "clear")
+        self.assertEqual(row["total_sessions"], 20)
+        self.assertEqual(row["experiment_mode"], "independent")
+        self.assertEqual(self.store.snapshot(row["experiment_id"])["condition"], "clear")
+        with self.assertRaises(ValueError):
+            self.store.snapshot(row["experiment_id"] + "-retain")
+
     def test_map_catalog_geometry_excludes_experience_answers_and_unknown_paths(self):
         maps = map_listing()
         self.assertEqual(len(maps), 9)

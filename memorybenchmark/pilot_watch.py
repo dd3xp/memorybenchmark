@@ -87,7 +87,8 @@ class PilotStore:
             previous = self._cache.get(str(path))
             if previous is None or previous[0] != signature:
                 raw = read_json(path)
-                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task", "movement_mode")
+                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task", "movement_mode",
+                          "experiment_mode", "memory_condition", "created_at_utc")
                 compact = {key: raw[key] for key in fields if key in raw}
                 session_fields = ("name", "task_id", "condition", "infrastructure_ok", "success", "game_actions", "distance", "llm_calls")
                 compact["sessions"] = [{key: row[key] for key in session_fields if key in row}
@@ -135,7 +136,7 @@ class PilotStore:
             active = [row for row in self._sessions(root, pilot) if row["status"] == "running"]
             if not any((row["condition"] == "clear") == (condition == "clear") for row in active):
                 status = "waiting"
-        started = iso(root.stat().st_ctime)
+        started = pilot.get("created_at_utc", iso(root.stat().st_ctime))
         if (experiment / "driver-started.json").is_file():
             started = read_json(experiment / "driver-started.json").get("started_at", started)
         elif (experiment / "run-plan.json").is_file():
@@ -151,14 +152,16 @@ class PilotStore:
                 "completed_sessions": len(valid), "total_sessions": total,
                 "successes": sum(row.get("success") is True for row in valid),
                 "failed_attempts": len(pilot.get("attempt_history", [])),
-                "interface": "native" if pilot.get("game_access") == "native" else "bridge"}
+                "interface": "native" if pilot.get("game_access") == "native" else "bridge",
+                "experiment_mode": pilot.get("experiment_mode", "paired")}
 
     def listing(self):
         rows = []
         for identifier, root in self._runs().items():
             try:
                 pilot = self._pilot(root)
-                rows.extend(self._header(identifier, root, pilot, condition) for condition in ("retain", "clear"))
+                conditions = (pilot["memory_condition"],) if pilot.get("experiment_mode") == "independent" else ("retain", "clear")
+                rows.extend(self._header(identifier, root, pilot, condition) for condition in conditions)
             except (OSError, ValueError, KeyError, TypeError):
                 continue
         return sorted(rows, key=lambda row: (row["started_at"], row["experiment_id"], row["condition"] == "retain"), reverse=True)[:120]
@@ -167,11 +170,14 @@ class PilotStore:
         match = re.fullmatch(r"(pilot-[0-9a-f]{16})(?:-(retain|clear))?", identifier) if isinstance(identifier, str) else None
         if not match:
             raise ValueError("实验不存在。")
-        base_id, condition = match.group(1), match.group(2) or "retain"
+        base_id, condition = match.group(1), match.group(2)
         root = self._runs().get(base_id)
         if root is None:
             raise ValueError("实验不存在。")
         pilot = self._pilot(root)
+        condition = condition or pilot.get("memory_condition", "retain")
+        if pilot.get("experiment_mode") == "independent" and condition != pilot.get("memory_condition"):
+            raise ValueError("实验不存在。")
         sessions = [row for row in self._sessions(root, pilot)
                     if (row["condition"] == "clear") == (condition == "clear")]
         if session_id is None:

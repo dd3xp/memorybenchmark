@@ -20,6 +20,14 @@ def read(path):
 def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw", native_archive=None):
     root=Path(root)
     pilot=json.loads(read(root/"pilot.json"));design=json.loads(read(root/"design.json"))
+    independent=pilot.get("experiment_mode")=="independent"
+    if independent:
+        condition=pilot["memory_condition"]
+        assert condition in ("retain","clear")
+        assert all(r["condition"]==condition for r in pilot["sessions"])
+        for name,digest in pilot["implementation_sha256"].items():
+            assert sha256(Path(name).read_bytes()).hexdigest()==digest,"Independent run source changed"
+        assert memory_manifest(root/"baseline")==pilot["baseline_memory"]
     if not allow_partial and pilot["status"]!="completed":
         raise ValueError("Pilot is incomplete; partial auditing must be explicit")
     archive_verified=None
@@ -34,7 +42,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         summary=json.loads(read(folder/"summary.json"))
         if not summary["infrastructure_ok"]:
             continue
-        if recorded["condition"]!="clear":
+        if independent or recorded["condition"]!="clear":
             checkpoint=deepcopy(game)
         before=baseline if recorded["condition"]=="clear" else main_memory
         assert json.loads(read(folder/"memory-before.json"))==before
@@ -72,10 +80,14 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         session_ids.append(summary["session_id"])
         checked_events+=len(events);checked_current_events+=len(current_events)
         rows.append({"name":recorded["name"],"success":current.state.success,"events":len(current_events),"calls":summary["llm_calls"]})
-        if recorded["condition"]!="clear":game=current;main_memory=summary["output_memory"]
+        if independent or recorded["condition"]!="clear":game=current
+        if recorded["condition"]!="clear":main_memory=summary["output_memory"]
     assert len(set(session_ids))==len(session_ids)
     if pilot["status"]=="completed":
-        assert len(rows)==2*len(pilot["tasks"])-(0 if pilot.get("clear_first_task",False) else 1)
+        expected=len(pilot["tasks"]) if independent else 2*len(pilot["tasks"])-(0 if pilot.get("clear_first_task",False) else 1)
+        assert len(rows)==expected
+        if independent:
+            assert [r["name"] for r in rows]==[f"{i+1:02d}-{t}-{condition}" for i,t in enumerate(pilot["tasks"])]
     verified_sources={}
     verified_support={}
     frozen_root=root/"provenance"/"frozen-source"
@@ -101,6 +113,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
                 verified_support[support.name]=digest
             verified_sources[relative]=digest
     return {"kind":"native_station_replay_and_memory_chain_audit","pilot_completed":pilot["status"]=="completed",
+            "experiment_mode":"independent" if independent else "paired",
             "sessions":len(rows),"cumulative_event_records_replayed":checked_events,
             "current_session_event_records_replayed":checked_current_events,"canonical_tasks":game._runs,
             "memory_chains_verified":True,"fresh_sessions_and_isolation_verified":True,

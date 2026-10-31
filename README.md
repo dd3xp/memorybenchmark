@@ -64,6 +64,8 @@ Agent、人类和观测台都能看到成功提交后累计点亮的地理图，
 
 ## 文字接口
 
+当前固定地图的 GA／Hermes 记忆实验使用 [独立运行协议](docs/INDEPENDENT_EXPERIMENTS.md)：每个条件单独执行完整 20 项任务，各自推进、恢复与审计。入口为 `python -m memorybenchmark.prototypes.station_independent`；下方旧实验入口保留兼容历史数据。
+
 支持 MCP 的 agent 可通过标准工具接口试玩固定委托。游戏核心仍无第三方依赖；安装可选接入依赖后：
 
 ```powershell
