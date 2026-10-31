@@ -8,7 +8,7 @@ import unittest
 
 from memorybenchmark.prototypes.field_service import FieldService
 from memorybenchmark.prototypes.station_analysis import analyze_trace
-from memorybenchmark.prototypes.station_capability import StationGame, load_design
+from memorybenchmark.prototypes.station_capability import StationGame, compatible_worlds, load_design, map_world
 from memorybenchmark.prototypes.station_experience import experience_opportunities, experience_schedule
 from memorybenchmark.prototypes.station_routes import feedback_policy, walk
 from memorybenchmark.prototypes.station_session import EASY20_REUSE_DESIGN, StationSession
@@ -37,6 +37,26 @@ class ExperienceTests(unittest.TestCase):
                     self.assertLess(int(source["task_id"][1:]), int(row["task_id"][1:]))
         for task in self.design["tasks"].values():
             self.assertTrue(all(set(s) == {"target", "required_kind"} for s in task["stages"]))
+
+    def test_fixed_actual_map_preserves_unknown_candidates_and_all_live_entries_agree(self):
+        self.assertEqual(map_world(self.design), "omega_15_05")
+        self.assertEqual(map_world(self.design, "omega_15_05"), "omega_15_05")
+        with self.assertRaisesRegex(ValueError, "fixed station assignment"):
+            map_world(self.design, "omega_00_00")
+        from memorybenchmark.prototypes.station_pilot import pilot
+        for agent in ("ga", "hermes"):
+            with self.assertRaisesRegex(ValueError, "fixed station assignment"):
+                pilot(None, "unused", None, None, agent=agent, design_path=EASY20_REUSE_DESIGN, world="omega_00_00")
+        self.assertEqual(len(compatible_worlds(self.design, [])), 576)
+        with tempfile.TemporaryDirectory() as directory:
+            for unused in range(2):
+                service = FieldService(Path(directory))
+                first = service.start({}); second = service.start({})
+                for public in (first, second):
+                    game = service.instances[public["instance_id"]]["game"]
+                    self.assertEqual(game._world_id, map_world(self.design))
+                    self.assertNotIn("fixed_world", public["observation"]["environment"])
+                    self.assertNotIn("private_worlds", public["observation"]["environment"])
 
     def test_any_successful_matching_station_supplies_the_later_opportunity(self):
         # Both matching alternatives work; a designer does not select one in advance.
@@ -119,7 +139,7 @@ class ExperienceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             service = FieldService(Path(directory)); initial = service.start({})
             token = initial["instance_id"]; game = service.instances[token]["game"]
-            self.assertEqual(initial["observation"]["environment"]["version"], "lanting-easy20-types-v4")
+            self.assertEqual(initial["observation"]["environment"]["version"], "lanting-easy20-fixed-types-v5")
             before = deepcopy(game.events)
             review = service.design_view(token)
             self.assertEqual(game.events, before)

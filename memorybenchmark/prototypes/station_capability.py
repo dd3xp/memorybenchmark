@@ -35,6 +35,21 @@ def active_stage(task, state):
     return task_stages(task)[state.stage]
 
 
+def map_world(design, requested=None):
+    """The map owns its actual assignment; candidate worlds remain hypotheses.
+
+    Older prototype maps without a declared fixture use their first canonical
+    assignment. Direct StationGame construction still supports offline candidate
+    replays; live entry points must all use this selector.
+    """
+    fixed = design.get("fixed_world", min(design["private_worlds"]))
+    if fixed not in design["private_worlds"]:
+        raise ValueError("The map's fixed assignment is missing from its candidate family")
+    if requested is not None and requested != fixed:
+        raise ValueError("This map has a fixed station assignment; use a different map version to change station capabilities")
+    return fixed
+
+
 def load_design(path=None):
     # This developer prototype deliberately lives outside packaged/live scenarios.
     path = Path(path) if path else DESIGN_PATH
@@ -130,6 +145,7 @@ def load_design(path=None):
         assignments.append(tuple(sorted(world.items())))
     if len(set(assignments)) != len(assignments):
         raise ValueError("Worlds must have different capability assignments")
+    map_world(design)
     seen_edges = set()
     for a, b, distance in public["edges"]:
         edge = tuple(sorted((a, b)))

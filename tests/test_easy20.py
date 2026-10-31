@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from memorybenchmark.game import ProtocolError
 from memorybenchmark.prototypes.field_service import FieldService
-from memorybenchmark.prototypes.station_capability import StationGame, compatible_worlds, load_design
+from memorybenchmark.prototypes.station_capability import StationGame, compatible_worlds, load_design, map_world
 from memorybenchmark.prototypes.station_routes import feedback_policy, schedule, walk
 from memorybenchmark.prototypes.station_session import EASY20_DESIGN, StationSession
 
@@ -93,8 +93,12 @@ class Easy20Tests(unittest.TestCase):
                  patch("memorybenchmark.prototypes.station_pilot.make_support", lambda p:p.mkdir()), \
                  patch("memorybenchmark.prototypes.station_pilot.StationNativeSessions", ScriptedSessionFixture), \
                  redirect_stdout(io.StringIO()):
-                report = pilot(archive, root / "pilot", None, None, design_path=EASY20_DESIGN, world="omega_1111")
+                report = pilot(archive, root / "pilot", None, None, design_path=EASY20_DESIGN)
             self.assertEqual(report["design_id"], self.design["design_id"])
+            self.assertEqual(report["world"], map_world(self.design))
+            self.assertEqual(report["world_sampling"], "fixed map assignment; no runtime sampling")
+            self.assertEqual(len(report["map_configuration_sha256"]), 64)
+            self.assertEqual(len(report["station_assignment_sha256"]), 64)
             self.assertEqual(report["tasks"], list(self.design["tasks"]))
             self.assertEqual(len(report["sessions"]), 40)
             self.assertTrue(report["clear_first_task"])

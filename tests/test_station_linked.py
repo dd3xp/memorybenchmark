@@ -165,7 +165,7 @@ class LinkedStationTests(unittest.TestCase):
                  patch('memorybenchmark.prototypes.station_pilot.make_support',lambda p:p.mkdir()),\
                  patch('memorybenchmark.prototypes.station_pilot.StationNativeSessions',ScriptedFixture),redirect_stdout(io.StringIO()):
                 report=pilot(archive,root/'pilot',None,None,design_path=EASY20_LINKED_DESIGN,
-                             tasks=['T1','T2','T3'],world='omega_5555')
+                             tasks=['T1','T2','T3'])
             self.assertEqual(budgets,[(100,3600)]);self.assertEqual(report['max_turns'],100)
             self.assertEqual(report['wall_seconds'],3600)
             self.assertEqual(report['feedback_mode'],'compact')

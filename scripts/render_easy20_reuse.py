@@ -5,7 +5,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
-from memorybenchmark.prototypes.station_capability import load_design
+from memorybenchmark.prototypes.station_capability import load_design, map_world
 from memorybenchmark.prototypes.station_experience import experience_schedule
 from memorybenchmark.prototypes.station_session import EASY20_REUSE_DESIGN
 
@@ -16,10 +16,11 @@ COLORS = {"NS": "#186580", "EW": "#975222"}
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--world", default="omega_11_17", help="Explicit human-review example, not an agent initial state")
+    parser.add_argument("--world", help="optional assertion of the map's fixed assignment")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     design = load_design(EASY20_REUSE_DESIGN)
+    args.world = map_world(design, args.world)
     assignment = design["private_worlds"][args.world]
     public, rows = design["public"], experience_schedule(design)
     import matplotlib
@@ -51,7 +52,7 @@ def main():
                          "svg.fonttype": "path", "pdf.fonttype": 42}):
         fig = plt.figure(figsize=(18, 12), facecolor="#f7f6ef")
         fig.text(.045, .945, "岚汀丘地 · Easy 20 完整地图", fontsize=25, weight="bold", color="#243e36")
-        fig.text(.045, .912, "v4 同型联程  /  8 种公开站型 · 每型两站 · 70 个地点 · 77 条道路 · 8 个采集点", fontsize=12, color="#4e625a")
+        fig.text(.045, .912, "v5 同型联程  /  8 种公开站型 · 每型两站 · 70 个地点 · 77 条道路 · 8 个采集点", fontsize=12, color="#4e625a")
         ax = fig.add_axes((.035, .095, .705, .79)); ax.set_aspect("equal")
         ax.set(xlim=(120, 1850), ylim=(1660, 90)); ax.axis("off")
         places = public["locations"]

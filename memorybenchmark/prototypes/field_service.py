@@ -6,14 +6,13 @@ Only the explicit design view exposes capabilities and future commissions.
 from copy import deepcopy
 import json
 from pathlib import Path
-from secrets import choice
 from threading import RLock
 from uuid import uuid4
 
 from ..analysis import commute_graph
 from ..game import ProtocolError
 from ..watch import atomic_json
-from .station_capability import StationGame, capability_groups, load_design, task_stages
+from .station_capability import StationGame, capability_groups, load_design, map_world, task_stages
 from .station_experience import experience_opportunities, experience_schedule
 from .station_routes import known_world_route, schedule, station_options
 from .station_session import EASY20_REUSE_DESIGN, StationSession
@@ -58,7 +57,7 @@ class FieldService:
             raise ProtocolError("新探索不接受任务、能力分配或世界参数。")
         with self.lock:
             token = uuid4().hex
-            game = StationGame(choice(tuple(self.design["private_worlds"])), self.design)
+            game = StationGame(map_world(self.design), self.design)
             first = next(iter(self.design["tasks"]))
             session = StationSession(game, first)
             item = {"game": game, "session": session, "index": 0, "completed": [],

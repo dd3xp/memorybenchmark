@@ -41,7 +41,7 @@ ITINERARIES = [
 def build():
     design = linked_map()
     public = design["public"]
-    public.update(version="lanting-easy20-types-v4", name="岚汀丘地 · 同型联程")
+    public.update(version="lanting-easy20-fixed-types-v5", name="岚汀丘地 · 同型联程")
     rename = {"A": "A1", "B": "B1", "N1": "C1", "N2": "D1",
               "F": "A2", "G": "B2", "S1": "C2", "S2": "D2",
               "D": "E1", "E": "F1", "E1": "G1", "E2": "H1",
@@ -68,7 +68,7 @@ def build():
     public["rules"] = [
         "每封委托有两段公开行程，按顺序各到目标自动采集、在匹配站处理；两段完成后回 C 提交。第一段处理成功即进入第二段，不用中途回营。",
         "目标是在操作预算内完成委托，并尽量减少道路总距离；距离相同时减少操作。允许自由探索、查询和改道。",
-        "地图公开 A 至 H 八种站型及每型两座站的位置。同型站功能完全一致；类型字母没有语义，站型与处理能力的对应关系每轮随机确定、轮内稳定。",
+        "地图公开 A 至 H 八种站型及每型两座站的位置。同型站功能完全一致；类型字母没有语义，站型与处理能力的对应关系是本地图的固定属性，跨委托、跨 session 以及重复实验均不改变。",
         "A/B/C/D 型在南北各有一站，分别支持剖面、岸线、植被、岩性中的一种；E/F/G/H 型在东西各有一站，分别支持方位、高程、水系、等高线中的一种。每个站网内四种能力与四种站型一一对应，具体配对不公开。",
         "只有现场 inspect 或 process 交付当前站的实际能力和公开站型。此反馈可以适用于远处同型站，但不会自动写入你的持久记忆。地图、站名和新委托不提供隐藏配对或历史反馈。",
         "各站在独立支路末端；所有中间地点都要实际移动，不能跳过。不匹配的 process 保留当前段原始资料，也公开该站型能力。",
@@ -82,7 +82,8 @@ def build():
                               **stages[0], "stages": stages, "max_steps": 88}
     design.update(design_id=design["public"]["version"], tasks=tasks,
                   world_generator="station_type_permutations",
-                  status="public_types_pending_native_agent_calibration")
+                  fixed_world="omega_15_05",
+                  status="fixed_map_pending_native_agent_calibration")
     design["evaluation"] = {
         "experience_protocol": "station-experience-opportunity-1",
         "opportunity_basis": "Actual delivered feedback before this session; inferred facts are reported separately from direct observations.",

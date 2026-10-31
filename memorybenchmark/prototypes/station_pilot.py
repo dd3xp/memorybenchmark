@@ -13,7 +13,6 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
-from secrets import choice
 
 from ..agent_sessions import WorkerSessions
 from ..errors import InfrastructureError
@@ -22,12 +21,12 @@ from ..ga_runtime import WSLJail, changed_files, copy_memory, extract_native, ma
 from ..mcp_game import MCPGameClient
 from ..model_gateway import GatewayModel
 from ..watch import atomic_json as save_json
-from .station_capability import StationGame, compatible_worlds, load_design
+from .station_capability import StationGame, compatible_worlds, load_design, map_world
 from .station_session import DEFAULT_DESIGN, FEEDBACK_PROTOCOLS, StationSession
 from scripts.check_station_capability import trace_graph, render_svg
 
 
-PROMPT_PROTOCOL = "station-native-memory-3"
+PROMPT_PROTOCOL = "station-fixed-map-memory-1"
 MOVEMENT_MODES = ("step", "route")
 ROUTE_GUIDE = """
 move 可用 path 一次提供 1–32 个依次相邻的地点 ID（不含当前位置），与单步 target 二选一；其他动作不传 path。
@@ -47,7 +46,7 @@ GUIDE = """
 只操作当前委托；未来委托不提前提供。按当前委托的公开行程逐段完成：到目标自动采集当前段资料，在支持该种资料的站处理；全部行程完成后回指定营地提交。处理一段成功不一定代表整项委托结束，以最新公开进度为准。
 inspect 是在站查询能力；process 是处理当前原始资料。两者都会给出实际反馈，不支持的处理保留资料。
 每项委托开始新的会话；历史对话、工作记忆和临时文件不保留。只有你自主保存到 ../memory/ 的经验跨会话传递。
-公开地理图不会保存历史能力分配或处理反馈。地点能力在同一世界跨委托保持不变。
+公开地理图不会保存历史能力分配或处理反馈。同一张地图的地点和站型能力固定，跨委托、跨 session 以及重复实验均不改变。
 开始前请检查自己已有的相关经验，再结合当前公开状态判断是否适用。
 结束后复盘实际经历；有可迁移经验时使用原生工具保存、更新或纠正，内容与组织方式由你决定。
 普通回复不会持久保存；不必强行新增无价值条目。done=true 后停止游戏操作，整理后结束。
@@ -258,8 +257,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             raise ValueError("Native call budgets must be positive main calls and nonnegative final calls")
         if type(wall_seconds) is not int or not 10 <= wall_seconds <= 3600:
             raise ValueError("Native wall-clock budget must be 10..3600 seconds")
-        if world is not None and world not in design["private_worlds"]:
-            raise ValueError("Unknown private world fixture")
+        world = map_world(design, world)
         tasks = list(tasks or design["tasks"])
         if not tasks or len(set(tasks)) != len(tasks) or any(t not in design["tasks"] for t in tasks):
             raise ValueError("Tasks must be unique members of this design")
@@ -291,11 +289,11 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
                   "clear_first_task": clear_first_task,
                   "agent_game_interface": ("ga-code-run-client-1" if agent == "ga" else "hermes-native-mcp-1")
                                           if game_access == "native" else "native-tool-bridge-1",
-                  # The worker receives its RNG seed; hidden-world sampling must
-                  # be independent so that seed cannot disclose the assignment.
-                  "world": world if world is not None else choice(sorted(design["private_worlds"])),
-                  "world_sampling": ("host-selected private fixture independent of worker seed" if world is not None
-                                     else "host-private choice independent of worker seed"),
+                  "world": world,
+                  "world_sampling": "fixed map assignment; no runtime sampling",
+                  "map_configuration_sha256": sha256(selected_design.read_bytes()).hexdigest(),
+                  "station_assignment_sha256": sha256(json.dumps(design["private_worlds"][world],
+                                                       sort_keys=True).encode()).hexdigest(),
                   "comparison": "current-task clear probes at retained actual-history checkpoints",
                   "archive_sha256": sha256(Path(archive).read_bytes()).hexdigest(),
                   "implementation_sha256": {str(p.resolve()): sha256(p.read_bytes()).hexdigest() for p in paths},
@@ -377,7 +375,7 @@ def main():
     parser.add_argument("--runtime-dependency", action="append", default=[])
     parser.add_argument("--max-output-tokens", type=int, default=0)
     parser.add_argument("--resume", action="store_true")
-    parser.add_argument("--world", help="private host fixture for a controlled rerun; never sent to the worker")
+    parser.add_argument("--world", help="optional assertion of the map's fixed assignment; historical resumes preserve their recorded fixture")
     parser.add_argument("--design", type=Path, help="map configuration; defaults to the original eight-task prototype")
     parser.add_argument("--feedback-mode", choices=("compact", "full"), help="new runs default to compact action results; initial/read always include the full public map; frozen on resume")
     parser.add_argument("--game-access", choices=("native", "bridge"), help="new station pilots default to native GA code_run / Hermes MCP; bridge preserves the previous custom game_action interface; frozen on resume")

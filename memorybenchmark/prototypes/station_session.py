@@ -9,11 +9,10 @@ import argparse
 from copy import deepcopy
 import json
 from pathlib import Path
-from secrets import choice
 import sys
 from uuid import uuid4
 
-from .station_capability import StationGame, capability_groups, load_design, neighbors
+from .station_capability import StationGame, capability_groups, load_design, map_world, neighbors
 
 
 DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capability_v2.json"
@@ -199,7 +198,7 @@ def main(argv=None):
             stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--design", type=Path, default=DEFAULT_DESIGN)
-    parser.add_argument("--world", help="private host fixture; never a tool argument")
+    parser.add_argument("--world", help="optional assertion of the map's fixed assignment; never a tool argument")
     parser.add_argument("--task", help="host-selected task; tools cannot change it")
     parser.add_argument("--human", action="store_true")
     parser.add_argument("--all-tasks", action="store_true", help="human mode only")
@@ -208,9 +207,10 @@ def main(argv=None):
     design = load_design(args.design)
     if args.all_tasks and (not args.human or args.task):
         parser.error("--all-tasks requires --human and cannot be combined with --task")
-    world = args.world if args.world is not None else choice(tuple(design["private_worlds"]))
-    if world not in design["private_worlds"]:
-        parser.error("unknown private world fixture")
+    try:
+        world = map_world(design, args.world)
+    except ValueError as error:
+        parser.error(str(error))
     task = args.task or next(iter(design["tasks"]))
     if task not in design["tasks"]:
         parser.error("unknown task")

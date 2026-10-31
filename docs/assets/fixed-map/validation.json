@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "kind": "fixed_map_selection_and_native_prompt_software_validation",
+  "real_model_calls": 0,
+  "server_regression": {
+    "tests": 205,
+    "passed": true
+  },
+  "map": {
+    "passed": true,
+    "real_model_calls": 0,
+    "design_id": "lanting-easy20-fixed-types-v5",
+    "fixed_assignment": "omega_15_05",
+    "station_assignment_sha256": "496bf762408e5fe111e51781a952593241e6b3f8ff1fe2b9037452c1ffa7d447",
+    "recent_run_assignments_and_game_contents_identical": 3,
+    "human_starts_verified": 4,
+    "cli_starts_verified": 2,
+    "scripted_game_sessions_replayed": 40,
+    "candidate_hypotheses_before_feedback": 576,
+    "public_answer_boundary_verified": true
+  },
+  "agents": {
+    "ga": {
+      "passed": true,
+      "agent": "ga",
+      "real_model_calls": 0,
+      "action_policy": "single",
+      "prompt_protocol": "station-fixed-map-memory-1",
+      "fixed_rules_in_actual_first_input": true,
+      "old_random_wording_absent": true,
+      "answer_not_delivered": true,
+      "gameplay_fixture": "read and deliberate abandon, software transport/prompt check only"
+    },
+    "hermes": {
+      "passed": true,
+      "agent": "hermes",
+      "real_model_calls": 0,
+      "action_policy": "single",
+      "prompt_protocol": "station-fixed-map-memory-1",
+      "fixed_rules_in_actual_first_input": true,
+      "old_random_wording_absent": true,
+      "answer_not_delivered": true,
+      "gameplay_fixture": "read and deliberate abandon, software transport/prompt check only"
+    }
+  }
+}
