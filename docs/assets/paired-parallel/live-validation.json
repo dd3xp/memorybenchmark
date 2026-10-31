@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-10-31T21:36:58.763092+00:00",
+  "kind": "live_fixed_cohort_parallel_handoff_validation",
+  "original_source_commit": "a1681f707cea20f0c74c256b608499a39d0fc0dd",
+  "supplementary_scheduler_commit": "c435e27",
+  "agents": [
+    {
+      "agent": "ga",
+      "scheduling_protocol": "station-paired-parallel-1",
+      "single_step": true,
+      "frozen_inner_source_verified": true,
+      "scheduler_sha256": "3c944877029deeca2d401f91654f270d1a0f646565eeae327987ae3e4eba951a",
+      "previous_sessions_at_handoff": 9,
+      "valid_sessions": 9,
+      "pairs_checked": 5,
+      "latest_pair": {
+        "task": "T5",
+        "same_initial_state": true,
+        "same_canonical_prior_history": true,
+        "clear_baseline_only": true,
+        "retained_memory_chain_verified": true,
+        "active": [
+          {
+            "condition": "clear",
+            "model_responses": 33
+          }
+        ]
+      }
+    },
+    {
+      "agent": "hermes",
+      "scheduling_protocol": "station-paired-parallel-1",
+      "single_step": true,
+      "frozen_inner_source_verified": true,
+      "scheduler_sha256": "3c944877029deeca2d401f91654f270d1a0f646565eeae327987ae3e4eba951a",
+      "previous_sessions_at_handoff": 10,
+      "valid_sessions": 10,
+      "pairs_checked": 6,
+      "latest_pair": {
+        "task": "T6",
+        "same_initial_state": true,
+        "same_canonical_prior_history": true,
+        "clear_baseline_only": true,
+        "retained_memory_chain_verified": true,
+        "active": [
+          {
+            "condition": "retain",
+            "model_responses": 27
+          },
+          {
+            "condition": "clear",
+            "model_responses": 28
+          }
+        ]
+      }
+    }
+  ]
+}
