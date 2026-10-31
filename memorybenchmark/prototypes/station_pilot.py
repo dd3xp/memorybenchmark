@@ -85,7 +85,7 @@ def access_guide(agent, game_access):
 
 
 class StationNativeSessions(WorkerSessions):
-    def __init__(self, *args, agent="ga", feedback_mode="compact", game_access="bridge", action_policy="batch", movement_mode="step", **kwargs):
+    def __init__(self, *args, agent="ga", feedback_mode="compact", game_access="bridge", action_policy="single", movement_mode="step", **kwargs):
         if feedback_mode not in FEEDBACK_PROTOCOLS:
             raise ValueError("Unknown station feedback mode")
         self.agent = agent
@@ -93,8 +93,8 @@ class StationNativeSessions(WorkerSessions):
         if game_access not in ("bridge", "native"):
             raise ValueError("Unknown game access mode")
         self.game_access = game_access
-        if action_policy not in ACTION_POLICIES or (action_policy == "single" and (agent != "ga" or game_access != "native")):
-            raise ValueError("Single-action control requires native GA")
+        if action_policy not in ACTION_POLICIES:
+            raise ValueError("Unknown game action policy")
         self.action_policy = action_policy
         if movement_mode not in MOVEMENT_MODES or (movement_mode == "route" and (agent != "hermes" or game_access != "native")):
             raise ValueError("Route movement requires native Hermes")
@@ -241,13 +241,13 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         save_json(output / "pilot.json", report)
     else:
         game_access = game_access or "native"
-        action_policy = action_policy or "batch"
+        action_policy = action_policy or "single"
         movement_mode = movement_mode or "step"
         if movement_mode == "route" and (agent != "hermes" or game_access != "native"):
             raise ValueError("Route movement requires native Hermes")
         clear_first_task = True if clear_first_task is None else clear_first_task
-        if action_policy == "single" and (agent != "ga" or game_access != "native"):
-            raise ValueError("Single-action control requires native GA")
+        if action_policy != "single" or movement_mode != "step":
+            raise ValueError("New station pilots require single actions and step movement; batch/route are historical configurations only")
         feedback_mode = feedback_mode or "compact"
         design = load_design(selected_design)
         if max_turns is None:
@@ -381,8 +381,8 @@ def main():
     parser.add_argument("--design", type=Path, help="map configuration; defaults to the original eight-task prototype")
     parser.add_argument("--feedback-mode", choices=("compact", "full"), help="new runs default to compact action results; initial/read always include the full public map; frozen on resume")
     parser.add_argument("--game-access", choices=("native", "bridge"), help="new station pilots default to native GA code_run / Hermes MCP; bridge preserves the previous custom game_action interface; frozen on resume")
-    parser.add_argument("--action-policy", choices=ACTION_POLICIES, help="batch preserves native execution; single allows one game-action attempt per model response in native GA; frozen on resume")
-    parser.add_argument("--movement-mode", choices=MOVEMENT_MODES, help="route adds an optional explicit multi-edge move path to native Hermes MCP; frozen on resume")
+    parser.add_argument("--action-policy", choices=ACTION_POLICIES, help="new GA/Hermes runs use single: one game-action attempt per model response; batch is only for resuming historical runs")
+    parser.add_argument("--movement-mode", choices=MOVEMENT_MODES, help="new runs use step: move to one adjacent location; route is only for resuming historical runs")
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:

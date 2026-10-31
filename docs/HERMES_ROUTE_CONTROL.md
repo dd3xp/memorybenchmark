@@ -1,6 +1,8 @@
 # Hermes 连续移动对照
 
-使用 `--agent hermes --game-access native --movement-mode route`，在原生 MCP 发现的 `game_action` 中增加可选的 `path` 参数。例如 `{"action":"move","path":["J","JN","NL","P"]}`。单步 `target` 仍可用；默认 `step` 模式保持原来的工具定义。模式写入实验记录，恢复运行时不能更换。
+此对照已结束。2026-10-31 起不再新建连续移动实验，GA／Hermes 均按[单步动作规则](ATOMIC_GAMEPLAY.md)运行。下文记录历史配置，旧结果和冻结源码继续保留。
+
+历史实验使用 `--agent hermes --game-access native --movement-mode route`，在原生 MCP 发现的 `game_action` 中增加可选的 `path` 参数。例如 `{"action":"move","path":["J","JN","NL","P"]}`。单步 `target` 仍可用；模式写入实验记录，恢复运行时不能更换。当前入口仅在恢复历史实验时接受这一配置。
 
 路径必须由 agent 给出全部相邻地点，最多 32 步。工具依次执行原有 `move`，每一步独立生成请求、反馈和图边，正常计算操作与道路距离。结果包含逐步 `responses` 和末尾状态。遇错误或任务结束立即停止；不补路、不查询记忆、不修改装备或站点决策。
 

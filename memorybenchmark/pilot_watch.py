@@ -139,10 +139,10 @@ class PilotStore:
         elif (experiment / "run-plan.json").is_file():
             started = read_json(experiment / "run-plan.json").get("created_at_utc", started)
         label = {"ga": "GA", "hermes": "Hermes"}.get(pilot.get("agent"), "Agent")
-        if pilot.get("action_policy") == "single":
-            label += " · 逐步"
+        if pilot.get("agent") == "ga" and pilot.get("action_policy", "batch") == "batch":
+            label += " · 批量（历史）"
         if pilot.get("movement_mode") == "route":
-            label += " · 连续移动"
+            label += " · 连续移动（历史）"
         return {"id": identifier + "-" + condition, "experiment_id": identifier, "condition": condition, "agent": label,
                 "model": pilot.get("model_alias", ""), "status": status, "started_at": started,
                 "updated_at": iso((root / "pilot.json").stat().st_mtime),

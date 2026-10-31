@@ -201,6 +201,7 @@ def main():
               game_tool_registered=registry.get_entry(game_tool_name) is not None,
               game_access=game_access, agent_game_interface=("hermes-native-mcp-1" if broker else "native-tool-bridge-1"),
               movement_mode=config.get("movement_mode", "step"),
+              action_policy=config.get("action_policy", "batch"),
               native_mcp_game_tools=[game_tool_name] if broker else [],
               native_mcp_sdk_version=mcp_sdk_version if broker else None,
               native_memory_enabled=agent._memory_enabled,

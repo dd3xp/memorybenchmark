@@ -63,7 +63,11 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             from scripts.check_ga_single_action import check_boundaries
             boundary = check_boundaries(folder)
             assert summary["action_policy"] == "single"
-            assert initial["native_tool_registry_unchanged"]
+            if pilot.get("agent", "ga") == "ga":
+                assert initial["native_tool_registry_unchanged"]
+            elif pilot.get("game_access") == "native":
+                assert initial["action_policy"] == "single"
+                assert initial["native_mcp_game_tools"] == ["mcp__cartography__game_action"]
             assert boundary["rejected_extra_actions"] == summary["action_policy_rejections"]
         session_ids.append(summary["session_id"])
         checked_events+=len(events);checked_current_events+=len(current_events)

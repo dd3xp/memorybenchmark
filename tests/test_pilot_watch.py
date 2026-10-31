@@ -58,7 +58,7 @@ class PilotWatchTests(unittest.TestCase):
             output.write('{"request":')
         before = {p: sha256(p.read_bytes()).hexdigest() for p in self.run.rglob("*") if p.is_file()}
         listing = self.store.listing()
-        self.assertEqual(listing[0]["agent"], "GA · 逐步")
+        self.assertEqual(listing[0]["agent"], "GA")
         data = self.store.snapshot(listing[0]["id"])
         self.assertEqual(data["session"]["location"], "JN")
         self.assertEqual([frame["location"] for frame in data["frames"]], ["C", "J", "JN"])

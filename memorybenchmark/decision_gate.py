@@ -1,11 +1,11 @@
-"""Optional experiment control: one game-action attempt per model response."""
+"""One game-action attempt per model response; legacy batch runs remain readable."""
 from copy import deepcopy
 
 
 ACTION_POLICIES = ("batch", "single")
 SINGLE_ACTION_GUIDE = """
-本次采用逐步交互：每次模型响应最多执行一次游戏动作（move、inspect、process、submit 或 abandon）。
-每次 code_run 只执行一个游戏动作，收到实际反馈后再决定下一步；不要在脚本或同次响应的多个工具调用中批量执行游戏动作。
+每次模型响应最多执行一次游戏动作（move、inspect、process、submit 或 abandon）。move 只到一个相邻地点。
+收到实际反馈后再决定下一步；不要在脚本或同次响应的多个工具调用中批量执行游戏动作。
 read 以及你原生的记忆、文件工具不受此限制。若收到 decision_boundary，停止当前脚本，依据其中的最新反馈在下一轮继续。
 """
 

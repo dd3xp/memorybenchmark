@@ -15,7 +15,7 @@ from memorybenchmark.game_client import DecisionBoundaryReached, action, describ
 from memorybenchmark.decision_gate import DecisionGate
 from memorybenchmark.native_game_io import GameBroker
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
-from memorybenchmark.prototypes.station_pilot import GUIDE, STATION_TOOL, access_guide, pilot, movement_tool
+from memorybenchmark.prototypes.station_pilot import GUIDE, STATION_TOOL, StationNativeSessions, access_guide, pilot, movement_tool
 from memorybenchmark.prototypes.station_session import EASY20_REUSE_DESIGN, StationSession
 from scripts.check_station_native_sessions import response_observations
 
@@ -186,6 +186,17 @@ class NativeAccessTests(unittest.TestCase):
                                                          "action_policy": "single"}), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Cannot change game action policy"):
                 pilot(None, root, None, None, resume=True, action_policy="batch")
+
+    def test_new_runs_use_atomic_actions_for_both_agents_and_reject_batch_controls(self):
+        for agent in ("ga", "hermes"):
+            session = StationNativeSessions("source", "support", None, agent=agent, game_access="native",
+                                            model_alias="fixture", game_transport="legacy-rpc")
+            self.assertEqual((session.action_policy, session.movement_mode), ("single", "step"))
+            self.assertNotIn("path", movement_tool(session.movement_mode)["parameters"]["properties"])
+            with self.assertRaisesRegex(ValueError, "historical configurations only"):
+                pilot(None, "unused", None, None, agent=agent, action_policy="batch")
+        with self.assertRaisesRegex(ValueError, "historical configurations only"):
+            pilot(None, "unused", None, None, agent="hermes", movement_mode="route")
 
     def test_evidence_reader_recognizes_native_mcp_envelope_without_changing_model_input(self):
         feedback = {"observation": {"location": "J"}, "feedback": {"kind": "arrived"}}

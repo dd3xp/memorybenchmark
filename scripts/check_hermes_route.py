@@ -43,7 +43,7 @@ def main(args):
     reference=args.reference_run.resolve()
     jail=WSLJail(args.distro,args.runtime,args.runtime_dependency)
     sessions=StationNativeSessions(reference/'source/hermes-agent',support,jail,agent='hermes',game_access='native',
-        movement_mode='route',feedback_mode='compact',model_alias='fixture',max_turns=20,final_turns=3,seed=1)
+        movement_mode='route',action_policy='batch',feedback_mode='compact',model_alias='fixture',max_turns=20,final_turns=3,seed=1)
     game=StationGame('omega_00_00',load_design(EASY20_REUSE_DESIGN))
     tools=[('game_action',{'action':'read'})];position='C'
     for destination,process in (('P',False),('A1',True),('R',False),('E1',True),('C',False)):
