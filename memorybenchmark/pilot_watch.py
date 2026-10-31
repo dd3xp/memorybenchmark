@@ -132,7 +132,7 @@ class PilotStore:
                 status = "audit_error"
         elif len(valid) == total and total:
             status = "complete"
-        elif status == "running":
+        elif status == "running" and pilot.get("experiment_mode") != "independent":
             active = [row for row in self._sessions(root, pilot) if row["status"] == "running"]
             if not any((row["condition"] == "clear") == (condition == "clear") for row in active):
                 status = "waiting"

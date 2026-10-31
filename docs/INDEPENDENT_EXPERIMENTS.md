@@ -36,3 +36,5 @@ python -m scripts.compare_station_experiments --retain .runs/pilot-ga-retain --c
 回归测试覆盖各自历史、清除组原始基础库、记忆链、独立进度、某组卡住时另一组继续完成、独立故障与恢复、重试预算跨恢复保留、重复所有者拒绝，以及旧配对数据拒绝冒充新协议。
 
 `scripts.check_station_independent` 使用脚本响应运行两条完整的真实原生两任务实验，核查空上下文、记忆继承／清除、所有会话独立和自身历史重放；让保留组 T2 等待清除组整轮完成，以验证没有任务屏障。这是软件验证，不作为 agent 能力成绩。
+
+[软件验证记录](assets/independent-experiments/validation.json)：本地／Squishy 各 222 项回归通过，两种原生 agent 各运行两条两任务实验，记忆继承与重置、自身历史重放、无任务屏障和独立离线比较均通过；真实模型调用为零。

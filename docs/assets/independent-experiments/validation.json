@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "protocol": "station-independent-experiment-1",
+  "checked_at_utc": "2026-10-31T23:45:42.550996+00:00",
+  "runtime_source_commit": "61e97226dfdcacdbe79977b1d75e06305a8e3733",
+  "native_contract_source_commit": "bfda89707b3bc067561ad3fbafa2d2f836c31b18",
+  "native_validation_receipt_sha256": "8ab5387ceaa784e990bebc7e802fb94f16bc42c599c17d8dff7b17cfab908d47",
+  "unit_tests": {
+    "local": {
+      "tests": 222,
+      "passed": true,
+      "skipped": 7
+    },
+    "server": {
+      "tests": 222,
+      "passed": true
+    },
+    "web_independent_status_tests": {
+      "tests": 8,
+      "passed": true
+    }
+  },
+  "real_model_calls": 0,
+  "agents": {
+    "ga": {
+      "passed": true,
+      "agent": "ga",
+      "kind": "independent_real_native_scripted_contract",
+      "real_model_calls": 0,
+      "runs": 2,
+      "sessions": 4,
+      "clear_finished_while_retain_t2_waited": true,
+      "own_histories_replayed": true,
+      "retain_inherits_own_memory": true,
+      "clear_restores_native_baseline": true,
+      "session_ids_distinct": true,
+      "audited_tasks": [
+        2,
+        2
+      ],
+      "offline_comparison_verified": true
+    },
+    "hermes": {
+      "passed": true,
+      "agent": "hermes",
+      "kind": "independent_real_native_scripted_contract",
+      "real_model_calls": 0,
+      "runs": 2,
+      "sessions": 4,
+      "clear_finished_while_retain_t2_waited": true,
+      "own_histories_replayed": true,
+      "retain_inherits_own_memory": true,
+      "clear_restores_native_baseline": true,
+      "session_ids_distinct": true,
+      "audited_tasks": [
+        2,
+        2
+      ],
+      "offline_comparison_verified": true
+    }
+  },
+  "scope": "Software verification with scripted responses and real isolated native workers; not agent performance results."
+}

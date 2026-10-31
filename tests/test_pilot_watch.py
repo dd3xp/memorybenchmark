@@ -149,6 +149,9 @@ class PilotWatchTests(unittest.TestCase):
         self.assertEqual(row["condition"], "clear")
         self.assertEqual(row["total_sessions"], 20)
         self.assertEqual(row["experiment_mode"], "independent")
+        # Between its own tasks an independent owner is still running; there
+        # is no peer condition whose completion it could be waiting for.
+        self.assertEqual(row["status"], "running")
         self.assertEqual(self.store.snapshot(row["experiment_id"])["condition"], "clear")
         with self.assertRaises(ValueError):
             self.store.snapshot(row["experiment_id"] + "-retain")
