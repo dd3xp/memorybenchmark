@@ -28,6 +28,12 @@ from scripts.check_station_capability import trace_graph, render_svg
 
 
 PROMPT_PROTOCOL = "station-native-memory-3"
+MOVEMENT_MODES = ("step", "route")
+ROUTE_GUIDE = """
+move 可用 path 一次提供 1–32 个依次相邻的地点 ID（不含当前位置），与单步 target 二选一；其他动作不传 path。
+环境仅按给定顺序移动，不自动寻路。每步正常计操作、路程和图边，并在 responses 中返回逐步反馈；遇错误或 done=true 停止。
+可自主选择单步或连续移动；需要根据新反馈决策时结束本次路径，再调用工具。
+"""
 STATION_TOOL = {
     "name": "game_action",
     "description": "操作当前测绘委托。move 到相邻地点，到目标自动采集本次资料；inspect 查询当前站能力；process 在当前站尝试处理本次资料；submit 回指定营地提交；read 查询完整公开地图和当前状态，不消耗游戏操作。结束后用原生工具自主整理经验。",
@@ -50,6 +56,18 @@ inspect 是在站查询能力；process 是处理当前原始资料。两者都�
 """
 
 
+def movement_tool(mode):
+    if mode not in MOVEMENT_MODES:
+        raise ValueError("Unknown movement mode")
+    definition = deepcopy(STATION_TOOL)
+    if mode == "route":
+        definition["parameters"]["properties"]["path"] = {
+            "type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 32,
+            "description": "仅 move：依次相邻的地点 ID 列表，不含当前位置，与 target 二选一；每步正常计费并返回反馈，错误或任务结束时停止。"}
+        definition["description"] += "move 也可传 path 连续移动，由你指定每一个相邻地点；每一步分别计操作和路程，不自动规划。"
+    return definition
+
+
 def access_guide(agent, game_access):
     """Change only public interface instructions, never supply experience."""
     if game_access == "bridge":
@@ -67,7 +85,7 @@ def access_guide(agent, game_access):
 
 
 class StationNativeSessions(WorkerSessions):
-    def __init__(self, *args, agent="ga", feedback_mode="compact", game_access="bridge", action_policy="batch", **kwargs):
+    def __init__(self, *args, agent="ga", feedback_mode="compact", game_access="bridge", action_policy="batch", movement_mode="step", **kwargs):
         if feedback_mode not in FEEDBACK_PROTOCOLS:
             raise ValueError("Unknown station feedback mode")
         self.agent = agent
@@ -78,6 +96,9 @@ class StationNativeSessions(WorkerSessions):
         if action_policy not in ACTION_POLICIES or (action_policy == "single" and (agent != "ga" or game_access != "native")):
             raise ValueError("Single-action control requires native GA")
         self.action_policy = action_policy
+        if movement_mode not in MOVEMENT_MODES or (movement_mode == "route" and (agent != "hermes" or game_access != "native")):
+            raise ValueError("Route movement requires native Hermes")
+        self.movement_mode = movement_mode
         super().__init__(*args, worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
                          worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
                          prompt_protocol=PROMPT_PROTOCOL, **kwargs)
@@ -104,7 +125,10 @@ class StationNativeSessions(WorkerSessions):
             config = self.task_config(initial)
             config.update(task_reminder=initial["text"].splitlines()[0], game_guide=access_guide(self.agent, self.game_access),
                           game_access=self.game_access,
-                          game_tool=STATION_TOOL, game_target_actions=["move"], prompt_protocol=PROMPT_PROTOCOL)
+                          game_tool=movement_tool(self.movement_mode), game_target_actions=["move"], prompt_protocol=PROMPT_PROTOCOL,
+                          movement_mode=self.movement_mode)
+            if self.movement_mode == "route":
+                config["game_guide"] += ROUTE_GUIDE
             if self.action_policy == "single":
                 config.update(action_policy="single", game_guide=config["game_guide"] + SINGLE_ACTION_GUIDE)
             config["initial_text"] += "\n公开地图与规则：" + json.dumps(initial["observation"]["environment"], ensure_ascii=False)
@@ -119,6 +143,7 @@ class StationNativeSessions(WorkerSessions):
                           memory_changed=changed_files(before, after),
                           content_changed=[p for p in changed_files(before, after) if p != "file_access_stats.json"])
         report.update(task_id=task_id, condition=condition, prompt_protocol=PROMPT_PROTOCOL,
+                      movement_mode=self.movement_mode,
                       game_access=self.game_access,
                       success=game.state.success if report["infrastructure_ok"] else None,
                       done=game.done, game_actions=game.steps, distance=game.distance,
@@ -161,7 +186,7 @@ def replay_checkpoint(design, world, sessions):
 
 def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
           max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga", feedback_mode=None,
-          game_access=None, action_policy=None, clear_first_task=None):
+          game_access=None, action_policy=None, clear_first_task=None, movement_mode=None):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
     if feedback_mode is not None and feedback_mode not in FEEDBACK_PROTOCOLS:
@@ -172,6 +197,8 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         raise ValueError("Unknown game action policy")
     if clear_first_task is not None and type(clear_first_task) is not bool:
         raise ValueError("clear_first_task must be boolean")
+    if movement_mode is not None and movement_mode not in MOVEMENT_MODES:
+        raise ValueError("Unknown movement mode")
     output = Path(output).resolve()
     selected_design = Path(design_path) if design_path is not None else DEFAULT_DESIGN
     if resume:
@@ -186,6 +213,10 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         if action_policy is not None and action_policy != recorded_policy:
             raise ValueError("Cannot change game action policy when resuming")
         action_policy = recorded_policy
+        recorded_movement = report.get("movement_mode", "step")
+        if movement_mode is not None and movement_mode != recorded_movement:
+            raise ValueError("Cannot change movement mode when resuming")
+        movement_mode = recorded_movement
         recorded_clear_first = report.get("clear_first_task", False)
         if clear_first_task is not None and clear_first_task != recorded_clear_first:
             raise ValueError("Cannot change first-task control when resuming")
@@ -211,6 +242,9 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
     else:
         game_access = game_access or "native"
         action_policy = action_policy or "batch"
+        movement_mode = movement_mode or "step"
+        if movement_mode == "route" and (agent != "hermes" or game_access != "native"):
+            raise ValueError("Route movement requires native Hermes")
         clear_first_task = True if clear_first_task is None else clear_first_task
         if action_policy == "single" and (agent != "ga" or game_access != "native"):
             raise ValueError("Single-action control requires native GA")
@@ -253,6 +287,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
                   "feedback_mode": feedback_mode, "feedback_protocol": FEEDBACK_PROTOCOLS[feedback_mode],
                   "game_access": game_access,
                   "action_policy": action_policy,
+                  "movement_mode": movement_mode,
                   "clear_first_task": clear_first_task,
                   "agent_game_interface": ("ga-code-run-client-1" if agent == "ga" else "hermes-native-mcp-1")
                                           if game_access == "native" else "native-tool-bridge-1",
@@ -269,6 +304,7 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         save_json(output / "pilot.json", report)
     sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"), output / "support", jail,
                                      agent=agent, feedback_mode=feedback_mode, game_access=game_access, action_policy=action_policy,
+                                     movement_mode=movement_mode,
                                      model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns,
                                      wall_seconds=wall_seconds)
     if not (output / "probe" / "summary.json").exists():
@@ -346,6 +382,7 @@ def main():
     parser.add_argument("--feedback-mode", choices=("compact", "full"), help="new runs default to compact action results; initial/read always include the full public map; frozen on resume")
     parser.add_argument("--game-access", choices=("native", "bridge"), help="new station pilots default to native GA code_run / Hermes MCP; bridge preserves the previous custom game_action interface; frozen on resume")
     parser.add_argument("--action-policy", choices=ACTION_POLICIES, help="batch preserves native execution; single allows one game-action attempt per model response in native GA; frozen on resume")
+    parser.add_argument("--movement-mode", choices=MOVEMENT_MODES, help="route adds an optional explicit multi-edge move path to native Hermes MCP; frozen on resume")
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
@@ -359,7 +396,7 @@ def main():
     pilot(args.archive, args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model, seed=args.seed, model_alias=args.model,
           tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
           design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds, feedback_mode=args.feedback_mode,
-          game_access=args.game_access, action_policy=args.action_policy)
+          game_access=args.game_access, action_policy=args.action_policy, movement_mode=args.movement_mode)
 
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ MARKER = "synthetic_native_contract_marker_74931"
 def response_observations(value):
     """Find actual game outputs inside each agent's native model messages."""
     if isinstance(value, dict):
-        if "observation" in value and "feedback" in value:
+        if "observation" in value and "feedback" in value and not isinstance(value.get("responses"), list):
             yield value
         else:
             for nested in value.values():

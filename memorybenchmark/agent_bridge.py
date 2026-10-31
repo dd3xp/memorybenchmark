@@ -32,8 +32,30 @@ class GameTool:
         self.lock = threading.RLock()
 
     def __call__(self, args):
-        if not isinstance(args, dict) or set(args) - {"action", "target"}:
+        route_enabled = "path" in self.definition["parameters"]["properties"]
+        allowed = {"action", "target", "path"} if route_enabled else {"action", "target"}
+        if not isinstance(args, dict) or set(args) - allowed:
             return {"error": "invalid_arguments", "message": "需要 action 和可选的 target。"}
+        if route_enabled and "path" in args:
+            path = args["path"]
+            # Strict gateways may materialize unused optional fields as null/empty.
+            if path not in (None, []):
+                if (args.get("action") != "move" or args.get("target") not in (None, "")
+                        or not isinstance(path, list) or not 1 <= len(path) <= 32
+                        or any(not isinstance(node, str) or not 1 <= len(node) <= 128 for node in path)):
+                    return {"error": "invalid_arguments", "message": "move 的 path 为 1–32 个依次相邻的地点 ID，与 target 二选一。"}
+                responses = []
+                with self.lock:
+                    for target in path:
+                        result = self({"action": "move", "target": target})
+                        responses.append(deepcopy(result))
+                        if "error" in result or result.get("observation", {}).get("done"):
+                            break
+                return {**responses[-1], "batch": {"requested": len(path), "attempted": len(responses),
+                        "executed": sum("error" not in response for response in responses),
+                        "stopped": "error" if "error" in result else "task_done" if result.get("observation", {}).get("done") else "completed"},
+                        "responses": responses}
+            args = {key: value for key, value in args.items() if key != "path"}
         action = args.get("action")
         if action not in self.definition["parameters"]["properties"]["action"]["enum"]:
             return {"error": "invalid_arguments", "message": "未知动作。"}

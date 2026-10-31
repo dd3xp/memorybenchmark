@@ -87,7 +87,7 @@ class PilotStore:
             previous = self._cache.get(str(path))
             if previous is None or previous[0] != signature:
                 raw = read_json(path)
-                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task")
+                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task", "movement_mode")
                 compact = {key: raw[key] for key in fields if key in raw}
                 session_fields = ("name", "task_id", "condition", "infrastructure_ok", "success", "game_actions", "distance", "llm_calls")
                 compact["sessions"] = [{key: row[key] for key in session_fields if key in row}
@@ -141,6 +141,8 @@ class PilotStore:
         label = {"ga": "GA", "hermes": "Hermes"}.get(pilot.get("agent"), "Agent")
         if pilot.get("action_policy") == "single":
             label += " · 逐步"
+        if pilot.get("movement_mode") == "route":
+            label += " · 连续移动"
         return {"id": identifier + "-" + condition, "experiment_id": identifier, "condition": condition, "agent": label,
                 "model": pilot.get("model_alias", ""), "status": status, "started_at": started,
                 "updated_at": iso((root / "pilot.json").stat().st_mtime),

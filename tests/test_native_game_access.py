@@ -15,7 +15,7 @@ from memorybenchmark.game_client import DecisionBoundaryReached, action, describ
 from memorybenchmark.decision_gate import DecisionGate
 from memorybenchmark.native_game_io import GameBroker
 from memorybenchmark.prototypes.station_capability import StationGame, load_design
-from memorybenchmark.prototypes.station_pilot import GUIDE, STATION_TOOL, access_guide, pilot
+from memorybenchmark.prototypes.station_pilot import GUIDE, STATION_TOOL, access_guide, pilot, movement_tool
 from memorybenchmark.prototypes.station_session import EASY20_REUSE_DESIGN, StationSession
 from scripts.check_station_native_sessions import response_observations
 
@@ -86,6 +86,56 @@ class NativeAccessTests(unittest.TestCase):
             (root / "pilot.json").write_text(json.dumps({"agent": "ga", "game_access": "bridge"}), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Cannot change game access"):
                 pilot(None, root, None, None, resume=True, agent="ga", game_access="native")
+
+    def test_route_moves_preserve_every_atomic_feedback_cost_and_event(self):
+        game, session, unused = self.start()
+        unused.server.server_close()
+        tool = GameTool(session.dispatch, definition=movement_tool("route"), target_actions=("move",))
+        result = tool({"action":"move", "path":["J", "JN", "NL", "P"]})
+        self.assertEqual(result["batch"], {"requested":4, "attempted":4, "executed":4, "stopped":"completed"})
+        self.assertEqual([row["observation"]["location"] for row in result["responses"]], ["J","JN","NL","P"])
+        self.assertEqual(result["observation"]["location"], "P")
+        self.assertTrue(result["feedback"]["raw_collected"])
+        reference, direct, unused = self.start()
+        unused.server.server_close()
+        for i,target in enumerate(("J","JN","NL","P")):
+            expected = direct.dispatch({"command":"action", "request_id":str(i), "action":{"type":"move", "target":target}})
+            actual = deepcopy(result["responses"][i])
+            for response in (actual,expected):response["observation"].pop("task_run_id",None)
+            self.assertEqual(actual, expected)
+        self.assertEqual((game.steps,game.distance), (reference.steps,reference.distance))
+        self.assertEqual(len(game.events),len(reference.events))
+        self.assertEqual(len(list(response_observations(result))),4)
+
+    def test_route_validation_and_early_stop_do_not_execute_later_moves(self):
+        game, session, unused = self.start()
+        unused.server.server_close()
+        tool = GameTool(session.dispatch, definition=movement_tool("route"), target_actions=("move",))
+        for args in ({"action":"move", "path":["J",7]}, {"action":"move", "path":["J"], "target":"J"},
+                     {"action":"process", "path":["J"]}, {"action":"move", "path":["J"]*33},
+                     {"action":"move", "path":["J"], "endpoint":"other"}):
+            self.assertIn("error",tool(args))
+            self.assertEqual(game.steps,0)
+        result = tool({"action":"move", "path":["J","P","JN"]})
+        self.assertEqual(result["batch"]["stopped"],"error")
+        self.assertEqual((result["batch"]["attempted"],result["batch"]["executed"]),(2,1))
+        self.assertEqual((game.state.position,game.steps),("J",1))
+        terminal = deepcopy(session.initial)
+        terminal["observation"]["done"] = True
+        calls=[]
+        stopped=GameTool(lambda request:(calls.append(request) or terminal),definition=movement_tool("route"),target_actions=("move",))
+        self.assertEqual(stopped({"action":"move","path":["J","JN"]})["batch"]["stopped"],"task_done")
+        self.assertEqual(len(calls),1)
+        self.assertIn("error",GameTool(session.dispatch,definition=STATION_TOOL,target_actions=("move",))({"action":"move","path":["JN"]}))
+
+    def test_route_mode_cannot_be_changed_on_resume(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            (root/"pilot.json").write_text(json.dumps({"agent":"hermes","game_access":"native"}),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"Cannot change movement mode"):
+                pilot(None,root,None,None,resume=True,agent="hermes",movement_mode="route")
+        with self.assertRaisesRegex(ValueError,"Route movement requires native Hermes"):
+            pilot(None,"unused",None,None,movement_mode="route")
 
     def test_single_action_boundary_is_shared_by_clients_and_preserves_last_feedback(self):
         game = StationGame("omega_15_05", load_design(EASY20_REUSE_DESIGN))
