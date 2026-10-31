@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-10-31T23:51:36.995203+00:00",
+  "experiment_mode": "independent",
+  "runtime_source_commit": "61e97226dfdcacdbe79977b1d75e06305a8e3733",
+  "distinct_owner_processes": 4,
+  "peer_dependencies": [],
+  "legacy_paired_sessions_imported": 0,
+  "public_progress_verified": true,
+  "private_verification_sha256": "853e748325e5b329392c6c4aaf7feb54689ced0e54bb18f10240d35084c2742d",
+  "runs": [
+    {
+      "agent": "ga",
+      "condition": "retain",
+      "public_run_id": "pilot-6a098797a9e2b762-retain",
+      "experiment_id": "pilot-6a098797a9e2b762",
+      "tasks": 20,
+      "status": "running",
+      "first_task_real_model_responses": 22,
+      "first_task_location": "NR",
+      "fresh_original_memory_and_empty_history_verified": true,
+      "fresh_context_and_native_interface_verified": true,
+      "frozen_source_verified": true
+    },
+    {
+      "agent": "ga",
+      "condition": "clear",
+      "public_run_id": "pilot-d3c21d88c9608f86-clear",
+      "experiment_id": "pilot-d3c21d88c9608f86",
+      "tasks": 20,
+      "status": "running",
+      "first_task_real_model_responses": 23,
+      "first_task_location": "c1p1",
+      "fresh_original_memory_and_empty_history_verified": true,
+      "fresh_context_and_native_interface_verified": true,
+      "frozen_source_verified": true
+    },
+    {
+      "agent": "hermes",
+      "condition": "retain",
+      "public_run_id": "pilot-4ff56909ad86d393-retain",
+      "experiment_id": "pilot-4ff56909ad86d393",
+      "tasks": 20,
+      "status": "running",
+      "first_task_real_model_responses": 18,
+      "first_task_location": "B1",
+      "fresh_original_memory_and_empty_history_verified": true,
+      "fresh_context_and_native_interface_verified": true,
+      "frozen_source_verified": true
+    },
+    {
+      "agent": "hermes",
+      "condition": "clear",
+      "public_run_id": "pilot-cb2eaab70b60bf14-clear",
+      "experiment_id": "pilot-cb2eaab70b60bf14",
+      "tasks": 20,
+      "status": "running",
+      "first_task_real_model_responses": 8,
+      "first_task_location": "a1p1",
+      "fresh_original_memory_and_empty_history_verified": true,
+      "fresh_context_and_native_interface_verified": true,
+      "frozen_source_verified": true
+    }
+  ],
+  "scope": "Startup and isolation evidence only; all four experiments continue autonomously, no complete-run performance result yet."
+}

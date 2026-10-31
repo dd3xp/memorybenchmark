@@ -38,3 +38,5 @@ python -m scripts.compare_station_experiments --retain .runs/pilot-ga-retain --c
 `scripts.check_station_independent` 使用脚本响应运行两条完整的真实原生两任务实验，核查空上下文、记忆继承／清除、所有会话独立和自身历史重放；让保留组 T2 等待清除组整轮完成，以验证没有任务屏障。这是软件验证，不作为 agent 能力成绩。
 
 [软件验证记录](assets/independent-experiments/validation.json)：本地／Squishy 各 222 项回归通过，两种原生 agent 各运行两条两任务实验，记忆继承与重置、自身历史重放、无任务屏障和独立离线比较均通过；真实模型调用为零。
+
+[正式启动验证](assets/independent-experiments/live-validation.json)：GA／Hermes 各两轮 20 项实验已分别启动，四个独立后台进程均收到真实模型响应并执行游戏操作。公开页面显示四个不同实验 ID；此记录仅证明启动与隔离，不包含整轮能力成绩。
