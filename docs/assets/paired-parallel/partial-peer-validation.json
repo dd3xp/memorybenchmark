@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-10-31T23:20:32.520568+00:00",
+  "kind": "actual_ga_partial_transport_peer_validation",
+  "task": "T18",
+  "condition": "clear",
+  "recorded_host_error": "gateway_transport_error",
+  "model_error_at_call": 11,
+  "game_actions": 10,
+  "distance": 9,
+  "completed_sessions_preserved": 34,
+  "real_model_calls_for_validation": 0,
+  "summary_sha256": "01c6b925fb07b1e7dd740db7fee94914874a2dd0f7edaaf848763754cd1df2c4",
+  "events_sha256": "43c8f2b407c3184a70c6a759bdeed9d0a1ccb43a06865b5e9cc7dfe0b7b48e3a"
+}

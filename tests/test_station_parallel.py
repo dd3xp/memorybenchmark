@@ -66,14 +66,14 @@ class ParallelStationTests(unittest.TestCase):
                 save_json(output / "initial-public.json", session.initial)
                 walk(game, "B" if condition == "clear" else "A")
                 game.step({"type": "inspect"})
-                broken = (task, condition) == fail and calls.count((task, condition)) == 1
+                broken = ((task, condition) in fail if isinstance(fail, set) else (task, condition) == fail) and calls.count((task, condition)) == 1
                 if not broken:
                     game.step({"type": "abandon"})  # A valid game failure must never be retried.
                     copy_memory(memory, output / "memory-after")
                     (output / "memory-after/learned.txt").write_text(task + ":" + condition)
                 report = {"task_id": task, "condition": condition, "infrastructure_ok": not broken,
-                    "success": None if broken else False, "distance": game.distance, "llm_calls": 0,
-                    "main_calls": 0, "final_calls": 0, "worker_returncode": 1 if broken else 0,
+                    "success": None if broken else False, "distance": game.distance, "llm_calls": 1 if broken else 0,
+                    "main_calls": 1 if broken else 0, "final_calls": 0, "worker_returncode": 1 if broken else 0,
                     "action_policy": "single", "action_policy_rejections": 0,
                     "game_actions": game.steps, "input_memory": before,
                     "initial_session": {"initial_history_size": 0, "initial_backend_history_size": 0,
@@ -84,6 +84,11 @@ class ParallelStationTests(unittest.TestCase):
                 data = "".join(json.dumps(row) + "\n" for row in deliveries).encode()
                 (output / "game-deliveries.jsonl").write_bytes(data)
                 (output / "audit.jsonl").write_text("")
+                if broken:
+                    report["model_error_at_call"] = 1
+                    (output / "model").mkdir()
+                    save_json(output / "model/001-request.json", {"synthetic_fixture": True})
+                    (output / "audit.jsonl").write_text(json.dumps({"kind": "model_transport_error", "call": 1, "error": "gateway_transport_error"}) + "\n")
                 report["game_deliveries_sha256"] = sha256(data).hexdigest()
                 save_json(output / "graph.json", trace_graph(game))
                 save_json(output / "summary.json", report)
@@ -159,6 +164,36 @@ class ParallelStationTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "trace differs"):
                     resume_parallel(output, None, None)
             self.assertEqual(len(calls), 6)
+
+    def test_both_branches_disconnected_with_one_unregistered_are_archived_and_retried(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = self.make_run(Path(directory))
+            fixture, calls, *_ = self.fixture(fail={("T2", "retain"), ("T2", "clear")})
+            with patch("memorybenchmark.prototypes.station_parallel.StationNativeSessions", fixture), redirect_stdout(io.StringIO()):
+                with self.assertRaises(InfrastructureError):resume_parallel(output, None, None)
+                report = json.loads((output / "pilot.json").read_text())
+                report["sessions"] = [r for r in report["sessions"] if r["name"] != "02-T2-clear"]
+                save_json(output / "pilot.json", report)
+                result = resume_parallel(output, None, None)
+            self.assertEqual(result["status"], "completed")
+            self.assertEqual(calls.count(("T1", "prefix")), 1)
+            self.assertEqual(calls.count(("T2", "retain")), 2)
+            self.assertEqual(calls.count(("T2", "clear")), 2)
+            self.assertEqual(len(result["attempt_history"]), 2)
+
+    def test_unregistered_transport_peer_without_host_error_evidence_is_not_retried(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = self.make_run(Path(directory))
+            fixture, calls, *_ = self.fixture(fail={("T2", "retain"), ("T2", "clear")})
+            with patch("memorybenchmark.prototypes.station_parallel.StationNativeSessions", fixture), redirect_stdout(io.StringIO()):
+                with self.assertRaises(InfrastructureError):resume_parallel(output, None, None)
+                report = json.loads((output / "pilot.json").read_text())
+                report["sessions"] = [r for r in report["sessions"] if r["name"] != "02-T2-clear"]
+                save_json(output / "pilot.json", report)
+                (output / "sessions/02-T2-clear/audit.jsonl").write_text("")
+                with self.assertRaisesRegex(RuntimeError, "Host audit"):
+                    resume_parallel(output, None, None)
+            self.assertEqual(calls.count(("T2", "clear")), 1)
 
     def test_handoff_blocks_only_next_unopened_session_and_refuses_to_remove_real_data(self):
         with tempfile.TemporaryDirectory() as directory:

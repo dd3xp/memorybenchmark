@@ -162,6 +162,57 @@ def _completed_peer(folder, checkpoint, task, condition, memory, report):
     return result
 
 
+def _transport_peer(folder, checkpoint, task, condition, memory, report):
+    """Validate an unregistered partial worker before recording its failed attempt."""
+    result = read(folder / "summary.json")
+    if folder.is_symlink() or not transport_failure(result) or (result.get("task_id"), result.get("condition")) != (task, condition):
+        raise RuntimeError("Unregistered peer is not a matching transport failure")
+    if read(folder / "prior-events.json") != checkpoint.events or read(folder / "memory-before.json") != memory_manifest(memory):
+        raise RuntimeError("Unregistered transport peer has different inputs")
+    current = deepcopy(checkpoint)
+    initial = StationSession(current, task, feedback_mode=report["feedback_mode"]).initial
+    if read(folder / "initial-public.json") != initial:
+        raise RuntimeError("Unregistered transport peer has a different initial state")
+    events = [json.loads(line) for line in (folder / "events.jsonl").read_text(encoding="utf-8").splitlines()]
+    for event in events[len(current.events):]:
+        if event["task_run_id"] != current.task_run_id:
+            raise RuntimeError("Unknown event in partial transport peer")
+        if event["kind"] == "action":
+            current.step(event["action"])
+        elif event["kind"] == "runner_terminated":
+            current.finish_incomplete(event["delivered"]["feedback"]["reason"])
+        else:
+            raise RuntimeError("Unknown event in partial transport peer")
+        if current.events[-1] != event:
+            raise RuntimeError("Partial transport feedback differs from replay")
+    if current.events != events or trace_graph(current) != read(folder / "graph.json"):
+        raise RuntimeError("Partial transport trace differs from replay")
+    if (current.steps, current.distance) != (result.get("game_actions"), result.get("distance")):
+        raise RuntimeError("Partial transport costs differ from replay")
+    calls = result.get("llm_calls")
+    if result.get("model_error_at_call") != calls or not isinstance(calls, int) or calls < 1:
+        raise RuntimeError("Missing failed model-call identity")
+    if len(list((folder / "model").glob("*-request.json"))) != calls or len(list((folder / "model").glob("*-response.json"))) != calls - 1:
+        raise RuntimeError("Partial transport response boundary is inconsistent")
+    initial = result.get("initial_session", {})
+    if initial.get("initial_history_size") != 0 or initial.get("initial_backend_history_size") != 0 or initial.get("working") != {}:
+        raise RuntimeError("Partial transport peer context was not isolated")
+    if not initial.get("isolation") or not all(v for k, v in initial["isolation"].items() if k != "pid"):
+        raise RuntimeError("Partial transport peer isolation is unverified")
+    if not 0 <= result.get("main_calls", -1) <= report["max_turns"] or not 0 <= result.get("final_calls", -1) <= report["final_turns"] or result["main_calls"] + result["final_calls"] != calls:
+        raise RuntimeError("Partial transport peer exceeded its budget")
+    audit = [json.loads(line) for line in (folder / "audit.jsonl").read_text(encoding="utf-8").splitlines()]
+    errors = [e for e in audit if e.get("kind") == "model_transport_error"]
+    if not errors or errors[-1].get("call") != calls or not any(term in str(errors[-1].get("error", "")) for term in TRANSPORT_ERRORS):
+        raise RuntimeError("Host audit does not confirm the transport failure")
+    from scripts.check_ga_single_action import check_boundaries
+    if result.get("action_policy") != report["action_policy"] or check_boundaries(folder)["rejected_extra_actions"] != result.get("action_policy_rejections"):
+        raise RuntimeError("Partial transport action boundaries differ")
+    if sha256((folder / "game-deliveries.jsonl").read_bytes()).hexdigest() != result.get("game_deliveries_sha256"):
+        raise RuntimeError("Partial transport feedback delivery hash differs")
+    return result
+
+
 def resume_parallel(output, jail, model):
     output = Path(output).resolve()
     report = read(output / "pilot.json")
@@ -221,6 +272,17 @@ def resume_parallel(output, jail, model):
                         raise RuntimeError("Recorded branch does not match its canonical checkpoint")
                     continue
                 if folder.exists():
+                    if (folder / "summary.json").is_file() and transport_failure(read(folder / "summary.json")):
+                        result = _transport_peer(folder, checkpoint, task, condition,
+                                                 baseline if condition == "clear" else memory, report)
+                        row = {"name": name, **result}
+                        report["sessions"].append(row)
+                        report["sessions"].sort(key=lambda r: order[r["name"]])
+                        save_json(output / "pilot.json", report)
+                        _archive_failed(output, report, row)
+                        event("unregistered_transport_peer_archived", name=name)
+                        pending.append((name, condition, folder))
+                        continue
                     result = _completed_peer(folder, checkpoint, task, condition,
                                              baseline if condition == "clear" else memory, report)
                     report["sessions"].append({"name": name, **result})
