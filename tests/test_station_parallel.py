@@ -16,6 +16,7 @@ from memorybenchmark.prototypes.station_parallel import reserve_handoff, release
 from memorybenchmark.prototypes.station_routes import walk
 from memorybenchmark.prototypes.station_session import DEFAULT_DESIGN, StationSession
 from memorybenchmark.watch import atomic_json as save_json
+from scripts.check_station_capability import trace_graph
 
 
 class ParallelStationTests(unittest.TestCase):
@@ -60,7 +61,9 @@ class ParallelStationTests(unittest.TestCase):
                     counters["peak"] = max(counters["peak"], counters["active"])
                 if task in self.parallel_tasks:
                     barrier.wait(timeout=10)
-                StationSession(game, task)
+                deliveries = []
+                session = StationSession(game, task, on_delivery=lambda request, response: deliveries.append({"request": request, "response": response}))
+                save_json(output / "initial-public.json", session.initial)
                 walk(game, "B" if condition == "clear" else "A")
                 game.step({"type": "inspect"})
                 broken = (task, condition) == fail and calls.count((task, condition)) == 1
@@ -70,7 +73,19 @@ class ParallelStationTests(unittest.TestCase):
                     (output / "memory-after/learned.txt").write_text(task + ":" + condition)
                 report = {"task_id": task, "condition": condition, "infrastructure_ok": not broken,
                     "success": None if broken else False, "distance": game.distance, "llm_calls": 0,
-                    "content_changed": ["learned.txt"], "infrastructure_error": "gateway_transport_error" if broken else None}
+                    "main_calls": 0, "final_calls": 0, "worker_returncode": 1 if broken else 0,
+                    "action_policy": "single", "action_policy_rejections": 0,
+                    "game_actions": game.steps, "input_memory": before,
+                    "initial_session": {"initial_history_size": 0, "initial_backend_history_size": 0,
+                        "working": {}, "isolation": {"pid": 1, "filesystem": True, "network": True}},
+                    "infrastructure_error": "gateway_transport_error" if broken else None}
+                if not broken:
+                    report.update(content_changed=["learned.txt"], output_memory=memory_manifest(output / "memory-after"))
+                data = "".join(json.dumps(row) + "\n" for row in deliveries).encode()
+                (output / "game-deliveries.jsonl").write_bytes(data)
+                (output / "audit.jsonl").write_text("")
+                report["game_deliveries_sha256"] = sha256(data).hexdigest()
+                save_json(output / "graph.json", trace_graph(game))
                 save_json(output / "summary.json", report)
                 (output / "events.jsonl").write_text("".join(json.dumps(e) + "\n" for e in game.events), encoding="utf-8")
                 with lock:
@@ -113,6 +128,37 @@ class ParallelStationTests(unittest.TestCase):
             self.assertEqual(calls.count(("T2", "clear")), 2)
             self.assertEqual(sha256(completed.read_bytes()).hexdigest(), digest)
             self.assertEqual(len(result["attempt_history"]), 1)
+
+    def test_completed_unregistered_peer_is_replayed_and_adopted_without_another_execution(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = self.make_run(Path(directory))
+            report = json.loads((output / "pilot.json").read_text())
+            report["tasks"] = ["T1", "T2"]
+            save_json(output / "pilot.json", report)
+            fixture, calls, *_ = self.fixture()
+            with patch("memorybenchmark.prototypes.station_parallel.StationNativeSessions", fixture), redirect_stdout(io.StringIO()):
+                report = resume_parallel(output, None, None)
+                row = report["sessions"].pop()
+                report["status"] = "interrupted"
+                save_json(output / "pilot.json", report)
+                result = resume_parallel(output, None, None)
+            self.assertEqual(len(calls), 4)
+            self.assertEqual(result["sessions"][-1], row)
+            self.assertEqual(result["adopted_completed_sessions"][0]["name"], "02-T2-clear")
+
+    def test_unregistered_peer_with_altered_trace_is_not_adopted_or_rerun(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = self.make_run(Path(directory))
+            fixture, calls, *_ = self.fixture()
+            with patch("memorybenchmark.prototypes.station_parallel.StationNativeSessions", fixture), redirect_stdout(io.StringIO()):
+                report = resume_parallel(output, None, None)
+                report["sessions"].pop()
+                report["status"] = "interrupted"
+                save_json(output / "pilot.json", report)
+                save_json(output / "sessions/03-T3-clear/graph.json", {"altered": True})
+                with self.assertRaisesRegex(RuntimeError, "trace differs"):
+                    resume_parallel(output, None, None)
+            self.assertEqual(len(calls), 6)
 
     def test_handoff_blocks_only_next_unopened_session_and_refuses_to_remove_real_data(self):
         with tempfile.TemporaryDirectory() as directory:

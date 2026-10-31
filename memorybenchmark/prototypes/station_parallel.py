@@ -23,6 +23,8 @@ from ..model_gateway import GatewayModel
 from ..watch import atomic_json as save_json
 from .station_capability import StationGame
 from .station_pilot import StationNativeSessions, replay_checkpoint
+from .station_session import StationSession
+from scripts.check_station_capability import trace_graph
 
 
 PROTOCOL = "station-paired-parallel-1"
@@ -101,6 +103,65 @@ def _archive_failed(output, report, row):
     save_json(output / "pilot.json", report)
 
 
+def _completed_peer(folder, checkpoint, task, condition, memory, report):
+    """Validate a completed worker result left behind by a coordinator failure.
+
+    A saved directory alone is insufficient. Replay the complete game evidence,
+    verify both memory manifests, native context isolation, response counts and
+    delivery hashes before adopting the already executed result.
+    """
+    if folder.is_symlink() or not (folder / "summary.json").is_file():
+        raise RuntimeError("Unrecorded session directory; inspect before retrying")
+    result = read(folder / "summary.json")
+    if not result.get("infrastructure_ok") or result.get("task_id") != task or result.get("condition") != condition:
+        raise RuntimeError("Unrecorded session is not a completed matching branch")
+    if read(folder / "prior-events.json") != checkpoint.events:
+        raise RuntimeError("Completed peer has a different canonical history")
+    expected = memory_manifest(memory)
+    if read(folder / "memory-before.json") != expected or result.get("input_memory") != expected:
+        raise RuntimeError("Completed peer has a different input memory")
+    if memory_manifest(folder / "memory-after") != result.get("output_memory"):
+        raise RuntimeError("Completed peer output memory differs from its saved manifest")
+    current = deepcopy(checkpoint)
+    initial = StationSession(current, task, feedback_mode=report["feedback_mode"]).initial
+    if read(folder / "initial-public.json")["observation"] != initial["observation"]:
+        raise RuntimeError("Completed peer has a different initial public state")
+    events = [json.loads(line) for line in (folder / "events.jsonl").read_text(encoding="utf-8").splitlines()]
+    for event in events[len(current.events):]:
+        if event["task_run_id"] != current.task_run_id:
+            raise RuntimeError("Completed peer contains another task's actions")
+        if event["kind"] == "action":
+            current.step(event["action"])
+        elif event["kind"] == "runner_terminated":
+            current.finish_incomplete(event["delivered"]["feedback"]["reason"])
+        else:
+            raise RuntimeError("Unknown completed peer event")
+        if current.events[-1] != event:
+            raise RuntimeError("Completed peer feedback differs from replay")
+    if not current.done or current.events != events or trace_graph(current) != read(folder / "graph.json"):
+        raise RuntimeError("Completed peer trace differs from replay")
+    if (current.state.success, current.steps, current.distance) != (result.get("success"), result.get("game_actions"), result.get("distance")):
+        raise RuntimeError("Completed peer costs differ from replay")
+    initial = result.get("initial_session", {})
+    if initial.get("initial_history_size") != 0 or initial.get("initial_backend_history_size") != 0 or initial.get("working") != {}:
+        raise RuntimeError("Completed peer context was not isolated")
+    if not initial.get("isolation") or not all(v for k, v in initial["isolation"].items() if k != "pid"):
+        raise RuntimeError("Completed peer worker isolation is unverified")
+    calls = result.get("llm_calls")
+    if len(list((folder / "model").glob("*-request.json"))) != calls or len(list((folder / "model").glob("*-response.json"))) != calls:
+        raise RuntimeError("Completed peer has incomplete model responses")
+    if not 0 <= result.get("main_calls", -1) <= report["max_turns"] or not 0 <= result.get("final_calls", -1) <= report["final_turns"]:
+        raise RuntimeError("Completed peer exceeded its model budget")
+    if result["main_calls"] + result["final_calls"] != calls or result.get("action_policy") != report["action_policy"]:
+        raise RuntimeError("Completed peer has a different execution contract")
+    from scripts.check_ga_single_action import check_boundaries
+    if check_boundaries(folder)["rejected_extra_actions"] != result.get("action_policy_rejections"):
+        raise RuntimeError("Completed peer action boundary log differs from its summary")
+    if result.get("worker_returncode") != 0 or sha256((folder / "game-deliveries.jsonl").read_bytes()).hexdigest() != result.get("game_deliveries_sha256"):
+        raise RuntimeError("Completed peer worker or feedback log is incomplete")
+    return result
+
+
 def resume_parallel(output, jail, model):
     output = Path(output).resolve()
     report = read(output / "pilot.json")
@@ -160,7 +221,16 @@ def resume_parallel(output, jail, model):
                         raise RuntimeError("Recorded branch does not match its canonical checkpoint")
                     continue
                 if folder.exists():
-                    raise RuntimeError("Unrecorded session directory; inspect before retrying")
+                    result = _completed_peer(folder, checkpoint, task, condition,
+                                             baseline if condition == "clear" else memory, report)
+                    report["sessions"].append({"name": name, **result})
+                    report["sessions"].sort(key=lambda r: order[r["name"]])
+                    report.setdefault("adopted_completed_sessions", []).append({"name": name,
+                        "at_utc": datetime.now(timezone.utc).isoformat(),
+                        "summary_sha256": sha256((folder / "summary.json").read_bytes()).hexdigest()})
+                    save_json(output / "pilot.json", report)
+                    event("completed_peer_adopted", name=name)
+                    continue
                 pending.append((name, condition, folder))
             # Only the coordinator writes pilot.json. Branches have separate
             # games, writable memory, jailed workers, MCP services and logs.
@@ -183,7 +253,7 @@ def resume_parallel(output, jail, model):
                     save_json(output / "pilot.json", report)
                     if not result["infrastructure_ok"]:
                         failures.append(InfrastructureError(result.get("infrastructure_error", "Native session failed")))
-                    print(json.dumps({k: result[k] for k in ("name", "success", "distance", "llm_calls", "content_changed")}, ensure_ascii=False), flush=True)
+                    print(json.dumps({k: result.get(k) for k in ("name", "success", "distance", "llm_calls", "content_changed")}, ensure_ascii=False), flush=True)
             if failures:
                 raise failures[0]  # The other active branch has already settled and been saved.
             keep_name = pair[0][0]

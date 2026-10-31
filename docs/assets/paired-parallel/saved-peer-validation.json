@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-10-31T22:28:47.674005+00:00",
+  "kind": "completed_t11_clear_actual_trace_and_memory_validation",
+  "condition": "clear",
+  "task": "T11",
+  "success": true,
+  "game_actions": 52,
+  "distance": 56,
+  "model_calls": 63,
+  "real_model_calls_for_validation": 0,
+  "summary_sha256": "f6c2d079ec96457511d80079fd8e381797f68ff9e3a9e34881975f3cf0e58d34",
+  "events_sha256": "2b8bf807c45aed0f005a050d20aa07115dc785e5cd7e5a5c35da658c0af7bac9",
+  "validated_same_checkpoint": true,
+  "validated_baseline_only": true,
+  "validated_complete_responses": true,
+  "validated_native_isolation_and_single_actions": true,
+  "validated_output_memory": true
+}
