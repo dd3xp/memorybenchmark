@@ -20,6 +20,7 @@ from .watch import atomic_json as save_json
 
 
 REASONING_EFFORTS = ("low", "medium", "high")
+MODEL_REQUEST_KINDS = ("agent", "session_title", "context_compression")
 
 
 def native_model_request_kind(payload, worker_protocol):
@@ -30,6 +31,17 @@ def native_model_request_kind(payload, worker_protocol):
             and str(payload.get("instructions", "")).startswith(
                 "You name chat sessions. Given the user's opening message, write a title")):
         return "session_title"
+    if (worker_protocol == "hermes-session-1" and not payload.get("tools")
+            and payload.get("instructions") == "You are a helpful assistant."):
+        messages = [m for m in payload.get("input", []) if m.get("role") != "developer"]
+        if len(messages) == 1 and messages[0].get("role") == "user":
+            content = messages[0].get("content")
+            if isinstance(content, list):
+                content = "".join(str(part.get("text", "")) for part in content if isinstance(part, dict))
+            if (isinstance(content, str)
+                    and content.startswith("You are a summarization agent creating a context checkpoint.")
+                    and "\n\nTURNS TO SUMMARIZE" in content):
+                return "context_compression"
     return "agent"
 
 
@@ -62,7 +74,7 @@ class WorkerSessions:
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
                   "infrastructure_ok":False, "continuations":[], "wall_seconds":self.wall_seconds,
                   "reasoning_effort":config.get("reasoning_effort", "low"),
-                  "model_request_kinds":{"agent":0, "session_title":0}}
+                  "model_request_kinds":dict.fromkeys(MODEL_REQUEST_KINDS, 0)}
         final_phase = False
         gate = DecisionGate(config.get("action_policy", "batch"))
         error_log = (output / "worker.stderr").open("w", encoding="utf-8")

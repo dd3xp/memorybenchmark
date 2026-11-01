@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import sys
 
 from memorybenchmark.agent_sessions import WorkerSessions, native_model_request_kind
 from scripts.compare_station_experiments import compare
@@ -49,8 +50,48 @@ class ReasoningEffortTests(unittest.TestCase):
             save_json(root / "model/002-request.json", {"instructions": "You name chat sessions. Given the user's opening message, write a title"})
             write(2, {"reasoning": {"effort": "none"}, "usage": {"input_tokens": 3, "output_tokens": 2}})
             usage = model_usage(root, "high", "hermes")
-            self.assertEqual(usage["request_kinds"], {"agent": 1, "session_title": 1})
+            self.assertEqual(usage["request_kinds"], {"agent": 1, "session_title": 1, "context_compression": 0})
             self.assertEqual(usage["reported_tokens"]["input_tokens"], 23)
+
+    def test_compression_requires_the_exact_native_tool_free_checkpoint_shape(self):
+        prompt = "You are a summarization agent creating a context checkpoint.\n\nTURNS TO SUMMARIZE:\nsynthetic conversation"
+        payload = {"instructions": "You are a helpful assistant.", "input": [
+            {"role": "developer", "content": "current task"}, {"role": "user", "content": prompt}]}
+        self.assertEqual(native_model_request_kind(payload, "hermes-session-1"), "context_compression")
+        for changed, protocol in ((payload, "ga-session-1"),
+            ({**payload, "tools": [{"name": "memory"}]}, "hermes-session-1"),
+            ({**payload, "input": [{"role": "user", "content": "Review and save experience"}]}, "hermes-session-1"),
+            ({**payload, "input": [{"role": "user", "content": prompt.split("\n\nTURNS")[0]}]}, "hermes-session-1")):
+            self.assertEqual(native_model_request_kind(changed, protocol), "agent")
+
+    def test_worker_preserves_native_compression_payload_and_still_rejects_missing_main_effort(self):
+        checkpoint = {"instructions": "You are a helpful assistant.", "input": [{"role": "user", "content":
+            "You are a summarization agent creating a context checkpoint.\n\nTURNS TO SUMMARIZE:\nfixture"}]}
+        for valid in (True, False):
+            with self.subTest(valid=valid), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                payload = checkpoint if valid else {"instructions": "Review and save experience", "input": []}
+                script = root / "worker.py"
+                script.write_text("import json,sys\nsys.stdin.readline()\n" +
+                    "print(json.dumps({'kind':'request','id':1,'method':'model','params':" + repr(payload) + "}),flush=True)\n" +
+                    "sys.stdin.readline()\nprint(json.dumps({'kind':'finished'}),flush=True)\n", encoding="utf-8")
+                class Jail:
+                    def command(self, *args, **kwargs):
+                        return [sys.executable, "-u", str(script)]
+                sessions = WorkerSessions(root, root, Jail(), model_alias="fixture", worker_protocol="hermes-session-1",
+                    game_transport="legacy-rpc", reasoning_effort="high")
+                received = []
+                def model(value):
+                    received.append(value)
+                    return {"lines": []}
+                report = sessions._worker(root, root, {"reasoning_effort": "high"}, model=model)
+                self.assertEqual(report["infrastructure_ok"], valid)
+                if valid:
+                    self.assertEqual(received, [payload])
+                    self.assertEqual(report["model_request_kinds"]["context_compression"], 1)
+                else:
+                    self.assertEqual(received, [])
+                    self.assertIn("reasoning effort differs", report["infrastructure_error"])
 
     def test_offline_comparison_rejects_high_low_pair_and_accepts_legacy_low(self):
         with tempfile.TemporaryDirectory() as directory:

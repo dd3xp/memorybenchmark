@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from memorybenchmark.prototypes.station_analysis import analyze_trace
-from memorybenchmark.agent_sessions import native_model_request_kind
+from memorybenchmark.agent_sessions import MODEL_REQUEST_KINDS, native_model_request_kind
 from memorybenchmark.prototypes.station_independent import PROTOCOL, read
 from memorybenchmark.watch import atomic_json as save_json
 from scripts.audit_station_native import audit
@@ -16,7 +16,7 @@ def model_usage(folder, reasoning_effort=None, agent=None):
     """Count provider acknowledgements, never estimate missing usage as zero."""
     totals = {key: 0 for key in ("input_tokens", "output_tokens", "reasoning_tokens")}
     calls = usage_calls = effort_calls = 0
-    kinds = {"agent": 0, "session_title": 0}
+    kinds = dict.fromkeys(MODEL_REQUEST_KINDS, 0)
     for path in sorted((folder / "model").glob("*-response.json")):
         calls += 1
         request_path = path.with_name(path.name.replace("-response.json", "-request.json"))
@@ -83,7 +83,7 @@ def report(run, *, native_archive=None, source_commit=None, source_newlines=None
         for key in ("input_tokens", "output_tokens", "reasoning_tokens")}
     result["model_usage"]["usage_complete"] = all(row["model_usage"]["usage_complete"] for row in rows)
     result["model_usage"]["request_kinds"] = {key: sum(row["model_usage"]["request_kinds"][key] for row in rows)
-        for key in ("agent", "session_title")}
+        for key in MODEL_REQUEST_KINDS}
     save_json(run / "analysis.json", result)
     return result
 
