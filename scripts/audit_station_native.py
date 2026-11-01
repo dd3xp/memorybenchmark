@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 
 from memorybenchmark.ga_runtime import memory_manifest
+from memorybenchmark.agent_sessions import native_model_request_kind
 from memorybenchmark.prototypes.station_capability import StationGame
 from scripts.check_station_capability import trace_graph
 
@@ -67,7 +68,9 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             assert summary.get("reasoning_effort")==pilot["reasoning_effort"], "Session reasoning effort differs"
             for path in requests:
                 payload=json.loads(read(path))
-                assert payload.get("reasoning",{}).get("effort")==pilot["reasoning_effort"], "Model request reasoning effort differs"
+                protocol="hermes-session-1" if pilot.get("agent")=="hermes" else "ga-session-1"
+                if native_model_request_kind(payload, protocol)=="agent":
+                    assert payload.get("reasoning",{}).get("effort")==pilot["reasoning_effort"], "Model request reasoning effort differs"
         assert summary["main_calls"]<=pilot["max_turns"] and summary["final_calls"]<=pilot["final_turns"]
         initial=summary["initial_session"]
         assert initial["initial_history_size"]==initial["initial_backend_history_size"]==0

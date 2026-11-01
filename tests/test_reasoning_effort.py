@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from memorybenchmark.agent_sessions import WorkerSessions
+from memorybenchmark.agent_sessions import WorkerSessions, native_model_request_kind
 from scripts.compare_station_experiments import compare
 from scripts.report_station_experiment import model_usage
 from memorybenchmark.prototypes.station_independent import PROTOCOL
@@ -12,6 +12,13 @@ from memorybenchmark.watch import atomic_json as save_json
 
 
 class ReasoningEffortTests(unittest.TestCase):
+    def test_only_native_tool_free_hermes_title_is_exempt_from_agent_effort(self):
+        title = {"instructions": "You name chat sessions. Given the user's opening message, write a title that lets them find this conversation again.", "input": []}
+        self.assertEqual(native_model_request_kind(title, "hermes-session-1"), "session_title")
+        self.assertEqual(native_model_request_kind(title, "ga-session-1"), "agent")
+        self.assertEqual(native_model_request_kind({**title, "tools": [{"type": "function", "name": "memory"}]}, "hermes-session-1"), "agent")
+        self.assertEqual(native_model_request_kind({"instructions": "Review this session and update memories", "input": []}, "hermes-session-1"), "agent")
+
     def test_task_configuration_preserves_legacy_low_and_forwards_high(self):
         initial = {"text": "task", "observation": {}}
         for effort in ("low", "high"):
@@ -39,6 +46,11 @@ class ReasoningEffortTests(unittest.TestCase):
             self.assertFalse(usage["usage_complete"])
             self.assertEqual(usage["calls_with_usage"], 1)
             self.assertEqual(usage["calls_with_effort_acknowledgement"], 1)
+            save_json(root / "model/002-request.json", {"instructions": "You name chat sessions. Given the user's opening message, write a title"})
+            write(2, {"reasoning": {"effort": "none"}, "usage": {"input_tokens": 3, "output_tokens": 2}})
+            usage = model_usage(root, "high", "hermes")
+            self.assertEqual(usage["request_kinds"], {"agent": 1, "session_title": 1})
+            self.assertEqual(usage["reported_tokens"]["input_tokens"], 23)
 
     def test_offline_comparison_rejects_high_low_pair_and_accepts_legacy_low(self):
         with tempfile.TemporaryDirectory() as directory:

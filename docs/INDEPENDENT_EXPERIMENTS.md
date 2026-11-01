@@ -19,6 +19,8 @@ python -m memorybenchmark.prototypes.station_independent --archive native-agent.
 
 新 run 可用 `--reasoning-effort high` 指定推理强度，未指定则沿用 `low`。该字段同时冻结在实验清单、每个任务和实际模型请求中；宿主在发送前核对原生请求，离线审计再次核对。恢复不能改变该设置，比较程序拒绝混合 high／low 两组。旧清单缺少字段时按原先的 low 处理。网页对 high 运行单独标记，完整报告记录提供方返回的 token 使用量、覆盖率与任务耗时；同一档推理强度不代表实际 token 相等。
 
+强度约束适用于游戏决策和记忆复盘。Hermes 原生会话命名请求明确关闭推理；只对其固定标题提示且无工具的元数据请求保留该行为，单独记录为 `session_title`，仍计入调用预算和总 token，不放宽任何决策／经验复盘请求。原生源码不修改。
+
 ```powershell
 python -m memorybenchmark.prototypes.station_independent --resume --output .runs/pilot-ga-clear --base-url https://gateway.example --runtime /path/to/native-runtime
 python -m scripts.report_station_experiment --run .runs/pilot-ga-clear --output clear-result.json
