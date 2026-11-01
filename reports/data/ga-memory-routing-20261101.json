@@ -1,0 +1,3194 @@
+{
+  "kind": "verified_ga_memory_routing_diagnosis_not_full_task_ablation",
+  "date": "2026-11-01",
+  "configuration": {
+    "agent": "GA",
+    "native_commit": "e4d956f0207a2d268704634473196353946481bc",
+    "native_archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2",
+    "model": "gpt-5.6-luna",
+    "formal_run_reasoning_effort": "low",
+    "executed_native_source_sha256": {
+      "ga.py": "6271e6ad80b9ca7302029f1a70e823544b5d117f57300efffa0a722843a8afbd",
+      "agentmain.py": "327d5b27012356df39e8c12f444ba61d2eba87cad9aa87a1ed72958c0516ab7f",
+      "agent_loop.py": "c4f65ace32d1499e5db10ce69d81545234c29417076d2eab892e2e6879b65bfd",
+      "llmcore.py": "58b6d79abe9a49d8817de2dfead7407e80c5a6fb1de58fac9a83e55ceca7652d"
+    }
+  },
+  "formal_run_observation": {
+    "tasks": 20,
+    "successes": 20,
+    "tasks_writing_game_markdown": 20,
+    "later_tasks": 19,
+    "index_delivered": 19,
+    "own_body_read_before_game_end_tasks": [],
+    "own_body_read_only_for_closeout_tasks": [
+      "T10",
+      "T11",
+      "T12",
+      "T14",
+      "T15",
+      "T16",
+      "T17",
+      "T18",
+      "T19",
+      "T2",
+      "T20",
+      "T3",
+      "T4",
+      "T6",
+      "T7",
+      "T8",
+      "T9"
+    ],
+    "working_checkpoint_used_tasks": [
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T10",
+      "T11",
+      "T15",
+      "T17"
+    ],
+    "unindexed_extra_game_documents_at_T20": [
+      "lanting_easy20_fixed_types_v5_t5_findings.md",
+      "lanting_easy20_T13_replay.md"
+    ],
+    "core_game_document_is_indexed": true
+  },
+  "native_function_execution_checks": {
+    "passed": true,
+    "provider_calls": 0,
+    "native_ga_sha256": "6271e6ad80b9ca7302029f1a70e823544b5d117f57300efffa0a722843a8afbd",
+    "get_global_memory_loads_index_only": true,
+    "native_file_read_delivers_own_correct_mapping": true,
+    "file_read_does_not_automatically_populate_working_checkpoint": true,
+    "explicit_working_checkpoint_is_reinjected": true,
+    "long_term_update_guard_rejects_turn_1_but_accepts_turn_50": true,
+    "all_calls_used_isolated_copies": true
+  },
+  "provider_attempts": 108,
+  "valid_counterfactual_responses": 108,
+  "same_batch_effort_pairs_verified": 9,
+  "case_tasks": [
+    "T3",
+    "T13",
+    "T18"
+  ],
+  "repetitions_per_condition_per_case": 3,
+  "condition_totals": [
+    {
+      "batch": "counterfactual-effort",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "trials": 9,
+      "memory_lookup_started": 7,
+      "body_read_requested": 7,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-effort",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "branch",
+      "variant": "original",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 8,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 6,
+      "working_checkpoint_requested": 1
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "trials": 9,
+      "memory_lookup_started": 1,
+      "body_read_requested": 1,
+      "directory_lookup_requested": 1,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "opening",
+      "variant": "original",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v1",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "trials": 9,
+      "memory_lookup_started": 8,
+      "body_read_requested": 5,
+      "directory_lookup_requested": 5,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v2",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "trials": 9,
+      "memory_lookup_started": 9,
+      "body_read_requested": 9,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v2",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "trials": 9,
+      "memory_lookup_started": 0,
+      "body_read_requested": 0,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    },
+    {
+      "batch": "counterfactual-v2",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "trials": 9,
+      "memory_lookup_started": 7,
+      "body_read_requested": 7,
+      "directory_lookup_requested": 0,
+      "direct_matching_route_step": 0,
+      "working_checkpoint_requested": 0
+    }
+  ],
+  "trials": [
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "57ed27b595feb42874af17c6205afff7a2658f0833ef86ff75b1334f029bea40",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "b2p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 18405,
+        "output_tokens": 129,
+        "total_tokens": 18534
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "1c8d8021db01d5e09dde396e8616d9b75419041654466ce5ba320347fdd3ee52",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": true,
+      "memory_lookup_started": true,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run",
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 168,
+        "total_tokens": 7890
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "02877bd7b81515cd5298c442a33260ca07124ad43ff3a014d4495ea88660a078",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": true,
+      "tool_names": [
+        "update_working_checkpoint"
+      ],
+      "usage": {
+        "input_tokens": 23356,
+        "output_tokens": 268,
+        "total_tokens": 23624
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "a2p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 16584,
+        "output_tokens": 104,
+        "total_tokens": 16688
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "77390cba88fbd68c2ff0afd82e03b607677bd63230bb221270488dc491288fab",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7590,
+        "output_tokens": 160,
+        "total_tokens": 7750
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "c38239a379267f099b53ac01a46ad45a96678a18fb6ff8e94d4035664b386102",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "d1p1"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11481,
+        "output_tokens": 127,
+        "total_tokens": 11608
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "a1p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 20772,
+        "output_tokens": 121,
+        "total_tokens": 20893
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "c38239a379267f099b53ac01a46ad45a96678a18fb6ff8e94d4035664b386102",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "d1p1"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11481,
+        "output_tokens": 125,
+        "total_tokens": 11606
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "a2p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 16584,
+        "output_tokens": 149,
+        "total_tokens": 16733
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "02877bd7b81515cd5298c442a33260ca07124ad43ff3a014d4495ea88660a078",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "NR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 23356,
+        "output_tokens": 165,
+        "total_tokens": 23521
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "a1p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 20772,
+        "output_tokens": 134,
+        "total_tokens": 20906
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "c38239a379267f099b53ac01a46ad45a96678a18fb6ff8e94d4035664b386102",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "d1p1"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11481,
+        "output_tokens": 121,
+        "total_tokens": 11602
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "c1p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11311,
+        "output_tokens": 145,
+        "total_tokens": 11456
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "e7103ed0cb18db42275585a984f40e8a394be45bd5ba897fdc59cb62071a7199",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 143,
+        "total_tokens": 7865
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "8bde842f964fac14e2bbbf4b30d7041eb74fff2176958270ed914b69f3439587",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "SR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 16754,
+        "output_tokens": 153,
+        "total_tokens": 16907
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9107fae1afac27b8d82310bec0a6da1efa82001dc07878c4d0bd7d36f55a2952",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7592,
+        "output_tokens": 198,
+        "total_tokens": 7790
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "92b7a862d5cea60343e5400dbfd0d4fc0a8dadc021df569296cac58d92b994c2",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "d1p1"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11742,
+        "output_tokens": 124,
+        "total_tokens": 11866
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "a1p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 20772,
+        "output_tokens": 85,
+        "total_tokens": 20857
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "77390cba88fbd68c2ff0afd82e03b607677bd63230bb221270488dc491288fab",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7590,
+        "output_tokens": 133,
+        "total_tokens": 7723
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 120,
+        "total_tokens": 7800
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "cc9086bba76c14f38db5fb044de4e3c486932fa15d554bfbaf9b874f1a756bf6",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7693,
+        "output_tokens": 167,
+        "total_tokens": 7860
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "a95b9c3d6200c82dd4cd487671c4131a37f873973851fb33c4a5f93dd8459e1d",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7696,
+        "output_tokens": 158,
+        "total_tokens": 7854
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "c1p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11311,
+        "output_tokens": 161,
+        "total_tokens": 11472
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "40ab96d76f2e555ed9290056924560084a4d31901e7079c81bce8d804fea4cf0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "NR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 20942,
+        "output_tokens": 162,
+        "total_tokens": 21104
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "a95b9c3d6200c82dd4cd487671c4131a37f873973851fb33c4a5f93dd8459e1d",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7696,
+        "output_tokens": 157,
+        "total_tokens": 7853
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9107fae1afac27b8d82310bec0a6da1efa82001dc07878c4d0bd7d36f55a2952",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7592,
+        "output_tokens": 135,
+        "total_tokens": 7727
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "57ed27b595feb42874af17c6205afff7a2658f0833ef86ff75b1334f029bea40",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "SR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 18405,
+        "output_tokens": 167,
+        "total_tokens": 18572
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "40ab96d76f2e555ed9290056924560084a4d31901e7079c81bce8d804fea4cf0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "NR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 20942,
+        "output_tokens": 172,
+        "total_tokens": 21114
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "e0f15ecb4fbb62a5b42480cc81d90336ec94702cbfab70c45a89d3bf3192402d",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7592,
+        "output_tokens": 168,
+        "total_tokens": 7760
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "f6565c9db0ccf3621f941d786dd90dbc9dc3e60d1b923c22d1df49d10357bb95",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": true,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7719,
+        "output_tokens": 139,
+        "total_tokens": 7858
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "cc9086bba76c14f38db5fb044de4e3c486932fa15d554bfbaf9b874f1a756bf6",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": true,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7693,
+        "output_tokens": 232,
+        "total_tokens": 7925
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "92b7a862d5cea60343e5400dbfd0d4fc0a8dadc021df569296cac58d92b994c2",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "d1p1"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11742,
+        "output_tokens": 148,
+        "total_tokens": 11890
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "77390cba88fbd68c2ff0afd82e03b607677bd63230bb221270488dc491288fab",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7590,
+        "output_tokens": 131,
+        "total_tokens": 7721
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "57ed27b595feb42874af17c6205afff7a2658f0833ef86ff75b1334f029bea40",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "b2p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 18405,
+        "output_tokens": 134,
+        "total_tokens": 18539
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "e0f15ecb4fbb62a5b42480cc81d90336ec94702cbfab70c45a89d3bf3192402d",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7592,
+        "output_tokens": 131,
+        "total_tokens": 7723
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 202,
+        "total_tokens": 7879
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "9fde4626aeda5808cfeb4999cef32fb75509872ca7c4fc4f42b9ef28d0429c74",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7696,
+        "output_tokens": 150,
+        "total_tokens": 7846
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 173,
+        "total_tokens": 7850
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "e7103ed0cb18db42275585a984f40e8a394be45bd5ba897fdc59cb62071a7199",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 114,
+        "total_tokens": 7836
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 125,
+        "total_tokens": 7805
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "f6565c9db0ccf3621f941d786dd90dbc9dc3e60d1b923c22d1df49d10357bb95",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": true,
+      "memory_lookup_started": true,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run",
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7719,
+        "output_tokens": 207,
+        "total_tokens": 7926
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 139,
+        "total_tokens": 7819
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 235,
+        "total_tokens": 7915
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "8bde842f964fac14e2bbbf4b30d7041eb74fff2176958270ed914b69f3439587",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "SR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 16754,
+        "output_tokens": 150,
+        "total_tokens": 16904
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "cc9086bba76c14f38db5fb044de4e3c486932fa15d554bfbaf9b874f1a756bf6",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7693,
+        "output_tokens": 170,
+        "total_tokens": 7863
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9107fae1afac27b8d82310bec0a6da1efa82001dc07878c4d0bd7d36f55a2952",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7592,
+        "output_tokens": 206,
+        "total_tokens": 7798
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "40ab96d76f2e555ed9290056924560084a4d31901e7079c81bce8d804fea4cf0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "NR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 20942,
+        "output_tokens": 157,
+        "total_tokens": 21099
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "a2p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 16584,
+        "output_tokens": 111,
+        "total_tokens": 16695
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "a95b9c3d6200c82dd4cd487671c4131a37f873973851fb33c4a5f93dd8459e1d",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7696,
+        "output_tokens": 135,
+        "total_tokens": 7831
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "remove_task_anchor",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "e0f15ecb4fbb62a5b42480cc81d90336ec94702cbfab70c45a89d3bf3192402d",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7592,
+        "output_tokens": 167,
+        "total_tokens": 7759
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "92b7a862d5cea60343e5400dbfd0d4fc0a8dadc021df569296cac58d92b994c2",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "d1p1"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11742,
+        "output_tokens": 128,
+        "total_tokens": 11870
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 109,
+        "total_tokens": 7789
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "9fde4626aeda5808cfeb4999cef32fb75509872ca7c4fc4f42b9ef28d0429c74",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7696,
+        "output_tokens": 135,
+        "total_tokens": 7831
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "branch",
+      "variant": "own_fact_section",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "a7d1ea387c073fe444fcbf90319584656b096cf808708b70ee675800bd2d038f",
+      "probe_request_sha256": "8bde842f964fac14e2bbbf4b30d7041eb74fff2176958270ed914b69f3439587",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "b2p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 16754,
+        "output_tokens": 141,
+        "total_tokens": 16895
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "branch",
+      "variant": "own_full_body",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "de6b4c7aaa34318059392e88bb2ae276a3a2697f92522035c791255994026843",
+      "probe_request_sha256": "02877bd7b81515cd5298c442a33260ca07124ad43ff3a014d4495ea88660a078",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "NR"
+      ],
+      "direct_matching_route_step": true,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 23356,
+        "output_tokens": 170,
+        "total_tokens": 23526
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 122,
+        "total_tokens": 7802
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "branch",
+      "variant": "original",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "probe_request_sha256": "114fbf9cd79c0a61b2401c1c34601f85a26b0dcfac502ff37b81b2058705ba12",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "c1p1"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 11311,
+        "output_tokens": 87,
+        "total_tokens": 11398
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "original",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 137,
+        "total_tokens": 7814
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "e7103ed0cb18db42275585a984f40e8a394be45bd5ba897fdc59cb62071a7199",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 112,
+        "total_tokens": 7834
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "1c8d8021db01d5e09dde396e8616d9b75419041654466ce5ba320347fdd3ee52",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 98,
+        "total_tokens": 7820
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "1c8d8021db01d5e09dde396e8616d9b75419041654466ce5ba320347fdd3ee52",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": true,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 155,
+        "total_tokens": 7877
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "retrieval_instruction",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "f6565c9db0ccf3621f941d786dd90dbc9dc3e60d1b923c22d1df49d10357bb95",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": true,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7719,
+        "output_tokens": 148,
+        "total_tokens": 7867
+      }
+    },
+    {
+      "batch": "counterfactual-v1",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "index_annotation",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "9fde4626aeda5808cfeb4999cef32fb75509872ca7c4fc4f42b9ef28d0429c74",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7696,
+        "output_tokens": 118,
+        "total_tokens": 7814
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "c9dd4c1e52cc4b8a9050f6248464e419aa4abcac26a49a6948a684224807ca76",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7715,
+        "output_tokens": 151,
+        "total_tokens": 7866
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "c9dd4c1e52cc4b8a9050f6248464e419aa4abcac26a49a6948a684224807ca76",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7715,
+        "output_tokens": 138,
+        "total_tokens": 7853
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "high",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "65c300f7dfb82d40a81cd921483a273b9fb83c6253b90af3bb97356132b9b249",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 366,
+        "total_tokens": 8046
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "6095484e244c828ca7057ced06a0ed581fc8c036e593ed29eb2d2bc8605fb89a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7715,
+        "output_tokens": 101,
+        "total_tokens": 7816
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "169fea9e9d6fa9290b31ce0994bf43ecad33fc487b466e26d2c07c25c01841e5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7712,
+        "output_tokens": 205,
+        "total_tokens": 7917
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "b4934d042b43db612a219fe6068ae26c8a6004400314ea76b8b4ccd45f299e80",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7725,
+        "output_tokens": 83,
+        "total_tokens": 7808
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "169fea9e9d6fa9290b31ce0994bf43ecad33fc487b466e26d2c07c25c01841e5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7712,
+        "output_tokens": 131,
+        "total_tokens": 7843
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "cca4e3de8b5361f334b81faf27f4287b7db95ac9dcee615993ad4f93a14e84f5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7725,
+        "output_tokens": 88,
+        "total_tokens": 7813
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "169fea9e9d6fa9290b31ce0994bf43ecad33fc487b466e26d2c07c25c01841e5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7712,
+        "output_tokens": 145,
+        "total_tokens": 7857
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "high",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "45ffa3d4938e6a3d4572cac223e4bbdd1d965932edb869ccf15da10c6a74fd0a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 309,
+        "total_tokens": 7989
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "b4934d042b43db612a219fe6068ae26c8a6004400314ea76b8b4ccd45f299e80",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7725,
+        "output_tokens": 84,
+        "total_tokens": 7809
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "high",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "65c300f7dfb82d40a81cd921483a273b9fb83c6253b90af3bb97356132b9b249",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 646,
+        "total_tokens": 8326
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "high",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "96a93a0e9d8fcf6f93a584eb6bd4b303afb32a5b15a7722b29d30656c9c1e9b0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 517,
+        "total_tokens": 8194
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "high",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "96a93a0e9d8fcf6f93a584eb6bd4b303afb32a5b15a7722b29d30656c9c1e9b0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 542,
+        "total_tokens": 8219
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "c9dd4c1e52cc4b8a9050f6248464e419aa4abcac26a49a6948a684224807ca76",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7715,
+        "output_tokens": 154,
+        "total_tokens": 7869
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "cca4e3de8b5361f334b81faf27f4287b7db95ac9dcee615993ad4f93a14e84f5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7725,
+        "output_tokens": 88,
+        "total_tokens": 7813
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "high",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "96a93a0e9d8fcf6f93a584eb6bd4b303afb32a5b15a7722b29d30656c9c1e9b0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 263,
+        "total_tokens": 7940
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "high",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "65c300f7dfb82d40a81cd921483a273b9fb83c6253b90af3bb97356132b9b249",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 237,
+        "total_tokens": 7917
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "6095484e244c828ca7057ced06a0ed581fc8c036e593ed29eb2d2bc8605fb89a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7715,
+        "output_tokens": 114,
+        "total_tokens": 7829
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "2a124aa4530eaf41eb190840f534c4defdadcb48071f619a4e2a959b788913a5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 91,
+        "total_tokens": 7813
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "file_tool_description",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "6095484e244c828ca7057ced06a0ed581fc8c036e593ed29eb2d2bc8605fb89a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7715,
+        "output_tokens": 141,
+        "total_tokens": 7856
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "2a124aa4530eaf41eb190840f534c4defdadcb48071f619a4e2a959b788913a5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 87,
+        "total_tokens": 7809
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "b4934d042b43db612a219fe6068ae26c8a6004400314ea76b8b4ccd45f299e80",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7725,
+        "output_tokens": 87,
+        "total_tokens": 7812
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "high",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "45ffa3d4938e6a3d4572cac223e4bbdd1d965932edb869ccf15da10c6a74fd0a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 241,
+        "total_tokens": 7921
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "high",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "45ffa3d4938e6a3d4572cac223e4bbdd1d965932edb869ccf15da10c6a74fd0a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 172,
+        "total_tokens": 7852
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "cca4e3de8b5361f334b81faf27f4287b7db95ac9dcee615993ad4f93a14e84f5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7725,
+        "output_tokens": 89,
+        "total_tokens": 7814
+      }
+    },
+    {
+      "batch": "counterfactual-v2",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "explicit_memory_path",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "2a124aa4530eaf41eb190840f534c4defdadcb48071f619a4e2a959b788913a5",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7722,
+        "output_tokens": 86,
+        "total_tokens": 7808
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 108,
+        "total_tokens": 7785
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 194,
+        "total_tokens": 7874
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 147,
+        "total_tokens": 7827
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "high",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "65c300f7dfb82d40a81cd921483a273b9fb83c6253b90af3bb97356132b9b249",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 204,
+        "total_tokens": 7884
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "high",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "96a93a0e9d8fcf6f93a584eb6bd4b303afb32a5b15a7722b29d30656c9c1e9b0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 497,
+        "total_tokens": 8174
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 164,
+        "total_tokens": 7844
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "high",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "45ffa3d4938e6a3d4572cac223e4bbdd1d965932edb869ccf15da10c6a74fd0a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 338,
+        "total_tokens": 8018
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 189,
+        "total_tokens": 7869
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "high",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "65c300f7dfb82d40a81cd921483a273b9fb83c6253b90af3bb97356132b9b249",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read",
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 409,
+        "total_tokens": 8089
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "high",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "96a93a0e9d8fcf6f93a584eb6bd4b303afb32a5b15a7722b29d30656c9c1e9b0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 618,
+        "total_tokens": 8295
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 113,
+        "total_tokens": 7790
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "high",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "96a93a0e9d8fcf6f93a584eb6bd4b303afb32a5b15a7722b29d30656c9c1e9b0",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 450,
+        "total_tokens": 8127
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T13",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "high",
+      "source_request_sha256": "9ee2df20a2fd6677a335f7c56d9f8d7bf388b44a3bdb00a404c4ff47fc05aabb",
+      "probe_request_sha256": "65c300f7dfb82d40a81cd921483a273b9fb83c6253b90af3bb97356132b9b249",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "4ee92144a97804b89738a8cc590944c0bcb786b241b7c91036237df4ab91af34",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 204,
+        "total_tokens": 7884
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T18",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "probe_request_sha256": "34040d595ac9e0954eb66f386e8edcea1c460a303353d89fc741926b9d11c005",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "b189be9626d98408688c64167861f277b2fbe4b81ab92c90a81c59fe49b32176",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7677,
+        "output_tokens": 123,
+        "total_tokens": 7800
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 123,
+        "total_tokens": 7803
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 1,
+      "reasoning_effort": "high",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "45ffa3d4938e6a3d4572cac223e4bbdd1d965932edb869ccf15da10c6a74fd0a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": true,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": true,
+      "next_move_targets": [],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "file_read"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 247,
+        "total_tokens": 7927
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "low_reasoning_effort",
+      "repetition": 3,
+      "reasoning_effort": "low",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 164,
+        "total_tokens": 7844
+      }
+    },
+    {
+      "batch": "counterfactual-effort",
+      "task": "T3",
+      "phase": "opening",
+      "variant": "high_reasoning_effort",
+      "repetition": 2,
+      "reasoning_effort": "high",
+      "source_request_sha256": "256dec523f547c665a403e34243f22742882bfb65a45935fceba360c288fb867",
+      "probe_request_sha256": "45ffa3d4938e6a3d4572cac223e4bbdd1d965932edb869ccf15da10c6a74fd0a",
+      "own_memory_file": "lanting_easy20_fixed_types_v5_t1.md",
+      "own_memory_sha256": "aad5c0a7789dd6eea23d05574a7715222cf119235f36a745527567c64f6ace31",
+      "body_read_requested": false,
+      "directory_lookup_requested": false,
+      "memory_lookup_started": false,
+      "next_move_targets": [
+        "J"
+      ],
+      "direct_matching_route_step": false,
+      "working_checkpoint_requested": false,
+      "tool_names": [
+        "code_run"
+      ],
+      "usage": {
+        "input_tokens": 7680,
+        "output_tokens": 1317,
+        "total_tokens": 8997
+      }
+    }
+  ],
+  "evidence_result_sha256": {
+    "counterfactual-v1": "c2a9eabcaba4fe5e913c454173327a0c97228c50b06ce91683ba9d30fd2958fe",
+    "counterfactual-v2": "5a778b7eba8171af677f883db39f624bea34058880b9aab79a40a08c0d3c232c",
+    "counterfactual-effort": "9543c19d55532c693b3ab2e36a8ce89da4a2c132f0772e28b45858ba03e375ca"
+  },
+  "scope": "Next-response tool selection at fixed real inputs; no tools or full games executed by probes. Formal experiment data and agent code were not changed. These are mechanism diagnostics, not full-task distance improvements.",
+  "finding": "The low-effort configuration suppresses self-initiated retrieval in GA's index-only automatic loading design. A same-batch effort intervention restores most initial body-read requests; providing the agent's own facts also corrects most immediate route choices."
+}
