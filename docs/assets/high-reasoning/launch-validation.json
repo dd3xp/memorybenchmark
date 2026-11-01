@@ -1,0 +1,150 @@
+{
+  "kind": "independent_high_experiment_launch_validation",
+  "observed_at_utc": "2026-11-01T21:29:05.317914+00:00",
+  "source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+  "model_alias": "gpt-5.6-luna",
+  "reasoning_effort": "high",
+  "runs": [
+    {
+      "agent": "ga",
+      "condition": "retain",
+      "id": "69005a2729914736878b08671aed9136",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "source_verified": true,
+      "peer_dependencies": [],
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "actual_high_requests": 9,
+      "provider_high_acknowledgements": 8,
+      "native_title_requests": 0,
+      "calls_with_usage": 8,
+      "reported_tokens": {
+        "input_tokens": 78932,
+        "output_tokens": 2358,
+        "reasoning_tokens": 1667
+      }
+    },
+    {
+      "agent": "ga",
+      "condition": "clear",
+      "id": "b343d8bf251846c6a984be93a454ec69",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "source_verified": true,
+      "peer_dependencies": [],
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "actual_high_requests": 11,
+      "provider_high_acknowledgements": 10,
+      "native_title_requests": 0,
+      "calls_with_usage": 10,
+      "reported_tokens": {
+        "input_tokens": 104312,
+        "output_tokens": 2565,
+        "reasoning_tokens": 1725
+      }
+    },
+    {
+      "agent": "hermes",
+      "condition": "retain",
+      "id": "ed21dbe248614e66a1e3551ae0494869",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "source_verified": true,
+      "peer_dependencies": [],
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "actual_high_requests": 4,
+      "provider_high_acknowledgements": 3,
+      "native_title_requests": 0,
+      "calls_with_usage": 3,
+      "reported_tokens": {
+        "input_tokens": 40324,
+        "output_tokens": 560,
+        "reasoning_tokens": 377
+      }
+    },
+    {
+      "agent": "hermes",
+      "condition": "clear",
+      "id": "41c36c9d12574d1f90f9bb7d051d303b",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "source_verified": true,
+      "peer_dependencies": [],
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "actual_high_requests": 3,
+      "provider_high_acknowledgements": 2,
+      "native_title_requests": 0,
+      "calls_with_usage": 2,
+      "reported_tokens": {
+        "input_tokens": 25143,
+        "output_tokens": 106,
+        "reasoning_tokens": 46
+      }
+    }
+  ],
+  "each_run_tasks": 20,
+  "source_files_verified_per_run": 84,
+  "software_validation_passed": true,
+  "native_contracts": {
+    "ga": {
+      "passed": true,
+      "reasoning_effort": "high",
+      "native_request_effort_verified": true,
+      "real_model_calls": 0,
+      "runs": 2,
+      "sessions": 4,
+      "retain_inherits_own_memory": true,
+      "clear_restores_native_baseline": true,
+      "own_histories_replayed": true,
+      "clear_finished_while_retain_t2_waited": true
+    },
+    "hermes": {
+      "passed": true,
+      "reasoning_effort": "high",
+      "native_request_effort_verified": true,
+      "real_model_calls": 0,
+      "runs": 2,
+      "sessions": 4,
+      "retain_inherits_own_memory": true,
+      "clear_restores_native_baseline": true,
+      "own_histories_replayed": true,
+      "clear_finished_while_retain_t2_waited": true
+    }
+  },
+  "matched_low_configuration_fields": [
+    "model_alias",
+    "seed",
+    "tasks",
+    "world",
+    "station_assignment_sha256",
+    "map_configuration_sha256",
+    "archive_sha256",
+    "prompt_protocol",
+    "feedback_protocol",
+    "action_policy",
+    "movement_mode",
+    "max_turns",
+    "final_turns",
+    "wall_seconds",
+    "baseline_memory"
+  ],
+  "old_run_data_imported": false,
+  "native_agent_commits": {
+    "ga": "e4d956f0207a2d268704634473196353946481bc",
+    "hermes": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6"
+  },
+  "native_session_title_policy": "Preserve Hermes native thinking-disabled title generation; count it in total calls and tokens separately from high agent/review requests.",
+  "scope": "Launch verification only. Full task and memory benefit results are pending."
+}
