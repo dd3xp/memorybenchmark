@@ -22,6 +22,8 @@ def compare(retain, clear):
                 "archive_sha256", "prompt_protocol", "feedback_protocol", "action_policy", "movement_mode", "max_turns", "final_turns", "wall_seconds"):
         if pilots["retain"][key] != pilots["clear"][key]:
             raise ValueError("Unmatched experiment configuration: " + key)
+    if pilots["retain"].get("reasoning_effort", "low") != pilots["clear"].get("reasoning_effort", "low"):
+        raise ValueError("Unmatched experiment configuration: reasoning_effort")
     indexed = {c: {r["task_id"]: r for r in a["rows"]} for c, a in results.items()}
     tasks = pilots["retain"]["tasks"]
     costs = ("distance", "moves", "operations", "llm_calls", "query_count", "unsupported_processing_count")
@@ -30,6 +32,7 @@ def compare(retain, clear):
     common_success = [t for t in tasks[1:] if all(indexed[c][t]["success"] for c in roots)]
     a, b = (totals(c, common_success) for c in ("retain", "clear"))
     return {"kind": "independent_longitudinal_comparison", "agent": pilots["retain"]["agent"],
+        "reasoning_effort": pilots["retain"].get("reasoning_effort", "low"),
         "experiment_ids": {c: p["experiment_id"] for c, p in pilots.items()},
         "all_task_totals": {c: results[c]["totals"] for c in roots},
         "successes": {c: results[c]["successes"] for c in roots},

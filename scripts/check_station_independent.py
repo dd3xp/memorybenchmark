@@ -6,6 +6,7 @@ from pathlib import Path
 import threading
 from unittest.mock import patch
 
+from memorybenchmark.agent_sessions import REASONING_EFFORTS
 from memorybenchmark.ga_runtime import WSLJail
 from memorybenchmark.prototypes import station_independent as independent
 from memorybenchmark.prototypes.station_capability import load_design, map_world, task_stages
@@ -75,7 +76,8 @@ def run(args):
         jail = WSLJail(args.distro, args.runtime, args.runtime_dependency)
         try:
             result = independent.experiment(output, jail, None, archive=args.archive,
-                agent=args.agent, condition=condition, tasks=["T1", "T2"], model_alias="fixture")
+                agent=args.agent, condition=condition, tasks=["T1", "T2"], model_alias="fixture",
+                reasoning_effort=args.reasoning_effort)
             assert len(result["sessions"]) == 2
             return report(output, native_archive=args.archive)
         finally:
@@ -86,6 +88,7 @@ def run(args):
         audits = [future.result() for future in futures]
     assert len({r["session_id"] for r in inspected}) == 4
     validation = {"passed": True, "agent": args.agent, "kind": "independent_real_native_scripted_contract",
+        "reasoning_effort": args.reasoning_effort, "native_request_effort_verified": True,
         "real_model_calls": 0, "runs": 2, "sessions": 4, "clear_finished_while_retain_t2_waited": True,
         "own_histories_replayed": True, "retain_inherits_own_memory": True, "clear_restores_native_baseline": True,
         "session_ids_distinct": True, "rows": inspected, "audited_tasks": [a["replay"]["canonical_tasks"] for a in audits]}
@@ -104,4 +107,5 @@ if __name__ == "__main__":
     parser.add_argument("--distro", default="Ubuntu")
     parser.add_argument("--runtime", required=True)
     parser.add_argument("--runtime-dependency", action="append", default=[])
+    parser.add_argument("--reasoning-effort", choices=REASONING_EFFORTS, default="low")
     run(parser.parse_args())

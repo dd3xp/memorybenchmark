@@ -18,6 +18,7 @@ import time
 from uuid import uuid4
 
 from ..agent_adapters import load_adapter
+from ..agent_sessions import REASONING_EFFORTS
 from ..errors import InfrastructureError
 from ..ga_runtime import WSLJail, memory_manifest
 from ..model_gateway import GatewayModel
@@ -69,9 +70,11 @@ def ownership(output):
 def initialize(output, archive, *, agent, condition, design_path=EASY20_REUSE_DESIGN,
                tasks=None, seed=20261029, model_alias="gpt-5.6-luna", max_turns=100,
                final_turns=6, wall_seconds=3600, transport_retries=2,
-               transport_failure_limit=8):
+               transport_failure_limit=8, reasoning_effort="low"):
     if agent not in ("ga", "hermes") or condition not in ("retain", "clear"):
         raise ValueError("Specify a native agent and one memory condition")
+    if reasoning_effort not in REASONING_EFFORTS:
+        raise ValueError("Invalid reasoning effort")
     for value, minimum in ((max_turns, 1), (final_turns, 0), (transport_retries, 0), (transport_failure_limit, 0)):
         if type(value) is not int or value < minimum:
             raise ValueError("Invalid experiment budget")
@@ -93,7 +96,8 @@ def initialize(output, archive, *, agent, condition, design_path=EASY20_REUSE_DE
         "protocol": PROTOCOL, "experiment_mode": "independent", "experiment_id": uuid4().hex,
         "memory_condition": condition, "agent": agent, "status": "ready", "created_at_utc": now(),
         "seed": seed, "design_id": design["design_id"], "world": world, "tasks": selected,
-        "model_alias": model_alias, "max_turns": max_turns, "final_turns": final_turns,
+        "model_alias": model_alias, "reasoning_effort": reasoning_effort,
+        "max_turns": max_turns, "final_turns": final_turns,
         "wall_seconds": wall_seconds, "transport_retries": transport_retries,
         "transport_failure_limit": transport_failure_limit,
         "game_access": "native", "action_policy": "single", "movement_mode": "step",
@@ -143,6 +147,7 @@ def execute(output, jail, model, *, retry_delay=15):
     sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"),
         output / "support", jail, agent=agent, feedback_mode=report["feedback_mode"],
         game_access="native", action_policy="single", movement_mode="step", model_alias=report["model_alias"],
+        reasoning_effort=report.get("reasoning_effort", "low"),
         seed=report["seed"], max_turns=report["max_turns"], final_turns=report["final_turns"], wall_seconds=report["wall_seconds"])
     report["status"] = "running"
     report.setdefault("starts", []).append({"at_utc": now(), "pid": os.getpid()})
@@ -226,6 +231,8 @@ def experiment(output, jail, model, *, archive=None, resume=False, **options):
                         raise ValueError("Cannot change experiment design on resume")
                     continue
                 recorded_key = "memory_condition" if key == "condition" else key
+                if key == "reasoning_effort" and report.get(key, "low") == value:
+                    continue
                 if recorded_key not in report or report[recorded_key] != value:
                     raise ValueError("Cannot change experiment configuration on resume: " + key)
         return execute(output, jail, model)
@@ -240,6 +247,8 @@ def main():
     parser.add_argument("--design", type=Path, default=EASY20_REUSE_DESIGN)
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--model", default="gpt-5.6-luna")
+    parser.add_argument("--reasoning-effort", choices=REASONING_EFFORTS,
+                        help="Defaults to low for a new run; a resumed run keeps its frozen setting")
     parser.add_argument("--distro", default="Ubuntu")
     parser.add_argument("--runtime", required=True)
     parser.add_argument("--runtime-dependency", action="append", default=[])
@@ -256,16 +265,20 @@ def main():
             parser.error("Cannot change agent on resume")
         if args.condition is not None and args.condition != frozen["memory_condition"]:
             parser.error("Cannot change memory condition on resume")
+        if args.reasoning_effort is not None and args.reasoning_effort != frozen.get("reasoning_effort", "low"):
+            parser.error("Cannot change reasoning effort on resume")
     if args.prepare_only:
         with ownership(args.output):
-            initialize(args.output, args.archive, agent=args.agent, condition=args.condition, design_path=args.design, model_alias=args.model)
+            initialize(args.output, args.archive, agent=args.agent, condition=args.condition, design_path=args.design,
+                       model_alias=args.model, reasoning_effort=args.reasoning_effort or "low")
         return
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
         parser.error("Set MEMORYBENCH_GATEWAY_KEY in the parent host")
     model_alias = read(args.output / "pilot.json")["model_alias"] if args.resume else args.model
     model = GatewayModel(args.base_url, key, model_alias, None)
-    options = {} if args.resume else dict(agent=args.agent, condition=args.condition, design_path=args.design, model_alias=args.model)
+    options = {} if args.resume else dict(agent=args.agent, condition=args.condition, design_path=args.design,
+                                        model_alias=args.model, reasoning_effort=args.reasoning_effort or "low")
     experiment(args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model,
                archive=args.archive, resume=args.resume, **options)
 

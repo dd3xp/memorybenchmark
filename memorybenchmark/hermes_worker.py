@@ -178,7 +178,7 @@ def main():
         enabled_toolsets=["terminal", "file", "memory", "skills", "session_search", "todo", game_toolset],
         quiet_mode=True, verbose_logging=False, session_id=session_id, session_db=session_db,
         platform="benchmark", skip_context_files=False, skip_memory=False, skip_background_review=False,
-        load_soul_identity=False, pass_session_id=True, reasoning_config={"effort": "low"},
+        load_soul_identity=False, pass_session_id=True, reasoning_config={"effort": config.get("reasoning_effort", "low")},
         tool_start_callback=tool_started, cwd=str(workspace))
     # Avoid SDK retries hiding unrecorded provider attempts; transport failures
     # are infrastructure errors, never task scores.

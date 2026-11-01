@@ -63,6 +63,11 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         assert (current.state.success,current.steps,current.distance)==(summary["success"],summary["game_actions"],summary["distance"])
         requests=list((folder/"model").glob("*-request.json"));responses=list((folder/"model").glob("*-response.json"))
         assert len(requests)==len(responses)==summary["llm_calls"]
+        if "reasoning_effort" in pilot:
+            assert summary.get("reasoning_effort")==pilot["reasoning_effort"], "Session reasoning effort differs"
+            for path in requests:
+                payload=json.loads(read(path))
+                assert payload.get("reasoning",{}).get("effort")==pilot["reasoning_effort"], "Model request reasoning effort differs"
         assert summary["main_calls"]<=pilot["max_turns"] and summary["final_calls"]<=pilot["final_turns"]
         initial=summary["initial_session"]
         assert initial["initial_history_size"]==initial["initial_backend_history_size"]==0

@@ -159,9 +159,47 @@ class IndependentStationTests(unittest.TestCase):
     def test_condition_and_budgets_cannot_change_when_resuming(self):
         with tempfile.TemporaryDirectory() as directory:
             output = self.make_run(Path(directory), "clear")
-            for options in ({"condition": "retain"}, {"max_turns": 1}, {"agent": "hermes"}, {"unexpected_option": True}):
+            for options in ({"condition": "retain"}, {"max_turns": 1}, {"agent": "hermes"},
+                            {"reasoning_effort": "high"}, {"unexpected_option": True}):
                 with self.assertRaisesRegex(ValueError, "configuration"):
                     experiment(output, None, None, resume=True, **options)
+
+    def test_high_is_forwarded_and_cannot_be_changed_on_resume(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = self.make_run(Path(directory), "retain")
+            pilot = json.loads((output / "pilot.json").read_text())
+            pilot["reasoning_effort"] = "high"
+            save_json(output / "pilot.json", pilot)
+            fixture, *_ = self.fixture()
+            received = []
+            class Sessions(fixture):
+                def __init__(self, *args, **kwargs):
+                    received.append(kwargs["reasoning_effort"])
+                    super().__init__(*args, **kwargs)
+            with patch("memorybenchmark.prototypes.station_independent.StationNativeSessions", Sessions), redirect_stdout(io.StringIO()):
+                experiment(output, None, None, resume=True, reasoning_effort="high")
+            self.assertEqual(received, ["high"])
+            with self.assertRaisesRegex(ValueError, "reasoning_effort"):
+                experiment(output, None, None, resume=True, reasoning_effort="low")
+
+    def test_audit_checks_actual_request_effort_against_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output, _ = self.completed_crlf_run(Path(directory))
+            pilot = json.loads((output / "pilot.json").read_text())
+            pilot["reasoning_effort"] = "high"
+            save_json(output / "pilot.json", pilot)
+            for row in pilot["sessions"]:
+                folder = output / "sessions" / row["name"]
+                summary = json.loads((folder / "summary.json").read_text())
+                summary.update(reasoning_effort="high", llm_calls=1, main_calls=1)
+                save_json(folder / "summary.json", summary)
+                (folder / "model").mkdir()
+                save_json(folder / "model/001-request.json", {"reasoning": {"effort": "high"}})
+                save_json(folder / "model/001-response.json", {"lines": []})
+            audit(output)
+            save_json(folder / "model/001-request.json", {"reasoning": {"effort": "low"}})
+            with self.assertRaisesRegex(AssertionError, "request reasoning effort"):
+                audit(output)
 
     def completed_crlf_run(self, root):
         output = self.make_run(root, "retain")

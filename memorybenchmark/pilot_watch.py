@@ -88,7 +88,7 @@ class PilotStore:
             if previous is None or previous[0] != signature:
                 raw = read_json(path)
                 fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task", "movement_mode",
-                          "experiment_mode", "memory_condition", "created_at_utc")
+                          "experiment_mode", "memory_condition", "created_at_utc", "reasoning_effort")
                 compact = {key: raw[key] for key in fields if key in raw}
                 session_fields = ("name", "task_id", "condition", "infrastructure_ok", "success", "game_actions", "distance", "llm_calls")
                 compact["sessions"] = [{key: row[key] for key in session_fields if key in row}
@@ -146,8 +146,12 @@ class PilotStore:
             label += " · 批量（历史）"
         if pilot.get("movement_mode") == "route":
             label += " · 连续移动（历史）"
+        effort = pilot.get("reasoning_effort", "low")
+        if effort != "low":
+            label += " · " + effort
         return {"id": identifier + "-" + condition, "experiment_id": identifier, "condition": condition, "agent": label,
-                "model": pilot.get("model_alias", ""), "status": status, "started_at": started,
+                "model": pilot.get("model_alias", ""), "reasoning_effort": effort,
+                "status": status, "started_at": started,
                 "updated_at": iso((root / "pilot.json").stat().st_mtime),
                 "completed_sessions": len(valid), "total_sessions": total,
                 "successes": sum(row.get("success") is True for row in valid),

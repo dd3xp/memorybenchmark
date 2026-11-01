@@ -17,6 +17,8 @@ python -m memorybenchmark.prototypes.station_independent --archive native-agent.
 
 凭据只通过宿主环境变量 `MEMORYBENCH_GATEWAY_KEY` 提供。`--prepare-only` 可先冻结独立 run，之后单独 `--resume`。原生 GA 仍使用 `code_run` 调用游戏客户端，Hermes 仍通过原生 MCP；一次模型响应最多一个游戏动作，移动只到一个相邻地点。提示、原生记忆机制、地图和动作反馈保持原样。
 
+新 run 可用 `--reasoning-effort high` 指定推理强度，未指定则沿用 `low`。该字段同时冻结在实验清单、每个任务和实际模型请求中；宿主在发送前核对原生请求，离线审计再次核对。恢复不能改变该设置，比较程序拒绝混合 high／low 两组。旧清单缺少字段时按原先的 low 处理。网页对 high 运行单独标记，完整报告记录提供方返回的 token 使用量、覆盖率与任务耗时；同一档推理强度不代表实际 token 相等。
+
 ```powershell
 python -m memorybenchmark.prototypes.station_independent --resume --output .runs/pilot-ga-clear --base-url https://gateway.example --runtime /path/to/native-runtime
 python -m scripts.report_station_experiment --run .runs/pilot-ga-clear --output clear-result.json

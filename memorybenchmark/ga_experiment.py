@@ -24,6 +24,8 @@ class NativeGASessions(WorkerSessions):
         config = super().task_config(initial)
         if self.prompt_protocol not in ("cartography-native-memory-2", PROMPT_PROTOCOL):
             config.pop("task_observation")
+            if self.reasoning_effort == "low":
+                config.pop("reasoning_effort")  # Preserve the old worker's default configuration shape.
         return config
 
 

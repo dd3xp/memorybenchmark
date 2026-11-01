@@ -19,15 +19,21 @@ from .mcp_game import GAME_TRANSPORT, MCPGameClient, require_mcp
 from .watch import atomic_json as save_json
 
 
+REASONING_EFFORTS = ("low", "medium", "high")
+
+
 class WorkerSessions:
     def __init__(self, source, support, jail, *, model_alias, max_turns=24, final_turns=6,
                  wall_seconds=900, seed=0, observer=None, prompt_protocol="agent-session-1",
                  worker_protocol="agent-session-1", worker_filename="agent_worker.py",
-                 game_transport=GAME_TRANSPORT):
+                 game_transport=GAME_TRANSPORT, reasoning_effort="low"):
         if not 1 <= max_turns <= 100 or not 1 <= final_turns <= 20:
             raise ValueError("invalid model budget")
         self.source, self.support, self.jail = Path(source), Path(support), jail
         self.model_alias, self.max_turns, self.final_turns = model_alias, max_turns, final_turns
+        if reasoning_effort not in REASONING_EFFORTS:
+            raise ValueError("unsupported reasoning effort")
+        self.reasoning_effort = reasoning_effort
         self.wall_seconds, self.seed = wall_seconds, seed
         self.observer=observer
         self.prompt_protocol = prompt_protocol
@@ -43,7 +49,8 @@ class WorkerSessions:
                                     worker_filename=self.worker_filename)
         messages = queue.Queue()
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
-                  "infrastructure_ok":False, "continuations":[], "wall_seconds":self.wall_seconds}
+                  "infrastructure_ok":False, "continuations":[], "wall_seconds":self.wall_seconds,
+                  "reasoning_effort":config.get("reasoning_effort", "low")}
         final_phase = False
         gate = DecisionGate(config.get("action_policy", "batch"))
         error_log = (output / "worker.stderr").open("w", encoding="utf-8")
@@ -131,6 +138,8 @@ class WorkerSessions:
                                 self.observer.observe(watch_id,result)
                                 self.observer.activity(watch_id,"finalize","任务结算，进入自主整理",phase="finalizing")
                         elif method == "model" and model is not None:
+                            if "reasoning_effort" in config and params.get("reasoning", {}).get("effort") != config["reasoning_effort"]:
+                                raise InfrastructureError("native model request reasoning effort differs from frozen configuration")
                             report["model_requests"] += 1
                             field, budget = ("final_calls",self.final_turns) if final_phase else ("main_calls",self.max_turns)
                             if report[field] >= budget:
@@ -282,5 +291,6 @@ class WorkerSessions:
 
     def task_config(self, initial):
         return {"protocol": self.worker_protocol, "seed": self.seed, "model": self.model_alias,
+                "reasoning_effort": self.reasoning_effort,
                 "initial_text": initial["text"], "task_observation": initial["observation"],
                 "max_turns": self.max_turns, "final_turns": self.final_turns}

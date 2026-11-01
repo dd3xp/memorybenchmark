@@ -50,6 +50,13 @@ class PilotWatchTests(unittest.TestCase):
     def write_deliveries(self):
         (self.folder / "game-deliveries.jsonl").write_text("".join(json.dumps(row) + "\n" for row in self.entries), encoding="utf-8")
 
+    def test_high_runs_are_distinguishable_from_legacy_low_runs(self):
+        self.pilot.update(action_policy="single", reasoning_effort="high")
+        self.save()
+        header = self.store.listing()[0]
+        self.assertEqual(header["agent"], "GA · high")
+        self.assertEqual(header["reasoning_effort"], "high")
+
     def test_active_location_trace_and_partial_line_are_read_only_and_public(self):
         self.pilot["action_policy"] = "single"
         self.save()

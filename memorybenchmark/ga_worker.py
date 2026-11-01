@@ -179,7 +179,7 @@ def main():
     # Virtual configuration contains only a dummy credential. Native serialization
     # and SSE parsing remain unchanged; authenticated HTTPS runs in the parent.
     native_config = {"apikey": "runner-managed", "apibase": "https://model.invalid",
-        "model": config["model"], "api_mode": "responses", "reasoning_effort": "low",
+        "model": config["model"], "api_mode": "responses", "reasoning_effort": config.get("reasoning_effort", "low"),
         "max_retries": 0, "connect_timeout": 5, "read_timeout": 45, "context_win": 50000, "proxy": None}
     # Current GA reloads mykey using find_spec and an on-disk timestamp. A
     # per-session dummy file supports that native loader without any real key.
