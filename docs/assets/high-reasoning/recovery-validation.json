@@ -1,0 +1,60 @@
+{
+  "utc": "2026-11-01T22:42:13.425213+00:00",
+  "status": "running",
+  "completed": 4,
+  "repairs": [
+    {
+      "protocol": "native-auxiliary-validator-repair-1",
+      "at_utc": "2026-11-01T22:41:01.515029+00:00",
+      "original_source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+      "host_overlay_source_commit": "58655641266dc57fa9f6945e0e5de70f27ec96bf",
+      "host_overlay_files": {
+        "memorybenchmark/agent_sessions.py": "cc3b5c166689b700658c63f2d5978e782c5c2a8a6c6492d965a1226bed782879",
+        "scripts/report_station_experiment.py": "b7500f7635e68bd11a9339a4d3e88ed27a7794452cb95161cbc2df5959afc004"
+      },
+      "failed_session_directory": "host-validation-failures/05-T5-clear",
+      "retry_task": "T5",
+      "preflight": {
+        "condition": "clear",
+        "completed_sessions_retained": 4,
+        "failed_session": "05-T5-clear",
+        "rejected_request_sha256": "5e6e9e1116f88a6d08914071c7a32e866f846b4420a73c08d6d3aa1bcabca5f6",
+        "source_files_verified": 84,
+        "native_archive_verified": true,
+        "partial_trace_replayed": true,
+        "memory_input_verified": true,
+        "canonical_source_unchanged": true,
+        "source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+        "new_model_calls": 0,
+        "saved_request_host_replay": {
+          "passed": true,
+          "real_provider_calls": 0,
+          "payload_unchanged": true
+        }
+      },
+      "controller_sha256": "36b27f9fc80a0633764f429d7493c03c90054c888bbfdaa8c8b4460a2361c6d4",
+      "scope": "Host validation/classification only. Native payloads, prompts, memory, action policy, budgets and upstream code unchanged."
+    }
+  ],
+  "frozen_source_unchanged": true,
+  "t5_requests": 6,
+  "t5_responses": 5,
+  "original_failed_t5_preserved": true,
+  "last_request_reasoning": {
+    "effort": "high",
+    "summary": "auto"
+  },
+  "last_provider_reasoning": {
+    "context": "all_turns",
+    "effort": "high",
+    "mode": "standard",
+    "summary": "detailed"
+  },
+  "recovery": {
+    "pid": 2388,
+    "utc": "2026-11-01T22:41:01.596437+00:00",
+    "task": "T5",
+    "retained_completed_sessions": 4,
+    "host_overlay_source_commit": "58655641266dc57fa9f6945e0e5de70f27ec96bf"
+  }
+}
