@@ -211,6 +211,42 @@ class IndependentStationTests(unittest.TestCase):
                 with self.assertRaisesRegex(AssertionError, "frozen source differs"):
                     report_experiment(output, source_commit="fixture")
 
+    def test_source_audit_requires_each_agents_prepared_support_and_rejects_changes(self):
+        for agent in ("ga", "hermes"):
+            with self.subTest(agent=agent), tempfile.TemporaryDirectory() as directory:
+                output, source = self.completed_crlf_run(Path(directory))
+                pilot = json.loads((output / "pilot.json").read_text())
+                pilot["agent"] = agent
+                support = output / "support"
+                support.mkdir()
+                common = {"ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py"}
+                required = common | ({"hermes_worker.py"} if agent == "hermes" else set())
+                for name in sorted(common | {"hermes_worker.py"}):
+                    path = source.parent / name
+                    path.write_bytes(b"# frozen worker fixture\r\n")
+                    pilot["implementation_sha256"][str(path)] = sha256(path.read_bytes()).hexdigest()
+                    if name in required:
+                        (support / name).write_bytes(path.read_bytes())
+                save_json(output / "pilot.json", pilot)
+                for row in pilot["sessions"]:
+                    path = output / "sessions" / row["name"] / "summary.json"
+                    summary = json.loads(path.read_text())
+                    summary["initial_session"].update(action_policy="single", native_mcp_game_tools=["mcp__cartography__game_action"])
+                    save_json(path, summary)
+                def git_show(args, **kwargs):
+                    return SimpleNamespace(stdout=b"value = 1\n" if args[-1].endswith("/__init__.py") else b"# frozen worker fixture\n")
+                with patch("scripts.audit_station_native.subprocess.run", side_effect=git_show):
+                    result = audit(output, source_commit="fixture", source_newlines="crlf")
+                    self.assertEqual(set(result["support_files_verified"]), required)
+                    worker = support / ("ga_worker.py" if agent == "ga" else "hermes_worker.py")
+                    original = worker.read_bytes()
+                    worker.unlink()
+                    with self.assertRaisesRegex(AssertionError, "missing executed worker support"):
+                        audit(output, source_commit="fixture", source_newlines="crlf")
+                    worker.write_bytes(original + b"# changed\r\n")
+                    with self.assertRaisesRegex(AssertionError, "executed support differs"):
+                        audit(output, source_commit="fixture", source_newlines="crlf")
+
 
 if __name__ == "__main__":
     unittest.main()

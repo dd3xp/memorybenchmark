@@ -3,7 +3,7 @@
   const $ = id => document.getElementById(id), view = new AtlasView($('watch-map'));
   let runs = [], selected = new URLSearchParams(location.search).get('run');
   let session = null, data = null, follow = true, frame = null, onlyLive = false, loading = false, loadVersion = 0;
-  const states = {running:'运行中', waiting:'等待中', complete:'已完成', auditing:'整理结果', interrupted:'已中断', audit_error:'归档中断'};
+  const states = {running:'运行中', waiting:'等待中', complete:'已完成', auditing:'整理结果', interrupted:'已中断', audit_error:'结果处理中断'};
   const condition = value => value === 'clear' ? '清除记忆' : '保留记忆';
   const el = (tag, text, cls) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; };
   const picker = new AppSelect($('session-select'), {label:'选择任务', onChange:value => chooseSession(value)});
