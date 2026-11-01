@@ -11,12 +11,16 @@ from memorybenchmark.watch import atomic_json as save_json
 from scripts.audit_station_native import audit
 
 
-def report(run, *, native_archive=None, source_commit=None):
+def report(run, *, native_archive=None, source_commit=None, source_newlines=None):
     run = Path(run).resolve()
     pilot = read(run / "pilot.json")
     if pilot.get("protocol") != PROTOCOL or pilot["status"] != "completed":
         raise ValueError("A completed independent experiment is required")
-    replay = audit(run, native_archive=native_archive, source_commit=source_commit)
+    source_newlines = source_newlines or pilot.get("source_newlines", "raw")
+    if source_newlines not in ("raw", "crlf"):
+        raise ValueError("Source newline convention must be raw or crlf")
+    replay = audit(run, native_archive=native_archive, source_commit=source_commit,
+                   source_newlines=source_newlines)
     design = read(run / "design.json")
     rows = []
     for session in pilot["sessions"]:
@@ -41,8 +45,11 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--native-archive", type=Path)
     parser.add_argument("--source-commit")
+    parser.add_argument("--source-newlines", choices=("raw", "crlf"),
+                        help="explicit Git export newline conversion; defaults to the frozen run's recorded convention")
     args = parser.parse_args()
-    result = report(args.run, native_archive=args.native_archive, source_commit=args.source_commit)
+    result = report(args.run, native_archive=args.native_archive, source_commit=args.source_commit,
+                    source_newlines=args.source_newlines)
     save_json(args.output, result)
     print(json.dumps({k: v for k, v in result.items() if k not in ("rows", "replay")}))
 

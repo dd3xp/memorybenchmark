@@ -105,6 +105,7 @@ def initialize(output, archive, *, agent, condition, design_path=EASY20_REUSE_DE
         "station_assignment_sha256": sha256(json.dumps(design["private_worlds"][world], sort_keys=True).encode()).hexdigest(),
         "archive_sha256": sha256(Path(archive).read_bytes()).hexdigest(),
         "implementation_sha256": {str(p.resolve()): sha256(p.read_bytes()).hexdigest() for p in paths},
+        "source_newlines": "crlf" if b"\r\n" in Path(__file__).read_bytes() else "raw",
         "baseline_memory": memory_manifest(output / "baseline"),
         "history_policy": "advance only this experiment's own completed sessions",
         "memory_policy": "inherit own preceding memory" if condition == "retain" else "restore original native baseline before every task",

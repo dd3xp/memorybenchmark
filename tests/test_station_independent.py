@@ -8,12 +8,14 @@ import tempfile
 import threading
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
 
 from memorybenchmark.errors import InfrastructureError
 from memorybenchmark.ga_runtime import memory_manifest
 from memorybenchmark.prototypes.station_independent import PROTOCOL, execute, experiment, ownership
 from memorybenchmark.watch import atomic_json as save_json
 from scripts.audit_station_native import audit
+from scripts.report_station_experiment import report as report_experiment
 from tests import test_station_parallel as fixtures
 
 
@@ -160,6 +162,54 @@ class IndependentStationTests(unittest.TestCase):
             for options in ({"condition": "retain"}, {"max_turns": 1}, {"agent": "hermes"}, {"unexpected_option": True}):
                 with self.assertRaisesRegex(ValueError, "configuration"):
                     experiment(output, None, None, resume=True, **options)
+
+    def completed_crlf_run(self, root):
+        output = self.make_run(root, "retain")
+        source = root / "runtime/memorybenchmark/__init__.py"
+        source.parent.mkdir(parents=True)
+        source.write_bytes(b"value = 1\r\n")
+        p = json.loads((output / "pilot.json").read_text())
+        p["implementation_sha256"] = {str(source): sha256(source.read_bytes()).hexdigest()}
+        save_json(output / "pilot.json", p)
+        fixture, *_ = self.fixture()
+        with patch("memorybenchmark.prototypes.station_independent.StationNativeSessions", fixture), redirect_stdout(io.StringIO()):
+            p = execute(output, None, None, retry_delay=0)
+        for row in p["sessions"]:
+            path = output / "sessions" / row["name"] / "summary.json"
+            summary = json.loads(path.read_text())
+            summary["session_id"] = row["name"]
+            summary["initial_session"]["native_tool_registry_unchanged"] = True
+            save_json(path, summary)
+        return output, source
+
+    def test_report_checks_exact_crlf_export_against_git_without_changing_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output, source = self.completed_crlf_run(Path(directory))
+            before = {str(p): sha256(p.read_bytes()).hexdigest() for p in (output / "sessions").rglob("*") if p.is_file()}
+            with patch("scripts.audit_station_native.subprocess.run", return_value=SimpleNamespace(stdout=b"value = 1\n")):
+                with self.assertRaisesRegex(AssertionError, "frozen source differs"):
+                    report_experiment(output, source_commit="fixture", source_newlines="raw")
+                result = report_experiment(output, source_commit="fixture", source_newlines="crlf")
+            self.assertEqual(result["replay"]["source_newlines"], "crlf")
+            self.assertEqual(result["replay"]["source_files_verified"]["memorybenchmark/__init__.py"], sha256(source.read_bytes()).hexdigest())
+            after = {str(p): sha256(p.read_bytes()).hexdigest() for p in (output / "sessions").rglob("*") if p.is_file()}
+            self.assertEqual(before, after)
+
+    def test_recorded_newline_convention_does_not_allow_semantic_source_changes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output, source = self.completed_crlf_run(Path(directory))
+            p = json.loads((output / "pilot.json").read_text())
+            p["source_newlines"] = "crlf"
+            save_json(output / "pilot.json", p)
+            with patch("scripts.audit_station_native.subprocess.run", return_value=SimpleNamespace(stdout=b"value = 1\n")):
+                self.assertEqual(report_experiment(output, source_commit="fixture")["status"], "completed_and_audited")
+                # Even an updated local checksum must still match the declared
+                # Git source after only the exact, recorded newline conversion.
+                source.write_bytes(b"value = 2\r\n")
+                p["implementation_sha256"][str(source)] = sha256(source.read_bytes()).hexdigest()
+                save_json(output / "pilot.json", p)
+                with self.assertRaisesRegex(AssertionError, "frozen source differs"):
+                    report_experiment(output, source_commit="fixture")
 
 
 if __name__ == "__main__":
