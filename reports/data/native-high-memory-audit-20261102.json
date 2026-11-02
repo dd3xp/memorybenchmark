@@ -1,0 +1,2481 @@
+{
+  "kind": "native_high_memory_retrieval_timing_and_observed_route_audit",
+  "utc": "2026-11-02T20:30:42.528461+00:00",
+  "scope": "Completed 20261102 retain streams only; T2-T20; first branch choice is an observed commitment, not proof of causal memory use. No model calls or experiment mutations.",
+  "raw_audit_gzip_sha256": "7d2f11d986bf982d4c8711c9a46a2b122081feeef7394c5921ddbcc06468268e",
+  "provenance": {
+    "ga": {
+      "pilot_sha256": "8f129763e7f1f7b0066b2cd05dd41c4edec7342031d9f4d6f92aeb60630701ce",
+      "design_sha256": "3d3ad85e61f07aefe20d590215e48de5b6c615b476763ec91a821168b1c37abe",
+      "experiment_id": "a972aff85f694bb4ac3e116f00ab0936"
+    },
+    "hermes": {
+      "pilot_sha256": "917afc2408999457ade4aba8b0666602a1a5fa11b90fcc075cc0f829121bc2a6",
+      "design_sha256": "3d3ad85e61f07aefe20d590215e48de5b6c615b476763ec91a821168b1c37abe",
+      "experiment_id": "2f22c89a615f4972bf42e7d2008f0afa"
+    }
+  },
+  "agents": {
+    "ga": {
+      "rows": [
+        {
+          "task": "T2",
+          "distance": 41,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 41,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 44,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18,
+            35
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 9,
+              "total": 9
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "5b1be3313fc41c1f1d89c06f082ad068f7e301162cc5aa2b194909a419fa2750"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "vegetation",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "F2",
+              "prior_matching_opportunity": false,
+              "selected_historical_status": "unresolved",
+              "choice_model_request": 21
+            }
+          ],
+          "source_summary_sha256": "dbd49ea5dce7819856583ec4bb08496a6c2681d07039ba4869bcb28400f86e34",
+          "source_audit_sha256": "9429c41748373d6b82287e0107737dd79baecd56a54a3544cc2af2820feef891",
+          "source_events_sha256": "97ce011e18479d858143e2216adca4a9b238c0fb4d188e8dff3d819c770a6109"
+        },
+        {
+          "task": "T3",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 32,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 35,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 11,
+              "total": 11
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "efda9584407ea8590fbfcb6b7a6e23920a1f009600924a786cd1e98d95c87fc3"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 6
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 20
+            }
+          ],
+          "source_summary_sha256": "99f17692471da826b6452727327d956e2a9a29c3f40192ba88ad75c10188e8f9",
+          "source_audit_sha256": "fdfe5f30477a0561112e18f4ddb95211ae121f94569479f5e216972b88de88a6",
+          "source_events_sha256": "e2bc8caf7dc007fb9f4abefa6caba0d9c53ef50120a17f88914b2460571088cb"
+        },
+        {
+          "task": "T4",
+          "distance": 33,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 34,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 37,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 8,
+              "total": 12
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "a4c17f12f6a4976ffad8f02065bb6ef58423505583b1d95b865a195d3e66eba6"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "cc73ced53c85674b259166cfbaa748541fb63a15e638d1e1369a3c45368f4f58",
+          "source_audit_sha256": "c6e548c9f2732a2817e89c3a66bd1a336b40e5bcb41efa89027126e43ca89f19",
+          "source_events_sha256": "5fabca8aa435d0dce6f5758a46945a4e13d19e31d04ab76851fdc8cc31ef2ea9"
+        },
+        {
+          "task": "T5",
+          "distance": 63,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 65,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": false,
+          "checkpoint_calls_during_game": [
+            19,
+            52
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 13
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "a877eb1735d8970af3f14466d548e149848b13acc1bb97a7716a44bf927afa3c"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "A1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 6
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "elevation",
+              "selected_station": "E1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 28
+            }
+          ],
+          "source_summary_sha256": "79dbd85d93f583f5a1de1cc40269f5de9b1890d44d4a9159ef1ead61c481dc53",
+          "source_audit_sha256": "b298a63c735819883036024e79af54eda2e73abd7de959380826ca8113aa5ad9",
+          "source_events_sha256": "3820337754f4c57cac0f521f4d7f82b1da8e1144880cd6b1a34bb4a830867515"
+        },
+        {
+          "task": "T6",
+          "distance": 55,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [],
+          "body_read_during_game": false,
+          "checkpoint_calls_during_game": [
+            18,
+            35,
+            52
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 14
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "fc2a954ba295b7a03242ffda720daef9470047af661a8bcc7a0b7312cc2dd85d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "lithology",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 37
+            }
+          ],
+          "source_summary_sha256": "985d781265082b8b15c4aa136ececa08ac9373b409c1b6ecd3c80c8dd8f0bd68",
+          "source_audit_sha256": "999561794c59abce37ffe3f746a17dfe8b94780bc78630aa354ed782a05d1258",
+          "source_events_sha256": "22c800d793afaa09bb5149596dc6dc230f16b62cb599cd8f00792b6d0f3cc115"
+        },
+        {
+          "task": "T7",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 33,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 33,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 8,
+              "total": 14
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "fc2a954ba295b7a03242ffda720daef9470047af661a8bcc7a0b7312cc2dd85d",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "716819dca5db4188b1fb864eb68ac6695d85288afb024d776f77889eea43c16b",
+          "source_audit_sha256": "36b86cd31c589f55d1910c24c49474f480495954205a90075419af7ccf04c1b6",
+          "source_events_sha256": "22106e7721333e77b6a712bc8983b8fbbeb31478555db766b602747c6312cef4"
+        },
+        {
+          "task": "T8",
+          "distance": 37,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 33,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 35,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 39,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 15,
+              "total": 15
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "118ecaed8dd95b68bea74a58b67e496e75d22f62edc98583e6ca3dbe1d5c6f6d",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "467deb0e75b8601d16a151988f4d038a7e8310fbe80186313741a1550c87be2c",
+          "source_audit_sha256": "ad036be5f31c8c8a3bc2366127cc8a76ae7f8a5efc08effdb26dbda979e2b949",
+          "source_events_sha256": "47a0bbd899463c3696694ff8e4464619790df47f2e37b08d628e48281cf8ff1b"
+        },
+        {
+          "task": "T9",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 32,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 16,
+              "total": 16
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "f6a0cee352c527803885aeb5b41f008a0a66533d18b5f2f51f1bedcc5e103174",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 6
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 21
+            }
+          ],
+          "source_summary_sha256": "e4570c607540d168e054b4df00656a5807e903ce82ed13b0e3b73952f1218d3f",
+          "source_audit_sha256": "0c0e9c864f35bca2209933eb76143fdb8b95914dbd3bac89f32c87b2b9292aac",
+          "source_events_sha256": "e1feda6dcf527a6c1d327750ec411b3e2695d526a833c0722a8468a24b56d452"
+        },
+        {
+          "task": "T10",
+          "distance": 47,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [],
+          "body_read_during_game": false,
+          "checkpoint_calls_during_game": [
+            20,
+            35
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 16
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 0,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "f6a0cee352c527803885aeb5b41f008a0a66533d18b5f2f51f1bedcc5e103174",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "G1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 6
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 37
+            }
+          ],
+          "source_summary_sha256": "e1ef540f0daa81605dcd884f18437aa81dfd79fab50ae357f2388202b7877ef8",
+          "source_audit_sha256": "2c97a84d725fd35cadb5aacfe92365b9a541b2460be38469c7d6e762ebe1c9ef",
+          "source_events_sha256": "cff0312b24722e0957bdbae7273c93d95410c97b1eafe3c767ad9cb295edae6f"
+        },
+        {
+          "task": "T11",
+          "distance": 41,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 37,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 39,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 42,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 9,
+              "total": 16
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "f6a0cee352c527803885aeb5b41f008a0a66533d18b5f2f51f1bedcc5e103174",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "1d4760114a185269659e799072a2ba44615751f1a2fce1fc0196f9f7193c9b81",
+          "source_audit_sha256": "9b1e0f1b37967af139035805c6b586457ab12be889c2227bc9f62ee310179708",
+          "source_events_sha256": "8403eef1ec30945f287fb5f1a3ef7e3d660b6b4f525ad3b637f4c242f033c2f3"
+        },
+        {
+          "task": "T12",
+          "distance": 49,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 50,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 50,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 54,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": false,
+          "checkpoint_calls_during_game": [
+            18,
+            35
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 16
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 0,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "292bad173cf4979ef2472a2c7df006ec73230b06ef8718372aa5784d66448b25",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "G1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 29
+            }
+          ],
+          "source_summary_sha256": "b3dc405723b899f623a5026847e2064c2b6ba27cafdb1aee76a6040cb23cf719",
+          "source_audit_sha256": "a3389563541345b6f359ebf718ad8c86c1b9d278dfe84de45efeb9395a90ce94",
+          "source_events_sha256": "34c20d363b16e8aede87d76bacd3e0beea72884428c8f9a7f9521de472e02044"
+        },
+        {
+          "task": "T13",
+          "distance": 52,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 49,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": false,
+          "checkpoint_calls_during_game": [
+            18,
+            35
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 17
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 0,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "bcbc5fbffca4dab5bdffd4ed4b501678cf5b5051c5e0e05baed03e15c29e2b5a",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 38
+            }
+          ],
+          "source_summary_sha256": "1286beff829c19247476298702deac155fcbb1b6aee50b56cc43b3d665b6dcbd",
+          "source_audit_sha256": "6c9b9dab5dc528385714ae498b0f9b40a006c7de0cf077e27ae64e4a6ad1127b",
+          "source_events_sha256": "00895e4bbf6e347309f5debc20d79e81053bc1411c1e075411cb99c6e44ff466"
+        },
+        {
+          "task": "T14",
+          "distance": 30,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 32,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 35,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 18,
+              "total": 18
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "0dd75c502405967938523f5c0b4a06cf315d43a155b2a5384e7134d8df34c3d8",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 21
+            }
+          ],
+          "source_summary_sha256": "f939036a42e35d3c33878cd4d4d5a755fbdcfb5d53bbd9402fc6d80c9e443ea9",
+          "source_audit_sha256": "e1efd023ad20dfb4f3ed2ce5bc81bfaaf6fd4785d4df6840a692a14418075d28",
+          "source_events_sha256": "1433af26b16875455ab3d23ba425b151b8d4a293927ee074f41f78156609fe00"
+        },
+        {
+          "task": "T15",
+          "distance": 40,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 35,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            19
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 8,
+              "total": 19
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "db9b2ab4901f447487575da56d2f27b48844e492badb1df3bef71032da9bcec6",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 9
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "e97d92117565d7cb3d9e1ded030936efa29e875688517d8fa9e4f82f4a501834",
+          "source_audit_sha256": "b3028ecee181c943407aadfa0bf0bb29bcfd484780788c7ac5bc36dd7001e41e",
+          "source_events_sha256": "26f2698d53cb7419091851dbf43b4cc5fd19bfac9343a0c7b9649c5657831723"
+        },
+        {
+          "task": "T16",
+          "distance": 32,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 33,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 35,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 39,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 20,
+              "total": 20
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "8c2988b404d10a00b17b81682c9dd906f8de2324eb46d8bbcdecf1163ff8bb8c",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 7
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 21
+            }
+          ],
+          "source_summary_sha256": "5c9c3672cbbd02b4c0e228d42b1bc8db133ee20e86c2124fafb307f0b30a3ece",
+          "source_audit_sha256": "b963e8c8a3ebdf3b706b6c32bcda457644eeb898db31ce76ea7da0eaf87bf814",
+          "source_events_sha256": "0c2d9d7d216d713804dd2c3d5832eb756bbc47a77b21077d540c990b865911a8"
+        },
+        {
+          "task": "T17",
+          "distance": 37,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 33,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 37,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 8,
+              "total": 21
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "5419528559857754fbf2d9a40abc9008c38aba92394b2500c0f6e2e5b6c10b54",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "0f11c4abbaff822a8dcb958837946859c32c522d308bbe481fb7202b183d2212",
+          "source_audit_sha256": "58594278b66352b2b9da0061a6a7ef9bc97cf57b8b3128fde55d0145b661a3ad",
+          "source_events_sha256": "a9b97bf32ddcf2dd7e7cd983f5244a4d77b9f405213aacf9abc10a9d17e62dc4"
+        },
+        {
+          "task": "T18",
+          "distance": 47,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 49,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 49,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 51,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 53,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 55,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 58,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": false,
+          "checkpoint_calls_during_game": [
+            18,
+            35
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 22
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 0,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "16bfa6a27fe21305d5c8df9972c3267eb044591880c4c5e00e0f03405939d2c6",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 6
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "A1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 20
+            }
+          ],
+          "source_summary_sha256": "11b6aabc0bfd8a5b9fcac65c6f2871016571940b65b79d083df92c4f62e3b4e9",
+          "source_audit_sha256": "8356b17ebdda46fd91786eb4a1dca9f58824c3fd4b66a5735d316fa0cf6a7d23",
+          "source_events_sha256": "df1b77b645cb2d045ae8e96daf12d8f962b7de4129bb68d25d1d5a224daf9fde"
+        },
+        {
+          "task": "T19",
+          "distance": 41,
+          "body_available_before_first_branch": false,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 18,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 18,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 42,
+              "tool": "file_read",
+              "before_game_done": false
+            },
+            {
+              "call": 45,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18,
+            35
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 0,
+              "total": 23
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 0,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "92f806325829cc02cb552dfa7f1ceb5defc304d50164f5adda355ce29ebe1904",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 6
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 29
+            }
+          ],
+          "source_summary_sha256": "c5a7b133f6b3420b5af56fb23cca0d0d4f8150e823751f221e34bd880ec920cb",
+          "source_audit_sha256": "97916bc1ec11c8ea40e64f072ee694d88951b705b9110f6ed3245e094c45d436",
+          "source_events_sha256": "70a736a275e53c1bb1010f9a8ecbe1932f028ee2e36d511d813519175884499d"
+        },
+        {
+          "task": "T20",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": false,
+          "index_in_first_instructions": true,
+          "body_read_calls": [
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 1,
+              "tool": "file_read",
+              "before_game_done": true
+            },
+            {
+              "call": 37,
+              "tool": "file_read",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": true,
+          "checkpoint_calls_during_game": [
+            18
+          ],
+          "first_branch_request_line_matches": {
+            "lanting_easy20_fixed_types_v5.md": {
+              "matched": 9,
+              "total": 24
+            },
+            "lanting_easy20_T10_verified.md": {
+              "matched": 0,
+              "total": 7
+            },
+            "lanting_easy20_t6_verified.md": {
+              "matched": 8,
+              "total": 8
+            }
+          },
+          "input_document_sha256": {
+            "lanting_easy20_fixed_types_v5.md": "73e31c404d1dc5de91c78ec6d5a86c8866e7154840524405da3af2c836b409ab",
+            "lanting_easy20_T10_verified.md": "518e2e733ba9bb9bc976e6147f76294eef34b1e4162ff9d6372743cb552880ab",
+            "lanting_easy20_t6_verified.md": "f42bc5d10c32f301c71e8d47da4347564fa752cc04f2d1936ac85c977d57dc2d"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 9
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 23
+            }
+          ],
+          "source_summary_sha256": "d7ced6e5f66351c6c81470d4dd42605f646956ddf9261f3aa18a4bb3bc49053b",
+          "source_audit_sha256": "06a67de789637f1a0af00536814de8143cb6130a19947722d4e27971c8a42cd0",
+          "source_events_sha256": "c130ae7f312d84cae799cf64d81369efae7d2e4b3e0c3039bd154ea610224157"
+        }
+      ],
+      "totals": {
+        "followup_tasks": 19,
+        "distance": 785,
+        "body_before_first_branch_tasks": 12,
+        "body_in_first_model_request_tasks": 0,
+        "checkpoint_during_game_tasks": 19,
+        "historically_resolvable_stages": 37,
+        "first_branch_to_historically_matching_station": 27
+      }
+    },
+    "hermes": {
+      "rows": [
+        {
+          "task": "T2",
+          "distance": 41,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 1,
+              "total": 1
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "39a7ee28d3d5cb72de65e40562d4d9888c06b57c50384f3137846b59d2b7d6ee"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "vegetation",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "F2",
+              "prior_matching_opportunity": false,
+              "selected_historical_status": "unresolved",
+              "choice_model_request": 21
+            }
+          ],
+          "source_summary_sha256": "160cf65d2fac82f7fff548d644a91d011207b7ea77ec3f2f657fd07fb89d6818",
+          "source_audit_sha256": "0d197b4bf424377ed6d8dbc4a73e1a11e451e68cc43e68c306fa77d548f7e1cc",
+          "source_events_sha256": "5f9441281b113ff54d911a9a572fab61b9f1ce0a54aac12d5ebcdaefc2330a37"
+        },
+        {
+          "task": "T3",
+          "distance": 39,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 1,
+              "total": 1
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "f470d9fe5c433260b594ae1c921ad0ce06b62adb4ede1b498ba8581ff87d29ba"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 9
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "C2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_nonmatch",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "f68d3ac87ec06275d16ae6a0270bd6cfce71bfd57cca1359efd54b045fabb72a",
+          "source_audit_sha256": "3383fd7ba760c037796bdf6a53ebb4fd063fba9b8b6a55745f800eb28aca9d62",
+          "source_events_sha256": "0003a7fb103b551a3abe19d9533a8585133671422d8faab5074ee52a7b25d95b"
+        },
+        {
+          "task": "T4",
+          "distance": 34,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 1,
+              "total": 1
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "f357c3287f7fedc27546000a244a50fe44b51911d1cd2b5f11e075971ab07705"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 12
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 25
+            }
+          ],
+          "source_summary_sha256": "54c68c832baf213f5e6af97455fc9022731de8a0059ec9f634dc0daa165391d1",
+          "source_audit_sha256": "7225b2a1de0452eba920a5266b0b8f293caf35a7f0661aa0c5a257291846bef1",
+          "source_events_sha256": "8c4b671e3568649c917b5d4d508df714337194588e4e4be8cbb48c852f926a2f"
+        },
+        {
+          "task": "T5",
+          "distance": 37,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 2,
+              "total": 2
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "734c41c13024acdb1a779a28372cd9c3039934c4d338c2074c15d8b77eeb8d12"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 9
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "elevation",
+              "selected_station": "H1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 23
+            }
+          ],
+          "source_summary_sha256": "911b938e7a7f077033f7535f3e42dcb23fb7b5728554feb382f63c5697d1f04b",
+          "source_audit_sha256": "17b211380a7084644c311d031c55e3e568da86392c2caab49e53ae8d7bb4d3cc",
+          "source_events_sha256": "1f85df298e5bda7f01234fa15bb5aed530b39a0dde1b68a502ad7bcd1dec1a07"
+        },
+        {
+          "task": "T6",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 3,
+              "total": 3
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "132fbc954205e471e5f8a106404b9472b1bccd3c9bbea6b9cdb604e63f6121be"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "lithology",
+              "selected_station": "C2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 9
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "b106194f85c1f761ea959424943bd08d2e66c02f1e6992991719885639108364",
+          "source_audit_sha256": "823451fa7e030cc77c89d4f80fc386d1a32ef1e957a4fbf5f31b204d589e9a82",
+          "source_events_sha256": "05210ca62629455d58ff635dad24bcc1577e9acf44f7780813d50dfdc38cd550"
+        },
+        {
+          "task": "T7",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 4,
+              "total": 4
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 21,
+              "total": 21
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "949a3d43b94a579bdfcd63d176c3f0ff97ba57a4a71e691e860ba83442f1edaa",
+            "skills/games/cartography-game/references/map-routing.md": "eac2cbb55d9c14f448a15fdb7237716cecc115fb2583ce65832b6c7e8e612daf",
+            "skills/games/cartography-game/SKILL.md": "3043be156502250cc4bdcf0e390704dc5eccab19ce2af69e3f19004d54584193"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 11
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "ab5f7e7f155faa67f122f5e568561e5fa8b6bcb6c534ba84346e1ac3048dcd41",
+          "source_audit_sha256": "670a84c7cc94e52f7eb300d43870e9e4ee0f1a831d9d7aa7324437100442bba8",
+          "source_events_sha256": "cd768ced726768b5bd15aa1553436fdb6464d9a55eb6a01f3d0288ee14742966"
+        },
+        {
+          "task": "T8",
+          "distance": 37,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 5,
+              "total": 5
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 21,
+              "total": 21
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "1a25070a25fec33b5ede2541cc95f09a36e63c5a7781f6e07a60caf918c150ad",
+            "skills/games/cartography-game/references/map-routing.md": "eac2cbb55d9c14f448a15fdb7237716cecc115fb2583ce65832b6c7e8e612daf",
+            "skills/games/cartography-game/SKILL.md": "eed0a375702e5b188806f6e91145a3c989f0caff6a00e23c09ad4d749698125f"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 10
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "7dc12c74e5dec243ac33972d6ea4bca5c2bb7c9410e95c626383e7f1c45e54f5",
+          "source_audit_sha256": "ff77dc9462cdb1f6cd3feb2e8769d95b3a624650ac257742e983c8fbbf1baf47",
+          "source_events_sha256": "7d6c35456970507c9f50da513cef6d83fae9d745925797ec527b54f7ef2a1605"
+        },
+        {
+          "task": "T9",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 6,
+              "total": 6
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 23,
+              "total": 23
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "4a45d56c09e269fcbf522cf923fe0d9ed243c47cc311686d78f79c98b6c2dab9",
+            "skills/games/cartography-game/references/map-routing.md": "6881f8e0eb3f295f04417dc40045b449a08fad876e538a1124fc6a4f6dc54799",
+            "skills/games/cartography-game/SKILL.md": "470ed74eaf88a9e83179c45302e8b9a413563cad72ce445119ffa0fe9ed8d926"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "75386cab964c7db7c32742b162581ab8e65f55d0f8ad09d3bded388ade2fa583",
+          "source_audit_sha256": "1ca361e8c4ef0973d9d52fb95587f2e4ff9ef415be08bfe03d0eb293a685d195",
+          "source_events_sha256": "5baa8cc2a41b164712e6427adb90ef276dd50890445bfc2c53c3d482e71276a4"
+        },
+        {
+          "task": "T10",
+          "distance": 33,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 6,
+              "total": 6
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 27,
+              "total": 27
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "135943e780c466489351b1eb818eb5b37c8d6dfe5591a0842fafd40aa80bcef6",
+            "skills/games/cartography-game/references/map-routing.md": "b19027ec58800dadf68e6d1224d613d77c081a68f8951b9b3d4d627be08910af",
+            "skills/games/cartography-game/SKILL.md": "470ed74eaf88a9e83179c45302e8b9a413563cad72ce445119ffa0fe9ed8d926"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 14
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "84e962f3dca2572c062c02dd30fe0e8dfb492f28fbf1d4081896ad44dc092ac0",
+          "source_audit_sha256": "80b20086c66a10975237342229ead5d927c7f6b6b4addd1bf4c462c002edc542",
+          "source_events_sha256": "e9d612ffddc199199bfce96fe3153c9a8e9458a65ee6a0f8da5c630129d1022f"
+        },
+        {
+          "task": "T11",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 31,
+              "total": 31
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "ece3122763c2f2ea925d8a8347354110a796deb99ff41af215bc8bd888b4f495",
+            "skills/games/cartography-game/references/map-routing.md": "6dfb52b8a0aa660a34fd7448f8993c8677f7459b0dca96de1be4f3a791001408",
+            "skills/games/cartography-game/SKILL.md": "470ed74eaf88a9e83179c45302e8b9a413563cad72ce445119ffa0fe9ed8d926"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 11
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "03ba1c33490caf74a7347a427717cb5df310655aafe14690884b4511d9c94404",
+          "source_audit_sha256": "9bbaf6954bec61bbafb42adf00956a2d250a523119a7598137586a6a92623031",
+          "source_events_sha256": "69521b142746eb7deaa593e5fc90cb8479f6c94deaa46f4c7d6c2b61425d770f"
+        },
+        {
+          "task": "T12",
+          "distance": 37,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 35,
+              "total": 35
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "4a193e8bfc0b488b899aa04479497fca887e8ad9b6884cfe7841cc7cda8f15bb",
+            "skills/games/cartography-game/references/map-routing.md": "70bc48e6489343699aad89fd9da9050189684ba0c37676481aa5d4101c84c89b",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 8
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "df9137ab308ea017fd83efc4e613a738a073febdae74b614db3729d2c53197c0",
+          "source_audit_sha256": "f7a9befb09c99cf850b31e9392a2767af2e6d3fe28825d5258f6d7022d588951",
+          "source_events_sha256": "6c3b25861e1cd26a5813cd71df47b37cce20b6e81241ce02241e1b2d7ca5b15c"
+        },
+        {
+          "task": "T13",
+          "distance": 38,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            },
+            {
+              "call": 41,
+              "tool": "skill_view",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 39,
+              "total": 39
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "61bea577cef2a0be97c9c52fe00fcf9f69c2eee762ab2c54897e49a0eb2e3eb4",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 12
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 26
+            }
+          ],
+          "source_summary_sha256": "f8da7e5fc644f8282047f02eedf6f783c660936ac118b8fbc662de9bac51da3f",
+          "source_audit_sha256": "aceac6d3588027a983293e4b8a3e37f925633ed8001b8b550de534f0e1e3370d",
+          "source_events_sha256": "b722de17299f3ded4cc3b411bcaea47f817d735483352615984b874dd7948c9a"
+        },
+        {
+          "task": "T14",
+          "distance": 30,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 43,
+              "total": 43
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "12296ac7b7f0cf1eece29c79def0f54666b3932bb1f0ea7c3051e38682f74df2",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 9
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 22
+            }
+          ],
+          "source_summary_sha256": "3a15a6e89f3252d5a80d4f41de16480ffd2f7b1b8befd2f1c9e2736df50d78b0",
+          "source_audit_sha256": "ff8697f0531053fe41aa75ff0ef4a6a0438c6dcfe297aac736dffba40c07d22d",
+          "source_events_sha256": "8032995a22790b02adb37209e44b965b685bc7b478e189d6c681a06301844de8"
+        },
+        {
+          "task": "T15",
+          "distance": 40,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            },
+            {
+              "call": 40,
+              "tool": "skill_view",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 47,
+              "total": 47
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "88d5406087ee8f916849d0ad1e36b4e6bba226238263f9f340b12a596435290c",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 12
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 26
+            }
+          ],
+          "source_summary_sha256": "5e1a692891b2f1cf41f8f308c182769f9278b08c330c351b3bce819882f8b1d0",
+          "source_audit_sha256": "7033475e076cbc32097d692e898318898f772bbb1fbbe8d3b654d75cdf3ba2f3",
+          "source_events_sha256": "db8ab996c9d634c0e8022b1a3ed23a53aa528534eadb1f1e9ef7fcd6d0ba34ea"
+        },
+        {
+          "task": "T16",
+          "distance": 32,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            },
+            {
+              "call": 39,
+              "tool": "skill_view",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 51,
+              "total": 51
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "f53015a3c1e4bb2a325ff1745b664a1632d90204fa6f49ccd6e4d950c54e6914",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 11
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "f8f2c13a99d6cc9c1180b4d9a2e9a735f5643cd461c7afc164643bbc40053c99",
+          "source_audit_sha256": "e27689771cadfa4c52c45bf5962e4763b31a51d6e311ab48c85c1837696d282e",
+          "source_events_sha256": "7a1848be4b7d50505774e4768984fb82a030e64f160d54c44889d00eeaaa0d80"
+        },
+        {
+          "task": "T17",
+          "distance": 37,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 55,
+              "total": 55
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "7bb3f6c1a4716357cbae3ca677b711145b63bec4e9fe70d661b4f73507849737",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "profile",
+              "selected_station": "D2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 10
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "contour",
+              "selected_station": "F1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 23
+            }
+          ],
+          "source_summary_sha256": "4a00b849f116303e13fa16a76417d43a56aa20cfb1bb08100c6564f33e754892",
+          "source_audit_sha256": "5b8f8d2fe7859ed635aa17e7a69ce5a035ebcf4731e4aa40810503d6eee033a5",
+          "source_events_sha256": "ee5a2b8761e1c9df0eebe98cc36218df7129e8d4ec21b757a131bba77bb84bdd"
+        },
+        {
+          "task": "T18",
+          "distance": 33,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            },
+            {
+              "call": 38,
+              "tool": "skill_view",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 59,
+              "total": 59
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "ea96e4c06b881865f87efea8d0a645a033a55070f221608be6ee4d9952fab215",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "bearing",
+              "selected_station": "E2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 10
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "lithology",
+              "selected_station": "C1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 24
+            }
+          ],
+          "source_summary_sha256": "f7ab3cb2514039a688c512a294fde6839d0856df8d6c36e46fbb4e1d507b34d3",
+          "source_audit_sha256": "a13f1fc9ca1587ee679512cb0f0f27571bea5d191d2ce999c46f788599536b0b",
+          "source_events_sha256": "da0e011154bd728985174ba6f59cb1e6a94b1613a75c19bed68775203fd7c85a"
+        },
+        {
+          "task": "T19",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 4,
+              "tool": "skill_view",
+              "before_game_done": true
+            },
+            {
+              "call": 39,
+              "tool": "skill_view",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 63,
+              "total": 63
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "3983350d00023ef74354dcde13dfd3af93bcf01b2956337ce364eb3ffbb9ce7b",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "shore",
+              "selected_station": "B2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 11
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "drainage",
+              "selected_station": "G1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 25
+            }
+          ],
+          "source_summary_sha256": "f8a5a3827dc2f72c5bd8da5a2f15bb3b6cf703983a7db94f5406c30dbb3aae1e",
+          "source_audit_sha256": "5d5711605e831576c3d28cd2765996e8f3fe5bfcab28a257dcbae1eb7037ce8d",
+          "source_events_sha256": "4abbdd1dda08cc4c251cc6a6c8643b13870a68810b415e89afc5a6bfb35e2b85"
+        },
+        {
+          "task": "T20",
+          "distance": 35,
+          "body_available_before_first_branch": true,
+          "body_in_first_model_request": true,
+          "index_in_first_instructions": null,
+          "body_read_calls": [
+            {
+              "call": 2,
+              "tool": "skill_view",
+              "before_game_done": true
+            },
+            {
+              "call": 37,
+              "tool": "skill_view",
+              "before_game_done": false
+            }
+          ],
+          "body_read_during_game": null,
+          "checkpoint_calls_during_game": [],
+          "first_branch_request_line_matches": {
+            "memories/MEMORY.md": {
+              "matched": 7,
+              "total": 7
+            },
+            "skills/games/cartography-game/references/map-routing.md": {
+              "matched": 67,
+              "total": 67
+            },
+            "skills/games/cartography-game/SKILL.md": {
+              "matched": 43,
+              "total": 49
+            }
+          },
+          "input_document_sha256": {
+            "memories/MEMORY.md": "030113e277c88d6caf435d14c8e2333b82327e47ddacde6a17aec57ad6d551c8",
+            "skills/games/cartography-game/references/map-routing.md": "b8e93e2ac6b233427a1a8967df9e718fb8e13c2df5e1921b9247e63c4179b1ab",
+            "skills/games/cartography-game/SKILL.md": "81d150daf5470958cc14257f2f454a4b6900dbf3f39e6298e18ed8be6a25b96e"
+          },
+          "choices": [
+            {
+              "stage_index": 0,
+              "required_kind": "elevation",
+              "selected_station": "H2",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 10
+            },
+            {
+              "stage_index": 1,
+              "required_kind": "vegetation",
+              "selected_station": "A1",
+              "prior_matching_opportunity": true,
+              "selected_historical_status": "known_match",
+              "choice_model_request": 23
+            }
+          ],
+          "source_summary_sha256": "ca3e32db38c494ca5429d4dc7e01384317d1318749ca9e135c3ebf45a869440d",
+          "source_audit_sha256": "e73aeb7c755999bcc3d309b95a1f35a267154c0401b611e1c99055a30bc5b841",
+          "source_events_sha256": "18989c94618bac6b79fdceb3a765c64a8a1d36191bc86b5ae714bf7587eb5206"
+        }
+      ],
+      "totals": {
+        "followup_tasks": 19,
+        "distance": 678,
+        "body_before_first_branch_tasks": 19,
+        "body_in_first_model_request_tasks": 19,
+        "checkpoint_during_game_tasks": 0,
+        "historically_resolvable_stages": 37,
+        "first_branch_to_historically_matching_station": 36
+      }
+    }
+  },
+  "task_comparison": [
+    {
+      "task": "T2",
+      "ga_distance": 41,
+      "hermes_distance": 41,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T3",
+      "ga_distance": 35,
+      "hermes_distance": 39,
+      "ga_minus_hermes": -4,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T4",
+      "ga_distance": 33,
+      "hermes_distance": 34,
+      "ga_minus_hermes": -1,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T5",
+      "ga_distance": 63,
+      "hermes_distance": 37,
+      "ga_minus_hermes": 26,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T6",
+      "ga_distance": 55,
+      "hermes_distance": 35,
+      "ga_minus_hermes": 20,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T7",
+      "ga_distance": 35,
+      "hermes_distance": 35,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T8",
+      "ga_distance": 37,
+      "hermes_distance": 37,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T9",
+      "ga_distance": 35,
+      "hermes_distance": 35,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T10",
+      "ga_distance": 47,
+      "hermes_distance": 33,
+      "ga_minus_hermes": 14,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T11",
+      "ga_distance": 41,
+      "hermes_distance": 35,
+      "ga_minus_hermes": 6,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T12",
+      "ga_distance": 49,
+      "hermes_distance": 37,
+      "ga_minus_hermes": 12,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T13",
+      "ga_distance": 52,
+      "hermes_distance": 38,
+      "ga_minus_hermes": 14,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T14",
+      "ga_distance": 30,
+      "hermes_distance": 30,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T15",
+      "ga_distance": 40,
+      "hermes_distance": 40,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T16",
+      "ga_distance": 32,
+      "hermes_distance": 32,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T17",
+      "ga_distance": 37,
+      "hermes_distance": 37,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    },
+    {
+      "task": "T18",
+      "ga_distance": 47,
+      "hermes_distance": 33,
+      "ga_minus_hermes": 14,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T19",
+      "ga_distance": 41,
+      "hermes_distance": 35,
+      "ga_minus_hermes": 6,
+      "ga_body_before_first_branch": false
+    },
+    {
+      "task": "T20",
+      "ga_distance": 35,
+      "hermes_distance": 35,
+      "ga_minus_hermes": 0,
+      "ga_body_before_first_branch": true
+    }
+  ],
+  "distance_gap": {
+    "overall_ga_minus_hermes": 107,
+    "tasks_missing_ga_body_before_first_branch": [
+      "T5",
+      "T6",
+      "T10",
+      "T12",
+      "T13",
+      "T18",
+      "T19"
+    ],
+    "gap_on_those_tasks": 106,
+    "interpretation": "Observed decomposition of this run. It is not a counterfactual estimate of forcing retrieval."
+  },
+  "verified_examples": [
+    {
+      "task": "T5",
+      "saved_facts": "Before T5, GA own document records B=岸线 and H=高程. Both required types were saved.",
+      "observed_behavior": "No experience-body read during the game; visited A1 before B1 and E1/F1/G1 before H1; body read at call 65, after game completion.",
+      "ga_distance": 63,
+      "hermes_distance": 37
+    },
+    {
+      "task": "T12",
+      "saved_facts": "Before T12, GA own document records H=高程 and F=等高线.",
+      "observed_behavior": "No experience-body read during the game; unsupported processing at G1 and E2; body first read at call 50 after game completion.",
+      "ga_distance": 49,
+      "hermes_distance": 37
+    },
+    {
+      "task": "T19",
+      "saved_facts": "Before T19, GA own document records B=岸线 and G=水系.",
+      "observed_behavior": "First branch choice at call 6 was A2; experience bodies first read at call 18 and delivered at call 19, after the avoidable first detour.",
+      "ga_distance": 41,
+      "hermes_distance": 35
+    }
+  ]
+}
