@@ -1,0 +1,176 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-11-02T02:42:27.102103+00:00",
+  "source_commit": "bcaf7120ad72a8165bcada037ba5d02562b197e0",
+  "scope": "software contracts and configuration loading; not agent ability scores",
+  "real_model_calls": 0,
+  "reasoning_policy": "native",
+  "host_effort_observation_only": true,
+  "local_regression": {
+    "passed": true,
+    "tests": 239,
+    "skipped": 7
+  },
+  "agents": {
+    "ga": {
+      "contract": {
+        "passed": true,
+        "agent": "ga",
+        "kind": "independent_real_native_scripted_contract",
+        "reasoning_effort": "high",
+        "native_request_effort_verified": true,
+        "native_configuration_entry": "mykey.native_oai_config.reasoning_effort",
+        "native_main_requests_verified": 132,
+        "observed_request_reasoning_efforts": {
+          "high": 132
+        },
+        "real_model_calls": 0,
+        "runs": 2,
+        "sessions": 4,
+        "clear_finished_while_retain_t2_waited": true,
+        "own_histories_replayed": true,
+        "retain_inherits_own_memory": true,
+        "clear_restores_native_baseline": true,
+        "session_ids_distinct": true,
+        "rows": [
+          {
+            "condition": "clear",
+            "task": "T1",
+            "session_id": "4b934ad79e614a5889566b71b77202e8",
+            "operations": 30,
+            "distance": 35
+          },
+          {
+            "condition": "retain",
+            "task": "T1",
+            "session_id": "b5236eee78a948b38768aa6f4d07b73d",
+            "operations": 30,
+            "distance": 35
+          },
+          {
+            "condition": "clear",
+            "task": "T2",
+            "session_id": "b2ebda0156db4c2ba6b1cd4dcb1cc763",
+            "operations": 30,
+            "distance": 33
+          },
+          {
+            "condition": "retain",
+            "task": "T2",
+            "session_id": "bc7eff90637847ff8f1cbb8912ff3eda",
+            "operations": 30,
+            "distance": 33
+          }
+        ],
+        "audited_tasks": [
+          2,
+          2
+        ],
+        "offline_comparison_verified": true
+      },
+      "upstream_archive": "ga-e4d956f0207a.tar.gz",
+      "upstream_archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2",
+      "upstream_archive_verified": true
+    },
+    "hermes": {
+      "contract": {
+        "passed": true,
+        "agent": "hermes",
+        "kind": "independent_real_native_scripted_contract",
+        "reasoning_effort": "high",
+        "native_request_effort_verified": true,
+        "native_configuration_entry": "AIAgent.reasoning_config",
+        "native_main_requests_verified": 136,
+        "observed_request_reasoning_efforts": {
+          "high": 136,
+          "unspecified": 4
+        },
+        "real_model_calls": 0,
+        "runs": 2,
+        "sessions": 4,
+        "clear_finished_while_retain_t2_waited": true,
+        "own_histories_replayed": true,
+        "retain_inherits_own_memory": true,
+        "clear_restores_native_baseline": true,
+        "session_ids_distinct": true,
+        "rows": [
+          {
+            "condition": "retain",
+            "task": "T1",
+            "session_id": "19660e1d6d014b8e9222fc64ea41cec5",
+            "operations": 30,
+            "distance": 35
+          },
+          {
+            "condition": "clear",
+            "task": "T1",
+            "session_id": "5d9b4245c33640d88bc70847ab923e0b",
+            "operations": 30,
+            "distance": 35
+          },
+          {
+            "condition": "clear",
+            "task": "T2",
+            "session_id": "4ae800549cec43e3af1dac866171125f",
+            "operations": 30,
+            "distance": 33
+          },
+          {
+            "condition": "retain",
+            "task": "T2",
+            "session_id": "19944ec12ede49d0add19bb04036ff0b",
+            "operations": 30,
+            "distance": 33
+          }
+        ],
+        "audited_tasks": [
+          2,
+          2
+        ],
+        "offline_comparison_verified": true
+      },
+      "upstream_archive": "hermes-e5ea5fd9ccdf.tar.gz",
+      "upstream_archive_sha256": "d23ec65ea39b29fd946e829483659840b021f92be225534e7997f21eb8487c9a",
+      "upstream_archive_verified": true
+    }
+  },
+  "original_frozen_runs": {
+    "ga-retain": {
+      "source_files": 84,
+      "unchanged": true
+    },
+    "ga-clear": {
+      "source_files": 84,
+      "unchanged": true
+    },
+    "hermes-retain": {
+      "source_files": 84,
+      "unchanged": true
+    },
+    "hermes-clear": {
+      "source_files": 84,
+      "unchanged": true
+    }
+  },
+  "saved_request_replay": {
+    "passed": true,
+    "real_model_calls": 0,
+    "rows": [
+      {
+        "task": "T5",
+        "request_sha256": "5e6e9e1116f88a6d08914071c7a32e866f846b4420a73c08d6d3aa1bcabca5f6",
+        "payload_unchanged": true,
+        "infrastructure_ok": true,
+        "reasoning_policy": "native"
+      },
+      {
+        "task": "T15",
+        "request_sha256": "f47d32a5bbe68318dc7fc924cbb35c11d492a1fa6507508c93760e50759a03b5",
+        "payload_unchanged": true,
+        "infrastructure_ok": true,
+        "reasoning_policy": "native"
+      }
+    ],
+    "old_run_source_unchanged": true
+  }
+}
