@@ -1,0 +1,86 @@
+{
+  "kind": "map_scope_correction_and_software_QA_not_agent_evaluation",
+  "design_id": "nessie-easy-1.1",
+  "deployed_source": "124d734025707a07bb1de1a50a35072eb07ce956",
+  "design_sha256": "bce25fa5ff00533a7bbf31bb52899b5ad9434bd318a1bf9410a7fb824898b88c",
+  "scope": {
+    "title": "尼斯湖水怪",
+    "original_eight_material_kinds_restored": true,
+    "all_twenty_task_definitions_equal_original_survey_plan": true,
+    "themed_station_type": "H",
+    "themed_stations": [
+      "H1",
+      "H2"
+    ],
+    "themed_stations_continue_to_process_survey_materials": true,
+    "geography_routes_and_memory_protocol_unchanged": true
+  },
+  "local_regression": {
+    "tests": 250,
+    "skipped": 8,
+    "result": "OK"
+  },
+  "deployment": {
+    "commit": "124d734025707a07bb1de1a50a35072eb07ce956",
+    "design_id": "nessie-easy-1.1",
+    "test_args": [
+      "-m",
+      "unittest",
+      "tests.test_nessie_easy",
+      "tests.test_pilot_watch",
+      "-v"
+    ],
+    "tests_exit_code": 0,
+    "test_count": 20,
+    "test_skips": 0,
+    "frozen_experiment_manifests_unchanged": true,
+    "frozen_manifest_count": 8,
+    "pre_existing_document_unchanged": true,
+    "model_calls": 0,
+    "deployed_at_utc": "2026-11-02T22:35:48.064429+00:00"
+  },
+  "public_https_QA": {
+    "kind": "public_https_software_QA_not_agent_results",
+    "utc": "2026-11-02T22:38:57.662559+00:00",
+    "design_id": "nessie-easy-1.1",
+    "design_sha256": "bce25fa5ff00533a7bbf31bb52899b5ad9434bd318a1bf9410a7fb824898b88c",
+    "tls_verified": true,
+    "original_eight_survey_kinds_restored": true,
+    "original_T1_T2_stage_definitions_verified": true,
+    "themed_stations": [
+      "H1",
+      "H2"
+    ],
+    "themed_station_processed_survey_material": true,
+    "explicit_design_view_read_only": true,
+    "all_twenty_tasks_visible_in_design_view": true,
+    "task_boundary_current_history_reset": true,
+    "first_action_and_next_replay_idempotent": true,
+    "old_experiment_ids_unchanged": true,
+    "rows": [
+      {
+        "task": "T1",
+        "name": "联程巡测 01",
+        "success": true,
+        "operations": 27,
+        "distance": 36
+      },
+      {
+        "task": "T2",
+        "name": "联程巡测 02",
+        "success": true,
+        "operations": 33,
+        "distance": 54
+      }
+    ],
+    "model_calls": 0
+  },
+  "browser_QA": {
+    "first_task_name": "联程巡测 01",
+    "first_material": "剖面资料",
+    "visible_themed_station_count": 2,
+    "normal_play_page_verified": true
+  },
+  "model_calls": 0,
+  "native_agents_started": false
+}
