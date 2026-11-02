@@ -1,0 +1,792 @@
+{
+  "utc": "2026-11-02T21:17:37.966225+00:00",
+  "scope": "Provider-reported usage in canonical completed sessions. Includes agent main/final and native auxiliary calls. Failed attempts excluded and enumerated separately. Reasoning tokens are a subset of output tokens.",
+  "runs": [
+    {
+      "agent": "ga",
+      "condition": "retain",
+      "experiment_id": "a972aff85f694bb4ac3e116f00ab0936",
+      "analysis_sha256": "9d6da67e50674184df028977d81b42f2d69dafca9fa5d4f39b82a92a504c3f4e",
+      "all20_usage": {
+        "calls": 928,
+        "calls_with_usage": 928,
+        "calls_with_effort_acknowledgement": 928,
+        "reported_tokens": {
+          "input_tokens": 21586175,
+          "output_tokens": 194032,
+          "reasoning_tokens": 97196
+        },
+        "usage_complete": true,
+        "request_kinds": {
+          "agent": 928,
+          "session_title": 0,
+          "context_compression": 0
+        },
+        "request_reasoning_efforts": {
+          "high": 928
+        },
+        "provider_reasoning_efforts": {
+          "high": 928
+        },
+        "reasoning_policy": "native"
+      },
+      "followup19_usage": {
+        "calls": 867,
+        "reported_tokens": {
+          "input_tokens": 20035188,
+          "output_tokens": 181914,
+          "reasoning_tokens": 91424
+        }
+      },
+      "failed_attempts_excluded": [
+        {
+          "name": "01-T1-retain",
+          "task_id": "T1",
+          "llm_calls": 48,
+          "model_requests": 48,
+          "infrastructure_error": "gateway_http_502"
+        },
+        {
+          "name": "14-T14-retain",
+          "task_id": "T14",
+          "llm_calls": 36,
+          "model_requests": 36,
+          "infrastructure_error": "gateway_http_502"
+        }
+      ],
+      "per_task": [
+        {
+          "task": "T1",
+          "calls": 61,
+          "input_tokens": 1550987,
+          "output_tokens": 12118,
+          "reasoning_tokens": 5772
+        },
+        {
+          "task": "T2",
+          "calls": 46,
+          "input_tokens": 1071236,
+          "output_tokens": 11441,
+          "reasoning_tokens": 6064
+        },
+        {
+          "task": "T3",
+          "calls": 36,
+          "input_tokens": 744969,
+          "output_tokens": 7278,
+          "reasoning_tokens": 3256
+        },
+        {
+          "task": "T4",
+          "calls": 38,
+          "input_tokens": 774140,
+          "output_tokens": 7291,
+          "reasoning_tokens": 3325
+        },
+        {
+          "task": "T5",
+          "calls": 70,
+          "input_tokens": 1979182,
+          "output_tokens": 17076,
+          "reasoning_tokens": 10127
+        },
+        {
+          "task": "T6",
+          "calls": 63,
+          "input_tokens": 1710365,
+          "output_tokens": 11104,
+          "reasoning_tokens": 4685
+        },
+        {
+          "task": "T7",
+          "calls": 37,
+          "input_tokens": 745861,
+          "output_tokens": 7579,
+          "reasoning_tokens": 3715
+        },
+        {
+          "task": "T8",
+          "calls": 40,
+          "input_tokens": 860186,
+          "output_tokens": 7956,
+          "reasoning_tokens": 3846
+        },
+        {
+          "task": "T9",
+          "calls": 35,
+          "input_tokens": 696195,
+          "output_tokens": 5635,
+          "reasoning_tokens": 2489
+        },
+        {
+          "task": "T10",
+          "calls": 53,
+          "input_tokens": 1255169,
+          "output_tokens": 12121,
+          "reasoning_tokens": 6624
+        },
+        {
+          "task": "T11",
+          "calls": 43,
+          "input_tokens": 960359,
+          "output_tokens": 7587,
+          "reasoning_tokens": 3098
+        },
+        {
+          "task": "T12",
+          "calls": 55,
+          "input_tokens": 1354252,
+          "output_tokens": 10557,
+          "reasoning_tokens": 4934
+        },
+        {
+          "task": "T13",
+          "calls": 53,
+          "input_tokens": 1254467,
+          "output_tokens": 12902,
+          "reasoning_tokens": 7594
+        },
+        {
+          "task": "T14",
+          "calls": 36,
+          "input_tokens": 726331,
+          "output_tokens": 8063,
+          "reasoning_tokens": 4080
+        },
+        {
+          "task": "T15",
+          "calls": 39,
+          "input_tokens": 813364,
+          "output_tokens": 8247,
+          "reasoning_tokens": 4093
+        },
+        {
+          "task": "T16",
+          "calls": 40,
+          "input_tokens": 866282,
+          "output_tokens": 8422,
+          "reasoning_tokens": 3974
+        },
+        {
+          "task": "T17",
+          "calls": 38,
+          "input_tokens": 788024,
+          "output_tokens": 7100,
+          "reasoning_tokens": 3218
+        },
+        {
+          "task": "T18",
+          "calls": 59,
+          "input_tokens": 1540556,
+          "output_tokens": 14200,
+          "reasoning_tokens": 7640
+        },
+        {
+          "task": "T19",
+          "calls": 48,
+          "input_tokens": 1125621,
+          "output_tokens": 10528,
+          "reasoning_tokens": 5352
+        },
+        {
+          "task": "T20",
+          "calls": 38,
+          "input_tokens": 768629,
+          "output_tokens": 6827,
+          "reasoning_tokens": 3310
+        }
+      ]
+    },
+    {
+      "agent": "ga",
+      "condition": "clear",
+      "experiment_id": "54355b73009b427b92a39f4760f67e8b",
+      "analysis_sha256": "f3ebb9e7cee0d8d7a38e87ba44514f4aa49b9ec02112136b550aefda6c4fa49e",
+      "all20_usage": {
+        "calls": 1217,
+        "calls_with_usage": 1217,
+        "calls_with_effort_acknowledgement": 1217,
+        "reported_tokens": {
+          "input_tokens": 32033630,
+          "output_tokens": 274243,
+          "reasoning_tokens": 142798
+        },
+        "usage_complete": true,
+        "request_kinds": {
+          "agent": 1217,
+          "session_title": 0,
+          "context_compression": 0
+        },
+        "request_reasoning_efforts": {
+          "high": 1217
+        },
+        "provider_reasoning_efforts": {
+          "high": 1217
+        },
+        "reasoning_policy": "native"
+      },
+      "followup19_usage": {
+        "calls": 1152,
+        "reported_tokens": {
+          "input_tokens": 30282101,
+          "output_tokens": 261112,
+          "reasoning_tokens": 136662
+        }
+      },
+      "failed_attempts_excluded": [
+        {
+          "name": "12-T12-clear",
+          "task_id": "T12",
+          "llm_calls": 1,
+          "model_requests": 1,
+          "infrastructure_error": "model stream budget exceeded"
+        }
+      ],
+      "per_task": [
+        {
+          "task": "T1",
+          "calls": 65,
+          "input_tokens": 1751529,
+          "output_tokens": 13131,
+          "reasoning_tokens": 6136
+        },
+        {
+          "task": "T2",
+          "calls": 54,
+          "input_tokens": 1311146,
+          "output_tokens": 12722,
+          "reasoning_tokens": 7174
+        },
+        {
+          "task": "T3",
+          "calls": 50,
+          "input_tokens": 1158107,
+          "output_tokens": 9865,
+          "reasoning_tokens": 4828
+        },
+        {
+          "task": "T4",
+          "calls": 54,
+          "input_tokens": 1293647,
+          "output_tokens": 14634,
+          "reasoning_tokens": 8852
+        },
+        {
+          "task": "T5",
+          "calls": 69,
+          "input_tokens": 1920500,
+          "output_tokens": 11713,
+          "reasoning_tokens": 4628
+        },
+        {
+          "task": "T6",
+          "calls": 67,
+          "input_tokens": 1821336,
+          "output_tokens": 14364,
+          "reasoning_tokens": 7211
+        },
+        {
+          "task": "T7",
+          "calls": 65,
+          "input_tokens": 1731528,
+          "output_tokens": 13657,
+          "reasoning_tokens": 6752
+        },
+        {
+          "task": "T8",
+          "calls": 58,
+          "input_tokens": 1483904,
+          "output_tokens": 12137,
+          "reasoning_tokens": 5856
+        },
+        {
+          "task": "T9",
+          "calls": 50,
+          "input_tokens": 1169446,
+          "output_tokens": 12178,
+          "reasoning_tokens": 6731
+        },
+        {
+          "task": "T10",
+          "calls": 56,
+          "input_tokens": 1377612,
+          "output_tokens": 11205,
+          "reasoning_tokens": 5301
+        },
+        {
+          "task": "T11",
+          "calls": 69,
+          "input_tokens": 1895732,
+          "output_tokens": 17707,
+          "reasoning_tokens": 9528
+        },
+        {
+          "task": "T12",
+          "calls": 56,
+          "input_tokens": 1352678,
+          "output_tokens": 13211,
+          "reasoning_tokens": 7487
+        },
+        {
+          "task": "T13",
+          "calls": 68,
+          "input_tokens": 1935520,
+          "output_tokens": 20684,
+          "reasoning_tokens": 13126
+        },
+        {
+          "task": "T14",
+          "calls": 38,
+          "input_tokens": 747398,
+          "output_tokens": 9080,
+          "reasoning_tokens": 5236
+        },
+        {
+          "task": "T15",
+          "calls": 89,
+          "input_tokens": 2882488,
+          "output_tokens": 15518,
+          "reasoning_tokens": 6411
+        },
+        {
+          "task": "T16",
+          "calls": 50,
+          "input_tokens": 1134846,
+          "output_tokens": 17341,
+          "reasoning_tokens": 11933
+        },
+        {
+          "task": "T17",
+          "calls": 70,
+          "input_tokens": 1993375,
+          "output_tokens": 12529,
+          "reasoning_tokens": 5281
+        },
+        {
+          "task": "T18",
+          "calls": 60,
+          "input_tokens": 1559769,
+          "output_tokens": 13624,
+          "reasoning_tokens": 5718
+        },
+        {
+          "task": "T19",
+          "calls": 64,
+          "input_tokens": 1747596,
+          "output_tokens": 13499,
+          "reasoning_tokens": 6181
+        },
+        {
+          "task": "T20",
+          "calls": 65,
+          "input_tokens": 1765473,
+          "output_tokens": 15444,
+          "reasoning_tokens": 8428
+        }
+      ]
+    },
+    {
+      "agent": "hermes",
+      "condition": "retain",
+      "experiment_id": "2f22c89a615f4972bf42e7d2008f0afa",
+      "analysis_sha256": "cffa4f307690521d54d508b0b4761dd7f5e1c5053d0b622f5f45fc22d52aac6a",
+      "all20_usage": {
+        "calls": 836,
+        "calls_with_usage": 836,
+        "calls_with_effort_acknowledgement": 836,
+        "reported_tokens": {
+          "input_tokens": 22244573,
+          "output_tokens": 112991,
+          "reasoning_tokens": 53569
+        },
+        "usage_complete": true,
+        "request_kinds": {
+          "agent": 816,
+          "session_title": 20,
+          "context_compression": 0
+        },
+        "request_reasoning_efforts": {
+          "high": 816,
+          "unspecified": 20
+        },
+        "provider_reasoning_efforts": {
+          "high": 816,
+          "medium": 20
+        },
+        "reasoning_policy": "native"
+      },
+      "followup19_usage": {
+        "calls": 774,
+        "reported_tokens": {
+          "input_tokens": 20418685,
+          "output_tokens": 106425,
+          "reasoning_tokens": 50048
+        }
+      },
+      "failed_attempts_excluded": [],
+      "per_task": [
+        {
+          "task": "T1",
+          "calls": 62,
+          "input_tokens": 1825888,
+          "output_tokens": 6566,
+          "reasoning_tokens": 3521
+        },
+        {
+          "task": "T2",
+          "calls": 46,
+          "input_tokens": 1177597,
+          "output_tokens": 6046,
+          "reasoning_tokens": 3454
+        },
+        {
+          "task": "T3",
+          "calls": 46,
+          "input_tokens": 1171467,
+          "output_tokens": 7585,
+          "reasoning_tokens": 4898
+        },
+        {
+          "task": "T4",
+          "calls": 42,
+          "input_tokens": 1022722,
+          "output_tokens": 7733,
+          "reasoning_tokens": 4867
+        },
+        {
+          "task": "T5",
+          "calls": 39,
+          "input_tokens": 951015,
+          "output_tokens": 5284,
+          "reasoning_tokens": 2349
+        },
+        {
+          "task": "T6",
+          "calls": 43,
+          "input_tokens": 1082012,
+          "output_tokens": 8343,
+          "reasoning_tokens": 4400
+        },
+        {
+          "task": "T7",
+          "calls": 41,
+          "input_tokens": 1093440,
+          "output_tokens": 6300,
+          "reasoning_tokens": 2675
+        },
+        {
+          "task": "T8",
+          "calls": 42,
+          "input_tokens": 1178010,
+          "output_tokens": 6782,
+          "reasoning_tokens": 2702
+        },
+        {
+          "task": "T9",
+          "calls": 38,
+          "input_tokens": 967193,
+          "output_tokens": 4779,
+          "reasoning_tokens": 2324
+        },
+        {
+          "task": "T10",
+          "calls": 42,
+          "input_tokens": 1067728,
+          "output_tokens": 4283,
+          "reasoning_tokens": 1812
+        },
+        {
+          "task": "T11",
+          "calls": 40,
+          "input_tokens": 1008527,
+          "output_tokens": 4310,
+          "reasoning_tokens": 1785
+        },
+        {
+          "task": "T12",
+          "calls": 40,
+          "input_tokens": 1061262,
+          "output_tokens": 4858,
+          "reasoning_tokens": 1673
+        },
+        {
+          "task": "T13",
+          "calls": 42,
+          "input_tokens": 1157345,
+          "output_tokens": 5654,
+          "reasoning_tokens": 2485
+        },
+        {
+          "task": "T14",
+          "calls": 36,
+          "input_tokens": 931547,
+          "output_tokens": 4378,
+          "reasoning_tokens": 2477
+        },
+        {
+          "task": "T15",
+          "calls": 42,
+          "input_tokens": 1159050,
+          "output_tokens": 5669,
+          "reasoning_tokens": 2408
+        },
+        {
+          "task": "T16",
+          "calls": 41,
+          "input_tokens": 1119659,
+          "output_tokens": 5521,
+          "reasoning_tokens": 2040
+        },
+        {
+          "task": "T17",
+          "calls": 37,
+          "input_tokens": 969651,
+          "output_tokens": 4398,
+          "reasoning_tokens": 2242
+        },
+        {
+          "task": "T18",
+          "calls": 39,
+          "input_tokens": 1126169,
+          "output_tokens": 5106,
+          "reasoning_tokens": 1810
+        },
+        {
+          "task": "T19",
+          "calls": 40,
+          "input_tokens": 1099323,
+          "output_tokens": 4179,
+          "reasoning_tokens": 1560
+        },
+        {
+          "task": "T20",
+          "calls": 38,
+          "input_tokens": 1074968,
+          "output_tokens": 5217,
+          "reasoning_tokens": 2087
+        }
+      ]
+    },
+    {
+      "agent": "hermes",
+      "condition": "clear",
+      "experiment_id": "e9bf3c705d064eeda65800986ce6500e",
+      "analysis_sha256": "b8327d2bc2af0cb5468fdc4d35a948f558f00079413eb311af382ef61560ae6b",
+      "all20_usage": {
+        "calls": 1243,
+        "calls_with_usage": 1243,
+        "calls_with_effort_acknowledgement": 1243,
+        "reported_tokens": {
+          "input_tokens": 37182579,
+          "output_tokens": 211752,
+          "reasoning_tokens": 112977
+        },
+        "usage_complete": true,
+        "request_kinds": {
+          "agent": 1212,
+          "session_title": 20,
+          "context_compression": 11
+        },
+        "request_reasoning_efforts": {
+          "high": 1212,
+          "unspecified": 31
+        },
+        "provider_reasoning_efforts": {
+          "high": 1212,
+          "medium": 31
+        },
+        "reasoning_policy": "native"
+      },
+      "followup19_usage": {
+        "calls": 1178,
+        "reported_tokens": {
+          "input_tokens": 35257477,
+          "output_tokens": 199185,
+          "reasoning_tokens": 107362
+        }
+      },
+      "failed_attempts_excluded": [
+        {
+          "name": "05-T5-clear",
+          "task_id": "T5",
+          "llm_calls": 50,
+          "model_requests": 50,
+          "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance"
+        },
+        {
+          "name": "17-T17-clear",
+          "task_id": "T17",
+          "llm_calls": 59,
+          "model_requests": 59,
+          "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance"
+        },
+        {
+          "name": "18-T18-clear",
+          "task_id": "T18",
+          "llm_calls": 44,
+          "model_requests": 44,
+          "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance"
+        },
+        {
+          "name": "19-T19-clear",
+          "task_id": "T19",
+          "llm_calls": 25,
+          "model_requests": 25,
+          "infrastructure_error": "worker cleanup unconfirmed; do not snapshot or advance"
+        }
+      ],
+      "per_task": [
+        {
+          "task": "T1",
+          "calls": 65,
+          "input_tokens": 1925102,
+          "output_tokens": 12567,
+          "reasoning_tokens": 5615
+        },
+        {
+          "task": "T2",
+          "calls": 60,
+          "input_tokens": 1761261,
+          "output_tokens": 11377,
+          "reasoning_tokens": 6658
+        },
+        {
+          "task": "T3",
+          "calls": 55,
+          "input_tokens": 1518896,
+          "output_tokens": 8388,
+          "reasoning_tokens": 4965
+        },
+        {
+          "task": "T4",
+          "calls": 53,
+          "input_tokens": 1505094,
+          "output_tokens": 9293,
+          "reasoning_tokens": 5416
+        },
+        {
+          "task": "T5",
+          "calls": 70,
+          "input_tokens": 2187219,
+          "output_tokens": 10807,
+          "reasoning_tokens": 5209
+        },
+        {
+          "task": "T6",
+          "calls": 61,
+          "input_tokens": 1817791,
+          "output_tokens": 7467,
+          "reasoning_tokens": 4236
+        },
+        {
+          "task": "T7",
+          "calls": 60,
+          "input_tokens": 1775185,
+          "output_tokens": 6617,
+          "reasoning_tokens": 3695
+        },
+        {
+          "task": "T8",
+          "calls": 62,
+          "input_tokens": 1822960,
+          "output_tokens": 15125,
+          "reasoning_tokens": 7611
+        },
+        {
+          "task": "T9",
+          "calls": 50,
+          "input_tokens": 1307841,
+          "output_tokens": 7883,
+          "reasoning_tokens": 5225
+        },
+        {
+          "task": "T10",
+          "calls": 57,
+          "input_tokens": 1615391,
+          "output_tokens": 7559,
+          "reasoning_tokens": 4259
+        },
+        {
+          "task": "T11",
+          "calls": 61,
+          "input_tokens": 1791936,
+          "output_tokens": 7454,
+          "reasoning_tokens": 4450
+        },
+        {
+          "task": "T12",
+          "calls": 65,
+          "input_tokens": 2153841,
+          "output_tokens": 16844,
+          "reasoning_tokens": 10028
+        },
+        {
+          "task": "T13",
+          "calls": 79,
+          "input_tokens": 2565220,
+          "output_tokens": 12541,
+          "reasoning_tokens": 4435
+        },
+        {
+          "task": "T14",
+          "calls": 43,
+          "input_tokens": 1117328,
+          "output_tokens": 7787,
+          "reasoning_tokens": 4949
+        },
+        {
+          "task": "T15",
+          "calls": 89,
+          "input_tokens": 2858651,
+          "output_tokens": 12172,
+          "reasoning_tokens": 5942
+        },
+        {
+          "task": "T16",
+          "calls": 46,
+          "input_tokens": 1251460,
+          "output_tokens": 9185,
+          "reasoning_tokens": 6460
+        },
+        {
+          "task": "T17",
+          "calls": 72,
+          "input_tokens": 2266184,
+          "output_tokens": 10795,
+          "reasoning_tokens": 4986
+        },
+        {
+          "task": "T18",
+          "calls": 62,
+          "input_tokens": 1833608,
+          "output_tokens": 15576,
+          "reasoning_tokens": 8036
+        },
+        {
+          "task": "T19",
+          "calls": 70,
+          "input_tokens": 2190196,
+          "output_tokens": 11028,
+          "reasoning_tokens": 5111
+        },
+        {
+          "task": "T20",
+          "calls": 63,
+          "input_tokens": 1917415,
+          "output_tokens": 11287,
+          "reasoning_tokens": 5691
+        }
+      ]
+    }
+  ],
+  "ga_followup_reduction_percent": {
+    "input_tokens": 33.838183816902266,
+    "output_tokens": 30.331045681546616,
+    "reasoning_tokens": 33.10210592556819
+  },
+  "hermes_followup_reduction_percent": {
+    "input_tokens": 42.086936623400476,
+    "output_tokens": 46.56977182016718,
+    "reasoning_tokens": 53.38387883981297
+  }
+}
