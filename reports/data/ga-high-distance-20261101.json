@@ -1,0 +1,68 @@
+{
+  "kind": "ga_high_completed_task_distance_comparison",
+  "reasoning_effort": "high",
+  "tasks": 20,
+  "successes": {
+    "retain": 20,
+    "clear": 20
+  },
+  "experiment_ids": {
+    "retain": "69005a2729914736878b08671aed9136",
+    "clear": "b343d8bf251846c6a984be93a454ec69"
+  },
+  "source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+  "audit_status": {
+    "retain": "completed_and_audited",
+    "clear": "archive_pending"
+  },
+  "followup_tasks": [
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
+    "T8",
+    "T9",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T16",
+    "T17",
+    "T18",
+    "T19",
+    "T20"
+  ],
+  "followup_totals": {
+    "retain": {
+      "distance": 771,
+      "game_actions": 690,
+      "llm_calls": 881
+    },
+    "clear": {
+      "distance": 983,
+      "game_actions": 934,
+      "llm_calls": 1155
+    }
+  },
+  "all_task_totals": {
+    "retain": {
+      "distance": 826,
+      "game_actions": 742,
+      "llm_calls": 946
+    },
+    "clear": {
+      "distance": 1038,
+      "game_actions": 985,
+      "llm_calls": 1220
+    }
+  },
+  "followup_distance_saved": 212,
+  "followup_distance_reduction_percent": 21.56663275686673,
+  "all_task_distance_reduction_percent": 20.423892100192674,
+  "previous_low_followup_distance_reduction_percent": 4.36507936507936,
+  "scope": "Independent longitudinal runs; exact completed task costs, first no-history task excluded from the followup comparison. Archived infrastructure attempts are separate."
+}
