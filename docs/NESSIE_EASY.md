@@ -1,6 +1,6 @@
 # 尼斯湖水怪
 
-第一张正式 Easy 地图，地图标识 `nessie-easy`，规则版本 `nessie-easy-1.0`。包含 61 个地点、61 条道路、8 个踪迹调查点、8 种站型、16 座基站和 20 项双段委托。当前完成规则、信息边界、任务流与网页实现；原生 Agent 的难度校准另行运行。
+第一张正式 Easy 地图，地图标识 `nessie-easy`，规则版本 `nessie-easy-1.0`。包含 61 个地点、61 条道路、8 个踪迹调查点、8 种站型、16 座基站和 20 项双段委托。已部署 Squishy，完成规则、信息边界、任务流与网页验收；原生 Agent 的难度校准另行运行。
 
 ![完整公开地图](assets/nessie-easy/complete-map.svg)
 
@@ -77,6 +77,8 @@ python -m unittest tests.test_nessie_easy -v
 原生独立运行器继续使用 `memorybenchmark.prototypes.station_independent`，传入 `--design memorybenchmark/data/nessie_easy20.json`。保留／清除组各自独立运行完整 20 项，T1 单列；操作预算 88，原生主循环 100 次调用、同 session 收尾 6 次、总时限 3,600 秒。新图启用时从各 Agent 的原始基础记忆开始。
 
 ## 校验
+
+服务器 249 项回归全部通过，无跳过；公网 HTTPS 与原有 PIN 鉴权通过。通过真实网页点图完成 T1（27 次操作、路程 36），再以独立人类 QA 实例从公网逐动作完成全部 20 项，核验自动调查、匹配研判、营地交付、动作重放幂等和任务间重置。旧实验索引与八个冻结清单文件未改变。详见[部署与游玩验收](assets/nessie-easy/deployment-validation.json)。
 
 [软件与信息结构校验](assets/nessie-easy/validation.json)穷举 165,888 组兼容站型顺序，并把各项最坏情况在真实规则内核重放；该策略最坏 85 次操作。576 个候选配对下的两种反馈策略共 23,040 次模拟完成，实际固定配对另做 40 次真实内核重放，覆盖完整保留和清除流程。
 

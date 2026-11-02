@@ -1,0 +1,208 @@
+{
+  "kind": "software_deployment_and_human_QA_not_agent_evaluation",
+  "deployed_source": "4cfa75d235754d35f3d2895e195f2e6977207b74",
+  "design_id": "nessie-easy-1.0",
+  "design_sha256": "fe7e308832d098325a4be019894bc48249c8f10f47d00bd66af63596ae84c451",
+  "deployment": {
+    "commit": "4cfa75d235754d35f3d2895e195f2e6977207b74",
+    "tests_exit_code": 0,
+    "test_count": 249,
+    "test_skips": 0,
+    "frozen_experiment_manifests_unchanged": true,
+    "frozen_manifest_count": 8,
+    "pre_existing_document_unchanged": true,
+    "model_calls": 0,
+    "deployed_at_utc": "2026-11-02T22:05:09.564667+00:00"
+  },
+  "public_https_QA": {
+    "kind": "public_authenticated_human_api_software_QA_not_agent_results",
+    "utc": "2026-11-02T22:13:50.630694+00:00",
+    "tls_certificate_validation": true,
+    "auth_required": true,
+    "map_id": "nessie-easy",
+    "design_id": "nessie-easy-1.0",
+    "nodes": 61,
+    "roads": 61,
+    "station_trigger_nodes": 16,
+    "tasks": 20,
+    "successes": 20,
+    "model_calls": 0,
+    "asset_sha256": {
+      "nessie-terrain.svg": "b9793cd046261ce15e60faca08ed647b7a4bf9a265d91d7c0cf54fa3bb93738b",
+      "field.js": "777d65526474b887c742236a84d06eed726ba17ecd149485274758a93b5f72b3",
+      "atlas-view.js": "2e54db579ade6baf83220fe89fd4be92cac8a2577615c36a543e9a7f60ad7ad1",
+      "catalog.js": "e42ad8c2564a58dc3d657dbd2fee7f32e1f5087159aca446d0c264b032905e53"
+    },
+    "old_experiment_ids_preserved": true,
+    "old_easy20_nodes": 70,
+    "rows": [
+      {
+        "task": "T1",
+        "success": true,
+        "distance": 36,
+        "operations": 27
+      },
+      {
+        "task": "T2",
+        "success": true,
+        "distance": 54,
+        "operations": 33
+      },
+      {
+        "task": "T3",
+        "success": true,
+        "distance": 46,
+        "operations": 29
+      },
+      {
+        "task": "T4",
+        "success": true,
+        "distance": 62,
+        "operations": 37
+      },
+      {
+        "task": "T5",
+        "success": true,
+        "distance": 36,
+        "operations": 27
+      },
+      {
+        "task": "T6",
+        "success": true,
+        "distance": 54,
+        "operations": 33
+      },
+      {
+        "task": "T7",
+        "success": true,
+        "distance": 50,
+        "operations": 33
+      },
+      {
+        "task": "T8",
+        "success": true,
+        "distance": 58,
+        "operations": 33
+      },
+      {
+        "task": "T9",
+        "success": true,
+        "distance": 46,
+        "operations": 29
+      },
+      {
+        "task": "T10",
+        "success": true,
+        "distance": 62,
+        "operations": 37
+      },
+      {
+        "task": "T11",
+        "success": true,
+        "distance": 50,
+        "operations": 33
+      },
+      {
+        "task": "T12",
+        "success": true,
+        "distance": 58,
+        "operations": 33
+      },
+      {
+        "task": "T13",
+        "success": true,
+        "distance": 64,
+        "operations": 37
+      },
+      {
+        "task": "T14",
+        "success": true,
+        "distance": 38,
+        "operations": 27
+      },
+      {
+        "task": "T15",
+        "success": true,
+        "distance": 48,
+        "operations": 31
+      },
+      {
+        "task": "T16",
+        "success": true,
+        "distance": 32,
+        "operations": 25
+      },
+      {
+        "task": "T17",
+        "success": true,
+        "distance": 62,
+        "operations": 35
+      },
+      {
+        "task": "T18",
+        "success": true,
+        "distance": 40,
+        "operations": 29
+      },
+      {
+        "task": "T19",
+        "success": true,
+        "distance": 66,
+        "operations": 39
+      },
+      {
+        "task": "T20",
+        "success": true,
+        "distance": 36,
+        "operations": 25
+      }
+    ],
+    "first_move_replay_idempotent": true,
+    "next_commission_replay_idempotent": true,
+    "task_boundaries_reset_current_history_and_trace": true,
+    "view_design_read_only": true
+  },
+  "anonymous_auth_QA": {
+    "utc": "2026-11-02T22:12:11.081451+00:00",
+    "tls_verified": true,
+    "cookies_sent": false,
+    "results": [
+      {
+        "path": "/api/maps",
+        "status": 401,
+        "body_bytes": 66
+      },
+      {
+        "path": "/nessie-terrain.svg",
+        "status": 303,
+        "body_bytes": 0
+      }
+    ]
+  },
+  "actual_browser_QA": {
+    "map_catalog_new_default": true,
+    "experience_markers_toggle": true,
+    "explicit_design_view": {
+      "tasks": 20,
+      "station_types": 8
+    },
+    "public_first_commission": {
+      "success": true,
+      "operations": 27,
+      "distance": 36
+    },
+    "local_first_commission": {
+      "success": true,
+      "operations": 27,
+      "distance": 36
+    },
+    "map_click_moves_automatically_collects_at_target": true
+  },
+  "local_regression": {
+    "tests": 249,
+    "skipped": 8,
+    "result": "OK"
+  },
+  "model_calls": 0,
+  "native_agents_started": false
+}
