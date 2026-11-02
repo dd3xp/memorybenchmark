@@ -1,0 +1,112 @@
+{
+  "kind": "independent_native_high_experiment_launch",
+  "observed_at_utc": "2026-11-02T15:28:55.398255+00:00",
+  "source_commit": "9e68f6a65d967ecc147f05d564c4748ca97b2eeb",
+  "model_alias": "gpt-5.6-luna",
+  "reasoning_policy": "native",
+  "configured_reasoning_effort": "high",
+  "host_request_effort_guard": false,
+  "runs": [
+    {
+      "agent": "ga",
+      "condition": "retain",
+      "experiment_id": "a972aff85f694bb4ac3e116f00ab0936",
+      "web_id": "pilot-cf4c06017495b5d3-retain",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "reasoning_policy": "native",
+      "peer_dependencies": [],
+      "source_verified": true,
+      "source_files": 84,
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "request_reasoning_efforts": {
+        "high": 14
+      },
+      "provider_reasoning_efforts": {
+        "high": 13
+      },
+      "completed_model_responses": 13
+    },
+    {
+      "agent": "ga",
+      "condition": "clear",
+      "experiment_id": "54355b73009b427b92a39f4760f67e8b",
+      "web_id": "pilot-dc1574a34dbc89c4-clear",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "reasoning_policy": "native",
+      "peer_dependencies": [],
+      "source_verified": true,
+      "source_files": 84,
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "request_reasoning_efforts": {
+        "high": 17
+      },
+      "provider_reasoning_efforts": {
+        "high": 16
+      },
+      "completed_model_responses": 16
+    },
+    {
+      "agent": "hermes",
+      "condition": "retain",
+      "experiment_id": "2f22c89a615f4972bf42e7d2008f0afa",
+      "web_id": "pilot-c1752ae43e46a57e-retain",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "reasoning_policy": "native",
+      "peer_dependencies": [],
+      "source_verified": true,
+      "source_files": 84,
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "request_reasoning_efforts": {
+        "high": 10
+      },
+      "provider_reasoning_efforts": {
+        "high": 9
+      },
+      "completed_model_responses": 9
+    },
+    {
+      "agent": "hermes",
+      "condition": "clear",
+      "experiment_id": "e9bf3c705d064eeda65800986ce6500e",
+      "web_id": "pilot-ca60b903d46d6498-clear",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "reasoning_policy": "native",
+      "peer_dependencies": [],
+      "source_verified": true,
+      "source_files": 84,
+      "attempts": 0,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "request_reasoning_efforts": {
+        "high": 9
+      },
+      "provider_reasoning_efforts": {
+        "high": 8
+      },
+      "completed_model_responses": 8
+    }
+  ],
+  "each_run_tasks": 20,
+  "old_run_data_imported": false,
+  "software_validation_passed": true,
+  "native_agent_commits": {
+    "ga": "e4d956f0207a2d268704634473196353946481bc",
+    "hermes": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6"
+  },
+  "comparison_policy": "Offline only after independently completing each condition; does not control agent runs.",
+  "scope": "Launch evidence only. Full task and memory benefit results pending."
+}
