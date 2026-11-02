@@ -67,10 +67,21 @@ class ReasoningEffortTests(unittest.TestCase):
     def test_worker_preserves_native_compression_payload_and_still_rejects_missing_main_effort(self):
         checkpoint = {"instructions": "You are a helpful assistant.", "input": [{"role": "user", "content":
             "You are a summarization agent creating a context checkpoint.\n\nTURNS TO SUMMARIZE:\nfixture"}]}
-        for valid in (True, False):
-            with self.subTest(valid=valid), tempfile.TemporaryDirectory() as directory:
+        iterative_prompt = ("You are a summarization agent creating a context checkpoint."
+            "\n\nYou are updating a context compaction summary. A previous compaction produced the summary below."
+            "\n\nPREVIOUS SUMMARY:\nfixture summary\n\nNEW TURNS TO INCORPORATE:\nfixture new turns")
+        iterative = {"instructions": "You are a helpful assistant.", "input": [
+            {"role": "developer", "content": "current task"},
+            {"role": "user", "content": [{"type": "input_text", "text": iterative_prompt}]}]}
+        for label, payload, valid in (("fresh", checkpoint, True), ("iterative", iterative, True),
+                ("main", {"instructions": "Review and save experience", "input": []}, False),
+                ("with_tools", {**iterative, "tools": [{"name": "memory"}]}, False),
+                ("missing_previous", {**iterative, "input": [{"role": "user", "content":
+                    iterative_prompt.replace("\n\nPREVIOUS SUMMARY:\nfixture summary", "")}]}, False),
+                ("missing_new_turns", {**iterative, "input": [{"role": "user", "content":
+                    iterative_prompt.replace("\n\nNEW TURNS TO INCORPORATE:\nfixture new turns", "")}]}, False)):
+            with self.subTest(shape=label), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
-                payload = checkpoint if valid else {"instructions": "Review and save experience", "input": []}
                 script = root / "worker.py"
                 script.write_text("import json,sys\nsys.stdin.readline()\n" +
                     "print(json.dumps({'kind':'request','id':1,'method':'model','params':" + repr(payload) + "}),flush=True)\n" +

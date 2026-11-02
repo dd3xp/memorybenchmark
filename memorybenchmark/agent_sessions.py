@@ -38,9 +38,14 @@ def native_model_request_kind(payload, worker_protocol):
             content = messages[0].get("content")
             if isinstance(content, list):
                 content = "".join(str(part.get("text", "")) for part in content if isinstance(part, dict))
+            # Pinned ContextCompressor._build_summary_prompt has fresh and
+            # iterative forms. A later compaction updates its previous summary.
             if (isinstance(content, str)
                     and content.startswith("You are a summarization agent creating a context checkpoint.")
-                    and "\n\nTURNS TO SUMMARIZE" in content):
+                    and ("\n\nTURNS TO SUMMARIZE:" in content
+                         or ("\n\nYou are updating a context compaction summary." in content
+                             and "\n\nPREVIOUS SUMMARY:\n" in content
+                             and "\n\nNEW TURNS TO INCORPORATE:\n" in content))):
                 return "context_compression"
     return "agent"
 
