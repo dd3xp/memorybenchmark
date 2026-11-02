@@ -17,9 +17,9 @@ python -m memorybenchmark.prototypes.station_independent --archive native-agent.
 
 凭据只通过宿主环境变量 `MEMORYBENCH_GATEWAY_KEY` 提供。`--prepare-only` 可先冻结独立 run，之后单独 `--resume`。原生 GA 仍使用 `code_run` 调用游戏客户端，Hermes 仍通过原生 MCP；一次模型响应最多一个游戏动作，移动只到一个相邻地点。提示、原生记忆机制、地图和动作反馈保持原样。
 
-新 run 可用 `--reasoning-effort high` 指定推理强度，未指定则沿用 `low`。该字段同时冻结在实验清单、每个任务和实际模型请求中；宿主在发送前核对原生请求，离线审计再次核对。恢复不能改变该设置，比较程序拒绝混合 high／low 两组。旧清单缺少字段时按原先的 low 处理。网页对 high 运行单独标记，完整报告记录提供方返回的 token 使用量、覆盖率与任务耗时；同一档推理强度不代表实际 token 相等。
+新 run 可用 `--reasoning-effort high` 指定推理强度，未指定则沿用 `low`。GA 通过其原生 `mykey.py` 的 `native_oai_config.reasoning_effort` 加载，Hermes 通过原生 `AIAgent(reasoning_config={"effort": "high"})` 加载，由各自上游代码生成实际请求。实验清单与任务记录冻结的是这个 agent 配置；恢复不能改变它，比较程序拒绝混合 high／low 两组。旧清单缺少字段时按原先的 low 处理。网页对 high 运行单独标记，完整报告记录提供方返回的 token 使用量、覆盖率与任务耗时；同一档推理强度不代表实际 token 相等。
 
-强度约束适用于游戏决策和记忆复盘。Hermes 原生会话命名请求明确关闭推理，当前会话的原生上下文压缩可省略推理字段。按固定提示、角色和无工具结构分别识别为 `session_title`、`context_compression`，保留原生请求，仍计入调用预算和总 token；其他请求继续严格校验，不将跨 session 记忆整理归为上下文压缩。压缩识别覆盖固定原生版本的首次摘要（`TURNS TO SUMMARIZE`）和迭代更新（更新摘要的固定开头、`PREVIOUS SUMMARY`、`NEW TURNS TO INCORPORATE` 同时存在）两种形式。原生源码不修改。
+运行器不根据逐请求的推理字段拦截、补写或覆盖原生请求，归档也不要求每个请求／提供方响应与主 agent 的配置相同。Hermes 原生后台复盘、会话命名与上下文压缩的具体推理设置遵循上游流程。`session_title`、`context_compression` 等分类只用于统计，未来未知的辅助形式也不会被拒绝。报告分别列出配置档位、实际请求档位分布和提供方返回档位分布；未提供字段记为 `unspecified`，不推断为 low 或 high。原生源码不修改。
 
 对已经冻结的轮次修正宿主误拒绝时，保留原源码和已完成任务。先严格重放已完成轨迹、核对记忆输入和实际被拒请求，再将失败目录归档，恢复原任务起点。追加 `host_validation_repairs`，声明原版本、宿主覆盖版本、文件指纹、适用任务和验证证据；新代码副本与恢复程序一同归档，不悄悄改写原冻结清单。报告单列宿主误拒绝所耗模型调用，不混入有效任务成本。运行中的另一组不被打断。
 

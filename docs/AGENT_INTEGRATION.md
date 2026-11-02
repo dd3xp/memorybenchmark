@@ -40,6 +40,8 @@ flowchart LR
 
 ## 安装与正式运行
 
+推理强度使用各 agent 的原生配置入口：GA 写入隔离环境中 `mykey.py` 的 `native_oai_config.reasoning_effort`；Hermes 传入原生 `AIAgent` 的 `reasoning_config`。两者设为 high 后，请求均由上游构造，运行器不逐请求强制 high，也不根据标题、压缩或其他辅助请求的推理字段中断任务。日志与报告只观察实际参数；预检用固定版本的原生 agent 验证配置是否加载，不调用真实模型。
+
 游戏本身仍只依赖标准库；MCP 与正式 agent 运行需要可选依赖：
 
 ```powershell

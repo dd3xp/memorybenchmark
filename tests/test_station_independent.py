@@ -182,7 +182,7 @@ class IndependentStationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "reasoning_effort"):
                 experiment(output, None, None, resume=True, reasoning_effort="low")
 
-    def test_audit_checks_actual_request_effort_against_manifest(self):
+    def test_audit_checks_frozen_agent_setting_without_restricting_native_requests(self):
         with tempfile.TemporaryDirectory() as directory:
             output, _ = self.completed_crlf_run(Path(directory))
             pilot = json.loads((output / "pilot.json").read_text())
@@ -198,7 +198,12 @@ class IndependentStationTests(unittest.TestCase):
                 save_json(folder / "model/001-response.json", {"lines": []})
             audit(output)
             save_json(folder / "model/001-request.json", {"reasoning": {"effort": "low"}})
-            with self.assertRaisesRegex(AssertionError, "request reasoning effort"):
+            audit(output)
+            save_json(folder / "model/001-request.json", {"input": [], "reasoning": None})
+            audit(output)
+            summary["reasoning_effort"] = "low"
+            save_json(folder / "summary.json", summary)
+            with self.assertRaisesRegex(AssertionError, "Session reasoning effort"):
                 audit(output)
 
     def completed_crlf_run(self, root):

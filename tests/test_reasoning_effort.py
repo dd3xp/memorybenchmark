@@ -13,7 +13,7 @@ from memorybenchmark.watch import atomic_json as save_json
 
 
 class ReasoningEffortTests(unittest.TestCase):
-    def test_only_native_tool_free_hermes_title_is_exempt_from_agent_effort(self):
+    def test_native_title_label_is_distinct_from_agent_requests(self):
         title = {"instructions": "You name chat sessions. Given the user's opening message, write a title that lets them find this conversation again.", "input": []}
         self.assertEqual(native_model_request_kind(title, "hermes-session-1"), "session_title")
         self.assertEqual(native_model_request_kind(title, "ga-session-1"), "agent")
@@ -29,7 +29,7 @@ class ReasoningEffortTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reasoning effort"):
             WorkerSessions(".", ".", None, model_alias="fixture", reasoning_effort="typo")
 
-    def test_provider_usage_has_coverage_and_rejects_wrong_effort(self):
+    def test_provider_usage_records_native_efforts_without_enforcing_one_level(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory); (root / "model").mkdir()
             def write(index, response):
@@ -40,8 +40,9 @@ class ReasoningEffortTests(unittest.TestCase):
             usage = model_usage(root, "high")
             self.assertEqual(usage["reported_tokens"], {"input_tokens": 20, "output_tokens": 10, "reasoning_tokens": 7})
             self.assertTrue(usage["usage_complete"])
-            with self.assertRaisesRegex(ValueError, "Provider reasoning effort"):
-                model_usage(root, "low")
+            observed = model_usage(root, "low")
+            self.assertEqual(observed["configured_reasoning_effort"], "low")
+            self.assertEqual(observed["provider_reasoning_efforts"], {"high": 1})
             write(2, {})
             usage = model_usage(root, "high")
             self.assertFalse(usage["usage_complete"])
@@ -52,6 +53,8 @@ class ReasoningEffortTests(unittest.TestCase):
             usage = model_usage(root, "high", "hermes")
             self.assertEqual(usage["request_kinds"], {"agent": 1, "session_title": 1, "context_compression": 0})
             self.assertEqual(usage["reported_tokens"]["input_tokens"], 23)
+            self.assertEqual(usage["request_reasoning_efforts"], {"unspecified": 1})
+            self.assertEqual(usage["provider_reasoning_efforts"], {"high": 1, "none": 1})
 
     def test_compression_requires_the_exact_native_tool_free_checkpoint_shape(self):
         prompt = "You are a summarization agent creating a context checkpoint.\n\nTURNS TO SUMMARIZE:\nsynthetic conversation"
@@ -64,7 +67,7 @@ class ReasoningEffortTests(unittest.TestCase):
             ({**payload, "input": [{"role": "user", "content": prompt.split("\n\nTURNS")[0]}]}, "hermes-session-1")):
             self.assertEqual(native_model_request_kind(changed, protocol), "agent")
 
-    def test_worker_preserves_native_compression_payload_and_still_rejects_missing_main_effort(self):
+    def test_both_workers_forward_native_settings_including_unknown_auxiliary_requests(self):
         checkpoint = {"instructions": "You are a helpful assistant.", "input": [{"role": "user", "content":
             "You are a summarization agent creating a context checkpoint.\n\nTURNS TO SUMMARIZE:\nfixture"}]}
         iterative_prompt = ("You are a summarization agent creating a context checkpoint."
@@ -73,14 +76,16 @@ class ReasoningEffortTests(unittest.TestCase):
         iterative = {"instructions": "You are a helpful assistant.", "input": [
             {"role": "developer", "content": "current task"},
             {"role": "user", "content": [{"type": "input_text", "text": iterative_prompt}]}]}
-        for label, payload, valid in (("fresh", checkpoint, True), ("iterative", iterative, True),
-                ("main", {"instructions": "Review and save experience", "input": []}, False),
-                ("with_tools", {**iterative, "tools": [{"name": "memory"}]}, False),
+        cases = (("fresh", checkpoint, "context_compression"), ("iterative", iterative, "context_compression"),
+                ("unknown_auxiliary", {"instructions": "Native auxiliary request", "input": []}, "agent"),
+                ("with_tools", {**iterative, "tools": [{"name": "memory"}]}, "agent"),
+                ("native_override", {"input": [], "reasoning": {"effort": "medium"}}, "agent"),
                 ("missing_previous", {**iterative, "input": [{"role": "user", "content":
-                    iterative_prompt.replace("\n\nPREVIOUS SUMMARY:\nfixture summary", "")}]}, False),
+                    iterative_prompt.replace("\n\nPREVIOUS SUMMARY:\nfixture summary", "")}]}, "agent"),
                 ("missing_new_turns", {**iterative, "input": [{"role": "user", "content":
-                    iterative_prompt.replace("\n\nNEW TURNS TO INCORPORATE:\nfixture new turns", "")}]}, False)):
-            with self.subTest(shape=label), tempfile.TemporaryDirectory() as directory:
+                    iterative_prompt.replace("\n\nNEW TURNS TO INCORPORATE:\nfixture new turns", "")}]}, "agent"))
+        for protocol, (label, payload, kind) in ((p, c) for p in ("ga-session-1", "hermes-session-1") for c in cases):
+            with self.subTest(protocol=protocol, shape=label), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
                 script = root / "worker.py"
                 script.write_text("import json,sys\nsys.stdin.readline()\n" +
@@ -89,20 +94,20 @@ class ReasoningEffortTests(unittest.TestCase):
                 class Jail:
                     def command(self, *args, **kwargs):
                         return [sys.executable, "-u", str(script)]
-                sessions = WorkerSessions(root, root, Jail(), model_alias="fixture", worker_protocol="hermes-session-1",
+                sessions = WorkerSessions(root, root, Jail(), model_alias="fixture", worker_protocol=protocol,
                     game_transport="legacy-rpc", reasoning_effort="high")
                 received = []
                 def model(value):
                     received.append(value)
                     return {"lines": []}
                 report = sessions._worker(root, root, {"reasoning_effort": "high"}, model=model)
-                self.assertEqual(report["infrastructure_ok"], valid)
-                if valid:
-                    self.assertEqual(received, [payload])
-                    self.assertEqual(report["model_request_kinds"]["context_compression"], 1)
-                else:
-                    self.assertEqual(received, [])
-                    self.assertIn("reasoning effort differs", report["infrastructure_error"])
+                self.assertTrue(report["infrastructure_ok"])
+                self.assertEqual(received, [payload])
+                self.assertEqual(report["reasoning_policy"], "native")
+                expected_kind = kind if protocol == "hermes-session-1" else "agent"
+                self.assertEqual(report["model_request_kinds"][expected_kind], 1)
+                effort = (payload.get("reasoning") or {}).get("effort", "unspecified")
+                self.assertEqual(report["request_reasoning_efforts"], {effort: 1})
 
     def test_offline_comparison_rejects_high_low_pair_and_accepts_legacy_low(self):
         with tempfile.TemporaryDirectory() as directory:

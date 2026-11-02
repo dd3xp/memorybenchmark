@@ -6,7 +6,7 @@ from pathlib import Path
 import threading
 from unittest.mock import patch
 
-from memorybenchmark.agent_sessions import REASONING_EFFORTS
+from memorybenchmark.agent_sessions import REASONING_EFFORTS, observed_reasoning_effort
 from memorybenchmark.ga_runtime import WSLJail
 from memorybenchmark.prototypes import station_independent as independent
 from memorybenchmark.prototypes.station_capability import load_design, map_world, task_stages
@@ -27,6 +27,7 @@ def run(args):
     barrier = threading.Barrier(2)
     clear_finished = threading.Event()
     inspected = []
+    observed_requests = []
 
     class ScriptedSessions(StationNativeSessions):
         def run(self, game, task_id, memory, output, model, *, condition):
@@ -56,6 +57,13 @@ def run(args):
             itinerary.append(("game_action", {"action": "submit"}))
             scripted = ScriptedResponses(itinerary, args.agent, "native")
             def callback(payload):
+                # This is an explicit software contract for a pinned native
+                # version, not an interception rule in the experiment runner.
+                effort = observed_reasoning_effort(payload)
+                main_request = bool(payload.get("tools"))
+                observed_requests.append((main_request, effort))
+                if main_request:
+                    assert effort == args.reasoning_effort, "Pinned upstream configuration was not loaded"
                 if scripted.calls == 0:
                     if task_id == "T1":
                         barrier.wait(timeout=180)
@@ -87,8 +95,15 @@ def run(args):
         futures = [pool.submit(branch, condition) for condition in ("retain", "clear")]
         audits = [future.result() for future in futures]
     assert len({r["session_id"] for r in inspected}) == 4
+    assert any(main for main, _ in observed_requests)
+    efforts = {}
+    for _, effort in observed_requests:
+        efforts[effort] = efforts.get(effort, 0) + 1
     validation = {"passed": True, "agent": args.agent, "kind": "independent_real_native_scripted_contract",
         "reasoning_effort": args.reasoning_effort, "native_request_effort_verified": True,
+        "native_configuration_entry": "mykey.native_oai_config.reasoning_effort" if args.agent == "ga" else "AIAgent.reasoning_config",
+        "native_main_requests_verified": sum(main for main, _ in observed_requests),
+        "observed_request_reasoning_efforts": efforts,
         "real_model_calls": 0, "runs": 2, "sessions": 4, "clear_finished_while_retain_t2_waited": True,
         "own_histories_replayed": True, "retain_inherits_own_memory": True, "clear_restores_native_baseline": True,
         "session_ids_distinct": True, "rows": inspected, "audited_tasks": [a["replay"]["canonical_tasks"] for a in audits]}

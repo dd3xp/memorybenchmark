@@ -23,10 +23,18 @@ REASONING_EFFORTS = ("low", "medium", "high")
 MODEL_REQUEST_KINDS = ("agent", "session_title", "context_compression")
 
 
+def observed_reasoning_effort(payload):
+    """Describe a native field without interpreting or changing agent settings."""
+    reasoning = payload.get("reasoning")
+    effort = reasoning.get("effort") if isinstance(reasoning, dict) else None
+    return effort if isinstance(effort, str) else "unspecified"
+
+
 def native_model_request_kind(payload, worker_protocol):
+    """Observational labels only; these never control native request acceptance."""
     # Pinned Hermes title_generator.generate_title explicitly disables thinking.
-    # This tool-free metadata request cannot act or write experience. Keep its
-    # native configuration; never exempt a game/review request without this prefix.
+    # This tool-free metadata request cannot act or write experience. Labels
+    # describe usage only; upstream code owns the configuration of every call.
     if (worker_protocol == "hermes-session-1" and not payload.get("tools")
             and str(payload.get("instructions", "")).startswith(
                 "You name chat sessions. Given the user's opening message, write a title")):
@@ -79,6 +87,7 @@ class WorkerSessions:
         report = {"llm_calls":0, "model_requests":0, "main_calls":0,"final_calls":0,"tools":[], "session_id":uuid4().hex,
                   "infrastructure_ok":False, "continuations":[], "wall_seconds":self.wall_seconds,
                   "reasoning_effort":config.get("reasoning_effort", "low"),
+                  "reasoning_policy":"native", "request_reasoning_efforts":{},
                   "model_request_kinds":dict.fromkeys(MODEL_REQUEST_KINDS, 0)}
         final_phase = False
         gate = DecisionGate(config.get("action_policy", "batch"))
@@ -168,9 +177,12 @@ class WorkerSessions:
                                 self.observer.activity(watch_id,"finalize","任务结算，进入自主整理",phase="finalizing")
                         elif method == "model" and model is not None:
                             request_kind = native_model_request_kind(params, self.worker_protocol)
-                            if (request_kind == "agent" and "reasoning_effort" in config
-                                    and params.get("reasoning", {}).get("effort") != config["reasoning_effort"]):
-                                raise InfrastructureError("native model request reasoning effort differs from frozen configuration")
+                            # The configured effort goes through the upstream
+                            # configuration entry point. Native auxiliary calls
+                            # may choose their own settings; record, never gate.
+                            effort = observed_reasoning_effort(params)
+                            counts = report["request_reasoning_efforts"]
+                            counts[effort] = counts.get(effort, 0) + 1
                             report["model_request_kinds"][request_kind] += 1
                             report["model_requests"] += 1
                             field, budget = ("final_calls",self.final_turns) if final_phase else ("main_calls",self.max_turns)

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from memorybenchmark.prototypes.station_analysis import analyze_trace
-from memorybenchmark.agent_sessions import MODEL_REQUEST_KINDS, native_model_request_kind
+from memorybenchmark.agent_sessions import MODEL_REQUEST_KINDS, native_model_request_kind, observed_reasoning_effort
 from memorybenchmark.prototypes.station_independent import PROTOCOL, read
 from memorybenchmark.watch import atomic_json as save_json
 from scripts.audit_station_native import audit
@@ -17,12 +17,17 @@ def model_usage(folder, reasoning_effort=None, agent=None):
     totals = {key: 0 for key in ("input_tokens", "output_tokens", "reasoning_tokens")}
     calls = usage_calls = effort_calls = 0
     kinds = dict.fromkeys(MODEL_REQUEST_KINDS, 0)
+    request_efforts, provider_efforts = {}, {}
     for path in sorted((folder / "model").glob("*-response.json")):
         calls += 1
         request_path = path.with_name(path.name.replace("-response.json", "-request.json"))
         protocol = "hermes-session-1" if agent == "hermes" else "ga-session-1"
-        kind = native_model_request_kind(read(request_path), protocol) if request_path.exists() else "agent"
+        request = read(request_path) if request_path.exists() else {}
+        kind = native_model_request_kind(request, protocol)
         kinds[kind] += 1
+        if request_path.exists():
+            effort = observed_reasoning_effort(request)
+            request_efforts[effort] = request_efforts.get(effort, 0) + 1
         completed = []
         for line in read(path).get("lines", []):
             if not line.startswith("data:") or line[5:].strip() == "[DONE]":
@@ -33,11 +38,10 @@ def model_usage(folder, reasoning_effort=None, agent=None):
         if len(completed) != 1:
             raise ValueError("Expected exactly one completed provider response")
         response = completed[0]
-        effort = (response.get("reasoning") or {}).get("effort")
-        if effort is not None:
+        effort = observed_reasoning_effort(response)
+        provider_efforts[effort] = provider_efforts.get(effort, 0) + 1
+        if effort != "unspecified":
             effort_calls += 1
-            if kind == "agent" and reasoning_effort is not None and effort != reasoning_effort:
-                raise ValueError("Provider reasoning effort differs from frozen configuration")
         usage = response.get("usage") or {}
         if all(isinstance(usage.get(k), int) for k in ("input_tokens", "output_tokens")):
             usage_calls += 1
@@ -46,6 +50,8 @@ def model_usage(folder, reasoning_effort=None, agent=None):
             totals["reasoning_tokens"] += (usage.get("output_tokens_details") or {}).get("reasoning_tokens", 0) or 0
     return {"calls": calls, "calls_with_usage": usage_calls, "calls_with_effort_acknowledgement": effort_calls,
             "request_kinds": kinds,
+            "configured_reasoning_effort": reasoning_effort, "reasoning_policy": "native",
+            "request_reasoning_efforts": request_efforts, "provider_reasoning_efforts": provider_efforts,
             "reported_tokens": totals, "usage_complete": calls == usage_calls,
             "reasoning_tokens_included_in_output_tokens": True}
 
@@ -84,6 +90,13 @@ def report(run, *, native_archive=None, source_commit=None, source_newlines=None
     result["model_usage"]["usage_complete"] = all(row["model_usage"]["usage_complete"] for row in rows)
     result["model_usage"]["request_kinds"] = {key: sum(row["model_usage"]["request_kinds"][key] for row in rows)
         for key in MODEL_REQUEST_KINDS}
+    for field in ("request_reasoning_efforts", "provider_reasoning_efforts"):
+        observed = {}
+        for row in rows:
+            for effort, count in row["model_usage"][field].items():
+                observed[effort] = observed.get(effort, 0) + count
+        result["model_usage"][field] = observed
+    result["model_usage"]["reasoning_policy"] = "native"
     save_json(run / "analysis.json", result)
     return result
 
