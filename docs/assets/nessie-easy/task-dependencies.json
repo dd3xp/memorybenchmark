@@ -6,7 +6,7 @@
       {
         "stage_index": 0,
         "target": "P",
-        "required_kind": "wake",
+        "required_kind": "profile",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -14,7 +14,7 @@
       {
         "stage_index": 1,
         "target": "R",
-        "required_kind": "echo",
+        "required_kind": "bearing",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -28,7 +28,7 @@
       {
         "stage_index": 0,
         "target": "U",
-        "required_kind": "reeds",
+        "required_kind": "vegetation",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -36,7 +36,7 @@
       {
         "stage_index": 1,
         "target": "X",
-        "required_kind": "thermal",
+        "required_kind": "drainage",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -50,7 +50,7 @@
       {
         "stage_index": 0,
         "target": "Q",
-        "required_kind": "wake",
+        "required_kind": "profile",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -65,7 +65,7 @@
       {
         "stage_index": 1,
         "target": "V",
-        "required_kind": "reeds",
+        "required_kind": "vegetation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -86,7 +86,7 @@
       {
         "stage_index": 0,
         "target": "S",
-        "required_kind": "echo",
+        "required_kind": "bearing",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -101,7 +101,7 @@
       {
         "stage_index": 1,
         "target": "Y",
-        "required_kind": "thermal",
+        "required_kind": "drainage",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -122,7 +122,7 @@
       {
         "stage_index": 0,
         "target": "P",
-        "required_kind": "shoreprint",
+        "required_kind": "shore",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -130,7 +130,7 @@
       {
         "stage_index": 1,
         "target": "R",
-        "required_kind": "image",
+        "required_kind": "elevation",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -144,7 +144,7 @@
       {
         "stage_index": 0,
         "target": "U",
-        "required_kind": "residue",
+        "required_kind": "lithology",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -152,7 +152,7 @@
       {
         "stage_index": 1,
         "target": "X",
-        "required_kind": "vibration",
+        "required_kind": "contour",
         "earlier_same_kind_stages": [],
         "has_success_conditioned_predecessor": false,
         "intervening_tasks_since_same_kind_requirement": null
@@ -166,7 +166,7 @@
       {
         "stage_index": 0,
         "target": "Q",
-        "required_kind": "shoreprint",
+        "required_kind": "shore",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -181,7 +181,7 @@
       {
         "stage_index": 1,
         "target": "V",
-        "required_kind": "residue",
+        "required_kind": "lithology",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -202,7 +202,7 @@
       {
         "stage_index": 0,
         "target": "S",
-        "required_kind": "image",
+        "required_kind": "elevation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -217,7 +217,7 @@
       {
         "stage_index": 1,
         "target": "Y",
-        "required_kind": "vibration",
+        "required_kind": "contour",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -238,7 +238,7 @@
       {
         "stage_index": 0,
         "target": "Q",
-        "required_kind": "wake",
+        "required_kind": "profile",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -259,7 +259,7 @@
       {
         "stage_index": 1,
         "target": "V",
-        "required_kind": "reeds",
+        "required_kind": "vegetation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -286,7 +286,7 @@
       {
         "stage_index": 0,
         "target": "S",
-        "required_kind": "echo",
+        "required_kind": "bearing",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -307,7 +307,7 @@
       {
         "stage_index": 1,
         "target": "Y",
-        "required_kind": "thermal",
+        "required_kind": "drainage",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -334,7 +334,7 @@
       {
         "stage_index": 0,
         "target": "Q",
-        "required_kind": "shoreprint",
+        "required_kind": "shore",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -355,7 +355,7 @@
       {
         "stage_index": 1,
         "target": "V",
-        "required_kind": "residue",
+        "required_kind": "lithology",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -382,7 +382,7 @@
       {
         "stage_index": 0,
         "target": "S",
-        "required_kind": "image",
+        "required_kind": "elevation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -403,7 +403,7 @@
       {
         "stage_index": 1,
         "target": "Y",
-        "required_kind": "vibration",
+        "required_kind": "contour",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -430,7 +430,7 @@
       {
         "stage_index": 0,
         "target": "U",
-        "required_kind": "wake",
+        "required_kind": "profile",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -457,7 +457,7 @@
       {
         "stage_index": 1,
         "target": "R",
-        "required_kind": "thermal",
+        "required_kind": "drainage",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -490,7 +490,7 @@
       {
         "stage_index": 0,
         "target": "X",
-        "required_kind": "echo",
+        "required_kind": "bearing",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -517,7 +517,7 @@
       {
         "stage_index": 1,
         "target": "P",
-        "required_kind": "reeds",
+        "required_kind": "vegetation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -550,7 +550,7 @@
       {
         "stage_index": 0,
         "target": "V",
-        "required_kind": "shoreprint",
+        "required_kind": "shore",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -577,7 +577,7 @@
       {
         "stage_index": 1,
         "target": "S",
-        "required_kind": "vibration",
+        "required_kind": "contour",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -610,7 +610,7 @@
       {
         "stage_index": 0,
         "target": "Y",
-        "required_kind": "image",
+        "required_kind": "elevation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -637,7 +637,7 @@
       {
         "stage_index": 1,
         "target": "Q",
-        "required_kind": "residue",
+        "required_kind": "lithology",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -670,7 +670,7 @@
       {
         "stage_index": 0,
         "target": "U",
-        "required_kind": "wake",
+        "required_kind": "profile",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -703,7 +703,7 @@
       {
         "stage_index": 1,
         "target": "R",
-        "required_kind": "vibration",
+        "required_kind": "contour",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -742,7 +742,7 @@
       {
         "stage_index": 0,
         "target": "X",
-        "required_kind": "echo",
+        "required_kind": "bearing",
         "earlier_same_kind_stages": [
           {
             "task_id": "T1",
@@ -775,7 +775,7 @@
       {
         "stage_index": 1,
         "target": "P",
-        "required_kind": "residue",
+        "required_kind": "lithology",
         "earlier_same_kind_stages": [
           {
             "task_id": "T6",
@@ -814,7 +814,7 @@
       {
         "stage_index": 0,
         "target": "U",
-        "required_kind": "shoreprint",
+        "required_kind": "shore",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -847,7 +847,7 @@
       {
         "stage_index": 1,
         "target": "R",
-        "required_kind": "thermal",
+        "required_kind": "drainage",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",
@@ -886,7 +886,7 @@
       {
         "stage_index": 0,
         "target": "X",
-        "required_kind": "image",
+        "required_kind": "elevation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T5",
@@ -919,7 +919,7 @@
       {
         "stage_index": 1,
         "target": "P",
-        "required_kind": "reeds",
+        "required_kind": "vegetation",
         "earlier_same_kind_stages": [
           {
             "task_id": "T2",

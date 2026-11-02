@@ -25,7 +25,7 @@ def main():
     terrain=NESSIE_EASY_DESIGN.parent.parent/'static/nessie-terrain.svg'
     root=ET.fromstring(terrain.read_text(encoding='utf-8'))
     root.find('{'+NS+'}title').text='尼斯湖水怪 · 完整公开地图'
-    root.find('{'+NS+'}desc').text='全部 61 个地点、61 条道路与距离。圆点为调查点，方框为基站，三角为营地。不含隐藏能力配对。'
+    root.find('{'+NS+'}desc').text='全部 61 个地点、61 条道路与距离。圆点为测绘点，方框为基站，三角为营地。不含隐藏能力配对。'
     layer=element(root,'g',{'font-family':'Microsoft YaHei,Noto Sans CJK SC,sans-serif'})
     for a,b,w in public['edges']:
         p,q=places[a],places[b]

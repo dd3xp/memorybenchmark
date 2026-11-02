@@ -17,7 +17,7 @@ def main():
     design=load_design(NESSIE_EASY_DESIGN);world=map_world(design)
     budget=typed_order_budget(design)
     guarantee=validate_success_guarantee(design)
-    calibration=calibrate(design,'nessie-easy-1.0')
+    calibration=calibrate(design,design['design_id'])
     sim=FeedbackSimulation(design);fixed={};public_boundary=[]
     for retain in (True,False):
         game=StationGame(world,design);facts={};rows=[]

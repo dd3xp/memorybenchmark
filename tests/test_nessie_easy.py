@@ -18,6 +18,7 @@ from memorybenchmark.prototypes.station_experience import experience_opportuniti
 from memorybenchmark.prototypes.station_routes import known_world_route, walk
 from memorybenchmark.prototypes.station_session import NESSIE_EASY_DESIGN, StationSession, play_human
 from scripts.build_nessie_easy_map import build
+from scripts.build_easy20_reuse_map import build as reference_map
 from scripts.check_easy20_linked import FeedbackSimulation
 
 
@@ -40,6 +41,16 @@ class NessieEasyTests(unittest.TestCase):
         self.assertEqual(len([s for row in experience_schedule(d) for s in row['stages'] if s['earlier_same_kind_stages']]),32)
         with self.assertRaises(ValueError):map_world(d,'omega_00_00')
 
+    def test_original_survey_plan_is_preserved_with_only_one_themed_station_type(self):
+        reference=reference_map()
+        self.assertEqual(self.design['tasks'],reference['tasks'])
+        self.assertEqual(self.design['public']['kinds'],reference['public']['kinds'])
+        themed={id_:place for id_,place in self.design['public']['locations'].items()
+                if '水怪' in place['name']}
+        self.assertEqual(set(themed),{'H1','H2'})
+        self.assertEqual({place['station_type'] for place in themed.values()},{'H'})
+        self.assertEqual(self.design['public']['vocabulary']['process'],'处理')
+
     def test_all_twenty_tasks_complete_with_actual_feedback_with_and_without_history(self):
         sim=FeedbackSimulation(self.design)
         for retain in (True,False):
@@ -57,7 +68,7 @@ class NessieEasyTests(unittest.TestCase):
         game=StationGame(self.world,self.design)
         game.start_task('T1');walk(game,'P');walk(game,'C1')
         info=game.step({'type':'process'})['feedback']
-        self.assertEqual((info['station_type'],info['capability']),('C','wake'))
+        self.assertEqual((info['station_type'],info['capability']),('C','profile'))
         game.step({'type':'abandon'})
         game.start_task('T13');walk(game,'U');walk(game,'C2')
         record=experience_opportunities(self.design,game.events,game.task_run_id)['stages'][0]
@@ -82,7 +93,7 @@ class NessieEasyTests(unittest.TestCase):
         info=game.step({'type':'process'})['feedback']
         self.assertEqual(info['result'],'unsupported')
         self.assertTrue(game.state.raw)
-        self.assertEqual(info['capability'],'reeds')
+        self.assertEqual(info['capability'],'vegetation')
         self.assertLess(len(compatible_worlds(self.design,game.events)),576)
 
     def test_next_session_gets_public_geography_without_old_answers_or_future_tasks(self):

@@ -1,10 +1,10 @@
 {
-  "design_id": "nessie-easy-1.0",
+  "design_id": "nessie-easy-1.1",
   "status": "formal_easy_candidate_pending_native_agent_calibration",
   "world_generator": "station_type_permutations",
   "fixed_world": "omega_16_07",
   "public": {
-    "version": "nessie-easy-1.0",
+    "version": "nessie-easy-1.1",
     "name": "尼斯湖水怪",
     "difficulty": "Easy",
     "terrain": "nessie",
@@ -15,37 +15,37 @@
       1600
     ],
     "vocabulary": {
-      "survey": "踪迹调查点",
-      "station": "勘测基站",
-      "collect": "调查",
-      "process": "研判",
-      "item": "踪迹",
+      "survey": "测绘点",
+      "station": "基站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
       "submit": "交付"
     },
     "rules": [
-      "每项水怪调查委托有两段行程。依次到目标点自动记录本段指定踪迹，在支持该类踪迹的基站研判；两段完成后回 C 营地交付一次。",
+      "每项测绘委托有两段行程。依次到目标点自动采集本段指定资料，在支持该类资料的基站处理；两段完成后回 C 营地交付一次。",
       "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。全图从第一项起可自由探索，不设教学或解锁阶段。",
-      "A 至 H 是八种公开站型，每型两座站。同型站支持相同踪迹；字母和站名不暗示具体能力。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
-      "A/B/C/D 型分别支持异常尾流、岸边压痕、折苇痕迹、附着物样本中的一种；E/F/G/H 型分别支持水下回声、远距影像、热源记录、岸侧振动中的一种。每个站网内四种站型与四种能力一一对应，具体配对需交互获知。",
-      "只有抵达基站后 inspect 或 process 才反馈该站型的实际能力。inspect 查询消耗一次操作；process 研判不匹配也消耗一次操作，原始踪迹仍保留。",
-      "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、研判反馈或替你保存经验。",
-      "每段到目标自动采集，研判成功后才进入下一段；提前经过后续目标不算完成后续调查。中间支路节点必须逐点移动，湖面没有横穿捷径。",
+      "A 至 H 是八种公开站型，每型两座站。同型站支持相同资料；类型字母和站点研究主题不代表具体处理能力。H 型的两座站以水怪研究为主题，仍处理本地图的测绘资料，实际能力需交互获知。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
+      "A/B/C/D 型分别支持剖面、岸线、植被、岩性中的一种；E/F/G/H 型分别支持方位、高程、水系、等高线中的一种。每个站网内四种站型与四种能力一一对应，具体配对需交互获知。",
+      "只有抵达基站后 inspect 或 process 才反馈该站型的实际能力。inspect 查询消耗一次操作；process 处理不匹配也消耗一次操作，原始资料仍保留。",
+      "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、处理反馈或替你保存经验。",
+      "每段到目标自动采集，处理成功后才进入下一段；提前经过后续目标不算完成后续采集。中间支路节点必须逐点移动，湖面没有横穿捷径。",
       "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，只能保留实际经历过的经验，不补发答案。",
-      "一项最多八十八次操作，read 免费。报告可疑踪迹不等于证实水怪存在；游戏只验证调查流程和经验复用。"
+      "一项最多八十八次操作，read 免费。"
     ],
     "kinds": {
-      "wake": "异常尾流",
-      "shoreprint": "岸边压痕",
-      "reeds": "折苇痕迹",
-      "residue": "附着物样本",
-      "echo": "水下回声",
-      "image": "远距影像",
-      "thermal": "热源记录",
-      "vibration": "岸侧振动"
+      "profile": "剖面资料",
+      "shore": "岸线资料",
+      "bearing": "方位资料",
+      "elevation": "高程资料",
+      "vegetation": "植被资料",
+      "lithology": "岩性资料",
+      "drainage": "水系资料",
+      "contour": "等高线资料"
     },
     "capability_groups": {
       "shore": {
-        "name": "踪迹勘测站网",
+        "name": "南北同型站网",
         "station_types": [
           "A",
           "B",
@@ -63,20 +63,20 @@
           "D2"
         ],
         "kinds": [
-          "wake",
-          "shoreprint",
-          "reeds",
-          "residue"
+          "profile",
+          "shore",
+          "vegetation",
+          "lithology"
         ],
         "counts": {
-          "wake": 2,
-          "shoreprint": 2,
-          "reeds": 2,
-          "residue": 2
+          "profile": 2,
+          "shore": 2,
+          "vegetation": 2,
+          "lithology": 2
         }
       },
       "signal": {
-        "name": "信号研判站网",
+        "name": "东西同型站网",
         "station_types": [
           "E",
           "F",
@@ -94,16 +94,16 @@
           "H2"
         ],
         "kinds": [
-          "echo",
-          "image",
-          "thermal",
-          "vibration"
+          "bearing",
+          "elevation",
+          "drainage",
+          "contour"
         ],
         "counts": {
-          "echo": 2,
-          "image": 2,
-          "thermal": 2,
-          "vibration": 2
+          "bearing": 2,
+          "elevation": 2,
+          "drainage": 2,
+          "contour": 2
         }
       }
     },
@@ -167,7 +167,7 @@
     },
     "locations": {
       "C": {
-        "name": "水怪调查营地",
+        "name": "湖岸测绘营地",
         "kind": "camp",
         "x": 1830,
         "y": 110
@@ -293,7 +293,7 @@
         "y": 750
       },
       "A1": {
-        "name": "A 型水怪勘测站 · A1",
+        "name": "A 型测绘基站 · A1",
         "kind": "station",
         "station_type": "A",
         "x": 1190,
@@ -307,7 +307,7 @@
         "y": 130
       },
       "B1": {
-        "name": "B 型水怪勘测站 · B1",
+        "name": "B 型测绘基站 · B1",
         "kind": "station",
         "station_type": "B",
         "x": 1350,
@@ -328,7 +328,7 @@
         "y": 93
       },
       "C1": {
-        "name": "C 型水怪勘测站 · C1",
+        "name": "C 型测绘基站 · C1",
         "kind": "station",
         "station_type": "C",
         "x": 1990,
@@ -342,7 +342,7 @@
         "y": 340
       },
       "D1": {
-        "name": "D 型水怪勘测站 · D1",
+        "name": "D 型测绘基站 · D1",
         "kind": "station",
         "station_type": "D",
         "x": 2010,
@@ -363,7 +363,7 @@
         "y": 430
       },
       "A2": {
-        "name": "A 型水怪勘测站 · A2",
+        "name": "A 型测绘基站 · A2",
         "kind": "station",
         "station_type": "A",
         "x": 240,
@@ -377,7 +377,7 @@
         "y": 1085
       },
       "B2": {
-        "name": "B 型水怪勘测站 · B2",
+        "name": "B 型测绘基站 · B2",
         "kind": "station",
         "station_type": "B",
         "x": 300,
@@ -398,7 +398,7 @@
         "y": 1217
       },
       "C2": {
-        "name": "C 型水怪勘测站 · C2",
+        "name": "C 型测绘基站 · C2",
         "kind": "station",
         "station_type": "C",
         "x": 740,
@@ -412,7 +412,7 @@
         "y": 1410
       },
       "D2": {
-        "name": "D 型水怪勘测站 · D2",
+        "name": "D 型测绘基站 · D2",
         "kind": "station",
         "station_type": "D",
         "x": 940,
@@ -433,7 +433,7 @@
         "y": 1423
       },
       "E1": {
-        "name": "E 型水怪研判站 · E1",
+        "name": "E 型测绘基站 · E1",
         "kind": "station",
         "station_type": "E",
         "x": 1020,
@@ -447,7 +447,7 @@
         "y": 295
       },
       "F1": {
-        "name": "F 型水怪研判站 · F1",
+        "name": "F 型测绘基站 · F1",
         "kind": "station",
         "station_type": "F",
         "x": 960,
@@ -468,7 +468,7 @@
         "y": 373
       },
       "G1": {
-        "name": "G 型水怪研判站 · G1",
+        "name": "G 型测绘基站 · G1",
         "kind": "station",
         "station_type": "G",
         "x": 420,
@@ -482,7 +482,7 @@
         "y": 835
       },
       "H1": {
-        "name": "H 型水怪研判站 · H1",
+        "name": "H 型水怪勘测站 · H1",
         "kind": "station",
         "station_type": "H",
         "x": 480,
@@ -503,7 +503,7 @@
         "y": 950
       },
       "E2": {
-        "name": "E 型水怪研判站 · E2",
+        "name": "E 型测绘基站 · E2",
         "kind": "station",
         "station_type": "E",
         "x": 1800,
@@ -517,7 +517,7 @@
         "y": 580
       },
       "F2": {
-        "name": "F 型水怪研判站 · F2",
+        "name": "F 型测绘基站 · F2",
         "kind": "station",
         "station_type": "F",
         "x": 1940,
@@ -538,7 +538,7 @@
         "y": 633
       },
       "G2": {
-        "name": "G 型水怪研判站 · G2",
+        "name": "G 型测绘基站 · G2",
         "kind": "station",
         "station_type": "G",
         "x": 1300,
@@ -552,7 +552,7 @@
         "y": 1130
       },
       "H2": {
-        "name": "H 型水怪研判站 · H2",
+        "name": "H 型水怪勘测站 · H2",
         "kind": "station",
         "station_type": "H",
         "x": 1280,
@@ -883,361 +883,361 @@
   },
   "tasks": {
     "T1": {
-      "name": "北湾异常",
+      "name": "联程巡测 01",
       "start": "C",
       "submit_at": "C",
       "target": "P",
-      "required_kind": "wake",
+      "required_kind": "profile",
       "stages": [
         {
           "target": "P",
-          "required_kind": "wake"
+          "required_kind": "profile"
         },
         {
           "target": "R",
-          "required_kind": "echo"
+          "required_kind": "bearing"
         }
       ],
       "max_steps": 88
     },
     "T2": {
-      "name": "南汀折苇",
+      "name": "联程巡测 02",
       "start": "C",
       "submit_at": "C",
       "target": "U",
-      "required_kind": "reeds",
+      "required_kind": "vegetation",
       "stages": [
         {
           "target": "U",
-          "required_kind": "reeds"
+          "required_kind": "vegetation"
         },
         {
           "target": "X",
-          "required_kind": "thermal"
+          "required_kind": "drainage"
         }
       ],
       "max_steps": 88
     },
     "T3": {
-      "name": "双岸尾流",
+      "name": "联程巡测 03",
       "start": "C",
       "submit_at": "C",
       "target": "Q",
-      "required_kind": "wake",
+      "required_kind": "profile",
       "stages": [
         {
           "target": "Q",
-          "required_kind": "wake"
+          "required_kind": "profile"
         },
         {
           "target": "V",
-          "required_kind": "reeds"
+          "required_kind": "vegetation"
         }
       ],
       "max_steps": 88
     },
     "T4": {
-      "name": "两岸回声",
+      "name": "联程巡测 04",
       "start": "C",
       "submit_at": "C",
       "target": "S",
-      "required_kind": "echo",
+      "required_kind": "bearing",
       "stages": [
         {
           "target": "S",
-          "required_kind": "echo"
+          "required_kind": "bearing"
         },
         {
           "target": "Y",
-          "required_kind": "thermal"
+          "required_kind": "drainage"
         }
       ],
       "max_steps": 88
     },
     "T5": {
-      "name": "浅滩压痕",
+      "name": "联程巡测 05",
       "start": "C",
       "submit_at": "C",
       "target": "P",
-      "required_kind": "shoreprint",
+      "required_kind": "shore",
       "stages": [
         {
           "target": "P",
-          "required_kind": "shoreprint"
+          "required_kind": "shore"
         },
         {
           "target": "R",
-          "required_kind": "image"
+          "required_kind": "elevation"
         }
       ],
       "max_steps": 88
     },
     "T6": {
-      "name": "浮屑复核",
+      "name": "联程巡测 06",
       "start": "C",
       "submit_at": "C",
       "target": "U",
-      "required_kind": "residue",
+      "required_kind": "lithology",
       "stages": [
         {
           "target": "U",
-          "required_kind": "residue"
+          "required_kind": "lithology"
         },
         {
           "target": "X",
-          "required_kind": "vibration"
+          "required_kind": "contour"
         }
       ],
       "max_steps": 88
     },
     "T7": {
-      "name": "岸边印记",
+      "name": "联程巡测 07",
       "start": "C",
       "submit_at": "C",
       "target": "Q",
-      "required_kind": "shoreprint",
+      "required_kind": "shore",
       "stages": [
         {
           "target": "Q",
-          "required_kind": "shoreprint"
+          "required_kind": "shore"
         },
         {
           "target": "V",
-          "required_kind": "residue"
+          "required_kind": "lithology"
         }
       ],
       "max_steps": 88
     },
     "T8": {
-      "name": "夜影核查",
+      "name": "联程巡测 08",
       "start": "C",
       "submit_at": "C",
       "target": "S",
-      "required_kind": "image",
+      "required_kind": "elevation",
       "stages": [
         {
           "target": "S",
-          "required_kind": "image"
+          "required_kind": "elevation"
         },
         {
           "target": "Y",
-          "required_kind": "vibration"
+          "required_kind": "contour"
         }
       ],
       "max_steps": 88
     },
     "T9": {
-      "name": "尾流再访",
+      "name": "联程巡测 09",
       "start": "C",
       "submit_at": "C",
       "target": "Q",
-      "required_kind": "wake",
+      "required_kind": "profile",
       "stages": [
         {
           "target": "Q",
-          "required_kind": "wake"
+          "required_kind": "profile"
         },
         {
           "target": "V",
-          "required_kind": "reeds"
+          "required_kind": "vegetation"
         }
       ],
       "max_steps": 88
     },
     "T10": {
-      "name": "回声复测",
+      "name": "联程巡测 10",
       "start": "C",
       "submit_at": "C",
       "target": "S",
-      "required_kind": "echo",
+      "required_kind": "bearing",
       "stages": [
         {
           "target": "S",
-          "required_kind": "echo"
+          "required_kind": "bearing"
         },
         {
           "target": "Y",
-          "required_kind": "thermal"
+          "required_kind": "drainage"
         }
       ],
       "max_steps": 88
     },
     "T11": {
-      "name": "压痕复查",
+      "name": "联程巡测 11",
       "start": "C",
       "submit_at": "C",
       "target": "Q",
-      "required_kind": "shoreprint",
+      "required_kind": "shore",
       "stages": [
         {
           "target": "Q",
-          "required_kind": "shoreprint"
+          "required_kind": "shore"
         },
         {
           "target": "V",
-          "required_kind": "residue"
+          "required_kind": "lithology"
         }
       ],
       "max_steps": 88
     },
     "T12": {
-      "name": "夜影再访",
+      "name": "联程巡测 12",
       "start": "C",
       "submit_at": "C",
       "target": "S",
-      "required_kind": "image",
+      "required_kind": "elevation",
       "stages": [
         {
           "target": "S",
-          "required_kind": "image"
+          "required_kind": "elevation"
         },
         {
           "target": "Y",
-          "required_kind": "vibration"
+          "required_kind": "contour"
         }
       ],
       "max_steps": 88
     },
     "T13": {
-      "name": "南湾追踪",
+      "name": "联程巡测 13",
       "start": "C",
       "submit_at": "C",
       "target": "U",
-      "required_kind": "wake",
+      "required_kind": "profile",
       "stages": [
         {
           "target": "U",
-          "required_kind": "wake"
+          "required_kind": "profile"
         },
         {
           "target": "R",
-          "required_kind": "thermal"
+          "required_kind": "drainage"
         }
       ],
       "max_steps": 88
     },
     "T14": {
-      "name": "东岸芦影",
+      "name": "联程巡测 14",
       "start": "C",
       "submit_at": "C",
       "target": "X",
-      "required_kind": "echo",
+      "required_kind": "bearing",
       "stages": [
         {
           "target": "X",
-          "required_kind": "echo"
+          "required_kind": "bearing"
         },
         {
           "target": "P",
-          "required_kind": "reeds"
+          "required_kind": "vegetation"
         }
       ],
       "max_steps": 88
     },
     "T15": {
-      "name": "跨岸对照",
+      "name": "联程巡测 15",
       "start": "C",
       "submit_at": "C",
       "target": "V",
-      "required_kind": "shoreprint",
+      "required_kind": "shore",
       "stages": [
         {
           "target": "V",
-          "required_kind": "shoreprint"
+          "required_kind": "shore"
         },
         {
           "target": "S",
-          "required_kind": "vibration"
+          "required_kind": "contour"
         }
       ],
       "max_steps": 88
     },
     "T16": {
-      "name": "北湾残留",
+      "name": "联程巡测 16",
       "start": "C",
       "submit_at": "C",
       "target": "Y",
-      "required_kind": "image",
+      "required_kind": "elevation",
       "stages": [
         {
           "target": "Y",
-          "required_kind": "image"
+          "required_kind": "elevation"
         },
         {
           "target": "Q",
-          "required_kind": "residue"
+          "required_kind": "lithology"
         }
       ],
       "max_steps": 88
     },
     "T17": {
-      "name": "南汀异响",
+      "name": "联程巡测 17",
       "start": "C",
       "submit_at": "C",
       "target": "U",
-      "required_kind": "wake",
+      "required_kind": "profile",
       "stages": [
         {
           "target": "U",
-          "required_kind": "wake"
+          "required_kind": "profile"
         },
         {
           "target": "R",
-          "required_kind": "vibration"
+          "required_kind": "contour"
         }
       ],
       "max_steps": 88
     },
     "T18": {
-      "name": "东岸浮屑",
+      "name": "联程巡测 18",
       "start": "C",
       "submit_at": "C",
       "target": "X",
-      "required_kind": "echo",
+      "required_kind": "bearing",
       "stages": [
         {
           "target": "X",
-          "required_kind": "echo"
+          "required_kind": "bearing"
         },
         {
           "target": "P",
-          "required_kind": "residue"
+          "required_kind": "lithology"
         }
       ],
       "max_steps": 88
     },
     "T19": {
-      "name": "压痕与热迹",
+      "name": "联程巡测 19",
       "start": "C",
       "submit_at": "C",
       "target": "U",
-      "required_kind": "shoreprint",
+      "required_kind": "shore",
       "stages": [
         {
           "target": "U",
-          "required_kind": "shoreprint"
+          "required_kind": "shore"
         },
         {
           "target": "R",
-          "required_kind": "thermal"
+          "required_kind": "drainage"
         }
       ],
       "max_steps": 88
     },
     "T20": {
-      "name": "影像与折苇",
+      "name": "联程巡测 20",
       "start": "C",
       "submit_at": "C",
       "target": "X",
-      "required_kind": "image",
+      "required_kind": "elevation",
       "stages": [
         {
           "target": "X",
-          "required_kind": "image"
+          "required_kind": "elevation"
         },
         {
           "target": "P",
-          "required_kind": "reeds"
+          "required_kind": "vegetation"
         }
       ],
       "max_steps": 88
