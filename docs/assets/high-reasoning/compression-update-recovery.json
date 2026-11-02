@@ -1,0 +1,144 @@
+{
+  "utc": "2026-11-02T02:04:14.697160+00:00",
+  "status": "running",
+  "completed": 14,
+  "repairs": [
+    {
+      "protocol": "native-auxiliary-validator-repair-1",
+      "at_utc": "2026-11-01T22:41:01.515029+00:00",
+      "original_source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+      "host_overlay_source_commit": "58655641266dc57fa9f6945e0e5de70f27ec96bf",
+      "host_overlay_files": {
+        "memorybenchmark/agent_sessions.py": "cc3b5c166689b700658c63f2d5978e782c5c2a8a6c6492d965a1226bed782879",
+        "scripts/report_station_experiment.py": "b7500f7635e68bd11a9339a4d3e88ed27a7794452cb95161cbc2df5959afc004"
+      },
+      "failed_session_directory": "host-validation-failures/05-T5-clear",
+      "retry_task": "T5",
+      "preflight": {
+        "condition": "clear",
+        "completed_sessions_retained": 4,
+        "failed_session": "05-T5-clear",
+        "rejected_request_sha256": "5e6e9e1116f88a6d08914071c7a32e866f846b4420a73c08d6d3aa1bcabca5f6",
+        "source_files_verified": 84,
+        "native_archive_verified": true,
+        "partial_trace_replayed": true,
+        "memory_input_verified": true,
+        "canonical_source_unchanged": true,
+        "source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+        "new_model_calls": 0,
+        "saved_request_host_replay": {
+          "passed": true,
+          "real_provider_calls": 0,
+          "payload_unchanged": true
+        }
+      },
+      "controller_sha256": "36b27f9fc80a0633764f429d7493c03c90054c888bbfdaa8c8b4460a2361c6d4",
+      "scope": "Host validation/classification only. Native payloads, prompts, memory, action policy, budgets and upstream code unchanged."
+    },
+    {
+      "protocol": "native-background-review-wait-repair-1",
+      "at_utc": "2026-11-02T00:33:43.273922+00:00",
+      "original_source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+      "host_overlay_source_commit": "f8e877c07346c31b95168ae39d4b0791189d3999",
+      "host_overlay_files": {
+        "memorybenchmark/agent_sessions.py": "d4c9a1443e4db485d9e50b2fe1bf822c7cc44d11f67833f4ff254c163465ecb8",
+        "memorybenchmark/ga_worker.py": "cc5454b878065b6d3c5bf267e6f4e6307cb9fdc6576dce6c0159b13dcac90f97",
+        "memorybenchmark/hermes_worker.py": "a33fcf28d4d11206bda1261dc133ba8154b8748aa64ff98cbcc7a12c5f618934",
+        "scripts/report_station_experiment.py": "b7500f7635e68bd11a9339a4d3e88ed27a7794452cb95161cbc2df5959afc004"
+      },
+      "failed_session_directory": "host-validation-failures/08-T8-clear",
+      "support_override_directory": "provenance/host-review-wait-repair-20261101/support",
+      "support_override_files": {
+        "agent_bridge.py": "8f6108b2fbd12ed050f5daf4e86affd7488ec030d85730fe300c04a073f37ac3",
+        "game_client.py": "8419bfa41499741b2f68d0109e520482b901c59dafe5b1f4ed81c96323734d16",
+        "game_mcp_stdio.py": "71298026e9ae027d07f14b1e10f08763c90b5962f098506089c7141f432586fe",
+        "ga_worker.py": "cc5454b878065b6d3c5bf267e6f4e6307cb9fdc6576dce6c0159b13dcac90f97",
+        "hermes_worker.py": "a33fcf28d4d11206bda1261dc133ba8154b8748aa64ff98cbcc7a12c5f618934",
+        "native_game_io.py": "e45c0c7d5c27e1484d9253b2dc8138b6646787d9e7bf22deed927adc86f321bd"
+      },
+      "retry_task": "T8",
+      "preflight": {
+        "condition": "clear",
+        "completed_sessions_retained": 7,
+        "failed_session": "08-T8-clear",
+        "rejected_request_sha256": "007789dbf6f33c16b8ba5e7f557a0adc8649892c24dbc9e3f15ee9416a637dfd",
+        "source_files_verified": 84,
+        "native_archive_verified": true,
+        "partial_trace_replayed": true,
+        "memory_input_verified": true,
+        "canonical_source_unchanged": true,
+        "source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+        "new_model_calls": 0,
+        "saved_request_host_replay": {
+          "passed": true,
+          "real_provider_calls": 0,
+          "payload_unchanged": true
+        },
+        "native_worker_probe": {
+          "passed": true,
+          "real_provider_calls": 0
+        }
+      },
+      "controller_sha256": "bbb4be6e17f5c05b1532b593dce825a7d11a9d63a833ced91f196bc2324a8ae1",
+      "scope": "Benchmark worker wait follows the original 3600-second task limit; main/final call budgets, native payloads, prompts, memory and upstream code unchanged."
+    },
+    {
+      "protocol": "native-iterative-compression-validator-repair-1",
+      "at_utc": "2026-11-02T02:02:57.867820+00:00",
+      "original_source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+      "host_overlay_source_commit": "76bf833f25b283311695857ca81d8ce215f8a547",
+      "host_overlay_files": {
+        "memorybenchmark/agent_sessions.py": "da03ed181a8945000cb63774d6e9a07a5dec3b28b0fcc8276d94c3d910f376aa",
+        "memorybenchmark/ga_worker.py": "cc5454b878065b6d3c5bf267e6f4e6307cb9fdc6576dce6c0159b13dcac90f97",
+        "memorybenchmark/hermes_worker.py": "a33fcf28d4d11206bda1261dc133ba8154b8748aa64ff98cbcc7a12c5f618934",
+        "scripts/report_station_experiment.py": "b7500f7635e68bd11a9339a4d3e88ed27a7794452cb95161cbc2df5959afc004"
+      },
+      "failed_session_directory": "host-validation-failures/15-T15-clear",
+      "support_override_directory": "provenance/host-compression-update-repair-20261101/support",
+      "support_override_files": {
+        "agent_bridge.py": "8f6108b2fbd12ed050f5daf4e86affd7488ec030d85730fe300c04a073f37ac3",
+        "game_client.py": "8419bfa41499741b2f68d0109e520482b901c59dafe5b1f4ed81c96323734d16",
+        "game_mcp_stdio.py": "71298026e9ae027d07f14b1e10f08763c90b5962f098506089c7141f432586fe",
+        "ga_worker.py": "cc5454b878065b6d3c5bf267e6f4e6307cb9fdc6576dce6c0159b13dcac90f97",
+        "hermes_worker.py": "a33fcf28d4d11206bda1261dc133ba8154b8748aa64ff98cbcc7a12c5f618934",
+        "native_game_io.py": "e45c0c7d5c27e1484d9253b2dc8138b6646787d9e7bf22deed927adc86f321bd"
+      },
+      "retry_task": "T15",
+      "preflight": {
+        "condition": "clear",
+        "completed_sessions_retained": 14,
+        "failed_session": "15-T15-clear",
+        "rejected_request_sha256": "f47d32a5bbe68318dc7fc924cbb35c11d492a1fa6507508c93760e50759a03b5",
+        "source_files_verified": 84,
+        "native_archive_verified": true,
+        "partial_trace_replayed": true,
+        "memory_input_verified": true,
+        "canonical_source_unchanged": true,
+        "source_commit": "03c162bccd6c80f750e32cbef9bf1d69783d9004",
+        "new_model_calls": 0,
+        "saved_request_host_replay": {
+          "passed": true,
+          "real_provider_calls": 0,
+          "payload_unchanged": true
+        },
+        "native_worker_probe": {
+          "passed": true,
+          "real_provider_calls": 0
+        }
+      },
+      "controller_sha256": "586c6a65e44039943f2fe60cd22850722975fc033094a7b3aa36c7b07c78ebfc",
+      "scope": "Recognize pinned native iterative context compression; main/review high guard, original budgets, native payloads, prompts, memory and upstream code unchanged."
+    }
+  ],
+  "frozen_source_unchanged": true,
+  "t15_requests": 0,
+  "t15_responses": 0,
+  "original_failed_t15_preserved": true,
+  "recovery": {
+    "pid": 716,
+    "utc": "2026-11-02T02:02:58.202109+00:00",
+    "task": "T15",
+    "retained_completed_sessions": 14,
+    "host_overlay_source_commit": "76bf833f25b283311695857ca81d8ce215f8a547"
+  }
+}
