@@ -1,0 +1,1296 @@
+{
+  "design_id": "nessie-easy-1.0",
+  "status": "formal_easy_candidate_pending_native_agent_calibration",
+  "world_generator": "station_type_permutations",
+  "fixed_world": "omega_16_07",
+  "public": {
+    "version": "nessie-easy-1.0",
+    "name": "尼斯湖水怪",
+    "difficulty": "Easy",
+    "terrain": "nessie",
+    "view_box": [
+      0,
+      0,
+      2200,
+      1600
+    ],
+    "vocabulary": {
+      "survey": "踪迹调查点",
+      "station": "勘测基站",
+      "collect": "调查",
+      "process": "研判",
+      "item": "踪迹",
+      "submit": "交付"
+    },
+    "rules": [
+      "每项水怪调查委托有两段行程。依次到目标点自动记录本段指定踪迹，在支持该类踪迹的基站研判；两段完成后回 C 营地交付一次。",
+      "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。全图从第一项起可自由探索，不设教学或解锁阶段。",
+      "A 至 H 是八种公开站型，每型两座站。同型站支持相同踪迹；字母和站名不暗示具体能力。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
+      "A/B/C/D 型分别支持异常尾流、岸边压痕、折苇痕迹、附着物样本中的一种；E/F/G/H 型分别支持水下回声、远距影像、热源记录、岸侧振动中的一种。每个站网内四种站型与四种能力一一对应，具体配对需交互获知。",
+      "只有抵达基站后 inspect 或 process 才反馈该站型的实际能力。inspect 查询消耗一次操作；process 研判不匹配也消耗一次操作，原始踪迹仍保留。",
+      "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、研判反馈或替你保存经验。",
+      "每段到目标自动采集，研判成功后才进入下一段；提前经过后续目标不算完成后续调查。中间支路节点必须逐点移动，湖面没有横穿捷径。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，只能保留实际经历过的经验，不补发答案。",
+      "一项最多八十八次操作，read 免费。报告可疑踪迹不等于证实水怪存在；游戏只验证调查流程和经验复用。"
+    ],
+    "kinds": {
+      "wake": "异常尾流",
+      "shoreprint": "岸边压痕",
+      "reeds": "折苇痕迹",
+      "residue": "附着物样本",
+      "echo": "水下回声",
+      "image": "远距影像",
+      "thermal": "热源记录",
+      "vibration": "岸侧振动"
+    },
+    "capability_groups": {
+      "shore": {
+        "name": "踪迹勘测站网",
+        "station_types": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "stations": [
+          "A1",
+          "A2",
+          "B1",
+          "B2",
+          "C1",
+          "C2",
+          "D1",
+          "D2"
+        ],
+        "kinds": [
+          "wake",
+          "shoreprint",
+          "reeds",
+          "residue"
+        ],
+        "counts": {
+          "wake": 2,
+          "shoreprint": 2,
+          "reeds": 2,
+          "residue": 2
+        }
+      },
+      "signal": {
+        "name": "信号研判站网",
+        "station_types": [
+          "E",
+          "F",
+          "G",
+          "H"
+        ],
+        "stations": [
+          "E1",
+          "E2",
+          "F1",
+          "F2",
+          "G1",
+          "G2",
+          "H1",
+          "H2"
+        ],
+        "kinds": [
+          "echo",
+          "image",
+          "thermal",
+          "vibration"
+        ],
+        "counts": {
+          "echo": 2,
+          "image": 2,
+          "thermal": 2,
+          "vibration": 2
+        }
+      }
+    },
+    "station_types": {
+      "A": {
+        "name": "A 型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B 型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C 型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D 型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E 型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F 型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G 型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H 型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      }
+    },
+    "locations": {
+      "C": {
+        "name": "水怪调查营地",
+        "kind": "camp",
+        "x": 1830,
+        "y": 110
+      },
+      "NC": {
+        "name": "北口堤道",
+        "kind": "junction",
+        "x": 1700,
+        "y": 180
+      },
+      "NW": {
+        "name": "北湾西岔",
+        "kind": "junction",
+        "x": 1390,
+        "y": 180
+      },
+      "WN": {
+        "name": "西岬路口",
+        "kind": "junction",
+        "x": 1220,
+        "y": 360
+      },
+      "WM": {
+        "name": "西岸岭道",
+        "kind": "junction",
+        "x": 950,
+        "y": 580
+      },
+      "WS": {
+        "name": "苔溪坡口",
+        "kind": "junction",
+        "x": 650,
+        "y": 850
+      },
+      "SW": {
+        "name": "南汀西岔",
+        "kind": "junction",
+        "x": 450,
+        "y": 1110
+      },
+      "SC": {
+        "name": "南口石桥",
+        "kind": "junction",
+        "x": 570,
+        "y": 1390
+      },
+      "SE": {
+        "name": "南汀东岔",
+        "kind": "junction",
+        "x": 820,
+        "y": 1310
+      },
+      "ES": {
+        "name": "杉湾路口",
+        "kind": "junction",
+        "x": 1100,
+        "y": 1090
+      },
+      "EM": {
+        "name": "东崖林道",
+        "kind": "junction",
+        "x": 1360,
+        "y": 850
+      },
+      "EN": {
+        "name": "回声岬口",
+        "kind": "junction",
+        "x": 1640,
+        "y": 620
+      },
+      "NE": {
+        "name": "北湾东岔",
+        "kind": "junction",
+        "x": 1810,
+        "y": 390
+      },
+      "P": {
+        "name": "北湾苇滩",
+        "kind": "survey",
+        "x": 1480,
+        "y": 270
+      },
+      "Q": {
+        "name": "北岬旧码头",
+        "kind": "survey",
+        "x": 1710,
+        "y": 430
+      },
+      "R": {
+        "name": "西岬观测台",
+        "kind": "survey",
+        "x": 1120,
+        "y": 490
+      },
+      "S": {
+        "name": "苔溪滩头",
+        "kind": "survey",
+        "x": 760,
+        "y": 850
+      },
+      "U": {
+        "name": "南汀泥湾",
+        "kind": "survey",
+        "x": 470,
+        "y": 1230
+      },
+      "V": {
+        "name": "南口碎石滩",
+        "kind": "survey",
+        "x": 850,
+        "y": 1170
+      },
+      "X": {
+        "name": "东崖水线",
+        "kind": "survey",
+        "x": 1270,
+        "y": 960
+      },
+      "Y": {
+        "name": "林湾静水点",
+        "kind": "survey",
+        "x": 1550,
+        "y": 750
+      },
+      "A1": {
+        "name": "A 型水怪勘测站 · A1",
+        "kind": "station",
+        "station_type": "A",
+        "x": 1190,
+        "y": 80
+      },
+      "a1p1": {
+        "name": "A1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1290,
+        "y": 130
+      },
+      "B1": {
+        "name": "B 型水怪勘测站 · B1",
+        "kind": "station",
+        "station_type": "B",
+        "x": 1350,
+        "y": 50
+      },
+      "b1p1": {
+        "name": "B1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1377,
+        "y": 137
+      },
+      "b1p2": {
+        "name": "B1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1363,
+        "y": 93
+      },
+      "C1": {
+        "name": "C 型水怪勘测站 · C1",
+        "kind": "station",
+        "station_type": "C",
+        "x": 1990,
+        "y": 290
+      },
+      "c1p1": {
+        "name": "C1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1900,
+        "y": 340
+      },
+      "D1": {
+        "name": "D 型水怪勘测站 · D1",
+        "kind": "station",
+        "station_type": "D",
+        "x": 2010,
+        "y": 450
+      },
+      "d1p1": {
+        "name": "D1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1877,
+        "y": 410
+      },
+      "d1p2": {
+        "name": "D1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1943,
+        "y": 430
+      },
+      "A2": {
+        "name": "A 型水怪勘测站 · A2",
+        "kind": "station",
+        "station_type": "A",
+        "x": 240,
+        "y": 1060
+      },
+      "a2p1": {
+        "name": "A2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 345,
+        "y": 1085
+      },
+      "B2": {
+        "name": "B 型水怪勘测站 · B2",
+        "kind": "station",
+        "station_type": "B",
+        "x": 300,
+        "y": 1270
+      },
+      "b2p1": {
+        "name": "B2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 400,
+        "y": 1163
+      },
+      "b2p2": {
+        "name": "B2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 350,
+        "y": 1217
+      },
+      "C2": {
+        "name": "C 型水怪勘测站 · C2",
+        "kind": "station",
+        "station_type": "C",
+        "x": 740,
+        "y": 1510
+      },
+      "c2p1": {
+        "name": "C2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 780,
+        "y": 1410
+      },
+      "D2": {
+        "name": "D 型水怪勘测站 · D2",
+        "kind": "station",
+        "station_type": "D",
+        "x": 940,
+        "y": 1480
+      },
+      "d2p1": {
+        "name": "D2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 860,
+        "y": 1367
+      },
+      "d2p2": {
+        "name": "D2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 900,
+        "y": 1423
+      },
+      "E1": {
+        "name": "E 型水怪研判站 · E1",
+        "kind": "station",
+        "station_type": "E",
+        "x": 1020,
+        "y": 230
+      },
+      "e1p1": {
+        "name": "E1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1120,
+        "y": 295
+      },
+      "F1": {
+        "name": "F 型水怪研判站 · F1",
+        "kind": "station",
+        "station_type": "F",
+        "x": 960,
+        "y": 380
+      },
+      "f1p1": {
+        "name": "F1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1133,
+        "y": 367
+      },
+      "f1p2": {
+        "name": "F1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1047,
+        "y": 373
+      },
+      "G1": {
+        "name": "G 型水怪研判站 · G1",
+        "kind": "station",
+        "station_type": "G",
+        "x": 420,
+        "y": 820
+      },
+      "g1p1": {
+        "name": "G1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 535,
+        "y": 835
+      },
+      "H1": {
+        "name": "H 型水怪研判站 · H1",
+        "kind": "station",
+        "station_type": "H",
+        "x": 480,
+        "y": 1000
+      },
+      "h1p1": {
+        "name": "H1 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 593,
+        "y": 900
+      },
+      "h1p2": {
+        "name": "H1 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 537,
+        "y": 950
+      },
+      "E2": {
+        "name": "E 型水怪研判站 · E2",
+        "kind": "station",
+        "station_type": "E",
+        "x": 1800,
+        "y": 540
+      },
+      "e2p1": {
+        "name": "E2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1720,
+        "y": 580
+      },
+      "F2": {
+        "name": "F 型水怪研判站 · F2",
+        "kind": "station",
+        "station_type": "F",
+        "x": 1940,
+        "y": 640
+      },
+      "f2p1": {
+        "name": "F2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1740,
+        "y": 627
+      },
+      "f2p2": {
+        "name": "F2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1840,
+        "y": 633
+      },
+      "G2": {
+        "name": "G 型水怪研判站 · G2",
+        "kind": "station",
+        "station_type": "G",
+        "x": 1300,
+        "y": 1170
+      },
+      "g2p1": {
+        "name": "G2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1200,
+        "y": 1130
+      },
+      "H2": {
+        "name": "H 型水怪研判站 · H2",
+        "kind": "station",
+        "station_type": "H",
+        "x": 1280,
+        "y": 1330
+      },
+      "h2p1": {
+        "name": "H2 支路第 1 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1160,
+        "y": 1170
+      },
+      "h2p2": {
+        "name": "H2 支路第 2 段",
+        "kind": "junction",
+        "transit": true,
+        "x": 1220,
+        "y": 1250
+      }
+    },
+    "edges": [
+      [
+        "C",
+        "NC",
+        1
+      ],
+      [
+        "NC",
+        "NW",
+        2
+      ],
+      [
+        "NW",
+        "WN",
+        2
+      ],
+      [
+        "WN",
+        "WM",
+        3
+      ],
+      [
+        "WM",
+        "WS",
+        3
+      ],
+      [
+        "WS",
+        "SW",
+        2
+      ],
+      [
+        "SW",
+        "SC",
+        2
+      ],
+      [
+        "SC",
+        "SE",
+        2
+      ],
+      [
+        "SE",
+        "ES",
+        2
+      ],
+      [
+        "ES",
+        "EM",
+        3
+      ],
+      [
+        "EM",
+        "EN",
+        3
+      ],
+      [
+        "EN",
+        "NE",
+        2
+      ],
+      [
+        "NE",
+        "NC",
+        2
+      ],
+      [
+        "NW",
+        "P",
+        1
+      ],
+      [
+        "NE",
+        "Q",
+        1
+      ],
+      [
+        "WN",
+        "R",
+        1
+      ],
+      [
+        "WS",
+        "S",
+        1
+      ],
+      [
+        "SW",
+        "U",
+        1
+      ],
+      [
+        "SE",
+        "V",
+        1
+      ],
+      [
+        "EM",
+        "X",
+        1
+      ],
+      [
+        "EN",
+        "Y",
+        1
+      ],
+      [
+        "NW",
+        "a1p1",
+        1
+      ],
+      [
+        "a1p1",
+        "A1",
+        2
+      ],
+      [
+        "NW",
+        "b1p1",
+        1
+      ],
+      [
+        "b1p1",
+        "b1p2",
+        1
+      ],
+      [
+        "b1p2",
+        "B1",
+        2
+      ],
+      [
+        "NE",
+        "c1p1",
+        1
+      ],
+      [
+        "c1p1",
+        "C1",
+        2
+      ],
+      [
+        "NE",
+        "d1p1",
+        1
+      ],
+      [
+        "d1p1",
+        "d1p2",
+        1
+      ],
+      [
+        "d1p2",
+        "D1",
+        2
+      ],
+      [
+        "SW",
+        "a2p1",
+        1
+      ],
+      [
+        "a2p1",
+        "A2",
+        2
+      ],
+      [
+        "SW",
+        "b2p1",
+        1
+      ],
+      [
+        "b2p1",
+        "b2p2",
+        1
+      ],
+      [
+        "b2p2",
+        "B2",
+        2
+      ],
+      [
+        "SE",
+        "c2p1",
+        1
+      ],
+      [
+        "c2p1",
+        "C2",
+        2
+      ],
+      [
+        "SE",
+        "d2p1",
+        1
+      ],
+      [
+        "d2p1",
+        "d2p2",
+        1
+      ],
+      [
+        "d2p2",
+        "D2",
+        2
+      ],
+      [
+        "WN",
+        "e1p1",
+        1
+      ],
+      [
+        "e1p1",
+        "E1",
+        2
+      ],
+      [
+        "WN",
+        "f1p1",
+        1
+      ],
+      [
+        "f1p1",
+        "f1p2",
+        1
+      ],
+      [
+        "f1p2",
+        "F1",
+        2
+      ],
+      [
+        "WS",
+        "g1p1",
+        1
+      ],
+      [
+        "g1p1",
+        "G1",
+        2
+      ],
+      [
+        "WS",
+        "h1p1",
+        1
+      ],
+      [
+        "h1p1",
+        "h1p2",
+        1
+      ],
+      [
+        "h1p2",
+        "H1",
+        2
+      ],
+      [
+        "EN",
+        "e2p1",
+        1
+      ],
+      [
+        "e2p1",
+        "E2",
+        2
+      ],
+      [
+        "EN",
+        "f2p1",
+        1
+      ],
+      [
+        "f2p1",
+        "f2p2",
+        1
+      ],
+      [
+        "f2p2",
+        "F2",
+        2
+      ],
+      [
+        "ES",
+        "g2p1",
+        1
+      ],
+      [
+        "g2p1",
+        "G2",
+        2
+      ],
+      [
+        "ES",
+        "h2p1",
+        1
+      ],
+      [
+        "h2p1",
+        "h2p2",
+        1
+      ],
+      [
+        "h2p2",
+        "H2",
+        2
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "北湾异常",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "wake",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "wake"
+        },
+        {
+          "target": "R",
+          "required_kind": "echo"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T2": {
+      "name": "南汀折苇",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "reeds",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "reeds"
+        },
+        {
+          "target": "X",
+          "required_kind": "thermal"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T3": {
+      "name": "双岸尾流",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "wake",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "wake"
+        },
+        {
+          "target": "V",
+          "required_kind": "reeds"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T4": {
+      "name": "两岸回声",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "echo",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "echo"
+        },
+        {
+          "target": "Y",
+          "required_kind": "thermal"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T5": {
+      "name": "浅滩压痕",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "shoreprint",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "shoreprint"
+        },
+        {
+          "target": "R",
+          "required_kind": "image"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T6": {
+      "name": "浮屑复核",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "residue",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "residue"
+        },
+        {
+          "target": "X",
+          "required_kind": "vibration"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T7": {
+      "name": "岸边印记",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "shoreprint",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "shoreprint"
+        },
+        {
+          "target": "V",
+          "required_kind": "residue"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T8": {
+      "name": "夜影核查",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "image",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "image"
+        },
+        {
+          "target": "Y",
+          "required_kind": "vibration"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T9": {
+      "name": "尾流再访",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "wake",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "wake"
+        },
+        {
+          "target": "V",
+          "required_kind": "reeds"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T10": {
+      "name": "回声复测",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "echo",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "echo"
+        },
+        {
+          "target": "Y",
+          "required_kind": "thermal"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T11": {
+      "name": "压痕复查",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "shoreprint",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "shoreprint"
+        },
+        {
+          "target": "V",
+          "required_kind": "residue"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T12": {
+      "name": "夜影再访",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "image",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "image"
+        },
+        {
+          "target": "Y",
+          "required_kind": "vibration"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T13": {
+      "name": "南湾追踪",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "wake",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "wake"
+        },
+        {
+          "target": "R",
+          "required_kind": "thermal"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T14": {
+      "name": "东岸芦影",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "echo",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "echo"
+        },
+        {
+          "target": "P",
+          "required_kind": "reeds"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T15": {
+      "name": "跨岸对照",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "shoreprint",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "shoreprint"
+        },
+        {
+          "target": "S",
+          "required_kind": "vibration"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T16": {
+      "name": "北湾残留",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "image",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "image"
+        },
+        {
+          "target": "Q",
+          "required_kind": "residue"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T17": {
+      "name": "南汀异响",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "wake",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "wake"
+        },
+        {
+          "target": "R",
+          "required_kind": "vibration"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T18": {
+      "name": "东岸浮屑",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "echo",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "echo"
+        },
+        {
+          "target": "P",
+          "required_kind": "residue"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T19": {
+      "name": "压痕与热迹",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "shoreprint",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "shoreprint"
+        },
+        {
+          "target": "R",
+          "required_kind": "thermal"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T20": {
+      "name": "影像与折苇",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "image",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "image"
+        },
+        {
+          "target": "P",
+          "required_kind": "reeds"
+        }
+      ],
+      "max_steps": 88
+    }
+  },
+  "presentation": {
+    "terrain": "nessie",
+    "regions": [
+      {
+        "name": "北湾",
+        "x": 1570,
+        "y": 90
+      },
+      {
+        "name": "西岬",
+        "x": 830,
+        "y": 450
+      },
+      {
+        "name": "南汀",
+        "x": 430,
+        "y": 1450
+      },
+      {
+        "name": "东崖",
+        "x": 1650,
+        "y": 990
+      }
+    ]
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "opportunity_basis": "Actual delivered feedback before this session. Direct observation and logical inference are reported separately.",
+    "failure_policy": "Continue the fixed stream using only actual delivered feedback; no compulsory catch-up or answer injection.",
+    "stream_policy": "Twenty ordinary commissions, forty stages. Geographic access is open from T1. Every condition starts from its own fresh original agent memory.",
+    "diagnostic_scope": "Acquisition, retrieval delivery, station commitments and route costs; not a large-memory or controlled interference condition."
+  },
+  "provenance": {
+    "geography": "Loch Ness-inspired SW--NE lake, separate shore corridors and forest/gorge spurs; schematic, fictional nodes and roads, no real navigation claims.",
+    "sources": [
+      {
+        "title": "Forestry and Land Scotland: Great Glen forests",
+        "url": "https://forestryandland.gov.scot/visit/forests-by-region/forests-in-the-great-glen"
+      },
+      {
+        "title": "Forestry and Land Scotland: Farigaig",
+        "url": "https://forestryandland.gov.scot/visit/destinations/farigaig"
+      },
+      {
+        "title": "Highland Council: Paths around Foyers",
+        "url": "https://www.highland.gov.uk/download/downloads/id/1088/paths_around_foyers.pdf"
+      }
+    ],
+    "private_boundary": "Source names, coordinates, hidden assignment IDs and evaluator dependencies are not injected by the game adapter."
+  }
+}

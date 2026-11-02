@@ -20,6 +20,7 @@ EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.j
 EASY20_CHOICE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_choice.json"
 EASY20_LINKED_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_linked.json"
 EASY20_REUSE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_reuse.json"
+NESSIE_EASY_DESIGN = Path(__file__).resolve().parents[1] / "data" / "nessie_easy20.json"
 FEEDBACK_PROTOCOLS = {"full": "station-full-feedback-1", "compact": "station-compact-feedback-1"}
 
 
@@ -182,7 +183,11 @@ def play_human(game, tasks):
             elif (verb == "move" and len(words) == 2) or (verb in ("inspect", "process", "submit", "abandon") and len(words) == 1):
                 action = {"type": verb}
                 if verb == "move":
-                    action["target"] = words[1].upper()
+                    target = words[1]
+                    if target not in game.design['public']['locations']:
+                        target = next((node for node in game.design['public']['locations']
+                                       if node.casefold() == target.casefold()), target)
+                    action["target"] = target
                 request = {"command": "action", "action": action, "request_id": uuid4().hex,
                            "expected_revision": session.revision}
             else:

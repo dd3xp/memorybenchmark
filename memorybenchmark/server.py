@@ -266,8 +266,8 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     self.reply(current_field.design_view(token) if url.path.endswith("/design") else current_field.read(token))
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/easy20", "/field.js", "/field.css", "/field-terrain.svg") or (url.path == "/play" and parse_qs(url.query).get("map", ["easy20"])[0] not in ("lake-easy", "valley", "river")):
-                name = {"/easy20": "field.html", "/play": "field.html", "/field.js": "field.js", "/field.css": "field.css", "/field-terrain.svg": "field-terrain.svg"}[url.path]
+            elif url.path in ("/easy20", "/field.js", "/field.css", "/field-terrain.svg", "/nessie-terrain.svg") or (url.path == "/play" and parse_qs(url.query).get("map", ["easy20"])[0] not in ("lake-easy", "valley", "river")):
+                name = {"/easy20": "field.html", "/play": "field.html", "/field.js": "field.js", "/field.css": "field.css", "/field-terrain.svg": "field-terrain.svg", "/nessie-terrain.svg": "nessie-terrain.svg"}[url.path]
                 mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css" if name.endswith(".css") else "image/svg+xml"
                 body = (STATIC / name).read_bytes()
                 self.response_headers(200, mime + "; charset=utf-8", len(body))

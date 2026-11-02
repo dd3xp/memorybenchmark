@@ -165,7 +165,8 @@ class PilotWatchTests(unittest.TestCase):
 
     def test_map_catalog_geometry_excludes_experience_answers_and_unknown_paths(self):
         maps = map_listing()
-        self.assertEqual(len(maps), 9)
+        self.assertEqual(len(maps), 10)
+        self.assertEqual([m['id'] for m in maps if m['current']],['nessie-easy'])
         for row in maps:
             data = map_detail(row["id"])
             self.assertEqual(len(data["map"]["locations"]), row["node_count"])
@@ -192,12 +193,12 @@ class PilotWatchTests(unittest.TestCase):
                 cookie = response.headers["Set-Cookie"].split(";", 1)[0]
             def get(route):
                 return urlopen(Request(base + route, headers={"Cookie": cookie}))
-            for route in ("/experiments", "/maps", "/play", "/play?map=linked20", "/site.css", "/atlas-view.js", "/select.js", "/select.css"):
+            for route in ("/experiments", "/maps", "/play", "/play?map=linked20", "/play?map=nessie-easy", "/nessie-terrain.svg", "/site.css", "/atlas-view.js", "/select.js", "/select.css"):
                 with get(route) as response:
                     self.assertEqual(response.status, 200)
             with get("/api/experiments/runs") as response:
                 self.assertEqual(len(json.load(response)["runs"]), 2)
-            for map_id in ("easy20", "station20", "choice20", "linked20", "capability-v1", "capability-v2"):
+            for map_id in ("nessie-easy", "easy20", "station20", "choice20", "linked20", "capability-v1", "capability-v2"):
                 with urlopen(Request(base + "/api/field/start?map=" + map_id, data=b"{}", headers={"Cookie": cookie, "Content-Type": "application/json"})) as response:
                     result = json.load(response)
                     self.assertEqual(result["task_index"], 1)

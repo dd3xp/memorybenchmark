@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 1600" width="2200" height="1600">
+<title>尼斯湖水怪：长湖地形示意</title>
+<desc>西南至东北的狭长湖盆、两岸山岭与林地。虚构路网的公开地形底图，不表示现实通行路线或调查结果。</desc>
+<defs>
+  <linearGradient id="nessie-land" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e4eae0"/><stop offset=".45" stop-color="#d3dfd2"/><stop offset="1" stop-color="#e5e9d9"/></linearGradient>
+  <linearGradient id="nessie-water" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#669598"/><stop offset=".35" stop-color="#3c707e"/><stop offset=".7" stop-color="#3c6f7c"/><stop offset="1" stop-color="#86a8a3"/></linearGradient>
+  <linearGradient id="nessie-depth" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#284f64" stop-opacity=".7"/><stop offset="1" stop-color="#254d5d" stop-opacity=".1"/></linearGradient>
+  <pattern id="nessie-grain" width="63" height="71" patternUnits="userSpaceOnUse"><path d="M6 13h1m28 19h1m15 29h1M15 57h1" stroke="#486956" stroke-width="1.5" opacity=".1"/></pattern>
+  <pattern id="nessie-forest" width="34" height="39" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)"><path d="m7 13 4-5 4 5m-4-2v8m13 12 3-5 3 5m-3-2v7" fill="none" stroke="#617e67" stroke-width="1.1" opacity=".23"/></pattern>
+  <path id="nessie-shore" d="M600 1230C591 1208 616 1173 648 1137C683 1096 718 1066 752 1024C790 978 826 939 868 898C912 854 947 811 995 766C1040 724 1074 682 1120 641C1166 600 1211 568 1252 523C1293 479 1333 439 1379 399C1427 357 1470 326 1519 303C1563 283 1611 257 1641 269C1657 277 1644 303 1624 326C1593 361 1564 396 1526 435C1487 475 1455 513 1416 552C1374 596 1333 630 1291 675C1249 722 1203 758 1161 805C1117 855 1071 898 1027 942C981 988 940 1029 894 1072C850 1114 803 1154 756 1189C713 1221 674 1240 642 1244C621 1246 607 1242 600 1230Z"/>
+  <mask id="nessie-land-mask"><rect width="2200" height="1600" fill="white"/><use href="#nessie-shore" fill="black"/></mask>
+  <clipPath id="nessie-lake-clip"><use href="#nessie-shore"/></clipPath>
+</defs>
+<rect width="2200" height="1600" fill="url(#nessie-land)"/>
+<g mask="url(#nessie-land-mask)">
+  <path d="M220 153C362 31 557 57 710 154S930 246 1032 316C1159 404 1000 512 868 556S695 763 496 752S264 654 192 523S107 251 220 153Z" fill="#b8cbb5" opacity=".58"/>
+  <path d="M1471 808C1591 737 1721 758 1844 855S2117 1030 2099 1198S1956 1458 1761 1483S1437 1377 1391 1223S1334 890 1471 808Z" fill="#b1c6ae" opacity=".48"/>
+  <path d="M53 1160C216 1085 346 1147 425 1290S680 1478 812 1490L754 1600H0Z" fill="#c4d2b2" opacity=".65"/>
+  <g fill="none" stroke="#8fa58f" stroke-width="1.7" opacity=".43">
+    <path d="M-60 370C141 140 392 99 597 238S841 363 1044 341M-52 421C153 183 385 148 579 277S832 411 1027 389M-41 474C161 231 379 194 562 317S814 459 1006 438M-25 526C173 286 372 244 543 358S794 507 981 486M-1 582C184 339 361 295 524 401S773 554 948 536M34 635C191 397 349 347 504 444S752 603 909 586M80 689C206 460 339 401 484 486S727 650 866 637M132 741C228 522 328 458 460 529S697 694 815 687M195 785C254 591 317 515 435 572S655 736 758 733M266 817C287 663 308 585 409 616S602 770 689 775M345 838C328 739 321 663 382 661S531 792 607 810"/>
+    <path d="M1430 728C1599 673 1746 688 1901 790S2134 936 2257 907M1401 778C1572 724 1733 737 1888 839S2121 985 2244 959M1372 829C1546 777 1720 788 1874 889S2107 1035 2230 1011M1348 882C1521 830 1706 840 1861 940S2094 1086 2216 1064M1331 936C1499 884 1691 892 1846 992S2079 1137 2201 1117M1326 992C1483 939 1674 945 1829 1045S2062 1189 2184 1170M1340 1050C1478 996 1657 999 1811 1099S2045 1242 2165 1224M1370 1110C1488 1057 1636 1056 1792 1156S2027 1296 2144 1278M1421 1171C1506 1123 1611 1119 1768 1218S2005 1350 2120 1332M1490 1232C1535 1190 1582 1184 1741 1282S1980 1402 2092 1386"/>
+  </g>
+  <path d="M1223 903C1355 848 1492 900 1584 1009S1809 1176 1770 1335S1543 1423 1423 1351S1265 1186 1175 1103S1126 946 1223 903Z" fill="#90b39c" opacity=".25"/>
+  <path d="M1223 903C1355 848 1492 900 1584 1009S1809 1176 1770 1335S1543 1423 1423 1351S1265 1186 1175 1103S1126 946 1223 903Z" fill="url(#nessie-forest)"/>
+  <path d="M239 652C371 533 457 587 528 689S723 789 689 933S504 1058 383 983S157 776 239 652Z" fill="#9bb39a" opacity=".25"/>
+  <path d="M239 652C371 533 457 587 528 689S723 789 689 933S504 1058 383 983S157 776 239 652Z" fill="url(#nessie-forest)"/>
+  <path d="M-20 1311C165 1264 264 1366 434 1357S563 1265 635 1198M1671 0C1648 117 1664 204 1613 288" fill="none" stroke="#8badac" stroke-width="9" opacity=".55"/>
+  <path d="M1663 1527C1579 1416 1530 1298 1452 1186S1267 966 1204 832" fill="none" stroke="#92aaa1" stroke-width="3" opacity=".4"/>
+</g>
+<use href="#nessie-shore" fill="none" stroke="#b8c8ae" stroke-width="22"/>
+<use href="#nessie-shore" fill="url(#nessie-water)" stroke="#618b8c" stroke-width="2.5"/>
+<g clip-path="url(#nessie-lake-clip)">
+  <path d="M648 1250C839 1037 1017 884 1181 704S1464 418 1621 263C1457 489 1310 668 1122 870S843 1136 648 1250Z" fill="url(#nessie-depth)"/>
+  <g fill="none" stroke="#b7d0ca" stroke-width="1.4" opacity=".34"><path d="M621 1208C794 1038 892 895 1059 739S1366 412 1608 291M640 1222C810 1055 911 912 1078 756S1385 430 1624 305M660 1236C829 1075 930 930 1097 776S1404 449 1641 324M682 1250C849 1097 951 951 1118 798S1425 470 1662 346"/></g>
+  <path d="m849 1000 29-26m-12 45 17-15M1252 618l33-29m-14 46 17-14M1392 452l26-24m-7 42 13-12M1011 837l27-25" stroke="#c7dbd3" stroke-width="2" fill="none" opacity=".36" stroke-linecap="round"/>
+  <text x="1125" y="745" transform="rotate(-43 1125 745)" font-family="sans-serif" font-size="25" letter-spacing="10" fill="#d4e3d9" opacity=".54" text-anchor="middle">深水湖盆</text>
+</g>
+<rect width="2200" height="1600" fill="url(#nessie-grain)" pointer-events="none"/>
+<g transform="translate(2070 112)" fill="none" stroke="#657e71" opacity=".7"><path d="M0 18V-23m-7 10 7-15 7 15" stroke-width="2"/><text x="0" y="-40" stroke="none" fill="#657e71" font-family="sans-serif" font-size="20" text-anchor="middle">N</text></g>
+</svg>

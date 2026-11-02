@@ -166,6 +166,10 @@ class LakeEasyTests(unittest.TestCase):
                 encoded=json.dumps(response,ensure_ascii=False).lower()
                 self.assertFalse(any(term in encoded for term in forbidden))
         for asset in (Path(__file__).resolve().parents[1]/'memorybenchmark/static').iterdir():
+            # The separately authored nessie map has an explicitly requested
+            # real-world title; old lake-easy assets and responses stay anonymous.
+            if asset.name.startswith('nessie-'):
+                continue
             if asset.is_file() and asset.suffix.lower() in ('.html','.css','.js','.svg'):
                 text=asset.read_text(encoding='utf-8').lower()
                 self.assertFalse(any(term in text for term in ('loch ness','loch-ness','尼斯湖','scottish highlands')),asset.name)

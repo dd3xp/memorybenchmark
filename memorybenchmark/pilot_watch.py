@@ -197,7 +197,7 @@ class PilotStore:
         response = {**header, "name": public["name"], "sessions": sessions, "session": session,
                     "map": {"locations": deepcopy(public["locations"]), "edges": deepcopy(public["edges"]),
                             "view_box": public.get("view_box", [0, 0, 1200, 900])},
-                    "terrain": "field", "frames": []}
+                    "terrain": public.get("terrain", "field"), "frames": []}
         if session is None:
             return response
         folder = root / "sessions" / session["id"]

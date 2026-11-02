@@ -7,7 +7,9 @@ from pathlib import Path
 from .worlds import load_scenario
 
 DATA = Path(__file__).parent / "data"
+CURRENT_MAP = "nessie-easy"
 MAPS = {
+    "nessie-easy": ("尼斯湖水怪", "Easy 01", "nessie_easy20.json"),
     "easy20": ("岚汀丘地", "同型站", "station_easy20_reuse.json"),
     "linked20": ("岚汀丘地", "联程", "station_easy20_linked.json"),
     "choice20": ("岚汀丘地", "多站点", "station_easy20_choice.json"),
@@ -39,7 +41,7 @@ def _detail(map_id):
         design = json.loads(station_design(map_id).read_text(encoding="utf-8"))
         public = design["public"]
         locations, edges = public["locations"], public["edges"]
-        terrain = "field"
+        terrain = public.get("terrain", "field")
         triggers = [key for key, node in locations.items() if node.get("kind") == "station"]
         bounds = public.get("view_box")
         task_count = len(design["tasks"])
@@ -61,7 +63,7 @@ def _detail(map_id):
         bounds = [min(xs) - 80, min(ys) - 80, max(xs) - min(xs) + 160, max(ys) - min(ys) + 160]
     return {"id": map_id, "name": name, "variant": variant, "difficulty": "Easy",
             "task_count": task_count, "node_count": len(locations), "edge_count": len(edges),
-            "current": map_id == "easy20", "terrain": terrain,
+            "current": map_id == CURRENT_MAP, "terrain": terrain,
             "play_url": "/play?map=" + map_id,
             "map": {"locations": locations, "edges": edges, "view_box": bounds},
             "trigger_nodes": sorted(set(triggers))}
