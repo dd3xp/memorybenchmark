@@ -101,7 +101,7 @@ class WorkerSessions:
             process.stdin.flush()
         deadline = time.monotonic() + self.wall_seconds + 10
         try:
-            send(config)
+            send({**config, "worker_wall_seconds": self.wall_seconds})
             with (output / "native.log").open("w",encoding="utf-8") as log, (output / "audit.jsonl").open("w",encoding="utf-8") as audit:
                 while True:
                     remaining = deadline - time.monotonic()

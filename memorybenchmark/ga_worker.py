@@ -11,6 +11,7 @@ from pathlib import Path
 import random
 import sys
 import threading
+import time
 
 
 PROTOCOL = "ga-session-1"
@@ -59,6 +60,25 @@ def pin_task_reminder(payload, reminder, *, finalizing=False):
 
 class ModelBudgetExhausted(BaseException):
     """Host-controlled stop, not a retryable native tool/transport exception."""
+
+
+def drain_background_reviews(reviews, lock, deadline, emit, *, clock=time.monotonic):
+    """Join native writes within the original worker wall budget, then snapshot."""
+    started, waiting = clock(), False
+    while True:
+        with lock:
+            pending = [event for event in reviews if not event.is_set()]
+        if not pending:
+            if waiting:
+                emit("background_reviews_drained", elapsed_seconds=round(clock() - started, 3))
+            return
+        remaining = deadline - clock()
+        if remaining <= 0:
+            raise RuntimeError("worker wall budget expired while waiting for native background review")
+        if not waiting:
+            emit("background_review_wait", pending=len(pending), remaining_wall_seconds=round(remaining, 3))
+            waiting = True
+        pending[0].wait(timeout=min(0.2, remaining))
 
 
 def exhaust_native_loop(loop, emit):

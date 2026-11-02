@@ -16,14 +16,17 @@ from uuid import uuid4
 
 from ga_worker import (Wire, LogSink, probe, pin_task_reminder, build_task_reminder,
                        ModelBudgetExhausted, run_environment_task, exhaust_native_loop,
+                       drain_background_reviews,
                        FINAL_OPPORTUNITY, GUIDE, EXECUTION_PROTOCOL, PROMPT_PROTOCOL)
 
 PROTOCOL = "hermes-session-1"
 
 
 def main():
+    worker_started = time.monotonic()
     wire = Wire()
     config = json.loads(wire.input.readline())
+    review_deadline = worker_started + int(config.get("worker_wall_seconds", 900)) - 5
     if config.get("protocol") != PROTOCOL:
         raise RuntimeError("protocol mismatch")
     sys.stdout = sys.stderr = LogSink(wire)
@@ -155,15 +158,7 @@ def main():
     background_review.spawn_background_review_thread = spawn
 
     def drain_reviews():
-        deadline = time.monotonic() + 100
-        while True:
-            with reviews_lock:
-                pending = [event for event in reviews if not event.is_set()]
-            if not pending:
-                return
-            if time.monotonic() >= deadline:
-                raise RuntimeError("native background review did not finish")
-            pending[0].wait(timeout=0.2)
+        drain_background_reviews(reviews, reviews_lock, review_deadline, wire.emit)
 
     from run_agent import AIAgent
     from hermes_state import SessionDB

@@ -23,6 +23,8 @@ python -m memorybenchmark.prototypes.station_independent --archive native-agent.
 
 对已经冻结的轮次修正宿主误拒绝时，保留原源码和已完成任务。先严格重放已完成轨迹、核对记忆输入和实际被拒请求，再将失败目录归档，恢复原任务起点。追加 `host_validation_repairs`，声明原版本、宿主覆盖版本、文件指纹、适用任务和验证证据；新代码副本与恢复程序一同归档，不悄悄改写原冻结清单。报告单列宿主误拒绝所耗模型调用，不混入有效任务成本。运行中的另一组不被打断。
 
+Hermes 的原生后台复盘必须完成后才能结算并快照记忆。等待使用本 worker 的原有总时限，已用时间不清零；不额外设置比整项任务预算更短的 100 秒收尾上限。复盘调用仍计入原 main／final 调用预算，宿主与隔离进程仍执行原总时限。若修正已冻结轮次的等待缺陷，原支持文件保留，新增支持目录及其全部指纹单独记录、验证和归档。
+
 ```powershell
 python -m memorybenchmark.prototypes.station_independent --resume --output .runs/pilot-ga-clear --base-url https://gateway.example --runtime /path/to/native-runtime
 python -m scripts.report_station_experiment --run .runs/pilot-ga-clear --output clear-result.json
