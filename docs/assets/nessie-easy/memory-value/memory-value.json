@@ -1,0 +1,557 @@
+{
+  "kind": "scripted_memory_opportunity_audit_not_native_agent_results",
+  "design_id": "nessie-easy-1.1",
+  "design_sha256": "bce25fa5ff00533a7bbf31bb52899b5ad9434bd318a1bf9410a7fb824898b88c",
+  "validation_uncompressed_sha256": "1f4b5c471b540abb1797df8a935027c564e767572b2ba18b1c8d7a220b7cc1f0",
+  "auditor_sha256": "2b6216d9a3b1a6d3ecf31463ae3e1f834b275b3fa151fac5fa9632892121590a",
+  "policy": "Identical public-geography feedback policy; only prior actually delivered station feedback persists in retain. Clear starts each task with empty facts. Current-task learning and public bijection inference are allowed in both.",
+  "fixed_map_followup_T2_T20": {
+    "retain": {
+      "distance": 968,
+      "operations": 610,
+      "moves": 552,
+      "station_attempts": 39
+    },
+    "clear": {
+      "distance": 1330,
+      "operations": 900,
+      "moves": 794,
+      "station_attempts": 87
+    },
+    "distance_reduction_percent": 27.21804511278195,
+    "operations_reduction_percent": 32.22222222222222,
+    "lower_distance_tasks": 18,
+    "equal_distance_tasks": 1,
+    "higher_distance_tasks": 0,
+    "rows": [
+      {
+        "task": "T2",
+        "retained_distance": 60,
+        "cleared_distance": 80,
+        "saved_distance": 20
+      },
+      {
+        "task": "T3",
+        "retained_distance": 46,
+        "cleared_distance": 54,
+        "saved_distance": 8
+      },
+      {
+        "task": "T4",
+        "retained_distance": 62,
+        "cleared_distance": 74,
+        "saved_distance": 12
+      },
+      {
+        "task": "T5",
+        "retained_distance": 36,
+        "cleared_distance": 56,
+        "saved_distance": 20
+      },
+      {
+        "task": "T6",
+        "retained_distance": 54,
+        "cleared_distance": 102,
+        "saved_distance": 48
+      },
+      {
+        "task": "T7",
+        "retained_distance": 50,
+        "cleared_distance": 62,
+        "saved_distance": 12
+      },
+      {
+        "task": "T8",
+        "retained_distance": 58,
+        "cleared_distance": 66,
+        "saved_distance": 8
+      },
+      {
+        "task": "T9",
+        "retained_distance": 46,
+        "cleared_distance": 54,
+        "saved_distance": 8
+      },
+      {
+        "task": "T10",
+        "retained_distance": 62,
+        "cleared_distance": 74,
+        "saved_distance": 12
+      },
+      {
+        "task": "T11",
+        "retained_distance": 50,
+        "cleared_distance": 62,
+        "saved_distance": 12
+      },
+      {
+        "task": "T12",
+        "retained_distance": 58,
+        "cleared_distance": 66,
+        "saved_distance": 8
+      },
+      {
+        "task": "T13",
+        "retained_distance": 64,
+        "cleared_distance": 98,
+        "saved_distance": 34
+      },
+      {
+        "task": "T14",
+        "retained_distance": 38,
+        "cleared_distance": 44,
+        "saved_distance": 6
+      },
+      {
+        "task": "T15",
+        "retained_distance": 48,
+        "cleared_distance": 102,
+        "saved_distance": 54
+      },
+      {
+        "task": "T16",
+        "retained_distance": 32,
+        "cleared_distance": 52,
+        "saved_distance": 20
+      },
+      {
+        "task": "T17",
+        "retained_distance": 62,
+        "cleared_distance": 90,
+        "saved_distance": 28
+      },
+      {
+        "task": "T18",
+        "retained_distance": 40,
+        "cleared_distance": 52,
+        "saved_distance": 12
+      },
+      {
+        "task": "T19",
+        "retained_distance": 66,
+        "cleared_distance": 106,
+        "saved_distance": 40
+      },
+      {
+        "task": "T20",
+        "retained_distance": 36,
+        "cleared_distance": 36,
+        "saved_distance": 0
+      }
+    ]
+  },
+  "candidate_assignment_sensitivity": {
+    "worlds": 576,
+    "period": "T1-T20",
+    "all_worlds_positive_distance_gain": true,
+    "distance_reduction_percent_min_max": [
+      22.205438066465256,
+      31.541725601131542
+    ],
+    "actual_runtime_assignment_remains_fixed": true
+  },
+  "witnesses": [
+    {
+      "name": "T13-scripted-retain",
+      "success": true,
+      "distance": 64,
+      "moves": 34,
+      "operations": 37,
+      "path": [
+        "C",
+        "NC",
+        "NW",
+        "WN",
+        "WM",
+        "WS",
+        "SW",
+        "U",
+        "SW",
+        "SC",
+        "SE",
+        "c2p1",
+        "C2",
+        "c2p1",
+        "SE",
+        "SC",
+        "SW",
+        "WS",
+        "WM",
+        "WN",
+        "R",
+        "WN",
+        "WM",
+        "WS",
+        "h1p1",
+        "h1p2",
+        "H1",
+        "h1p2",
+        "h1p1",
+        "WS",
+        "WM",
+        "WN",
+        "NW",
+        "NC",
+        "C"
+      ],
+      "station_events": [
+        {
+          "event_id": 431,
+          "location": "C2",
+          "time": 22,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "C2",
+            "capability": "profile",
+            "station_type": "C",
+            "result": "processed",
+            "stage_completed": 1,
+            "next_stage": 2
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 0
+          },
+          "state_after": {
+            "raw": false,
+            "processed": false,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 446,
+          "location": "H1",
+          "time": 50,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "H1",
+            "capability": "drainage",
+            "station_type": "H",
+            "result": "processed"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 455,
+          "location": "C",
+          "time": 66,
+          "action": {
+            "type": "submit"
+          },
+          "feedback": {
+            "kind": "submitted"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": true,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true,
+            "stage": 1
+          }
+        }
+      ],
+      "log": "cases/T13-scripted-retain.jsonl.gz",
+      "graph": "cases/T13-scripted-retain.graph.json",
+      "svg": "cases/T13-scripted-retain.svg",
+      "uncompressed_log_sha256": "7859968bc8829d4b9242fe9802c586a512043fadcaee3af8df634c9def7e52a8",
+      "log_encoding": "Lossless gzip of authoritative scripted engine events",
+      "condition": "retain"
+    },
+    {
+      "name": "T13-scripted-clear",
+      "success": true,
+      "distance": 98,
+      "moves": 58,
+      "operations": 66,
+      "path": [
+        "C",
+        "NC",
+        "NW",
+        "WN",
+        "WM",
+        "WS",
+        "SW",
+        "U",
+        "SW",
+        "a2p1",
+        "A2",
+        "a2p1",
+        "SW",
+        "b2p1",
+        "b2p2",
+        "B2",
+        "b2p2",
+        "b2p1",
+        "SW",
+        "SC",
+        "SE",
+        "c2p1",
+        "C2",
+        "c2p1",
+        "SE",
+        "SC",
+        "SW",
+        "WS",
+        "WM",
+        "WN",
+        "R",
+        "WN",
+        "e1p1",
+        "E1",
+        "e1p1",
+        "WN",
+        "f1p1",
+        "f1p2",
+        "F1",
+        "f1p2",
+        "f1p1",
+        "WN",
+        "WM",
+        "WS",
+        "g1p1",
+        "G1",
+        "g1p1",
+        "WS",
+        "h1p1",
+        "h1p2",
+        "H1",
+        "h1p2",
+        "h1p1",
+        "WS",
+        "WM",
+        "WN",
+        "NW",
+        "NC",
+        "C"
+      ],
+      "station_events": [
+        {
+          "event_id": 563,
+          "location": "A2",
+          "time": 18,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "A2",
+            "capability": "vegetation",
+            "station_type": "A",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 0
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false,
+            "stage": 0
+          }
+        },
+        {
+          "event_id": 569,
+          "location": "B2",
+          "time": 26,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "B2",
+            "capability": "lithology",
+            "station_type": "B",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 0
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false,
+            "stage": 0
+          }
+        },
+        {
+          "event_id": 577,
+          "location": "C2",
+          "time": 38,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "C2",
+            "capability": "profile",
+            "station_type": "C",
+            "result": "processed",
+            "stage_completed": 1,
+            "next_stage": 2
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 0
+          },
+          "state_after": {
+            "raw": false,
+            "processed": false,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 589,
+          "location": "E1",
+          "time": 59,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "E1",
+            "capability": "elevation",
+            "station_type": "E",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 595,
+          "location": "F1",
+          "time": 67,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "F1",
+            "capability": "bearing",
+            "station_type": "F",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 603,
+          "location": "G1",
+          "time": 81,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "G1",
+            "capability": "contour",
+            "station_type": "G",
+            "result": "unsupported"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 609,
+          "location": "H1",
+          "time": 89,
+          "action": {
+            "type": "process"
+          },
+          "feedback": {
+            "kind": "station_information",
+            "station": "H1",
+            "capability": "drainage",
+            "station_type": "H",
+            "result": "processed"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": false,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true,
+            "stage": 1
+          }
+        },
+        {
+          "event_id": 618,
+          "location": "C",
+          "time": 105,
+          "action": {
+            "type": "submit"
+          },
+          "feedback": {
+            "kind": "submitted"
+          },
+          "state_before": {
+            "raw": true,
+            "processed": true,
+            "stage": 1
+          },
+          "state_after": {
+            "raw": true,
+            "processed": true,
+            "stage": 1
+          }
+        }
+      ],
+      "log": "cases/T13-scripted-clear.jsonl.gz",
+      "graph": "cases/T13-scripted-clear.graph.json",
+      "svg": "cases/T13-scripted-clear.svg",
+      "uncompressed_log_sha256": "cdf65c9a84044726ad8b272ad0896081a5c4cd4cf9b3d855080bf9423ee9b7dd",
+      "log_encoding": "Lossless gzip of authoritative scripted engine events",
+      "condition": "clear"
+    }
+  ],
+  "new_real_kernel_tasks": 26,
+  "model_calls": 0,
+  "scope": "Checks that historical station knowledge has useful route-cost signal. This is one scripted policy, not an optimal-policy bound or a guarantee that any native agent saves, retrieves, applies memory, or wins every task. Native outcomes must be reported separately without changing the map after seeing them."
+}

@@ -1,0 +1,24 @@
+{
+  "kind": "actual_native_self_authored_memory_delivery_check",
+  "utc": "2026-11-03T00:07:10.065123+00:00",
+  "runs": [
+    {
+      "condition": "retain",
+      "T1_memory_sha256": "4b8c91b021e80e5c70cbe524ba5248052b7dfd51036f3600e956d1d531faa747",
+      "T2_first_request_sha256": "fc5eb4cb5f21cce7b9ba9761f6791e2d6dac27365f27090e858ad0a4a8306e6d",
+      "previous_self_authored_memory_in_first_request": true,
+      "previous_memory_nontrivial_lines": 1,
+      "lines_also_present": 1
+    },
+    {
+      "condition": "clear",
+      "T1_memory_sha256": "2fb6fea0639c5452631e8f9818c21ae6047925199cee03d8c5c93f75ca87d13e",
+      "T2_first_request_sha256": "4391366ae3a0d4c488c148db17cb6457c3c9f7dcbc745473b5548a2d635cd212",
+      "previous_self_authored_memory_in_first_request": false,
+      "previous_memory_nontrivial_lines": 1,
+      "lines_also_present": 0
+    }
+  ],
+  "new_model_calls": 0,
+  "scope": "Inspect immutable T1 output and first T2 request. Partial line matches can overlap public rules; full-document delivery is the explicit check."
+}

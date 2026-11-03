@@ -1,0 +1,68 @@
+{
+  "kind": "real_native_T1_T2_memory_boundary_check_not_full_benefit_results",
+  "utc": "2026-11-02T23:59:51.721160+00:00",
+  "runs": [
+    {
+      "condition": "retain",
+      "status": "running",
+      "completed": 2,
+      "successes": 2,
+      "total": 20,
+      "tasks": [
+        {
+          "task": "T1",
+          "success": true,
+          "distance": 56,
+          "operations": 45
+        },
+        {
+          "task": "T2",
+          "success": true,
+          "distance": 60,
+          "operations": 38
+        }
+      ],
+      "attempts": 0,
+      "T2_memory_policy_verified": true,
+      "T2_memory_input_sha256": "be4bcd48e23d9e0406595dc68495c2969c471173fdcb768561cb0fba3105914a",
+      "T1_self_authored_memory_files_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.usage.json",
+        "skills/.usage.json.lock"
+      ],
+      "T2_empty_context_and_working_memory_verified": true
+    },
+    {
+      "condition": "clear",
+      "status": "running",
+      "completed": 2,
+      "successes": 2,
+      "total": 20,
+      "tasks": [
+        {
+          "task": "T1",
+          "success": true,
+          "distance": 56,
+          "operations": 46
+        },
+        {
+          "task": "T2",
+          "success": true,
+          "distance": 60,
+          "operations": 40
+        }
+      ],
+      "attempts": 0,
+      "T2_memory_policy_verified": true,
+      "T2_memory_input_sha256": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86",
+      "T1_self_authored_memory_files_changed": [
+        "memories/MEMORY.md",
+        "memories/MEMORY.md.lock",
+        "skills/.usage.json",
+        "skills/.usage.json.lock"
+      ],
+      "T2_empty_context_and_working_memory_verified": true
+    }
+  ]
+}

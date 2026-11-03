@@ -2,7 +2,7 @@
 
 游戏与论文共用这一主标题，论文副标题后续确定。代码包与仓库名称为 `memorybenchmark`。
 
-第一张正式 Easy 地图为[尼斯湖水怪](docs/NESSIE_EASY.md)：61 个地点、61 条道路、16 座基站，沿用原有八类测绘资料和 20 项双段测绘委托。只有 H 型的两座基站命名为水怪勘测站，其余站型与任务保持地理测绘主题。长湖两岸通路和末端支路形成稀疏图；到目标自动采集资料，到匹配基站处理，两段完成后回营交付。站型能力固定、同型站等效，具体配对需交互获知，只有 Agent 自己保存的经验跨 session。网页默认游玩新图；[完整地图](docs/assets/nessie-easy/complete-map.svg)、[委托与接入](docs/NESSIE_EASY.md)和[脚本校验](docs/assets/nessie-easy/validation.json)已提供，新图原生 Agent 难度校准尚未运行。
+第一张正式 Easy 地图为[尼斯湖水怪](docs/NESSIE_EASY.md)：61 个地点、61 条道路、16 座基站，沿用原有八类测绘资料和 20 项双段测绘委托。只有 H 型的两座基站命名为水怪勘测站，其余站型与任务保持地理测绘主题。长湖两岸通路和末端支路形成稀疏图；到目标自动采集资料，到匹配基站处理，两段完成后回营交付。站型能力固定、同型站等效，具体配对需交互获知，只有 Agent 自己保存的经验跨 session。网页默认游玩新图；[完整地图](docs/assets/nessie-easy/complete-map.svg)、[委托与接入](docs/NESSIE_EASY.md)和[脚本校验](docs/assets/nessie-easy/validation.json)已提供。[同策略脚本校验](docs/assets/nessie-easy/memory-value/memory-value.json)中 T2–T20 保留历史少走 27.22%；原生 Hermes 的两条独立 20 项校准正在运行，真实收益另行报告。
 
 网页分为实验、游玩和地图三个入口。实验页将保留记忆与清除记忆分别显示，每组单独查看进度和任务轨迹。新建原生实验两组均执行全部 20 项（40 个 session）；已有冻结实验沿用原有 20/19 配置。T1 对照没有历史游戏记忆，不计入跨 session 记忆收益配对。
 

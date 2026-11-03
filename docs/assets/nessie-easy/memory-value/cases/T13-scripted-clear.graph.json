@@ -1,0 +1,1691 @@
+{
+  "nodes": [
+    "A2",
+    "B2",
+    "C",
+    "C2",
+    "E1",
+    "F1",
+    "G1",
+    "H1",
+    "NC",
+    "NW",
+    "R",
+    "SC",
+    "SE",
+    "SW",
+    "U",
+    "WM",
+    "WN",
+    "WS",
+    "a2p1",
+    "b2p1",
+    "b2p2",
+    "c2p1",
+    "e1p1",
+    "f1p1",
+    "f1p2",
+    "g1p1",
+    "h1p1",
+    "h1p2"
+  ],
+  "edges": [
+    {
+      "id": 553,
+      "kind": "commute",
+      "source": "C",
+      "target": "NC",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 0,
+      "time": 0,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 554,
+      "kind": "commute",
+      "source": "NC",
+      "target": "NW",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 1,
+      "time": 1,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 555,
+      "kind": "commute",
+      "source": "NW",
+      "target": "WN",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 2,
+      "time": 3,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 556,
+      "kind": "commute",
+      "source": "WN",
+      "target": "WM",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 3,
+      "time": 5,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 557,
+      "kind": "commute",
+      "source": "WM",
+      "target": "WS",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 4,
+      "time": 8,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 558,
+      "kind": "commute",
+      "source": "WS",
+      "target": "SW",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 5,
+      "time": 11,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 559,
+      "kind": "commute",
+      "source": "SW",
+      "target": "U",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 6,
+      "time": 13,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 560,
+      "kind": "commute",
+      "source": "U",
+      "target": "SW",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 7,
+      "time": 14,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 561,
+      "kind": "commute",
+      "source": "SW",
+      "target": "a2p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 8,
+      "time": 15,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 562,
+      "kind": "commute",
+      "source": "a2p1",
+      "target": "A2",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 9,
+      "time": 16,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 564,
+      "kind": "commute",
+      "source": "A2",
+      "target": "a2p1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 10,
+      "time": 19,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 565,
+      "kind": "commute",
+      "source": "a2p1",
+      "target": "SW",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 11,
+      "time": 21,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 566,
+      "kind": "commute",
+      "source": "SW",
+      "target": "b2p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 12,
+      "time": 22,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 567,
+      "kind": "commute",
+      "source": "b2p1",
+      "target": "b2p2",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 13,
+      "time": 23,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 568,
+      "kind": "commute",
+      "source": "b2p2",
+      "target": "B2",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 14,
+      "time": 24,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 570,
+      "kind": "commute",
+      "source": "B2",
+      "target": "b2p2",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 15,
+      "time": 27,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 571,
+      "kind": "commute",
+      "source": "b2p2",
+      "target": "b2p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 16,
+      "time": 29,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 572,
+      "kind": "commute",
+      "source": "b2p1",
+      "target": "SW",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 17,
+      "time": 30,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 573,
+      "kind": "commute",
+      "source": "SW",
+      "target": "SC",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 18,
+      "time": 31,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 574,
+      "kind": "commute",
+      "source": "SC",
+      "target": "SE",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 19,
+      "time": 33,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 575,
+      "kind": "commute",
+      "source": "SE",
+      "target": "c2p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 20,
+      "time": 35,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 576,
+      "kind": "commute",
+      "source": "c2p1",
+      "target": "C2",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 21,
+      "time": 36,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "id": 578,
+      "kind": "commute",
+      "source": "C2",
+      "target": "c2p1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 22,
+      "time": 39,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 579,
+      "kind": "commute",
+      "source": "c2p1",
+      "target": "SE",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 23,
+      "time": 41,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 580,
+      "kind": "commute",
+      "source": "SE",
+      "target": "SC",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 24,
+      "time": 42,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 581,
+      "kind": "commute",
+      "source": "SC",
+      "target": "SW",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 25,
+      "time": 44,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 582,
+      "kind": "commute",
+      "source": "SW",
+      "target": "WS",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 26,
+      "time": 46,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 583,
+      "kind": "commute",
+      "source": "WS",
+      "target": "WM",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 27,
+      "time": 48,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 584,
+      "kind": "commute",
+      "source": "WM",
+      "target": "WN",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 28,
+      "time": 51,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 585,
+      "kind": "commute",
+      "source": "WN",
+      "target": "R",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 29,
+      "time": 54,
+      "life": 0,
+      "state_before": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 586,
+      "kind": "commute",
+      "source": "R",
+      "target": "WN",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 30,
+      "time": 55,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 587,
+      "kind": "commute",
+      "source": "WN",
+      "target": "e1p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 31,
+      "time": 56,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 588,
+      "kind": "commute",
+      "source": "e1p1",
+      "target": "E1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 32,
+      "time": 57,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 590,
+      "kind": "commute",
+      "source": "E1",
+      "target": "e1p1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 33,
+      "time": 60,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 591,
+      "kind": "commute",
+      "source": "e1p1",
+      "target": "WN",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 34,
+      "time": 62,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 592,
+      "kind": "commute",
+      "source": "WN",
+      "target": "f1p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 35,
+      "time": 63,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 593,
+      "kind": "commute",
+      "source": "f1p1",
+      "target": "f1p2",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 36,
+      "time": 64,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 594,
+      "kind": "commute",
+      "source": "f1p2",
+      "target": "F1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 37,
+      "time": 65,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 596,
+      "kind": "commute",
+      "source": "F1",
+      "target": "f1p2",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 38,
+      "time": 68,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 597,
+      "kind": "commute",
+      "source": "f1p2",
+      "target": "f1p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 39,
+      "time": 70,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 598,
+      "kind": "commute",
+      "source": "f1p1",
+      "target": "WN",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 40,
+      "time": 71,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 599,
+      "kind": "commute",
+      "source": "WN",
+      "target": "WM",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 41,
+      "time": 72,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 600,
+      "kind": "commute",
+      "source": "WM",
+      "target": "WS",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 42,
+      "time": 75,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 601,
+      "kind": "commute",
+      "source": "WS",
+      "target": "g1p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 43,
+      "time": 78,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 602,
+      "kind": "commute",
+      "source": "g1p1",
+      "target": "G1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 44,
+      "time": 79,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 604,
+      "kind": "commute",
+      "source": "G1",
+      "target": "g1p1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 45,
+      "time": 82,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 605,
+      "kind": "commute",
+      "source": "g1p1",
+      "target": "WS",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 46,
+      "time": 84,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 606,
+      "kind": "commute",
+      "source": "WS",
+      "target": "h1p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 47,
+      "time": 85,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 607,
+      "kind": "commute",
+      "source": "h1p1",
+      "target": "h1p2",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 48,
+      "time": 86,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 608,
+      "kind": "commute",
+      "source": "h1p2",
+      "target": "H1",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 49,
+      "time": 87,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "id": 610,
+      "kind": "commute",
+      "source": "H1",
+      "target": "h1p2",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 50,
+      "time": 90,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 611,
+      "kind": "commute",
+      "source": "h1p2",
+      "target": "h1p1",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 51,
+      "time": 92,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 612,
+      "kind": "commute",
+      "source": "h1p1",
+      "target": "WS",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 52,
+      "time": 93,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 613,
+      "kind": "commute",
+      "source": "WS",
+      "target": "WM",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 53,
+      "time": 94,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 614,
+      "kind": "commute",
+      "source": "WM",
+      "target": "WN",
+      "weight": 3,
+      "effort": 3,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 54,
+      "time": 97,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 615,
+      "kind": "commute",
+      "source": "WN",
+      "target": "NW",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 55,
+      "time": 100,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 616,
+      "kind": "commute",
+      "source": "NW",
+      "target": "NC",
+      "weight": 2,
+      "effort": 2,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 56,
+      "time": 102,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "id": 617,
+      "kind": "commute",
+      "source": "NC",
+      "target": "C",
+      "weight": 1,
+      "effort": 1,
+      "stamina_spent": null,
+      "hazard_cost": 0,
+      "inventory_before": [],
+      "equipment_used": null,
+      "order": 57,
+      "time": 104,
+      "life": 0,
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    }
+  ],
+  "distance": 98,
+  "effort": 98,
+  "deaths": 0,
+  "respawn_penalty": 0,
+  "total_weight": 98,
+  "stamina_spent": null,
+  "node_events": [
+    {
+      "event_id": 563,
+      "location": "A2",
+      "time": 18,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "A2",
+        "capability": "vegetation",
+        "station_type": "A",
+        "result": "unsupported"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "event_id": 569,
+      "location": "B2",
+      "time": 26,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "B2",
+        "capability": "lithology",
+        "station_type": "B",
+        "result": "unsupported"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      }
+    },
+    {
+      "event_id": 577,
+      "location": "C2",
+      "time": 38,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "C2",
+        "capability": "profile",
+        "station_type": "C",
+        "result": "processed",
+        "stage_completed": 1,
+        "next_stage": 2
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 0
+      },
+      "state_after": {
+        "raw": false,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "event_id": 589,
+      "location": "E1",
+      "time": 59,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "E1",
+        "capability": "elevation",
+        "station_type": "E",
+        "result": "unsupported"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "event_id": 595,
+      "location": "F1",
+      "time": 67,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "F1",
+        "capability": "bearing",
+        "station_type": "F",
+        "result": "unsupported"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "event_id": 603,
+      "location": "G1",
+      "time": 81,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "G1",
+        "capability": "contour",
+        "station_type": "G",
+        "result": "unsupported"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      }
+    },
+    {
+      "event_id": 609,
+      "location": "H1",
+      "time": 89,
+      "action": {
+        "type": "process"
+      },
+      "feedback": {
+        "kind": "station_information",
+        "station": "H1",
+        "capability": "drainage",
+        "station_type": "H",
+        "result": "processed"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": false,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    },
+    {
+      "event_id": 618,
+      "location": "C",
+      "time": 105,
+      "action": {
+        "type": "submit"
+      },
+      "feedback": {
+        "kind": "submitted"
+      },
+      "state_before": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      },
+      "state_after": {
+        "raw": true,
+        "processed": true,
+        "stage": 1
+      }
+    }
+  ],
+  "task_run_id": "session-13"
+}

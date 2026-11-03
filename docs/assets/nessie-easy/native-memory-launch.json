@@ -1,0 +1,96 @@
+{
+  "kind": "native_agent_calibration_launch_not_memory_benefit_results",
+  "design_id": "nessie-easy-1.1",
+  "source_commit": "124d734025707a07bb1de1a50a35072eb07ce956",
+  "observed_at_utc": "2026-11-02T23:47:47.179547+00:00",
+  "model_alias": "gpt-5.6-luna",
+  "configured_reasoning_effort": "high",
+  "reasoning_configuration_policy": "native",
+  "host_request_effort_guard": false,
+  "native_agent_commit": "e5ea5fd9ccdf2913c0b21b24eb3d22b321d2e2a6",
+  "old_game_experience_imported": false,
+  "run_length_each": 20,
+  "main_calls": 100,
+  "final_calls": 6,
+  "wall_seconds_each_task": 3600,
+  "game_operations_limit": 88,
+  "game_access": "native",
+  "action_policy": "single",
+  "movement_mode": "step",
+  "cross_session_policy": "Only self-authored persistent memory can cross a session boundary; clear restores its own original native baseline each task.",
+  "comparison_policy": "Offline after independent completion, T1 reported separately; all task outcomes and costs retained.",
+  "map_changed_after_observing_native_results": false,
+  "runs": [
+    {
+      "agent": "hermes",
+      "condition": "retain",
+      "experiment_id": "81aa7855fb6d496a8c38e48799ab1e6b",
+      "web_id": "pilot-9138a08ee81707e6-retain",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "reasoning_policy": "native",
+      "peer_dependencies": [],
+      "source_verified": true,
+      "source_files": 87,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "request_reasoning_efforts": {
+        "high": 6
+      },
+      "provider_reasoning_efforts": {
+        "high": 5
+      },
+      "completed_model_responses": 5
+    },
+    {
+      "agent": "hermes",
+      "condition": "clear",
+      "experiment_id": "e497a3bff48944889c80aeffc5deaac8",
+      "web_id": "pilot-c81e775a793b5964-clear",
+      "status": "running",
+      "completed": 0,
+      "total": 20,
+      "reasoning_effort": "high",
+      "reasoning_policy": "native",
+      "peer_dependencies": [],
+      "source_verified": true,
+      "source_files": 87,
+      "fresh_original_memory_and_empty_history_verified": true,
+      "request_reasoning_efforts": {
+        "high": 7
+      },
+      "provider_reasoning_efforts": {
+        "high": 6
+      },
+      "completed_model_responses": 6
+    }
+  ],
+  "web_validation": {
+    "utc": "2026-11-02T23:53:27.970021+00:00",
+    "tls_verified": true,
+    "runs": [
+      {
+        "web_id": "pilot-9138a08ee81707e6-retain",
+        "condition": "retain",
+        "name": "尼斯湖水怪",
+        "status": "running",
+        "frames": 24,
+        "task": "T2",
+        "location": "G2",
+        "operations": 23
+      },
+      {
+        "web_id": "pilot-c81e775a793b5964-clear",
+        "condition": "clear",
+        "name": "尼斯湖水怪",
+        "status": "running",
+        "frames": 13,
+        "task": "T2",
+        "location": "A2",
+        "operations": 12
+      }
+    ]
+  },
+  "scope": "Both native runs have started from fresh original memories and empty context, received real high responses and performed game actions. Full memory benefit is pending; scripted map-calibration numbers are kept separate."
+}

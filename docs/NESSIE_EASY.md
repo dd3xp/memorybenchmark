@@ -1,6 +1,6 @@
 # 尼斯湖水怪
 
-第一张正式 Easy 地图，地图标识 `nessie-easy`，规则版本 `nessie-easy-1.1`。包含 61 个地点、61 条道路、8 个测绘点、8 种站型、16 座基站和 20 项双段测绘委托。原有八类资料和二十项委托完整保留，只有 H 型的两座基站采用水怪研究主题；原生 Agent 的新图难度校准另行运行。
+第一张正式 Easy 地图，地图标识 `nessie-easy`，规则版本 `nessie-easy-1.1`。包含 61 个地点、61 条道路、8 个测绘点、8 种站型、16 座基站和 20 项双段测绘委托。原有八类资料和二十项委托完整保留，只有 H 型的两座基站采用水怪研究主题；原生 Hermes 的保留／清除两条独立校准任务流已启动，完整效果待跑完后报告。
 
 ![完整公开地图](assets/nessie-easy/complete-map.svg)
 
@@ -89,3 +89,19 @@ python -m unittest tests.test_nessie_easy -v
 [软件与信息结构校验](assets/nessie-easy/validation.json)穷举 165,888 组兼容站型顺序，并把各项最坏情况在真实规则内核重放；该策略最坏 85 次操作。576 个候选配对下的两种反馈策略共 23,040 次模拟完成，实际固定配对另做 40 次真实内核重放，覆盖完整保留和清除流程。
 
 这些是规则可行性与信息价值校验，模型调用为零；不能当作 GA／Hermes 的记忆收益或路线 GT。八种固定配对用于 Easy 的获取与复用实验，容量和长期干扰需另设条件。
+
+## 记忆收益校验与真实 Agent 校准
+
+[受控反馈策略校验](assets/nessie-easy/memory-value/memory-value.json)固定同一条根据公开地理选站的策略，只改变是否保留此前实际交付的站点反馈。当前地图 T2–T20 的保留／清除路程为 968／1330，少走 27.22%；操作为 610／900，少 32.22%；选站尝试为 39／87。19 项中 18 项路程更短、1 项相同；T1 无历史时两组完全相同。
+
+同一策略检查全部 576 种候选配对，T1–T20 总路程均有正收益，降幅范围为 22.21%–31.54%；实际运行仍使用同一固定配对。该校验验证图中存在可利用的经验价值，未给原生 Agent 注入这些脚本事实，也不表示任意 Agent 必然实现该比例。
+
+另在真实规则内核重放两条各自独立的前十三项任务流，导出 T13 的[保留历史轨迹](assets/nessie-easy/memory-value/cases/T13-scripted-retain.svg)与[清除历史轨迹](assets/nessie-easy/memory-value/cases/T13-scripted-clear.svg)，路程分别为 64／98。边和节点操作来自实际重放，完整事件以无损 gzip 保存；这是脚本轨迹，不是 Hermes 成绩。
+
+```powershell
+python -m scripts.audit_nessie_memory_value --output .runs/nessie-memory-value-check
+```
+
+Hermes 真实校准沿用原生版本 `e5ea5fd`、Luna、原生 high、单步动作与 100／6 次调用及 3,600 秒预算，冻结执行源码 `124d734`。保留和清除分别执行完整 20 项，各自有基础记忆、上下文、实际历史、进度、恢复、审计和归档；比较只在两组独立结束后进行，T1 单列。没有导入旧地图经验，没有依据真实成绩修改地图、任务、提示词或 Agent 记忆实现。
+
+[启动核查](assets/nessie-easy/native-memory-launch.json)确认两组各 87 个来源文件、真实模型响应与原生 MCP 游戏动作，网页各显示一个独立实验。[T1→T2 实际边界核查](assets/nessie-easy/native-memory-boundary.json)确认两组首两项均成功，保留组 T2 输入清单匹配自己的 T1 输出，清除组 T2 匹配原始基础库，且 T2 的历史对话、后台历史与工作记忆均为空。[实际模型输入核查](assets/nessie-easy/native-memory-delivery.json)进一步验证保留组 T1 自写 MEMORY 正文完整进入 T2 首次请求，清除组自己的上一任务 MEMORY 正文未进入请求；只发布来源指纹与匹配计数。完整真实收益以最终审计对照结果为准。
