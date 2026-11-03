@@ -1,0 +1,331 @@
+{
+  "kind": "in_progress_native_T1_T3_preview_not_complete_calibration",
+  "utc": "2026-11-03T00:10:50.001493+00:00",
+  "design_id": "nessie-easy-1.1",
+  "runs": [
+    {
+      "condition": "retain",
+      "experiment_id": "81aa7855fb6d496a8c38e48799ab1e6b",
+      "tasks": [
+        {
+          "task": "T1",
+          "success": true,
+          "distance": 56,
+          "operations": 45,
+          "summary_sha256": "4e97c211eeec8010bbcaf02f3c97a5a04daea84602ecaf2189a17de148129aba",
+          "graph_sha256": "f26bef7f380bad06700367703b8f7e7363d1c4cdd15c475b33767dfc869d5512"
+        },
+        {
+          "task": "T2",
+          "success": true,
+          "distance": 60,
+          "operations": 38,
+          "summary_sha256": "18778d0cf8dc9ff676b1df442bc771eac75bc45e23c53ba7a42ea07b6114cc9f",
+          "graph_sha256": "d587e446d3e97691febd40917231091565391e89af9fa4257913a9355690b686"
+        },
+        {
+          "task": "T3",
+          "success": true,
+          "distance": 46,
+          "operations": 29,
+          "summary_sha256": "33e166a7196bdbcc8df5580d902c222f92aa18b48d661719ab14244f6768b517",
+          "graph_sha256": "2ab8bfb61badf38c4460cbeb8541ef424c44b710de497cfd9a279f71367cccd5",
+          "station_feedback": [
+            {
+              "station": "C1",
+              "capability": "profile",
+              "result": "processed"
+            },
+            {
+              "station": "A1",
+              "capability": "vegetation",
+              "result": "processed"
+            }
+          ],
+          "previous_compatible_world_count": 1,
+          "first_branches": [
+            {
+              "event_id": 90,
+              "station": "C1",
+              "station_type": "C",
+              "previously_visited_station": true,
+              "same_type_prior_feedback": [
+                {
+                  "event_id": 21,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "inspect",
+                  "result": null
+                },
+                {
+                  "event_id": 22,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "new_station_of_previously_observed_type": false,
+              "historical_status": "known_match",
+              "previous_direct_feedback": [
+                {
+                  "event_id": 21,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "inspect",
+                  "result": null
+                },
+                {
+                  "event_id": 22,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "previous_successful_same_kind_processing": [
+                {
+                  "event_id": 22,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "matching_determined_before_task": true,
+              "matching_if_later_observed": true
+            },
+            {
+              "event_id": 107,
+              "station": "A1",
+              "station_type": "A",
+              "previously_visited_station": true,
+              "same_type_prior_feedback": [
+                {
+                  "event_id": 7,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "A1",
+                  "capability": "vegetation",
+                  "station_type": "A",
+                  "operation": "inspect",
+                  "result": null
+                },
+                {
+                  "event_id": 57,
+                  "task_id": "T2",
+                  "task_run_id": "session-2",
+                  "stage_index": 0,
+                  "station": "A2",
+                  "capability": "vegetation",
+                  "station_type": "A",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "new_station_of_previously_observed_type": false,
+              "historical_status": "known_match",
+              "previous_direct_feedback": [
+                {
+                  "event_id": 7,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "A1",
+                  "capability": "vegetation",
+                  "station_type": "A",
+                  "operation": "inspect",
+                  "result": null
+                }
+              ],
+              "previous_successful_same_kind_processing": [],
+              "matching_determined_before_task": true,
+              "matching_if_later_observed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "condition": "clear",
+      "experiment_id": "e497a3bff48944889c80aeffc5deaac8",
+      "tasks": [
+        {
+          "task": "T1",
+          "success": true,
+          "distance": 56,
+          "operations": 46,
+          "summary_sha256": "34039a0644caa9ba62bb3d113ba165a5c374a7a6c8375ad0f4dad9efc3cfe06b",
+          "graph_sha256": "33262893808c23511e6190f39e3e2ad0982c88d93b720afa713b0432634f6094"
+        },
+        {
+          "task": "T2",
+          "success": true,
+          "distance": 60,
+          "operations": 40,
+          "summary_sha256": "3c223a421be35084a9c2233447fbef11e4e849c290e36b1453f4f9ff0d74669b",
+          "graph_sha256": "1d68c0f5cc8904d37db33a11a9627b081cf3c702baa596b124e661f3f0f4bcec"
+        },
+        {
+          "task": "T3",
+          "success": true,
+          "distance": 62,
+          "operations": 44,
+          "summary_sha256": "68c42c56419753d5e2e43e44657a6d5eac513bfb1cea03cdeb8a2985b912055c",
+          "graph_sha256": "7aa65d3811194465f85164f2e9746d33d87e4826b4bae31f441b2552fef9dfc8",
+          "station_feedback": [
+            {
+              "station": "C1",
+              "capability": "profile",
+              "result": null
+            },
+            {
+              "station": "C1",
+              "capability": "profile",
+              "result": "processed"
+            },
+            {
+              "station": "D1",
+              "capability": "shore",
+              "result": null
+            },
+            {
+              "station": "B2",
+              "capability": "lithology",
+              "result": null
+            },
+            {
+              "station": "A2",
+              "capability": "vegetation",
+              "result": "processed"
+            }
+          ],
+          "previous_compatible_world_count": 1,
+          "first_branches": [
+            {
+              "event_id": 93,
+              "station": "C1",
+              "station_type": "C",
+              "previously_visited_station": true,
+              "same_type_prior_feedback": [
+                {
+                  "event_id": 21,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "inspect",
+                  "result": null
+                },
+                {
+                  "event_id": 22,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "new_station_of_previously_observed_type": false,
+              "historical_status": "known_match",
+              "previous_direct_feedback": [
+                {
+                  "event_id": 21,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "inspect",
+                  "result": null
+                },
+                {
+                  "event_id": 22,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "previous_successful_same_kind_processing": [
+                {
+                  "event_id": 22,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "C1",
+                  "capability": "profile",
+                  "station_type": "C",
+                  "operation": "process",
+                  "result": "processed"
+                }
+              ],
+              "matching_determined_before_task": true,
+              "matching_if_later_observed": true
+            },
+            {
+              "event_id": 114,
+              "station": "B2",
+              "station_type": "B",
+              "previously_visited_station": false,
+              "same_type_prior_feedback": [
+                {
+                  "event_id": 13,
+                  "task_id": "T1",
+                  "task_run_id": "session-1",
+                  "stage_index": 0,
+                  "station": "B1",
+                  "capability": "lithology",
+                  "station_type": "B",
+                  "operation": "inspect",
+                  "result": null
+                }
+              ],
+              "new_station_of_previously_observed_type": false,
+              "historical_status": "known_nonmatch",
+              "previous_direct_feedback": [],
+              "previous_successful_same_kind_processing": [],
+              "matching_determined_before_task": false,
+              "matching_if_later_observed": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "T3_distance_reduction_percent": 25.806451612903224,
+  "full_twenty_task_results_pending": true,
+  "new_model_calls": 0,
+  "scope": "Read only sealed successful T1-T3 sessions; source audit and full independent-run comparison are completed after all twenty tasks. A single task difference alone is not proof of causal memory use."
+}

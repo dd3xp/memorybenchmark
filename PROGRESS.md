@@ -2,6 +2,8 @@
 
 更新：2026-11-02。
 
+尼斯湖原生 Hermes 已有早期路程收益信号：两组已封存的 T1 路程均为 56、T2 均为 60；T3 两组都成功，保留／清除为 46／62，少走 16（25.81%）。清除组额外去 D1、B2 查询，保留组直接处理；距离已核对真实图边权之和。完整 20 项仍独立执行，单项预览不作为整轮结论。[进行中的 T1–T3 诊断与指纹](docs/assets/nessie-easy/native-preview-t3.json)。
+
 尼斯湖 1.1 记忆收益验收：同一反馈策略只改变是否保留实际历史，T2–T20 路程 968／1330，少走 27.22%；操作 610／900，少 32.22%；18 项路程更短、1 项相同，T1 相同。全部 576 个候选配对的整条脚本任务流均有正路程收益，范围 22.21%–31.54%。独立重放两条前十三项任务流，保存 T13 的 64／98 路程图、带状态的图数据和无损事件；这些是机制校验，不是原生 Agent 成绩。[可重算脚本](scripts/audit_nessie_memory_value.py)与[校验及轨迹](docs/assets/nessie-easy/memory-value/memory-value.json)。
 
 原生 Hermes 新图校准已在 Squishy 并行启动：保留／清除各自完整 20 项、独立进程／目录／基础库／实际历史／恢复及归档；同一固定尼斯湖 1.1、原生 Hermes `e5ea5fd`、Luna high、单步动作和原预算，冻结执行源码 `124d734`，旧经验不导入。两组各 87 个来源文件、真实 high 响应、原生 MCP 动作和网页两个独立实验项核查通过。首两项各 2/2 成功，实际 T2 输入分别匹配自身 T1 输出／原始基础库，历史对话、后台历史和工作记忆均为空；保留组 T1 自写 MEMORY 正文完整进入 T2 首次模型请求，清除组自己的上一任务 MEMORY 未进入请求。完成后自动离线比较与归档，完整收益待结果，地图不按结果改写。[启动核查](docs/assets/nessie-easy/native-memory-launch.json)、[实际跨 session 边界](docs/assets/nessie-easy/native-memory-boundary.json)、[正文交付核查](docs/assets/nessie-easy/native-memory-delivery.json)。

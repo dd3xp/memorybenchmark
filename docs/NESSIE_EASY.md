@@ -105,3 +105,5 @@ python -m scripts.audit_nessie_memory_value --output .runs/nessie-memory-value-c
 Hermes 真实校准沿用原生版本 `e5ea5fd`、Luna、原生 high、单步动作与 100／6 次调用及 3,600 秒预算，冻结执行源码 `124d734`。保留和清除分别执行完整 20 项，各自有基础记忆、上下文、实际历史、进度、恢复、审计和归档；比较只在两组独立结束后进行，T1 单列。没有导入旧地图经验，没有依据真实成绩修改地图、任务、提示词或 Agent 记忆实现。
 
 [启动核查](assets/nessie-easy/native-memory-launch.json)确认两组各 87 个来源文件、真实模型响应与原生 MCP 游戏动作，网页各显示一个独立实验。[T1→T2 实际边界核查](assets/nessie-easy/native-memory-boundary.json)确认两组首两项均成功，保留组 T2 输入清单匹配自己的 T1 输出，清除组 T2 匹配原始基础库，且 T2 的历史对话、后台历史与工作记忆均为空。[实际模型输入核查](assets/nessie-easy/native-memory-delivery.json)进一步验证保留组 T1 自写 MEMORY 正文完整进入 T2 首次请求，清除组自己的上一任务 MEMORY 正文未进入请求；只发布来源指纹与匹配计数。完整真实收益以最终审计对照结果为准。
+
+[进行中的 T1–T3 诊断](assets/nessie-easy/native-preview-t3.json)保留两组已封存的前三项结果：T1 路程均 56、T2 均 60；T3 两组均成功，保留／清除为 46／62，差 16（25.81%）。保留组直接在 C1、A1 处理，清除组额外到 D1、B2 查询能力。该差距由真实轨迹边权求和核对，完整 20 项仍在执行；单项差异不单独证明因果使用记忆，也不替代整轮结果。
