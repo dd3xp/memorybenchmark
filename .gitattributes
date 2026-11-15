@@ -1,8 +1,10 @@
-# Serialized scientific inputs and generated geography carry byte hashes.
-# Keep checkout bytes identical across Linux and Windows.
+# Scientific JSON inputs use a portable checkout encoding.
 *.json text eol=lf
-*.geojson text eol=lf
-*.svg text eol=lf
+# Display manifests and precompressed artifacts refer to exact bytes.
+# Git must not alter line endings in these generated assets.
+memorybenchmark/static/*.json -text
+*.geojson -text
+*.svg -text
 *.gz -text
 *.png -text
 *.woff2 -text
