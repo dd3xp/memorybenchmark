@@ -2,13 +2,15 @@
 
 // A shared, keyboard-operable single-select. Options stay stable during polling.
 class AppSelect {
-  constructor(root, {label, onChange}) {
+  constructor(root, {label, onChange, labelledBy, placeholder = '暂无任务', floating = false}) {
     this.root = root;
     this.onChange = onChange;
     this.options = [];
     this.value = null;
     this.active = -1;
     this.opened = false;
+    this.placeholder = placeholder;
+    this.floating = floating;
     root.classList.add('app-select');
     this.button = document.createElement('button');
     this.button.type = 'button';
@@ -16,6 +18,7 @@ class AppSelect {
     this.button.id = root.id + '-trigger';
     this.button.setAttribute('role', 'combobox');
     this.button.setAttribute('aria-label', label);
+    if (labelledBy) this.button.setAttribute('aria-labelledby', labelledBy);
     this.button.setAttribute('aria-haspopup', 'listbox');
     this.button.setAttribute('aria-expanded', 'false');
     this.button.setAttribute('aria-controls', root.id + '-list');
@@ -33,6 +36,14 @@ class AppSelect {
     this.list.setAttribute('role', 'listbox');
     this.list.setAttribute('aria-label', label);
     this.list.hidden = true;
+    if (floating) {
+      this.list.classList.add('select-floating');
+      // The top layer prevents a long map list from clipping inside a dialog.
+      if ('showPopover' in this.list) this.list.popover = 'manual';
+      const reposition = () => { if (this.opened) this.position(); };
+      window.addEventListener('resize', reposition);
+      window.addEventListener('scroll', reposition, true);
+    }
     root.replaceChildren(this.button, this.list);
     this.button.onclick = () => this.opened ? this.close() : this.open();
     this.button.onkeydown = event => this.keydown(event);
@@ -74,24 +85,41 @@ class AppSelect {
   setValue(value) {
     this.value = value;
     const index = this.options.findIndex(option => option.value === value);
-    this.caption.textContent = this.options[index]?.label || '暂无任务';
+    this.caption.textContent = this.options[index]?.label || this.placeholder;
     [...this.list.children].forEach((row, i) => row.setAttribute('aria-selected', String(i === index)));
     if (!this.opened) this.active = index;
   }
 
   open() {
-    if (!this.options.length) return;
+    if (!this.options.length || this.button.matches(':disabled')) return;
     this.opened = true;
     this.list.hidden = false;
+    if (this.list.popover) this.list.showPopover();
+    if (this.floating) this.position();
     this.button.setAttribute('aria-expanded', 'true');
     this.activate(Math.max(0, this.options.findIndex(option => option.value === this.value)));
   }
 
   close() {
     this.opened = false;
+    if (this.list.popover && this.list.matches(':popover-open')) this.list.hidePopover();
     this.list.hidden = true;
     this.button.setAttribute('aria-expanded', 'false');
     this.button.removeAttribute('aria-activedescendant');
+  }
+
+  position() {
+    const box = this.button.getBoundingClientRect(), margin = 12, gap = 6;
+    const width = Math.min(Math.max(box.width, 144), innerWidth - margin * 2);
+    this.list.style.width = `${width}px`;
+    this.list.style.maxHeight = '296px';
+    const desired = Math.min(296, this.list.scrollHeight + 2);
+    const below = innerHeight - box.bottom - gap - margin, above = box.top - gap - margin;
+    const upwards = below < desired && above > below;
+    const height = Math.min(desired, Math.max(44, upwards ? above : below));
+    this.list.style.maxHeight = `${height}px`;
+    this.list.style.left = `${Math.max(margin, Math.min(box.left, innerWidth - width - margin))}px`;
+    this.list.style.top = `${upwards ? Math.max(margin, box.top - gap - height) : box.bottom + gap}px`;
   }
 
   activate(index, scroll = true) {
@@ -110,32 +138,44 @@ class AppSelect {
   choose(index) {
     const option = this.options[index];
     if (!option) return;
+    const changed = this.value !== option.value;
     this.setValue(option.value);
     this.close();
     this.button.focus({preventScroll: true});
-    this.onChange(option.value);
+    if (changed) this.onChange(option.value);
   }
 
   keydown(event) {
     if (['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', ' '].includes(event.key)) {
       event.preventDefault();
-      if (!this.opened) { this.open(); return; }
+      if (!this.opened) {
+        this.open();
+        if (event.key === 'Home') this.activate(0);
+        else if (event.key === 'End') this.activate(this.options.length - 1);
+        return;
+      }
       const last = this.options.length - 1;
       if (event.key === 'ArrowDown') this.activate(Math.min(last, this.active + 1));
       else if (event.key === 'ArrowUp') this.activate(Math.max(0, this.active - 1));
       else if (event.key === 'Home') this.activate(0);
       else if (event.key === 'End') this.activate(last);
       else this.choose(this.active);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === 'Escape' && this.opened) {
       event.preventDefault();
+      event.stopPropagation();
       this.close();
     } else if (event.key === 'Tab') {
       this.close();
-    } else if (/^[a-z0-9]$/i.test(event.key)) {
-      this.search = (this.searchTime && Date.now() - this.searchTime < 700 ? this.search : '') + event.key;
+    } else if (!event.ctrlKey && !event.metaKey && !event.altKey && /^[a-z0-9]$/i.test(event.key)) {
+      const previous = this.searchTime && Date.now() - this.searchTime < 700 ? this.search : '';
+      this.search = previous + event.key;
       this.searchTime = Date.now();
-      const index = this.options.findIndex(option => option.label.toLowerCase().startsWith(this.search.toLowerCase()));
-      if (index >= 0) { if (!this.opened) this.open(); this.activate(index); }
+      const repeated = [...this.search.toLowerCase()].every(char => char === event.key.toLowerCase());
+      const query = repeated ? event.key.toLowerCase() : this.search.toLowerCase();
+      const start = repeated ? this.active + 1 : 0;
+      const index = this.options.map((_, i) => (start + i) % this.options.length)
+        .find(i => this.options[i].label.toLowerCase().startsWith(query));
+      if (index !== undefined) { event.preventDefault(); if (!this.opened) this.open(); this.activate(index); }
     }
   }
 }

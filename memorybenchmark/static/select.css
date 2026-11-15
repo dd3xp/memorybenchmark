@@ -10,4 +10,5 @@
 .select-option[aria-selected=true]{color:#607a4e;font-weight:600;background:var(--accent-soft)}
 .select-mark{visibility:hidden;font-size:13px}
 .select-option[aria-selected=true] .select-mark{visibility:visible}
+.select-list.select-floating{position:fixed;inset:auto;margin:0;box-sizing:border-box;max-width:none}
 @media(max-width:760px){.select-trigger,.select-option{min-height:44px}.select-list{max-height:264px}}

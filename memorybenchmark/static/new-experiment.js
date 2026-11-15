@@ -7,6 +7,16 @@
   let submitting = false, submitted = false;
   const newId = () => crypto.randomUUID?.() || `experiment-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   let requestId = newId();
+  const modelPicker = new AppSelect($('create-model'), {
+    label: '模型', labelledBy: 'create-model-label', placeholder: '选择模型',
+    floating: true, onChange: selectionChanged,
+  });
+  const mapPicker = new AppSelect($('create-map'), {
+    label: '地图', labelledBy: 'create-map-label', placeholder: '选择地图',
+    floating: true, onChange: selectionChanged,
+  });
+
+  function selectionChanged() { requestId = newId(); preview(); }
 
   async function api(path, body) {
     const response = await fetch(path, body === undefined ? {} : {
@@ -27,7 +37,7 @@
   }
 
   function selection() {
-    return {model: $('create-model').value, map: $('create-map').value,
+    return {model: modelPicker.value, map: mapPicker.value,
       movement_mode: dialog.querySelector('[name=movement_mode]:checked').value};
   }
 
@@ -38,7 +48,7 @@
   }
 
   function applyMovementRule() {
-    const hard = options.maps.find(row => row.id === $('create-map').value)?.difficulty === 'Hard';
+    const hard = options.maps.find(row => row.id === mapPicker.value)?.difficulty === 'Hard';
     $('create-route').disabled = hard;
     if (hard) dialog.querySelector('[name=movement_mode][value=step]').checked = true;
     const multi = selection().movement_mode === 'route';
@@ -85,13 +95,12 @@
         const data = await api('/api/experiments/options');
         if (!data.models?.length || !data.maps?.length) throw Error('暂无可用的模型或地图。');
         options = data;
-        for (const [id, rows, label] of [
-          ['create-model', data.models, row => row.id],
-          ['create-map', data.maps, row => `${row.name}（${row.difficulty}）`],
+        for (const [picker, rows, label] of [
+          [modelPicker, data.models, row => row.id],
+          [mapPicker, data.maps, row => `${row.name}（${row.difficulty}）`],
         ]) {
-          $(id).replaceChildren(...rows.map(row => {
-            const option = document.createElement('option'); option.value = row.id; option.textContent = label(row); return option;
-          }));
+          picker.setOptions(rows.map(row => ({value: row.id, label: label(row)})));
+          picker.setValue(rows[0].id);
         }
         $('create-fields').hidden = false;
         await preview();
@@ -109,17 +118,19 @@
   }
 
   $('new-experiment').addEventListener('click', open);
+  dialog.addEventListener('close', () => { modelPicker.close(); mapPicker.close(); });
   for (const id of ['create-close', 'create-cancel']) $(id).onclick = () => dialog.close();
   dialog.addEventListener('click', event => {
     const box = dialog.getBoundingClientRect();
     if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close();
   });
   $('create-retry').onclick = () => options ? preview() : initialize();
-  $('experiment-form').addEventListener('change', () => { requestId = newId(); preview(); });
+  $('experiment-form').addEventListener('change', selectionChanged);
   $('experiment-form').addEventListener('submit', async event => {
     event.preventDefault();
     if (!review || submitting || submitted) return;
     submitting = true;
+    modelPicker.close(); mapPicker.close();
     $('create-fields').disabled = true; $('create-launch').disabled = true;
     $('create-launch').setAttribute('aria-busy', 'true');
     $('create-launch-text').textContent = '启动中';
