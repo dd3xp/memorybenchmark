@@ -84,7 +84,8 @@ def run(args):
         jail = WSLJail(args.distro, args.runtime, args.runtime_dependency)
         try:
             result = independent.experiment(output, jail, None, archive=args.archive,
-                agent=args.agent, condition=condition, tasks=["T1", "T2"], model_alias="fixture",
+                agent=args.agent, condition=condition, design_path=EASY20_REUSE_DESIGN,
+                tasks=["T1", "T2"], model_alias="fixture",
                 reasoning_effort=args.reasoning_effort)
             assert len(result["sessions"]) == 2
             return report(output, native_archive=args.archive)

@@ -15,8 +15,8 @@ foreach ($benchProcessId in @($benchListeners.OwningProcess | Select-Object -Uni
     if (-not $benchProcessId) { continue }
     $benchProcess=Get-CimInstance Win32_Process -Filter ('ProcessId='+$benchProcessId)
     if (-not $benchProcess) { continue }
-    if ($benchProcess.CommandLine -notmatch '(?:^|\s)-m\s+memorybenchmark(?:\s|$)' -or
-        $benchProcess.CommandLine -notmatch ('--port\s+'+$Port+'(?:\s|$)')) {
+    if ($benchProcess.CommandLine -notmatch '(?:^|\s)"?-m"?\s+"?memorybenchmark"?(?:\s|$)' -or
+        $benchProcess.CommandLine -notmatch ('(?:^|\s)"?--port"?\s+"?'+$Port+'"?(?:\s|$)')) {
         throw "Port $Port is occupied by a different program; no process was terminated."
     }
     Stop-Process -Id $benchProcessId -ErrorAction Stop

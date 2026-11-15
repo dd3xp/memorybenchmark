@@ -1,6 +1,7 @@
 """GenericAgent-specific preparation and native worker selection only."""
 from ..agent_adapters import AgentAdapter, PreparedAgent
-from ..ga_runtime import copy_memory, extract_native, make_support
+from ..ga_runtime import copy_memory, make_support
+from ..native_source_cache import extract_cached_native as extract_native
 from ..ga_worker import PROMPT_PROTOCOL
 
 

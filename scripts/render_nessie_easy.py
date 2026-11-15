@@ -22,7 +22,7 @@ def main():
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
     design=load_design(NESSIE_EASY_DESIGN);public=design['public'];places=public['locations']
-    terrain=NESSIE_EASY_DESIGN.parent.parent/'static/nessie-terrain.svg'
+    terrain=Path(__file__).resolve().parents[1]/'memorybenchmark/static/nessie-terrain.svg'
     root=ET.fromstring(terrain.read_text(encoding='utf-8'))
     root.find('{'+NS+'}title').text='尼斯湖水怪 · 完整公开地图'
     root.find('{'+NS+'}desc').text='全部 61 个地点、61 条道路与距离。圆点为测绘点，方框为基站，三角为营地。不含隐藏能力配对。'

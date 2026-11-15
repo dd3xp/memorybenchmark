@@ -1,6 +1,7 @@
 """Audit and summarize a single independent run, without consulting another run."""
 from __future__ import annotations
 
+from memorybenchmark.event_store import read_events
 import argparse
 import json
 from pathlib import Path
@@ -70,7 +71,7 @@ def report(run, *, native_archive=None, source_commit=None, source_newlines=None
     rows = []
     for session in pilot["sessions"]:
         folder = run / "sessions" / session["name"]
-        events = [json.loads(line) for line in (folder / "events.jsonl").read_text(encoding="utf-8").splitlines()]
+        events = read_events(folder / "events.jsonl")
         graph = read(folder / "graph.json")
         rows.append({"name": session["name"], "condition": pilot["memory_condition"],
             "llm_calls": session["llm_calls"],

@@ -38,5 +38,5 @@ def load_scenario(name="valley"):
     if name not in SCENARIOS:
         raise ValueError("未知场景。")
     filename = {"valley": "valley.json", "lake-easy": "lake_easy.json", "loch-ness": "lake_easy.json"}[name]
-    data = json.loads((Path(__file__).parent / "data" / filename).read_text(encoding="utf-8"))
+    data = json.loads((Path(__file__).parent / "data" / "history" / filename).read_text(encoding="utf-8"))
     return data["world"], data["tasks"]

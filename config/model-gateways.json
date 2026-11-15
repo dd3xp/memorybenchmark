@@ -1,0 +1,74 @@
+{
+  "schema": "benchmark-model-gateways-1",
+  "verified_at_utc": "2026-11-08T22:51:00Z",
+  "policy": "Select the verified input allowance of the actual gateway route. Keep native model limits, optional extended windows, and TPM separate. Unknown models fail closed; never fall back to 64000.",
+  "gateways": {
+    "openai-subscription": {
+      "server_installation": "C:/Agents/SubscriptionGateway",
+      "base_url": "https://s.roundsquisheen.v6.navy:14170",
+      "connect_host": "127.0.0.1",
+      "api_mode": "codex_responses",
+      "official_upstream": "https://api.openai.com/v1",
+      "channel": "official ChatGPT subscription sharing",
+      "credential_reference": "server user LOCALAPPDATA/Memorybenchmark/gateway.dpapi",
+      "metadata_source": "authenticated official /models, forwarded by private /admin/models; gateway-model-metadata.json"
+    },
+    "google-gemini": {
+      "server_installation": "C:/Agents/GeminiGateway",
+      "base_url": "http://127.0.0.1:14172/v1",
+      "api_mode": "chat_completions",
+      "official_upstream": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "channel": "official Google Gemini API",
+      "credential_reference": "C:/Agents/GeminiGateway/data/connection-flash-lite.json",
+      "metadata_source": "Google models.list catalog and existing gateway /v1/models"
+    }
+  },
+  "models": {
+    "gpt-5.6-luna": {
+      "gateway": "openai-subscription",
+      "hermes_context_tokens": 272000,
+      "route_default_context_tokens": 272000,
+      "route_max_input_tokens": 272000,
+      "route_optional_max_context_tokens": 872000,
+      "public_api_context_tokens": 1050000,
+      "public_api_max_output_tokens": 128000,
+      "output_cap_override": null,
+      "selection_basis": "Actual subscription catalog max_input_tokens/context_window. The optional max_context_window is recorded, not assumed enabled. Public API limits do not replace account-route metadata.",
+      "official_spec_url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+    },
+    "gpt-5.6-terra": {
+      "gateway": "openai-subscription",
+      "hermes_context_tokens": 272000,
+      "route_default_context_tokens": 272000,
+      "route_max_input_tokens": 272000,
+      "route_optional_max_context_tokens": 872000,
+      "public_api_context_tokens": 1050000,
+      "public_api_max_output_tokens": 128000,
+      "output_cap_override": null,
+      "selection_basis": "Actual subscription catalog max_input_tokens/context_window; optional extended window not assumed enabled.",
+      "official_spec_url": "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
+    },
+    "gemini-3.5-flash-lite": {
+      "gateway": "google-gemini",
+      "hermes_context_tokens": 250000,
+      "native_input_tokens": 1048576,
+      "native_max_output_tokens": 65536,
+      "route_max_input_tokens": 250000,
+      "route_input_tpm": 250000,
+      "output_cap_override": null,
+      "selection_basis": "Google model input limit is 1048576. Existing scheduler rejects any single input larger than per-project TPM250000. The usable route allowance is250000 until that gateway quota changes; this is not a model context limit.",
+      "official_spec_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite"
+    },
+    "gemini-3.1-flash-lite": {
+      "gateway": "google-gemini",
+      "hermes_context_tokens": 250000,
+      "native_input_tokens": 1048576,
+      "native_max_output_tokens": 65536,
+      "route_max_input_tokens": 250000,
+      "route_input_tpm": 250000,
+      "output_cap_override": null,
+      "selection_basis": "Native1048576; existing gateway single-request scheduler ceiling250000. Preserve the distinction between model capacity and route quota.",
+      "official_spec_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite"
+    }
+  }
+}

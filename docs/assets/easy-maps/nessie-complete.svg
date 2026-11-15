@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 1600" width="2200" height="1600">
+  <title>暮湾长湖 · 完整公开地图</title>
+  <desc>西南至东北的狭长湖盆、两岸山岭与林地。虚构路网的公开地形底图，不表示现实通行路线或调查结果。</desc>
+  <defs>
+    <linearGradient id="long-lake-land" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#e4eae0" />
+      <stop offset=".45" stop-color="#d3dfd2" />
+      <stop offset="1" stop-color="#e5e9d9" />
+    </linearGradient>
+    <linearGradient id="long-lake-water" x1="0" y1="1" x2="1" y2="0">
+      <stop stop-color="#669598" />
+      <stop offset=".35" stop-color="#3c707e" />
+      <stop offset=".7" stop-color="#3c6f7c" />
+      <stop offset="1" stop-color="#86a8a3" />
+    </linearGradient>
+    <linearGradient id="long-lake-depth" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#284f64" stop-opacity=".7" />
+      <stop offset="1" stop-color="#254d5d" stop-opacity=".1" />
+    </linearGradient>
+    <pattern id="long-lake-grain" width="63" height="71" patternUnits="userSpaceOnUse">
+      <path d="M6 13h1m28 19h1m15 29h1M15 57h1" stroke="#486956" stroke-width="1.5" opacity=".1" />
+    </pattern>
+    <pattern id="long-lake-forest" width="34" height="39" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
+      <path d="m7 13 4-5 4 5m-4-2v8m13 12 3-5 3 5m-3-2v7" fill="none" stroke="#617e67" stroke-width="1.1" opacity=".23" />
+    </pattern>
+    <path id="long-lake-shore" d="M600 1230C591 1208 616 1173 648 1137C683 1096 718 1066 752 1024C790 978 826 939 868 898C912 854 947 811 995 766C1040 724 1074 682 1120 641C1166 600 1211 568 1252 523C1293 479 1333 439 1379 399C1427 357 1470 326 1519 303C1563 283 1611 257 1641 269C1657 277 1644 303 1624 326C1593 361 1564 396 1526 435C1487 475 1455 513 1416 552C1374 596 1333 630 1291 675C1249 722 1203 758 1161 805C1117 855 1071 898 1027 942C981 988 940 1029 894 1072C850 1114 803 1154 756 1189C713 1221 674 1240 642 1244C621 1246 607 1242 600 1230Z" />
+    <mask id="long-lake-land-mask">
+      <rect width="2200" height="1600" fill="white" />
+      <use href="#long-lake-shore" fill="black" />
+    </mask>
+    <clipPath id="long-lake-lake-clip">
+      <use href="#long-lake-shore" />
+    </clipPath>
+  </defs>
+  <rect width="2200" height="1600" fill="url(#long-lake-land)" />
+  <g mask="url(#long-lake-land-mask)">
+    <path d="M220 153C362 31 557 57 710 154S930 246 1032 316C1159 404 1000 512 868 556S695 763 496 752S264 654 192 523S107 251 220 153Z" fill="#b8cbb5" opacity=".58" />
+    <path d="M1471 808C1591 737 1721 758 1844 855S2117 1030 2099 1198S1956 1458 1761 1483S1437 1377 1391 1223S1334 890 1471 808Z" fill="#b1c6ae" opacity=".48" />
+    <path d="M53 1160C216 1085 346 1147 425 1290S680 1478 812 1490L754 1600H0Z" fill="#c4d2b2" opacity=".65" />
+    <g fill="none" stroke="#8fa58f" stroke-width="1.7" opacity=".43">
+      <path d="M-60 370C141 140 392 99 597 238S841 363 1044 341M-52 421C153 183 385 148 579 277S832 411 1027 389M-41 474C161 231 379 194 562 317S814 459 1006 438M-25 526C173 286 372 244 543 358S794 507 981 486M-1 582C184 339 361 295 524 401S773 554 948 536M34 635C191 397 349 347 504 444S752 603 909 586M80 689C206 460 339 401 484 486S727 650 866 637M132 741C228 522 328 458 460 529S697 694 815 687M195 785C254 591 317 515 435 572S655 736 758 733M266 817C287 663 308 585 409 616S602 770 689 775M345 838C328 739 321 663 382 661S531 792 607 810" />
+      <path d="M1430 728C1599 673 1746 688 1901 790S2134 936 2257 907M1401 778C1572 724 1733 737 1888 839S2121 985 2244 959M1372 829C1546 777 1720 788 1874 889S2107 1035 2230 1011M1348 882C1521 830 1706 840 1861 940S2094 1086 2216 1064M1331 936C1499 884 1691 892 1846 992S2079 1137 2201 1117M1326 992C1483 939 1674 945 1829 1045S2062 1189 2184 1170M1340 1050C1478 996 1657 999 1811 1099S2045 1242 2165 1224M1370 1110C1488 1057 1636 1056 1792 1156S2027 1296 2144 1278M1421 1171C1506 1123 1611 1119 1768 1218S2005 1350 2120 1332M1490 1232C1535 1190 1582 1184 1741 1282S1980 1402 2092 1386" />
+    </g>
+    <path d="M1223 903C1355 848 1492 900 1584 1009S1809 1176 1770 1335S1543 1423 1423 1351S1265 1186 1175 1103S1126 946 1223 903Z" fill="#90b39c" opacity=".25" />
+    <path d="M1223 903C1355 848 1492 900 1584 1009S1809 1176 1770 1335S1543 1423 1423 1351S1265 1186 1175 1103S1126 946 1223 903Z" fill="url(#long-lake-forest)" />
+    <path d="M239 652C371 533 457 587 528 689S723 789 689 933S504 1058 383 983S157 776 239 652Z" fill="#9bb39a" opacity=".25" />
+    <path d="M239 652C371 533 457 587 528 689S723 789 689 933S504 1058 383 983S157 776 239 652Z" fill="url(#long-lake-forest)" />
+    <path d="M-20 1311C165 1264 264 1366 434 1357S563 1265 635 1198M1671 0C1648 117 1664 204 1613 288" fill="none" stroke="#8badac" stroke-width="9" opacity=".55" />
+    <path d="M1663 1527C1579 1416 1530 1298 1452 1186S1267 966 1204 832" fill="none" stroke="#92aaa1" stroke-width="3" opacity=".4" />
+  </g>
+  <use href="#long-lake-shore" fill="none" stroke="#b8c8ae" stroke-width="22" />
+  <use href="#long-lake-shore" fill="url(#long-lake-water)" stroke="#618b8c" stroke-width="2.5" />
+  <g clip-path="url(#long-lake-lake-clip)">
+    <path d="M648 1250C839 1037 1017 884 1181 704S1464 418 1621 263C1457 489 1310 668 1122 870S843 1136 648 1250Z" fill="url(#long-lake-depth)" />
+    <g fill="none" stroke="#b7d0ca" stroke-width="1.4" opacity=".34">
+      <path d="M621 1208C794 1038 892 895 1059 739S1366 412 1608 291M640 1222C810 1055 911 912 1078 756S1385 430 1624 305M660 1236C829 1075 930 930 1097 776S1404 449 1641 324M682 1250C849 1097 951 951 1118 798S1425 470 1662 346" />
+    </g>
+    <path d="m849 1000 29-26m-12 45 17-15M1252 618l33-29m-14 46 17-14M1392 452l26-24m-7 42 13-12M1011 837l27-25" stroke="#c7dbd3" stroke-width="2" fill="none" opacity=".36" stroke-linecap="round" />
+    <text x="1125" y="745" transform="rotate(-43 1125 745)" font-family="sans-serif" font-size="25" letter-spacing="10" fill="#d4e3d9" opacity=".54" text-anchor="middle">深水湖盆</text>
+  </g>
+  <rect width="2200" height="1600" fill="url(#long-lake-grain)" pointer-events="none" />
+  <g transform="translate(2070 112)" fill="none" stroke="#657e71" opacity=".7">
+    <path d="M0 18V-23m-7 10 7-15 7 15" stroke-width="2" />
+    <text x="0" y="-40" stroke="none" fill="#657e71" font-family="sans-serif" font-size="20" text-anchor="middle">N</text>
+  </g>
+  <g font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif">
+    <path d="M1830 110L1700 180" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1773.0" y="138.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1700 180L1390 180" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1553.0" y="173.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1390 180L1220 360" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1313.0" y="263.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1220 360L950 580" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1093.0" y="463.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">3</text>
+    <path d="M950 580L650 850" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="808.0" y="708.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">3</text>
+    <path d="M650 850L450 1110" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="558.0" y="973.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M450 1110L570 1390" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="518.0" y="1243.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M570 1390L820 1310" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="703.0" y="1343.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M820 1310L1100 1090" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="968.0" y="1193.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1100 1090L1360 850" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1238.0" y="963.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">3</text>
+    <path d="M1360 850L1640 620" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1508.0" y="728.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">3</text>
+    <path d="M1640 620L1810 390" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1733.0" y="498.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1810 390L1700 180" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1763.0" y="278.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1390 180L1480 270" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1443.0" y="218.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1810 390L1710 430" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1768.0" y="403.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1220 360L1120 490" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1178.0" y="418.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M650 850L760 850" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="713.0" y="843.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M450 1110L470 1230" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="468.0" y="1163.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M820 1310L850 1170" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="843.0" y="1233.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1360 850L1270 960" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1323.0" y="898.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1640 620L1550 750" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1603.0" y="678.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1390 180L1290 130" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1348.0" y="148.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1290 130L1190 80" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1248.0" y="98.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1390 180L1377 137" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1391.5" y="151.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1377 137L1363 93" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1378.0" y="108.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1363 93L1350 50" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1364.5" y="64.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1810 390L1900 340" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1863.0" y="358.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1900 340L1990 290" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1953.0" y="308.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1810 390L1877 410" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1851.5" y="393.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1877 410L1943 430" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1918.0" y="413.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1943 430L2010 450" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1984.5" y="433.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M450 1110L345 1085" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="405.5" y="1090.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M345 1085L240 1060" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="300.5" y="1065.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M450 1110L400 1163" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="433.0" y="1129.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M400 1163L350 1217" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="383.0" y="1183.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M350 1217L300 1270" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="333.0" y="1236.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M820 1310L780 1410" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="808.0" y="1353.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M780 1410L740 1510" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="768.0" y="1453.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M820 1310L860 1367" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="848.0" y="1331.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M860 1367L900 1423" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="888.0" y="1388.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M900 1423L940 1480" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="928.0" y="1444.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1220 360L1120 295" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1178.0" y="320.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1120 295L1020 230" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1078.0" y="255.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1220 360L1133 367" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1184.5" y="356.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1133 367L1047 373" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1098.0" y="363.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1047 373L960 380" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1011.5" y="369.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M650 850L535 835" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="600.5" y="835.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M535 835L420 820" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="485.5" y="820.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M650 850L593 900" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="629.5" y="868.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M593 900L537 950" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="573.0" y="918.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M537 950L480 1000" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="516.5" y="968.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1640 620L1720 580" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1688.0" y="593.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1720 580L1800 540" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1768.0" y="553.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1640 620L1740 627" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1698.0" y="616.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1740 627L1840 633" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1798.0" y="623.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1840 633L1940 640" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1898.0" y="629.5" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1100 1090L1200 1130" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1158.0" y="1103.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1200 1130L1300 1170" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1258.0" y="1143.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1100 1090L1160 1170" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1138.0" y="1123.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1160 1170L1220 1250" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1198.0" y="1203.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">1</text>
+    <path d="M1220 1250L1280 1330" stroke="#627e71" stroke-width="3" fill="none" />
+    <text x="1258.0" y="1283.0" font-size="15" fill="#3e6257" stroke="#e5eadc" stroke-width="4" paint-order="stroke">2</text>
+    <path d="M1830 92l18 32h-36Z" fill="#315c53" stroke="#f8f8eb" stroke-width="2" />
+    <text x="1830" y="87" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">C</text>
+    <circle cx="1700" cy="180" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1700" y="157" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">NC</text>
+    <circle cx="1390" cy="180" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1390" y="157" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">NW</text>
+    <circle cx="1220" cy="360" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1220" y="337" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">WN</text>
+    <circle cx="950" cy="580" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="950" y="557" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">WM</text>
+    <circle cx="650" cy="850" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="650" y="827" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">WS</text>
+    <circle cx="450" cy="1110" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="450" y="1087" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">SW</text>
+    <circle cx="570" cy="1390" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="570" y="1367" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">SC</text>
+    <circle cx="820" cy="1310" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="820" y="1287" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">SE</text>
+    <circle cx="1100" cy="1090" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1100" y="1067" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">ES</text>
+    <circle cx="1360" cy="850" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1360" y="827" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">EM</text>
+    <circle cx="1640" cy="620" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1640" y="597" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">EN</text>
+    <circle cx="1810" cy="390" r="7" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1810" y="367" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">NE</text>
+    <circle cx="1480" cy="270" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1480" y="247" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">P</text>
+    <circle cx="1710" cy="430" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1710" y="407" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">Q</text>
+    <circle cx="1120" cy="490" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1120" y="467" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">R</text>
+    <circle cx="760" cy="850" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="760" y="827" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">S</text>
+    <circle cx="470" cy="1230" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="470" y="1207" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">U</text>
+    <circle cx="850" cy="1170" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="850" y="1147" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">V</text>
+    <circle cx="1270" cy="960" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1270" y="937" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">X</text>
+    <circle cx="1550" cy="750" r="11" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <text x="1550" y="727" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">Y</text>
+    <rect x="1178" y="68" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1190" y="57" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">A1</text>
+    <circle cx="1290" cy="130" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1338" y="38" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1350" y="27" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">B1</text>
+    <circle cx="1377" cy="137" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="1363" cy="93" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1978" y="278" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1990" y="267" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">C1</text>
+    <circle cx="1900" cy="340" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1998" y="438" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="2010" y="427" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">D1</text>
+    <circle cx="1877" cy="410" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="1943" cy="430" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="228" y="1048" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="240" y="1037" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">A2</text>
+    <circle cx="345" cy="1085" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="288" y="1258" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="300" y="1247" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">B2</text>
+    <circle cx="400" cy="1163" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="350" cy="1217" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="728" y="1498" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="740" y="1487" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">C2</text>
+    <circle cx="780" cy="1410" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="928" y="1468" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="940" y="1457" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">D2</text>
+    <circle cx="860" cy="1367" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="900" cy="1423" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1008" y="218" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1020" y="207" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">E1</text>
+    <circle cx="1120" cy="295" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="948" y="368" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="960" y="357" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">F1</text>
+    <circle cx="1133" cy="367" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="1047" cy="373" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="408" y="808" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="420" y="797" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">G1</text>
+    <circle cx="535" cy="835" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="468" y="988" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="480" y="977" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">H1</text>
+    <circle cx="593" cy="900" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="537" cy="950" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1788" y="528" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1800" y="517" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">E2</text>
+    <circle cx="1720" cy="580" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1928" y="628" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1940" y="617" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">F2</text>
+    <circle cx="1740" cy="627" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="1840" cy="633" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1288" y="1158" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1300" y="1147" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">G2</text>
+    <circle cx="1200" cy="1130" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <rect x="1268" y="1318" width="24" height="24" rx="4" fill="#f8f8eb" stroke="#315c53" stroke-width="2" />
+    <text x="1280" y="1307" font-size="19" text-anchor="middle" fill="#294e45" font-weight="600" stroke="#e5eadc" stroke-width="5" paint-order="stroke">H2</text>
+    <circle cx="1160" cy="1170" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+    <circle cx="1220" cy="1250" r="4" fill="#f8f8eb" stroke="#537768" stroke-width="2" />
+  </g>
+</svg>

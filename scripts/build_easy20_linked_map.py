@@ -6,7 +6,7 @@ from pathlib import Path
 from scripts.build_easy20_choice_map import build as choice_map
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "memorybenchmark/data/station_easy20_linked.json"
+OUTPUT = ROOT / "memorybenchmark/data/history/station_easy20_linked.json"
 
 
 def build():

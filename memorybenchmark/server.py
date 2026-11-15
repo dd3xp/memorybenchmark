@@ -1,4 +1,5 @@
 """Local HTTP transport for human play and external agent tool bridges."""
+
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import html
 import json
@@ -16,7 +17,8 @@ from .tls import HTTPSGameServer
 from .map_design import map_design
 from .prototypes.field_service import FieldService
 from .pilot_watch import PilotStore
-from .map_catalog import MAPS, map_detail, map_listing, station_design
+from .map_catalog import CURRENT_MAP, MAPS, map_detail, map_listing, station_design
+from .web_assets import WEB_ASSETS, CONTENT_TYPES
 
 STATIC = Path(__file__).parent / "static"
 
@@ -33,12 +35,19 @@ class GameService:
             token = request.get("instance_id")
             if token is None:
                 token = uuid4().hex
-                game = Game(log_path=self.log_root / token / "events.jsonl", scenario=request.get("scenario", self.scenario))
+                game = Game(
+                    log_path=self.log_root / token / "events.jsonl",
+                    scenario=request.get("scenario", self.scenario),
+                )
                 adapter = GameAdapter(game)
-                response = adapter.dispatch({"command": "start", "task_id": request.get("task_id", "T1")})
+                response = adapter.dispatch(
+                    {"command": "start", "task_id": request.get("task_id", "T1")}
+                )
                 self.games[token] = adapter
             else:
-                response = self.adapter(token).dispatch({"command": "start", "task_id": request.get("task_id", "T1")})
+                response = self.adapter(token).dispatch(
+                    {"command": "start", "task_id": request.get("task_id", "T1")}
+                )
             return {**response, "instance_id": token}
 
     def atlas(self, token):
@@ -55,21 +64,65 @@ class GameService:
             return {**self.adapter(token).dispatch(request), "instance_id": token}
 
 
-def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=None,
-                auth_file=None, secure_cookie=True, tls_cert=None, tls_key=None,
-                tls_reload_interval=60, scenario="valley", pilot_root=None):
+def make_server(
+    host="127.0.0.1",
+    port=8765,
+    log_root=Path(".runs"),
+    watch_root=None,
+    auth_file=None,
+    secure_cookie=True,
+    tls_cert=None,
+    tls_key=None,
+    tls_reload_interval=60,
+    scenario="valley",
+    pilot_root=None,
+    experiment_service=None,
+):
     if (tls_cert is None) != (tls_key is None):
         raise ValueError("HTTPS requires both a certificate and a private key.")
     if tls_cert is not None and not secure_cookie:
         raise ValueError("HTTPS sessions require Secure cookies.")
+    if experiment_service is None:
+        from .experiments.config import RuntimeConfig
+        from .experiments.scheduler import WindowsScheduler
+        from .experiments.service import ExperimentService
+        import os
+
+        configuration = Path(
+            os.environ.get(
+                "MEMORYBENCH_RUNTIME_CONFIG",
+                Path(__file__).resolve().parents[1] / "config/experiment-runtime.json",
+            )
+        )
+        try:
+            experiment_service = ExperimentService(
+                RuntimeConfig.load(configuration), WindowsScheduler()
+            )
+        except (OSError, ValueError):
+            experiment_service = None
     service = GameService(log_root, scenario)
-    field = FieldService(log_root)
-    fields = {"easy20": field}
+    from .prototypes.station_capability import load_design
+
+    field = FieldService(
+        log_root,
+        load_design(station_design(CURRENT_MAP)),
+        display_name=map_detail(CURRENT_MAP)["name"],
+    )
+    fields = {CURRENT_MAP: field}
     fields_lock = threading.RLock()
     pilots = PilotStore(log_root, pilot_root)
-    watch=(WatchStore(Path(log_root)/"agent-cross-session",Path(log_root)/"ga-cross-session")
-           if watch_root is None else WatchStore(watch_root))
-    auth = PinAuth(auth_file, secure_cookie=secure_cookie) if auth_file is not None else None
+    watch = (
+        WatchStore(
+            Path(log_root) / "agent-cross-session", Path(log_root) / "ga-cross-session"
+        )
+        if watch_root is None
+        else WatchStore(watch_root)
+    )
+    auth = (
+        PinAuth(auth_file, secure_cookie=secure_cookie)
+        if auth_file is not None
+        else None
+    )
 
     class Handler(BaseHTTPRequestHandler):
         def setup(self):
@@ -83,48 +136,89 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
             self.send_response(status)
             self.send_header("Content-Type", mime)
             self.send_header("Content-Length", str(size))
-            self.send_header("Cache-Control", "no-store")
+            self.send_header(
+                "Cache-Control", (extra or {}).get("Cache-Control", "no-store")
+            )
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("X-Frame-Options", "DENY")
             self.send_header("Referrer-Policy", "no-referrer")
-            self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'")
+            self.send_header(
+                "Content-Security-Policy",
+                "default-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+            )
             for name, value in (extra or {}).items():
-                self.send_header(name, value)
+                if name != "Cache-Control":
+                    self.send_header(name, value)
             self.end_headers()
 
         def reply(self, data, status=200, extra=None):
             body = json.dumps(data, ensure_ascii=False).encode("utf-8")
-            self.response_headers(status, "application/json; charset=utf-8", len(body), extra)
+            self.response_headers(
+                status, "application/json; charset=utf-8", len(body), extra
+            )
             self.wfile.write(body)
 
         def redirect(self, location, extra=None):
-            self.response_headers(303, "text/plain; charset=utf-8", extra={"Location": location, **(extra or {})})
+            self.response_headers(
+                303,
+                "text/plain; charset=utf-8",
+                extra={"Location": location, **(extra or {})},
+            )
 
         @staticmethod
         def destination(value):
-            return value if value in ("/", "/watch", "/experiments", "/play", "/maps", "/design", "/easy20") else "/watch"
+            return (
+                value
+                if value
+                in (
+                    "/",
+                    "/watch",
+                    "/experiments",
+                    "/experiments/new",
+                    "/play",
+                    "/maps",
+                    "/design",
+                    "/easy20",
+                )
+                else "/watch"
+            )
 
         def field_service(self):
-            map_id = parse_qs(urlsplit(self.path).query).get("map", ["easy20"])[0]
+            map_id = parse_qs(urlsplit(self.path).query).get("map", [CURRENT_MAP])[0]
             with fields_lock:
                 if map_id not in fields:
                     try:
                         path = station_design(map_id)
                     except ValueError as error:
                         raise ProtocolError(str(error)) from None
-                    from .prototypes.station_capability import capability_groups, load_design
+                    from .prototypes.station_capability import (
+                        capability_groups,
+                        load_design,
+                    )
+
                     design = load_design(path)
                     # Old prototypes lack presentation metadata. Supply it only
                     # in this human instance; frozen agent designs stay untouched.
                     design["public"].setdefault("name", MAPS[map_id][0])
-                    design["public"].setdefault("capability_groups", capability_groups(design))
-                    design["public"].setdefault("view_box", map_detail(map_id)["map"]["view_box"])
-                    fields[map_id] = FieldService(Path(log_root) / map_id, design)
+                    if not design["public"].get("station_types"):
+                        design["public"].setdefault(
+                            "capability_groups", capability_groups(design)
+                        )
+                    design["public"].setdefault(
+                        "view_box", map_detail(map_id)["map"]["view_box"]
+                    )
+                    fields[map_id] = FieldService(
+                        Path(log_root) / map_id,
+                        design,
+                        display_name=map_detail(map_id)["name"],
+                    )
                 return fields[map_id]
 
         def login_page(self, message="", status=200, destination="/watch", extra=None):
             body = (STATIC / "login.html").read_text(encoding="utf-8")
-            body = body.replace("{{NEXT}}", html.escape(self.destination(destination), quote=True))
+            body = body.replace(
+                "{{NEXT}}", html.escape(self.destination(destination), quote=True)
+            )
             body = body.replace("{{MESSAGE}}", html.escape(message)).encode("utf-8")
             self.response_headers(status, "text/html; charset=utf-8", len(body), extra)
             self.wfile.write(body)
@@ -133,7 +227,9 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
             if auth is None or auth.authorized(self.headers.get("Cookie")):
                 return True
             if path.startswith("/api/") or path == "/health":
-                self.reply({"error": "authentication_required", "message": "请先登录。"}, 401)
+                self.reply(
+                    {"error": "authentication_required", "message": "请先登录。"}, 401
+                )
             else:
                 self.redirect("/login?next=" + self.destination(path))
             return False
@@ -150,7 +246,10 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
             if origin:
                 try:
                     parsed = urlsplit(origin)
-                    return parsed.scheme in ("http", "https") and parsed.netloc == self.headers.get("Host")
+                    return parsed.scheme in (
+                        "http",
+                        "https",
+                    ) and parsed.netloc == self.headers.get("Host")
                 except ValueError:
                     return False
             return True
@@ -172,7 +271,10 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 body = self.read_body()
                 if json_request:
                     value = json.loads(body)
-                elif self.headers.get_content_type() == "application/x-www-form-urlencoded":
+                elif (
+                    self.headers.get_content_type()
+                    == "application/x-www-form-urlencoded"
+                ):
                     value = {k: v[0] for k, v in parse_qs(body.decode("utf-8")).items()}
                 else:
                     raise ProtocolError("登录请求格式无效。")
@@ -187,7 +289,11 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     else:
                         self.redirect(destination, extra)
                     return
-                message = "尝试次数过多，请稍后再试。" if retry_after else "PIN 不正确，请重试。"
+                message = (
+                    "尝试次数过多，请稍后再试。"
+                    if retry_after
+                    else "PIN 不正确，请重试。"
+                )
                 status = 429 if retry_after else 401
                 extra = {"Retry-After": str(retry_after)} if retry_after else None
             except (ValueError, UnicodeError, TypeError) as error:
@@ -200,38 +306,79 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
         def do_GET(self):
             url = urlsplit(self.path)
             if url.path == "/login":
-                destination = self.destination(parse_qs(url.query).get("next", [None])[0])
+                destination = self.destination(
+                    parse_qs(url.query).get("next", [None])[0]
+                )
                 if auth is None or auth.authorized(self.headers.get("Cookie")):
                     self.redirect(destination)
                 else:
                     self.login_page(destination=destination)
                 return
-            if not self.require_login(url.path):
+            # The login page uses this credential-free loading helper.
+            if url.path != "/ui-state.js" and not self.require_login(url.path):
                 return
             if url.path == "/health":
-                self.reply({"ok": True,"watch":True})
+                self.reply({"ok": True, "watch": True})
+            elif url.path in ("/api/experiments/options", "/api/experiments/managed"):
+                if experiment_service is None:
+                    self.reply(
+                        {
+                            "error": "runtime_unavailable",
+                            "message": "服务器尚未启用实验创建配置。",
+                        },
+                        503,
+                    )
+                else:
+                    try:
+                        self.reply(
+                            experiment_service.options()
+                            if url.path.endswith("/options")
+                            else {"pairs": experiment_service.listing()}
+                        )
+                    except (OSError, ValueError, KeyError):
+                        self.reply(
+                            {
+                                "error": "runtime_unavailable",
+                                "message": "实验服务配置不可用，请检查服务器配置。",
+                            },
+                            503,
+                        )
             elif url.path == "/api/experiments/runs":
                 self.reply({"runs": pilots.listing()})
             elif url.path == "/api/experiments/run":
                 try:
                     query = parse_qs(url.query)
-                    self.reply(pilots.snapshot(query.get("id", [None])[0], query.get("session", [None])[0]))
+                    self.reply(
+                        pilots.snapshot(
+                            query.get("id", [None])[0], query.get("session", [None])[0]
+                        )
+                    )
                 except (OSError, ValueError, KeyError, TypeError):
-                    self.reply({"error": "not_found", "message": "实验记录尚未准备好。"}, 404)
+                    self.reply(
+                        {"error": "not_found", "message": "实验记录尚未准备好。"}, 404
+                    )
             elif url.path == "/api/maps":
                 self.reply({"maps": map_listing()})
             elif url.path == "/api/maps/detail":
                 try:
-                    self.reply(map_detail(parse_qs(url.query).get("id", ["easy20"])[0]))
+                    self.reply(
+                        map_detail(parse_qs(url.query).get("id", [CURRENT_MAP])[0])
+                    )
                 except ValueError as error:
                     self.reply({"error": "not_found", "message": str(error)}, 404)
             elif url.path == "/api/watch/runs":
-                self.reply({"runs":watch.listing()})
+                self.reply({"runs": watch.listing()})
             elif url.path == "/api/watch/run":
                 try:
-                    self.reply(watch.snapshot(parse_qs(url.query).get("id",[None])[0]))
-                except (OSError,ValueError,KeyError,TypeError):
-                    self.reply({"error":"not_found","message":"实验记录不存在或尚未准备好。"},404)
+                    self.reply(watch.snapshot(parse_qs(url.query).get("id", [None])[0]))
+                except (OSError, ValueError, KeyError, TypeError):
+                    self.reply(
+                        {
+                            "error": "not_found",
+                            "message": "实验记录不存在或尚未准备好。",
+                        },
+                        404,
+                    )
             elif url.path == "/api/design":
                 try:
                     name = parse_qs(url.query).get("scenario", [service.scenario])[0]
@@ -242,9 +389,21 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 try:
                     name = parse_qs(url.query).get("scenario", [service.scenario])[0]
                     world, tasks = load_scenario(name)
-                    self.reply({"scenario": world.get("public_id", name), "name": world.get("name", name), "difficulty": world.get("difficulty"),
-                                "tasks": [{"id": key, "name": t["name"], "instruction": t["instruction"]}
-                                          for key, t in tasks.items()]})
+                    self.reply(
+                        {
+                            "scenario": world.get("public_id", name),
+                            "name": world.get("name", name),
+                            "difficulty": world.get("difficulty"),
+                            "tasks": [
+                                {
+                                    "id": key,
+                                    "name": t["name"],
+                                    "instruction": t["instruction"],
+                                }
+                                for key, t in tasks.items()
+                            ],
+                        }
+                    )
                 except ValueError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
             elif url.path == "/api/atlas":
@@ -263,29 +422,42 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 token = parse_qs(url.query).get("instance_id", [None])[0]
                 try:
                     current_field = self.field_service()
-                    self.reply(current_field.design_view(token) if url.path.endswith("/design") else current_field.read(token))
+                    self.reply(
+                        current_field.design_view(token)
+                        if url.path.endswith("/design")
+                        else current_field.read(token)
+                    )
                 except ProtocolError as e:
                     self.reply({"error": "protocol_error", "message": str(e)}, 400)
-            elif url.path in ("/easy20", "/field.js", "/field.css", "/field-terrain.svg", "/nessie-terrain.svg") or (url.path == "/play" and parse_qs(url.query).get("map", ["easy20"])[0] not in ("lake-easy", "valley", "river")):
-                name = {"/easy20": "field.html", "/play": "field.html", "/field.js": "field.js", "/field.css": "field.css", "/field-terrain.svg": "field-terrain.svg", "/nessie-terrain.svg": "nessie-terrain.svg"}[url.path]
-                mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css" if name.endswith(".css") else "image/svg+xml"
-                body = (STATIC / name).read_bytes()
-                self.response_headers(200, mime + "; charset=utf-8", len(body))
-                self.wfile.write(body)
-            elif url.path in ("/maps", "/experiments", "/site.css", "/atlas-view.js", "/catalog.js", "/catalog.css", "/select.js", "/select.css"):
-                name = {"/maps": "catalog.html", "/experiments": "watch.html", "/site.css": "site.css", "/atlas-view.js": "atlas-view.js", "/catalog.js": "catalog.js", "/catalog.css": "catalog.css", "/select.js": "select.js", "/select.css": "select.css"}[url.path]
-                mime = "text/html" if name.endswith(".html") else "text/javascript" if name.endswith(".js") else "text/css"
-                body = (STATIC / name).read_bytes()
-                self.response_headers(200, mime + "; charset=utf-8", len(body))
-                self.wfile.write(body)
-            elif url.path in ("/", "/play", "/watch", "/design", "/design.js", "/design.css", "/app.js", "/style.css", "/play.css", "/scene.js", "/terrain-ground.png", "/watch.js", "/watch.css", "/maps.js", "/lake.svg"):
-                name = {"/": "watch.html", "/play":"index.html", "/watch":"watch.html", "/app.js": "app.js", "/style.css": "style.css",
-                        "/design": "design.html", "/design.js": "design.js", "/design.css": "design.css", "/play.css": "play.css",
-                        "/scene.js":"scene.js", "/terrain-ground.png":"terrain-ground.png",
-                        "/watch.js":"watch.js","/watch.css":"watch.css", "/maps.js":"maps.js", "/lake.svg":"lake.svg"}[url.path]
-                mime = "image/png" if name.endswith(".png") else ("image/svg+xml" if name.endswith(".svg") else ("text/html" if name.endswith(".html") else ("text/javascript" if name.endswith(".js") else "text/css")))
-                body = (STATIC / name).read_bytes()
-                self.response_headers(200, mime if name.endswith('.png') else mime + "; charset=utf-8", len(body))
+            elif (
+                url.path == "/play"
+                and parse_qs(url.query).get("map", [CURRENT_MAP])[0] not in MAPS
+            ):
+                self.reply({"error": "not_found", "message": "地图不存在。"}, 404)
+            elif url.path == "/design":
+                self.redirect("/maps")
+            elif url.path in WEB_ASSETS:
+                name = WEB_ASSETS[url.path]
+                asset = STATIC / name
+                extra = None
+                if name.startswith("atlas-geo-") and name.endswith(".geojson"):
+                    extra = {
+                        "Cache-Control": "private, max-age=31536000, immutable",
+                        "Vary": "Accept-Encoding",
+                    }
+                    if (
+                        "gzip" in self.headers.get("Accept-Encoding", "")
+                        and asset.with_suffix(".geojson.gz").is_file()
+                    ):
+                        asset = asset.with_suffix(".geojson.gz")
+                        extra["Content-Encoding"] = "gzip"
+                body = asset.read_bytes()
+                self.response_headers(
+                    200,
+                    CONTENT_TYPES[Path(name).suffix] + "; charset=utf-8",
+                    len(body),
+                    extra,
+                )
                 self.wfile.write(body)
             else:
                 self.reply({"error": "not_found"}, 404)
@@ -302,10 +474,19 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 if len(self.request_body) != size:
                     raise ProtocolError("请求不完整。")
             except (OSError, ValueError):
-                self.reply({"error": "protocol_error", "message": "请求长度无效或读取超时。"}, 400)
+                self.reply(
+                    {"error": "protocol_error", "message": "请求长度无效或读取超时。"},
+                    400,
+                )
                 return
             if auth is not None and not self.same_origin():
-                self.reply({"error": "cross_origin_request", "message": "请在本站页面执行操作。"}, 403)
+                self.reply(
+                    {
+                        "error": "cross_origin_request",
+                        "message": "请在本站页面执行操作。",
+                    },
+                    403,
+                )
                 return
             if self.path == "/login" and auth is not None:
                 self.login()
@@ -317,7 +498,15 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                     auth.logout(self.headers.get("Cookie"))
                 self.redirect("/login", {"Set-Cookie": auth.cookie()} if auth else None)
                 return
-            if urlsplit(self.path).path not in ("/api/start", "/api/action", "/api/field/start", "/api/field/action", "/api/field/next"):
+            if urlsplit(self.path).path not in (
+                "/api/start",
+                "/api/action",
+                "/api/field/start",
+                "/api/field/action",
+                "/api/field/next",
+                "/api/experiments/preview",
+                "/api/experiments/create",
+            ):
                 self.reply({"error": "not_found"}, 404)
                 return
             try:
@@ -327,21 +516,63 @@ def make_server(host="127.0.0.1", port=8765, log_root=Path(".runs"),watch_root=N
                 if not isinstance(request, dict):
                     raise ProtocolError("请求必须是对象。")
                 route = urlsplit(self.path).path
-                if route.startswith("/api/field/"):
+                if route in ("/api/experiments/preview", "/api/experiments/create"):
+                    if not self.same_origin():
+                        self.reply(
+                            {
+                                "error": "cross_origin_request",
+                                "message": "请在本站页面启动实验。",
+                            },
+                            403,
+                        )
+                        return
+                    if experiment_service is None:
+                        self.reply(
+                            {
+                                "error": "runtime_unavailable",
+                                "message": "服务器尚未启用实验创建配置。",
+                            },
+                            503,
+                        )
+                        return
+                    result = (
+                        experiment_service.preview(request)
+                        if route.endswith("/preview")
+                        else experiment_service.create(request)
+                    )
+                elif route.startswith("/api/field/"):
                     current_field = self.field_service()
-                    result = {"/api/field/start": current_field.start, "/api/field/action": current_field.action,
-                              "/api/field/next": current_field.advance}[route](request)
+                    result = {
+                        "/api/field/start": current_field.start,
+                        "/api/field/action": current_field.action,
+                        "/api/field/next": current_field.advance,
+                    }[route](request)
                 elif self.path == "/api/start":
                     result = service.start(request)
                 else:
-                    result = service.dispatch(request.get("instance_id"), {**request, "command": "action"})
+                    result = service.dispatch(
+                        request.get("instance_id"), {**request, "command": "action"}
+                    )
                 self.reply(result)
             except (ValueError, UnicodeError, TypeError) as e:
                 self.reply({"error": "protocol_error", "message": str(e)}, 400)
+            except (OSError, RuntimeError):
+                self.reply(
+                    {
+                        "error": "runtime_error",
+                        "message": "实验尚未完成启动。请查看实验列表；重试同一提交不会重复创建。",
+                    },
+                    503,
+                )
 
     if tls_cert is not None:
-        server = HTTPSGameServer((host, port), Handler, certificate=tls_cert,
-                                 private_key=tls_key, reload_interval=tls_reload_interval)
+        server = HTTPSGameServer(
+            (host, port),
+            Handler,
+            certificate=tls_cert,
+            private_key=tls_key,
+            reload_interval=tls_reload_interval,
+        )
     else:
         server = ThreadingHTTPServer((host, port), Handler)
     server.service = service

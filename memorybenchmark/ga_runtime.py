@@ -134,8 +134,8 @@ class WSLJail:
         return self._run(["wslpath", "-u", str(Path(path).resolve())]).strip()
 
     def command(self, source, memory, support, wall_seconds, *, worker_filename="ga_worker.py"):
-        if not 10 <= wall_seconds <= 3600:
-            raise ValueError("wall budget must be 10..3600 seconds")
+        if type(wall_seconds) is not int or not 10 <= wall_seconds <= 604800:
+            raise ValueError("wall budget must be 10..604800 seconds")
         for path in (source, memory, support):
             if not Path(path).is_dir() or Path(path).is_symlink():
                 raise ValueError("jail mounts must be real directories")
@@ -168,7 +168,7 @@ class WSLJail:
 def make_support(destination):
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=False)
-    for name in ("ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py"):
+    for name in ("ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py", "response_stream.py"):
         shutil.copyfile(Path(__file__).with_name(name), destination / name)
     return destination
 

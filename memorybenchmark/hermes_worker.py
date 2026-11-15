@@ -49,9 +49,11 @@ def main():
     Path("/agent/temp/memory").symlink_to("/agent/memory", target_is_directory=True)
     os.environ.update(HERMES_HOME=str(native_home), OPENAI_API_KEY="runner-managed",
                       OPENAI_BASE_URL="https://model.invalid/v1", TERMINAL_CWD=str(workspace))
+    from model_context import context_configuration
+    context_config = context_configuration(config['model'])
     native_config = {
         "model": {"default": config["model"], "provider": "custom",
-                  "base_url": "https://model.invalid/v1", "context_length": 64000},
+                  "base_url": "https://model.invalid/v1", "context_length": context_config['model_context_length']},
         "terminal": {"backend": "local", "cwd": str(workspace)},
     }
     # JSON is valid YAML; no config library or model-written configuration needed.
@@ -62,6 +64,7 @@ def main():
     phase_calls = {"main": 0, "final": 0}
     transport_lock = threading.RLock()
     import httpx
+    from response_stream import forwarded_httpx_response
     original_send = httpx.Client.send
 
     def send(client, request, *args, **kwargs):
@@ -77,6 +80,9 @@ def main():
             phase_calls[phase] += 1
             payload = pin_task_reminder(json.loads(request.content), reminder, finalizing=finalizing)
             result = wire.call("model", payload)
+            if hasattr(result["lines"], "iter_bytes"):
+                return forwarded_httpx_response(httpx, request, result["lines"],
+                                                streaming=kwargs.get("stream", False))
             content = "\n".join(result["lines"]) + "\n\n"
             return httpx.Response(200, headers={"content-type": "text/event-stream"},
                                   content=content.encode("utf-8"), request=request)
@@ -200,7 +206,7 @@ def main():
               native_mcp_game_tools=[game_tool_name] if broker else [],
               native_mcp_sdk_version=mcp_sdk_version if broker else None,
               native_memory_enabled=agent._memory_enabled,
-              native_context_configuration={"model_context_length": 64000},
+              native_context_configuration=context_config,
               persistence={"curated_memory": "/agent/memory/memories", "skills": "/agent/memory/skills",
                            "skill_rollback_blobs": "/agent/memory/.curator_backups",
                            "session_database": str(native_home / "state.db"), "session_database_persistent": False},

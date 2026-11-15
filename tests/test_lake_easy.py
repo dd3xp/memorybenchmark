@@ -168,7 +168,9 @@ class LakeEasyTests(unittest.TestCase):
         for asset in (Path(__file__).resolve().parents[1]/'memorybenchmark/static').iterdir():
             # The separately authored nessie map has an explicitly requested
             # real-world title; old lake-easy assets and responses stay anonymous.
-            if asset.name.startswith('nessie-'):
+            # Human geographic projections intentionally carry their real map title;
+            # none of these SVGs is included in the agent response.
+            if asset.name.startswith('nessie-') or asset.name.endswith('-geographic.svg'):
                 continue
             if asset.is_file() and asset.suffix.lower() in ('.html','.css','.js','.svg'):
                 text=asset.read_text(encoding='utf-8').lower()

@@ -13,10 +13,13 @@ from .adapters import GameAdapter
 from .analysis import commute_graph, diagnose
 from .errors import InfrastructureError
 from .decision_gate import DecisionGate
-from .ga_runtime import changed_files, copy_memory, encode_state, memory_manifest, state_digest
+from .ga_runtime import changed_files, copy_memory, encode_state, memory_manifest, state_digest, filesystem_path
 from .game_session import dispatch_current
 from .mcp_game import GAME_TRANSPORT, MCPGameClient, require_mcp
 from .watch import atomic_json as save_json
+from .response_stream import send_rpc
+from .audit_records import record_model_request
+from .storage_lifecycle import retire_committed_state
 
 
 REASONING_EFFORTS = ("low", "medium", "high")
@@ -63,7 +66,7 @@ class WorkerSessions:
                  wall_seconds=900, seed=0, observer=None, prompt_protocol="agent-session-1",
                  worker_protocol="agent-session-1", worker_filename="agent_worker.py",
                  game_transport=GAME_TRANSPORT, reasoning_effort="low"):
-        if not 1 <= max_turns <= 100 or not 1 <= final_turns <= 20:
+        if not 1 <= max_turns <= 400 or not 1 <= final_turns <= 20:
             raise ValueError("invalid model budget")
         self.source, self.support, self.jail = Path(source), Path(support), jail
         self.model_alias, self.max_turns, self.final_turns = model_alias, max_turns, final_turns
@@ -81,6 +84,9 @@ class WorkerSessions:
             require_mcp()
 
     def _worker(self, memory, output, config, adapter=None, model=None,watch_id=None,before_memory=None,game_client=None):
+        output = filesystem_path(output)
+        if model is not None and hasattr(model, "output"):
+            model.output = output
         command = self.jail.command(self.source, memory, self.support, self.wall_seconds,
                                     worker_filename=self.worker_filename)
         messages = queue.Queue()
@@ -90,6 +96,7 @@ class WorkerSessions:
                   "reasoning_policy":"native", "request_reasoning_efforts":{},
                   "model_request_kinds":dict.fromkeys(MODEL_REQUEST_KINDS, 0)}
         final_phase = False
+        audit_model_requests = 0
         gate = DecisionGate(config.get("action_policy", "batch"))
         error_log = (output / "worker.stderr").open("w", encoding="utf-8")
         started = time.monotonic()
@@ -99,7 +106,7 @@ class WorkerSessions:
         def read():
             try:
                 while True:
-                    line = process.stdout.readline(4 * 1024**2 + 1)
+                    line = process.stdout.readline()
                     if not line: break
                     messages.put(line)
             finally:
@@ -109,10 +116,10 @@ class WorkerSessions:
         def send(value):
             # A model response can arrive after timeout(1) has killed the jail.
             # Classify the elapsed wall budget before writing to its dead pipe.
-            if time.monotonic() - started >= self.wall_seconds:
-                raise InfrastructureError("worker_wall_timeout")
-            process.stdin.write(json.dumps(value, ensure_ascii=False) + "\n")
-            process.stdin.flush()
+            def check_budget():
+                if time.monotonic() - started >= self.wall_seconds:
+                    raise InfrastructureError("worker_wall_timeout")
+            send_rpc(process.stdin, value, check_budget)
         deadline = time.monotonic() + self.wall_seconds + 10
         try:
             send({**config, "worker_wall_seconds": self.wall_seconds})
@@ -124,8 +131,6 @@ class WorkerSessions:
                     try: line = messages.get(timeout=min(1, remaining))
                     except queue.Empty: continue
                     if line is None: break
-                    if len(line.encode("utf-8")) > 4 * 1024**2:
-                        raise InfrastructureError("worker_message_too_large")
                     message = json.loads(line)
                     kind = message.get("kind")
                     if kind == "log":
@@ -134,7 +139,15 @@ class WorkerSessions:
                     if (kind == "request" and message.get("method") == "game"
                             and not gate.claim(message.get("params") or {})):
                         message["action_policy_rejected"] = True
-                    audit.write(json.dumps(message,ensure_ascii=False) + "\n"); audit.flush()
+                    audit_message=message
+                    if kind=='request' and message.get('method')=='model' and model is not None:
+                        audit_model_requests+=1
+                        field,budget=('final_calls',self.final_turns) if final_phase else ('main_calls',self.max_turns)
+                        accepted=report[field]<budget and isinstance(message.get('params'),dict)
+                        relative=(f"model/{report['llm_calls']+1:03d}-request.json" if accepted
+                                  else f"audit-model-rejections/{audit_model_requests:03d}.json")
+                        audit_message=record_model_request(message,output,relative)
+                    audit.write(json.dumps(audit_message,ensure_ascii=False) + "\n"); audit.flush()
                     if kind == "session":
                         report["initial_session"] = message
                     elif kind == "continuation":
@@ -195,7 +208,7 @@ class WorkerSessions:
                                                        phase="finalizing" if final_phase else "thinking")
                             calls = output / "model"
                             calls.mkdir(exist_ok=True)
-                            save_json(calls / f"{report['llm_calls']:03d}-request.json", params)
+                            # The canonical request was committed before its audit reference.
                             try:
                                 result = model(params)
                             except Exception as error:
@@ -241,8 +254,7 @@ class WorkerSessions:
             error_log.close()
             report["worker_returncode"] = process.poll()
             report["worker_elapsed_seconds"] = round(time.monotonic() - started, 3)
-            if gate.policy != "batch":
-                report.update(action_policy=gate.policy, action_policy_rejections=gate.rejections)
+            report.update(action_policy=gate.policy, action_policy_rejections=gate.rejections)
             # A worker can report its failure while the parent is servicing its
             # last model request. Sending that response then hits a closed pipe;
             # preserve the already queued root error instead of losing it.
@@ -330,6 +342,7 @@ class WorkerSessions:
         save_json(output / "graph.json", {"graph":commute_graph(game.events,game.task_run_id),
                                          "diagnostics":diagnose(game.events,game.task_run_id)})
         save_json(output / "summary.json", report)
+        retire_committed_state(state,output,report,allowed_parent=self.support.parent/'live-state')
         if self.observer: self.observer.close(watch_id,report)
         return report
 

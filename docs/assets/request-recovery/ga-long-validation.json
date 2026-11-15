@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "agent": "ga",
+  "native_archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2",
+  "real_model_calls": 0,
+  "faults_injected": 2,
+  "same_worker_lease": true,
+  "native_sessions": 1,
+  "same_request_bytes": true,
+  "delivered_moves": 1,
+  "native_memory_write_preserved": true,
+  "logical_model_calls": 5,
+  "physical_attempts": 7,
+  "injected_attempts": [
+    {
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "lease_id": "ea55c7e9c8c04d5d91c5eac4021d18f0",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    },
+    {
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "lease_id": "ea55c7e9c8c04d5d91c5eac4021d18f0",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    },
+    {
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "lease_id": "ea55c7e9c8c04d5d91c5eac4021d18f0",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    }
+  ],
+  "isolation": {
+    "pid": 2,
+    "host_mount_hidden": true,
+    "evaluator_hidden": true,
+    "secret_absent": true,
+    "network_blocked": true,
+    "source_readonly": true
+  },
+  "worker_returncode": 0,
+  "request_recovery": {
+    "protocol": "same-request-recovery-1",
+    "active_seconds": 5.223,
+    "infrastructure_wait_seconds": 110.008,
+    "retry_window_seconds": 604800,
+    "lease_id": "ea55c7e9c8c04d5d91c5eac4021d18f0"
+  },
+  "simulated_failed_attempts": [
+    {
+      "reason": "gateway_http_502",
+      "elapsed_seconds": 55.001,
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "attempt": 1
+    },
+    {
+      "reason": "gateway_http_502",
+      "elapsed_seconds": 55.001,
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "attempt": 2
+    }
+  ],
+  "original_validation_sha256": "3043d6ed80bbb688a5a5be7cc45ab8a2ad135c59fbe10460852be73df0679c34",
+  "evidence_type": "Software fault-injection test using native agents and synthetic SSE; no benchmark score or real gateway usage"
+}

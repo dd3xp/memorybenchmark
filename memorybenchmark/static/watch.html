@@ -1,44 +1,342 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>实验 · 测绘手记</title>
-  <link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/select.css"><link rel="stylesheet" href="/watch.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>实验观测 · 测绘手记</title>
+<link rel="stylesheet" href="/maplibre-gl.css">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/watch.css">
+<link rel="stylesheet" href="/select.css">
+<link rel="stylesheet" href="/new-experiment.css">
 </head>
 <body>
 <header class="appbar">
-  <a class="app-brand" href="/experiments"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 21Q5 6 14 4Q24 3 25 14Q25 23 14 25Q7 25 8 16Q9 10 15 10Q21 10 20 16Q19 21 14 20"/></svg>测绘手记</a>
-  <nav class="app-nav" aria-label="主导航"><a href="/experiments" aria-current="page">实验</a><a href="/play">游玩</a><a href="/maps">地图</a></nav>
-  <div class="app-end"><span id="connection" class="status">连接中</span><form action="/logout" method="post"><button class="quiet" type="submit">退出</button></form></div>
+<a class="app-brand" href="/maps">
+<svg viewBox="0 0 38 48" aria-hidden="true">
+<path d="M19 3C4 6 1 24 7 37s24 11 26-6S30 1 19 3Z"/>
+<path d="M13 36 25 14M18 27Q10 22 13 15M21 21Q30 20 29 12M15 32Q23 34 28 27"/>
+</svg>测绘手记</a>
+<nav class="app-nav" aria-label="主导航">
+<a href="/maps">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-map"/>
+</svg>地图集</a>
+<a href="/experiments" aria-current="page">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-flask"/>
+</svg>实验观测</a>
+<a href="/play">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-book"/>
+</svg>游玩</a>
+</nav>
+<div class="app-end">
+<span id="connection" class="status">连接中</span>
+<form action="/logout" method="post">
+<button class="quiet" type="submit">退出</button>
+</form>
+</div>
 </header>
-<main class="observatory">
-  <aside class="run-rail">
-    <div class="rail-heading"><h1>实验</h1><button id="refresh" class="quiet" aria-label="刷新实验">刷新</button></div>
-    <div class="rail-tabs" role="group" aria-label="实验筛选"><button id="filter-all" aria-pressed="true">全部</button><button id="filter-live" aria-pressed="false">进行中</button></div>
-    <div id="run-list" class="run-list" aria-label="实验列表"></div><p id="list-empty" class="subtle" hidden>暂无实验</p>
-  </aside>
-  <section class="observe-main">
-    <div id="page-error" class="page-error" role="alert" hidden></div>
-    <div id="empty" class="empty-state"><h2>暂无实验</h2><a href="/play" class="primary">开始游玩</a></div>
-    <div id="viewer" hidden>
-      <section class="run-heading">
-        <div class="heading-line"><h1 id="run-name"></h1><span id="run-state" class="status"></span></div>
-        <div class="overall"><strong id="completion"></strong><progress id="completion-bar" value="0" max="20" aria-label="任务进度"></progress></div>
-      </section>
-      <section class="observation-panel">
-        <header class="task-strip"><div><div id="session-select"></div><span id="session-state" class="status"></span></div><button id="follow" class="quiet" aria-pressed="true">跟随当前</button></header>
-        <div class="map-surface observe-map">
-          <svg id="watch-map" class="atlas" tabindex="0" role="img" aria-label="实验地图和当前位置"></svg>
-          <div class="current-place"><span class="key-dot"></span><strong id="place">—</strong><span id="stage" class="subtle"></span></div>
-          <div class="map-tools"><button id="locate" aria-label="定位 Agent">定位</button><button id="zoom-out" aria-label="缩小地图">−</button><button id="zoom-in" aria-label="放大地图">＋</button><button id="fit">全图</button></div>
-        </div>
-        <div class="task-information"><strong id="task-title">准备任务</strong><dl class="run-numbers"><div><dt>操作</dt><dd id="metric-steps">—</dd></div><div><dt>路程</dt><dd id="metric-distance">—</dd></div><div><dt>模型调用</dt><dd id="metric-calls">—</dd></div></dl></div>
-        <div class="replay"><label class="screen-reader" for="frame-slider">轨迹回放</label><input id="frame-slider" type="range" min="0" max="0" value="0"><span id="frame-number">0 / 0</span></div>
-      </section>
-      <details class="history"><summary>任务记录</summary><div class="table-scroll"><table><thead><tr><th>任务</th><th>状态</th><th>操作</th><th>路程</th><th>调用</th></tr></thead><tbody id="session-rows"></tbody></table></div></details>
-    </div>
-  </section>
+<main class="library-layout observatory">
+<aside class="library-rail run-rail">
+<div class="run-rail-actions">
+<button id="new-experiment" class="primary rail-create" type="button" aria-haspopup="dialog" aria-controls="experiment-dialog">
+<svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+<path d="M12 5v14M5 12h14"/>
+</svg>新建实验</button>
+<label class="search">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-search"/>
+</svg>
+<input id="run-search" type="search" placeholder="寻找实验" aria-label="寻找实验">
+</label>
+</div>
+<div class="filters" role="group" aria-label="实验筛选">
+<button id="filter-all" aria-pressed="true">全部</button>
+<button id="filter-live" aria-pressed="false">进行中</button>
+<button id="refresh" class="quiet" aria-label="刷新实验">刷新</button>
+</div>
+<div id="list-loading" class="loading-state loading-list" role="status" data-loading-target="run-list">
+<span class="loading-indicator" aria-hidden="true">
+</span>
+<span data-loading-text>加载中</span>
+</div>
+<div id="run-list" class="run-list choice-list" aria-label="实验列表">
+</div>
+<p id="list-empty" class="subtle" hidden>暂无实验</p>
+</aside>
+<section id="observe-main" class="workbench observe-main" aria-busy="true">
+<div id="page-error" class="page-error" role="alert" hidden>
+</div>
+<button id="viewer-retry" class="page-retry" type="button" hidden>重试</button>
+<p id="live-notice" class="live-notice" role="status" hidden>
+</p>
+<div id="viewer-loading" class="loading-state loading-overlay" role="status" data-loading-target="observe-main">
+<span class="loading-indicator" aria-hidden="true">
+</span>
+<span data-loading-text>加载中</span>
+</div>
+<div id="empty" class="empty-state" hidden>
+<h2>暂无实验</h2>
+<a href="/maps" class="primary">查看地图</a>
+</div>
+<div id="viewer" hidden>
+<header class="page-heading run-heading">
+<h1 id="run-name">
+</h1>
+<span id="run-state" class="status">
+</span>
+</header>
+<div class="work-grid">
+<section class="map-panel">
+<div id="map-viewport" class="map-surface map-viewport">
+<svg id="watch-map" class="atlas" tabindex="0" role="group" aria-label="实验地图和当前位置">
+</svg>
+<div class="compass" aria-hidden="true">N<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-compass"/>
+</svg>
+</div>
+<div class="map-actions">
+<button id="layers-toggle" aria-expanded="false" aria-controls="layers-menu">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-layers"/>
+</svg>图层</button>
+<button id="fullscreen" aria-label="全屏地图">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-expand"/>
+</svg>
+</button>
+</div>
+<div id="layers-menu" class="layers-menu" hidden>
+<label>
+<input data-layer="terrain" type="checkbox" checked>地形</label>
+<label>
+<input data-layer="roads" type="checkbox" checked>道路</label>
+<label>
+<input data-layer="stations" type="checkbox" checked>处理站</label>
+<label>
+<input data-layer="labels" type="checkbox" checked>地名</label>
+<label>
+<input data-layer="trace" type="checkbox" checked>轨迹</label>
+</div>
+<div class="map-tools">
+<button id="zoom-in" aria-label="放大地图">＋</button>
+<button id="zoom-out" aria-label="缩小地图">−</button>
+<button id="locate" aria-label="定位 Agent">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-pin"/>
+</svg>
+</button>
+<button id="world-extent" aria-label="缩放至世界" title="缩放至世界">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/>
+<ellipse cx="12" cy="12" rx="4" ry="9"/>
+<path d="M3 12h18"/>
+</svg>
+</button>
+<button id="fit" aria-label="回到当前地图范围" title="回到当前地图范围">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="6"/>
+<circle cx="12" cy="12" r="1.5"/>
+<path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+</svg>
+</button>
+</div>
+</div>
+<footer class="map-key">
+<span>
+<i class="key-dot current">
+</i>当前位置</span>
+<span>
+<i class="key-dot target">
+</i>目标</span>
+<span>
+<i class="key-dot trace">
+</i>轨迹</span>
+<span id="place">
+</span>
+</footer>
+<div class="replay">
+<button id="replay-play" aria-label="播放轨迹">▶</button>
+<label class="screen-reader" for="frame-slider">轨迹回放</label>
+<input id="frame-slider" type="range" min="0" max="0" value="0">
+<span id="frame-number">0 / 0</span>
+<button id="follow" class="quiet" aria-pressed="true">跟随当前</button>
+</div>
+</section>
+<aside class="notebook">
+<section class="note-sheet">
+<div class="condition-switch" role="group" aria-label="记忆条件">
+<button id="condition-retain" aria-pressed="true">保留记忆</button>
+<button id="condition-clear" aria-pressed="false">清除记忆</button>
+</div>
+<div class="task-heading">
+<div id="session-select">
+</div>
+<span id="session-state" class="status">
+</span>
+</div>
+<p id="stage" class="subtle">
+</p>
+<h3 id="task-title">准备任务</h3>
+<dl class="run-numbers">
+<div>
+<dt>操作</dt>
+<dd id="metric-steps">—</dd>
+</div>
+<div>
+<dt>路程</dt>
+<dd id="metric-distance">—</dd>
+</div>
+<div>
+<dt>调用</dt>
+<dd id="metric-calls">—</dd>
+</div>
+</dl>
+<div class="overall">
+<span>任务进度</span>
+<strong id="completion">
+</strong>
+<progress id="completion-bar" value="0" max="20" aria-label="任务进度">
+</progress>
+</div>
+<details class="map-info">
+<summary>运行信息</summary>
+<dl class="run-info">
+<div>
+<dt>Agent</dt>
+<dd id="run-agent">
+</dd>
+</div>
+<div>
+<dt>模型</dt>
+<dd id="run-model">
+</dd>
+</div>
+<div>
+<dt>启动</dt>
+<dd id="run-started">
+</dd>
+</div>
+</dl>
+</details>
+</section>
+<section id="location-sheet" class="location-sheet" hidden>
+<div class="location-heading">
+<h3 id="location-name">
+</h3>
+<span id="location-id">
+</span>
+</div>
+<div id="neighbors" class="neighbors">
+</div>
+</section>
+</aside>
+</div>
+<details class="history">
+<summary>任务记录</summary>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>状态</th>
+<th>操作</th>
+<th>路程</th>
+<th>调用</th>
+</tr>
+</thead>
+<tbody id="session-rows">
+</tbody>
+</table>
+</div>
+</details>
+<section class="journal-panel">
+<h2>操作记录</h2>
+<div id="journal-events">
+</div>
+</section>
+</div>
+</section>
 </main>
-<script src="/atlas-view.js"></script><script src="/select.js"></script><script src="/watch.js"></script>
+<dialog id="experiment-dialog" class="experiment-dialog" aria-labelledby="create-title">
+  <header class="dialog-heading">
+    <h2 id="create-title">新建实验</h2>
+    <button id="create-close" class="dialog-close quiet" type="button" aria-label="关闭新建实验">×</button>
+  </header>
+  <form id="experiment-form">
+    <div class="dialog-body">
+      <div id="create-error" class="dialog-error" role="alert" hidden>
+        <span id="create-error-text">
+</span>
+        <button id="create-retry" class="quiet" type="button">重试</button>
+      </div>
+      <div id="create-loading" class="loading-state" role="status" data-loading-target="experiment-form">
+        <span class="loading-indicator" aria-hidden="true">
+</span>
+<span>加载中</span>
+      </div>
+      <fieldset id="create-fields" class="create-fields" hidden>
+        <div class="create-field">
+<label for="create-model">模型</label>
+<select id="create-model" name="model" required>
+</select>
+</div>
+        <div class="create-field">
+<label for="create-map">地图</label>
+<select id="create-map" name="map" required>
+</select>
+</div>
+        <fieldset class="create-movement">
+          <legend>移动方式</legend>
+          <div class="movement-switch">
+            <label>
+<input type="radio" name="movement_mode" value="step" checked>
+<span>单步</span>
+</label>
+            <label>
+<input id="create-route" type="radio" name="movement_mode" value="route">
+<span>多步</span>
+</label>
+          </div>
+          <p id="create-movement-note" class="create-note" hidden>
+</p>
+        </fieldset>
+        <p id="create-summary" class="create-summary" role="status">
+</p>
+        <details class="create-settings">
+<summary>运行设置</summary>
+<dl id="create-budget">
+</dl>
+</details>
+      </fieldset>
+    </div>
+    <footer class="dialog-footer">
+      <button id="create-cancel" type="button" class="quiet">取消</button>
+      <button id="create-launch" type="submit" class="primary" disabled>
+<span class="button-spinner" aria-hidden="true">
+</span>
+<span id="create-launch-text">启动实验</span>
+</button>
+    </footer>
+  </form>
+</dialog>
+<script src="/ui-state.js">
+</script>
+<script src="/atlas-view.js">
+</script>
+<script src="/maplibre-gl-csp.js">
+</script>
+<script src="/atlas-gpu.js">
+</script>
+<script src="/world-atlas.js">
+</script>
+<script src="/select.js">
+</script>
+<script src="/watch.js">
+</script>
+<script src="/new-experiment.js">
+</script>
 </body>
 </html>

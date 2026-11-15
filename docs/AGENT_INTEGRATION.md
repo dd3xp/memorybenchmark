@@ -163,7 +163,7 @@ UV_PROJECT_ENVIRONMENT=/path/to/hermes-runtime uv sync --project /path/to/extrac
 四站 Easy20 的同协议入口如下；将路径替换为自己独立安装的运行环境：
 
 ```powershell
-python -m memorybenchmark.prototypes.station_pilot path/to/hermes-source.tar.gz --agent hermes --output .runs/hermes-easy20 --design memorybenchmark/data/station_easy20_choice.json --base-url https://your-gateway --model your-model --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime --max-turns 40 --final-turns 6 --max-output-tokens 0
+python -m memorybenchmark.prototypes.station_pilot path/to/hermes-source.tar.gz --agent hermes --output .runs/hermes-easy20 --design memorybenchmark/data/history/station_easy20_choice.json --base-url https://your-gateway --model your-model --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime --max-turns 40 --final-turns 6 --max-output-tokens 0
 python scripts/check_station_native_sessions.py path/to/native-source.tar.gz --agent hermes --game-access native --distro Ubuntu --runtime /path/to/hermes-runtime --runtime-dependency /path/to/hermes-python --runtime-dependency /path/to/hermes-runtime
 ```
 

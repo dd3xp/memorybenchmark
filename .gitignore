@@ -27,3 +27,10 @@ dist/
 research_notes/**/discrete_audit/
 research_notes/**/memory_graph_sources/
 research_notes/**/spatial_sources/
+
+# Server-owned paths and private reference evidence.
+/config/experiment-runtime.json
+/references/single-step/
+
+# Read-only downloaded third-party research cache.
+research_notes/**/memoryarena_sources/

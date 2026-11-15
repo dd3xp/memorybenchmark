@@ -1,0 +1,1123 @@
+{
+  "design_id": "easy-02-v2.0",
+  "status": "individually_authored_field_v2_pending_native_calibration",
+  "world_generator": "station_type_permutations",
+  "fixed_world": "omega_28018",
+  "material_selection": {
+    "protocol": "difficulty-materials-v1",
+    "catalog_version": "survey-materials-3",
+    "catalog_sha256": "13112dc2890c2c60557f9be371a1b542c2de4f6ef469c77f59913d92cc95ea0e",
+    "theme": "forest-geo",
+    "geographic": [
+      "profile",
+      "elevation",
+      "bearing",
+      "vegetation",
+      "soil",
+      "drainage",
+      "redwood_community",
+      "streambed_form"
+    ],
+    "animal": []
+  },
+  "public": {
+    "version": "easy-02-v2.0",
+    "name": "雾杉溪谷",
+    "difficulty": "Easy",
+    "terrain": "forest-valley",
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      2200,
+      1600
+    ],
+    "rules": [
+      "每项测绘委托有两段行程。依次到当前目标点主动 survey 勘探，采集本段指定资料，再到支持该类资料的基站处理；两段完成后回 C 营地交付一次。",
+      "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。全图从第一项起可自由探索，不设教学或解锁阶段。",
+      "A 至 H 是八种公开站型，每型两座站。同型站支持相同资料；类型字母、站名和研究主题不代表具体处理能力。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
+      "八种站型与八类资料一一对应，每种站型只处理其中一类资料；具体配对需交互获知。资料类别不限定候选站型。",
+      "本图的八类资料为：剖面、高程、方位、植被、土壤、水系、红杉群落、溪床地貌。所有资料都在当前任务目标点通过 survey 取得。",
+      "不提供独立查询。只有携带当前段资料，在基站主动执行 process 提交处理后，才反馈该站型的实际能力与本次处理结果；成功与失败都消耗一次操作，不匹配时原始资料保留，可以换站重试。仅到访或经过不会揭示处理能力。",
+      "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、处理反馈或替你保存经验。",
+      "抵达或经过目标不会自动采集；只有在当前段指定目标主动 survey 一次才取得本段资料。勘探占一次操作，不增加路程，已有资料时不能重复勘探。处理成功后进入下一段，提前经过后续目标不算完成后续采集。只能沿公开道路逐点移动，不可跳过中间地点。",
+      "已完成处理的资料不能再次 process；全部行程完成后回 C 营地主动 submit 交付。read 只返回当前公开地图与状态，不提供站点能力答案。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，只能保留实际经历过的经验，不补发答案。",
+      "一项最多八十八次操作，read 免费。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "elevation": "高程资料",
+      "bearing": "方位资料",
+      "vegetation": "植被资料",
+      "soil": "土壤资料",
+      "drainage": "水系资料",
+      "redwood_community": "红杉群落资料",
+      "streambed_form": "溪床地貌资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "基站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A 型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B 型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C 型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D 型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E 型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F 型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G 型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H 型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      }
+    },
+    "locations": {
+      "w0": {
+        "name": "西岸下口",
+        "kind": "junction",
+        "x": 820,
+        "y": 1370
+      },
+      "w1": {
+        "name": "西岸杉林",
+        "kind": "junction",
+        "x": 720,
+        "y": 1130
+      },
+      "w2": {
+        "name": "蕨坡路口",
+        "kind": "junction",
+        "x": 640,
+        "y": 850
+      },
+      "w3": {
+        "name": "古木路口",
+        "kind": "junction",
+        "x": 650,
+        "y": 540
+      },
+      "w4": {
+        "name": "上溪坡口",
+        "kind": "junction",
+        "x": 820,
+        "y": 300
+      },
+      "nw": {
+        "name": "上溪桥西",
+        "kind": "junction",
+        "x": 940,
+        "y": 320
+      },
+      "ne": {
+        "name": "上溪桥东",
+        "kind": "junction",
+        "x": 1210,
+        "y": 320
+      },
+      "mw": {
+        "name": "中溪桥西",
+        "kind": "junction",
+        "x": 930,
+        "y": 770
+      },
+      "me": {
+        "name": "中溪桥东",
+        "kind": "junction",
+        "x": 1240,
+        "y": 770
+      },
+      "sw": {
+        "name": "下溪桥西",
+        "kind": "junction",
+        "x": 980,
+        "y": 1200
+      },
+      "se": {
+        "name": "下溪桥东",
+        "kind": "junction",
+        "x": 1250,
+        "y": 1200
+      },
+      "e0": {
+        "name": "东岸下口",
+        "kind": "junction",
+        "x": 1430,
+        "y": 1330
+      },
+      "e1": {
+        "name": "浅湾路口",
+        "kind": "junction",
+        "x": 1410,
+        "y": 1010
+      },
+      "e2": {
+        "name": "林冠路口",
+        "kind": "junction",
+        "x": 1420,
+        "y": 540
+      },
+      "e3": {
+        "name": "上溪东口",
+        "kind": "junction",
+        "x": 1350,
+        "y": 260
+      },
+      "h0": {
+        "name": "西坡下口",
+        "kind": "junction",
+        "x": 380,
+        "y": 1080
+      },
+      "h1": {
+        "name": "山坡栈道",
+        "kind": "junction",
+        "x": 350,
+        "y": 750
+      },
+      "h2": {
+        "name": "西坡上口",
+        "kind": "junction",
+        "x": 430,
+        "y": 420
+      },
+      "C": {
+        "name": "溪口营地",
+        "kind": "camp",
+        "x": 1510,
+        "y": 1470
+      },
+      "F1": {
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "x": 770,
+        "y": 1250,
+        "station_type": "F"
+      },
+      "C2": {
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "x": 680,
+        "y": 985,
+        "station_type": "C"
+      },
+      "E2": {
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "x": 640,
+        "y": 700,
+        "station_type": "E"
+      },
+      "B1": {
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "x": 730,
+        "y": 410,
+        "station_type": "B"
+      },
+      "D1": {
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "x": 365,
+        "y": 925,
+        "station_type": "D"
+      },
+      "G2": {
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "x": 385,
+        "y": 565,
+        "station_type": "G"
+      },
+      "H1": {
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "x": 1420,
+        "y": 1190,
+        "station_type": "H"
+      },
+      "D2": {
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "x": 1340,
+        "y": 885,
+        "station_type": "D"
+      },
+      "A2": {
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "x": 1385,
+        "y": 390,
+        "station_type": "A"
+      },
+      "G1": {
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "x": 1600,
+        "y": 1350,
+        "station_type": "G"
+      },
+      "B2": {
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "x": 220,
+        "y": 1090,
+        "station_type": "B"
+      },
+      "E1": {
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "x": 260,
+        "y": 350,
+        "station_type": "E"
+      },
+      "A1": {
+        "name": "A型处理站·A1",
+        "kind": "station",
+        "x": 670,
+        "y": 185,
+        "station_type": "A"
+      },
+      "H2": {
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "x": 1510,
+        "y": 155,
+        "station_type": "H"
+      },
+      "F2": {
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "x": 1640,
+        "y": 520,
+        "station_type": "F"
+      },
+      "C1": {
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "x": 1650,
+        "y": 1000,
+        "station_type": "C"
+      },
+      "P": {
+        "name": "下溪西滩",
+        "kind": "survey",
+        "x": 910,
+        "y": 1350
+      },
+      "Q": {
+        "name": "下溪东滩",
+        "kind": "survey",
+        "x": 1310,
+        "y": 1300
+      },
+      "R": {
+        "name": "蕨坡测点",
+        "kind": "survey",
+        "x": 835,
+        "y": 880
+      },
+      "S": {
+        "name": "林冠测点",
+        "kind": "survey",
+        "x": 1320,
+        "y": 650
+      },
+      "U": {
+        "name": "山坡古木测点",
+        "kind": "survey",
+        "x": 270,
+        "y": 200
+      },
+      "V": {
+        "name": "东坡林缘",
+        "kind": "survey",
+        "x": 1600,
+        "y": 730
+      },
+      "X": {
+        "name": "上溪西滩",
+        "kind": "survey",
+        "x": 1000,
+        "y": 165
+      },
+      "Y": {
+        "name": "上溪东滩",
+        "kind": "survey",
+        "x": 1270,
+        "y": 105
+      }
+    },
+    "edges": [
+      [
+        "F1",
+        "w0",
+        1
+      ],
+      [
+        "F1",
+        "w1",
+        1
+      ],
+      [
+        "C2",
+        "w1",
+        1
+      ],
+      [
+        "C2",
+        "w2",
+        1
+      ],
+      [
+        "E2",
+        "w2",
+        1
+      ],
+      [
+        "E2",
+        "w3",
+        1
+      ],
+      [
+        "B1",
+        "w3",
+        1
+      ],
+      [
+        "B1",
+        "w4",
+        1
+      ],
+      [
+        "nw",
+        "w4",
+        1
+      ],
+      [
+        "h0",
+        "w1",
+        3
+      ],
+      [
+        "h0",
+        "D1",
+        1
+      ],
+      [
+        "h1",
+        "D1",
+        1
+      ],
+      [
+        "h1",
+        "G2",
+        1
+      ],
+      [
+        "h2",
+        "G2",
+        1
+      ],
+      [
+        "h2",
+        "w4",
+        3
+      ],
+      [
+        "h1",
+        "w2",
+        2
+      ],
+      [
+        "e3",
+        "ne",
+        1
+      ],
+      [
+        "e3",
+        "A2",
+        1
+      ],
+      [
+        "e2",
+        "A2",
+        1
+      ],
+      [
+        "e2",
+        "me",
+        2
+      ],
+      [
+        "me",
+        "D2",
+        1
+      ],
+      [
+        "e1",
+        "D2",
+        1
+      ],
+      [
+        "e1",
+        "H1",
+        1
+      ],
+      [
+        "e0",
+        "H1",
+        1
+      ],
+      [
+        "e0",
+        "G1",
+        1
+      ],
+      [
+        "C",
+        "G1",
+        1
+      ],
+      [
+        "ne",
+        "nw",
+        2
+      ],
+      [
+        "me",
+        "mw",
+        2
+      ],
+      [
+        "se",
+        "sw",
+        2
+      ],
+      [
+        "mw",
+        "w2",
+        2
+      ],
+      [
+        "sw",
+        "w1",
+        2
+      ],
+      [
+        "sw",
+        "w0",
+        2
+      ],
+      [
+        "e1",
+        "se",
+        2
+      ],
+      [
+        "e0",
+        "se",
+        2
+      ],
+      [
+        "h0",
+        "B2",
+        1
+      ],
+      [
+        "h2",
+        "E1",
+        1
+      ],
+      [
+        "A1",
+        "w4",
+        1
+      ],
+      [
+        "e3",
+        "H2",
+        1
+      ],
+      [
+        "e2",
+        "F2",
+        2
+      ],
+      [
+        "e1",
+        "C1",
+        2
+      ],
+      [
+        "P",
+        "w0",
+        1
+      ],
+      [
+        "se",
+        "Q",
+        1
+      ],
+      [
+        "e0",
+        "Q",
+        1
+      ],
+      [
+        "R",
+        "w2",
+        1
+      ],
+      [
+        "mw",
+        "R",
+        1
+      ],
+      [
+        "me",
+        "S",
+        1
+      ],
+      [
+        "e2",
+        "S",
+        1
+      ],
+      [
+        "E1",
+        "U",
+        1
+      ],
+      [
+        "e2",
+        "V",
+        2
+      ],
+      [
+        "nw",
+        "X",
+        1
+      ],
+      [
+        "e3",
+        "Y",
+        1
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "联程巡测 01",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "soil"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T2": {
+      "name": "联程巡测 02",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "bearing",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "bearing"
+        },
+        {
+          "target": "X",
+          "required_kind": "streambed_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T3": {
+      "name": "联程巡测 03",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "profile"
+        },
+        {
+          "target": "V",
+          "required_kind": "bearing"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T4": {
+      "name": "联程巡测 04",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Y",
+          "required_kind": "streambed_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T5": {
+      "name": "联程巡测 05",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "R",
+          "required_kind": "drainage"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T6": {
+      "name": "联程巡测 06",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "vegetation",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "vegetation"
+        },
+        {
+          "target": "X",
+          "required_kind": "redwood_community"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T7": {
+      "name": "联程巡测 07",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "V",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T8": {
+      "name": "联程巡测 08",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "drainage",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "drainage"
+        },
+        {
+          "target": "Y",
+          "required_kind": "redwood_community"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T9": {
+      "name": "联程巡测 09",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "profile"
+        },
+        {
+          "target": "V",
+          "required_kind": "bearing"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T10": {
+      "name": "联程巡测 10",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Y",
+          "required_kind": "streambed_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T11": {
+      "name": "联程巡测 11",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "V",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T12": {
+      "name": "联程巡测 12",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "drainage",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "drainage"
+        },
+        {
+          "target": "Y",
+          "required_kind": "redwood_community"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T13": {
+      "name": "联程巡测 13",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "streambed_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T14": {
+      "name": "联程巡测 14",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "soil"
+        },
+        {
+          "target": "P",
+          "required_kind": "bearing"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T15": {
+      "name": "联程巡测 15",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "S",
+          "required_kind": "redwood_community"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T16": {
+      "name": "联程巡测 16",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "drainage",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "drainage"
+        },
+        {
+          "target": "Q",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T17": {
+      "name": "联程巡测 17",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "redwood_community"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T18": {
+      "name": "联程巡测 18",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "soil"
+        },
+        {
+          "target": "P",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T19": {
+      "name": "联程巡测 19",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "R",
+          "required_kind": "streambed_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T20": {
+      "name": "联程巡测 20",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "drainage",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "drainage"
+        },
+        {
+          "target": "P",
+          "required_kind": "bearing"
+        }
+      ],
+      "max_steps": 88
+    }
+  },
+  "presentation": {
+    "terrain": "forest-valley",
+    "regions": [
+      {
+        "name": "山坡长环",
+        "x": 340,
+        "y": 660
+      },
+      {
+        "name": "古木溪谷",
+        "x": 1040,
+        "y": 1050
+      },
+      {
+        "name": "东岸缓径",
+        "x": 1670,
+        "y": 830
+      }
+    ]
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "opportunity_basis": "Only feedback actually delivered before the session; distinguish observation, type propagation and inference.",
+    "failure_policy": "Continue the fixed stream with actual feedback only; do not supply missing experiences.",
+    "stream_policy": "Twenty fixed ordinary commissions, forty stages. Independent original-memory baseline per map and condition.",
+    "diagnostic_scope": "Acquisition, delivered evidence, station choices and graph costs. No claim of large-capacity memory or controlled interference.",
+    "authoring_geometry_check": {
+      "nearest_match_rate": 0.125,
+      "unused_strict_replicas": [],
+      "strict_replica_counts": {
+        "A1": 1,
+        "A2": 4,
+        "B1": 3,
+        "B2": 2,
+        "C1": 2,
+        "C2": 3,
+        "D1": 1,
+        "D2": 4,
+        "E1": 1,
+        "E2": 4,
+        "F1": 1,
+        "F2": 3,
+        "G1": 2,
+        "G2": 3,
+        "H1": 1,
+        "H2": 2
+      },
+      "stage_contexts": 40,
+      "mean_processing_leg_distance": 12.775,
+      "seed": 26110502,
+      "trials_limit": 4000,
+      "method": "Fixed-seed geometry-only candidate search; not calibrated against native agent outcomes."
+    }
+  },
+  "provenance": {
+    "inspiration": "Muir Woods National Monument: lower Redwood Creek valley and bridge-linked loops.",
+    "scope": "A schematic cropped valley, fictional sites, roads, distances and station assignments; not a navigation map.",
+    "sources": [
+      "https://www.nps.gov/muwo/planyourvisit/hike.htm",
+      "https://www.nps.gov/im/sfan/muwo.htm"
+    ],
+    "private_boundary": "Real names and source URLs remain outside all agent observations.",
+    "supersedes": "easy-02-v1.1",
+    "layout_revision": "individually-authored-field-v2",
+    "authoring_rationale": [
+      "Keep the redwood creek and three bank crossings, with an unequal western hillside loop and shorter eastern valley paths.",
+      "The main creek path, slope alternative and bridge approaches have different roles; service stations are mixed through-sites and forest spurs.",
+      "The camp is at the lower eastern entrance, rather than joining the two banks as a fourth identical ladder rung."
+    ],
+    "public_geography_review": {
+      "unconnected_visual_crossings": [],
+      "unapproved_barrier_crossings": [],
+      "minimum_station_separation": 219.66,
+      "minimum_point_separation": 92.2,
+      "topology": {
+        "connected": true,
+        "nodes": 43,
+        "roads": 51,
+        "cycle_rank": 9,
+        "core_branch_degree_histogram": {
+          "3": 7,
+          "4": 3,
+          "5": 1
+        },
+        "station_degree_histogram": {
+          "1": 5,
+          "2": 11
+        },
+        "dead_end_count": 11
+      }
+    },
+    "boundary": "Schematic authored roads inspired by the named landscape. Real names and sources remain private; no surveyed road reconstruction or guaranteed native-agent score."
+  },
+  "native_session_budget": {
+    "main_model_calls": 100,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 3600,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Preserve the declared Easy/Normal budgets; fresh zero-model feasibility checks precede future native evaluation."
+  }
+}

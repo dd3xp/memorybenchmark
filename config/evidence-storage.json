@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "new_station_session_history": "memorybenchmark-event-blocks-1",
+  "event_block_records": 32,
+  "event_block_compression": "gzip",
+  "event_store_scope": "one experiment run; retain and clear never share mutable state",
+  "native_model_audit": "native-model-params-reference-1: keep each complete request in model, refer to its SHA256 from audit; legacy audits remain readable",
+  "native_source": "archive-SHA keyed, verified immutable source cache; read-only source mounts may share hardlinks, mutable task memories never do",
+  "task_working_memory": "remove only this task's live-state UUID after summary commit and exact checkpoint manifest verification; preserve failed or uncommitted state; GC failures cannot change scientific outcomes",
+  "archive_rule": "archive the entire run, including event-store; verify every member before declaring sealed",
+  "server_retention": {
+    "active_runs": "preserve all files and dependencies",
+    "unverified_or_unique_evidence": "preserve",
+    "completed_with_complete_locally_verified_archive": {
+      "removable_server_duplicates": [
+        "evidence.zip",
+        "session prior-events.json",
+        "session events.jsonl when game-deliveries.jsonl exists",
+        "session audit.jsonl",
+        "session model",
+        "session model-streams"
+      ],
+      "preserve": [
+        "result",
+        "audit-result",
+        "run-plan",
+        "driver receipts",
+        "pilot",
+        "summaries",
+        "graphs",
+        "public game deliveries",
+        "memory",
+        "transport and failed-attempt cost records",
+        "source and provenance"
+      ],
+      "required_guards": [
+        "exact private-root containment; no reparse points",
+        "exclude all current roots and dependencies",
+        "driver exit 0; exclusive run ownership lock available",
+        "archive SHA/size matches existing complete local verification",
+        "every removed raw file covered by retained archive at the same size",
+        "write a separate offload receipt; never rewrite original audit or passed receipt"
+      ]
+    },
+    "completed_with_original_driver_verified_sealed_archive": {
+      "removable_server_duplicates": "only unpacked files explicitly present in the retained sealed archive manifest at the same size",
+      "preserve": "keep the complete server evidence.zip, result, strict audit, original driver receipts, public projections, memory and all unique unarchived data",
+      "required_guards": [
+        "original archive.contents_verified true; archive file present at recorded size; exit 0",
+        "exclusive old run ownership lock available and no running scheduled action references root",
+        "exclude every current experiment root and common native/runtime dependencies",
+        "immutable original archive/result/passed receipts; separate removal manifest and receipt"
+      ],
+      "local_backup_not_claimed": true
+    }
+  },
+  "cold_history_reclamation": {
+    "archived_checkpoints": "offload unpacked memory-after only after matching the unchanged archived summary and complete snapshot manifest; retain a restoration pointer including directory metadata",
+    "duplicate_working_memory": "remove only if the complete content and metadata match a preserved checkpoint; retain unique or unproven copies",
+    "rebuildable_native_cache": "evict only files matching the retained original native archive by SHA256; retain modified or unique source files and record archive member mappings",
+    "unique_unarchived_payloads": "preserve logical bytes; optional lossless filesystem compression for inactive cold traces, excluding current roots and shared dependencies"
+  },
+  "existing_frozen_cohorts": "no hot patch, no restart, no new model call; leave their storage format unchanged",
+  "native_source_cache_lock_wait_seconds": 604800
+}

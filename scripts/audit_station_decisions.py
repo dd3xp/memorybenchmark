@@ -1,6 +1,8 @@
 """Align station-entry events with native tools; never publish model prose."""
 from __future__ import annotations
 
+from memorybenchmark.audit_records import read_audit
+from memorybenchmark.event_store import read_events
 import argparse
 from collections import Counter
 from hashlib import sha256
@@ -80,8 +82,8 @@ def main():
     for session in pilot["sessions"]:
         folder = root / "sessions" / session["name"]
         graph = json.loads((folder / "graph.json").read_text(encoding="utf-8"))
-        events = [json.loads(s) for s in (folder / "events.jsonl").read_text(encoding="utf-8").splitlines()]
-        messages = [json.loads(s) for s in (folder / "audit.jsonl").read_text(encoding="utf-8").splitlines()]
+        events = read_events(folder / "events.jsonl")
+        messages = read_audit(folder)
         decisions = station_decisions(design, events, graph["task_run_id"])
         rows.append({"name": session["name"], "task_id": session["task_id"], "condition": session["condition"],
                      "success": session["success"], "station_decisions": decisions,

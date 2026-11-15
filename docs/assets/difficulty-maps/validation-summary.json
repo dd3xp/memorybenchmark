@@ -1,0 +1,290 @@
+{
+  "kind": "scripted_real_engine_validation_not_native_agent_results",
+  "new_model_calls": 0,
+  "valid_sessions": 300,
+  "maps": [
+    {
+      "design_id": "easy-01-v1.0",
+      "configuration_sha256": "91527e33760659b26390fa2f3b9d68ea3bca37a85367404a295192c80311ef68",
+      "topology": {
+        "core_nodes": 13,
+        "core_edges": 17,
+        "independent_cycles": 5,
+        "core_articulation_nodes": [],
+        "total_nodes": 53,
+        "total_roads": 57
+      },
+      "geometry": {
+        "nearest_match_rate": 0.125,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 2,
+          "A2": 1,
+          "B1": 3,
+          "B2": 2,
+          "C1": 3,
+          "C2": 2,
+          "D1": 1,
+          "D2": 4,
+          "E1": 2,
+          "E2": 3,
+          "F1": 2,
+          "F2": 3,
+          "G1": 3,
+          "G2": 2,
+          "H1": 4,
+          "H2": 1
+        },
+        "stage_contexts": 40,
+        "mean_processing_leg_distance": 13.7
+      },
+      "task_count": 20,
+      "followup_distance_reduction_percent": 42.85714285714286
+    },
+    {
+      "design_id": "easy-02-v1.1",
+      "configuration_sha256": "ae227e0fef48a553938d60d3fdc49d48c0440723ca8aac8bac0f93ae3f61576a",
+      "topology": {
+        "core_nodes": 14,
+        "core_edges": 16,
+        "independent_cycles": 3,
+        "core_articulation_nodes": [],
+        "total_nodes": 54,
+        "total_roads": 56
+      },
+      "geometry": {
+        "nearest_match_rate": 0.1125,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 3,
+          "A2": 2,
+          "B1": 2,
+          "B2": 2,
+          "C1": 1,
+          "C2": 3,
+          "D1": 4,
+          "D2": 1,
+          "E1": 2,
+          "E2": 1,
+          "F1": 2,
+          "F2": 1,
+          "G1": 2,
+          "G2": 3,
+          "H1": 4,
+          "H2": 1
+        },
+        "stage_contexts": 40,
+        "mean_processing_leg_distance": 13.375
+      },
+      "task_count": 20,
+      "followup_distance_reduction_percent": 43.993371996686
+    },
+    {
+      "design_id": "easy-03-v1.0",
+      "configuration_sha256": "ebfc87f8b3f22f912f2ce3cacf071f5aa665423c29f8e1cf8ded4d2da0a8661c",
+      "topology": {
+        "core_nodes": 14,
+        "core_edges": 17,
+        "independent_cycles": 4,
+        "core_articulation_nodes": [
+          "N0",
+          "N1",
+          "N2",
+          "N3"
+        ],
+        "total_nodes": 54,
+        "total_roads": 57
+      },
+      "geometry": {
+        "nearest_match_rate": 0.0875,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 2,
+          "A2": 1,
+          "B1": 2,
+          "B2": 3,
+          "C1": 2,
+          "C2": 1,
+          "D1": 3,
+          "D2": 2,
+          "E1": 1,
+          "E2": 3,
+          "F1": 1,
+          "F2": 4,
+          "G1": 4,
+          "G2": 1,
+          "H1": 4,
+          "H2": 1
+        },
+        "stage_contexts": 40,
+        "mean_processing_leg_distance": 15.65
+      },
+      "task_count": 20,
+      "followup_distance_reduction_percent": 34.372367312552655
+    },
+    {
+      "design_id": "normal-01-v1.0",
+      "configuration_sha256": "01b78b3b2c4f33a4234aa2bf30d7134930473d2a4403e01f7f71c39ed72af23d",
+      "topology": {
+        "core_nodes": 15,
+        "core_edges": 17,
+        "independent_cycles": 3,
+        "core_articulation_nodes": [
+          "NC"
+        ],
+        "total_nodes": 91,
+        "total_roads": 93
+      },
+      "geometry": {
+        "nearest_match_rate": 0.10833333333333334,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 1,
+          "A2": 1,
+          "B1": 2,
+          "B2": 1,
+          "C1": 3,
+          "C2": 1,
+          "D1": 1,
+          "D2": 2,
+          "E1": 3,
+          "E2": 3,
+          "F1": 1,
+          "F2": 2,
+          "G1": 1,
+          "G2": 2,
+          "H1": 3,
+          "H2": 2,
+          "I1": 1,
+          "I2": 2,
+          "J1": 2,
+          "J2": 3,
+          "K1": 1,
+          "K2": 2,
+          "L1": 1,
+          "L2": 1,
+          "M1": 1,
+          "M2": 1,
+          "N1": 1,
+          "N2": 1,
+          "O1": 4,
+          "O2": 1,
+          "P1": 1,
+          "P2": 1
+        },
+        "stage_contexts": 60,
+        "mean_processing_leg_distance": 14.183333333333334
+      },
+      "task_count": 30,
+      "followup_distance_reduction_percent": 52.83657917019475
+    },
+    {
+      "design_id": "normal-02-v1.0",
+      "configuration_sha256": "fb159b24c48d977db6fbf2237ca94600ccb5fa864642d4bb8f8f18f5decbf734",
+      "topology": {
+        "core_nodes": 16,
+        "core_edges": 18,
+        "independent_cycles": 3,
+        "core_articulation_nodes": [],
+        "total_nodes": 92,
+        "total_roads": 94
+      },
+      "geometry": {
+        "nearest_match_rate": 0.125,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 1,
+          "A2": 1,
+          "B1": 1,
+          "B2": 3,
+          "C1": 3,
+          "C2": 5,
+          "D1": 1,
+          "D2": 2,
+          "E1": 3,
+          "E2": 1,
+          "F1": 3,
+          "F2": 1,
+          "G1": 1,
+          "G2": 1,
+          "H1": 2,
+          "H2": 1,
+          "I1": 2,
+          "I2": 1,
+          "J1": 1,
+          "J2": 2,
+          "K1": 1,
+          "K2": 1,
+          "L1": 1,
+          "L2": 2,
+          "M1": 1,
+          "M2": 1,
+          "N1": 1,
+          "N2": 1,
+          "O1": 2,
+          "O2": 1,
+          "P1": 1,
+          "P2": 1
+        },
+        "stage_contexts": 60,
+        "mean_processing_leg_distance": 12.883333333333333
+      },
+      "task_count": 30,
+      "followup_distance_reduction_percent": 49.40239043824701
+    },
+    {
+      "design_id": "normal-03-v1.0",
+      "configuration_sha256": "45ac009ee28ed9d24c88f93f6874f4bb591dd68ba29bcb7bf8a48e48470040b0",
+      "topology": {
+        "core_nodes": 15,
+        "core_edges": 21,
+        "independent_cycles": 7,
+        "core_articulation_nodes": [],
+        "total_nodes": 91,
+        "total_roads": 97
+      },
+      "geometry": {
+        "nearest_match_rate": 0.1,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 1,
+          "A2": 4,
+          "B1": 1,
+          "B2": 2,
+          "C1": 1,
+          "C2": 1,
+          "D1": 1,
+          "D2": 3,
+          "E1": 1,
+          "E2": 3,
+          "F1": 1,
+          "F2": 1,
+          "G1": 1,
+          "G2": 1,
+          "H1": 2,
+          "H2": 1,
+          "I1": 1,
+          "I2": 1,
+          "J1": 4,
+          "J2": 1,
+          "K1": 3,
+          "K2": 1,
+          "L1": 3,
+          "L2": 2,
+          "M1": 1,
+          "M2": 1,
+          "N1": 1,
+          "N2": 2,
+          "O1": 1,
+          "O2": 1,
+          "P1": 1,
+          "P2": 2
+        },
+        "stage_contexts": 60,
+        "mean_processing_leg_distance": 12.083333333333334
+      },
+      "task_count": 30,
+      "followup_distance_reduction_percent": 50.304035378662235
+    }
+  ]
+}

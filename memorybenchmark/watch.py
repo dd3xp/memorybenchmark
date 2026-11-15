@@ -1,12 +1,14 @@
 """Read-only experiment projections. Never serve raw native prompts or files."""
 from copy import deepcopy
 from datetime import datetime, timezone
+from .event_store import read_events
 import json
 import os
 from pathlib import Path
 import re
 import threading
 from uuid import uuid4
+from .ga_runtime import filesystem_path
 
 
 def now():
@@ -14,10 +16,11 @@ def now():
 
 
 def atomic_json(path, value):
-    path = Path(path)
+    path = filesystem_path(path)
     temporary = path.with_name(path.name + "." + uuid4().hex + ".tmp")
     try:
-        temporary.write_text(json.dumps(value,ensure_ascii=False),encoding="utf-8")
+        with temporary.open("w", encoding="utf-8") as stream:
+            json.dump(value, stream, ensure_ascii=False)
         os.replace(temporary,path)
     finally:
         temporary.unlink(missing_ok=True)
@@ -115,7 +118,7 @@ def historical(root,report):
         try:
             events_path=directory/"events.jsonl"
             if events_path.stat().st_size > 32*1024**2: continue
-            events=[json.loads(line) for line in events_path.read_text(encoding="utf-8").splitlines() if line]
+            events=read_events(events_path)
             run_id=next(e["task_run_id"] for e in reversed(events) if e["kind"]=="task_started")
             for event in events:
                 if event["task_run_id"]!=run_id or "delivered" not in event: continue

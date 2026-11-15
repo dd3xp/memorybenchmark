@@ -1,0 +1,16 @@
+{
+  "schema": "benchmark-runtime-1",
+  "enabled": false,
+  "project": "C:/Codes/memorybenchmark",
+  "private_root": "C:/Codes/memorybenchmark-private",
+  "native_archive": "C:/Codes/memorybenchmark-private/native-agents-20261027/hermes-e5ea5fd9ccdf.tar.gz",
+  "native_runtime": "/home/dd3xp/.local/share/memorybenchmark/hermes-runtime-mcp-20261030",
+  "runtime_dependencies": [
+    "/home/dd3xp/.local/share/memorybenchmark/hermes-python",
+    "/home/dd3xp/.local/share/memorybenchmark/hermes-runtime-mcp-20261030"
+  ],
+  "python": "C:/Codes/memorybenchmark/.venv/Scripts/python.exe",
+  "distro": "Ubuntu",
+  "recovery_interval_minutes": 5,
+  "minimum_free_gib": 8
+}

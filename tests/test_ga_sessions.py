@@ -5,11 +5,27 @@ import unittest
 
 from memorybenchmark.adapters import GameAdapter
 from memorybenchmark.ga_experiment import NativeGASessions
-from memorybenchmark.ga_runtime import changed_files, copy_memory, decode_state, encode_state, memory_manifest, state_digest
+from memorybenchmark.ga_runtime import WSLJail, changed_files, copy_memory, decode_state, encode_state, memory_manifest, state_digest
 from memorybenchmark.game import Game
 
 
 class SessionBoundaryTests(unittest.TestCase):
+    def test_one_week_wall_reaches_the_isolated_worker_and_remains_bounded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            mounts = [root / name for name in ('source', 'memory', 'support')]
+            for path in mounts:
+                path.mkdir()
+            jail = WSLJail(runtime='/specific/runtime')
+            jail.path = lambda path: '/test/' + path.name
+            command = jail.command(*mounts, 604800, worker_filename='hermes_worker.py')
+            self.assertEqual(command[command.index('timeout') + 2], '604800')
+            self.assertIn('--unshare-all', command)
+            self.assertIn('--clearenv', command)
+            for invalid in (604801, 9, True, 604800.0):
+                with self.assertRaises(ValueError):
+                    jail.command(*mounts, invalid)
+
     def test_legacy_checkpoint_digest_is_not_changed_by_new_observer_fields(self):
         legacy = Game().snapshot()
         for key in ('atlas_nodes','atlas_edges','traversed_edges'):

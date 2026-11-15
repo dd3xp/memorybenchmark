@@ -1,0 +1,210 @@
+{
+  "A": {
+    "catalogue": [
+      "elevation"
+    ],
+    "verify": [
+      "lithology"
+    ]
+  },
+  "B": {
+    "catalogue": [
+      "settlement_layout"
+    ],
+    "verify": [
+      "small_mammal_signs"
+    ]
+  },
+  "C": {
+    "catalogue": [
+      "elevation",
+      "small_mammal_signs"
+    ],
+    "verify": [
+      "historic_road",
+      "settlement_layout"
+    ]
+  },
+  "D": {
+    "catalogue": [
+      "ungulate_tracks"
+    ],
+    "verify": [
+      "built_form"
+    ]
+  },
+  "E": {
+    "catalogue": [
+      "farmland_birds"
+    ],
+    "verify": [
+      "ungulate_tracks"
+    ]
+  },
+  "F": {
+    "catalogue": [
+      "farmland_birds",
+      "lithology"
+    ],
+    "verify": [
+      "elevation",
+      "small_mammal_signs"
+    ]
+  },
+  "G": {
+    "catalogue": [
+      "livestock_signs"
+    ],
+    "verify": [
+      "historic_road"
+    ]
+  },
+  "H": {
+    "catalogue": [
+      "slope"
+    ],
+    "verify": [
+      "profile"
+    ]
+  },
+  "I": {
+    "catalogue": [
+      "small_mammal_signs"
+    ],
+    "verify": [
+      "farmland_birds"
+    ]
+  },
+  "J": {
+    "catalogue": [
+      "soil"
+    ],
+    "verify": [
+      "waterworks"
+    ]
+  },
+  "K": {
+    "catalogue": [
+      "land_cover"
+    ],
+    "verify": [
+      "slope"
+    ]
+  },
+  "L": {
+    "catalogue": [
+      "historic_road",
+      "settlement_layout"
+    ],
+    "verify": [
+      "livestock_signs",
+      "waterworks"
+    ]
+  },
+  "M": {
+    "catalogue": [
+      "profile"
+    ],
+    "verify": [
+      "livestock_signs"
+    ]
+  },
+  "N": {
+    "catalogue": [
+      "built_form"
+    ],
+    "verify": [
+      "vegetation"
+    ]
+  },
+  "O": {
+    "catalogue": [
+      "slope",
+      "vegetation"
+    ],
+    "verify": [
+      "built_form",
+      "land_cover"
+    ]
+  },
+  "P": {
+    "catalogue": [
+      "profile",
+      "soil"
+    ],
+    "verify": [
+      "slope",
+      "vegetation"
+    ]
+  },
+  "Q": {
+    "catalogue": [
+      "livestock_signs",
+      "waterworks"
+    ],
+    "verify": [
+      "profile",
+      "soil"
+    ]
+  },
+  "R": {
+    "catalogue": [
+      "historic_road"
+    ],
+    "verify": [
+      "elevation"
+    ]
+  },
+  "S": {
+    "catalogue": [
+      "waterworks"
+    ],
+    "verify": [
+      "settlement_layout"
+    ]
+  },
+  "T": {
+    "catalogue": [
+      "lithology"
+    ],
+    "verify": [
+      "drainage"
+    ]
+  },
+  "U": {
+    "catalogue": [
+      "drainage"
+    ],
+    "verify": [
+      "land_cover"
+    ]
+  },
+  "V": {
+    "catalogue": [
+      "drainage",
+      "ungulate_tracks"
+    ],
+    "verify": [
+      "farmland_birds",
+      "lithology"
+    ]
+  },
+  "W": {
+    "catalogue": [
+      "vegetation"
+    ],
+    "verify": [
+      "soil"
+    ]
+  },
+  "X": {
+    "catalogue": [
+      "built_form",
+      "land_cover"
+    ],
+    "verify": [
+      "drainage",
+      "ungulate_tracks"
+    ]
+  }
+}

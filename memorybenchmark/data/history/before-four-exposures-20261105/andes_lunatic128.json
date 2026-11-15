@@ -1,0 +1,5349 @@
+{
+  "design_id": "lunatic-03-v1.1",
+  "status": "authored_lunatic_pending_native_calibration",
+  "world_generator": "fixed_conditional_station_sets",
+  "fixed_world": "omega_lunatic_andes",
+  "material_selection": {
+    "protocol": "lunatic-materials-1",
+    "theme": "andes",
+    "geographic": [
+      "profile",
+      "elevation",
+      "slope",
+      "soil",
+      "drainage",
+      "lithology",
+      "erosion_form",
+      "land_cover"
+    ],
+    "animal": [
+      "ungulate_tracks",
+      "livestock_signs",
+      "woodland_birds",
+      "small_mammal_signs"
+    ],
+    "human": [
+      "built_form",
+      "waterworks",
+      "settlement_layout",
+      "historic_road"
+    ]
+  },
+  "native_session_budget": {
+    "main_model_calls": 400,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 3600,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Same per-task limits as Hard. Lunatic increases condition alternatives and task-stream length; no native-score calibration."
+  },
+  "public": {
+    "version": "lunatic-03-v1.1",
+    "name": "云脊长邦",
+    "difficulty": "Lunatic",
+    "terrain": "andean-passes",
+    "capability_model": "conditional-overlapping-sets-v1",
+    "requirements": {
+      "catalogue": "归档编目",
+      "verify": "关联核验",
+      "compare": "对照辨析",
+      "integrate": "综合归整"
+    },
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      5200,
+      6300
+    ],
+    "rules": [
+      "每项委托有两段。每段给出目标、指定资料与处理要求；依次到目标主动 survey 采集，在匹配的站主动 process 处理。两段成功后回 C 营地主动 submit。",
+      "优先减少道路总距离，距离相同时减少操作。公开地图从第一项起全部开放；只能沿道路逐点移动，不可跳过中间节点。",
+      "本图有十六类资料、二十四种站型，每型两座等价站。处理要求有“归档编目”“关联核验”“对照辨析”“综合归整”，每段要求直接公开。",
+      "能力由“资料＋本段处理要求”共同决定。同一资料在四种要求下的可用站型不同，可能部分重叠。字母、地名和资料主题不提示能力。",
+      "每种站型在每种要求下支持一至两类资料；同型两站在相同要求下能力完全一致。所有能力在地图制作时固定，跨任务和 Agent 不变。",
+      "只有采集当前原始资料后主动 process，才反馈该站型在本段要求下支持的全部资料与本次结果；经过或到访不揭示能力，不提供独立查询。反馈不揭示其他处理要求下的能力。",
+      "处理不匹配时原始资料保留，可以换站；成功和失败均消耗操作。相同资料在另一种要求下的旧反馈不能直接作为本段能力结论。",
+      "只有在本段目标主动 survey 才取得资料；到达不会自动采集。勘探占一次操作、不增加路程；成功处理后进入下一段并重新采集。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，不补发能力答案。",
+      "每项最多三百五十二次操作，read 免费。read 返回当前地图和状态，不附加历史能力。地图没有天气、战斗、体力或工具门槛。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "elevation": "高程资料",
+      "slope": "坡度资料",
+      "soil": "土壤资料",
+      "drainage": "水系资料",
+      "lithology": "岩性资料",
+      "erosion_form": "侵蚀地貌资料",
+      "land_cover": "地表覆盖资料",
+      "ungulate_tracks": "有蹄动物足迹资料",
+      "livestock_signs": "牧畜活动资料",
+      "woodland_birds": "林鸟声学资料",
+      "small_mammal_signs": "小型哺乳动物活动资料",
+      "built_form": "建筑形制资料",
+      "waterworks": "水工设施资料",
+      "settlement_layout": "聚落格局资料",
+      "historic_road": "历史道路遗迹资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "处理站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      },
+      "I": {
+        "name": "I型",
+        "stations": [
+          "I1",
+          "I2"
+        ]
+      },
+      "J": {
+        "name": "J型",
+        "stations": [
+          "J1",
+          "J2"
+        ]
+      },
+      "K": {
+        "name": "K型",
+        "stations": [
+          "K1",
+          "K2"
+        ]
+      },
+      "L": {
+        "name": "L型",
+        "stations": [
+          "L1",
+          "L2"
+        ]
+      },
+      "M": {
+        "name": "M型",
+        "stations": [
+          "M1",
+          "M2"
+        ]
+      },
+      "N": {
+        "name": "N型",
+        "stations": [
+          "N1",
+          "N2"
+        ]
+      },
+      "O": {
+        "name": "O型",
+        "stations": [
+          "O1",
+          "O2"
+        ]
+      },
+      "P": {
+        "name": "P型",
+        "stations": [
+          "P1",
+          "P2"
+        ]
+      },
+      "Q": {
+        "name": "Q型",
+        "stations": [
+          "Q1",
+          "Q2"
+        ]
+      },
+      "R": {
+        "name": "R型",
+        "stations": [
+          "R1",
+          "R2"
+        ]
+      },
+      "S": {
+        "name": "S型",
+        "stations": [
+          "S1",
+          "S2"
+        ]
+      },
+      "T": {
+        "name": "T型",
+        "stations": [
+          "T1",
+          "T2"
+        ]
+      },
+      "U": {
+        "name": "U型",
+        "stations": [
+          "U1",
+          "U2"
+        ]
+      },
+      "V": {
+        "name": "V型",
+        "stations": [
+          "V1",
+          "V2"
+        ]
+      },
+      "W": {
+        "name": "W型",
+        "stations": [
+          "W1",
+          "W2"
+        ]
+      },
+      "X": {
+        "name": "X型",
+        "stations": [
+          "X1",
+          "X2"
+        ]
+      }
+    },
+    "locations": {
+      "w0": {
+        "name": "谷岭路口·w0",
+        "kind": "junction",
+        "x": 650,
+        "y": 900
+      },
+      "w1": {
+        "name": "谷岭路口·w1",
+        "kind": "junction",
+        "x": 450,
+        "y": 1900
+      },
+      "w2": {
+        "name": "谷岭路口·w2",
+        "kind": "junction",
+        "x": 650,
+        "y": 3100
+      },
+      "w3": {
+        "name": "谷岭路口·w3",
+        "kind": "junction",
+        "x": 520,
+        "y": 4300
+      },
+      "w4": {
+        "name": "谷岭路口·w4",
+        "kind": "junction",
+        "x": 1000,
+        "y": 5400
+      },
+      "n0": {
+        "name": "谷岭路口·n0",
+        "kind": "junction",
+        "x": 2100,
+        "y": 450
+      },
+      "n1": {
+        "name": "谷岭路口·n1",
+        "kind": "junction",
+        "x": 1850,
+        "y": 1400
+      },
+      "n2": {
+        "name": "谷岭路口·n2",
+        "kind": "junction",
+        "x": 2300,
+        "y": 2300
+      },
+      "n3": {
+        "name": "谷岭路口·n3",
+        "kind": "junction",
+        "x": 2900,
+        "y": 1570
+      },
+      "c3": {
+        "name": "谷岭路口·c3",
+        "kind": "junction",
+        "x": 2050,
+        "y": 4100
+      },
+      "c4": {
+        "name": "谷岭路口·c4",
+        "kind": "junction",
+        "x": 2700,
+        "y": 5000
+      },
+      "c5": {
+        "name": "谷岭路口·c5",
+        "kind": "junction",
+        "x": 2200,
+        "y": 5900
+      },
+      "e0": {
+        "name": "谷岭路口·e0",
+        "kind": "junction",
+        "x": 3500,
+        "y": 700
+      },
+      "e1": {
+        "name": "谷岭路口·e1",
+        "kind": "junction",
+        "x": 4300,
+        "y": 1450
+      },
+      "e2": {
+        "name": "谷岭路口·e2",
+        "kind": "junction",
+        "x": 4550,
+        "y": 2600
+      },
+      "e3": {
+        "name": "谷岭路口·e3",
+        "kind": "junction",
+        "x": 4000,
+        "y": 3650
+      },
+      "e4": {
+        "name": "谷岭路口·e4",
+        "kind": "junction",
+        "x": 4400,
+        "y": 4850
+      },
+      "e5": {
+        "name": "谷岭路口·e5",
+        "kind": "junction",
+        "x": 3600,
+        "y": 5750
+      },
+      "p0": {
+        "name": "谷岭路口·p0",
+        "kind": "junction",
+        "x": 3300,
+        "y": 2850
+      },
+      "p1": {
+        "name": "谷岭路口·p1",
+        "kind": "junction",
+        "x": 3300,
+        "y": 3500
+      },
+      "p2": {
+        "name": "谷岭路口·p2",
+        "kind": "junction",
+        "x": 1250,
+        "y": 4480
+      },
+      "p3": {
+        "name": "谷岭路口·p3",
+        "kind": "junction",
+        "x": 1200,
+        "y": 2200
+      },
+      "a0": {
+        "name": "谷岭路口·a0",
+        "kind": "junction",
+        "x": 1220,
+        "y": 800
+      },
+      "a1": {
+        "name": "谷岭路口·a1",
+        "kind": "junction",
+        "x": 1550,
+        "y": 3150
+      },
+      "a2": {
+        "name": "谷岭路口·a2",
+        "kind": "junction",
+        "x": 3250,
+        "y": 4550
+      },
+      "a3": {
+        "name": "谷岭路口·a3",
+        "kind": "junction",
+        "x": 3350,
+        "y": 5350
+      },
+      "u0": {
+        "name": "谷岭路口·u0",
+        "kind": "junction",
+        "x": 3000,
+        "y": 380
+      },
+      "u1": {
+        "name": "谷岭路口·u1",
+        "kind": "junction",
+        "x": 3850,
+        "y": 2050
+      },
+      "b0": {
+        "name": "谷岭路口·b0",
+        "kind": "junction",
+        "x": 1430,
+        "y": 5820
+      },
+      "b1": {
+        "name": "谷岭路口·b1",
+        "kind": "junction",
+        "x": 4770,
+        "y": 4000
+      },
+      "C": {
+        "name": "高谷营地",
+        "kind": "camp",
+        "x": 2400,
+        "y": 3200
+      },
+      "D2": {
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "x": 560,
+        "y": 1390,
+        "station_type": "D"
+      },
+      "E1": {
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "x": 550,
+        "y": 2470,
+        "station_type": "E"
+      },
+      "V2": {
+        "name": "V型处理站·V2",
+        "kind": "station",
+        "x": 580,
+        "y": 3680,
+        "station_type": "V"
+      },
+      "N2": {
+        "name": "N型处理站·N2",
+        "kind": "station",
+        "x": 750,
+        "y": 4860,
+        "station_type": "N"
+      },
+      "M2": {
+        "name": "M型处理站·M2",
+        "kind": "station",
+        "x": 1960,
+        "y": 925,
+        "station_type": "M"
+      },
+      "H1": {
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "x": 2070,
+        "y": 1860,
+        "station_type": "H"
+      },
+      "J2": {
+        "name": "J型处理站·J2",
+        "kind": "station",
+        "x": 2350,
+        "y": 2750,
+        "station_type": "J"
+      },
+      "B2": {
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "x": 2240,
+        "y": 3650,
+        "station_type": "B"
+      },
+      "D1": {
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "x": 2360,
+        "y": 4540,
+        "station_type": "D"
+      },
+      "R1": {
+        "name": "R型处理站·R1",
+        "kind": "station",
+        "x": 2450,
+        "y": 5450,
+        "station_type": "R"
+      },
+      "C1": {
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "x": 3910,
+        "y": 1080,
+        "station_type": "C"
+      },
+      "N1": {
+        "name": "N型处理站·N1",
+        "kind": "station",
+        "x": 4430,
+        "y": 2010,
+        "station_type": "N"
+      },
+      "I1": {
+        "name": "I型处理站·I1",
+        "kind": "station",
+        "x": 4280,
+        "y": 3110,
+        "station_type": "I"
+      },
+      "E2": {
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "x": 4200,
+        "y": 4230,
+        "station_type": "E"
+      },
+      "O2": {
+        "name": "O型处理站·O2",
+        "kind": "station",
+        "x": 4020,
+        "y": 5310,
+        "station_type": "O"
+      },
+      "W1": {
+        "name": "W型处理站·W1",
+        "kind": "station",
+        "x": 930,
+        "y": 850,
+        "station_type": "W"
+      },
+      "F2": {
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "x": 1520,
+        "y": 1100,
+        "station_type": "F"
+      },
+      "G1": {
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "x": 2550,
+        "y": 1010,
+        "station_type": "G"
+      },
+      "L1": {
+        "name": "L型处理站·L1",
+        "kind": "station",
+        "x": 3260,
+        "y": 1140,
+        "station_type": "L"
+      },
+      "R2": {
+        "name": "R型处理站·R2",
+        "kind": "station",
+        "x": 2640,
+        "y": 1910,
+        "station_type": "R"
+      },
+      "C2": {
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "x": 1600,
+        "y": 2250,
+        "station_type": "C"
+      },
+      "G2": {
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "x": 850,
+        "y": 2050,
+        "station_type": "G"
+      },
+      "T1": {
+        "name": "T型处理站·T1",
+        "kind": "station",
+        "x": 2760,
+        "y": 2560,
+        "station_type": "T"
+      },
+      "O1": {
+        "name": "O型处理站·O1",
+        "kind": "station",
+        "x": 3900,
+        "y": 2720,
+        "station_type": "O"
+      },
+      "U2": {
+        "name": "U型处理站·U2",
+        "kind": "station",
+        "x": 2860,
+        "y": 3350,
+        "station_type": "U"
+      },
+      "S2": {
+        "name": "S型处理站·S2",
+        "kind": "station",
+        "x": 3650,
+        "y": 3580,
+        "station_type": "S"
+      },
+      "K2": {
+        "name": "K型处理站·K2",
+        "kind": "station",
+        "x": 1800,
+        "y": 3210,
+        "station_type": "K"
+      },
+      "M1": {
+        "name": "M型处理站·M1",
+        "kind": "station",
+        "x": 980,
+        "y": 3790,
+        "station_type": "M"
+      },
+      "L2": {
+        "name": "L型处理站·L2",
+        "kind": "station",
+        "x": 1610,
+        "y": 4290,
+        "station_type": "L"
+      },
+      "F1": {
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "x": 875,
+        "y": 4400,
+        "station_type": "F"
+      },
+      "W2": {
+        "name": "W型处理站·W2",
+        "kind": "station",
+        "x": 2990,
+        "y": 4770,
+        "station_type": "W"
+      },
+      "Q2": {
+        "name": "Q型处理站·Q2",
+        "kind": "station",
+        "x": 3490,
+        "y": 4950,
+        "station_type": "Q"
+      },
+      "P1": {
+        "name": "P型处理站·P1",
+        "kind": "station",
+        "x": 3000,
+        "y": 5610,
+        "station_type": "P"
+      },
+      "U1": {
+        "name": "U型处理站·U1",
+        "kind": "station",
+        "x": 2870,
+        "y": 5820,
+        "station_type": "U"
+      },
+      "T2": {
+        "name": "T型处理站·T2",
+        "kind": "station",
+        "x": 1220,
+        "y": 5620,
+        "station_type": "T"
+      },
+      "K1": {
+        "name": "K型处理站·K1",
+        "kind": "station",
+        "x": 1800,
+        "y": 5860,
+        "station_type": "K"
+      },
+      "X2": {
+        "name": "X型处理站·X2",
+        "kind": "station",
+        "x": 340,
+        "y": 670,
+        "station_type": "X"
+      },
+      "A2": {
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "x": 240,
+        "y": 2810,
+        "station_type": "A"
+      },
+      "I2": {
+        "name": "I型处理站·I2",
+        "kind": "station",
+        "x": 290,
+        "y": 4620,
+        "station_type": "I"
+      },
+      "H2": {
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "x": 700,
+        "y": 5750,
+        "station_type": "H"
+      },
+      "J1": {
+        "name": "J型处理站·J1",
+        "kind": "station",
+        "x": 1870,
+        "y": 6120,
+        "station_type": "J"
+      },
+      "B1": {
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "x": 3760,
+        "y": 6040,
+        "station_type": "B"
+      },
+      "V1": {
+        "name": "V型处理站·V1",
+        "kind": "station",
+        "x": 4730,
+        "y": 5180,
+        "station_type": "V"
+      },
+      "P2": {
+        "name": "P型处理站·P2",
+        "kind": "station",
+        "x": 4880,
+        "y": 2950,
+        "station_type": "P"
+      },
+      "Q1": {
+        "name": "Q型处理站·Q1",
+        "kind": "station",
+        "x": 4590,
+        "y": 1190,
+        "station_type": "Q"
+      },
+      "X1": {
+        "name": "X型处理站·X1",
+        "kind": "station",
+        "x": 3570,
+        "y": 430,
+        "station_type": "X"
+      },
+      "A1": {
+        "name": "A型处理站·A1",
+        "kind": "station",
+        "x": 1660,
+        "y": 290,
+        "station_type": "A"
+      },
+      "S1": {
+        "name": "S型处理站·S1",
+        "kind": "station",
+        "x": 1330,
+        "y": 3400,
+        "station_type": "S"
+      },
+      "v01": {
+        "name": "西北干坡",
+        "kind": "survey",
+        "x": 910,
+        "y": 570
+      },
+      "v02": {
+        "name": "西谷河阶",
+        "kind": "survey",
+        "x": 260,
+        "y": 1650
+      },
+      "v03": {
+        "name": "西谷砾滩",
+        "kind": "survey",
+        "x": 350,
+        "y": 3330
+      },
+      "v04": {
+        "name": "西南坡脚",
+        "kind": "survey",
+        "x": 240,
+        "y": 4040
+      },
+      "v05": {
+        "name": "西谷农台",
+        "kind": "survey",
+        "x": 1150,
+        "y": 5130
+      },
+      "v06": {
+        "name": "北岭高坪",
+        "kind": "survey",
+        "x": 2210,
+        "y": 170
+      },
+      "v07": {
+        "name": "北支林坡",
+        "kind": "survey",
+        "x": 1550,
+        "y": 1580
+      },
+      "v08": {
+        "name": "谷口阶地",
+        "kind": "survey",
+        "x": 2640,
+        "y": 2120
+      },
+      "v09": {
+        "name": "中谷草甸",
+        "kind": "survey",
+        "x": 2130,
+        "y": 3030
+      },
+      "v10": {
+        "name": "中央山麓",
+        "kind": "survey",
+        "x": 1880,
+        "y": 3820
+      },
+      "v11": {
+        "name": "南岭露头",
+        "kind": "survey",
+        "x": 2480,
+        "y": 4740
+      },
+      "v12": {
+        "name": "南谷台地",
+        "kind": "survey",
+        "x": 2390,
+        "y": 6110
+      },
+      "v13": {
+        "name": "东北云坡",
+        "kind": "survey",
+        "x": 3940,
+        "y": 720
+      },
+      "v14": {
+        "name": "东谷湿坡",
+        "kind": "survey",
+        "x": 4700,
+        "y": 1730
+      },
+      "v15": {
+        "name": "中东谷台",
+        "kind": "survey",
+        "x": 4790,
+        "y": 3440
+      },
+      "v16": {
+        "name": "东南林缘",
+        "kind": "survey",
+        "x": 4600,
+        "y": 4560
+      }
+    },
+    "edges": [
+      [
+        "D2",
+        "w0",
+        3
+      ],
+      [
+        "D2",
+        "w1",
+        3
+      ],
+      [
+        "E1",
+        "w1",
+        3
+      ],
+      [
+        "E1",
+        "w2",
+        4
+      ],
+      [
+        "V2",
+        "w2",
+        3
+      ],
+      [
+        "V2",
+        "w3",
+        4
+      ],
+      [
+        "N2",
+        "w3",
+        4
+      ],
+      [
+        "N2",
+        "w4",
+        4
+      ],
+      [
+        "n0",
+        "M2",
+        3
+      ],
+      [
+        "n1",
+        "M2",
+        3
+      ],
+      [
+        "n1",
+        "H1",
+        3
+      ],
+      [
+        "n2",
+        "H1",
+        3
+      ],
+      [
+        "n2",
+        "J2",
+        3
+      ],
+      [
+        "C",
+        "J2",
+        3
+      ],
+      [
+        "C",
+        "B2",
+        3
+      ],
+      [
+        "c3",
+        "B2",
+        3
+      ],
+      [
+        "c3",
+        "D1",
+        3
+      ],
+      [
+        "c4",
+        "D1",
+        3
+      ],
+      [
+        "c4",
+        "R1",
+        3
+      ],
+      [
+        "c5",
+        "R1",
+        3
+      ],
+      [
+        "e0",
+        "C1",
+        3
+      ],
+      [
+        "e1",
+        "C1",
+        3
+      ],
+      [
+        "e1",
+        "N1",
+        3
+      ],
+      [
+        "e2",
+        "N1",
+        4
+      ],
+      [
+        "e2",
+        "I1",
+        3
+      ],
+      [
+        "e3",
+        "I1",
+        4
+      ],
+      [
+        "e3",
+        "E2",
+        4
+      ],
+      [
+        "e4",
+        "E2",
+        4
+      ],
+      [
+        "e4",
+        "O2",
+        4
+      ],
+      [
+        "e5",
+        "O2",
+        4
+      ],
+      [
+        "W1",
+        "w0",
+        2
+      ],
+      [
+        "a0",
+        "W1",
+        2
+      ],
+      [
+        "a0",
+        "F2",
+        2
+      ],
+      [
+        "n1",
+        "F2",
+        3
+      ],
+      [
+        "n0",
+        "u0",
+        5
+      ],
+      [
+        "e0",
+        "u0",
+        3
+      ],
+      [
+        "e0",
+        "L1",
+        3
+      ],
+      [
+        "n3",
+        "L1",
+        3
+      ],
+      [
+        "n3",
+        "G1",
+        4
+      ],
+      [
+        "n1",
+        "G1",
+        5
+      ],
+      [
+        "n3",
+        "R2",
+        3
+      ],
+      [
+        "n2",
+        "R2",
+        3
+      ],
+      [
+        "G2",
+        "w1",
+        3
+      ],
+      [
+        "p3",
+        "G2",
+        2
+      ],
+      [
+        "p3",
+        "C2",
+        2
+      ],
+      [
+        "n2",
+        "C2",
+        4
+      ],
+      [
+        "n2",
+        "T1",
+        3
+      ],
+      [
+        "p0",
+        "T1",
+        4
+      ],
+      [
+        "p0",
+        "O1",
+        4
+      ],
+      [
+        "e2",
+        "O1",
+        4
+      ],
+      [
+        "p0",
+        "u1",
+        6
+      ],
+      [
+        "e1",
+        "u1",
+        4
+      ],
+      [
+        "C",
+        "U2",
+        3
+      ],
+      [
+        "p1",
+        "U2",
+        3
+      ],
+      [
+        "p1",
+        "S2",
+        2
+      ],
+      [
+        "e3",
+        "S2",
+        2
+      ],
+      [
+        "M1",
+        "w2",
+        4
+      ],
+      [
+        "a1",
+        "M1",
+        5
+      ],
+      [
+        "a1",
+        "K2",
+        2
+      ],
+      [
+        "C",
+        "K2",
+        4
+      ],
+      [
+        "F1",
+        "w3",
+        2
+      ],
+      [
+        "p2",
+        "F1",
+        2
+      ],
+      [
+        "p2",
+        "L2",
+        2
+      ],
+      [
+        "c3",
+        "L2",
+        3
+      ],
+      [
+        "c4",
+        "W2",
+        2
+      ],
+      [
+        "a2",
+        "W2",
+        2
+      ],
+      [
+        "a2",
+        "Q2",
+        3
+      ],
+      [
+        "e4",
+        "Q2",
+        5
+      ],
+      [
+        "a3",
+        "c4",
+        4
+      ],
+      [
+        "a3",
+        "P1",
+        3
+      ],
+      [
+        "e5",
+        "P1",
+        4
+      ],
+      [
+        "T2",
+        "w4",
+        2
+      ],
+      [
+        "b0",
+        "T2",
+        2
+      ],
+      [
+        "b0",
+        "K1",
+        2
+      ],
+      [
+        "c5",
+        "K1",
+        2
+      ],
+      [
+        "c5",
+        "U1",
+        4
+      ],
+      [
+        "e5",
+        "U1",
+        4
+      ],
+      [
+        "b1",
+        "e3",
+        5
+      ],
+      [
+        "b1",
+        "e4",
+        5
+      ],
+      [
+        "X2",
+        "w0",
+        2
+      ],
+      [
+        "A2",
+        "w2",
+        3
+      ],
+      [
+        "I2",
+        "w3",
+        2
+      ],
+      [
+        "H2",
+        "w4",
+        3
+      ],
+      [
+        "c5",
+        "J1",
+        2
+      ],
+      [
+        "e5",
+        "B1",
+        2
+      ],
+      [
+        "e4",
+        "V1",
+        3
+      ],
+      [
+        "e2",
+        "P2",
+        3
+      ],
+      [
+        "e1",
+        "Q1",
+        2
+      ],
+      [
+        "e0",
+        "X1",
+        2
+      ],
+      [
+        "n0",
+        "A1",
+        3
+      ],
+      [
+        "a1",
+        "S1",
+        2
+      ],
+      [
+        "v01",
+        "w0",
+        2
+      ],
+      [
+        "v02",
+        "w1",
+        2
+      ],
+      [
+        "v03",
+        "w2",
+        2
+      ],
+      [
+        "v04",
+        "w3",
+        2
+      ],
+      [
+        "v05",
+        "w4",
+        2
+      ],
+      [
+        "n0",
+        "v06",
+        2
+      ],
+      [
+        "n1",
+        "v07",
+        2
+      ],
+      [
+        "n2",
+        "v08",
+        2
+      ],
+      [
+        "C",
+        "v09",
+        2
+      ],
+      [
+        "c3",
+        "v10",
+        2
+      ],
+      [
+        "c4",
+        "v11",
+        2
+      ],
+      [
+        "c5",
+        "v12",
+        2
+      ],
+      [
+        "e0",
+        "v13",
+        3
+      ],
+      [
+        "e1",
+        "v14",
+        3
+      ],
+      [
+        "e2",
+        "v15",
+        5
+      ],
+      [
+        "e4",
+        "v16",
+        2
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "长程交错巡测 001",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "erosion_form",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "erosion_form",
+          "requirement": "compare"
+        },
+        {
+          "target": "v13",
+          "required_kind": "livestock_signs",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T2": {
+      "name": "长程交错巡测 002",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "slope",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "slope",
+          "requirement": "verify"
+        },
+        {
+          "target": "v08",
+          "required_kind": "land_cover",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T3": {
+      "name": "长程交错巡测 003",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "ungulate_tracks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "ungulate_tracks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v07",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T4": {
+      "name": "长程交错巡测 004",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "woodland_birds",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "woodland_birds",
+          "requirement": "verify"
+        },
+        {
+          "target": "v01",
+          "required_kind": "livestock_signs",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T5": {
+      "name": "长程交错巡测 005",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "elevation",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "elevation",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v06",
+          "required_kind": "lithology",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T6": {
+      "name": "长程交错巡测 006",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "historic_road",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v02",
+          "required_kind": "soil",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T7": {
+      "name": "长程交错巡测 007",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "erosion_form",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "erosion_form",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v07",
+          "required_kind": "land_cover",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T8": {
+      "name": "长程交错巡测 008",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "slope",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "slope",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v05",
+          "required_kind": "built_form",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T9": {
+      "name": "长程交错巡测 009",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "waterworks",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "waterworks",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v13",
+          "required_kind": "lithology",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T10": {
+      "name": "长程交错巡测 010",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "elevation",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "elevation",
+          "requirement": "compare"
+        },
+        {
+          "target": "v09",
+          "required_kind": "erosion_form",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T11": {
+      "name": "长程交错巡测 011",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "drainage",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "drainage",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v07",
+          "required_kind": "waterworks",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T12": {
+      "name": "长程交错巡测 012",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "small_mammal_signs",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "small_mammal_signs",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v11",
+          "required_kind": "livestock_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T13": {
+      "name": "长程交错巡测 013",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v04",
+          "required_kind": "woodland_birds",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T14": {
+      "name": "长程交错巡测 014",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "small_mammal_signs",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        },
+        {
+          "target": "v03",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T15": {
+      "name": "长程交错巡测 015",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "land_cover",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v16",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T16": {
+      "name": "长程交错巡测 016",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "settlement_layout",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "settlement_layout",
+          "requirement": "compare"
+        },
+        {
+          "target": "v16",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T17": {
+      "name": "长程交错巡测 017",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "soil",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v13",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T18": {
+      "name": "长程交错巡测 018",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "lithology",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "lithology",
+          "requirement": "compare"
+        },
+        {
+          "target": "v09",
+          "required_kind": "profile",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T19": {
+      "name": "长程交错巡测 019",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "historic_road",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "historic_road",
+          "requirement": "compare"
+        },
+        {
+          "target": "v05",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T20": {
+      "name": "长程交错巡测 020",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "slope",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "slope",
+          "requirement": "compare"
+        },
+        {
+          "target": "v09",
+          "required_kind": "profile",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T21": {
+      "name": "长程交错巡测 021",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "soil",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "soil",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v07",
+          "required_kind": "woodland_birds",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T22": {
+      "name": "长程交错巡测 022",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "built_form",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "built_form",
+          "requirement": "compare"
+        },
+        {
+          "target": "v09",
+          "required_kind": "elevation",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T23": {
+      "name": "长程交错巡测 023",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "livestock_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "livestock_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v03",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T24": {
+      "name": "长程交错巡测 024",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "lithology",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "soil",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T25": {
+      "name": "长程交错巡测 025",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "settlement_layout",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "settlement_layout",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v07",
+          "required_kind": "ungulate_tracks",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T26": {
+      "name": "长程交错巡测 026",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "small_mammal_signs",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "small_mammal_signs",
+          "requirement": "compare"
+        },
+        {
+          "target": "v07",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T27": {
+      "name": "长程交错巡测 027",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "historic_road",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "historic_road",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v11",
+          "required_kind": "drainage",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T28": {
+      "name": "长程交错巡测 028",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "erosion_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "erosion_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T29": {
+      "name": "长程交错巡测 029",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "profile",
+          "requirement": "verify"
+        },
+        {
+          "target": "v16",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T30": {
+      "name": "长程交错巡测 030",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "profile",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v11",
+          "required_kind": "woodland_birds",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T31": {
+      "name": "长程交错巡测 031",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "slope",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "slope",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v08",
+          "required_kind": "elevation",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T32": {
+      "name": "长程交错巡测 032",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "ungulate_tracks",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "ungulate_tracks",
+          "requirement": "compare"
+        },
+        {
+          "target": "v03",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T33": {
+      "name": "长程交错巡测 033",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "waterworks",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "waterworks",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v05",
+          "required_kind": "erosion_form",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T34": {
+      "name": "长程交错巡测 034",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "built_form",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "soil",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T35": {
+      "name": "长程交错巡测 035",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "profile",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "profile",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v13",
+          "required_kind": "livestock_signs",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T36": {
+      "name": "长程交错巡测 036",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        },
+        {
+          "target": "v04",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T37": {
+      "name": "长程交错巡测 037",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "land_cover",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "land_cover",
+          "requirement": "compare"
+        },
+        {
+          "target": "v09",
+          "required_kind": "woodland_birds",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T38": {
+      "name": "长程交错巡测 038",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "ungulate_tracks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "ungulate_tracks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v07",
+          "required_kind": "small_mammal_signs",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T39": {
+      "name": "长程交错巡测 039",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "waterworks",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "waterworks",
+          "requirement": "compare"
+        },
+        {
+          "target": "v01",
+          "required_kind": "woodland_birds",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T40": {
+      "name": "长程交错巡测 040",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "settlement_layout",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "settlement_layout",
+          "requirement": "compare"
+        },
+        {
+          "target": "v10",
+          "required_kind": "settlement_layout",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T41": {
+      "name": "长程交错巡测 041",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "elevation",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "elevation",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v09",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T42": {
+      "name": "长程交错巡测 042",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "lithology",
+          "requirement": "verify"
+        },
+        {
+          "target": "v13",
+          "required_kind": "ungulate_tracks",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T43": {
+      "name": "长程交错巡测 043",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "profile",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v04",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T44": {
+      "name": "长程交错巡测 044",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "erosion_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "erosion_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v14",
+          "required_kind": "profile",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T45": {
+      "name": "长程交错巡测 045",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "historic_road",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "historic_road",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v15",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T46": {
+      "name": "长程交错巡测 046",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "soil",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "soil",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v14",
+          "required_kind": "soil",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T47": {
+      "name": "长程交错巡测 047",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "lithology",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v12",
+          "required_kind": "lithology",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T48": {
+      "name": "长程交错巡测 048",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v14",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T49": {
+      "name": "长程交错巡测 049",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "elevation",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "elevation",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v14",
+          "required_kind": "livestock_signs",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T50": {
+      "name": "长程交错巡测 050",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "woodland_birds",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "woodland_birds",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v05",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T51": {
+      "name": "长程交错巡测 051",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "small_mammal_signs",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "small_mammal_signs",
+          "requirement": "compare"
+        },
+        {
+          "target": "v04",
+          "required_kind": "slope",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T52": {
+      "name": "长程交错巡测 052",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "erosion_form",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "erosion_form",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v07",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T53": {
+      "name": "长程交错巡测 053",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "built_form",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "built_form",
+          "requirement": "compare"
+        },
+        {
+          "target": "v06",
+          "required_kind": "slope",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T54": {
+      "name": "长程交错巡测 054",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "profile",
+          "requirement": "verify"
+        },
+        {
+          "target": "v03",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T55": {
+      "name": "长程交错巡测 055",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "soil",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v11",
+          "required_kind": "woodland_birds",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T56": {
+      "name": "长程交错巡测 056",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "drainage",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "drainage",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v11",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T57": {
+      "name": "长程交错巡测 057",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "small_mammal_signs",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        },
+        {
+          "target": "v05",
+          "required_kind": "slope",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T58": {
+      "name": "长程交错巡测 058",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "elevation",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "elevation",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "built_form",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T59": {
+      "name": "长程交错巡测 059",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "erosion_form",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "erosion_form",
+          "requirement": "compare"
+        },
+        {
+          "target": "v16",
+          "required_kind": "livestock_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T60": {
+      "name": "长程交错巡测 060",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        },
+        {
+          "target": "v11",
+          "required_kind": "land_cover",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T61": {
+      "name": "长程交错巡测 061",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "ungulate_tracks",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "ungulate_tracks",
+          "requirement": "compare"
+        },
+        {
+          "target": "v16",
+          "required_kind": "historic_road",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T62": {
+      "name": "长程交错巡测 062",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "drainage",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "drainage",
+          "requirement": "compare"
+        },
+        {
+          "target": "v04",
+          "required_kind": "lithology",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T63": {
+      "name": "长程交错巡测 063",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "elevation",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "elevation",
+          "requirement": "compare"
+        },
+        {
+          "target": "v10",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T64": {
+      "name": "长程交错巡测 064",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "slope",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "slope",
+          "requirement": "verify"
+        },
+        {
+          "target": "v05",
+          "required_kind": "livestock_signs",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T65": {
+      "name": "长程交错巡测 065",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "woodland_birds",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "woodland_birds",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v16",
+          "required_kind": "small_mammal_signs",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T66": {
+      "name": "长程交错巡测 066",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "soil",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "soil",
+          "requirement": "compare"
+        },
+        {
+          "target": "v12",
+          "required_kind": "erosion_form",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T67": {
+      "name": "长程交错巡测 067",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "historic_road",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v05",
+          "required_kind": "soil",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T68": {
+      "name": "长程交错巡测 068",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "waterworks",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "waterworks",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v10",
+          "required_kind": "lithology",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T69": {
+      "name": "长程交错巡测 069",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "land_cover",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "land_cover",
+          "requirement": "compare"
+        },
+        {
+          "target": "v13",
+          "required_kind": "profile",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T70": {
+      "name": "长程交错巡测 070",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "woodland_birds",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "woodland_birds",
+          "requirement": "compare"
+        },
+        {
+          "target": "v04",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T71": {
+      "name": "长程交错巡测 071",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "erosion_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "erosion_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v10",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T72": {
+      "name": "长程交错巡测 072",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "drainage",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "drainage",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v16",
+          "required_kind": "small_mammal_signs",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T73": {
+      "name": "长程交错巡测 073",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "elevation",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "elevation",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v01",
+          "required_kind": "ungulate_tracks",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T74": {
+      "name": "长程交错巡测 074",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "slope",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "slope",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v03",
+          "required_kind": "profile",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T75": {
+      "name": "长程交错巡测 075",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "land_cover",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "land_cover",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v08",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T76": {
+      "name": "长程交错巡测 076",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v07",
+      "required_kind": "built_form",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "built_form",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v08",
+          "required_kind": "ungulate_tracks",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T77": {
+      "name": "长程交错巡测 077",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "woodland_birds",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "woodland_birds",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v14",
+          "required_kind": "built_form",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T78": {
+      "name": "长程交错巡测 078",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "lithology",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v09",
+          "required_kind": "settlement_layout",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T79": {
+      "name": "长程交错巡测 079",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "waterworks",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "waterworks",
+          "requirement": "compare"
+        },
+        {
+          "target": "v14",
+          "required_kind": "elevation",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T80": {
+      "name": "长程交错巡测 080",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "erosion_form",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "erosion_form",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "historic_road",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T81": {
+      "name": "长程交错巡测 081",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        },
+        {
+          "target": "v13",
+          "required_kind": "historic_road",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T82": {
+      "name": "长程交错巡测 082",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v07",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "soil",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T83": {
+      "name": "长程交错巡测 083",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "soil",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v15",
+          "required_kind": "erosion_form",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T84": {
+      "name": "长程交错巡测 084",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "built_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v02",
+          "required_kind": "woodland_birds",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T85": {
+      "name": "长程交错巡测 085",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "drainage",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "drainage",
+          "requirement": "compare"
+        },
+        {
+          "target": "v09",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T86": {
+      "name": "长程交错巡测 086",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "livestock_signs",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "livestock_signs",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v04",
+          "required_kind": "lithology",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T87": {
+      "name": "长程交错巡测 087",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "slope",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "slope",
+          "requirement": "compare"
+        },
+        {
+          "target": "v03",
+          "required_kind": "livestock_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T88": {
+      "name": "长程交错巡测 088",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "elevation",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "elevation",
+          "requirement": "compare"
+        },
+        {
+          "target": "v12",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T89": {
+      "name": "长程交错巡测 089",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "livestock_signs",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "livestock_signs",
+          "requirement": "compare"
+        },
+        {
+          "target": "v03",
+          "required_kind": "slope",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T90": {
+      "name": "长程交错巡测 090",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T91": {
+      "name": "长程交错巡测 091",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "land_cover",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        },
+        {
+          "target": "v10",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T92": {
+      "name": "长程交错巡测 092",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "profile",
+          "requirement": "verify"
+        },
+        {
+          "target": "v10",
+          "required_kind": "elevation",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T93": {
+      "name": "长程交错巡测 093",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "settlement_layout",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        },
+        {
+          "target": "v02",
+          "required_kind": "settlement_layout",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T94": {
+      "name": "长程交错巡测 094",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "ungulate_tracks",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify"
+        },
+        {
+          "target": "v02",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T95": {
+      "name": "长程交错巡测 095",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "lithology",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "slope",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T96": {
+      "name": "长程交错巡测 096",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "livestock_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "livestock_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v16",
+          "required_kind": "ungulate_tracks",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T97": {
+      "name": "长程交错巡测 097",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        },
+        {
+          "target": "v07",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T98": {
+      "name": "长程交错巡测 098",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "historic_road",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v09",
+          "required_kind": "soil",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T99": {
+      "name": "长程交错巡测 099",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "built_form",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "small_mammal_signs",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T100": {
+      "name": "长程交错巡测 100",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "erosion_form",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "erosion_form",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v14",
+          "required_kind": "waterworks",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T101": {
+      "name": "长程交错巡测 101",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v07",
+      "required_kind": "erosion_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "erosion_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v04",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T102": {
+      "name": "长程交错巡测 102",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "settlement_layout",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "settlement_layout",
+          "requirement": "compare"
+        },
+        {
+          "target": "v07",
+          "required_kind": "profile",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T103": {
+      "name": "长程交错巡测 103",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "ungulate_tracks",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "ungulate_tracks",
+          "requirement": "compare"
+        },
+        {
+          "target": "v12",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T104": {
+      "name": "长程交错巡测 104",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "elevation",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "elevation",
+          "requirement": "compare"
+        },
+        {
+          "target": "v05",
+          "required_kind": "elevation",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T105": {
+      "name": "长程交错巡测 105",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "land_cover",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "land_cover",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v14",
+          "required_kind": "waterworks",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T106": {
+      "name": "长程交错巡测 106",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "erosion_form",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "erosion_form",
+          "requirement": "compare"
+        },
+        {
+          "target": "v06",
+          "required_kind": "historic_road",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T107": {
+      "name": "长程交错巡测 107",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "lithology",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "lithology",
+          "requirement": "compare"
+        },
+        {
+          "target": "v08",
+          "required_kind": "slope",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T108": {
+      "name": "长程交错巡测 108",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "land_cover",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v15",
+          "required_kind": "profile",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T109": {
+      "name": "长程交错巡测 109",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "historic_road",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "historic_road",
+          "requirement": "compare"
+        },
+        {
+          "target": "v08",
+          "required_kind": "ungulate_tracks",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T110": {
+      "name": "长程交错巡测 110",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "livestock_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "livestock_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v04",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T111": {
+      "name": "长程交错巡测 111",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "livestock_signs",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "livestock_signs",
+          "requirement": "compare"
+        },
+        {
+          "target": "v02",
+          "required_kind": "woodland_birds",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T112": {
+      "name": "长程交错巡测 112",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "small_mammal_signs",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        },
+        {
+          "target": "v06",
+          "required_kind": "woodland_birds",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T113": {
+      "name": "长程交错巡测 113",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "elevation",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "elevation",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T114": {
+      "name": "长程交错巡测 114",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v07",
+      "required_kind": "slope",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "slope",
+          "requirement": "compare"
+        },
+        {
+          "target": "v11",
+          "required_kind": "livestock_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T115": {
+      "name": "长程交错巡测 115",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "slope",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "slope",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v03",
+          "required_kind": "livestock_signs",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T116": {
+      "name": "长程交错巡测 116",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "land_cover",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        },
+        {
+          "target": "v05",
+          "required_kind": "woodland_birds",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T117": {
+      "name": "长程交错巡测 117",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "elevation",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "elevation",
+          "requirement": "verify"
+        },
+        {
+          "target": "v07",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T118": {
+      "name": "长程交错巡测 118",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v02",
+          "required_kind": "lithology",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T119": {
+      "name": "长程交错巡测 119",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        },
+        {
+          "target": "v10",
+          "required_kind": "profile",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T120": {
+      "name": "长程交错巡测 120",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "settlement_layout",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "small_mammal_signs",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T121": {
+      "name": "长程交错巡测 121",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "soil",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "soil",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v10",
+          "required_kind": "drainage",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T122": {
+      "name": "长程交错巡测 122",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        },
+        {
+          "target": "v11",
+          "required_kind": "land_cover",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T123": {
+      "name": "长程交错巡测 123",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "lithology",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "lithology",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v01",
+          "required_kind": "soil",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T124": {
+      "name": "长程交错巡测 124",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "slope",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "slope",
+          "requirement": "verify"
+        },
+        {
+          "target": "v14",
+          "required_kind": "settlement_layout",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T125": {
+      "name": "长程交错巡测 125",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "profile",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v09",
+          "required_kind": "lithology",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T126": {
+      "name": "长程交错巡测 126",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "woodland_birds",
+      "requirement": "compare",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "woodland_birds",
+          "requirement": "compare"
+        },
+        {
+          "target": "v07",
+          "required_kind": "built_form",
+          "requirement": "compare"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T127": {
+      "name": "长程交错巡测 127",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "ungulate_tracks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "ungulate_tracks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "drainage",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T128": {
+      "name": "长程交错巡测 128",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "erosion_form",
+      "requirement": "integrate",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "erosion_form",
+          "requirement": "integrate"
+        },
+        {
+          "target": "v16",
+          "required_kind": "built_form",
+          "requirement": "integrate"
+        }
+      ],
+      "max_steps": 352
+    }
+  },
+  "presentation": {
+    "terrain": "andean-passes",
+    "regions": [
+      {
+        "name": "西部干谷",
+        "x": 460,
+        "y": 5250
+      },
+      {
+        "name": "中部高谷",
+        "x": 2520,
+        "y": 3750
+      },
+      {
+        "name": "北岭支谷",
+        "x": 2720,
+        "y": 760
+      },
+      {
+        "name": "东部云谷",
+        "x": 4610,
+        "y": 3840
+      }
+    ]
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "knowledge_protocol": "delivered-conditional-capability-sets-v1",
+    "exact_unknown_world_references": false,
+    "stream_design": "128 ordinary two-stage tasks; 64 material/requirement contexts, each four times; 16 survey sites, each 16 times; at least 12 task indices between exact context exposures. Interleaved requirements, fixed world, no injected memory.",
+    "authoring_geometry_check": {
+      "stage_contexts": 256,
+      "nearest_match_rate": 0.10904947916666664,
+      "unused_strict_replicas": [],
+      "strict_replica_counts": {
+        "A1": 1,
+        "A2": 2,
+        "B1": 1,
+        "B2": 9,
+        "C1": 4,
+        "C2": 8,
+        "D1": 7,
+        "D2": 3,
+        "E1": 4,
+        "E2": 3,
+        "F1": 10,
+        "F2": 3,
+        "G1": 8,
+        "G2": 2,
+        "H1": 9,
+        "H2": 1,
+        "I1": 5,
+        "I2": 4,
+        "J1": 1,
+        "J2": 13,
+        "K1": 2,
+        "K2": 9,
+        "L1": 6,
+        "L2": 9,
+        "M1": 2,
+        "M2": 4,
+        "N1": 2,
+        "N2": 5,
+        "O1": 1,
+        "O2": 1,
+        "P1": 1,
+        "P2": 3,
+        "Q1": 1,
+        "Q2": 4,
+        "R1": 8,
+        "R2": 10,
+        "S1": 2,
+        "S2": 8,
+        "T1": 6,
+        "T2": 5,
+        "U1": 1,
+        "U2": 4,
+        "V1": 6,
+        "V2": 4,
+        "W1": 5,
+        "W2": 10,
+        "X1": 3,
+        "X2": 1
+      },
+      "mean_processing_leg_distance": 29.24609375,
+      "seed": 26110543,
+      "selected_candidate": 206,
+      "trials_examined": 206,
+      "method": "Fixed-seed geometry-only authoring; no native outcomes."
+    },
+    "stream_diagnostics": {
+      "contexts": 64,
+      "repeat_count": 192,
+      "minimum_repeat_gap_tasks": 12,
+      "maximum_repeat_gap_tasks": 62,
+      "mean_repeat_gap_tasks": 32.0,
+      "intervening_same_material_other_requirement_stages": [
+        3,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        3,
+        3,
+        2,
+        3,
+        3,
+        3,
+        4,
+        3,
+        2,
+        3,
+        1,
+        2,
+        3,
+        1,
+        2,
+        1,
+        5,
+        0,
+        4,
+        2,
+        2,
+        1,
+        5,
+        4,
+        3,
+        2,
+        4,
+        3,
+        2,
+        2,
+        0,
+        3,
+        3,
+        3,
+        3,
+        4,
+        3,
+        5,
+        3,
+        4,
+        2,
+        5,
+        3,
+        2,
+        6,
+        6,
+        3,
+        4,
+        4,
+        3,
+        4,
+        4,
+        4,
+        5,
+        3,
+        6,
+        3,
+        1,
+        3,
+        1,
+        1,
+        2,
+        4,
+        3,
+        1,
+        3,
+        1,
+        1,
+        3,
+        3,
+        3,
+        3,
+        2,
+        3,
+        0,
+        3,
+        4,
+        2,
+        4,
+        1,
+        3,
+        5,
+        3,
+        3,
+        2,
+        3,
+        2,
+        5,
+        4,
+        2,
+        2,
+        4,
+        4,
+        3,
+        3,
+        5,
+        5,
+        2,
+        2,
+        3,
+        2,
+        2,
+        2,
+        2,
+        5,
+        4,
+        2,
+        1,
+        4,
+        2,
+        5,
+        3,
+        5,
+        5,
+        4,
+        3,
+        4,
+        6,
+        5,
+        3,
+        6,
+        3,
+        0,
+        3,
+        4,
+        3,
+        3,
+        1,
+        3,
+        3,
+        1,
+        3,
+        3,
+        3,
+        3,
+        1,
+        4,
+        2,
+        3,
+        2,
+        3,
+        1,
+        3,
+        1,
+        3,
+        3,
+        3,
+        0,
+        3,
+        2,
+        3,
+        3,
+        2,
+        2,
+        1,
+        3,
+        4,
+        2,
+        6,
+        3,
+        2,
+        5,
+        1,
+        2,
+        3,
+        4,
+        2,
+        3,
+        5,
+        3,
+        3,
+        3,
+        6,
+        5,
+        5,
+        4,
+        3,
+        4,
+        3,
+        5,
+        3,
+        3,
+        5,
+        6,
+        5
+      ],
+      "context_exposures": {
+        "erosion_form|compare": 4,
+        "livestock_signs|compare": 4,
+        "slope|verify": 4,
+        "land_cover|compare": 4,
+        "ungulate_tracks|catalogue": 4,
+        "settlement_layout|verify": 4,
+        "woodland_birds|verify": 4,
+        "livestock_signs|integrate": 4,
+        "elevation|integrate": 4,
+        "lithology|integrate": 4,
+        "historic_road|catalogue": 4,
+        "soil|verify": 4,
+        "erosion_form|catalogue": 4,
+        "land_cover|integrate": 4,
+        "slope|integrate": 4,
+        "built_form|integrate": 4,
+        "waterworks|integrate": 4,
+        "lithology|verify": 4,
+        "elevation|compare": 4,
+        "erosion_form|integrate": 4,
+        "drainage|integrate": 4,
+        "waterworks|compare": 4,
+        "small_mammal_signs|integrate": 4,
+        "livestock_signs|verify": 4,
+        "waterworks|catalogue": 4,
+        "woodland_birds|catalogue": 4,
+        "small_mammal_signs|verify": 4,
+        "built_form|catalogue": 4,
+        "land_cover|catalogue": 4,
+        "waterworks|verify": 4,
+        "settlement_layout|compare": 4,
+        "historic_road|verify": 4,
+        "soil|catalogue": 4,
+        "small_mammal_signs|catalogue": 4,
+        "lithology|compare": 4,
+        "profile|compare": 4,
+        "historic_road|compare": 4,
+        "drainage|verify": 4,
+        "slope|compare": 4,
+        "profile|integrate": 4,
+        "soil|integrate": 4,
+        "woodland_birds|integrate": 4,
+        "built_form|compare": 4,
+        "elevation|catalogue": 4,
+        "livestock_signs|catalogue": 4,
+        "settlement_layout|catalogue": 4,
+        "lithology|catalogue": 4,
+        "soil|compare": 4,
+        "settlement_layout|integrate": 4,
+        "ungulate_tracks|integrate": 4,
+        "small_mammal_signs|compare": 4,
+        "ungulate_tracks|verify": 4,
+        "historic_road|integrate": 4,
+        "drainage|compare": 4,
+        "erosion_form|verify": 4,
+        "land_cover|verify": 4,
+        "profile|verify": 4,
+        "built_form|verify": 4,
+        "profile|catalogue": 4,
+        "woodland_birds|compare": 4,
+        "slope|catalogue": 4,
+        "elevation|verify": 4,
+        "ungulate_tracks|compare": 4,
+        "drainage|catalogue": 4
+      }
+    }
+  },
+  "provenance": {
+    "reference_region": "安第斯",
+    "reference_period": "c. 1500 CE, before Spanish conquest",
+    "sources": [
+      "https://whc.unesco.org/en/list/1459/"
+    ],
+    "reference_window": {
+      "crs": "EPSG:4326",
+      "bbox_west_south_east_north": [
+        -74.0,
+        -16.0,
+        -69.0,
+        -12.0
+      ],
+      "approximate_area_km2": 239892.715,
+      "basis": "Authored regional reference window, not a claim about exact historical boundaries or walkable surface."
+    },
+    "layout_authoring": {
+      "revision": "individually-authored-lunatic-v1",
+      "rationale": [
+        "A north-south highland itinerary with a branching northern headwater, an arid western valley and a cloud-facing eastern valley.",
+        "Asymmetric mountain-pass paths, a southern ridge fork and a long eastern bypass connect the valleys at different heights.",
+        "Rock masses and an upland lake leave meaningful pass alternatives; the graph does not reuse steppe spokes or fjord peninsulas."
+      ],
+      "topology": {
+        "connected": true,
+        "nodes": 95,
+        "roads": 107,
+        "cycle_rank": 13,
+        "core_branch_degree_histogram": {
+          "3": 11,
+          "4": 5,
+          "5": 1
+        },
+        "station_degree_histogram": {
+          "1": 12,
+          "2": 36
+        },
+        "dead_end_count": 28
+      },
+      "features": {
+        "rocks": [
+          [
+            [
+              870,
+              2560
+            ],
+            [
+              1120,
+              2400
+            ],
+            [
+              1410,
+              2580
+            ],
+            [
+              1250,
+              2810
+            ],
+            [
+              990,
+              2840
+            ]
+          ],
+          [
+            [
+              1500,
+              3510
+            ],
+            [
+              1710,
+              3430
+            ],
+            [
+              1890,
+              3590
+            ],
+            [
+              1740,
+              3800
+            ],
+            [
+              1500,
+              3780
+            ]
+          ],
+          [
+            [
+              3410,
+              1490
+            ],
+            [
+              3640,
+              1450
+            ],
+            [
+              3830,
+              1650
+            ],
+            [
+              3670,
+              1840
+            ],
+            [
+              3420,
+              1760
+            ]
+          ],
+          [
+            [
+              2840,
+              3820
+            ],
+            [
+              3050,
+              3660
+            ],
+            [
+              3290,
+              3830
+            ],
+            [
+              3130,
+              4100
+            ],
+            [
+              2850,
+              4080
+            ]
+          ]
+        ],
+        "lakes": [
+          [
+            [
+              2930,
+              4150
+            ],
+            [
+              3110,
+              4170
+            ],
+            [
+              3210,
+              4310
+            ],
+            [
+              3060,
+              4400
+            ],
+            [
+              2910,
+              4330
+            ]
+          ]
+        ]
+      },
+      "edge_tags": {
+        "D2|w0": [
+          "road"
+        ],
+        "D2|w1": [
+          "road"
+        ],
+        "E1|w1": [
+          "road"
+        ],
+        "E1|w2": [
+          "road"
+        ],
+        "V2|w2": [
+          "road"
+        ],
+        "V2|w3": [
+          "road"
+        ],
+        "N2|w3": [
+          "road"
+        ],
+        "N2|w4": [
+          "road"
+        ],
+        "M2|n0": [
+          "road"
+        ],
+        "M2|n1": [
+          "road"
+        ],
+        "H1|n1": [
+          "road"
+        ],
+        "H1|n2": [
+          "road"
+        ],
+        "J2|n2": [
+          "road"
+        ],
+        "C|J2": [
+          "road"
+        ],
+        "B2|C": [
+          "road"
+        ],
+        "B2|c3": [
+          "road"
+        ],
+        "D1|c3": [
+          "road"
+        ],
+        "D1|c4": [
+          "road"
+        ],
+        "R1|c4": [
+          "road"
+        ],
+        "R1|c5": [
+          "road"
+        ],
+        "C1|e0": [
+          "road"
+        ],
+        "C1|e1": [
+          "road"
+        ],
+        "N1|e1": [
+          "road"
+        ],
+        "N1|e2": [
+          "road"
+        ],
+        "I1|e2": [
+          "road"
+        ],
+        "I1|e3": [
+          "road"
+        ],
+        "E2|e3": [
+          "road"
+        ],
+        "E2|e4": [
+          "road"
+        ],
+        "O2|e4": [
+          "road"
+        ],
+        "O2|e5": [
+          "road"
+        ],
+        "W1|w0": [
+          "road"
+        ],
+        "W1|a0": [
+          "road"
+        ],
+        "F2|a0": [
+          "road"
+        ],
+        "F2|n1": [
+          "road"
+        ],
+        "n0|u0": [
+          "road"
+        ],
+        "e0|u0": [
+          "road"
+        ],
+        "L1|e0": [
+          "road"
+        ],
+        "L1|n3": [
+          "road"
+        ],
+        "G1|n3": [
+          "road"
+        ],
+        "G1|n1": [
+          "road"
+        ],
+        "R2|n3": [
+          "road"
+        ],
+        "R2|n2": [
+          "road"
+        ],
+        "G2|w1": [
+          "road"
+        ],
+        "G2|p3": [
+          "road"
+        ],
+        "C2|p3": [
+          "road"
+        ],
+        "C2|n2": [
+          "road"
+        ],
+        "T1|n2": [
+          "road"
+        ],
+        "T1|p0": [
+          "road"
+        ],
+        "O1|p0": [
+          "road"
+        ],
+        "O1|e2": [
+          "road"
+        ],
+        "p0|u1": [
+          "road"
+        ],
+        "e1|u1": [
+          "road"
+        ],
+        "C|U2": [
+          "road"
+        ],
+        "U2|p1": [
+          "road"
+        ],
+        "S2|p1": [
+          "road"
+        ],
+        "S2|e3": [
+          "road"
+        ],
+        "M1|w2": [
+          "road"
+        ],
+        "M1|a1": [
+          "road"
+        ],
+        "K2|a1": [
+          "road"
+        ],
+        "C|K2": [
+          "road"
+        ],
+        "F1|w3": [
+          "road"
+        ],
+        "F1|p2": [
+          "road"
+        ],
+        "L2|p2": [
+          "road"
+        ],
+        "L2|c3": [
+          "road"
+        ],
+        "W2|c4": [
+          "road"
+        ],
+        "W2|a2": [
+          "road"
+        ],
+        "Q2|a2": [
+          "road"
+        ],
+        "Q2|e4": [
+          "road"
+        ],
+        "a3|c4": [
+          "road"
+        ],
+        "P1|a3": [
+          "road"
+        ],
+        "P1|e5": [
+          "road"
+        ],
+        "T2|w4": [
+          "road"
+        ],
+        "T2|b0": [
+          "road"
+        ],
+        "K1|b0": [
+          "road"
+        ],
+        "K1|c5": [
+          "road"
+        ],
+        "U1|c5": [
+          "road"
+        ],
+        "U1|e5": [
+          "road"
+        ],
+        "b1|e3": [
+          "road"
+        ],
+        "b1|e4": [
+          "road"
+        ],
+        "X2|w0": [
+          "road"
+        ],
+        "A2|w2": [
+          "road"
+        ],
+        "I2|w3": [
+          "road"
+        ],
+        "H2|w4": [
+          "road"
+        ],
+        "J1|c5": [
+          "road"
+        ],
+        "B1|e5": [
+          "road"
+        ],
+        "V1|e4": [
+          "road"
+        ],
+        "P2|e2": [
+          "road"
+        ],
+        "Q1|e1": [
+          "road"
+        ],
+        "X1|e0": [
+          "road"
+        ],
+        "A1|n0": [
+          "road"
+        ],
+        "S1|a1": [
+          "road"
+        ],
+        "v01|w0": [
+          "road"
+        ],
+        "v02|w1": [
+          "road"
+        ],
+        "v03|w2": [
+          "road"
+        ],
+        "v04|w3": [
+          "road"
+        ],
+        "v05|w4": [
+          "road"
+        ],
+        "n0|v06": [
+          "road"
+        ],
+        "n1|v07": [
+          "road"
+        ],
+        "n2|v08": [
+          "road"
+        ],
+        "C|v09": [
+          "road"
+        ],
+        "c3|v10": [
+          "road"
+        ],
+        "c4|v11": [
+          "road"
+        ],
+        "c5|v12": [
+          "road"
+        ],
+        "e0|v13": [
+          "road"
+        ],
+        "e1|v14": [
+          "road"
+        ],
+        "e2|v15": [
+          "road"
+        ],
+        "e4|v16": [
+          "road"
+        ]
+      },
+      "geometry_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 246.98,
+        "minimum_point_separation": 210.0,
+        "topology": {
+          "connected": true,
+          "nodes": 95,
+          "roads": 107,
+          "cycle_rank": 13,
+          "core_branch_degree_histogram": {
+            "3": 11,
+            "4": 5,
+            "5": 1
+          },
+          "station_degree_histogram": {
+            "1": 12,
+            "2": 36
+          },
+          "dead_end_count": 28
+        }
+      }
+    },
+    "scope": "Schematic regional geography inspired by the stated period. Not historical road reconstruction. Sources do not provide station capabilities; real names and dates are private."
+  },
+  "private_station_capabilities": {
+    "A": {
+      "catalogue": [
+        "built_form",
+        "erosion_form"
+      ],
+      "verify": [
+        "livestock_signs",
+        "woodland_birds"
+      ],
+      "compare": [
+        "elevation",
+        "small_mammal_signs"
+      ],
+      "integrate": [
+        "historic_road",
+        "slope"
+      ]
+    },
+    "B": {
+      "catalogue": [
+        "land_cover"
+      ],
+      "verify": [
+        "soil"
+      ],
+      "compare": [
+        "settlement_layout"
+      ],
+      "integrate": [
+        "waterworks"
+      ]
+    },
+    "C": {
+      "catalogue": [
+        "drainage",
+        "settlement_layout"
+      ],
+      "verify": [
+        "ungulate_tracks",
+        "waterworks"
+      ],
+      "compare": [
+        "land_cover",
+        "lithology"
+      ],
+      "integrate": [
+        "profile",
+        "soil"
+      ]
+    },
+    "D": {
+      "catalogue": [
+        "waterworks"
+      ],
+      "verify": [
+        "elevation"
+      ],
+      "compare": [
+        "slope"
+      ],
+      "integrate": [
+        "erosion_form"
+      ]
+    },
+    "E": {
+      "catalogue": [
+        "historic_road"
+      ],
+      "verify": [
+        "ungulate_tracks"
+      ],
+      "compare": [
+        "land_cover"
+      ],
+      "integrate": [
+        "profile"
+      ]
+    },
+    "F": {
+      "catalogue": [
+        "drainage"
+      ],
+      "verify": [
+        "waterworks"
+      ],
+      "compare": [
+        "lithology"
+      ],
+      "integrate": [
+        "soil"
+      ]
+    },
+    "G": {
+      "catalogue": [
+        "livestock_signs",
+        "woodland_birds"
+      ],
+      "verify": [
+        "elevation",
+        "small_mammal_signs"
+      ],
+      "compare": [
+        "historic_road",
+        "slope"
+      ],
+      "integrate": [
+        "built_form",
+        "erosion_form"
+      ]
+    },
+    "H": {
+      "catalogue": [
+        "lithology"
+      ],
+      "verify": [
+        "slope"
+      ],
+      "compare": [
+        "erosion_form"
+      ],
+      "integrate": [
+        "woodland_birds"
+      ]
+    },
+    "I": {
+      "catalogue": [
+        "woodland_birds"
+      ],
+      "verify": [
+        "small_mammal_signs"
+      ],
+      "compare": [
+        "historic_road"
+      ],
+      "integrate": [
+        "built_form"
+      ]
+    },
+    "J": {
+      "catalogue": [
+        "livestock_signs"
+      ],
+      "verify": [
+        "profile"
+      ],
+      "compare": [
+        "drainage"
+      ],
+      "integrate": [
+        "ungulate_tracks"
+      ]
+    },
+    "K": {
+      "catalogue": [
+        "soil"
+      ],
+      "verify": [
+        "erosion_form"
+      ],
+      "compare": [
+        "woodland_birds"
+      ],
+      "integrate": [
+        "elevation"
+      ]
+    },
+    "L": {
+      "catalogue": [
+        "slope"
+      ],
+      "verify": [
+        "built_form"
+      ],
+      "compare": [
+        "livestock_signs"
+      ],
+      "integrate": [
+        "small_mammal_signs"
+      ]
+    },
+    "M": {
+      "catalogue": [
+        "elevation"
+      ],
+      "verify": [
+        "historic_road"
+      ],
+      "compare": [
+        "built_form"
+      ],
+      "integrate": [
+        "livestock_signs"
+      ]
+    },
+    "N": {
+      "catalogue": [
+        "land_cover",
+        "lithology"
+      ],
+      "verify": [
+        "profile",
+        "soil"
+      ],
+      "compare": [
+        "drainage",
+        "settlement_layout"
+      ],
+      "integrate": [
+        "ungulate_tracks",
+        "waterworks"
+      ]
+    },
+    "O": {
+      "catalogue": [
+        "small_mammal_signs"
+      ],
+      "verify": [
+        "drainage"
+      ],
+      "compare": [
+        "ungulate_tracks"
+      ],
+      "integrate": [
+        "land_cover"
+      ]
+    },
+    "P": {
+      "catalogue": [
+        "historic_road",
+        "slope"
+      ],
+      "verify": [
+        "built_form",
+        "erosion_form"
+      ],
+      "compare": [
+        "livestock_signs",
+        "woodland_birds"
+      ],
+      "integrate": [
+        "elevation",
+        "small_mammal_signs"
+      ]
+    },
+    "Q": {
+      "catalogue": [
+        "ungulate_tracks"
+      ],
+      "verify": [
+        "lithology"
+      ],
+      "compare": [
+        "soil"
+      ],
+      "integrate": [
+        "settlement_layout"
+      ]
+    },
+    "R": {
+      "catalogue": [
+        "profile",
+        "soil"
+      ],
+      "verify": [
+        "drainage",
+        "settlement_layout"
+      ],
+      "compare": [
+        "ungulate_tracks",
+        "waterworks"
+      ],
+      "integrate": [
+        "land_cover",
+        "lithology"
+      ]
+    },
+    "S": {
+      "catalogue": [
+        "ungulate_tracks",
+        "waterworks"
+      ],
+      "verify": [
+        "land_cover",
+        "lithology"
+      ],
+      "compare": [
+        "profile",
+        "soil"
+      ],
+      "integrate": [
+        "drainage",
+        "settlement_layout"
+      ]
+    },
+    "T": {
+      "catalogue": [
+        "settlement_layout"
+      ],
+      "verify": [
+        "woodland_birds"
+      ],
+      "compare": [
+        "elevation"
+      ],
+      "integrate": [
+        "slope"
+      ]
+    },
+    "U": {
+      "catalogue": [
+        "profile"
+      ],
+      "verify": [
+        "settlement_layout"
+      ],
+      "compare": [
+        "waterworks"
+      ],
+      "integrate": [
+        "lithology"
+      ]
+    },
+    "V": {
+      "catalogue": [
+        "erosion_form"
+      ],
+      "verify": [
+        "livestock_signs"
+      ],
+      "compare": [
+        "small_mammal_signs"
+      ],
+      "integrate": [
+        "historic_road"
+      ]
+    },
+    "W": {
+      "catalogue": [
+        "elevation",
+        "small_mammal_signs"
+      ],
+      "verify": [
+        "historic_road",
+        "slope"
+      ],
+      "compare": [
+        "built_form",
+        "erosion_form"
+      ],
+      "integrate": [
+        "livestock_signs",
+        "woodland_birds"
+      ]
+    },
+    "X": {
+      "catalogue": [
+        "built_form"
+      ],
+      "verify": [
+        "land_cover"
+      ],
+      "compare": [
+        "profile"
+      ],
+      "integrate": [
+        "drainage"
+      ]
+    }
+  }
+}

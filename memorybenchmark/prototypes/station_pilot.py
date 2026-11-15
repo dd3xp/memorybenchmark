@@ -5,8 +5,10 @@ New pilots run both conditions for every task, including the no-history first
 task. Frozen legacy pilots retain their original schedule on resume. The clear
 condition is not an independently evolving stream. No reference planner controls GA.
 """
+
 from __future__ import annotations
 
+from memorybenchmark.event_store import read_events, write_events
 import argparse
 from copy import deepcopy
 from hashlib import sha256
@@ -17,11 +19,38 @@ from pathlib import Path
 from ..agent_sessions import WorkerSessions
 from ..errors import InfrastructureError
 from ..decision_gate import ACTION_POLICIES, SINGLE_ACTION_GUIDE
-from ..ga_runtime import WSLJail, changed_files, copy_memory, extract_native, make_support, memory_manifest
+from ..ga_runtime import (
+    WSLJail,
+    changed_files,
+    copy_memory,
+    extract_native,
+    make_support,
+    memory_manifest,
+    filesystem_path,
+)
 from ..mcp_game import MCPGameClient
 from ..model_gateway import GatewayModel
+from ..storage_lifecycle import retire_committed_state
 from ..watch import atomic_json as save_json
-from .station_capability import StationGame, compatible_worlds, load_design, map_world
+from .station_capability import (
+    StationGame,
+    compatible_worlds,
+    load_design,
+    map_world,
+    station_query_enabled,
+    manual_survey_required,
+)
+from .station_knowledge import (
+    evidence_support,
+    support_count,
+    information_gain,
+    matching_stations,
+    historical_status,
+    capability_options,
+    supports,
+    freeze_capability,
+    report_world_ids,
+)
 from .station_session import DEFAULT_DESIGN, FEEDBACK_PROTOCOLS, StationSession
 from scripts.check_station_capability import trace_graph, render_svg
 
@@ -36,10 +65,21 @@ move 可用 path 一次提供 1–32 个依次相邻的地点 ID（不含当前�
 STATION_TOOL = {
     "name": "game_action",
     "description": "操作当前测绘委托。move 到相邻地点，到目标自动采集本次资料；inspect 查询当前站能力；process 在当前站尝试处理本次资料；submit 回指定营地提交；read 查询完整公开地图和当前状态，不消耗游戏操作。结束后用原生工具自主整理经验。",
-    "parameters": {"type": "object", "properties": {
-        "action": {"type": "string", "enum": ["move", "inspect", "process", "submit", "abandon", "read"]},
-        "target": {"type": "string", "description": "仅 move 传相邻地点 ID；其他动作不传。"}},
-        "required": ["action"], "additionalProperties": False},
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "action": {
+                "type": "string",
+                "enum": ["move", "inspect", "process", "submit", "abandon", "read"],
+            },
+            "target": {
+                "type": "string",
+                "description": "仅 move 传相邻地点 ID；其他动作不传。",
+            },
+        },
+        "required": ["action"],
+        "additionalProperties": False,
+    },
 }
 GUIDE = """
 你正在完成测绘游戏的一项委托。游戏只通过 game_action 访问，没有网页、人工或真实桌面。
@@ -55,36 +95,105 @@ inspect 是在站查询能力；process 是处理当前原始资料。两者都�
 """
 
 
-def movement_tool(mode):
+def movement_tool(mode, design=None):
     if mode not in MOVEMENT_MODES:
         raise ValueError("Unknown movement mode")
     definition = deepcopy(STATION_TOOL)
+    if design is not None and manual_survey_required(design):
+        definition["parameters"]["properties"]["action"]["enum"].insert(1, "survey")
+        definition["description"] = definition["description"].replace(
+            "到目标自动采集本次资料",
+            "抵达当前目标后主动 survey 勘探采集本段资料，每段一次",
+        )
+    if design is not None and not station_query_enabled(design):
+        definition["parameters"]["properties"]["action"]["enum"].remove("inspect")
+        definition["description"] = definition["description"].replace(
+            "inspect 查询当前站能力；process 在当前站尝试处理本次资料；",
+            "process 携带本段资料在当前站主动提交处理，成功或失败均反馈本站处理类型；不提供独立查询；",
+        )
+        if design["public"].get("processing_regions"):
+            definition["description"] = definition["description"].replace(
+                "成功或失败均反馈本站处理类型",
+                "区域符合时反馈当前处理要求下的能力；区域不符时保留资料、不推进且不揭示能力",
+            )
     if mode == "route":
         definition["parameters"]["properties"]["path"] = {
-            "type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 32,
-            "description": "仅 move：依次相邻的地点 ID 列表，不含当前位置，与 target 二选一；每步正常计费并返回反馈，错误或任务结束时停止。"}
-        definition["description"] += "move 也可传 path 连续移动，由你指定每一个相邻地点；每一步分别计操作和路程，不自动规划。"
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 1,
+            "maxItems": 32,
+            "description": "仅 move：依次相邻的地点 ID 列表，不含当前位置，与 target 二选一；每步正常计费并返回反馈，错误或任务结束时停止。",
+        }
+        definition[
+            "description"
+        ] += "move 也可传 path 连续移动，由你指定每一个相邻地点；每一步分别计操作和路程，不自动规划。"
     return definition
 
 
-def access_guide(agent, game_access):
+def access_guide(agent, game_access, design=None):
     """Change only public interface instructions, never supply experience."""
+    guide = GUIDE
+    if design is not None and manual_survey_required(design):
+        guide = guide.replace(
+            "到目标自动采集当前段资料",
+            "到当前目标后主动 survey 勘探采集本段资料，每段一次",
+        )
+    if design is not None and not station_query_enabled(design):
+        guide = guide.replace(
+            "inspect 是在站查询能力；process 是处理当前原始资料。两者都会给出实际反馈，不支持的处理保留资料。",
+            "不提供独立查询。携带本段资料到站后，主动 process 提交处理；无论是否匹配，实际反馈都会说明本站处理类型。不匹配时保留资料，可以换站重试。移动到站不会揭示能力。已处理的资料不能重复 process。",
+        )
+    if design is not None and design["public"].get("processing_regions"):
+        guide = guide.replace(
+            "无论是否匹配，实际反馈都会说明本站处理类型。",
+            "在本段要求的区域内处理时，无论资料是否匹配，实际反馈都会说明本站在本段处理要求下的能力。",
+        )
+        guide += (
+            "\n每段还明确指定处理区域类别。只有区域类别和站型能力同时匹配才能完成处理；"
+            "区域不符时保留资料、不推进阶段，也不揭示能力。区域类别和各地点所属区域均为公开信息。"
+        )
+    if (
+        design is not None
+        and design["public"].get("processing_model") == "typed-processing-composition-1"
+    ):
+        guide += (
+            "\n本图资料有原始、已编目、已核验状态。归档编目将原始资料变为已编目资料；"
+            "关联核验将已编目资料变为已核验资料。每段给出采集所得状态和交付目标，"
+            "达到本段目标才推进。两段资料相互独立，不共享中间产物。"
+        )
     if game_access == "bridge":
-        return GUIDE
+        return guide
     if game_access != "native":
         raise ValueError("Unknown game access mode")
     if agent == "ga":
-        access = ("游戏通过你原生的 code_run 工具调用预置客户端访问：执行 "
-                  "python -m game_client move J 可移动到 J；inspect、process、submit、read 等不带地点参数。"
-                  "也可在 Python 中 from game_client import action; print(action('move', target='J'))。"
-                  "客户端只执行指定操作并返回公开反馈，不会规划路线、查询记忆或自动补充动作。")
+        access = (
+            "游戏通过你原生的 code_run 工具调用预置客户端访问：执行 "
+            "python -m game_client move J 可移动到 J；inspect、process、submit、read 等不带地点参数。"
+            "也可在 Python 中 from game_client import action; print(action('move', target='J'))。"
+            "客户端只执行指定操作并返回公开反馈，不会规划路线、查询记忆或自动补充动作。"
+        )
     else:
         access = "游戏通过你原生 MCP 客户端发现的游戏工具访问（服务 cartography，服务端工具 game_action）；以客户端发现后的工具名称为准。"
-    return GUIDE.replace("游戏只通过 game_action 访问，", access + "游戏中")
+    if design is not None and not station_query_enabled(design):
+        access = access.replace("inspect、", "")
+    if design is not None and manual_survey_required(design):
+        access = access.replace(
+            "process、submit、read", "survey、process、submit、read"
+        )
+    return guide.replace("游戏只通过 game_action 访问，", access + "游戏中")
 
 
 class StationNativeSessions(WorkerSessions):
-    def __init__(self, *args, agent="ga", feedback_mode="compact", game_access="bridge", action_policy="single", movement_mode="step", **kwargs):
+    def __init__(
+        self,
+        *args,
+        agent="ga",
+        feedback_mode="compact",
+        game_access="bridge",
+        action_policy=None,
+        movement_mode="step",
+        **kwargs,
+    ):
         if feedback_mode not in FEEDBACK_PROTOCOLS:
             raise ValueError("Unknown station feedback mode")
         self.agent = agent
@@ -92,19 +201,32 @@ class StationNativeSessions(WorkerSessions):
         if game_access not in ("bridge", "native"):
             raise ValueError("Unknown game access mode")
         self.game_access = game_access
+        if action_policy is None:
+            from ..decision_gate import movement_action_policy
+
+            action_policy = movement_action_policy(movement_mode)
+        if movement_mode == "route" and action_policy != "batch":
+            raise ValueError("Route movement requires the batch host action policy")
         if action_policy not in ACTION_POLICIES:
             raise ValueError("Unknown game action policy")
         self.action_policy = action_policy
-        if movement_mode not in MOVEMENT_MODES or (movement_mode == "route" and (agent != "hermes" or game_access != "native")):
+        if movement_mode not in MOVEMENT_MODES or (
+            movement_mode == "route" and (agent != "hermes" or game_access != "native")
+        ):
             raise ValueError("Route movement requires native Hermes")
         self.movement_mode = movement_mode
-        super().__init__(*args, worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
-                         worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
-                         prompt_protocol=PROMPT_PROTOCOL, **kwargs)
+        super().__init__(
+            *args,
+            worker_protocol=("ga-session-1" if agent == "ga" else "hermes-session-1"),
+            worker_filename=("ga_worker.py" if agent == "ga" else "hermes_worker.py"),
+            prompt_protocol=PROMPT_PROTOCOL,
+            **kwargs,
+        )
 
     def run(self, game, task_id, input_memory, output, model, *, condition):
         from uuid import uuid4
-        output = Path(output)
+
+        output = filesystem_path(output)
         output.mkdir(parents=True, exist_ok=False)
         before_history = deepcopy(game.events)
         before = memory_manifest(input_memory)
@@ -112,52 +234,119 @@ class StationNativeSessions(WorkerSessions):
         state.parent.mkdir(parents=True, exist_ok=True)
         copy_memory(input_memory, state)
         save_json(output / "memory-before.json", before)
-        save_json(output / "prior-events.json", before_history)
+        write_events(output / "prior-events.json", before_history)
         deliveries_path = output / "game-deliveries.jsonl"
         with deliveries_path.open("w", encoding="utf-8") as deliveries:
+
             def record_delivery(request, response):
-                deliveries.write(json.dumps({"request": request, "response": response}, ensure_ascii=False) + "\n")
+                deliveries.write(
+                    json.dumps(
+                        {"request": request, "response": response}, ensure_ascii=False
+                    )
+                    + "\n"
+                )
                 deliveries.flush()
-            adapter = StationSession(game, task_id, feedback_mode=self.feedback_mode, on_delivery=record_delivery)
+
+            adapter = StationSession(
+                game,
+                task_id,
+                feedback_mode=self.feedback_mode,
+                on_delivery=record_delivery,
+            )
             initial = adapter.initial
             save_json(output / "initial-public.json", initial)
             config = self.task_config(initial)
-            config.update(task_reminder=initial["text"].splitlines()[0], game_guide=access_guide(self.agent, self.game_access),
-                          game_access=self.game_access,
-                          game_tool=movement_tool(self.movement_mode), game_target_actions=["move"], prompt_protocol=PROMPT_PROTOCOL,
-                          movement_mode=self.movement_mode)
+            config.update(
+                task_reminder=initial["text"].splitlines()[0],
+                game_guide=access_guide(self.agent, self.game_access, game.design),
+                game_access=self.game_access,
+                game_tool=movement_tool(self.movement_mode, game.design),
+                game_target_actions=["move"],
+                prompt_protocol=PROMPT_PROTOCOL,
+                movement_mode=self.movement_mode,
+                action_policy=self.action_policy,
+            )
             if self.movement_mode == "route":
                 config["game_guide"] += ROUTE_GUIDE
             if self.action_policy == "single":
-                config.update(action_policy="single", game_guide=config["game_guide"] + SINGLE_ACTION_GUIDE)
-            config["initial_text"] += "\n公开地图与规则：" + json.dumps(initial["observation"]["environment"], ensure_ascii=False)
-            with MCPGameClient(adapter.dispatch, definition=STATION_TOOL, target_actions=("move",)) as client:
-                report = self._worker(state, output, config, adapter, model, game_client=client)
+                single_guide = (
+                    SINGLE_ACTION_GUIDE
+                    if station_query_enabled(game.design)
+                    else SINGLE_ACTION_GUIDE.replace("、inspect", "")
+                )
+                if manual_survey_required(game.design):
+                    single_guide = single_guide.replace("move、", "move、survey、")
+                config.update(
+                    action_policy="single",
+                    game_guide=config["game_guide"] + single_guide,
+                )
+            config["initial_text"] += "\n公开地图与规则：" + json.dumps(
+                initial["observation"]["environment"], ensure_ascii=False
+            )
+            with MCPGameClient(
+                adapter.dispatch,
+                definition=movement_tool("step", game.design),
+                target_actions=("move",),
+            ) as client:
+                report = self._worker(
+                    state, output, config, adapter, model, game_client=client
+                )
                 report.update(client.identity)
-        report.update(feedback_mode=self.feedback_mode, feedback_protocol=FEEDBACK_PROTOCOLS[self.feedback_mode],
-                      game_deliveries_sha256=sha256(deliveries_path.read_bytes()).hexdigest())
+        report.update(
+            feedback_mode=self.feedback_mode,
+            feedback_protocol=FEEDBACK_PROTOCOLS[self.feedback_mode],
+            game_deliveries_sha256=sha256(deliveries_path.read_bytes()).hexdigest(),
+        )
         if report["infrastructure_ok"]:
             after = copy_memory(state, output / "memory-after")
-            report.update(input_memory=before, output_memory=after,
-                          memory_changed=changed_files(before, after),
-                          content_changed=[p for p in changed_files(before, after) if p != "file_access_stats.json"])
-        report.update(task_id=task_id, condition=condition, prompt_protocol=PROMPT_PROTOCOL,
-                      movement_mode=self.movement_mode,
-                      game_access=self.game_access,
-                      success=game.state.success if report["infrastructure_ok"] else None,
-                      done=game.done, game_actions=game.steps, distance=game.distance,
-                      prior_compatible_worlds=list(compatible_worlds(game.design, before_history)),
-                      after_compatible_worlds=list(compatible_worlds(game.design, game.events)))
-        if game.design.get("evaluation", {}).get("experience_protocol") == "station-experience-opportunity-1":
+            report.update(
+                input_memory=before,
+                output_memory=after,
+                memory_changed=changed_files(before, after),
+                content_changed=[
+                    p
+                    for p in changed_files(before, after)
+                    if p != "file_access_stats.json"
+                ],
+            )
+        report.update(
+            task_id=task_id,
+            condition=condition,
+            prompt_protocol=PROMPT_PROTOCOL,
+            movement_mode=self.movement_mode,
+            game_access=self.game_access,
+            success=game.state.success if report["infrastructure_ok"] else None,
+            done=game.done,
+            game_actions=game.steps,
+            distance=game.distance,
+            prior_compatible_worlds=report_world_ids(
+                evidence_support(game.design, before_history)
+            ),
+            after_compatible_worlds=report_world_ids(
+                evidence_support(game.design, game.events)
+            ),
+        )
+        if (
+            game.design.get("evaluation", {}).get("experience_protocol")
+            == "station-experience-opportunity-1"
+        ):
             from .station_experience import experience_opportunities
-            report["experience_opportunities"] = experience_opportunities(game.design, game.events, game.task_run_id)
+
+            report["experience_opportunities"] = experience_opportunities(
+                game.design, game.events, game.task_run_id
+            )
         graph = trace_graph(game)
         save_json(output / "graph.json", graph)
-        (output / "events.jsonl").write_text("".join(json.dumps(e, ensure_ascii=False) + "\n"
-            for e in game.events), encoding="utf-8")
+        write_events(output / "events.jsonl", game.events)
         label = {"ga": "GA", "hermes": "Hermes"}[self.agent]
-        (output / "graph.svg").write_text(render_svg(game.design, graph, f"Native {label} / {task_id} / {condition}"), encoding="utf-8")
+        (output / "graph.svg").write_text(
+            render_svg(game.design, graph, f"Native {label} / {task_id} / {condition}"),
+            encoding="utf-8",
+        )
         save_json(output / "summary.json", report)
+        retire_committed_state(
+            state, output, report, allowed_parent=self.support.parent / "live-state"
+        )
         return report
 
 
@@ -167,15 +356,20 @@ def replay_checkpoint(design, world, sessions):
     for folder in sessions:
         summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
         game.start_task(summary["task_id"])
-        events = [json.loads(line) for line in (folder / "events.jsonl").read_text(encoding="utf-8").splitlines()]
-        run_id = max((e["task_run_id"] for e in events), key=lambda value: int(value.split("-")[-1]))
+        events = read_events(folder / "events.jsonl")
+        run_id = max(
+            (e["task_run_id"] for e in events),
+            key=lambda value: int(value.split("-")[-1]),
+        )
         for event in events:
             if event["task_run_id"] != run_id:
                 continue
             if event["kind"] == "action":
                 delivered = game.step(event["action"])
                 if delivered != event["delivered"]:
-                    raise RuntimeError("Checkpoint replay differs from recorded feedback")
+                    raise RuntimeError(
+                        "Checkpoint replay differs from recorded feedback"
+                    )
             elif event["kind"] == "runner_terminated":
                 game.finish_incomplete(event["delivered"]["feedback"]["reason"])
         if not game.done:
@@ -183,9 +377,28 @@ def replay_checkpoint(design, world, sessions):
     return game
 
 
-def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-luna", tasks=None,
-          max_turns=None, final_turns=6, wall_seconds=None, resume=False, world=None, design_path=None, agent="ga", feedback_mode=None,
-          game_access=None, action_policy=None, clear_first_task=None, movement_mode=None):
+def pilot(
+    archive,
+    output,
+    jail,
+    model,
+    *,
+    seed=20261025,
+    model_alias="gpt-5.6-luna",
+    tasks=None,
+    max_turns=None,
+    final_turns=6,
+    wall_seconds=None,
+    resume=False,
+    world=None,
+    design_path=None,
+    agent="ga",
+    feedback_mode=None,
+    game_access=None,
+    action_policy=None,
+    clear_first_task=None,
+    movement_mode=None,
+):
     if agent not in ("ga", "hermes"):
         raise ValueError("unsupported native agent")
     if feedback_mode is not None and feedback_mode not in FEEDBACK_PROTOCOLS:
@@ -234,7 +447,11 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             if sha256(Path(path).read_bytes()).hexdigest() != digest:
                 raise RuntimeError("Pilot source changed; do not resume this run")
         design = json.loads((output / "design.json").read_text(encoding="utf-8"))
-        tasks, seed, model_alias = report["tasks"], report["seed"], report["model_alias"]
+        tasks, seed, model_alias = (
+            report["tasks"],
+            report["seed"],
+            report["model_alias"],
+        )
         max_turns, final_turns = report["max_turns"], report["final_turns"]
         report["status"] = "running"
         save_json(output / "pilot.json", report)
@@ -246,20 +463,37 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             raise ValueError("Route movement requires native Hermes")
         clear_first_task = True if clear_first_task is None else clear_first_task
         if action_policy != "single" or movement_mode != "step":
-            raise ValueError("New station pilots require single actions and step movement; batch/route are historical configurations only")
+            raise ValueError(
+                "New station pilots require single actions and step movement; batch/route are historical configurations only"
+            )
         feedback_mode = feedback_mode or "compact"
         design = load_design(selected_design)
         if max_turns is None:
-            max_turns = design.get("native_session_budget", {}).get("main_model_calls", 40)
+            max_turns = design.get("native_session_budget", {}).get(
+                "main_model_calls", 40
+            )
         if wall_seconds is None:
-            wall_seconds = design.get("native_session_budget", {}).get("wall_seconds", 900)
-        if type(max_turns) is not int or max_turns < 1 or type(final_turns) is not int or final_turns < 0:
-            raise ValueError("Native call budgets must be positive main calls and nonnegative final calls")
-        if type(wall_seconds) is not int or not 10 <= wall_seconds <= 3600:
-            raise ValueError("Native wall-clock budget must be 10..3600 seconds")
+            wall_seconds = design.get("native_session_budget", {}).get(
+                "wall_seconds", 900
+            )
+        if (
+            type(max_turns) is not int
+            or max_turns < 1
+            or type(final_turns) is not int
+            or final_turns < 0
+        ):
+            raise ValueError(
+                "Native call budgets must be positive main calls and nonnegative final calls"
+            )
+        if type(wall_seconds) is not int or not 10 <= wall_seconds <= 604800:
+            raise ValueError("Native wall-clock budget must be 10..604800 seconds")
         world = map_world(design, world)
         tasks = list(tasks or design["tasks"])
-        if not tasks or len(set(tasks)) != len(tasks) or any(t not in design["tasks"] for t in tasks):
+        if (
+            not tasks
+            or len(set(tasks)) != len(tasks)
+            or any(t not in design["tasks"] for t in tasks)
+        ):
             raise ValueError("Tasks must be unique members of this design")
         output.mkdir(parents=True, exist_ok=False)
         if agent == "ga":
@@ -268,43 +502,105 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
             make_support(output / "support")
         else:
             from ..agent_adapters import load_adapter
+
             load_adapter(agent).prepare(archive, output)
-        paths = [Path(__file__), selected_design, Path(__file__).with_name("station_capability.py"),
-                 Path(__file__).with_name("station_session.py")]
-        if design.get("evaluation", {}).get("experience_protocol") == "station-experience-opportunity-1":
-            paths += [Path(__file__).with_name(name) for name in
-                      ("station_experience.py", "station_choice.py", "station_routes.py")]
-        paths += [Path(__file__).parents[1] / name for name in
-                  ("ga_worker.py", "agent_bridge.py", "mcp_game.py", "agent_sessions.py", "ga_runtime.py", "model_gateway.py",
-                   "game_client.py", "native_game_io.py", "game_mcp_stdio.py", "decision_gate.py")]
+        paths = [
+            Path(__file__),
+            selected_design,
+            Path(__file__).with_name("station_capability.py"),
+            Path(__file__).with_name("station_session.py"),
+        ]
+        if (
+            design.get("evaluation", {}).get("experience_protocol")
+            == "station-experience-opportunity-1"
+        ):
+            paths += [
+                Path(__file__).with_name(name)
+                for name in (
+                    "station_experience.py",
+                    "station_choice.py",
+                    "station_routes.py",
+                )
+            ]
+        paths += [
+            Path(__file__).parents[1] / name
+            for name in (
+                "ga_worker.py",
+                "agent_bridge.py",
+                "mcp_game.py",
+                "agent_sessions.py",
+                "ga_runtime.py",
+                "model_gateway.py",
+                "game_client.py",
+                "native_game_io.py",
+                "game_mcp_stdio.py",
+                "decision_gate.py",
+                "event_store.py",
+                "audit_records.py",
+                "storage_lifecycle.py",
+                "native_source_cache.py",
+            )
+        ]
         if agent == "hermes":
-            paths += [Path(__file__).parents[1] / "hermes_worker.py", Path(__file__).parents[1] / "agents/hermes.py"]
-        report = {"protocol": "station-native-pilot-1", "agent": agent, "status": "running", "seed": seed, "design_id": design["design_id"],
-                  "model_alias": model_alias, "tasks": tasks, "max_turns": max_turns, "final_turns": final_turns,
-                  "wall_seconds": wall_seconds, "prompt_protocol": PROMPT_PROTOCOL,
-                  "feedback_mode": feedback_mode, "feedback_protocol": FEEDBACK_PROTOCOLS[feedback_mode],
-                  "game_access": game_access,
-                  "action_policy": action_policy,
-                  "movement_mode": movement_mode,
-                  "clear_first_task": clear_first_task,
-                  "agent_game_interface": ("ga-code-run-client-1" if agent == "ga" else "hermes-native-mcp-1")
-                                          if game_access == "native" else "native-tool-bridge-1",
-                  "world": world,
-                  "world_sampling": "fixed map assignment; no runtime sampling",
-                  "map_configuration_sha256": sha256(selected_design.read_bytes()).hexdigest(),
-                  "station_assignment_sha256": sha256(json.dumps(design["private_worlds"][world],
-                                                       sort_keys=True).encode()).hexdigest(),
-                  "comparison": "current-task clear probes at retained actual-history checkpoints",
-                  "archive_sha256": sha256(Path(archive).read_bytes()).hexdigest(),
-                  "implementation_sha256": {str(p.resolve()): sha256(p.read_bytes()).hexdigest() for p in paths},
-                  "sessions": []}
+            paths += [
+                Path(__file__).parents[1] / "hermes_worker.py",
+                Path(__file__).parents[1] / "agents/hermes.py",
+            ]
+        report = {
+            "protocol": "station-native-pilot-1",
+            "agent": agent,
+            "status": "running",
+            "seed": seed,
+            "design_id": design["design_id"],
+            "model_alias": model_alias,
+            "tasks": tasks,
+            "max_turns": max_turns,
+            "final_turns": final_turns,
+            "wall_seconds": wall_seconds,
+            "prompt_protocol": PROMPT_PROTOCOL,
+            "feedback_mode": feedback_mode,
+            "feedback_protocol": FEEDBACK_PROTOCOLS[feedback_mode],
+            "game_access": game_access,
+            "action_policy": action_policy,
+            "movement_mode": movement_mode,
+            "clear_first_task": clear_first_task,
+            "agent_game_interface": (
+                ("ga-code-run-client-1" if agent == "ga" else "hermes-native-mcp-1")
+                if game_access == "native"
+                else "native-tool-bridge-1"
+            ),
+            "world": world,
+            "world_sampling": "fixed map assignment; no runtime sampling",
+            "map_configuration_sha256": sha256(
+                selected_design.read_bytes()
+            ).hexdigest(),
+            "station_assignment_sha256": sha256(
+                json.dumps(design["private_worlds"][world], sort_keys=True).encode()
+            ).hexdigest(),
+            "comparison": "current-task clear probes at retained actual-history checkpoints",
+            "archive_sha256": sha256(Path(archive).read_bytes()).hexdigest(),
+            "implementation_sha256": {
+                str(p.resolve()): sha256(p.read_bytes()).hexdigest() for p in paths
+            },
+            "sessions": [],
+        }
         save_json(output / "design.json", design)
         save_json(output / "pilot.json", report)
-    sessions = StationNativeSessions(output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"), output / "support", jail,
-                                     agent=agent, feedback_mode=feedback_mode, game_access=game_access, action_policy=action_policy,
-                                     movement_mode=movement_mode,
-                                     model_alias=model_alias, seed=seed, max_turns=max_turns, final_turns=final_turns,
-                                     wall_seconds=wall_seconds)
+    sessions = StationNativeSessions(
+        output / "source" / ("GenericAgent" if agent == "ga" else "hermes-agent"),
+        output / "support",
+        jail,
+        agent=agent,
+        feedback_mode=feedback_mode,
+        game_access=game_access,
+        action_policy=action_policy,
+        movement_mode=movement_mode,
+        model_alias=model_alias,
+        seed=seed,
+        max_turns=max_turns,
+        final_turns=final_turns,
+        wall_seconds=wall_seconds,
+    )
     if not (output / "probe" / "summary.json").exists():
         sessions.probe(output / "baseline", output / "probe")
     canonical = []
@@ -314,22 +610,34 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
         for index, task_id in enumerate(tasks):
             checkpoint = deepcopy(game)
             conditions = ("prefix", "clear") if clear_first_task else ("prefix",)
-            for condition in (conditions if index == 0 else ("retain", "clear")):
+            for condition in conditions if index == 0 else ("retain", "clear"):
                 name = f"{index + 1:02d}-{task_id}-{condition}"
                 folder = output / "sessions" / name
-                recorded = next((s for s in report["sessions"] if s["name"] == name), None)
+                recorded = next(
+                    (s for s in report["sessions"] if s["name"] == name), None
+                )
                 if recorded and not recorded["infrastructure_ok"]:
                     # Verify both absolute paths before moving a Windows directory.
                     source_path = folder.resolve(strict=True)
                     attempts = output / "failed-attempts"
                     attempts.mkdir(exist_ok=True)
-                    target_path = (attempts / (name + "-" + str(len(report.get("attempt_history", [])) + 1))).resolve()
-                    if not source_path.is_relative_to(output) or not target_path.is_relative_to(output):
+                    target_path = (
+                        attempts
+                        / (name + "-" + str(len(report.get("attempt_history", [])) + 1))
+                    ).resolve()
+                    if not source_path.is_relative_to(
+                        output
+                    ) or not target_path.is_relative_to(output):
                         raise ValueError("Attempt archive escaped the pilot directory")
                     if target_path.exists():
                         raise FileExistsError("Attempt archive already exists")
                     source_path.rename(target_path)
-                    report.setdefault("attempt_history", []).append({**recorded, "archived_at": str(target_path.relative_to(output))})
+                    report.setdefault("attempt_history", []).append(
+                        {
+                            **recorded,
+                            "archived_at": str(target_path.relative_to(output)),
+                        }
+                    )
                     report["sessions"].remove(recorded)
                     recorded = None
                     save_json(output / "pilot.json", report)
@@ -337,14 +645,37 @@ def pilot(archive, output, jail, model, *, seed=20261025, model_alias="gpt-5.6-l
                     result = recorded
                 else:
                     current = deepcopy(checkpoint)
-                    result = sessions.run(current, task_id, memory if condition != "clear" else output / "baseline",
-                                          folder, model, condition=condition)
+                    result = sessions.run(
+                        current,
+                        task_id,
+                        memory if condition != "clear" else output / "baseline",
+                        folder,
+                        model,
+                        condition=condition,
+                    )
                     result = {"name": name, **result}
                     report["sessions"].append(result)
                     save_json(output / "pilot.json", report)
                 if not result["infrastructure_ok"]:
-                    raise InfrastructureError(result.get("infrastructure_error", "Native session failed"))
-                print(json.dumps({k: result[k] for k in ("name", "success", "distance", "llm_calls", "content_changed")}, ensure_ascii=False), flush=True)
+                    raise InfrastructureError(
+                        result.get("infrastructure_error", "Native session failed")
+                    )
+                print(
+                    json.dumps(
+                        {
+                            k: result[k]
+                            for k in (
+                                "name",
+                                "success",
+                                "distance",
+                                "llm_calls",
+                                "content_changed",
+                            )
+                        },
+                        ensure_ascii=False,
+                    ),
+                    flush=True,
+                )
                 if condition != "clear":
                     canonical.append(folder)
                     game = replay_checkpoint(design, report["world"], canonical)
@@ -367,34 +698,85 @@ def main():
     parser.add_argument("--model", default="gpt-5.6-luna")
     parser.add_argument("--seed", type=int, default=20261025)
     parser.add_argument("--tasks", nargs="+")
-    parser.add_argument("--max-turns", type=int, help="override map-specific main model-call budget; legacy maps default to 40")
+    parser.add_argument(
+        "--max-turns",
+        type=int,
+        help="override map-specific main model-call budget; legacy maps default to 40",
+    )
     parser.add_argument("--final-turns", type=int, default=6)
-    parser.add_argument("--wall-seconds", type=int, help="per-session wall-clock limit including native review; map-specific, legacy default 900")
+    parser.add_argument(
+        "--wall-seconds",
+        type=int,
+        help="per-session wall-clock limit including native review; map-specific, legacy default 900",
+    )
     parser.add_argument("--distro", default="Ubuntu-24.04")
     parser.add_argument("--runtime")
     parser.add_argument("--runtime-dependency", action="append", default=[])
     parser.add_argument("--max-output-tokens", type=int, default=0)
     parser.add_argument("--resume", action="store_true")
-    parser.add_argument("--world", help="optional assertion of the map's fixed assignment; historical resumes preserve their recorded fixture")
-    parser.add_argument("--design", type=Path, help="map configuration; defaults to the original eight-task prototype")
-    parser.add_argument("--feedback-mode", choices=("compact", "full"), help="new runs default to compact action results; initial/read always include the full public map; frozen on resume")
-    parser.add_argument("--game-access", choices=("native", "bridge"), help="new station pilots default to native GA code_run / Hermes MCP; bridge preserves the previous custom game_action interface; frozen on resume")
-    parser.add_argument("--action-policy", choices=ACTION_POLICIES, help="new GA/Hermes runs use single: one game-action attempt per model response; batch is only for resuming historical runs")
-    parser.add_argument("--movement-mode", choices=MOVEMENT_MODES, help="new runs use step: move to one adjacent location; route is only for resuming historical runs")
+    parser.add_argument(
+        "--world",
+        help="optional assertion of the map's fixed assignment; historical resumes preserve their recorded fixture",
+    )
+    parser.add_argument(
+        "--design",
+        type=Path,
+        help="map configuration; defaults to the original eight-task prototype",
+    )
+    parser.add_argument(
+        "--feedback-mode",
+        choices=("compact", "full"),
+        help="new runs default to compact action results; initial/read always include the full public map; frozen on resume",
+    )
+    parser.add_argument(
+        "--game-access",
+        choices=("native", "bridge"),
+        help="new station pilots default to native GA code_run / Hermes MCP; bridge preserves the previous custom game_action interface; frozen on resume",
+    )
+    parser.add_argument(
+        "--action-policy",
+        choices=ACTION_POLICIES,
+        help="new GA/Hermes runs use single: one game-action attempt per model response; batch is only for resuming historical runs",
+    )
+    parser.add_argument(
+        "--movement-mode",
+        choices=MOVEMENT_MODES,
+        help="new runs use step: move to one adjacent location; route is only for resuming historical runs",
+    )
     args = parser.parse_args()
     key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
     if not key:
-        parser.error("Set MEMORYBENCH_GATEWAY_KEY in the parent host, never the native worker")
+        parser.error(
+            "Set MEMORYBENCH_GATEWAY_KEY in the parent host, never the native worker"
+        )
     if args.max_output_tokens < 0:
         parser.error("max-output-tokens must be nonnegative")
     read_model = args.model
     if args.resume:
-        read_model = json.loads((args.output / "pilot.json").read_text(encoding="utf-8"))["model_alias"]
+        read_model = json.loads(
+            (args.output / "pilot.json").read_text(encoding="utf-8")
+        )["model_alias"]
     model = GatewayModel(args.base_url, key, read_model, args.max_output_tokens or None)
-    pilot(args.archive, args.output, WSLJail(args.distro, args.runtime, args.runtime_dependency), model, seed=args.seed, model_alias=args.model,
-          tasks=args.tasks, max_turns=args.max_turns, final_turns=args.final_turns, resume=args.resume, world=args.world,
-          design_path=args.design, agent=args.agent, wall_seconds=args.wall_seconds, feedback_mode=args.feedback_mode,
-          game_access=args.game_access, action_policy=args.action_policy, movement_mode=args.movement_mode)
+    pilot(
+        args.archive,
+        args.output,
+        WSLJail(args.distro, args.runtime, args.runtime_dependency),
+        model,
+        seed=args.seed,
+        model_alias=args.model,
+        tasks=args.tasks,
+        max_turns=args.max_turns,
+        final_turns=args.final_turns,
+        resume=args.resume,
+        world=args.world,
+        design_path=args.design,
+        agent=args.agent,
+        wall_seconds=args.wall_seconds,
+        feedback_mode=args.feedback_mode,
+        game_access=args.game_access,
+        action_policy=args.action_policy,
+        movement_mode=args.movement_mode,
+    )
 
 
 if __name__ == "__main__":

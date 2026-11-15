@@ -6,6 +6,8 @@ parser. Action compatibility is not proof of internal memory causality.
 """
 from __future__ import annotations
 
+from memorybenchmark.audit_records import read_audit
+from memorybenchmark.event_store import read_events
 import argparse
 from collections import Counter, defaultdict
 from hashlib import sha256
@@ -143,8 +145,8 @@ def audit(root, patterns):
         outgoing_file = folder/"memory-after/memories/MEMORY.md"
         outgoing_text = outgoing_file.read_text(encoding="utf-8")
         incoming, outgoing = match_facts(incoming_text, patterns), match_facts(outgoing_text, patterns)
-        messages = [json.loads(s) for s in (folder/"audit.jsonl").read_text(encoding="utf-8").splitlines()]
-        events = [json.loads(s) for s in (folder/"events.jsonl").read_text(encoding="utf-8").splitlines()]
+        messages = read_audit(folder)
+        events = read_events(folder / "events.jsonl")
         graph = read(folder/"graph.json")
         summary = read(folder/"summary.json")
         current = [e for e in events if e["task_run_id"] == graph["task_run_id"]]

@@ -1,8 +1,8 @@
 # 首版经验与任务配置
 
-此处保留 `valley` 校准原型的配置与历史结果。当前默认地图的经验来源、工具分支与四项委托见 [雾汀湖 Easy](docs/EASY_LAKE.md)。
+此处保留 `valley` 校准原型的配置与历史结果。当前默认地图的经验来源、工具分支与四项委托见 [雾汀湖 Easy](docs/history/EASY_LAKE.md)。
 
-对应 `memorybenchmark/data/valley.json` 的 `valley-tools-2.1` 规则。本文件是评测侧设计说明，不输入 Agent 的任务提示或预置记忆。2.1 将公开地名统一改为地理名称，避免通过“工具点”标签提前泄露地点功能；风险和工具代价未改变。
+对应 `memorybenchmark/data/history/valley.json` 的 `valley-tools-2.1` 规则。本文件是评测侧设计说明，不输入 Agent 的任务提示或预置记忆。2.1 将公开地名统一改为地理名称，避免通过“工具点”标签提前泄露地点功能；风险和工具代价未改变。
 
 | 地点 | 实际反馈或观察 | 后续可利用的信息 |
 | --- | --- | --- |

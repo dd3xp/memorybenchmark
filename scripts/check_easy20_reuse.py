@@ -12,7 +12,7 @@ import shutil
 from math import prod
 from statistics import median
 
-from memorybenchmark.prototypes.station_capability import State, StationGame, load_design, transition
+from memorybenchmark.prototypes.station_capability import State, StationGame, load_design, transition, station_query_enabled, manual_survey_required
 from memorybenchmark.prototypes.station_experience import experience_schedule
 from memorybenchmark.prototypes.station_session import EASY20_LINKED_DESIGN, EASY20_REUSE_DESIGN
 from memorybenchmark.prototypes.station_routes import shortest_route, task_group, walk
@@ -20,12 +20,14 @@ from scripts.check_easy20_linked import FeedbackSimulation, calibrate
 from scripts.check_station_capability import export_case
 
 
-def validate_success_guarantee(design):
+def validate_success_guarantee(design, *, world_ids=None):
     """Check every possible successful station, not one preferred route policy."""
     rows = experience_schedule(design)
     stages = [s for r in rows for s in r["stages"]]
     source_checks = inheritance_checks = 0
-    for world, assignment in design["private_worlds"].items():
+    selected = tuple(design["private_worlds"] if world_ids is None else world_ids)
+    for world in selected:
+        assignment = design["private_worlds"][world]
         for row in rows:
             task = design["tasks"][row["task_id"]]
             for stage in row["stages"]:
@@ -47,7 +49,7 @@ def validate_success_guarantee(design):
                     for station in candidates:
                         assert assignment[station] == old["required_kind"]
                         inheritance_checks += 1
-    return {"worlds_checked": len(design["private_worlds"]),
+    return {"worlds_checked": len(selected),
             "successful_station_feedback_checks": source_checks,
             "source_to_later_stage_checks": inheritance_checks,
             "stages": len(stages), "stages_with_same_kind_predecessor": sum(bool(s["earlier_same_kind_stages"]) for s in stages),
@@ -73,12 +75,12 @@ def typed_order_budget(design):
     def stops(task_id, index, start, order):
         task = design["tasks"][task_id]; stage = task["stages"][index]
         goal = task["stages"][index+1]["target"] if index == 0 else task["submit_at"]
-        position = stage["target"]; path, distance = route(start, position); ops = len(path)-1
+        position = stage["target"]; path, distance = route(start, position); ops = len(path)-1+int(manual_survey_required(design))
         outcomes = {}
         for type_id in order:
             station = min(members[type_id]["stations"], key=lambda s: (route(position,s)[1]+route(s,goal)[1],s))
             path, cost = route(position, station); ops += len(path)-1+1; distance += cost; position=station
-            outcomes[type_id] = (ops+1, distance, station)  # inspect each; process once on match
+            outcomes[type_id] = (ops + int(station_query_enabled(design)), distance, station)
         return outcomes
     cases=[]; checked=0
     for task_id, task in design["tasks"].items():
@@ -99,18 +101,24 @@ def typed_order_budget(design):
         game=StationGame(best["world"],design);game.start_task(task_id)
         for stage,order in zip(task["stages"],best["orders"]):
             walk(game,stage["target"])
+            if manual_survey_required(design):
+                game.step({"type":"survey"})
             index=game.state.stage;goal=task["stages"][1]["target"] if index==0 else task["submit_at"]
             for type_id in order:
                 station=min(members[type_id]["stations"],key=lambda s:(route(game.state.position,s)[1]+route(s,goal)[1],s))
-                walk(game,station);feedback=game.step({"type":"inspect"})["feedback"]
-                if feedback["capability"]==stage["required_kind"]:
-                    game.step({"type":"process"});break
+                walk(game,station)
+                if station_query_enabled(design):
+                    feedback=game.step({"type":"inspect"})["feedback"]
+                    if feedback["capability"]==stage["required_kind"]:
+                        game.step({"type":"process"});break
+                elif game.step({"type":"process"})["feedback"]["result"] == "processed":
+                    break
         walk(game,task["submit_at"]);game.step({"type":"submit"})
         assert game.state.success and (game.steps,game.distance)==(best["operations"],best["distance"])
         cases.append(best)
     return {"type_order_pairs_checked":checked,"real_worst_case_replays":len(cases),
             "max_operations":max(r["operations"] for r in cases),"cases":cases,
-            "scope":"Every compatible requested-type pair and both 24-order permutations; choose each type's instance by public route cost, inspect then process on match. Arbitrary wandering is not bounded."}
+            "scope":"Every compatible requested-type pair and both 24-order permutations; choose each type's instance by public route cost and use the map's inspection/processing rules. Arbitrary wandering is not bounded."}
 
 
 def witnesses(design, output):

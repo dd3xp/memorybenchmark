@@ -1,0 +1,57 @@
+.run-rail-actions { display: grid; gap: 14px; margin-bottom: 16px; }
+.run-rail-actions .rail-create { justify-content: center; width: 100%; min-height: 39px; font-size: 12px; }
+.run-rail-actions .search { min-width: 0; }
+.run-rail-actions .search input { width: 100%; min-width: 0; }
+.experiment-dialog {
+  width: min(510px, calc(100% - 32px)); max-height: calc(100dvh - 48px);
+  margin: auto; padding: 0; overflow: auto;
+  color: var(--ink); background: var(--surface); border: 1px solid #c9a87c70;
+  border-radius: 14px; box-shadow: 0 22px 70px #30291f30;
+}
+.experiment-dialog::backdrop { background: #282a234a; }
+.dialog-heading { display: flex; align-items: center; justify-content: space-between; padding: 22px 26px 12px; }
+.dialog-heading h2 { margin: 0; font: 500 24px/1.4 var(--serif); }
+.dialog-close { width: 36px; height: 36px; padding: 0; font: 25px/1 var(--sans); border-radius: 50%; }
+.dialog-body { padding: 10px 28px 25px; }
+.create-fields, .create-movement { min-width: 0; margin: 0; padding: 0; border: 0; }
+.create-field { margin-bottom: 22px; }
+.create-field > label, .create-movement legend { display: block; margin: 0 0 9px; font-size: 13px; }
+.create-field select { width: 100%; min-height: 44px; padding: 10px 12px; background: var(--paper); color: var(--ink); border: 1px solid #c9a87c70; border-radius: 6px; font-size: 14px; }
+.movement-switch { display: flex; gap: 10px; }
+.movement-switch label { display: flex; align-items: center; gap: 9px; flex: 1; padding: 11px 13px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; cursor: pointer; }
+.movement-switch label:has(input:checked) { border-color: var(--sage); background: var(--accent-soft); }
+.movement-switch label:has(input:disabled) { opacity: .45; cursor: default; }
+.movement-switch input { margin: 0; accent-color: var(--accent); }
+.create-note { margin: 9px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.create-summary { margin: 23px 0 18px; font-size: 13px; line-height: 1.7; }
+.create-summary[aria-busy=true] { color: var(--muted); }
+.create-summary[aria-busy=true]::before { content: ''; display: inline-block; width: 11px; height: 11px; margin-right: 8px; border: 1.5px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: app-loading-spin .85s linear infinite; }
+.create-settings { border-top: 1px solid var(--line); padding-top: 13px; font-size: 12px; color: var(--muted); }
+.create-settings summary { width: fit-content; cursor: pointer; min-height: 25px; }
+.create-settings dl { margin: 12px 0 0; }
+.create-settings dl > div { display: flex; justify-content: space-between; gap: 20px; padding: 6px 0; }
+.create-settings dt { font-weight: 400; }
+.create-settings dd { margin: 0; color: var(--ink); text-align: right; }
+.dialog-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 17px 26px; border-top: 1px solid var(--line); }
+.dialog-footer button { min-height: 41px; font-size: 13px; }
+.dialog-footer .primary { min-width: 112px; justify-content: center; }
+.dialog-error { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 12px; margin-bottom: 16px; color: var(--danger); background: #d4848a10; border-radius: 6px; font-size: 13px; line-height: 1.6; }
+.dialog-error .quiet { flex: none; color: inherit; }
+.dialog-body > .loading-state { min-height: 240px; }
+.pending-run { padding: 13px 10px; margin: 3px 0; font-size: 12px; }
+.pending-run > span { display: block; color: var(--muted); font-size: 11px; margin-top: 7px; }
+.pending-run .loading-indicator { display: inline-block; width: 11px; height: 11px; margin-right: 7px; border-width: 1.5px; vertical-align: -1px; }
+.live-notice { margin: 0 0 16px; font-size: 13px; color: var(--accent); }
+@media (max-width: 620px) {
+  .run-rail-actions { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px; margin-bottom: 0; }
+  .run-rail-actions .rail-create { width: auto; padding: 9px 12px; }
+  .experiment-dialog { max-height: calc(100dvh - 24px); }
+  .dialog-heading { padding: 19px 20px 10px; }
+  .dialog-body { padding: 9px 22px 22px; }
+  .dialog-footer { padding: 15px 20px; }
+  .dialog-heading h2 { font-size: 23px; }
+  .pending-run { flex: none; width: 175px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .create-summary[aria-busy=true]::before { animation: none; }
+}

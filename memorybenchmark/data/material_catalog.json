@@ -1,0 +1,284 @@
+{
+  "version": "survey-materials-2",
+  "selection_policy": "Each Easy map fixes six common materials and two map-specific materials at authoring time. Material categories never restrict candidate station types.",
+  "common": {
+    "profile": {
+      "name": "剖面资料",
+      "description": "沿指定测线记录地形起伏，形成剖面。",
+      "sources": [
+        "usgs_topography"
+      ]
+    },
+    "shore": {
+      "name": "岸线资料",
+      "description": "记录湖岸或海岸的边界位置与形态。",
+      "sources": [
+        "usgs_geospatial"
+      ]
+    },
+    "vegetation": {
+      "name": "植被资料",
+      "description": "记录植物群落、覆盖程度与分布。",
+      "sources": [
+        "usgs_geospatial"
+      ]
+    },
+    "lithology": {
+      "name": "岩性资料",
+      "description": "记录出露岩石的类型、特征与分布。",
+      "sources": [
+        "usgs_geology"
+      ]
+    },
+    "bearing": {
+      "name": "方位资料",
+      "description": "记录测站到地物或观测目标的方向。",
+      "sources": [
+        "usgs_topography"
+      ]
+    },
+    "elevation": {
+      "name": "高程资料",
+      "description": "记录测点相对于基准面的高度。",
+      "sources": [
+        "usgs_topography"
+      ]
+    },
+    "drainage": {
+      "name": "水系资料",
+      "description": "记录河流、支流、水体及其连接关系。",
+      "sources": [
+        "usgs_geospatial"
+      ]
+    },
+    "contour": {
+      "name": "等高线资料",
+      "description": "记录相同高程的连线及其地形形态。",
+      "sources": [
+        "usgs_topography"
+      ]
+    },
+    "soil": {
+      "name": "土壤资料",
+      "description": "记录土层、质地、颜色等土壤特征。",
+      "sources": [
+        "nrcs_soils"
+      ]
+    },
+    "water_quality": {
+      "name": "水质资料",
+      "description": "记录水温、酸碱度、浊度等水体指标。",
+      "sources": [
+        "usgs_water_quality"
+      ]
+    },
+    "sediment": {
+      "name": "沉积物资料",
+      "description": "记录河床、湖底或滩地沉积物的组成与特征。",
+      "sources": [
+        "usgs_water_quality",
+        "noaa_sonar"
+      ]
+    },
+    "bathymetry": {
+      "name": "水深资料",
+      "description": "记录水下深度和湖底、河床或海底地形。",
+      "sources": [
+        "noaa_sonar"
+      ]
+    },
+    "slope": {
+      "name": "坡度资料",
+      "description": "记录地表坡面的陡缓程度。",
+      "sources": [
+        "usgs_topography"
+      ]
+    },
+    "aspect": {
+      "name": "坡向资料",
+      "description": "记录坡面朝向，区别于测站到任意地物的方位。",
+      "sources": [
+        "usgs_topography"
+      ]
+    },
+    "land_cover": {
+      "name": "地表覆盖资料",
+      "description": "记录裸地、林地、草地、水面等地表覆盖类别。",
+      "sources": [
+        "usgs_geospatial"
+      ]
+    },
+    "streamflow": {
+      "name": "流量资料",
+      "description": "记录河道断面、流速及通过断面的水量。",
+      "sources": [
+        "usgs_streamflow"
+      ]
+    }
+  },
+  "themes": {
+    "nessie": {
+      "name": "尼斯湖水怪",
+      "materials": {
+        "lake_sonar": {
+          "name": "湖盆声呐资料",
+          "description": "记录长湖湖盆的声呐回波、深度剖面与水下目标线索。",
+          "sources": [
+            "loch_ness_project",
+            "noaa_sonar"
+          ]
+        },
+        "lake_sighting": {
+          "name": "水怪目击资料",
+          "description": "记录游戏内疑似水怪的观察位置、方向与外形线索。",
+          "sources": [
+            "nessie_register"
+          ],
+          "fictional_game_observations": true
+        }
+      }
+    },
+    "forest": {
+      "name": "缪尔森林溪谷",
+      "materials": {
+        "redwood_community": {
+          "name": "红杉群落资料",
+          "description": "记录古老红杉林的群落结构和更新迹象。",
+          "sources": [
+            "forest_monitoring"
+          ]
+        },
+        "salmon_habitat": {
+          "name": "鲑鱼栖息地资料",
+          "description": "记录溪流内鲑鱼栖息地的分布与环境特征。",
+          "sources": [
+            "forest_monitoring"
+          ]
+        }
+      }
+    },
+    "cascade": {
+      "name": "普利特维采下湖区",
+      "materials": {
+        "tufa_deposit": {
+          "name": "钙华沉积资料",
+          "description": "记录水流沉积形成的钙华屏障及其表面特征。",
+          "sources": [
+            "cascade_tufa"
+          ]
+        },
+        "waterfall_section": {
+          "name": "瀑布断面资料",
+          "description": "记录湖间跌水的位置、落差和断面形态。",
+          "sources": [
+            "cascade_routes",
+            "cascade_tufa"
+          ]
+        }
+      }
+    }
+  },
+  "easy_presets": {
+    "nessie": {
+      "status": "implemented_map",
+      "common": [
+        "profile",
+        "shore",
+        "vegetation",
+        "lithology",
+        "bearing",
+        "elevation"
+      ],
+      "special": [
+        "lake_sonar",
+        "lake_sighting"
+      ]
+    },
+    "forest": {
+      "status": "implemented_map",
+      "common": [
+        "profile",
+        "elevation",
+        "bearing",
+        "vegetation",
+        "soil",
+        "drainage"
+      ],
+      "special": [
+        "redwood_community",
+        "salmon_habitat"
+      ]
+    },
+    "cascade": {
+      "status": "implemented_map",
+      "common": [
+        "shore",
+        "bathymetry",
+        "lithology",
+        "water_quality",
+        "sediment",
+        "elevation"
+      ],
+      "special": [
+        "tufa_deposit",
+        "waterfall_section"
+      ]
+    }
+  },
+  "sources": {
+    "usgs_geospatial": {
+      "title": "USGS Geospatial Data",
+      "url": "https://www.usgs.gov/geospatial-data"
+    },
+    "usgs_topography": {
+      "title": "USGS 3DEP Products and Services",
+      "url": "https://www.usgs.gov/3d-elevation-program/about-3dep-products-services"
+    },
+    "usgs_geology": {
+      "title": "USGS Cooperative National Geologic Map",
+      "url": "https://ngmdb.usgs.gov/nationalgeology/"
+    },
+    "nrcs_soils": {
+      "title": "USDA NRCS Soil Facts",
+      "url": "https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-facts"
+    },
+    "usgs_water_quality": {
+      "title": "USGS National Field Manual for Water-Quality Data",
+      "url": "https://www.usgs.gov/mission-areas/water-resources/science/national-field-manual-collection-water-quality-data-nfm"
+    },
+    "usgs_streamflow": {
+      "title": "USGS Streamgaging Basics",
+      "url": "https://www.usgs.gov/mission-areas/water-resources/science/streamgaging-basics"
+    },
+    "noaa_sonar": {
+      "title": "NOAA Hydrographic Survey Equipment",
+      "url": "https://nauticalcharts.noaa.gov/learn/hydrographic-survey-equipment.html"
+    },
+    "loch_ness_project": {
+      "title": "Loch Ness Project: An Underwater World",
+      "url": "https://www.lochnessproject.org/EXPLORE_LOCH_NESS/underwater/underwater_loch_ness%20index.htm"
+    },
+    "nessie_register": {
+      "title": "Loch Ness Monster Sightings Register",
+      "url": "https://www.lochnesssightings.com/",
+      "scope": "A primary register of reported observations and theme inspiration, not evidence establishing a creature's existence."
+    },
+    "forest_routes": {
+      "title": "NPS Muir Woods main-valley trails",
+      "url": "https://www.nps.gov/muwo/planyourvisit/hike.htm"
+    },
+    "forest_monitoring": {
+      "title": "NPS Muir Woods Inventory and Monitoring",
+      "url": "https://www.nps.gov/im/sfan/muwo.htm"
+    },
+    "cascade_routes": {
+      "title": "Plitvice Lakes National Park lake tour programmes",
+      "url": "https://np-plitvicka-jezera.hr/en/plan-your-visit/istrazite-jezera/activities/lake-tour-programmes/"
+    },
+    "cascade_tufa": {
+      "title": "Plitvice Lakes National Park tufa",
+      "url": "https://np-plitvicka-jezera.hr/en/natural-and-cultural-heritage/natural-heritage/tufa/"
+    }
+  },
+  "scope": "A catalog of game material categories inspired by field-survey sources. Descriptions are not a claim that numeric measurements, photographs, live sensors or real sightings are simulated. Material selection and station capabilities are separate authoring decisions."
+}

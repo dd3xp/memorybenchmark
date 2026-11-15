@@ -1,0 +1,14 @@
+{
+  "DesignPattern.pdf": {
+    "sha256": "0de869564a668fc65b5628fa915c56383668733f47fceab31573d478e5136244",
+    "role": "user supplied reference"
+  },
+  "Refactory.pdf": {
+    "sha256": "8479472ea70fa684563972b6c4a8c1abc054aea17c2b9f348ffd0850fd7b5f8b",
+    "role": "user supplied reference"
+  },
+  "Solid.pdf": {
+    "sha256": "b9683602b6c3183bcf1f6dd28f23ff7dac09d40ec2d842c589d1f354f62aacda",
+    "role": "user supplied reference"
+  }
+}

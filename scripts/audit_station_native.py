@@ -1,6 +1,7 @@
 """Replay native pilot evidence and verify memory/source chains without a model."""
 from __future__ import annotations
 
+from memorybenchmark.event_store import read_events
 import argparse
 from copy import deepcopy
 from hashlib import sha256
@@ -48,9 +49,9 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         assert json.loads(read(folder/"memory-before.json"))==before
         assert summary["input_memory"]==before
         assert memory_manifest(folder/"memory-after")==summary["output_memory"]
-        assert json.loads(read(folder/"prior-events.json"))==checkpoint.events
+        assert read_events(folder/"prior-events.json")==checkpoint.events
         current=deepcopy(checkpoint);current.start_task(recorded["task_id"])
-        events=[json.loads(line) for line in read(folder/"events.jsonl").splitlines()]
+        events=read_events(folder / "events.jsonl")
         current_events=[e for e in events if e["task_run_id"]==current.task_run_id]
         assert current_events[0]==current.events[-1]
         for event in current_events[1:]:

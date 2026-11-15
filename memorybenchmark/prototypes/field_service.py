@@ -12,15 +12,21 @@ from uuid import uuid4
 from ..analysis import commute_graph
 from ..game import ProtocolError
 from ..watch import atomic_json
-from .station_capability import StationGame, capability_groups, load_design, map_world, task_stages
+from ..cartography import geographic_presentation
+from .station_capability import StationGame, capability_groups, load_design, map_world, task_stages, region_matches
 from .station_experience import experience_opportunities, experience_schedule
 from .station_routes import known_world_route, schedule, station_options
 from .station_session import EASY20_REUSE_DESIGN, StationSession
 
 
+from .station_knowledge import supports
+
+
 class FieldService:
-    def __init__(self, log_root, design=None):
+    def __init__(self, log_root, design=None, *, display_name=None):
         self.design = deepcopy(design) if design is not None else load_design(EASY20_REUSE_DESIGN)
+        self.display_name = display_name or self.design['public']['name']
+        self.geographic_presentation = geographic_presentation(self.design['public'])
         self.log_root = Path(log_root) / "station-human"
         self.instances = {}
         self.lock = RLock()
@@ -45,10 +51,13 @@ class FieldService:
         game = item["game"]
         graph = commute_graph(game.events, game.task_run_id)
         current = [e for e in game.events if e["task_run_id"] == game.task_run_id and e["kind"] == "action"]
-        return {**response, "instance_id": token, "task_run_id": game.task_run_id,
+        presentation = deepcopy(game.design.get("presentation", {}))
+        if self.geographic_presentation:
+            presentation['geographic_map'] = deepcopy(self.geographic_presentation)
+        return {**response, "display_name": self.display_name, "instance_id": token, "task_run_id": game.task_run_id,
                 "task_index": item["index"] + 1, "task_count": len(game.design["tasks"]),
                 "completed": deepcopy(item["completed"]),
-                "presentation": deepcopy(game.design.get("presentation", {})),
+                "presentation": presentation,
                 "trace": graph, "current_actions": deepcopy(current),
                 "stream_finished": game.done and item["index"] + 1 == len(game.design["tasks"])}
 
@@ -112,7 +121,7 @@ class FieldService:
                 raise ProtocolError("请先完成或放弃当前委托。")
             tasks = list(self.design["tasks"])
             if item["index"] + 1 == len(tasks):
-                raise ProtocolError("二十项委托已结束。")
+                raise ProtocolError("全部委托已结束。")
             item["index"] += 1
             item["session"] = StationSession(game, tasks[item["index"]])
             response = self._response(token, item, item["session"].initial)
@@ -130,24 +139,25 @@ class FieldService:
             tasks = []
             for row in schedule(game.design):
                 options = station_options(game.design, row["id"])
-                matches = [r for r in options if assignment[r["station"]] == row["required_kind"]]
+                matches = [r for r in options if supports(assignment[r["station"]], row["required_kind"], row.get('requirement'))]
                 reference = known_world_route(game.design, row["id"], assignment)
                 record = {**row, "known_world_route": reference["path"], "known_world_distance": reference["distance"],
                               "experience_dependencies": dependencies[row["id"]],
                               "matching_stations": [r["station"] for r in matches],
-                              "station_options": [{**r, "matches": assignment[r["station"]] == row["required_kind"]} for r in options]}
+                              "station_options": [{**r, "matches": supports(assignment[r["station"]], row["required_kind"], row.get('requirement'))} for r in options]}
                 if "stages" in row:
                     record["stage_options"] = []
                     for i, stage in enumerate(task_stages(row)):
                         begin = row["start"] if i == 0 else reference["stations"][i-1]
                         record["stage_options"].append({**row["stage_schedule"][i],
                             "matching_stations": [s for s in capability_groups(game.design)[row["stage_schedule"][i]["group"]]["stations"]
-                                                  if assignment[s] == stage["required_kind"]],
-                            "options": [{**r, "matches": assignment[r["station"]] == stage["required_kind"]}
+                                                  if region_matches(game.design, stage, s)
+                                                  and supports(assignment[s], stage["required_kind"], stage.get('requirement'))],
+                            "options": [{**r, "matches": supports(assignment[r["station"]], stage["required_kind"], stage.get('requirement'))}
                                         for r in station_options(game.design, row["id"], stage_index=i, start=begin)],
                             "cost_scope": "From this stage's start on the known-world design route through its target/station to the next target or final camp. Local costs are not additive."})
                 tasks.append(record)
-            return {"viewer": "human_design_only", "name": game.design["public"]["name"],
+            return {"viewer": "human_design_only", "name": self.display_name,
                     "design_id": game.design["design_id"],
                     "experience_opportunities": experience_opportunities(game.design, game.events, game.task_run_id),
                     "capabilities": assignment, "tasks": tasks,

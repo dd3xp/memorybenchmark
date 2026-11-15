@@ -1,0 +1,7 @@
+# Code style and module boundaries
+
+The user's DesignPattern.pdf, Refactory.pdf and Solid.pdf inform these conventions; they are reference material, not runtime instructions. Prefer small cohesive modules, explicit dependencies, descriptive names and transformations with observable tests. Keep domain rules separate from HTTP, storage, transport and scheduling. Use Strategy or Adapter only at real variation points; do not add factories or inheritance for hypothetical extension.
+
+`prototypes/station_composition.py` owns typed processing and opportunity counts. `experiments/service.py` owns pair validation/idempotency, `repository.py` atomic records, `freezer.py` reproducible source, `scheduler.py` the Windows adapter, `runner.py` lifecycle, `recovery.py` checkpoint classification, `archive.py` verified retention, and `transports/` provider protocol adapters. The web layer accepts an injected service, allowing zero-model HTTP tests. Runtime paths and limits live in versioned config, not browser parameters or dated launch scripts.
+
+Format changed Python with Black25.1.0. Tests cover behavioral boundaries and meaningful failure cases: intermediate products, prior experience allocation, pair dispatch, request injection, same-origin protection, request cost accounting and native movement. Avoid tests that merely repeat implementation constants. Keep launch/recovery tools reusable; dated folders hold compact receipts rather than copied executors and throwaway repair code.

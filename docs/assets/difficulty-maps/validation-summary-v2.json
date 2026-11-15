@@ -1,0 +1,318 @@
+{
+  "revision": "individually-authored-field-v2",
+  "kind": "zero_model_scripted_feasibility_not_native_agent_results",
+  "maps": [
+    {
+      "map": "rainbow",
+      "file": "rainbow_easy20.json",
+      "version": "easy-01-v2.0",
+      "configuration_sha256": "f799dacf92f2cb9dbf32d9544003d490bebef3753c82cb1097a976437e46fa5f",
+      "nodes": 37,
+      "roads": 43,
+      "topology": {
+        "connected": true,
+        "nodes": 37,
+        "roads": 43,
+        "cycle_rank": 7,
+        "core_branch_degree_histogram": {
+          "3": 6,
+          "4": 3
+        },
+        "station_degree_histogram": {
+          "1": 6,
+          "2": 10
+        },
+        "dead_end_count": 12
+      },
+      "geometric_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 270.65,
+        "minimum_point_separation": 109.77,
+        "topology": {
+          "connected": true,
+          "nodes": 37,
+          "roads": 43,
+          "cycle_rank": 7,
+          "core_branch_degree_histogram": {
+            "3": 6,
+            "4": 3
+          },
+          "station_degree_histogram": {
+            "1": 6,
+            "2": 10
+          },
+          "dead_end_count": 12
+        }
+      },
+      "tasks": 20,
+      "scripted_tasks": 40,
+      "max_operations": {
+        "retain": 35,
+        "clear": 63
+      }
+    },
+    {
+      "map": "forest",
+      "file": "forest_geo_easy20.json",
+      "version": "easy-02-v2.0",
+      "configuration_sha256": "085cfd7176bd263f73ab4e12b0fee99a0e3fece222a63557668c27959f7bf85a",
+      "nodes": 43,
+      "roads": 51,
+      "topology": {
+        "connected": true,
+        "nodes": 43,
+        "roads": 51,
+        "cycle_rank": 9,
+        "core_branch_degree_histogram": {
+          "3": 7,
+          "4": 3,
+          "5": 1
+        },
+        "station_degree_histogram": {
+          "1": 5,
+          "2": 11
+        },
+        "dead_end_count": 11
+      },
+      "geometric_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 219.66,
+        "minimum_point_separation": 92.2,
+        "topology": {
+          "connected": true,
+          "nodes": 43,
+          "roads": 51,
+          "cycle_rank": 9,
+          "core_branch_degree_histogram": {
+            "3": 7,
+            "4": 3,
+            "5": 1
+          },
+          "station_degree_histogram": {
+            "1": 5,
+            "2": 11
+          },
+          "dead_end_count": 11
+        }
+      },
+      "tasks": 20,
+      "scripted_tasks": 40,
+      "max_operations": {
+        "retain": 47,
+        "clear": 76
+      }
+    },
+    {
+      "map": "cascade",
+      "file": "cascade_easy20.json",
+      "version": "easy-03-v2.0",
+      "configuration_sha256": "9c47558e53bf3c72b18b3448dc3d447c9a615d39685d857ac2cc9c7a606a00e1",
+      "nodes": 38,
+      "roads": 41,
+      "topology": {
+        "connected": true,
+        "nodes": 38,
+        "roads": 41,
+        "cycle_rank": 4,
+        "core_branch_degree_histogram": {
+          "4": 3
+        },
+        "station_degree_histogram": {
+          "1": 1,
+          "2": 15
+        },
+        "dead_end_count": 10
+      },
+      "geometric_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 198.12,
+        "minimum_point_separation": 92.2,
+        "topology": {
+          "connected": true,
+          "nodes": 38,
+          "roads": 41,
+          "cycle_rank": 4,
+          "core_branch_degree_histogram": {
+            "4": 3
+          },
+          "station_degree_histogram": {
+            "1": 1,
+            "2": 15
+          },
+          "dead_end_count": 10
+        }
+      },
+      "tasks": 20,
+      "scripted_tasks": 40,
+      "max_operations": {
+        "retain": 61,
+        "clear": 83
+      }
+    },
+    {
+      "map": "nessie",
+      "file": "nessie_normal30.json",
+      "version": "normal-01-v2.0",
+      "configuration_sha256": "db175246de8f696bea5d7b777cea7f29be32ce37b54939c1a5ee26407b66e12b",
+      "nodes": 68,
+      "roads": 79,
+      "topology": {
+        "connected": true,
+        "nodes": 68,
+        "roads": 79,
+        "cycle_rank": 12,
+        "core_branch_degree_histogram": {
+          "3": 14,
+          "4": 4
+        },
+        "station_degree_histogram": {
+          "1": 3,
+          "2": 29
+        },
+        "dead_end_count": 12
+      },
+      "geometric_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 177.2,
+        "minimum_point_separation": 90.55,
+        "topology": {
+          "connected": true,
+          "nodes": 68,
+          "roads": 79,
+          "cycle_rank": 12,
+          "core_branch_degree_histogram": {
+            "3": 14,
+            "4": 4
+          },
+          "station_degree_histogram": {
+            "1": 3,
+            "2": 29
+          },
+          "dead_end_count": 12
+        }
+      },
+      "tasks": 30,
+      "scripted_tasks": 60,
+      "max_operations": {
+        "retain": 58,
+        "clear": 90
+      }
+    },
+    {
+      "map": "dingo",
+      "file": "dingo_normal30.json",
+      "version": "normal-02-v2.0",
+      "configuration_sha256": "f7f34e63bfd9bc8d70fe41d229417cc9341121e6f310a322c450150a65a0ef6b",
+      "nodes": 71,
+      "roads": 86,
+      "topology": {
+        "connected": true,
+        "nodes": 71,
+        "roads": 86,
+        "cycle_rank": 16,
+        "core_branch_degree_histogram": {
+          "3": 10,
+          "4": 7,
+          "5": 2
+        },
+        "station_degree_histogram": {
+          "1": 1,
+          "2": 29,
+          "3": 2
+        },
+        "dead_end_count": 9
+      },
+      "geometric_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 127.28,
+        "minimum_point_separation": 107.7,
+        "topology": {
+          "connected": true,
+          "nodes": 71,
+          "roads": 86,
+          "cycle_rank": 16,
+          "core_branch_degree_histogram": {
+            "3": 10,
+            "4": 7,
+            "5": 2
+          },
+          "station_degree_histogram": {
+            "1": 1,
+            "2": 29,
+            "3": 2
+          },
+          "dead_end_count": 9
+        }
+      },
+      "tasks": 30,
+      "scripted_tasks": 60,
+      "max_operations": {
+        "retain": 61,
+        "clear": 75
+      }
+    },
+    {
+      "map": "boar",
+      "file": "boar_normal30.json",
+      "version": "normal-03-v2.0",
+      "configuration_sha256": "1542bc1cce6ab8ae0ed009ed96dadd308277fff3d639e33cd6fba4c8ac5913a9",
+      "nodes": 78,
+      "roads": 93,
+      "topology": {
+        "connected": true,
+        "nodes": 78,
+        "roads": 93,
+        "cycle_rank": 16,
+        "core_branch_degree_histogram": {
+          "3": 9,
+          "4": 9,
+          "5": 1
+        },
+        "station_degree_histogram": {
+          "1": 2,
+          "2": 29,
+          "3": 1
+        },
+        "dead_end_count": 11
+      },
+      "geometric_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_station_separation": 152.32,
+        "minimum_point_separation": 90.0,
+        "topology": {
+          "connected": true,
+          "nodes": 78,
+          "roads": 93,
+          "cycle_rank": 16,
+          "core_branch_degree_histogram": {
+            "3": 9,
+            "4": 9,
+            "5": 1
+          },
+          "station_degree_histogram": {
+            "1": 2,
+            "2": 29,
+            "3": 1
+          },
+          "dead_end_count": 11
+        }
+      },
+      "tasks": 30,
+      "scripted_tasks": 60,
+      "max_operations": {
+        "retain": 70,
+        "clear": 93
+      }
+    }
+  ],
+  "scripted_tasks": 300,
+  "all_passed": true,
+  "new_model_calls": 0,
+  "scope": "Every action and delivery strictly replayed. All paths and sites checked against authored barriers; no observed native-agent score enters authoring."
+}

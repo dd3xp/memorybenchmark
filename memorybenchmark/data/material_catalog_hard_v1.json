@@ -1,0 +1,135 @@
+{
+  "version": "hard-materials-1",
+  "materials": {
+    "profile": {
+      "name": "剖面资料",
+      "category": "geographic"
+    },
+    "elevation": {
+      "name": "高程资料",
+      "category": "geographic"
+    },
+    "slope": {
+      "name": "坡度资料",
+      "category": "geographic"
+    },
+    "soil": {
+      "name": "土壤资料",
+      "category": "geographic"
+    },
+    "drainage": {
+      "name": "水系资料",
+      "category": "geographic"
+    },
+    "vegetation": {
+      "name": "植被资料",
+      "category": "geographic"
+    },
+    "lithology": {
+      "name": "岩性资料",
+      "category": "geographic"
+    },
+    "land_cover": {
+      "name": "地表覆盖资料",
+      "category": "geographic"
+    },
+    "shore": {
+      "name": "岸线资料",
+      "category": "geographic"
+    },
+    "streamflow": {
+      "name": "流量资料",
+      "category": "geographic"
+    },
+    "erosion_form": {
+      "name": "侵蚀地貌资料",
+      "category": "geographic"
+    },
+    "water_quality": {
+      "name": "水质资料",
+      "category": "geographic"
+    },
+    "sediment": {
+      "name": "沉积物资料",
+      "category": "geographic"
+    },
+    "bathymetry": {
+      "name": "水深资料",
+      "category": "geographic"
+    },
+    "ungulate_tracks": {
+      "name": "有蹄动物足迹资料",
+      "category": "animal"
+    },
+    "livestock_signs": {
+      "name": "牧畜活动资料",
+      "category": "animal"
+    },
+    "woodland_birds": {
+      "name": "林鸟声学资料",
+      "category": "animal"
+    },
+    "small_mammal_signs": {
+      "name": "小型哺乳动物活动资料",
+      "category": "animal"
+    },
+    "otter_signs": {
+      "name": "水獭活动资料",
+      "category": "animal"
+    },
+    "reptile_signs": {
+      "name": "爬行动物活动资料",
+      "category": "animal"
+    },
+    "farmland_birds": {
+      "name": "农田鸟类观察资料",
+      "category": "animal"
+    },
+    "waterbird_record": {
+      "name": "水鸟观察资料",
+      "category": "animal"
+    },
+    "amphibian_record": {
+      "name": "两栖动物活动资料",
+      "category": "animal"
+    },
+    "water_edna": {
+      "name": "水域动物环境 DNA 资料",
+      "category": "animal"
+    },
+    "built_form": {
+      "name": "建筑形制资料",
+      "category": "human"
+    },
+    "waterworks": {
+      "name": "水工设施资料",
+      "category": "human"
+    },
+    "settlement_layout": {
+      "name": "聚落格局资料",
+      "category": "human"
+    },
+    "historic_road": {
+      "name": "历史道路遗迹资料",
+      "category": "human"
+    }
+  },
+  "scope": "Authored observation-package categories, not historical species distributions or station capabilities.",
+  "sources": {
+    "orcia": [
+      "https://whc.unesco.org/en/list/1026/",
+      "https://www.regione.toscana.it/-/castore",
+      "https://www.visittuscany.com/it/attrazioni/riserva-naturale-regionale-di-ripa-dorcia/"
+    ],
+    "hampi": [
+      "https://whc.unesco.org/en/list/241/",
+      "https://whc.unesco.org/en/list/241/maps/",
+      "https://maxwellmuseum.unm.edu/news-events/blog/research-wednesday-surveying-imperial-city-vijayanagara-south-india",
+      "https://iucnosgbull.org/Volume37/Samad_et_al_2020.html"
+    ],
+    "angkor": [
+      "https://whc.unesco.org/en/list/668/",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC1964867/"
+    ]
+  }
+}

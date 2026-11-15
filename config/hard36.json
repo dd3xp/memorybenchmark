@@ -1,0 +1,36 @@
+{
+  "schema": "hard-composition-allocation-1",
+  "tasks": 36,
+  "stages_per_task": 2,
+  "materials": 12,
+  "basic_operations": [
+    "catalogue",
+    "verify"
+  ],
+  "standalone_uses_per_operation": 2,
+  "combined_uses_per_operation": 2,
+  "combination_repetitions": 2,
+  "standalone_partner_offsets": [
+    5,
+    7,
+    3
+  ],
+  "maps": {
+    "orcia": {
+      "design_prefix": "hard-01",
+      "target_seed": 61301
+    },
+    "hampi": {
+      "design_prefix": "hard-02",
+      "target_seed": 61302
+    },
+    "angkor": {
+      "design_prefix": "hard-03",
+      "target_seed": 61303
+    }
+  },
+  "first_combination_requires_both_prior_standalone_experiences": true,
+  "unscored_teaching_tasks": 0,
+  "stage_dependency": false,
+  "change_geometry_only_after_individual_assessment": true
+}

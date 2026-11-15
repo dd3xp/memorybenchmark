@@ -4,6 +4,8 @@ Only explicitly configured roots are scanned. The web representation contains
 public geography, task state and aggregate progress, never prompts, native
 memory bodies, private worlds, source paths or credentials.
 """
+
+from memorybenchmark.event_store import read_events
 from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -12,6 +14,8 @@ import os
 from pathlib import Path
 import re
 import threading
+from .map_catalog import human_map_name
+from .transport_status import read_status
 
 
 def read_json(path, limit=64 * 1024**2):
@@ -41,21 +45,23 @@ def public_deliveries(folder):
     if not path.is_file() or not graph.is_file() or path.stat().st_size > 32 * 1024**2:
         return
     run_id = read_json(graph).get("task_run_id")
-    for line in path.read_text(encoding="utf-8").splitlines():
-        try:
-            event = json.loads(line)
-        except ValueError:
-            continue
+    for event in read_events(path):
         if event.get("task_run_id") == run_id and "delivered" in event:
-            yield {"request": {"action": event.get("action", {})}, "response": event["delivered"]}
+            yield {
+                "request": {"action": event.get("action", {})},
+                "response": event["delivered"],
+            }
 
 
 def safe_directory(path, root):
     try:
         if not path.resolve().is_relative_to(root.resolve()):
             return False
-        return all(not part.is_symlink() and not getattr(part, "is_junction", lambda: False)()
-                   for part in (path, *path.parents) if part.is_relative_to(root))
+        return all(
+            not part.is_symlink() and not getattr(part, "is_junction", lambda: False)()
+            for part in (path, *path.parents)
+            if part.is_relative_to(root)
+        )
     except (OSError, ValueError):
         return False
 
@@ -64,20 +70,79 @@ class PilotStore:
     def __init__(self, log_root, private_root=None):
         self.log_root = Path(log_root).resolve()
         configured = private_root or os.environ.get("MEMORYBENCH_PILOT_ROOT")
-        self.private_root = Path(configured).resolve() if configured else Path(__file__).resolve().parents[1].with_name("memorybenchmark-private")
+        self.private_root = (
+            Path(configured).resolve()
+            if configured
+            else Path(__file__)
+            .resolve()
+            .parents[1]
+            .with_name("memorybenchmark-private")
+        )
         self._cache = {}
+        self._map_headers = {}
         self._lock = threading.RLock()
+
+    def _map_header(self, root):
+        """Cache public map identity without projecting session history."""
+        path = root / "design.json"
+        if not path.is_file():
+            return {}
+        stamp = path.stat()
+        signature = (stamp.st_mtime_ns, stamp.st_size)
+        with self._lock:
+            previous = self._map_headers.get(str(path))
+            if previous is None or previous[0] != signature:
+                public = read_json(path)["public"]
+                paired_path = re.sub(r"-(?:retain|clear)(?=-|$)", "", str(root))
+                job = root.parent.parent.parent / "job.json"
+                if job.is_file():
+                    paired_path = read_json(job)["pair_id"]
+                identity = {
+                    "name": human_map_name(public),
+                    "difficulty": public.get("difficulty", ""),
+                    "comparison_key": sha256(paired_path.encode()).hexdigest()[:16],
+                }
+                self._map_headers[str(path)] = (signature, identity)
+            return dict(self._map_headers[str(path)][1])
+
+    def _hidden_experiments(self):
+        path = self.private_root / ".pilot-watch-hidden.json"
+        if not path.is_file():
+            return set()
+        try:
+            policy = read_json(path, limit=256 * 1024)
+            identifiers = policy["hidden_experiments"]
+            if policy.get("schema") != 1 or not isinstance(identifiers, list):
+                return set()
+            return {
+                value
+                for value in identifiers
+                if isinstance(value, str) and re.fullmatch(r"pilot-[0-9a-f]{16}", value)
+            }
+        except (OSError, ValueError, KeyError, TypeError):
+            return set()
 
     def _runs(self):
         candidates = []
-        for root, pattern in ((self.log_root, "*/pilot.json"),
-                              (self.private_root, "easy20-*/runtime-*/.runs/pilot-*/pilot.json")):
+        hidden = self._hidden_experiments()
+        for root, pattern in (
+            (self.log_root, "*/pilot.json"),
+            (self.private_root, "easy16-*/runtime-*/.runs/pilot-*/pilot.json"),
+            (self.private_root, "easy20-*/runtime-*/.runs/pilot-*/pilot.json"),
+            (
+                self.private_root,
+                "experiments/*/*/runtime-hermes/.runs/pilot-*/pilot.json",
+            ),
+        ):
             if not root.is_dir():
                 continue
             for path in root.glob(pattern):
                 if safe_directory(path.parent, root):
-                    identifier = "pilot-" + sha256(str(path.parent).encode()).hexdigest()[:16]
-                    candidates.append((identifier, path.parent))
+                    identifier = (
+                        "pilot-" + sha256(str(path.parent).encode()).hexdigest()[:16]
+                    )
+                    if identifier not in hidden:
+                        candidates.append((identifier, path.parent))
         return dict(candidates)
 
     def _pilot(self, root):
@@ -87,13 +152,38 @@ class PilotStore:
             previous = self._cache.get(str(path))
             if previous is None or previous[0] != signature:
                 raw = read_json(path)
-                fields = ("agent", "model_alias", "status", "game_access", "action_policy", "tasks", "clear_first_task", "movement_mode",
-                          "experiment_mode", "memory_condition", "created_at_utc", "reasoning_effort")
+                fields = (
+                    "agent",
+                    "model_alias",
+                    "status",
+                    "game_access",
+                    "action_policy",
+                    "tasks",
+                    "clear_first_task",
+                    "movement_mode",
+                    "experiment_mode",
+                    "memory_condition",
+                    "created_at_utc",
+                    "reasoning_effort",
+                )
                 compact = {key: raw[key] for key in fields if key in raw}
-                session_fields = ("name", "task_id", "condition", "infrastructure_ok", "success", "game_actions", "distance", "llm_calls")
-                compact["sessions"] = [{key: row[key] for key in session_fields if key in row}
-                                       for row in raw.get("sessions", [])]
-                compact["attempt_history"] = [None] * len(raw.get("attempt_history", []))
+                session_fields = (
+                    "name",
+                    "task_id",
+                    "condition",
+                    "infrastructure_ok",
+                    "success",
+                    "game_actions",
+                    "distance",
+                    "llm_calls",
+                )
+                compact["sessions"] = [
+                    {key: row[key] for key in session_fields if key in row}
+                    for row in raw.get("sessions", [])
+                ]
+                compact["attempt_history"] = [None] * len(
+                    raw.get("attempt_history", [])
+                )
                 self._cache[str(path)] = (signature, compact)
             return self._cache[str(path)][1]
 
@@ -103,75 +193,279 @@ class PilotStore:
         directory = root / "sessions"
         folders = sorted(directory.iterdir()) if directory.is_dir() else []
         for folder in folders[:100]:
-            if not re.fullmatch(r"\d{2,3}-T\d+-(prefix|retain|clear)", folder.name) or not safe_directory(folder, root):
+            if not re.fullmatch(
+                r"\d{2,3}-T\d+-(prefix|retain|clear)", folder.name
+            ) or not safe_directory(folder, root):
                 continue
-            if (folder / ".parallel-handoff.json").is_file():
+            if any(
+                (folder / marker).is_file()
+                for marker in (
+                    ".parallel-handoff.json",
+                    ".recovery-handoff.json",
+                    ".native-transport-handoff.json",
+                    ".infra-transport-handoff.json",
+                )
+            ):
                 continue
             row = recorded.get(folder.name, {})
             condition = folder.name.rsplit("-", 1)[1]
-            item = {"id": folder.name, "task_id": folder.name.split("-")[1], "condition": condition,
-                    "status": "complete" if row.get("infrastructure_ok") else "error" if row else "running",
-                    "success": row.get("success"), "operations": row.get("game_actions"),
-                    "distance": row.get("distance"), "calls": row.get("llm_calls", 0)}
+            item = {
+                "id": folder.name,
+                "task_id": folder.name.split("-")[1],
+                "condition": condition,
+                "status": (
+                    "complete"
+                    if row.get("infrastructure_ok")
+                    else "error" if row else "running"
+                ),
+                "success": row.get("success"),
+                "operations": row.get("game_actions"),
+                "distance": row.get("distance"),
+                "calls": row.get("llm_calls", 0),
+            }
             result.append(item)
         order = {"prefix": 0, "retain": 1, "clear": 2}
-        return sorted(result, key=lambda item: (int(item["task_id"][1:]), order[item["condition"]]))
+        return sorted(
+            result,
+            key=lambda item: (int(item["task_id"][1:]), order[item["condition"]]),
+        )
+
+    def _infra_handoff(self, root, experiment):
+        """Recognize only a controller-owned empty reservation after task exit."""
+        return any(
+            self._infra_handoff_at(root, experiment, experiment / name)
+            for name in ("infra-repair-v1", "status-repair-v2")
+        )
+
+    def _latest_transport_ledger(self, root, condition):
+        directory = root / "sessions"
+        if not directory.is_dir():
+            return None
+        for folder in sorted(directory.iterdir(), reverse=True):
+            if not re.fullmatch(r"\d{2,3}-T\d+-(prefix|retain|clear)", folder.name):
+                continue
+            if (folder.name.endswith("-clear")) != (condition == "clear"):
+                continue
+            ledger = folder / "transport-attempts.jsonl"
+            if ledger.is_file() and safe_directory(folder, root):
+                return ledger
+        return None
+
+    def _infra_handoff_at(self, root, experiment, base):
+        pending = base / "pending-handoff.json"
+        if not pending.is_file() or (base / "installation-failed.json").is_file():
+            return False
+        try:
+            marker = read_json(pending)
+            if not re.fullmatch(r"\d{2,3}-T\d+-(retain|clear)", marker["session"]):
+                return False
+            folder = root / "sessions" / marker["session"]
+            path = folder / ".infra-transport-handoff.json"
+            if not safe_directory(folder, root) or not path.is_file():
+                return False
+            if (
+                {p.name for p in folder.iterdir()} != {path.name}
+                or read_json(path) != marker
+                or not marker.get("token")
+            ):
+                return False
+            launch = read_json(experiment / "driver-started.json")
+            exit_record = read_json(experiment / "driver-exit.json")
+            timestamp = lambda value: datetime.fromisoformat(
+                value.replace("Z", "+00:00")
+            )
+            return (
+                launch == marker["driver_started"]
+                and exit_record.get("type") == "RuntimeError"
+                and exit_record.get("message")
+                == "Unrecorded session directory; inspect before retrying"
+                and timestamp(exit_record["utc"]) >= timestamp(marker["created_utc"])
+            )
+        except (OSError, ValueError, KeyError, TypeError):
+            return False
 
     def _header(self, identifier, root, pilot, condition):
-        valid = [row for row in pilot.get("sessions", []) if row.get("infrastructure_ok")
-                 and (row["condition"] == "clear") == (condition == "clear")]
+        valid = [
+            row
+            for row in pilot.get("sessions", [])
+            if row.get("infrastructure_ok")
+            and (row["condition"] == "clear") == (condition == "clear")
+        ]
         tasks = len(pilot.get("tasks", []))
-        total = tasks if condition == "retain" or pilot.get("clear_first_task", False) else max(0, tasks - 1)
+        total = (
+            tasks
+            if pilot.get("experiment_mode") == "independent"
+            or condition == "retain"
+            or pilot.get("clear_first_task", False)
+            else max(0, tasks - 1)
+        )
         status = pilot.get("status", "interrupted")
         # Frozen directories are runtime/.runs/pilot-name.
         experiment = root.parent.parent.parent
         result_path = experiment / "result.json"
         if pilot.get("status") == "completed":
             status = "complete" if result_path.is_file() else "auditing"
-            if (experiment / "driver-exit.json").is_file() and read_json(experiment / "driver-exit.json").get("exit_code"):
-                status = "audit_error"
+            if (
+                not result_path.is_file()
+                and (experiment / "driver-exit.json").is_file()
+            ):
+                exit_record = read_json(experiment / "driver-exit.json")
+                launch = (
+                    read_json(experiment / "driver-started.json")
+                    if (experiment / "driver-started.json").is_file()
+                    else {}
+                )
+                if exit_record.get("exit_code") and exit_record.get(
+                    "utc", ""
+                ) >= launch.get("started_at", ""):
+                    status = "audit_error"
         elif len(valid) == total and total:
             status = "complete"
         elif status == "running" and pilot.get("experiment_mode") != "independent":
-            active = [row for row in self._sessions(root, pilot) if row["status"] == "running"]
-            if not any((row["condition"] == "clear") == (condition == "clear") for row in active):
+            active = [
+                row for row in self._sessions(root, pilot) if row["status"] == "running"
+            ]
+            if not any(
+                (row["condition"] == "clear") == (condition == "clear")
+                for row in active
+            ):
                 status = "waiting"
+        recovery = {}
+        if status == "interrupted" and self._infra_handoff(root, experiment):
+            status = "maintenance"
+            recovery = {
+                "kind": "planned_handoff",
+                "reason": "task_boundary_verification",
+            }
+        boundary_path = experiment / "native-policy-v3-pending.json"
+        if (
+            status == "interrupted"
+            and boundary_path.is_file()
+            and (experiment / "driver-exit.json").is_file()
+        ):
+            boundary = read_json(boundary_path)
+            folder = root / "sessions" / str(boundary.get("session", ""))
+            exit_record = read_json(experiment / "driver-exit.json")
+            if (
+                safe_directory(folder, root)
+                and (folder / ".native-transport-handoff.json").is_file()
+                and read_json(folder / ".native-transport-handoff.json") == boundary
+                and exit_record.get("message")
+                == "Unrecorded session directory; inspect before retrying"
+            ):
+                status = "maintenance"
+        recovery_path = experiment / "transport-status.json"
+        if (
+            not recovery_path.is_file()
+            and not recovery_path.with_name(recovery_path.stem + ".versions").is_dir()
+        ):
+            recovery_path = root / "transport-status.json"
+        raw = None
+        if status not in ("complete", "auditing", "audit_error", "maintenance"):
+            ledger = self._latest_transport_ledger(root, condition)
+            raw = read_status(recovery_path, ledger=ledger)
+        if raw is not None and status not in (
+            "complete",
+            "auditing",
+            "audit_error",
+            "maintenance",
+        ):
+            # Keep private provider bodies, paths, payload hashes and headers out
+            # of the public projection. A stale network wait is not a live job.
+            launch = (
+                read_json(experiment / "driver-started.json")
+                if (experiment / "driver-started.json").is_file()
+                else {}
+            )
+            if raw.get("utc", "") >= launch.get("started_at", ""):
+                recovery = {
+                    key: raw[key]
+                    for key in (
+                        "kind",
+                        "reason",
+                        "retry_in_seconds",
+                        "attempt",
+                        "call",
+                        "utc",
+                    )
+                    if key in raw
+                }
+                if status == "running" and raw.get("kind") == "network_retry":
+                    status = "network_retry"
+                elif raw.get("kind") == "needs_attention":
+                    status = "needs_attention"
         started = pilot.get("created_at_utc", iso(root.stat().st_ctime))
         if (experiment / "driver-started.json").is_file():
-            started = read_json(experiment / "driver-started.json").get("started_at", started)
+            started = read_json(experiment / "driver-started.json").get(
+                "started_at", started
+            )
         elif (experiment / "run-plan.json").is_file():
-            started = read_json(experiment / "run-plan.json").get("created_at_utc", started)
+            started = read_json(experiment / "run-plan.json").get(
+                "created_at_utc", started
+            )
         label = {"ga": "GA", "hermes": "Hermes"}.get(pilot.get("agent"), "Agent")
-        if pilot.get("agent") == "ga" and pilot.get("action_policy", "batch") == "batch":
+        if (
+            pilot.get("agent") == "ga"
+            and pilot.get("action_policy", "batch") == "batch"
+        ):
             label += " · 批量（历史）"
         if pilot.get("movement_mode") == "route":
-            label += " · 连续移动（历史）"
+            label += " · 连续移动"
         effort = pilot.get("reasoning_effort", "low")
         if effort != "low":
             label += " · " + effort
-        return {"id": identifier + "-" + condition, "experiment_id": identifier, "condition": condition, "agent": label,
-                "model": pilot.get("model_alias", ""), "reasoning_effort": effort,
-                "status": status, "started_at": started,
-                "updated_at": iso((root / "pilot.json").stat().st_mtime),
-                "completed_sessions": len(valid), "total_sessions": total,
-                "successes": sum(row.get("success") is True for row in valid),
-                "failed_attempts": len(pilot.get("attempt_history", [])),
-                "interface": "native" if pilot.get("game_access") == "native" else "bridge",
-                "experiment_mode": pilot.get("experiment_mode", "paired")}
+        return {
+            **self._map_header(root),
+            "id": identifier + "-" + condition,
+            "experiment_id": identifier,
+            "condition": condition,
+            "agent": label,
+            "model": pilot.get("model_alias", ""),
+            "reasoning_effort": effort,
+            "status": status,
+            "started_at": started,
+            "recovery": recovery,
+            "updated_at": iso((root / "pilot.json").stat().st_mtime),
+            "completed_sessions": len(valid),
+            "total_sessions": total,
+            "successes": sum(row.get("success") is True for row in valid),
+            "failed_attempts": len(pilot.get("attempt_history", [])),
+            "interface": "native" if pilot.get("game_access") == "native" else "bridge",
+            "experiment_mode": pilot.get("experiment_mode", "paired"),
+        }
 
     def listing(self):
         rows = []
         for identifier, root in self._runs().items():
             try:
                 pilot = self._pilot(root)
-                conditions = (pilot["memory_condition"],) if pilot.get("experiment_mode") == "independent" else ("retain", "clear")
-                rows.extend(self._header(identifier, root, pilot, condition) for condition in conditions)
+                conditions = (
+                    (pilot["memory_condition"],)
+                    if pilot.get("experiment_mode") == "independent"
+                    else ("retain", "clear")
+                )
+                rows.extend(
+                    self._header(identifier, root, pilot, condition)
+                    for condition in conditions
+                )
             except (OSError, ValueError, KeyError, TypeError):
                 continue
-        return sorted(rows, key=lambda row: (row["started_at"], row["experiment_id"], row["condition"] == "retain"), reverse=True)[:120]
+        return sorted(
+            rows,
+            key=lambda row: (
+                row["started_at"],
+                row["experiment_id"],
+                row["condition"] == "retain",
+            ),
+            reverse=True,
+        )[:120]
 
     def snapshot(self, identifier, session_id=None):
-        match = re.fullmatch(r"(pilot-[0-9a-f]{16})(?:-(retain|clear))?", identifier) if isinstance(identifier, str) else None
+        match = (
+            re.fullmatch(r"(pilot-[0-9a-f]{16})(?:-(retain|clear))?", identifier)
+            if isinstance(identifier, str)
+            else None
+        )
         if not match:
             raise ValueError("实验不存在。")
         base_id, condition = match.group(1), match.group(2)
@@ -180,10 +474,15 @@ class PilotStore:
             raise ValueError("实验不存在。")
         pilot = self._pilot(root)
         condition = condition or pilot.get("memory_condition", "retain")
-        if pilot.get("experiment_mode") == "independent" and condition != pilot.get("memory_condition"):
+        if pilot.get("experiment_mode") == "independent" and condition != pilot.get(
+            "memory_condition"
+        ):
             raise ValueError("实验不存在。")
-        sessions = [row for row in self._sessions(root, pilot)
-                    if (row["condition"] == "clear") == (condition == "clear")]
+        sessions = [
+            row
+            for row in self._sessions(root, pilot)
+            if (row["condition"] == "clear") == (condition == "clear")
+        ]
         if session_id is None:
             active = [row for row in sessions if row["status"] == "running"]
             session = (active or sessions)[-1] if sessions else None
@@ -194,10 +493,27 @@ class PilotStore:
         design = read_json(root / "design.json")
         public = design["public"]
         header = self._header(base_id, root, pilot, condition)
-        response = {**header, "name": public["name"], "sessions": sessions, "session": session,
-                    "map": {"locations": deepcopy(public["locations"]), "edges": deepcopy(public["edges"]),
-                            "view_box": public.get("view_box", [0, 0, 1200, 900])},
-                    "terrain": public.get("terrain", "field"), "frames": []}
+        response = {
+            **header,
+            "name": human_map_name(public),
+            "sessions": sessions,
+            "session": session,
+            "map": {
+                "locations": deepcopy(public["locations"]),
+                "edges": deepcopy(public["edges"]),
+                "view_box": public.get("view_box", [0, 0, 1200, 900]),
+            },
+            "terrain": public.get("terrain", "field"),
+            "frames": [],
+        }
+        from .cartography import world_presentation
+
+        bounds = (
+            design.get("provenance", {})
+            .get("reference_window", {})
+            .get("bbox_west_south_east_north")
+        )
+        response["world_map"] = world_presentation(public, bounds)
         if session is None:
             return response
         folder = root / "sessions" / session["id"]
@@ -209,19 +525,63 @@ class PilotStore:
                 observation = delivery.get("response", {}).get("observation")
                 if not observation:
                     continue
-                revision = (observation.get("revision", observation.get("steps")), observation.get("done"), observation.get("success"))
+                revision = (
+                    observation.get("revision", observation.get("steps")),
+                    observation.get("done"),
+                    observation.get("success"),
+                )
                 if previous_revision == revision:
                     continue
                 previous_revision = revision
                 task = observation.get("task", {})
-                frame = {key: observation[key] for key in ("location", "steps", "distance", "done", "success", "raw", "processed", "stage_index", "stage_count", "stages_completed") if key in observation}
-                frame["task"] = {key: task[key] for key in ("id", "name", "target", "required_kind", "max_steps") if key in task}
+                frame = {
+                    key: observation[key]
+                    for key in (
+                        "location",
+                        "steps",
+                        "distance",
+                        "done",
+                        "success",
+                        "raw",
+                        "processed",
+                        "stage_index",
+                        "stage_count",
+                        "stages_completed",
+                    )
+                    if key in observation
+                }
+                frame["task"] = {
+                    key: task[key]
+                    for key in (
+                        "id",
+                        "name",
+                        "target",
+                        "required_kind",
+                        "requirement",
+                        "max_steps",
+                    )
+                    if key in task
+                }
                 action = (delivery.get("request") or {}).get("action", {})
-                frame["action"] = {key: action[key] for key in ("type", "target") if key in action}
+                frame["action"] = {
+                    key: action[key] for key in ("type", "target") if key in action
+                }
                 feedback = delivery.get("response", {}).get("feedback", {})
                 if not isinstance(feedback, dict):
                     feedback = {}
-                frame["feedback"] = {key: feedback[key] for key in ("kind", "station", "capability", "result", "raw_collected", "next_stage") if key in feedback}
+                frame["feedback"] = {
+                    key: feedback[key]
+                    for key in (
+                        "kind",
+                        "station",
+                        "capability",
+                        "requirement",
+                        "result",
+                        "raw_collected",
+                        "next_stage",
+                    )
+                    if key in feedback
+                }
                 frames.append(frame)
         model = folder / "model"
         requests = list(model.glob("*-request.json")) if model.is_dir() else []
@@ -230,7 +590,11 @@ class PilotStore:
             response["updated_at"] = iso(max(path.stat().st_mtime for path in requests))
         if frames:
             current = frames[-1]
-            session["phase"] = "整理记忆" if current.get("done") and session["status"] == "running" else "执行任务"
+            session["phase"] = (
+                "整理记忆"
+                if current.get("done") and session["status"] == "running"
+                else "执行任务"
+            )
             session["location"] = current["location"]
             session["operations"] = current.get("steps", 0)
             session["distance"] = current.get("distance", 0)

@@ -10,7 +10,7 @@ from scripts.build_easy20_linked_map import build as linked_map
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "memorybenchmark/data/station_easy20_reuse.json"
+OUTPUT = ROOT / "memorybenchmark/data/history/station_easy20_reuse.json"
 
 # Each kind and collection point occurs five times. The last eight commissions
 # move each kind to the opposite region; sites of the same type remain equivalent.

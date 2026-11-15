@@ -1,0 +1,27 @@
+{
+  "allocation": {
+    "tasks": 36,
+    "stages": 72,
+    "basic_experiences": 24,
+    "standalone_stages": 48,
+    "combined_stages": 24,
+    "necessary_operations": 96,
+    "per_experience_standalone": 2,
+    "per_experience_combined": 2,
+    "prerequisite_policy": "both basic operations first occur in earlier normal scored tasks"
+  },
+  "geography": {
+    "unique_shortest_route_useful_stations": 48,
+    "unused_stations": [],
+    "target_swaps_accepted": 18,
+    "geometry_changed": false,
+    "model_results_used": false
+  },
+  "base_file": "orcia_hard48.json",
+  "feasibility": {
+    "zero_model_tasks": 36,
+    "successes": 36,
+    "maximum_reference_operations": 52,
+    "reference_is_not_agent_performance": true
+  }
+}

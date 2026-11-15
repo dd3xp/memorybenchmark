@@ -1,0 +1,210 @@
+{
+  "A": {
+    "catalogue": [
+      "water_quality",
+      "woodland_birds"
+    ],
+    "verify": [
+      "profile",
+      "shore"
+    ]
+  },
+  "B": {
+    "catalogue": [
+      "waterworks"
+    ],
+    "verify": [
+      "otter_signs"
+    ]
+  },
+  "C": {
+    "catalogue": [
+      "water_quality"
+    ],
+    "verify": [
+      "historic_road"
+    ]
+  },
+  "D": {
+    "catalogue": [
+      "waterbird_record"
+    ],
+    "verify": [
+      "lithology"
+    ]
+  },
+  "E": {
+    "catalogue": [
+      "waterbird_record",
+      "waterworks"
+    ],
+    "verify": [
+      "elevation",
+      "settlement_layout"
+    ]
+  },
+  "F": {
+    "catalogue": [
+      "elevation",
+      "settlement_layout"
+    ],
+    "verify": [
+      "drainage",
+      "livestock_signs"
+    ]
+  },
+  "G": {
+    "catalogue": [
+      "historic_road",
+      "lithology"
+    ],
+    "verify": [
+      "water_quality",
+      "woodland_birds"
+    ]
+  },
+  "H": {
+    "catalogue": [
+      "sediment"
+    ],
+    "verify": [
+      "waterworks"
+    ]
+  },
+  "I": {
+    "catalogue": [
+      "drainage",
+      "livestock_signs"
+    ],
+    "verify": [
+      "built_form",
+      "otter_signs"
+    ]
+  },
+  "J": {
+    "catalogue": [
+      "drainage"
+    ],
+    "verify": [
+      "elevation"
+    ]
+  },
+  "K": {
+    "catalogue": [
+      "shore"
+    ],
+    "verify": [
+      "woodland_birds"
+    ]
+  },
+  "L": {
+    "catalogue": [
+      "woodland_birds"
+    ],
+    "verify": [
+      "drainage"
+    ]
+  },
+  "M": {
+    "catalogue": [
+      "built_form",
+      "otter_signs"
+    ],
+    "verify": [
+      "waterbird_record",
+      "waterworks"
+    ]
+  },
+  "N": {
+    "catalogue": [
+      "settlement_layout"
+    ],
+    "verify": [
+      "waterbird_record"
+    ]
+  },
+  "O": {
+    "catalogue": [
+      "profile"
+    ],
+    "verify": [
+      "built_form"
+    ]
+  },
+  "P": {
+    "catalogue": [
+      "lithology"
+    ],
+    "verify": [
+      "sediment"
+    ]
+  },
+  "Q": {
+    "catalogue": [
+      "elevation"
+    ],
+    "verify": [
+      "water_quality"
+    ]
+  },
+  "R": {
+    "catalogue": [
+      "otter_signs"
+    ],
+    "verify": [
+      "vegetation"
+    ]
+  },
+  "S": {
+    "catalogue": [
+      "vegetation"
+    ],
+    "verify": [
+      "profile"
+    ]
+  },
+  "T": {
+    "catalogue": [
+      "sediment",
+      "vegetation"
+    ],
+    "verify": [
+      "historic_road",
+      "lithology"
+    ]
+  },
+  "U": {
+    "catalogue": [
+      "historic_road"
+    ],
+    "verify": [
+      "settlement_layout"
+    ]
+  },
+  "V": {
+    "catalogue": [
+      "profile",
+      "shore"
+    ],
+    "verify": [
+      "sediment",
+      "vegetation"
+    ]
+  },
+  "W": {
+    "catalogue": [
+      "built_form"
+    ],
+    "verify": [
+      "livestock_signs"
+    ]
+  },
+  "X": {
+    "catalogue": [
+      "livestock_signs"
+    ],
+    "verify": [
+      "shore"
+    ]
+  }
+}

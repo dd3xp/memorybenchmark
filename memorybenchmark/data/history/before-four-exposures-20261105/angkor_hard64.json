@@ -1,0 +1,5384 @@
+{
+  "design_id": "hard-03-v2.1",
+  "status": "authored_hard_v2_pending_native_agent_calibration",
+  "world_generator": "fixed_conditional_station_sets",
+  "fixed_world": "omega_hard_angkor",
+  "material_selection": {
+    "protocol": "difficulty-materials-v2",
+    "catalog_version": "hard-materials-1",
+    "catalog_sha256": "10d9f3be0b43f1e4684f9410a8200a44703224609f9f6664bd472ec905208a21",
+    "theme": "angkor",
+    "geographic": [
+      "profile",
+      "soil",
+      "drainage",
+      "sediment",
+      "bathymetry",
+      "water_quality",
+      "vegetation",
+      "land_cover"
+    ],
+    "animal": [
+      "waterbird_record",
+      "amphibian_record",
+      "water_edna",
+      "small_mammal_signs"
+    ],
+    "human": [
+      "built_form",
+      "waterworks",
+      "settlement_layout",
+      "historic_road"
+    ]
+  },
+  "native_session_budget": {
+    "main_model_calls": 400,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 3600,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Common authoring budget; new independently authored geographies require a fresh zero-model feasibility check before native calibration."
+  },
+  "public": {
+    "version": "hard-03-v2.1",
+    "name": "青陂水原",
+    "difficulty": "Hard",
+    "terrain": "reservoir-plain",
+    "capability_model": "conditional-overlapping-sets-v1",
+    "requirements": {
+      "catalogue": "归档编目",
+      "verify": "关联核验"
+    },
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      6800,
+      4600
+    ],
+    "rules": [
+      "每项委托有两段。每段给出目标、指定资料与处理要求；依次到目标主动 survey 采集，在匹配的站主动 process 处理。两段成功后回 C 营地主动 submit。",
+      "优先减少道路总距离，距离相同时减少操作。公开地图从第一项起全部开放；只能沿道路逐点移动，不可跳过中间节点。",
+      "本图有十六类资料、二十四种站型，每型两座等价站。处理要求有“归档编目”和“关联核验”，每段要求直接公开。",
+      "能力由“资料＋本段处理要求”共同决定。同一种资料在两种要求下的可用站型不同，可能存在部分重叠。所有站型均为候选，字母、地名和资料主题不提示能力。",
+      "每种站型在每种要求下支持一至两类资料；同型两站在相同要求下能力完全一致。所有能力在地图制作时固定，跨任务和 Agent 不变。",
+      "只有采集当前原始资料后主动 process，才反馈该站型在本段要求下支持的全部资料与本次结果；经过或到访不揭示能力，不提供独立查询。反馈不揭示其他处理要求下的能力。",
+      "处理不匹配时原始资料保留，可以换站；成功和失败均消耗操作。相同资料在另一种要求下的旧反馈不能直接作为本段能力结论。",
+      "只有在本段目标主动 survey 才取得资料；到达不会自动采集。勘探占一次操作、不增加路程；成功处理后进入下一段并重新采集。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，不补发能力答案。",
+      "每项最多三百五十二次操作，read 免费。read 返回当前地图和状态，不附加历史能力。地图没有天气、战斗、体力或工具门槛。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "soil": "土壤资料",
+      "drainage": "水系资料",
+      "sediment": "沉积物资料",
+      "bathymetry": "水深资料",
+      "water_quality": "水质资料",
+      "vegetation": "植被资料",
+      "land_cover": "地表覆盖资料",
+      "waterbird_record": "水鸟观察资料",
+      "amphibian_record": "两栖动物活动资料",
+      "water_edna": "水域动物环境 DNA 资料",
+      "small_mammal_signs": "小型哺乳动物活动资料",
+      "built_form": "建筑形制资料",
+      "waterworks": "水工设施资料",
+      "settlement_layout": "聚落格局资料",
+      "historic_road": "历史道路遗迹资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "处理站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      },
+      "I": {
+        "name": "I型",
+        "stations": [
+          "I1",
+          "I2"
+        ]
+      },
+      "J": {
+        "name": "J型",
+        "stations": [
+          "J1",
+          "J2"
+        ]
+      },
+      "K": {
+        "name": "K型",
+        "stations": [
+          "K1",
+          "K2"
+        ]
+      },
+      "L": {
+        "name": "L型",
+        "stations": [
+          "L1",
+          "L2"
+        ]
+      },
+      "M": {
+        "name": "M型",
+        "stations": [
+          "M1",
+          "M2"
+        ]
+      },
+      "N": {
+        "name": "N型",
+        "stations": [
+          "N1",
+          "N2"
+        ]
+      },
+      "O": {
+        "name": "O型",
+        "stations": [
+          "O1",
+          "O2"
+        ]
+      },
+      "P": {
+        "name": "P型",
+        "stations": [
+          "P1",
+          "P2"
+        ]
+      },
+      "Q": {
+        "name": "Q型",
+        "stations": [
+          "Q1",
+          "Q2"
+        ]
+      },
+      "R": {
+        "name": "R型",
+        "stations": [
+          "R1",
+          "R2"
+        ]
+      },
+      "S": {
+        "name": "S型",
+        "stations": [
+          "S1",
+          "S2"
+        ]
+      },
+      "T": {
+        "name": "T型",
+        "stations": [
+          "T1",
+          "T2"
+        ]
+      },
+      "U": {
+        "name": "U型",
+        "stations": [
+          "U1",
+          "U2"
+        ]
+      },
+      "V": {
+        "name": "V型",
+        "stations": [
+          "V1",
+          "V2"
+        ]
+      },
+      "W": {
+        "name": "W型",
+        "stations": [
+          "W1",
+          "W2"
+        ]
+      },
+      "X": {
+        "name": "X型",
+        "stations": [
+          "X1",
+          "X2"
+        ]
+      }
+    },
+    "locations": {
+      "a01": {
+        "name": "西北村路",
+        "kind": "junction",
+        "x": 260,
+        "y": 720
+      },
+      "a02": {
+        "name": "北田村口",
+        "kind": "junction",
+        "x": 1150,
+        "y": 690
+      },
+      "a03": {
+        "name": "北池农路",
+        "kind": "junction",
+        "x": 2260,
+        "y": 640
+      },
+      "a04": {
+        "name": "北林院路",
+        "kind": "junction",
+        "x": 2920,
+        "y": 840
+      },
+      "a05": {
+        "name": "城北外路",
+        "kind": "junction",
+        "x": 3500,
+        "y": 1060
+      },
+      "a06": {
+        "name": "东北林路",
+        "kind": "junction",
+        "x": 4320,
+        "y": 560
+      },
+      "a07": {
+        "name": "东池北田",
+        "kind": "junction",
+        "x": 4860,
+        "y": 430
+      },
+      "a08": {
+        "name": "东北村路",
+        "kind": "junction",
+        "x": 5760,
+        "y": 400
+      },
+      "a09": {
+        "name": "东北远田",
+        "kind": "junction",
+        "x": 6560,
+        "y": 430
+      },
+      "a10": {
+        "name": "城西外路",
+        "kind": "junction",
+        "x": 2640,
+        "y": 2000
+      },
+      "a11": {
+        "name": "城东外路",
+        "kind": "junction",
+        "x": 4380,
+        "y": 2000
+      },
+      "a12": {
+        "name": "城南外路",
+        "kind": "junction",
+        "x": 3500,
+        "y": 2860
+      },
+      "a13": {
+        "name": "城西南田路",
+        "kind": "junction",
+        "x": 2700,
+        "y": 2860
+      },
+      "a14": {
+        "name": "城东南田路",
+        "kind": "junction",
+        "x": 4380,
+        "y": 2860
+      },
+      "a15": {
+        "name": "西北堤岔",
+        "kind": "junction",
+        "x": 2600,
+        "y": 1060
+      },
+      "a16": {
+        "name": "东北堤岔",
+        "kind": "junction",
+        "x": 4380,
+        "y": 1060
+      },
+      "wNW": {
+        "name": "西池西北堤角",
+        "kind": "junction",
+        "x": 220,
+        "y": 1190
+      },
+      "wN": {
+        "name": "西池北堤",
+        "kind": "junction",
+        "x": 1350,
+        "y": 1190
+      },
+      "wNE": {
+        "name": "西池东北堤角",
+        "kind": "junction",
+        "x": 2510,
+        "y": 1190
+      },
+      "wE": {
+        "name": "西池东堤",
+        "kind": "junction",
+        "x": 2510,
+        "y": 1710
+      },
+      "wSE": {
+        "name": "西池东南堤角",
+        "kind": "junction",
+        "x": 2510,
+        "y": 2260
+      },
+      "wS": {
+        "name": "西池南堤",
+        "kind": "junction",
+        "x": 1350,
+        "y": 2260
+      },
+      "wSW": {
+        "name": "西池西南堤角",
+        "kind": "junction",
+        "x": 220,
+        "y": 2260
+      },
+      "wW": {
+        "name": "西池西堤",
+        "kind": "junction",
+        "x": 220,
+        "y": 1710
+      },
+      "eNW": {
+        "name": "东池西北堤角",
+        "kind": "junction",
+        "x": 4490,
+        "y": 590
+      },
+      "eN": {
+        "name": "东池北堤",
+        "kind": "junction",
+        "x": 5540,
+        "y": 590
+      },
+      "eNE": {
+        "name": "东池东北堤角",
+        "kind": "junction",
+        "x": 6560,
+        "y": 590
+      },
+      "eE": {
+        "name": "东池东堤",
+        "kind": "junction",
+        "x": 6560,
+        "y": 1100
+      },
+      "eSE": {
+        "name": "东池东南堤角",
+        "kind": "junction",
+        "x": 6560,
+        "y": 1610
+      },
+      "eS": {
+        "name": "东池南堤",
+        "kind": "junction",
+        "x": 5540,
+        "y": 1610
+      },
+      "eSW": {
+        "name": "东池西南堤角",
+        "kind": "junction",
+        "x": 4490,
+        "y": 1610
+      },
+      "eW": {
+        "name": "东池西堤",
+        "kind": "junction",
+        "x": 4490,
+        "y": 1100
+      },
+      "cN": {
+        "name": "北门内路",
+        "kind": "junction",
+        "x": 3500,
+        "y": 1500
+      },
+      "cE": {
+        "name": "东门内路",
+        "kind": "junction",
+        "x": 3950,
+        "y": 2000
+      },
+      "cS": {
+        "name": "南门内路",
+        "kind": "junction",
+        "x": 3500,
+        "y": 2480
+      },
+      "cW": {
+        "name": "西门内路",
+        "kind": "junction",
+        "x": 3050,
+        "y": 2000
+      },
+      "cNW": {
+        "name": "城内西北路",
+        "kind": "junction",
+        "x": 3080,
+        "y": 1600
+      },
+      "cNE": {
+        "name": "城内东北路",
+        "kind": "junction",
+        "x": 3910,
+        "y": 1600
+      },
+      "cSE": {
+        "name": "城内东南路",
+        "kind": "junction",
+        "x": 3910,
+        "y": 2420
+      },
+      "cSW": {
+        "name": "城内西南路",
+        "kind": "junction",
+        "x": 3080,
+        "y": 2420
+      },
+      "cC": {
+        "name": "城内轴路",
+        "kind": "junction",
+        "x": 3500,
+        "y": 2000
+      },
+      "cR": {
+        "name": "东北院路",
+        "kind": "junction",
+        "x": 3710,
+        "y": 1780
+      },
+      "cP": {
+        "name": "西南坊路",
+        "kind": "junction",
+        "x": 3270,
+        "y": 2200
+      },
+      "s01": {
+        "name": "西池下田",
+        "kind": "junction",
+        "x": 340,
+        "y": 2820
+      },
+      "s02": {
+        "name": "西渠村口",
+        "kind": "junction",
+        "x": 1340,
+        "y": 2890
+      },
+      "s03": {
+        "name": "西南城畴",
+        "kind": "junction",
+        "x": 2210,
+        "y": 2800
+      },
+      "s04": {
+        "name": "南苑西路",
+        "kind": "junction",
+        "x": 2400,
+        "y": 3450
+      },
+      "s05": {
+        "name": "南苑西堤口",
+        "kind": "junction",
+        "x": 2850,
+        "y": 3500
+      },
+      "s06": {
+        "name": "南苑东堤口",
+        "kind": "junction",
+        "x": 4100,
+        "y": 3500
+      },
+      "s07": {
+        "name": "东渠村路",
+        "kind": "junction",
+        "x": 4390,
+        "y": 3380
+      },
+      "s08": {
+        "name": "东部渠岔",
+        "kind": "junction",
+        "x": 5140,
+        "y": 2930
+      },
+      "s09": {
+        "name": "东原田路",
+        "kind": "junction",
+        "x": 5900,
+        "y": 2370
+      },
+      "s10": {
+        "name": "东原村口",
+        "kind": "junction",
+        "x": 6460,
+        "y": 2840
+      },
+      "s11": {
+        "name": "东南渠路",
+        "kind": "junction",
+        "x": 6450,
+        "y": 3560
+      },
+      "s12": {
+        "name": "东南稻田",
+        "kind": "junction",
+        "x": 5700,
+        "y": 3910
+      },
+      "s13": {
+        "name": "南渠连路",
+        "kind": "junction",
+        "x": 4630,
+        "y": 4100
+      },
+      "s14": {
+        "name": "南苑东南田",
+        "kind": "junction",
+        "x": 4080,
+        "y": 4190
+      },
+      "s15": {
+        "name": "南苑西南田",
+        "kind": "junction",
+        "x": 2750,
+        "y": 4190
+      },
+      "s16": {
+        "name": "西南田路",
+        "kind": "junction",
+        "x": 1780,
+        "y": 3910
+      },
+      "s17": {
+        "name": "西南远田",
+        "kind": "junction",
+        "x": 650,
+        "y": 3920
+      },
+      "s18": {
+        "name": "西渠下村",
+        "kind": "junction",
+        "x": 410,
+        "y": 3350
+      },
+      "s19": {
+        "name": "西渠中村",
+        "kind": "junction",
+        "x": 1300,
+        "y": 3470
+      },
+      "s20": {
+        "name": "东南村畴",
+        "kind": "junction",
+        "x": 5380,
+        "y": 3470
+      },
+      "s21": {
+        "name": "东池下村",
+        "kind": "junction",
+        "x": 5050,
+        "y": 2170
+      },
+      "s22": {
+        "name": "东池外田",
+        "kind": "junction",
+        "x": 5950,
+        "y": 1750
+      },
+      "s23": {
+        "name": "东南远村",
+        "kind": "junction",
+        "x": 6140,
+        "y": 4330
+      },
+      "s24": {
+        "name": "南苑下村",
+        "kind": "junction",
+        "x": 3650,
+        "y": 4400
+      },
+      "tNW": {
+        "name": "南苑西北堤角",
+        "kind": "junction",
+        "x": 2850,
+        "y": 2930
+      },
+      "tNE": {
+        "name": "南苑东北堤角",
+        "kind": "junction",
+        "x": 4100,
+        "y": 2930
+      },
+      "tSE": {
+        "name": "南苑东南堤角",
+        "kind": "junction",
+        "x": 4100,
+        "y": 4080
+      },
+      "tSW": {
+        "name": "南苑西南堤角",
+        "kind": "junction",
+        "x": 2850,
+        "y": 4080
+      },
+      "tW": {
+        "name": "南苑西内路",
+        "kind": "junction",
+        "x": 3200,
+        "y": 3500
+      },
+      "tC": {
+        "name": "南苑内路",
+        "kind": "junction",
+        "x": 3470,
+        "y": 3500
+      },
+      "tE": {
+        "name": "南苑东内路",
+        "kind": "junction",
+        "x": 3760,
+        "y": 3500
+      },
+      "tN": {
+        "name": "南苑北院路",
+        "kind": "junction",
+        "x": 3470,
+        "y": 3270
+      },
+      "tS": {
+        "name": "南苑南院路",
+        "kind": "junction",
+        "x": 3470,
+        "y": 3720
+      },
+      "w076": {
+        "name": "北部村路转弯",
+        "kind": "junction",
+        "x": 1740,
+        "y": 740,
+        "transit": true
+      },
+      "w077": {
+        "name": "北林院道转弯",
+        "kind": "junction",
+        "x": 3610,
+        "y": 680,
+        "transit": true
+      },
+      "w078": {
+        "name": "城外北堤转弯",
+        "kind": "junction",
+        "x": 4050,
+        "y": 1060,
+        "transit": true
+      },
+      "w079": {
+        "name": "城外东堤转弯",
+        "kind": "junction",
+        "x": 4380,
+        "y": 1540,
+        "transit": true
+      },
+      "w080": {
+        "name": "城外西堤转弯",
+        "kind": "junction",
+        "x": 2640,
+        "y": 2490,
+        "transit": true
+      },
+      "w081": {
+        "name": "城外西堤转弯",
+        "kind": "junction",
+        "x": 2640,
+        "y": 1430,
+        "transit": true
+      },
+      "w082": {
+        "name": "东城渠路转弯",
+        "kind": "junction",
+        "x": 5520,
+        "y": 2270,
+        "transit": true
+      },
+      "w083": {
+        "name": "东原斜田路转弯",
+        "kind": "junction",
+        "x": 6190,
+        "y": 2950,
+        "transit": true
+      },
+      "w084": {
+        "name": "东渠横村路转弯",
+        "kind": "junction",
+        "x": 4830,
+        "y": 3450,
+        "transit": true
+      },
+      "w085": {
+        "name": "东村连路转弯",
+        "kind": "junction",
+        "x": 4770,
+        "y": 3150,
+        "transit": true
+      },
+      "w086": {
+        "name": "南部堤路转弯",
+        "kind": "junction",
+        "x": 5170,
+        "y": 4100,
+        "transit": true
+      },
+      "w087": {
+        "name": "西南斜田路转弯",
+        "kind": "junction",
+        "x": 2120,
+        "y": 3690,
+        "transit": true
+      },
+      "C": {
+        "name": "东渠巡测营地",
+        "kind": "camp",
+        "x": 4720,
+        "y": 2580
+      },
+      "v01": {
+        "name": "西北林地测点",
+        "kind": "survey",
+        "x": 250,
+        "y": 450
+      },
+      "v02": {
+        "name": "北部田地测点",
+        "kind": "survey",
+        "x": 1640,
+        "y": 790
+      },
+      "v03": {
+        "name": "西池下岸测点",
+        "kind": "survey",
+        "x": 510,
+        "y": 2160
+      },
+      "v04": {
+        "name": "西池东南测点",
+        "kind": "survey",
+        "x": 2200,
+        "y": 2350
+      },
+      "v05": {
+        "name": "北林院地测点",
+        "kind": "survey",
+        "x": 3000,
+        "y": 900
+      },
+      "v06": {
+        "name": "城内坊地测点",
+        "kind": "survey",
+        "x": 3440,
+        "y": 2230
+      },
+      "v07": {
+        "name": "东北林地测点",
+        "kind": "survey",
+        "x": 4360,
+        "y": 820
+      },
+      "v08": {
+        "name": "东池北岸测点",
+        "kind": "survey",
+        "x": 5830,
+        "y": 680
+      },
+      "v09": {
+        "name": "东池远田测点",
+        "kind": "survey",
+        "x": 6660,
+        "y": 1900
+      },
+      "v10": {
+        "name": "东城渠地测点",
+        "kind": "survey",
+        "x": 4750,
+        "y": 2020
+      },
+      "v11": {
+        "name": "东原村畴测点",
+        "kind": "survey",
+        "x": 6050,
+        "y": 2610
+      },
+      "v12": {
+        "name": "东渠村地测点",
+        "kind": "survey",
+        "x": 5190,
+        "y": 3190
+      },
+      "v13": {
+        "name": "南苑院地测点",
+        "kind": "survey",
+        "x": 3550,
+        "y": 3650
+      },
+      "v14": {
+        "name": "西南聚落测点",
+        "kind": "survey",
+        "x": 2100,
+        "y": 3380
+      },
+      "v15": {
+        "name": "西南远田测点",
+        "kind": "survey",
+        "x": 840,
+        "y": 4190
+      },
+      "v16": {
+        "name": "东南远村测点",
+        "kind": "survey",
+        "x": 5580,
+        "y": 4380
+      },
+      "Q1": {
+        "name": "Q型处理站·Q1",
+        "kind": "station",
+        "x": 140,
+        "y": 1460,
+        "station_type": "Q"
+      },
+      "I2": {
+        "name": "I型处理站·I2",
+        "kind": "station",
+        "x": 180,
+        "y": 2030,
+        "station_type": "I"
+      },
+      "S2": {
+        "name": "S型处理站·S2",
+        "kind": "station",
+        "x": 760,
+        "y": 1110,
+        "station_type": "S"
+      },
+      "E1": {
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "x": 1790,
+        "y": 1090,
+        "station_type": "E"
+      },
+      "J1": {
+        "name": "J型处理站·J1",
+        "kind": "station",
+        "x": 2430,
+        "y": 1480,
+        "station_type": "J"
+      },
+      "P2": {
+        "name": "P型处理站·P2",
+        "kind": "station",
+        "x": 2420,
+        "y": 1970,
+        "station_type": "P"
+      },
+      "H2": {
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "x": 720,
+        "y": 2390,
+        "station_type": "H"
+      },
+      "M2": {
+        "name": "M型处理站·M2",
+        "kind": "station",
+        "x": 1910,
+        "y": 2410,
+        "station_type": "M"
+      },
+      "A1": {
+        "name": "A型处理站·A1",
+        "kind": "station",
+        "x": 840,
+        "y": 500,
+        "station_type": "A"
+      },
+      "F2": {
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "x": 1910,
+        "y": 470,
+        "station_type": "F"
+      },
+      "Q2": {
+        "name": "Q型处理站·Q2",
+        "kind": "station",
+        "x": 2910,
+        "y": 600,
+        "station_type": "Q"
+      },
+      "P1": {
+        "name": "P型处理站·P1",
+        "kind": "station",
+        "x": 3980,
+        "y": 430,
+        "station_type": "P"
+      },
+      "D2": {
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "x": 4920,
+        "y": 610,
+        "station_type": "D"
+      },
+      "J2": {
+        "name": "J型处理站·J2",
+        "kind": "station",
+        "x": 6130,
+        "y": 510,
+        "station_type": "J"
+      },
+      "X2": {
+        "name": "X型处理站·X2",
+        "kind": "station",
+        "x": 6630,
+        "y": 960,
+        "station_type": "X"
+      },
+      "N2": {
+        "name": "N型处理站·N2",
+        "kind": "station",
+        "x": 6620,
+        "y": 1510,
+        "station_type": "N"
+      },
+      "E2": {
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "x": 6040,
+        "y": 1630,
+        "station_type": "E"
+      },
+      "K1": {
+        "name": "K型处理站·K1",
+        "kind": "station",
+        "x": 4760,
+        "y": 1700,
+        "station_type": "K"
+      },
+      "W2": {
+        "name": "W型处理站·W2",
+        "kind": "station",
+        "x": 3160,
+        "y": 1690,
+        "station_type": "W"
+      },
+      "L1": {
+        "name": "L型处理站·L1",
+        "kind": "station",
+        "x": 3780,
+        "y": 1500,
+        "station_type": "L"
+      },
+      "S1": {
+        "name": "S型处理站·S1",
+        "kind": "station",
+        "x": 4000,
+        "y": 1790,
+        "station_type": "S"
+      },
+      "T2": {
+        "name": "T型处理站·T2",
+        "kind": "station",
+        "x": 3810,
+        "y": 2330,
+        "station_type": "T"
+      },
+      "D1": {
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "x": 3240,
+        "y": 2430,
+        "station_type": "D"
+      },
+      "R1": {
+        "name": "R型处理站·R1",
+        "kind": "station",
+        "x": 3050,
+        "y": 2260,
+        "station_type": "R"
+      },
+      "N1": {
+        "name": "N型处理站·N1",
+        "kind": "station",
+        "x": 3360,
+        "y": 1820,
+        "station_type": "N"
+      },
+      "F1": {
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "x": 3650,
+        "y": 2130,
+        "station_type": "F"
+      },
+      "K2": {
+        "name": "K型处理站·K2",
+        "kind": "station",
+        "x": 2500,
+        "y": 2590,
+        "station_type": "K"
+      },
+      "G1": {
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "x": 4270,
+        "y": 2520,
+        "station_type": "G"
+      },
+      "T1": {
+        "name": "T型处理站·T1",
+        "kind": "station",
+        "x": 3220,
+        "y": 1110,
+        "station_type": "T"
+      },
+      "W1": {
+        "name": "W型处理站·W1",
+        "kind": "station",
+        "x": 4520,
+        "y": 1830,
+        "station_type": "W"
+      },
+      "C2": {
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "x": 3230,
+        "y": 3350,
+        "station_type": "C"
+      },
+      "B1": {
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "x": 3650,
+        "y": 3670,
+        "station_type": "B"
+      },
+      "A2": {
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "x": 2670,
+        "y": 3780,
+        "station_type": "A"
+      },
+      "U1": {
+        "name": "U型处理站·U1",
+        "kind": "station",
+        "x": 4250,
+        "y": 3830,
+        "station_type": "U"
+      },
+      "C1": {
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "x": 180,
+        "y": 3020,
+        "station_type": "C"
+      },
+      "L2": {
+        "name": "L型处理站·L2",
+        "kind": "station",
+        "x": 970,
+        "y": 2770,
+        "station_type": "L"
+      },
+      "H1": {
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "x": 1760,
+        "y": 3090,
+        "station_type": "H"
+      },
+      "V2": {
+        "name": "V型处理站·V2",
+        "kind": "station",
+        "x": 1030,
+        "y": 3700,
+        "station_type": "V"
+      },
+      "I1": {
+        "name": "I型处理站·I1",
+        "kind": "station",
+        "x": 1970,
+        "y": 3720,
+        "station_type": "I"
+      },
+      "O1": {
+        "name": "O型处理站·O1",
+        "kind": "station",
+        "x": 2430,
+        "y": 4300,
+        "station_type": "O"
+      },
+      "B2": {
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "x": 4820,
+        "y": 2290,
+        "station_type": "B"
+      },
+      "U2": {
+        "name": "U型处理站·U2",
+        "kind": "station",
+        "x": 5580,
+        "y": 2030,
+        "station_type": "U"
+      },
+      "O2": {
+        "name": "O型处理站·O2",
+        "kind": "station",
+        "x": 6320,
+        "y": 2190,
+        "station_type": "O"
+      },
+      "G2": {
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "x": 6650,
+        "y": 3140,
+        "station_type": "G"
+      },
+      "X1": {
+        "name": "X型处理站·X1",
+        "kind": "station",
+        "x": 5920,
+        "y": 3350,
+        "station_type": "X"
+      },
+      "R2": {
+        "name": "R型处理站·R2",
+        "kind": "station",
+        "x": 5410,
+        "y": 3700,
+        "station_type": "R"
+      },
+      "M1": {
+        "name": "M型处理站·M1",
+        "kind": "station",
+        "x": 4980,
+        "y": 4380,
+        "station_type": "M"
+      },
+      "V1": {
+        "name": "V型处理站·V1",
+        "kind": "station",
+        "x": 3770,
+        "y": 4510,
+        "station_type": "V"
+      }
+    },
+    "edges": [
+      [
+        "a01",
+        "a02",
+        7
+      ],
+      [
+        "a02",
+        "w076",
+        5
+      ],
+      [
+        "a03",
+        "w076",
+        4
+      ],
+      [
+        "a03",
+        "a04",
+        6
+      ],
+      [
+        "a04",
+        "a05",
+        5
+      ],
+      [
+        "a04",
+        "w077",
+        6
+      ],
+      [
+        "a06",
+        "w077",
+        6
+      ],
+      [
+        "a06",
+        "a07",
+        4
+      ],
+      [
+        "a07",
+        "a08",
+        7
+      ],
+      [
+        "a08",
+        "a09",
+        6
+      ],
+      [
+        "a03",
+        "a15",
+        4
+      ],
+      [
+        "a05",
+        "a15",
+        7
+      ],
+      [
+        "wN",
+        "wNW",
+        9
+      ],
+      [
+        "wN",
+        "wNE",
+        9
+      ],
+      [
+        "wE",
+        "wNE",
+        4
+      ],
+      [
+        "wE",
+        "wSE",
+        4
+      ],
+      [
+        "wS",
+        "wSE",
+        9
+      ],
+      [
+        "wS",
+        "wSW",
+        9
+      ],
+      [
+        "wSW",
+        "wW",
+        4
+      ],
+      [
+        "wNW",
+        "wW",
+        4
+      ],
+      [
+        "a01",
+        "wNW",
+        4
+      ],
+      [
+        "a02",
+        "wN",
+        4
+      ],
+      [
+        "a03",
+        "wNE",
+        5
+      ],
+      [
+        "a15",
+        "wNE",
+        1
+      ],
+      [
+        "a10",
+        "wE",
+        3
+      ],
+      [
+        "s03",
+        "wSE",
+        5
+      ],
+      [
+        "a05",
+        "w078",
+        4
+      ],
+      [
+        "a16",
+        "w078",
+        3
+      ],
+      [
+        "a16",
+        "w079",
+        4
+      ],
+      [
+        "a11",
+        "w079",
+        4
+      ],
+      [
+        "a11",
+        "a14",
+        7
+      ],
+      [
+        "a12",
+        "a14",
+        7
+      ],
+      [
+        "a12",
+        "a13",
+        6
+      ],
+      [
+        "a13",
+        "w080",
+        3
+      ],
+      [
+        "a10",
+        "w080",
+        4
+      ],
+      [
+        "a10",
+        "w081",
+        5
+      ],
+      [
+        "a15",
+        "w081",
+        3
+      ],
+      [
+        "a05",
+        "cN",
+        4
+      ],
+      [
+        "a10",
+        "cW",
+        3
+      ],
+      [
+        "a11",
+        "cE",
+        3
+      ],
+      [
+        "a12",
+        "cS",
+        3
+      ],
+      [
+        "cC",
+        "cN",
+        4
+      ],
+      [
+        "cC",
+        "cS",
+        4
+      ],
+      [
+        "cC",
+        "cW",
+        4
+      ],
+      [
+        "cC",
+        "cE",
+        4
+      ],
+      [
+        "cN",
+        "cNW",
+        3
+      ],
+      [
+        "cNW",
+        "cW",
+        3
+      ],
+      [
+        "cSW",
+        "cW",
+        3
+      ],
+      [
+        "cS",
+        "cSW",
+        3
+      ],
+      [
+        "cS",
+        "cSE",
+        3
+      ],
+      [
+        "cE",
+        "cSE",
+        3
+      ],
+      [
+        "cE",
+        "cNE",
+        3
+      ],
+      [
+        "cN",
+        "cNE",
+        3
+      ],
+      [
+        "cNE",
+        "cR",
+        2
+      ],
+      [
+        "cC",
+        "cR",
+        2
+      ],
+      [
+        "cP",
+        "cW",
+        2
+      ],
+      [
+        "cP",
+        "cS",
+        3
+      ],
+      [
+        "eN",
+        "eNW",
+        8
+      ],
+      [
+        "eN",
+        "eNE",
+        8
+      ],
+      [
+        "eE",
+        "eNE",
+        4
+      ],
+      [
+        "eE",
+        "eSE",
+        4
+      ],
+      [
+        "eS",
+        "eSE",
+        8
+      ],
+      [
+        "eS",
+        "eSW",
+        8
+      ],
+      [
+        "eSW",
+        "eW",
+        4
+      ],
+      [
+        "eNW",
+        "eW",
+        4
+      ],
+      [
+        "a06",
+        "eNW",
+        1
+      ],
+      [
+        "a07",
+        "eNW",
+        3
+      ],
+      [
+        "a08",
+        "eN",
+        2
+      ],
+      [
+        "a09",
+        "eNE",
+        1
+      ],
+      [
+        "a16",
+        "eW",
+        1
+      ],
+      [
+        "a11",
+        "eSW",
+        3
+      ],
+      [
+        "eS",
+        "s22",
+        3
+      ],
+      [
+        "eSE",
+        "s22",
+        5
+      ],
+      [
+        "a11",
+        "s21",
+        6
+      ],
+      [
+        "s21",
+        "w082",
+        4
+      ],
+      [
+        "s09",
+        "w082",
+        3
+      ],
+      [
+        "s09",
+        "s10",
+        6
+      ],
+      [
+        "s09",
+        "s22",
+        5
+      ],
+      [
+        "s09",
+        "w083",
+        5
+      ],
+      [
+        "s11",
+        "w083",
+        5
+      ],
+      [
+        "s10",
+        "s11",
+        6
+      ],
+      [
+        "s08",
+        "s21",
+        6
+      ],
+      [
+        "s08",
+        "s20",
+        5
+      ],
+      [
+        "s12",
+        "s20",
+        4
+      ],
+      [
+        "s12",
+        "s23",
+        5
+      ],
+      [
+        "s11",
+        "s23",
+        7
+      ],
+      [
+        "a14",
+        "s07",
+        4
+      ],
+      [
+        "s07",
+        "s13",
+        6
+      ],
+      [
+        "s13",
+        "s14",
+        4
+      ],
+      [
+        "s07",
+        "w084",
+        4
+      ],
+      [
+        "s20",
+        "w084",
+        4
+      ],
+      [
+        "s08",
+        "w085",
+        3
+      ],
+      [
+        "s07",
+        "w085",
+        4
+      ],
+      [
+        "s13",
+        "w086",
+        4
+      ],
+      [
+        "s12",
+        "w086",
+        5
+      ],
+      [
+        "s01",
+        "wSW",
+        5
+      ],
+      [
+        "s01",
+        "s18",
+        4
+      ],
+      [
+        "s17",
+        "s18",
+        5
+      ],
+      [
+        "s02",
+        "wS",
+        5
+      ],
+      [
+        "s02",
+        "s19",
+        5
+      ],
+      [
+        "s16",
+        "s19",
+        5
+      ],
+      [
+        "s16",
+        "s17",
+        9
+      ],
+      [
+        "s01",
+        "s02",
+        8
+      ],
+      [
+        "s02",
+        "s03",
+        7
+      ],
+      [
+        "a13",
+        "s03",
+        4
+      ],
+      [
+        "s18",
+        "s19",
+        7
+      ],
+      [
+        "s04",
+        "s19",
+        9
+      ],
+      [
+        "s03",
+        "s04",
+        5
+      ],
+      [
+        "s04",
+        "w087",
+        3
+      ],
+      [
+        "s16",
+        "w087",
+        3
+      ],
+      [
+        "s15",
+        "s16",
+        8
+      ],
+      [
+        "s15",
+        "s24",
+        7
+      ],
+      [
+        "s14",
+        "s24",
+        4
+      ],
+      [
+        "s04",
+        "s05",
+        4
+      ],
+      [
+        "tNE",
+        "tNW",
+        10
+      ],
+      [
+        "s06",
+        "tNE",
+        5
+      ],
+      [
+        "s06",
+        "tSE",
+        5
+      ],
+      [
+        "tSE",
+        "tSW",
+        10
+      ],
+      [
+        "s05",
+        "tSW",
+        5
+      ],
+      [
+        "s05",
+        "tNW",
+        5
+      ],
+      [
+        "a13",
+        "tNW",
+        1
+      ],
+      [
+        "a12",
+        "tNW",
+        5
+      ],
+      [
+        "a12",
+        "tNE",
+        5
+      ],
+      [
+        "a14",
+        "tNE",
+        2
+      ],
+      [
+        "s15",
+        "tSW",
+        1
+      ],
+      [
+        "s14",
+        "tSE",
+        1
+      ],
+      [
+        "s06",
+        "s07",
+        3
+      ],
+      [
+        "s13",
+        "s24",
+        8
+      ],
+      [
+        "s05",
+        "tW",
+        3
+      ],
+      [
+        "s06",
+        "tE",
+        3
+      ],
+      [
+        "tC",
+        "tW",
+        2
+      ],
+      [
+        "tC",
+        "tE",
+        2
+      ],
+      [
+        "tN",
+        "tW",
+        3
+      ],
+      [
+        "tS",
+        "tW",
+        3
+      ],
+      [
+        "tE",
+        "tS",
+        3
+      ],
+      [
+        "tE",
+        "tN",
+        3
+      ],
+      [
+        "tC",
+        "tN",
+        2
+      ],
+      [
+        "tC",
+        "tS",
+        2
+      ],
+      [
+        "C",
+        "a14",
+        4
+      ],
+      [
+        "C",
+        "s21",
+        4
+      ],
+      [
+        "C",
+        "s08",
+        4
+      ],
+      [
+        "a01",
+        "v01",
+        2
+      ],
+      [
+        "a02",
+        "v02",
+        4
+      ],
+      [
+        "a03",
+        "v02",
+        5
+      ],
+      [
+        "v03",
+        "wSW",
+        2
+      ],
+      [
+        "v03",
+        "wS",
+        7
+      ],
+      [
+        "v04",
+        "wSE",
+        3
+      ],
+      [
+        "s03",
+        "v04",
+        4
+      ],
+      [
+        "a04",
+        "v05",
+        1
+      ],
+      [
+        "a15",
+        "v05",
+        3
+      ],
+      [
+        "cC",
+        "v06",
+        2
+      ],
+      [
+        "cS",
+        "v06",
+        2
+      ],
+      [
+        "a16",
+        "v07",
+        2
+      ],
+      [
+        "a06",
+        "v07",
+        2
+      ],
+      [
+        "eN",
+        "v08",
+        2
+      ],
+      [
+        "eSE",
+        "v09",
+        2
+      ],
+      [
+        "s10",
+        "v09",
+        8
+      ],
+      [
+        "a11",
+        "v10",
+        3
+      ],
+      [
+        "s21",
+        "v10",
+        3
+      ],
+      [
+        "s09",
+        "v11",
+        2
+      ],
+      [
+        "s10",
+        "v11",
+        4
+      ],
+      [
+        "s08",
+        "v12",
+        2
+      ],
+      [
+        "s20",
+        "v12",
+        3
+      ],
+      [
+        "tC",
+        "v13",
+        1
+      ],
+      [
+        "tS",
+        "v13",
+        1
+      ],
+      [
+        "s03",
+        "v14",
+        5
+      ],
+      [
+        "s04",
+        "v14",
+        2
+      ],
+      [
+        "s17",
+        "v15",
+        3
+      ],
+      [
+        "s16",
+        "v15",
+        8
+      ],
+      [
+        "s12",
+        "v16",
+        4
+      ],
+      [
+        "s23",
+        "v16",
+        4
+      ],
+      [
+        "Q1",
+        "wNW",
+        2
+      ],
+      [
+        "Q1",
+        "wW",
+        2
+      ],
+      [
+        "I2",
+        "wSW",
+        2
+      ],
+      [
+        "S2",
+        "wNW",
+        4
+      ],
+      [
+        "S2",
+        "wN",
+        5
+      ],
+      [
+        "E1",
+        "wN",
+        4
+      ],
+      [
+        "E1",
+        "wNE",
+        6
+      ],
+      [
+        "J1",
+        "wE",
+        2
+      ],
+      [
+        "P2",
+        "wE",
+        2
+      ],
+      [
+        "P2",
+        "wSE",
+        2
+      ],
+      [
+        "H2",
+        "wSW",
+        4
+      ],
+      [
+        "H2",
+        "wS",
+        5
+      ],
+      [
+        "M2",
+        "wS",
+        5
+      ],
+      [
+        "M2",
+        "wSE",
+        5
+      ],
+      [
+        "a02",
+        "A1",
+        3
+      ],
+      [
+        "a03",
+        "F2",
+        3
+      ],
+      [
+        "a04",
+        "Q2",
+        2
+      ],
+      [
+        "a06",
+        "P1",
+        3
+      ],
+      [
+        "eNW",
+        "D2",
+        3
+      ],
+      [
+        "eN",
+        "D2",
+        5
+      ],
+      [
+        "eN",
+        "J2",
+        5
+      ],
+      [
+        "eNE",
+        "J2",
+        3
+      ],
+      [
+        "eE",
+        "X2",
+        1
+      ],
+      [
+        "eSE",
+        "N2",
+        1
+      ],
+      [
+        "eS",
+        "E2",
+        4
+      ],
+      [
+        "eSE",
+        "E2",
+        4
+      ],
+      [
+        "eSW",
+        "K1",
+        2
+      ],
+      [
+        "cNW",
+        "W2",
+        1
+      ],
+      [
+        "cW",
+        "W2",
+        3
+      ],
+      [
+        "cNE",
+        "L1",
+        1
+      ],
+      [
+        "cNE",
+        "S1",
+        2
+      ],
+      [
+        "cE",
+        "S1",
+        2
+      ],
+      [
+        "cSE",
+        "T2",
+        1
+      ],
+      [
+        "cSW",
+        "D1",
+        1
+      ],
+      [
+        "cS",
+        "D1",
+        2
+      ],
+      [
+        "cW",
+        "R1",
+        2
+      ],
+      [
+        "cSW",
+        "R1",
+        1
+      ],
+      [
+        "cC",
+        "N1",
+        2
+      ],
+      [
+        "cN",
+        "N1",
+        3
+      ],
+      [
+        "cC",
+        "F1",
+        2
+      ],
+      [
+        "cE",
+        "F1",
+        3
+      ],
+      [
+        "a10",
+        "K2",
+        5
+      ],
+      [
+        "a13",
+        "K2",
+        3
+      ],
+      [
+        "a11",
+        "G1",
+        4
+      ],
+      [
+        "a14",
+        "G1",
+        3
+      ],
+      [
+        "a05",
+        "T1",
+        2
+      ],
+      [
+        "a15",
+        "T1",
+        5
+      ],
+      [
+        "a11",
+        "W1",
+        2
+      ],
+      [
+        "C2",
+        "tW",
+        1
+      ],
+      [
+        "C2",
+        "tN",
+        2
+      ],
+      [
+        "B1",
+        "tS",
+        1
+      ],
+      [
+        "B1",
+        "tE",
+        2
+      ],
+      [
+        "s05",
+        "A2",
+        3
+      ],
+      [
+        "A2",
+        "tSW",
+        3
+      ],
+      [
+        "s06",
+        "U1",
+        3
+      ],
+      [
+        "U1",
+        "tSE",
+        2
+      ],
+      [
+        "s01",
+        "C1",
+        2
+      ],
+      [
+        "s18",
+        "C1",
+        3
+      ],
+      [
+        "s02",
+        "L2",
+        3
+      ],
+      [
+        "s02",
+        "H1",
+        4
+      ],
+      [
+        "s03",
+        "H1",
+        4
+      ],
+      [
+        "s17",
+        "V2",
+        4
+      ],
+      [
+        "s16",
+        "V2",
+        6
+      ],
+      [
+        "s16",
+        "I1",
+        2
+      ],
+      [
+        "s15",
+        "O1",
+        3
+      ],
+      [
+        "s16",
+        "O1",
+        6
+      ],
+      [
+        "s21",
+        "B2",
+        2
+      ],
+      [
+        "C",
+        "B2",
+        2
+      ],
+      [
+        "s21",
+        "U2",
+        4
+      ],
+      [
+        "s09",
+        "U2",
+        4
+      ],
+      [
+        "s09",
+        "O2",
+        4
+      ],
+      [
+        "s22",
+        "O2",
+        5
+      ],
+      [
+        "s10",
+        "G2",
+        3
+      ],
+      [
+        "s11",
+        "G2",
+        4
+      ],
+      [
+        "s20",
+        "X1",
+        4
+      ],
+      [
+        "s11",
+        "X1",
+        5
+      ],
+      [
+        "s20",
+        "R2",
+        2
+      ],
+      [
+        "s12",
+        "R2",
+        3
+      ],
+      [
+        "s13",
+        "M1",
+        4
+      ],
+      [
+        "s12",
+        "M1",
+        7
+      ],
+      [
+        "s24",
+        "V1",
+        1
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "区域联程巡测 01",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "amphibian_record",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "amphibian_record",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v07",
+          "required_kind": "bathymetry",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T2": {
+      "name": "区域联程巡测 02",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v06",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T3": {
+      "name": "区域联程巡测 03",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "sediment",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "sediment",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v16",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T4": {
+      "name": "区域联程巡测 04",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "water_edna",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "water_edna",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v04",
+          "required_kind": "sediment",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T5": {
+      "name": "区域联程巡测 05",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "drainage",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v09",
+          "required_kind": "waterbird_record",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T6": {
+      "name": "区域联程巡测 06",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        },
+        {
+          "target": "v16",
+          "required_kind": "amphibian_record",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T7": {
+      "name": "区域联程巡测 07",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        },
+        {
+          "target": "v04",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T8": {
+      "name": "区域联程巡测 08",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "waterbird_record",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "waterbird_record",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v03",
+          "required_kind": "vegetation",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T9": {
+      "name": "区域联程巡测 09",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        },
+        {
+          "target": "v06",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T10": {
+      "name": "区域联程巡测 10",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "profile",
+          "requirement": "verify"
+        },
+        {
+          "target": "v06",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T11": {
+      "name": "区域联程巡测 11",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "water_quality",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "water_quality",
+          "requirement": "verify"
+        },
+        {
+          "target": "v05",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T12": {
+      "name": "区域联程巡测 12",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v12",
+          "required_kind": "water_edna",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T13": {
+      "name": "区域联程巡测 13",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "small_mammal_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T14": {
+      "name": "区域联程巡测 14",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "vegetation",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "vegetation",
+          "requirement": "verify"
+        },
+        {
+          "target": "v16",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T15": {
+      "name": "区域联程巡测 15",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "bathymetry",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "bathymetry",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v11",
+          "required_kind": "water_quality",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T16": {
+      "name": "区域联程巡测 16",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "soil",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "soil",
+          "requirement": "verify"
+        },
+        {
+          "target": "v09",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T17": {
+      "name": "区域联程巡测 17",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "soil",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v16",
+          "required_kind": "waterbird_record",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T18": {
+      "name": "区域联程巡测 18",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v07",
+      "required_kind": "water_quality",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "water_quality",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v02",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T19": {
+      "name": "区域联程巡测 19",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "small_mammal_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v12",
+          "required_kind": "amphibian_record",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T20": {
+      "name": "区域联程巡测 20",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "water_edna",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "water_edna",
+          "requirement": "verify"
+        },
+        {
+          "target": "v11",
+          "required_kind": "amphibian_record",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T21": {
+      "name": "区域联程巡测 21",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "sediment",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "sediment",
+          "requirement": "verify"
+        },
+        {
+          "target": "v05",
+          "required_kind": "soil",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T22": {
+      "name": "区域联程巡测 22",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "bathymetry",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "bathymetry",
+          "requirement": "verify"
+        },
+        {
+          "target": "v02",
+          "required_kind": "vegetation",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T23": {
+      "name": "区域联程巡测 23",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "small_mammal_signs",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        },
+        {
+          "target": "v03",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T24": {
+      "name": "区域联程巡测 24",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v15",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T25": {
+      "name": "区域联程巡测 25",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        },
+        {
+          "target": "v04",
+          "required_kind": "sediment",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T26": {
+      "name": "区域联程巡测 26",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v06",
+      "required_kind": "built_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v09",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T27": {
+      "name": "区域联程巡测 27",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "waterbird_record",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "waterbird_record",
+          "requirement": "verify"
+        },
+        {
+          "target": "v08",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T28": {
+      "name": "区域联程巡测 28",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v07",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T29": {
+      "name": "区域联程巡测 29",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v09",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v07",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T30": {
+      "name": "区域联程巡测 30",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "bathymetry",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "bathymetry",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "water_quality",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T31": {
+      "name": "区域联程巡测 31",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        },
+        {
+          "target": "v08",
+          "required_kind": "vegetation",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T32": {
+      "name": "区域联程巡测 32",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "profile",
+          "requirement": "verify"
+        },
+        {
+          "target": "v09",
+          "required_kind": "water_edna",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T33": {
+      "name": "区域联程巡测 33",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "vegetation",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "vegetation",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T34": {
+      "name": "区域联程巡测 34",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "small_mammal_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v15",
+          "required_kind": "water_quality",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T35": {
+      "name": "区域联程巡测 35",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "sediment",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "sediment",
+          "requirement": "verify"
+        },
+        {
+          "target": "v03",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T36": {
+      "name": "区域联程巡测 36",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        },
+        {
+          "target": "v01",
+          "required_kind": "water_edna",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T37": {
+      "name": "区域联程巡测 37",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "bathymetry",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "bathymetry",
+          "requirement": "verify"
+        },
+        {
+          "target": "v15",
+          "required_kind": "amphibian_record",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T38": {
+      "name": "区域联程巡测 38",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v08",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T39": {
+      "name": "区域联程巡测 39",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v06",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T40": {
+      "name": "区域联程巡测 40",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v01",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        },
+        {
+          "target": "v03",
+          "required_kind": "sediment",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T41": {
+      "name": "区域联程巡测 41",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "built_form",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        },
+        {
+          "target": "v07",
+          "required_kind": "vegetation",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T42": {
+      "name": "区域联程巡测 42",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "waterbird_record",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "waterbird_record",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v04",
+          "required_kind": "bathymetry",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T43": {
+      "name": "区域联程巡测 43",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v03",
+      "required_kind": "amphibian_record",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v03",
+          "required_kind": "amphibian_record",
+          "requirement": "verify"
+        },
+        {
+          "target": "v10",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T44": {
+      "name": "区域联程巡测 44",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "soil",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "soil",
+          "requirement": "verify"
+        },
+        {
+          "target": "v07",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T45": {
+      "name": "区域联程巡测 45",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v15",
+      "required_kind": "drainage",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v07",
+          "required_kind": "profile",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T46": {
+      "name": "区域联程巡测 46",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v16",
+      "required_kind": "land_cover",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v16",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "waterbird_record",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T47": {
+      "name": "区域联程巡测 47",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "settlement_layout",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        },
+        {
+          "target": "v14",
+          "required_kind": "water_edna",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T48": {
+      "name": "区域联程巡测 48",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v08",
+      "required_kind": "water_quality",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v08",
+          "required_kind": "water_quality",
+          "requirement": "verify"
+        },
+        {
+          "target": "v16",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T49": {
+      "name": "区域联程巡测 49",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "amphibian_record",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "amphibian_record",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "vegetation",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T50": {
+      "name": "区域联程巡测 50",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "land_cover",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "land_cover",
+          "requirement": "verify"
+        },
+        {
+          "target": "v13",
+          "required_kind": "soil",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T51": {
+      "name": "区域联程巡测 51",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "waterworks",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v14",
+          "required_kind": "waterbird_record",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T52": {
+      "name": "区域联程巡测 52",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "settlement_layout",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "settlement_layout",
+          "requirement": "verify"
+        },
+        {
+          "target": "v06",
+          "required_kind": "soil",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T53": {
+      "name": "区域联程巡测 53",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v12",
+      "required_kind": "built_form",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "built_form",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v10",
+          "required_kind": "historic_road",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T54": {
+      "name": "区域联程巡测 54",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v04",
+      "required_kind": "sediment",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "sediment",
+          "requirement": "verify"
+        },
+        {
+          "target": "v03",
+          "required_kind": "historic_road",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T55": {
+      "name": "区域联程巡测 55",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "bathymetry",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "bathymetry",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v02",
+          "required_kind": "built_form",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T56": {
+      "name": "区域联程巡测 56",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v11",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "drainage",
+          "requirement": "verify"
+        },
+        {
+          "target": "v14",
+          "required_kind": "waterbird_record",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T57": {
+      "name": "区域联程巡测 57",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "water_quality",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "water_quality",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "water_edna",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T58": {
+      "name": "区域联程巡测 58",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "land_cover",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "land_cover",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v01",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T59": {
+      "name": "区域联程巡测 59",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "water_edna",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "water_edna",
+          "requirement": "verify"
+        },
+        {
+          "target": "v13",
+          "required_kind": "water_quality",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T60": {
+      "name": "区域联程巡测 60",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v05",
+      "required_kind": "profile",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v05",
+          "required_kind": "profile",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v06",
+          "required_kind": "bathymetry",
+          "requirement": "verify"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T61": {
+      "name": "区域联程巡测 61",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v14",
+      "required_kind": "amphibian_record",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "amphibian_record",
+          "requirement": "verify"
+        },
+        {
+          "target": "v02",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T62": {
+      "name": "区域联程巡测 62",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v13",
+      "required_kind": "small_mammal_signs",
+      "requirement": "catalogue",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue"
+        },
+        {
+          "target": "v05",
+          "required_kind": "drainage",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T63": {
+      "name": "区域联程巡测 63",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v10",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v10",
+          "required_kind": "waterworks",
+          "requirement": "verify"
+        },
+        {
+          "target": "v07",
+          "required_kind": "sediment",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    },
+    "T64": {
+      "name": "区域联程巡测 64",
+      "start": "C",
+      "submit_at": "C",
+      "target": "v02",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "profile",
+          "requirement": "verify"
+        },
+        {
+          "target": "v16",
+          "required_kind": "vegetation",
+          "requirement": "catalogue"
+        }
+      ],
+      "max_steps": 352
+    }
+  },
+  "presentation": {
+    "terrain": "reservoir-plain",
+    "regions": [
+      {
+        "name": "北部林村",
+        "x": 2150,
+        "y": 330
+      },
+      {
+        "name": "西池堤畴",
+        "x": 1420,
+        "y": 1030
+      },
+      {
+        "name": "东池堤畴",
+        "x": 5500,
+        "y": 1800
+      },
+      {
+        "name": "城内轴坊",
+        "x": 3510,
+        "y": 2340
+      },
+      {
+        "name": "西渠聚落",
+        "x": 980,
+        "y": 3210
+      },
+      {
+        "name": "东渠聚落",
+        "x": 5360,
+        "y": 2710
+      },
+      {
+        "name": "南苑村地",
+        "x": 3540,
+        "y": 4200
+      },
+      {
+        "name": "南部远田",
+        "x": 1900,
+        "y": 4380
+      },
+      {
+        "name": "东南稻田",
+        "x": 6100,
+        "y": 4020
+      }
+    ]
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "knowledge_protocol": "delivered-conditional-capability-sets-v1",
+    "exact_unknown_world_references": false,
+    "candidate_family": "Unobserved (type, requirement) pairs remain unknown; the fixed fixture is not a hypothesis family.",
+    "stream_design": "64 ordinary tasks, 128 stages, each material/requirement pair appears four times; each survey site eight times; no tutorial or unlock.",
+    "authoring_geometry_check": {
+      "stage_contexts": 128,
+      "nearest_match_rate": 0.08854166666666667,
+      "unused_strict_replicas": [],
+      "strict_replica_counts": {
+        "A1": 2,
+        "A2": 4,
+        "B1": 1,
+        "B2": 5,
+        "C1": 3,
+        "C2": 4,
+        "D1": 3,
+        "D2": 1,
+        "E1": 2,
+        "E2": 3,
+        "F1": 2,
+        "F2": 2,
+        "G1": 3,
+        "G2": 1,
+        "H1": 3,
+        "H2": 1,
+        "I1": 1,
+        "I2": 2,
+        "J1": 2,
+        "J2": 1,
+        "K1": 3,
+        "K2": 3,
+        "L1": 4,
+        "L2": 2,
+        "M1": 3,
+        "M2": 1,
+        "N1": 5,
+        "N2": 1,
+        "O1": 1,
+        "O2": 4,
+        "P1": 1,
+        "P2": 2,
+        "Q1": 1,
+        "Q2": 3,
+        "R1": 3,
+        "R2": 6,
+        "S1": 8,
+        "S2": 1,
+        "T1": 3,
+        "T2": 4,
+        "U1": 2,
+        "U2": 5,
+        "V1": 1,
+        "V2": 2,
+        "W1": 4,
+        "W2": 1,
+        "X1": 3,
+        "X2": 1
+      },
+      "mean_processing_leg_distance": 39.2890625,
+      "seed": 15103,
+      "trials_examined": 24000,
+      "selected_candidate": 6660,
+      "method": "Predeclared fixed-seed geometry-only candidate search; no model outcomes.",
+      "target_swap_seed": 19503,
+      "target_swap_trials_examined": 71,
+      "target_swaps_accepted": 44,
+      "target_swap_scope": "Only target locations; material/requirement order and every target frequency preserved."
+    }
+  },
+  "provenance": {
+    "layout_authoring": {
+      "revision": "individually-authored-v2",
+      "rationale": [
+        "Two long rectangular barays interrupt regional movement and create north-versus-south embankment choices.",
+        "A moated square city has four fixed causeway entrances and an internal axial/perimeter network, with an independent exterior bypass.",
+        "A separate southern enclosure uses a smaller two-entrance circuit, rather than repeating the same district module.",
+        "Long canal-side settlement routes extend far south and east of the monuments; the camp is an eastern rural post, not a central hub."
+      ],
+      "topology": {
+        "connected": true,
+        "nodes": 153,
+        "roads": 252,
+        "cycle_rank": 100,
+        "core_branch_degree_histogram": {
+          "3": 9,
+          "4": 21,
+          "5": 26,
+          "6": 7,
+          "7": 7,
+          "8": 1
+        },
+        "station_degree_histogram": {
+          "1": 15,
+          "2": 33
+        },
+        "dead_end_count": 17
+      },
+      "planar_junctions_added": 0,
+      "features": {
+        "major_water": [],
+        "lakes": [
+          [
+            [
+              350,
+              1350
+            ],
+            [
+              2350,
+              1350
+            ],
+            [
+              2350,
+              2100
+            ],
+            [
+              350,
+              2100
+            ]
+          ],
+          [
+            [
+              4650,
+              750
+            ],
+            [
+              6400,
+              750
+            ],
+            [
+              6400,
+              1450
+            ],
+            [
+              4650,
+              1450
+            ]
+          ]
+        ],
+        "water_barriers": [
+          [
+            [
+              2800,
+              1300
+            ],
+            [
+              4200,
+              1300
+            ],
+            [
+              4200,
+              1420
+            ],
+            [
+              2800,
+              1420
+            ]
+          ],
+          [
+            [
+              2800,
+              2580
+            ],
+            [
+              4200,
+              2580
+            ],
+            [
+              4200,
+              2700
+            ],
+            [
+              2800,
+              2700
+            ]
+          ],
+          [
+            [
+              2800,
+              1420
+            ],
+            [
+              2920,
+              1420
+            ],
+            [
+              2920,
+              2580
+            ],
+            [
+              2800,
+              2580
+            ]
+          ],
+          [
+            [
+              4080,
+              1420
+            ],
+            [
+              4200,
+              1420
+            ],
+            [
+              4200,
+              2580
+            ],
+            [
+              4080,
+              2580
+            ]
+          ],
+          [
+            [
+              3000,
+              3050
+            ],
+            [
+              3950,
+              3050
+            ],
+            [
+              3950,
+              3170
+            ],
+            [
+              3000,
+              3170
+            ]
+          ],
+          [
+            [
+              3000,
+              3830
+            ],
+            [
+              3950,
+              3830
+            ],
+            [
+              3950,
+              3950
+            ],
+            [
+              3000,
+              3950
+            ]
+          ],
+          [
+            [
+              3000,
+              3170
+            ],
+            [
+              3120,
+              3170
+            ],
+            [
+              3120,
+              3830
+            ],
+            [
+              3000,
+              3830
+            ]
+          ],
+          [
+            [
+              3830,
+              3170
+            ],
+            [
+              3950,
+              3170
+            ],
+            [
+              3950,
+              3830
+            ],
+            [
+              3830,
+              3830
+            ]
+          ]
+        ],
+        "enclosures": [
+          [
+            2800,
+            1300,
+            4200,
+            2700,
+            120
+          ],
+          [
+            3000,
+            3050,
+            3950,
+            3950,
+            120
+          ]
+        ],
+        "causeways": [
+          [
+            "a05",
+            "cN"
+          ],
+          [
+            "a10",
+            "cW"
+          ],
+          [
+            "a11",
+            "cE"
+          ],
+          [
+            "a12",
+            "cS"
+          ],
+          [
+            "s05",
+            "tW"
+          ],
+          [
+            "s06",
+            "tE"
+          ]
+        ],
+        "channels": [
+          [
+            [
+              1410,
+              2260
+            ],
+            [
+              1400,
+              2890
+            ],
+            [
+              1360,
+              3470
+            ],
+            [
+              1840,
+              3910
+            ],
+            [
+              1800,
+              4680
+            ]
+          ],
+          [
+            [
+              5110,
+              1690
+            ],
+            [
+              5110,
+              2170
+            ],
+            [
+              5200,
+              2930
+            ],
+            [
+              5440,
+              3470
+            ],
+            [
+              5760,
+              3910
+            ],
+            [
+              6200,
+              4330
+            ]
+          ],
+          [
+            [
+              4380,
+              570
+            ],
+            [
+              4440,
+              1060
+            ],
+            [
+              4440,
+              2000
+            ],
+            [
+              4440,
+              2860
+            ],
+            [
+              4450,
+              3380
+            ],
+            [
+              4690,
+              4100
+            ]
+          ]
+        ],
+        "settlements": [
+          [
+            1150,
+            690,
+            170,
+            100,
+            5
+          ],
+          [
+            2920,
+            840,
+            135,
+            90,
+            -7
+          ],
+          [
+            5760,
+            400,
+            140,
+            80,
+            6
+          ],
+          [
+            3500,
+            2000,
+            320,
+            280,
+            0
+          ],
+          [
+            1340,
+            2890,
+            240,
+            135,
+            9
+          ],
+          [
+            2210,
+            2800,
+            150,
+            100,
+            -10
+          ],
+          [
+            5140,
+            2930,
+            250,
+            120,
+            -8
+          ],
+          [
+            6460,
+            2840,
+            145,
+            95,
+            5
+          ],
+          [
+            1780,
+            3910,
+            180,
+            100,
+            4
+          ],
+          [
+            3650,
+            4400,
+            170,
+            80,
+            4
+          ],
+          [
+            5700,
+            3910,
+            180,
+            130,
+            -10
+          ]
+        ],
+        "river_crossing_count": 0,
+        "moat_causeway_count": 6
+      },
+      "edge_tags": {
+        "a01|a02": [
+          "road"
+        ],
+        "a02|w076": [
+          "road"
+        ],
+        "a03|w076": [
+          "road"
+        ],
+        "a03|a04": [
+          "road"
+        ],
+        "a04|a05": [
+          "road"
+        ],
+        "a04|w077": [
+          "road"
+        ],
+        "a06|w077": [
+          "road"
+        ],
+        "a06|a07": [
+          "road"
+        ],
+        "a07|a08": [
+          "road"
+        ],
+        "a08|a09": [
+          "road"
+        ],
+        "a03|a15": [
+          "road"
+        ],
+        "a05|a15": [
+          "road"
+        ],
+        "wN|wNW": [
+          "road"
+        ],
+        "wN|wNE": [
+          "road"
+        ],
+        "wE|wNE": [
+          "road"
+        ],
+        "wE|wSE": [
+          "road"
+        ],
+        "wS|wSE": [
+          "road"
+        ],
+        "wS|wSW": [
+          "road"
+        ],
+        "wSW|wW": [
+          "road"
+        ],
+        "wNW|wW": [
+          "road"
+        ],
+        "a01|wNW": [
+          "road"
+        ],
+        "a02|wN": [
+          "road"
+        ],
+        "a03|wNE": [
+          "road"
+        ],
+        "a15|wNE": [
+          "road"
+        ],
+        "a10|wE": [
+          "road"
+        ],
+        "s03|wSE": [
+          "road"
+        ],
+        "a05|w078": [
+          "road"
+        ],
+        "a16|w078": [
+          "road"
+        ],
+        "a16|w079": [
+          "road"
+        ],
+        "a11|w079": [
+          "road"
+        ],
+        "a11|a14": [
+          "road"
+        ],
+        "a12|a14": [
+          "road"
+        ],
+        "a12|a13": [
+          "road"
+        ],
+        "a13|w080": [
+          "road"
+        ],
+        "a10|w080": [
+          "road"
+        ],
+        "a10|w081": [
+          "road"
+        ],
+        "a15|w081": [
+          "road"
+        ],
+        "a05|cN": [
+          "causeway"
+        ],
+        "a10|cW": [
+          "causeway"
+        ],
+        "a11|cE": [
+          "causeway"
+        ],
+        "a12|cS": [
+          "causeway"
+        ],
+        "cC|cN": [
+          "road"
+        ],
+        "cC|cS": [
+          "road"
+        ],
+        "cC|cW": [
+          "road"
+        ],
+        "cC|cE": [
+          "road"
+        ],
+        "cN|cNW": [
+          "road"
+        ],
+        "cNW|cW": [
+          "road"
+        ],
+        "cSW|cW": [
+          "road"
+        ],
+        "cS|cSW": [
+          "road"
+        ],
+        "cS|cSE": [
+          "road"
+        ],
+        "cE|cSE": [
+          "road"
+        ],
+        "cE|cNE": [
+          "road"
+        ],
+        "cN|cNE": [
+          "road"
+        ],
+        "cNE|cR": [
+          "road"
+        ],
+        "cC|cR": [
+          "road"
+        ],
+        "cP|cW": [
+          "road"
+        ],
+        "cP|cS": [
+          "road"
+        ],
+        "eN|eNW": [
+          "road"
+        ],
+        "eN|eNE": [
+          "road"
+        ],
+        "eE|eNE": [
+          "road"
+        ],
+        "eE|eSE": [
+          "road"
+        ],
+        "eS|eSE": [
+          "road"
+        ],
+        "eS|eSW": [
+          "road"
+        ],
+        "eSW|eW": [
+          "road"
+        ],
+        "eNW|eW": [
+          "road"
+        ],
+        "a06|eNW": [
+          "road"
+        ],
+        "a07|eNW": [
+          "road"
+        ],
+        "a08|eN": [
+          "road"
+        ],
+        "a09|eNE": [
+          "road"
+        ],
+        "a16|eW": [
+          "road"
+        ],
+        "a11|eSW": [
+          "road"
+        ],
+        "eS|s22": [
+          "road"
+        ],
+        "eSE|s22": [
+          "road"
+        ],
+        "a11|s21": [
+          "road"
+        ],
+        "s21|w082": [
+          "road"
+        ],
+        "s09|w082": [
+          "road"
+        ],
+        "s09|s10": [
+          "road"
+        ],
+        "s09|s22": [
+          "road"
+        ],
+        "s09|w083": [
+          "road"
+        ],
+        "s11|w083": [
+          "road"
+        ],
+        "s10|s11": [
+          "road"
+        ],
+        "s08|s21": [
+          "road"
+        ],
+        "s08|s20": [
+          "road"
+        ],
+        "s12|s20": [
+          "road"
+        ],
+        "s12|s23": [
+          "road"
+        ],
+        "s11|s23": [
+          "road"
+        ],
+        "a14|s07": [
+          "road"
+        ],
+        "s07|s13": [
+          "road"
+        ],
+        "s13|s14": [
+          "road"
+        ],
+        "s07|w084": [
+          "road"
+        ],
+        "s20|w084": [
+          "road"
+        ],
+        "s08|w085": [
+          "road"
+        ],
+        "s07|w085": [
+          "road"
+        ],
+        "s13|w086": [
+          "road"
+        ],
+        "s12|w086": [
+          "road"
+        ],
+        "s01|wSW": [
+          "road"
+        ],
+        "s01|s18": [
+          "road"
+        ],
+        "s17|s18": [
+          "road"
+        ],
+        "s02|wS": [
+          "road"
+        ],
+        "s02|s19": [
+          "road"
+        ],
+        "s16|s19": [
+          "road"
+        ],
+        "s16|s17": [
+          "road"
+        ],
+        "s01|s02": [
+          "road"
+        ],
+        "s02|s03": [
+          "road"
+        ],
+        "a13|s03": [
+          "road"
+        ],
+        "s18|s19": [
+          "road"
+        ],
+        "s04|s19": [
+          "road"
+        ],
+        "s03|s04": [
+          "road"
+        ],
+        "s04|w087": [
+          "road"
+        ],
+        "s16|w087": [
+          "road"
+        ],
+        "s15|s16": [
+          "road"
+        ],
+        "s15|s24": [
+          "road"
+        ],
+        "s14|s24": [
+          "road"
+        ],
+        "s04|s05": [
+          "road"
+        ],
+        "tNE|tNW": [
+          "road"
+        ],
+        "s06|tNE": [
+          "road"
+        ],
+        "s06|tSE": [
+          "road"
+        ],
+        "tSE|tSW": [
+          "road"
+        ],
+        "s05|tSW": [
+          "road"
+        ],
+        "s05|tNW": [
+          "road"
+        ],
+        "a13|tNW": [
+          "road"
+        ],
+        "a12|tNW": [
+          "road"
+        ],
+        "a12|tNE": [
+          "road"
+        ],
+        "a14|tNE": [
+          "road"
+        ],
+        "s15|tSW": [
+          "road"
+        ],
+        "s14|tSE": [
+          "road"
+        ],
+        "s06|s07": [
+          "road"
+        ],
+        "s13|s24": [
+          "road"
+        ],
+        "s05|tW": [
+          "causeway"
+        ],
+        "s06|tE": [
+          "causeway"
+        ],
+        "tC|tW": [
+          "road"
+        ],
+        "tC|tE": [
+          "road"
+        ],
+        "tN|tW": [
+          "road"
+        ],
+        "tS|tW": [
+          "road"
+        ],
+        "tE|tS": [
+          "road"
+        ],
+        "tE|tN": [
+          "road"
+        ],
+        "tC|tN": [
+          "road"
+        ],
+        "tC|tS": [
+          "road"
+        ],
+        "C|a14": [
+          "road"
+        ],
+        "C|s21": [
+          "road"
+        ],
+        "C|s08": [
+          "road"
+        ],
+        "a01|v01": [
+          "road"
+        ],
+        "a02|v02": [
+          "road"
+        ],
+        "a03|v02": [
+          "road"
+        ],
+        "v03|wSW": [
+          "road"
+        ],
+        "v03|wS": [
+          "road"
+        ],
+        "v04|wSE": [
+          "road"
+        ],
+        "s03|v04": [
+          "road"
+        ],
+        "a04|v05": [
+          "road"
+        ],
+        "a15|v05": [
+          "road"
+        ],
+        "cC|v06": [
+          "road"
+        ],
+        "cS|v06": [
+          "road"
+        ],
+        "a16|v07": [
+          "road"
+        ],
+        "a06|v07": [
+          "road"
+        ],
+        "eN|v08": [
+          "road"
+        ],
+        "eSE|v09": [
+          "road"
+        ],
+        "s10|v09": [
+          "road"
+        ],
+        "a11|v10": [
+          "road"
+        ],
+        "s21|v10": [
+          "road"
+        ],
+        "s09|v11": [
+          "road"
+        ],
+        "s10|v11": [
+          "road"
+        ],
+        "s08|v12": [
+          "road"
+        ],
+        "s20|v12": [
+          "road"
+        ],
+        "tC|v13": [
+          "road"
+        ],
+        "tS|v13": [
+          "road"
+        ],
+        "s03|v14": [
+          "road"
+        ],
+        "s04|v14": [
+          "road"
+        ],
+        "s17|v15": [
+          "road"
+        ],
+        "s16|v15": [
+          "road"
+        ],
+        "s12|v16": [
+          "road"
+        ],
+        "s23|v16": [
+          "road"
+        ],
+        "Q1|wNW": [
+          "road"
+        ],
+        "Q1|wW": [
+          "road"
+        ],
+        "I2|wSW": [
+          "road"
+        ],
+        "S2|wNW": [
+          "road"
+        ],
+        "S2|wN": [
+          "road"
+        ],
+        "E1|wN": [
+          "road"
+        ],
+        "E1|wNE": [
+          "road"
+        ],
+        "J1|wE": [
+          "road"
+        ],
+        "P2|wE": [
+          "road"
+        ],
+        "P2|wSE": [
+          "road"
+        ],
+        "H2|wSW": [
+          "road"
+        ],
+        "H2|wS": [
+          "road"
+        ],
+        "M2|wS": [
+          "road"
+        ],
+        "M2|wSE": [
+          "road"
+        ],
+        "A1|a02": [
+          "road"
+        ],
+        "F2|a03": [
+          "road"
+        ],
+        "Q2|a04": [
+          "road"
+        ],
+        "P1|a06": [
+          "road"
+        ],
+        "D2|eNW": [
+          "road"
+        ],
+        "D2|eN": [
+          "road"
+        ],
+        "J2|eN": [
+          "road"
+        ],
+        "J2|eNE": [
+          "road"
+        ],
+        "X2|eE": [
+          "road"
+        ],
+        "N2|eSE": [
+          "road"
+        ],
+        "E2|eS": [
+          "road"
+        ],
+        "E2|eSE": [
+          "road"
+        ],
+        "K1|eSW": [
+          "road"
+        ],
+        "W2|cNW": [
+          "road"
+        ],
+        "W2|cW": [
+          "road"
+        ],
+        "L1|cNE": [
+          "road"
+        ],
+        "S1|cNE": [
+          "road"
+        ],
+        "S1|cE": [
+          "road"
+        ],
+        "T2|cSE": [
+          "road"
+        ],
+        "D1|cSW": [
+          "road"
+        ],
+        "D1|cS": [
+          "road"
+        ],
+        "R1|cW": [
+          "road"
+        ],
+        "R1|cSW": [
+          "road"
+        ],
+        "N1|cC": [
+          "road"
+        ],
+        "N1|cN": [
+          "road"
+        ],
+        "F1|cC": [
+          "road"
+        ],
+        "F1|cE": [
+          "road"
+        ],
+        "K2|a10": [
+          "road"
+        ],
+        "K2|a13": [
+          "road"
+        ],
+        "G1|a11": [
+          "road"
+        ],
+        "G1|a14": [
+          "road"
+        ],
+        "T1|a05": [
+          "road"
+        ],
+        "T1|a15": [
+          "road"
+        ],
+        "W1|a11": [
+          "road"
+        ],
+        "C2|tW": [
+          "road"
+        ],
+        "C2|tN": [
+          "road"
+        ],
+        "B1|tS": [
+          "road"
+        ],
+        "B1|tE": [
+          "road"
+        ],
+        "A2|s05": [
+          "road"
+        ],
+        "A2|tSW": [
+          "road"
+        ],
+        "U1|s06": [
+          "road"
+        ],
+        "U1|tSE": [
+          "road"
+        ],
+        "C1|s01": [
+          "road"
+        ],
+        "C1|s18": [
+          "road"
+        ],
+        "L2|s02": [
+          "road"
+        ],
+        "H1|s02": [
+          "road"
+        ],
+        "H1|s03": [
+          "road"
+        ],
+        "V2|s17": [
+          "road"
+        ],
+        "V2|s16": [
+          "road"
+        ],
+        "I1|s16": [
+          "road"
+        ],
+        "O1|s15": [
+          "road"
+        ],
+        "O1|s16": [
+          "road"
+        ],
+        "B2|s21": [
+          "road"
+        ],
+        "B2|C": [
+          "road"
+        ],
+        "U2|s21": [
+          "road"
+        ],
+        "U2|s09": [
+          "road"
+        ],
+        "O2|s09": [
+          "road"
+        ],
+        "O2|s22": [
+          "road"
+        ],
+        "G2|s10": [
+          "road"
+        ],
+        "G2|s11": [
+          "road"
+        ],
+        "X1|s20": [
+          "road"
+        ],
+        "X1|s11": [
+          "road"
+        ],
+        "R2|s20": [
+          "road"
+        ],
+        "R2|s12": [
+          "road"
+        ],
+        "M1|s13": [
+          "road"
+        ],
+        "M1|s12": [
+          "road"
+        ],
+        "V1|s24": [
+          "road"
+        ]
+      }
+    },
+    "reference_region": "吴哥",
+    "reference_period": "c. 1200–1250 CE",
+    "sources": [
+      "https://whc.unesco.org/en/list/668/",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC1964867/"
+    ],
+    "reference_window": {
+      "crs": "EPSG:4326",
+      "bbox_west_south_east_north": [
+        103.76,
+        13.33,
+        103.99,
+        13.49
+      ],
+      "approximate_area_km2": 442.602,
+      "area_method": "Spherical longitude/latitude rectangle, mean Earth radius 6371.0088 km.",
+      "basis": "Author-selected regional reference rectangle, not a heritage boundary or measured navigable footprint."
+    },
+    "scope": "Historical landscape inspiration only. Roads, drawing coordinates, sites, tasks and processing capabilities are authored; not a historical road reconstruction. Current ecology sources do not establish historical species locations.",
+    "private_boundary": "Real names, dates, source URLs and coordinates are excluded from agent observations."
+  },
+  "private_station_capabilities": {
+    "A": {
+      "catalogue": [
+        "bathymetry",
+        "waterworks"
+      ],
+      "verify": [
+        "built_form",
+        "small_mammal_signs"
+      ]
+    },
+    "B": {
+      "catalogue": [
+        "soil"
+      ],
+      "verify": [
+        "drainage"
+      ]
+    },
+    "C": {
+      "catalogue": [
+        "drainage",
+        "sediment"
+      ],
+      "verify": [
+        "bathymetry",
+        "waterworks"
+      ]
+    },
+    "D": {
+      "catalogue": [
+        "settlement_layout"
+      ],
+      "verify": [
+        "soil"
+      ]
+    },
+    "E": {
+      "catalogue": [
+        "settlement_layout",
+        "vegetation"
+      ],
+      "verify": [
+        "drainage",
+        "sediment"
+      ]
+    },
+    "F": {
+      "catalogue": [
+        "water_quality"
+      ],
+      "verify": [
+        "water_quality"
+      ]
+    },
+    "G": {
+      "catalogue": [
+        "waterworks"
+      ],
+      "verify": [
+        "waterworks"
+      ]
+    },
+    "H": {
+      "catalogue": [
+        "soil",
+        "water_edna"
+      ],
+      "verify": [
+        "amphibian_record",
+        "land_cover"
+      ]
+    },
+    "I": {
+      "catalogue": [
+        "profile"
+      ],
+      "verify": [
+        "profile"
+      ]
+    },
+    "J": {
+      "catalogue": [
+        "vegetation"
+      ],
+      "verify": [
+        "settlement_layout"
+      ]
+    },
+    "K": {
+      "catalogue": [
+        "small_mammal_signs"
+      ],
+      "verify": [
+        "small_mammal_signs"
+      ]
+    },
+    "L": {
+      "catalogue": [
+        "drainage"
+      ],
+      "verify": [
+        "sediment"
+      ]
+    },
+    "M": {
+      "catalogue": [
+        "amphibian_record"
+      ],
+      "verify": [
+        "land_cover"
+      ]
+    },
+    "N": {
+      "catalogue": [
+        "built_form",
+        "small_mammal_signs"
+      ],
+      "verify": [
+        "settlement_layout",
+        "vegetation"
+      ]
+    },
+    "O": {
+      "catalogue": [
+        "built_form"
+      ],
+      "verify": [
+        "built_form"
+      ]
+    },
+    "P": {
+      "catalogue": [
+        "land_cover"
+      ],
+      "verify": [
+        "water_edna"
+      ]
+    },
+    "Q": {
+      "catalogue": [
+        "bathymetry"
+      ],
+      "verify": [
+        "bathymetry"
+      ]
+    },
+    "R": {
+      "catalogue": [
+        "amphibian_record",
+        "land_cover"
+      ],
+      "verify": [
+        "profile",
+        "waterbird_record"
+      ]
+    },
+    "S": {
+      "catalogue": [
+        "historic_road",
+        "water_quality"
+      ],
+      "verify": [
+        "soil",
+        "water_edna"
+      ]
+    },
+    "T": {
+      "catalogue": [
+        "water_edna"
+      ],
+      "verify": [
+        "vegetation"
+      ]
+    },
+    "U": {
+      "catalogue": [
+        "profile",
+        "waterbird_record"
+      ],
+      "verify": [
+        "historic_road",
+        "water_quality"
+      ]
+    },
+    "V": {
+      "catalogue": [
+        "historic_road"
+      ],
+      "verify": [
+        "historic_road"
+      ]
+    },
+    "W": {
+      "catalogue": [
+        "waterbird_record"
+      ],
+      "verify": [
+        "waterbird_record"
+      ]
+    },
+    "X": {
+      "catalogue": [
+        "sediment"
+      ],
+      "verify": [
+        "amphibian_record"
+      ]
+    }
+  }
+}

@@ -3,6 +3,7 @@
 The reference planner sees a set of possible worlds, never the actual world ID.
 The runtime keeps its evaluator log private from the public observation.
 """
+
 from __future__ import annotations
 
 from collections import Counter, defaultdict
@@ -15,24 +16,90 @@ import json
 from pathlib import Path
 
 
-DESIGN_PATH = Path(__file__).resolve().parents[2] / "design" / "station_capability_v1.json"
+DESIGN_PATH = (
+    Path(__file__).resolve().parents[2] / "design" / "station_capability_v1.json"
+)
+
+
+from . import station_composition as composition
+
+
+def conditional_capabilities(design):
+    return design["public"].get("capability_model") == "conditional-overlapping-sets-v1"
+
+
+def symbolic_capabilities(design):
+    return design["public"].get("capability_model") in (
+        "overlapping-sets-v1",
+        "conditional-overlapping-sets-v1",
+    )
+
+
+def stage_signature(stage):
+    """Conditions are part of an experience, including exact-repeat identity."""
+    base = (stage["target"], stage["required_kind"])
+    base = (*base, stage["requirement"]) if "requirement" in stage else base
+    return (*base, stage["required_region"]) if "required_region" in stage else base
+
+
+def region_matches(design, stage, station):
+    """Public destination constraint, independent of hidden type capability."""
+    return (
+        "required_region" not in stage
+        or design["public"]["locations"][station].get("region_category")
+        == stage["required_region"]
+    )
+
+
+def experience_context(stage):
+    """Hidden ability depends on material/purpose; region only constrains location."""
+    return (
+        (stage["required_kind"], stage["requirement"])
+        if "requirement" in stage
+        else (stage["required_kind"],)
+    )
 
 
 def capability_groups(design):
     public = design["public"]
-    return public.get("capability_groups", {"default": {
-        "stations": [n for n, data in public["locations"].items() if data["kind"] == "station"],
+    if "capability_groups" in public:
+        return public["capability_groups"]
+    unrestricted = {
+        "stations": [
+            n for n, data in public["locations"].items() if data["kind"] == "station"
+        ],
         "kinds": list(public["kinds"]),
-    }})
+    }
+    types = public.get("station_types")
+    if types:
+        # No public grouping: every type can match every material. The single
+        # internal family lets historical grouped maps keep their old rules.
+        replicas = len(next(iter(types.values()))["stations"])
+        unrestricted.update(
+            station_types=list(types),
+            counts={kind: replicas for kind in public["kinds"]},
+        )
+    return {"default": unrestricted}
 
 
 def task_stages(task):
     """Public itinerary; legacy commissions have exactly one stage."""
-    return task.get("stages", [{"target": task["target"], "required_kind": task["required_kind"]}])
+    return task.get(
+        "stages", [{"target": task["target"], "required_kind": task["required_kind"]}]
+    )
 
 
 def active_stage(task, state):
     return task_stages(task)[state.stage]
+
+
+def station_query_enabled(design):
+    """Older map versions retain their original optional inspection action."""
+    return design["public"].get("station_query_enabled", True)
+
+
+def manual_survey_required(design):
+    return design["public"].get("manual_survey_required", False)
 
 
 def map_world(design, requested=None):
@@ -44,9 +111,13 @@ def map_world(design, requested=None):
     """
     fixed = design.get("fixed_world", min(design["private_worlds"]))
     if fixed not in design["private_worlds"]:
-        raise ValueError("The map's fixed assignment is missing from its candidate family")
+        raise ValueError(
+            "The map's fixed assignment is missing from its candidate family"
+        )
     if requested is not None and requested != fixed:
-        raise ValueError("This map has a fixed station assignment; use a different map version to change station capabilities")
+        raise ValueError(
+            "This map has a fixed station assignment; use a different map version to change station capabilities"
+        )
     return fixed
 
 
@@ -55,8 +126,26 @@ def load_design(path=None):
     path = Path(path) if path else DESIGN_PATH
     design = json.loads(path.read_text(encoding="utf-8"))
     public = design["public"]
-    stations = {n for n, data in public["locations"].items() if data["kind"] == "station"}
+    if "material_selection" in design:
+        from ..materials import validate_material_selection
+
+        validate_material_selection(
+            design["material_selection"],
+            public["kinds"],
+            difficulty=public.get("difficulty"),
+        )
+    if type(station_query_enabled(design)) is not bool:
+        raise ValueError("station_query_enabled must be a boolean")
+    if type(manual_survey_required(design)) is not bool:
+        raise ValueError("manual_survey_required must be a boolean")
+    stations = {
+        n for n, data in public["locations"].items() if data["kind"] == "station"
+    }
     kinds = set(public["kinds"])
+    if design.get("world_generator") == "fixed_station_capability_sets":
+        return _load_capability_sets(design)
+    if design.get("world_generator") == "fixed_conditional_station_sets":
+        return _load_conditional_capabilities(design)
     groups = capability_groups(design)
     grouped_stations, grouped_kinds = [], []
     if not groups:
@@ -64,7 +153,11 @@ def load_design(path=None):
     generator = design.get("world_generator", "independent_pair_swaps")
     balanced = generator == "independent_balanced_allocations"
     typed = generator == "station_type_permutations"
-    if generator not in ("independent_pair_swaps", "independent_balanced_allocations", "station_type_permutations"):
+    if generator not in (
+        "independent_pair_swaps",
+        "independent_balanced_allocations",
+        "station_type_permutations",
+    ):
         raise ValueError("Unknown private-world generator")
     type_members = public.get("station_types", {})
     if typed:
@@ -72,47 +165,94 @@ def load_design(path=None):
         if set(declared) != stations or len(declared) != len(stations):
             raise ValueError("Station types must partition physical stations")
         for type_id, data in type_members.items():
-            if len(data["stations"]) < 2 or any(public["locations"][s].get("station_type") != type_id for s in data["stations"]):
-                raise ValueError("Each station must declare its public type consistently")
+            if len(data["stations"]) < 2 or any(
+                public["locations"][s].get("station_type") != type_id
+                for s in data["stations"]
+            ):
+                raise ValueError(
+                    "Each station must declare its public type consistently"
+                )
     allocations = []
     for group in groups.values():
         if typed:
             types = group["station_types"]
             size = len(types)
-            if size < 2 or len(set(types)) != size or len(group["kinds"]) != size or len(set(group["kinds"])) != size:
-                raise ValueError("Typed groups require a bijection of public types to hidden capabilities")
+            if (
+                size < 2
+                or len(set(types)) != size
+                or len(group["kinds"]) != size
+                or len(set(group["kinds"])) != size
+            ):
+                raise ValueError(
+                    "Typed groups require a bijection of public types to hidden capabilities"
+                )
             members = [s for t in types for s in type_members[t]["stations"]]
             replica_counts = {len(type_members[t]["stations"]) for t in types}
-            if set(members) != set(group["stations"]) or len(members) != len(group["stations"]) or len(replica_counts) != 1:
-                raise ValueError("Typed group membership or replication is inconsistent")
+            if (
+                set(members) != set(group["stations"])
+                or len(members) != len(group["stations"])
+                or len(replica_counts) != 1
+            ):
+                raise ValueError(
+                    "Typed group membership or replication is inconsistent"
+                )
             count = next(iter(replica_counts))
             if group.get("counts") != {kind: count for kind in group["kinds"]}:
-                raise ValueError("Typed groups must declare the physical matching-station counts")
-            allocations.append([{s: kind for t, kind in zip(types, ordering) for s in type_members[t]["stations"]}
-                                for ordering in permutations(group["kinds"])])
+                raise ValueError(
+                    "Typed groups must declare the physical matching-station counts"
+                )
+            allocations.append(
+                [
+                    {
+                        s: kind
+                        for t, kind in zip(types, ordering)
+                        for s in type_members[t]["stations"]
+                    }
+                    for ordering in permutations(group["kinds"])
+                ]
+            )
             grouped_stations.extend(group["stations"])
             grouped_kinds.extend(group["kinds"])
             continue
         size = 4 if balanced else 2
-        if (len(group["stations"]) != size or len(set(group["stations"])) != size or
-                len(group["kinds"]) != 2 or len(set(group["kinds"])) != 2):
-            raise ValueError("Each capability group requires distinct stations and two kinds")
+        if (
+            len(group["stations"]) != size
+            or len(set(group["stations"])) != size
+            or len(group["kinds"]) != 2
+            or len(set(group["kinds"])) != 2
+        ):
+            raise ValueError(
+                "Each capability group requires distinct stations and two kinds"
+            )
         counts = group.get("counts", {kind: 1 for kind in group["kinds"]})
         if counts != {kind: size // 2 for kind in group["kinds"]}:
             raise ValueError("Declare the balanced public count for each capability")
         choices = []
         for first in combinations(group["stations"], size // 2):
-            choices.append({station: group["kinds"][0 if station in first else 1]
-                            for station in group["stations"]})
+            choices.append(
+                {
+                    station: group["kinds"][0 if station in first else 1]
+                    for station in group["stations"]
+                }
+            )
         # Preserve the historical binary world IDs and assignments exactly.
         if not balanced:
-            choices = [{station: group["kinds"][index ^ bit]
-                        for index, station in enumerate(group["stations"])} for bit in (0, 1)]
+            choices = [
+                {
+                    station: group["kinds"][index ^ bit]
+                    for index, station in enumerate(group["stations"])
+                }
+                for bit in (0, 1)
+            ]
         allocations.append(choices)
         grouped_stations.extend(group["stations"])
         grouped_kinds.extend(group["kinds"])
-    if (set(grouped_stations) != stations or len(grouped_stations) != len(stations) or
-            set(grouped_kinds) != kinds or len(grouped_kinds) != len(kinds)):
+    if (
+        set(grouped_stations) != stations
+        or len(grouped_stations) != len(stations)
+        or set(grouped_kinds) != kinds
+        or len(grouped_kinds) != len(kinds)
+    ):
         raise ValueError("Capability groups must partition the stations and kinds")
     if "private_worlds" not in design:
         design["private_worlds"] = {}
@@ -120,13 +260,19 @@ def load_design(path=None):
             assignment = {}
             for choices, index in zip(allocations, indices):
                 assignment.update(choices[index])
-            world_id = "omega_" + ("_".join(f"{i:02d}" for i in indices) if typed else "".join(map(str, indices)))
+            world_id = "omega_" + (
+                "_".join(f"{i:02d}" for i in indices)
+                if typed
+                else "".join(map(str, indices))
+            )
             design["private_worlds"][world_id] = assignment
     expected = 1
     for choices in allocations:
         expected *= len(choices)
     if len(design["private_worlds"]) != expected:
-        raise ValueError("The candidate family must contain every independent balanced assignment")
+        raise ValueError(
+            "The candidate family must contain every independent balanced assignment"
+        )
     assignments = []
     for world in design["private_worlds"].values():
         if set(world) != stations:
@@ -140,33 +286,226 @@ def load_design(path=None):
                 if len({world[s] for s in data["stations"]}) != 1:
                     raise ValueError("Same-type stations must share one capability")
             for group in groups.values():
-                if {world[type_members[t]["stations"][0]] for t in group["station_types"]} != set(group["kinds"]):
-                    raise ValueError("Each typed group must contain every capability exactly once at type level")
+                if {
+                    world[type_members[t]["stations"][0]]
+                    for t in group["station_types"]
+                } != set(group["kinds"]):
+                    raise ValueError(
+                        "Each typed group must contain every capability exactly once at type level"
+                    )
         assignments.append(tuple(sorted(world.items())))
     if len(set(assignments)) != len(assignments):
         raise ValueError("Worlds must have different capability assignments")
+    return _validate_geography_tasks(design)
+
+
+def _load_capability_sets(design):
+    public = design["public"]
+    if public.get("capability_model") != "overlapping-sets-v1":
+        raise ValueError("Capability-set maps require their public rule model")
+    types = public.get("station_types", {})
+    stations = {s for s, p in public["locations"].items() if p["kind"] == "station"}
+    declared = [s for data in types.values() for s in data["stations"]]
+    if len(set(declared)) != len(declared) or set(declared) != stations:
+        raise ValueError("Types must partition physical stations")
+    fixture = design.get("private_station_capabilities", {})
+    if set(fixture) != set(types):
+        raise ValueError("Each type needs a fixed capability set")
+    coverage = Counter()
+    assignment = {}
+    for type_id, data in types.items():
+        kinds = fixture[type_id]
+        if (
+            not isinstance(kinds, list)
+            or not 1 <= len(kinds) <= 2
+            or len(set(kinds)) != len(kinds)
+            or not set(kinds) <= set(public["kinds"])
+        ):
+            raise ValueError(
+                "Station types support one or two distinct declared materials"
+            )
+        if len(data["stations"]) != 2 or any(
+            public["locations"][s].get("station_type") != type_id
+            for s in data["stations"]
+        ):
+            raise ValueError("Each type needs two consistent replicas")
+        coverage.update(kinds)
+        assignment.update({s: sorted(kinds) for s in data["stations"]})
+    if set(coverage) != set(public["kinds"]) or any(n < 2 for n in coverage.values()):
+        raise ValueError(
+            "Each material needs at least two alternative processing types"
+        )
+    expected_fixture = {design["fixed_world"]: assignment}
+    if "private_worlds" in design and design["private_worlds"] != expected_fixture:
+        raise ValueError("Frozen runtime fixture differs from authored capabilities")
+    design["private_worlds"] = expected_fixture
+    return _validate_geography_tasks(design)
+
+
+def _load_conditional_capabilities(design):
+    """Freeze one runtime fixture; no unobserved capability becomes knowledge."""
+    public = design["public"]
+    if not conditional_capabilities(design):
+        raise ValueError("Conditional capability maps require their public rule model")
+    requirements = public.get("requirements", {})
+    if (
+        not isinstance(requirements, dict)
+        or len(requirements) < 2
+        or any(
+            not isinstance(k, str) or not k or not isinstance(v, str) or not v
+            for k, v in requirements.items()
+        )
+    ):
+        raise ValueError("Declare at least two named public processing requirements")
+    types = public.get("station_types", {})
+    stations = {s for s, p in public["locations"].items() if p["kind"] == "station"}
+    declared = [s for data in types.values() for s in data["stations"]]
+    if len(set(declared)) != len(declared) or set(declared) != stations:
+        raise ValueError("Types must partition physical stations")
+    fixture = design.get("private_station_capabilities", {})
+    if set(fixture) != set(types):
+        raise ValueError("Each type needs a fixed conditional capability table")
+    coverage = {r: Counter() for r in requirements}
+    assignment = {}
+    for type_id, data in types.items():
+        table = fixture[type_id]
+        if not isinstance(table, dict) or set(table) != set(requirements):
+            raise ValueError("Each type must define every processing requirement")
+        if len(data["stations"]) < 2 or any(
+            public["locations"][s].get("station_type") != type_id
+            for s in data["stations"]
+        ):
+            raise ValueError("Same-type replicas must be declared consistently")
+        for requirement, kinds in table.items():
+            if (
+                not isinstance(kinds, list)
+                or not 1 <= len(kinds) <= 2
+                or len(set(kinds)) != len(kinds)
+                or not set(kinds) <= set(public["kinds"])
+            ):
+                raise ValueError(
+                    "Each conditional capability supports one or two distinct materials"
+                )
+            coverage[requirement].update(kinds)
+        assignment.update({s: deepcopy(table) for s in data["stations"]})
+    if any(
+        set(c) != set(public["kinds"]) or any(n < 2 for n in c.values())
+        for c in coverage.values()
+    ):
+        raise ValueError(
+            "Each material and requirement needs at least two alternative types"
+        )
+    for kind in public["kinds"]:
+        alternatives = {
+            tuple(t for t, table in fixture.items() if kind in table[r])
+            for r in requirements
+        }
+        if len(alternatives) == 1:
+            raise ValueError("Each material must have condition-dependent alternatives")
+    expected = {design["fixed_world"]: assignment}
+    if "private_worlds" in design and design["private_worlds"] != expected:
+        raise ValueError(
+            "Frozen runtime fixture differs from authored conditional capabilities"
+        )
+    design["private_worlds"] = expected
+    return _validate_geography_tasks(design)
+
+
+def _validate_geography_tasks(design):
+    public = design["public"]
+    kinds = set(public["kinds"])
+    regions = public.get("processing_regions")
+    if regions is not None:
+        if not isinstance(regions, dict) or set(regions) != {
+            "natural",
+            "settlement",
+            "habitat",
+        }:
+            raise ValueError("Declare the three public processing-region categories")
+        for location in public["locations"].values():
+            if location.get("region_category") not in regions:
+                raise ValueError("Every location must expose its region category")
+        for data in public["station_types"].values():
+            if any(
+                not any(
+                    public["locations"][s]["region_category"] == r
+                    for s in data["stations"]
+                )
+                for r in regions
+            ):
+                raise ValueError(
+                    "Each station type needs a physical replica in every region category"
+                )
     map_world(design)
     seen_edges = set()
     for a, b, distance in public["edges"]:
         edge = tuple(sorted((a, b)))
-        if a == b or a not in public["locations"] or b not in public["locations"] or edge in seen_edges:
+        if (
+            a == b
+            or a not in public["locations"]
+            or b not in public["locations"]
+            or edge in seen_edges
+        ):
             raise ValueError("Invalid or duplicate geographic edge")
         if type(distance) is not int or distance <= 0:
             raise ValueError("Road distances must be positive integers")
         seen_edges.add(edge)
     for task in design["tasks"].values():
-        if task["required_kind"] not in kinds or type(task["max_steps"]) is not int or task["max_steps"] < 1:
+        if (
+            task["required_kind"] not in kinds
+            or type(task["max_steps"]) is not int
+            or task["max_steps"] < 1
+        ):
             raise ValueError("Invalid task kind or action budget")
-        for key, kind in (("start", "camp"), ("submit_at", "camp"), ("target", "survey")):
+        for key, kind in (
+            ("start", "camp"),
+            ("submit_at", "camp"),
+            ("target", "survey"),
+        ):
             if public["locations"].get(task[key], {}).get("kind") != kind:
                 raise ValueError("Task locations have incompatible roles")
         stages = task_stages(task)
-        if not isinstance(stages, list) or not stages or stages[0] != {"target": task["target"], "required_kind": task["required_kind"]}:
-            raise ValueError("Stage itinerary must start with the declared target and kind")
+        expected_first = {
+            "target": task["target"],
+            "required_kind": task["required_kind"],
+        }
+        if conditional_capabilities(design):
+            expected_first["requirement"] = task.get("requirement")
+        if composition.enabled(design):
+            expected_first.update(
+                input_state=task.get("input_state"),
+                output_state=task.get("output_state"),
+            )
+        if regions is not None:
+            expected_first["required_region"] = task.get("required_region")
+        if not isinstance(stages, list) or not stages or stages[0] != expected_first:
+            raise ValueError(
+                "Stage itinerary must start with the declared target and kind"
+            )
         for stage in stages:
-            if (set(stage) != {"target", "required_kind"} or stage["required_kind"] not in kinds or
-                    public["locations"].get(stage["target"], {}).get("kind") != "survey"):
+            expected_keys = (
+                {"target", "required_kind", "requirement"}
+                if conditional_capabilities(design)
+                else {"target", "required_kind"}
+            )
+            if composition.enabled(design):
+                expected_keys.update(("input_state", "output_state"))
+                composition.validate_stage(stage)
+            if regions is not None:
+                expected_keys.add("required_region")
+            if (
+                set(stage) != expected_keys
+                or stage["required_kind"] not in kinds
+                or public["locations"].get(stage["target"], {}).get("kind") != "survey"
+            ):
                 raise ValueError("Invalid stage target or kind")
+            if (
+                conditional_capabilities(design)
+                and stage["requirement"] not in public["requirements"]
+            ):
+                raise ValueError("Invalid public processing requirement")
+            if regions is not None and stage["required_region"] not in regions:
+                raise ValueError("Invalid required processing region")
     reached = {next(iter(public["locations"]))}
     while True:
         expanded = reached | {n for node in reached for n, _ in neighbors(design, node)}
@@ -186,21 +525,35 @@ class State:
     done: bool = False
     success: bool = False
     stage: int = 0
+    material_state: str | None = None
 
 
 def neighbors(design, position):
-    return [(b if a == position else a, distance)
-            for a, b, distance in design["public"]["edges"] if position in (a, b)]
+    return [
+        (b if a == position else a, distance)
+        for a, b, distance in design["public"]["edges"]
+        if position in (a, b)
+    ]
 
 
 def actions_for(design, task, state):
     """Legal operations depend only on publicly visible state."""
     if state.done:
         return []
-    actions = [{"type": "move", "target": n} for n, _ in neighbors(design, state.position)]
+    actions = [
+        {"type": "move", "target": n} for n, _ in neighbors(design, state.position)
+    ]
+    if (
+        manual_survey_required(design)
+        and state.position == active_stage(task, state)["target"]
+        and not state.raw
+        and not state.processed
+    ):
+        actions.append({"type": "survey"})
     if design["public"]["locations"][state.position]["kind"] == "station":
-        actions.append({"type": "inspect"})
-        if state.raw:
+        if station_query_enabled(design):
+            actions.append({"type": "inspect"})
+        if state.raw and (not state.processed or station_query_enabled(design)):
             actions.append({"type": "process"})
     if state.position == task["submit_at"]:
         actions.append({"type": "submit"})
@@ -219,21 +572,72 @@ def transition(design, task, world_id, state, action):
     if verb == "move":
         target = action["target"]
         distance = dict(neighbors(design, state.position))[target]
-        after = replace(state, position=target, raw=state.raw or target == stage["target"])
-        feedback = {"kind": "arrived", "location": target, "raw_collected": target == stage["target"]}
+        collected = target == stage["target"] and not manual_survey_required(design)
+        after = replace(state, position=target, raw=state.raw or collected)
+        feedback = {"kind": "arrived", "location": target, "raw_collected": collected}
+    elif verb == "survey":
+        after = replace(state, raw=True)
+        feedback = {
+            "kind": "surveyed",
+            "location": state.position,
+            "raw_collected": True,
+            "required_kind": stage["required_kind"],
+        }
     elif verb in ("inspect", "process"):
+        if not region_matches(design, stage, state.position):
+            feedback = {
+                "kind": "wrong_processing_region",
+                "station": state.position,
+                "required_region": stage["required_region"],
+                "station_region": design["public"]["locations"][state.position][
+                    "region_category"
+                ],
+                "requirement": stage.get("requirement"),
+                "result": "wrong_region",
+            }
+            return after, feedback, distance
         capability = design["private_worlds"][world_id][state.position]
-        feedback = {"kind": "station_information", "station": state.position, "capability": capability}
+        if conditional_capabilities(design):
+            requirement = (
+                composition.active_requirement(stage, state)
+                if composition.enabled(design)
+                else stage["requirement"]
+            )
+            capability = capability[requirement]
+        feedback = {
+            "kind": "station_information",
+            "station": state.position,
+            "capability": capability,
+        }
+        if conditional_capabilities(design):
+            feedback["requirement"] = requirement
+        if "required_region" in stage:
+            feedback.update(
+                required_region=stage["required_region"],
+                station_region=design["public"]["locations"][state.position][
+                    "region_category"
+                ],
+            )
         station_type = design["public"]["locations"][state.position].get("station_type")
         if station_type is not None:
             feedback["station_type"] = station_type
         if verb == "process":
-            supported = capability == stage["required_kind"]
+            from .station_knowledge import supports
+
+            supported = supports(capability, stage["required_kind"])
             after = replace(state, processed=state.processed or supported)
             feedback["result"] = "processed" if supported else "unsupported"
-            if supported and state.stage + 1 < len(task_stages(task)):
-                after = replace(after, stage=state.stage + 1, raw=False, processed=False)
-                feedback.update(stage_completed=state.stage + 1, next_stage=after.stage + 1)
+            if composition.enabled(design):
+                after = composition.complete_operation(
+                    task, state, stage, feedback, supported
+                )
+            elif supported and state.stage + 1 < len(task_stages(task)):
+                after = replace(
+                    after, stage=state.stage + 1, raw=False, processed=False
+                )
+                feedback.update(
+                    stage_completed=state.stage + 1, next_stage=after.stage + 1
+                )
     elif verb == "submit":
         if state.raw and state.processed:
             after = replace(state, done=True, success=True)
@@ -248,19 +652,30 @@ def transition(design, task, world_id, state, action):
 
 def compatible_worlds(design, events):
     """Worlds compatible with delivered feedback, NOT the agent's knowledge."""
+    if symbolic_capabilities(design):
+        raise ValueError(
+            "Normal uses symbolic delivered evidence; its runtime fixture is not a hypothesis family"
+        )
     possible = set(design["private_worlds"])
     for event in events:
         feedback = event.get("delivered", {}).get("feedback", {})
         if feedback.get("kind") == "station_information":
-            possible = {w for w in possible if
-                        design["private_worlds"][w].get(feedback["station"]) == feedback["capability"]}
+            possible = {
+                w
+                for w in possible
+                if design["private_worlds"][w].get(feedback["station"])
+                == feedback["capability"]
+            }
     if not possible:
-        raise ValueError("Delivered evidence is inconsistent with the candidate world family")
+        raise ValueError(
+            "Delivered evidence is inconsistent with the candidate world family"
+        )
     return tuple(sorted(possible))
 
 
 class StationGame:
     """Mechanism sandbox. It has no model API, native memory or live UI adapter."""
+
     def __init__(self, world_id, design=None):
         self.design = deepcopy(design if design is not None else load_design())
         if world_id not in self.design["private_worlds"]:
@@ -280,12 +695,24 @@ class StationGame:
         """Host termination, never a fabricated agent action or commute."""
         if not self.done:
             self.state = replace(self.state, done=True)
-            delivered = {"observation": self.observation(),
-                         "feedback": {"kind": "runner_terminated", "reason": reason}}
-            self._record({"kind": "runner_terminated", "position": self.state.position,
-                          "time": self.clock, "delivered": delivered, "evidence_delivered": []})
+            delivered = {
+                "observation": self.observation(),
+                "feedback": {"kind": "runner_terminated", "reason": reason},
+            }
+            self._record(
+                {
+                    "kind": "runner_terminated",
+                    "position": self.state.position,
+                    "time": self.clock,
+                    "delivered": delivered,
+                    "evidence_delivered": [],
+                }
+            )
             return deepcopy(delivered)
-        return {"observation": self.observation(), "feedback": {"kind": "current_observation"}}
+        return {
+            "observation": self.observation(),
+            "feedback": {"kind": "current_observation"},
+        }
 
     @property
     def task(self):
@@ -294,20 +721,46 @@ class StationGame:
     def observation(self):
         if self.state is None:
             raise ValueError("Start a task first")
-        result = {"environment": deepcopy(self.design["public"]),
-                "task": {"id": self.task_id, **deepcopy(self.task), **active_stage(self.task, self.state)},
-                "location": self.state.position, "raw": self.state.raw, "processed": self.state.processed,
-                "steps": self.steps, "distance": self.distance, "time": self.clock,
-                "done": self.state.done, "success": self.state.success,
-                "available_actions": actions_for(self.design, self.task, self.state)}
+        result = {
+            "environment": deepcopy(self.design["public"]),
+            "task": {
+                "id": self.task_id,
+                **deepcopy(self.task),
+                **active_stage(self.task, self.state),
+            },
+            "location": self.state.position,
+            "raw": self.state.raw,
+            "processed": self.state.processed,
+            "steps": self.steps,
+            "distance": self.distance,
+            "time": self.clock,
+            "done": self.state.done,
+            "success": self.state.success,
+            "available_actions": actions_for(self.design, self.task, self.state),
+        }
         if "stages" in self.task:
-            result.update(stage_index=self.state.stage, stage_count=len(task_stages(self.task)),
-                          stages_completed=self.state.stage + int(self.state.processed))
+            result.update(
+                stage_index=self.state.stage,
+                stage_count=len(task_stages(self.task)),
+                stages_completed=self.state.stage + int(self.state.processed),
+            )
+        if composition.enabled(self.design):
+            result["material_state"] = (
+                composition.current_state(
+                    active_stage(self.task, self.state), self.state
+                )
+                if self.state.raw
+                else None
+            )
         return result
 
     def _record(self, event):
-        event.update(event_id=len(self.events), task_id=self.task_id,
-                     task_run_id=self.task_run_id, world_version=self.design["public"]["version"])
+        event.update(
+            event_id=len(self.events),
+            task_id=self.task_id,
+            task_run_id=self.task_run_id,
+            world_version=self.design["public"]["version"],
+        )
         self.events.append(deepcopy(event))
 
     def start_task(self, task_id):
@@ -321,15 +774,24 @@ class StationGame:
         self.state = State(self.task["start"])
         self.steps = self.distance = self.clock = 0
         delivered = {"observation": self.observation(), "feedback": {"kind": "started"}}
-        self._record({"kind": "task_started", "position": self.state.position, "time": 0,
-                      "delivered": delivered, "evidence_delivered": []})
+        self._record(
+            {
+                "kind": "task_started",
+                "position": self.state.position,
+                "time": 0,
+                "delivered": delivered,
+                "evidence_delivered": [],
+            }
+        )
         return deepcopy(delivered)
 
     def step(self, action):
         if self.state is None or self.state.done:
             raise ValueError("No active task")
         before, time_before = self.state, self.clock
-        after, feedback, cost = transition(self.design, self.task, self._world_id, before, action)
+        after, feedback, cost = transition(
+            self.design, self.task, self._world_id, before, action
+        )
         self.steps += 1
         self.clock += cost if action["type"] == "move" else 1
         self.distance += cost
@@ -340,17 +802,56 @@ class StationGame:
         delivered = {"observation": self.observation(), "feedback": feedback}
         evidence = []
         if feedback["kind"] == "station_information":
-            evidence = [{"claim": "station_capability", "station": feedback["station"],
-                         "capability": feedback["capability"], "source_event_id": len(self.events)}]
-        self._record({"kind": "action", "action": deepcopy(action), "from": before.position,
-                      "to": after.position, "moved": action["type"] == "move",
-                      "movement_cost": cost, "effort_cost": cost, "time_before": time_before,
-                      "time_after": self.clock, "inventory_before": [],
-                      "state_before": {"raw": before.raw, "processed": before.processed,
-                                       **({"stage": before.stage} if "stages" in self.task else {})},
-                      "state_after": {"raw": after.raw, "processed": after.processed,
-                                      **({"stage": after.stage} if "stages" in self.task else {})},
-                      "delivered": delivered, "evidence_delivered": evidence})
+            evidence = [
+                {
+                    "claim": "station_capability",
+                    "station": feedback["station"],
+                    "capability": feedback["capability"],
+                    "source_event_id": len(self.events),
+                }
+            ]
+            if "requirement" in feedback:
+                evidence[0]["requirement"] = feedback["requirement"]
+        self._record(
+            {
+                "kind": "action",
+                "action": deepcopy(action),
+                "from": before.position,
+                "to": after.position,
+                "moved": action["type"] == "move",
+                "movement_cost": cost,
+                "effort_cost": cost,
+                "time_before": time_before,
+                "time_after": self.clock,
+                "inventory_before": [],
+                "state_before": {
+                    "raw": before.raw,
+                    "processed": before.processed,
+                    **(
+                        {
+                            "material_state": composition.current_state(
+                                active_stage(self.task, before), before
+                            )
+                        }
+                        if composition.enabled(self.design)
+                        else {}
+                    ),
+                    **({"stage": before.stage} if "stages" in self.task else {}),
+                },
+                "state_after": {
+                    "raw": after.raw,
+                    "processed": after.processed,
+                    **(
+                        {"material_state": after.material_state}
+                        if composition.enabled(self.design)
+                        else {}
+                    ),
+                    **({"stage": after.stage} if "stages" in self.task else {}),
+                },
+                "delivered": delivered,
+                "evidence_delivered": evidence,
+            }
+        )
         return deepcopy(delivered)
 
 
@@ -368,14 +869,21 @@ class ReferencePlanner:
     remaining world. Expected operation count breaks ties. Uninformative loops
     and all legal inspections are included; action choices cannot see theta.
     """
+
     def __init__(self, design, task_id):
+        if symbolic_capabilities(design):
+            raise ValueError(
+                "Exact unknown-world reference search is not implemented for symbolic capability sets"
+            )
         self.design, self.task = design, design["tasks"][task_id]
         self.solve = lru_cache(maxsize=None)(self._solve)
 
     def initial(self, worlds):
         worlds = tuple(sorted(set(worlds)))
         if not worlds or not set(worlds).issubset(self.design["private_worlds"]):
-            raise ValueError("Reference information must describe at least one known candidate world")
+            raise ValueError(
+                "Reference information must describe at least one known candidate world"
+            )
         return self.solve(State(self.task["start"]), worlds, self.task["max_steps"])
 
     def _solve(self, state, worlds, remaining):
@@ -387,8 +895,12 @@ class ReferencePlanner:
         for action in actions_for(self.design, self.task, state):
             groups = defaultdict(list)
             for world in worlds:
-                after, feedback, cost = transition(self.design, self.task, world, state, action)
-                groups[(after, json.dumps(feedback, sort_keys=True), cost)].append(world)
+                after, feedback, cost = transition(
+                    self.design, self.task, world, state, action
+                )
+                groups[(after, json.dumps(feedback, sort_keys=True), cost)].append(
+                    world
+                )
             expected_distance, expected_steps = Fraction(0), Fraction(1)
             feasible = True
             for (after, _, cost), posterior in groups.items():
@@ -399,7 +911,10 @@ class ReferencePlanner:
                 probability = Fraction(len(posterior), len(worlds))
                 expected_distance += probability * (cost + future.distance)
                 expected_steps += probability * future.steps
-            if feasible and (best is None or (expected_distance, expected_steps) < (best.distance, best.steps)):
+            if feasible and (
+                best is None
+                or (expected_distance, expected_steps) < (best.distance, best.steps)
+            ):
                 best = Plan(expected_distance, expected_steps, deepcopy(action))
         return best
 
@@ -411,14 +926,22 @@ def replay_policy(game, planner, initial_worlds):
     while not game.state.done:
         choice = planner.solve(game.state, worlds, game.task["max_steps"] - game.steps)
         if choice is None or choice.action is None:
-            raise ValueError("No guaranteed-success reference policy in the remaining budget")
+            raise ValueError(
+                "No guaranteed-success reference policy in the remaining budget"
+            )
         response = game.step(choice.action)
         feedback = response["feedback"]
         if feedback["kind"] == "station_information":
-            worlds = tuple(w for w in worlds if
-                           game.design["private_worlds"][w][feedback["station"]] == feedback["capability"])
+            worlds = tuple(
+                w
+                for w in worlds
+                if game.design["private_worlds"][w][feedback["station"]]
+                == feedback["capability"]
+            )
             if not worlds:
-                raise ValueError("Observed feedback contradicts the supplied reference information")
+                raise ValueError(
+                    "Observed feedback contradicts the supplied reference information"
+                )
     if not game.state.success:
         raise AssertionError("A reference policy failed during runtime replay")
     return worlds

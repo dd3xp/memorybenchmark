@@ -1,0 +1,1058 @@
+{
+  "design_id": "easy-01-v2.0",
+  "status": "individually_authored_field_v2_pending_native_calibration",
+  "world_generator": "station_type_permutations",
+  "fixed_world": "omega_11407",
+  "material_selection": {
+    "protocol": "difficulty-materials-v1",
+    "catalog_version": "survey-materials-3",
+    "catalog_sha256": "13112dc2890c2c60557f9be371a1b542c2de4f6ef469c77f59913d92cc95ea0e",
+    "theme": "rainbow",
+    "geographic": [
+      "profile",
+      "lithology",
+      "elevation",
+      "slope",
+      "aspect",
+      "soil",
+      "strata_attitude",
+      "erosion_form"
+    ],
+    "animal": []
+  },
+  "public": {
+    "version": "easy-01-v2.0",
+    "name": "赭岭彩丘",
+    "difficulty": "Easy",
+    "terrain": "rainbow-hills",
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      2200,
+      1600
+    ],
+    "rules": [
+      "每项测绘委托有两段行程。依次到当前目标点主动 survey 勘探，采集本段指定资料，再到支持该类资料的基站处理；两段完成后回 C 营地交付一次。",
+      "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。全图从第一项起可自由探索，不设教学或解锁阶段。",
+      "A 至 H 是八种公开站型，每型两座站。同型站支持相同资料；类型字母、站名和研究主题不代表具体处理能力。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
+      "八种站型与八类资料一一对应，每种站型只处理其中一类资料；具体配对需交互获知。资料类别不限定候选站型。",
+      "本图的八类资料为：剖面、岩性、高程、坡度、坡向、土壤、地层产状、侵蚀地貌。所有资料都在当前任务目标点通过 survey 取得。",
+      "不提供独立查询。只有携带当前段资料，在基站主动执行 process 提交处理后，才反馈该站型的实际能力与本次处理结果；成功与失败都消耗一次操作，不匹配时原始资料保留，可以换站重试。仅到访或经过不会揭示处理能力。",
+      "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、处理反馈或替你保存经验。",
+      "抵达或经过目标不会自动采集；只有在当前段指定目标主动 survey 一次才取得本段资料。勘探占一次操作，不增加路程，已有资料时不能重复勘探。处理成功后进入下一段，提前经过后续目标不算完成后续采集。只能沿公开道路逐点移动，不可跳过中间地点。",
+      "已完成处理的资料不能再次 process；全部行程完成后回 C 营地主动 submit 交付。read 只返回当前公开地图与状态，不提供站点能力答案。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，只能保留实际经历过的经验，不补发答案。",
+      "一项最多八十八次操作，read 免费。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "lithology": "岩性资料",
+      "elevation": "高程资料",
+      "slope": "坡度资料",
+      "aspect": "坡向资料",
+      "soil": "土壤资料",
+      "strata_attitude": "地层产状资料",
+      "erosion_form": "侵蚀地貌资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "基站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A 型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B 型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C 型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D 型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E 型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F 型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G 型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H 型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      }
+    },
+    "locations": {
+      "r0": {
+        "name": "西南沟口",
+        "kind": "junction",
+        "x": 480,
+        "y": 1240
+      },
+      "r1": {
+        "name": "西沟岔口",
+        "kind": "junction",
+        "x": 420,
+        "y": 870
+      },
+      "r2": {
+        "name": "西岭坡口",
+        "kind": "junction",
+        "x": 570,
+        "y": 480
+      },
+      "r3": {
+        "name": "北岭鞍部",
+        "kind": "junction",
+        "x": 920,
+        "y": 240
+      },
+      "r4": {
+        "name": "东北岭口",
+        "kind": "junction",
+        "x": 1440,
+        "y": 300
+      },
+      "r5": {
+        "name": "东岭坡口",
+        "kind": "junction",
+        "x": 1740,
+        "y": 620
+      },
+      "r6": {
+        "name": "东沟岔口",
+        "kind": "junction",
+        "x": 1770,
+        "y": 1010
+      },
+      "r7": {
+        "name": "东南沟口",
+        "kind": "junction",
+        "x": 1550,
+        "y": 1330
+      },
+      "r8": {
+        "name": "中沟南岔",
+        "kind": "junction",
+        "x": 960,
+        "y": 1110
+      },
+      "r9": {
+        "name": "中沟西岔",
+        "kind": "junction",
+        "x": 860,
+        "y": 720
+      },
+      "r10": {
+        "name": "内岭坡口",
+        "kind": "junction",
+        "x": 1200,
+        "y": 520
+      },
+      "r11": {
+        "name": "中沟东岔",
+        "kind": "junction",
+        "x": 1390,
+        "y": 910
+      },
+      "C": {
+        "name": "沟口营地",
+        "kind": "camp",
+        "x": 1100,
+        "y": 1490
+      },
+      "A1": {
+        "name": "A型处理站·A1",
+        "kind": "station",
+        "x": 450,
+        "y": 1050,
+        "station_type": "A"
+      },
+      "D2": {
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "x": 465,
+        "y": 680,
+        "station_type": "D"
+      },
+      "C2": {
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "x": 735,
+        "y": 365,
+        "station_type": "C"
+      },
+      "D1": {
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "x": 1170,
+        "y": 270,
+        "station_type": "D"
+      },
+      "H1": {
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "x": 1600,
+        "y": 450,
+        "station_type": "H"
+      },
+      "C1": {
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "x": 1755,
+        "y": 815,
+        "station_type": "C"
+      },
+      "A2": {
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "x": 1660,
+        "y": 1180,
+        "station_type": "A"
+      },
+      "E2": {
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "x": 1320,
+        "y": 1430,
+        "station_type": "E"
+      },
+      "G1": {
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "x": 1030,
+        "y": 620,
+        "station_type": "G"
+      },
+      "F1": {
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "x": 1300,
+        "y": 725,
+        "station_type": "F"
+      },
+      "F2": {
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "x": 790,
+        "y": 100,
+        "station_type": "F"
+      },
+      "G2": {
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "x": 1500,
+        "y": 130,
+        "station_type": "G"
+      },
+      "B2": {
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "x": 270,
+        "y": 1300,
+        "station_type": "B"
+      },
+      "H2": {
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "x": 240,
+        "y": 835,
+        "station_type": "H"
+      },
+      "E1": {
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "x": 1950,
+        "y": 1040,
+        "station_type": "E"
+      },
+      "B1": {
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "x": 1740,
+        "y": 1460,
+        "station_type": "B"
+      },
+      "P": {
+        "name": "沟口层理测点",
+        "kind": "survey",
+        "x": 620,
+        "y": 1310
+      },
+      "Q": {
+        "name": "东南沟壁测点",
+        "kind": "survey",
+        "x": 1480,
+        "y": 1220
+      },
+      "R": {
+        "name": "西沟剖面测点",
+        "kind": "survey",
+        "x": 300,
+        "y": 720
+      },
+      "S": {
+        "name": "东沟测点",
+        "kind": "survey",
+        "x": 1930,
+        "y": 875
+      },
+      "U": {
+        "name": "西坡测点",
+        "kind": "survey",
+        "x": 625,
+        "y": 385
+      },
+      "V": {
+        "name": "东岭测点",
+        "kind": "survey",
+        "x": 1810,
+        "y": 475
+      },
+      "X": {
+        "name": "北鞍测点",
+        "kind": "survey",
+        "x": 1010,
+        "y": 115
+      },
+      "Y": {
+        "name": "内岭测点",
+        "kind": "survey",
+        "x": 1430,
+        "y": 465
+      }
+    },
+    "edges": [
+      [
+        "r0",
+        "A1",
+        1
+      ],
+      [
+        "r1",
+        "A1",
+        1
+      ],
+      [
+        "r1",
+        "D2",
+        1
+      ],
+      [
+        "r2",
+        "D2",
+        2
+      ],
+      [
+        "r2",
+        "C2",
+        1
+      ],
+      [
+        "r3",
+        "C2",
+        2
+      ],
+      [
+        "r3",
+        "D1",
+        2
+      ],
+      [
+        "r4",
+        "D1",
+        2
+      ],
+      [
+        "r4",
+        "H1",
+        2
+      ],
+      [
+        "r5",
+        "H1",
+        2
+      ],
+      [
+        "r5",
+        "C1",
+        1
+      ],
+      [
+        "r6",
+        "C1",
+        1
+      ],
+      [
+        "r6",
+        "A2",
+        1
+      ],
+      [
+        "r7",
+        "A2",
+        1
+      ],
+      [
+        "r7",
+        "E2",
+        2
+      ],
+      [
+        "C",
+        "E2",
+        2
+      ],
+      [
+        "C",
+        "r0",
+        5
+      ],
+      [
+        "r0",
+        "r8",
+        4
+      ],
+      [
+        "r8",
+        "r9",
+        3
+      ],
+      [
+        "r2",
+        "r9",
+        3
+      ],
+      [
+        "r9",
+        "G1",
+        1
+      ],
+      [
+        "r10",
+        "G1",
+        1
+      ],
+      [
+        "r10",
+        "F1",
+        2
+      ],
+      [
+        "r11",
+        "F1",
+        2
+      ],
+      [
+        "r11",
+        "r6",
+        3
+      ],
+      [
+        "r10",
+        "r4",
+        2
+      ],
+      [
+        "r11",
+        "r8",
+        4
+      ],
+      [
+        "r3",
+        "F2",
+        1
+      ],
+      [
+        "r4",
+        "G2",
+        1
+      ],
+      [
+        "r0",
+        "B2",
+        2
+      ],
+      [
+        "r1",
+        "H2",
+        1
+      ],
+      [
+        "r6",
+        "E1",
+        1
+      ],
+      [
+        "r7",
+        "B1",
+        2
+      ],
+      [
+        "r0",
+        "P",
+        1
+      ],
+      [
+        "r7",
+        "Q",
+        1
+      ],
+      [
+        "r11",
+        "Q",
+        2
+      ],
+      [
+        "r1",
+        "R",
+        1
+      ],
+      [
+        "r6",
+        "S",
+        2
+      ],
+      [
+        "r2",
+        "U",
+        1
+      ],
+      [
+        "r5",
+        "V",
+        1
+      ],
+      [
+        "r3",
+        "X",
+        1
+      ],
+      [
+        "r4",
+        "Y",
+        1
+      ],
+      [
+        "r10",
+        "Y",
+        2
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "联程巡测 01",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "aspect"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T2": {
+      "name": "联程巡测 02",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "X",
+          "required_kind": "erosion_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T3": {
+      "name": "联程巡测 03",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "profile"
+        },
+        {
+          "target": "V",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T4": {
+      "name": "联程巡测 04",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "aspect",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "aspect"
+        },
+        {
+          "target": "Y",
+          "required_kind": "erosion_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T5": {
+      "name": "联程巡测 05",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "R",
+          "required_kind": "soil"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T6": {
+      "name": "联程巡测 06",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "slope",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "slope"
+        },
+        {
+          "target": "X",
+          "required_kind": "strata_attitude"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T7": {
+      "name": "联程巡测 07",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "V",
+          "required_kind": "slope"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T8": {
+      "name": "联程巡测 08",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Y",
+          "required_kind": "strata_attitude"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T9": {
+      "name": "联程巡测 09",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "profile"
+        },
+        {
+          "target": "V",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T10": {
+      "name": "联程巡测 10",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "aspect",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "aspect"
+        },
+        {
+          "target": "Y",
+          "required_kind": "erosion_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T11": {
+      "name": "联程巡测 11",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "V",
+          "required_kind": "slope"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T12": {
+      "name": "联程巡测 12",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Y",
+          "required_kind": "strata_attitude"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T13": {
+      "name": "联程巡测 13",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "erosion_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T14": {
+      "name": "联程巡测 14",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "aspect",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "aspect"
+        },
+        {
+          "target": "P",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T15": {
+      "name": "联程巡测 15",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "S",
+          "required_kind": "strata_attitude"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T16": {
+      "name": "联程巡测 16",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Q",
+          "required_kind": "slope"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T17": {
+      "name": "联程巡测 17",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "profile"
+        },
+        {
+          "target": "R",
+          "required_kind": "strata_attitude"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T18": {
+      "name": "联程巡测 18",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "aspect",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "aspect"
+        },
+        {
+          "target": "P",
+          "required_kind": "slope"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T19": {
+      "name": "联程巡测 19",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "R",
+          "required_kind": "erosion_form"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T20": {
+      "name": "联程巡测 20",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "soil"
+        },
+        {
+          "target": "P",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    }
+  },
+  "presentation": {
+    "terrain": "rainbow-hills",
+    "regions": [
+      {
+        "name": "西岭",
+        "x": 430,
+        "y": 380
+      },
+      {
+        "name": "彩沟",
+        "x": 1000,
+        "y": 1020
+      },
+      {
+        "name": "东岭",
+        "x": 1810,
+        "y": 750
+      }
+    ]
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "opportunity_basis": "Only feedback actually delivered before the session; distinguish observation, type propagation and inference.",
+    "failure_policy": "Continue the fixed stream with actual feedback only; do not supply missing experiences.",
+    "stream_policy": "Twenty fixed ordinary commissions, forty stages. Independent original-memory baseline per map and condition.",
+    "diagnostic_scope": "Acquisition, delivered evidence, station choices and graph costs. No claim of large-capacity memory or controlled interference.",
+    "authoring_geometry_check": {
+      "nearest_match_rate": 0.125,
+      "unused_strict_replicas": [],
+      "strict_replica_counts": {
+        "A1": 3,
+        "A2": 2,
+        "B1": 3,
+        "B2": 2,
+        "C1": 2,
+        "C2": 3,
+        "D1": 2,
+        "D2": 3,
+        "E1": 2,
+        "E2": 3,
+        "F1": 4,
+        "F2": 1,
+        "G1": 1,
+        "G2": 1,
+        "H1": 3,
+        "H2": 2
+      },
+      "stage_contexts": 40,
+      "mean_processing_leg_distance": 12.95,
+      "seed": 26110501,
+      "trials_limit": 4000,
+      "method": "Fixed-seed geometry-only candidate search; not calibrated against native agent outcomes."
+    }
+  },
+  "provenance": {
+    "inspiration": "A local hill-and-gully sector around Qicai Hongxia viewpoint within the core visitor area of Zhangye Colorful Hills.",
+    "sources": [
+      "https://whc.unesco.org/en/tentativelists/6841/",
+      "https://www.zhangye.gov.cn/chzy/zyly/ajjq/202303/t20230318_1007476.html"
+    ],
+    "scope": "Only the local ridges and gullies around one viewpoint inspire this schematic map, not the entire scenic area or its full core visitor area. Paths, weights and facilities are fictional; not a visitor navigation map.",
+    "authoring_crop": {
+      "revision": "2026-11-05-local-sector-1",
+      "reference_region_zh": "七彩虹霞台周边局部彩丘与侵蚀沟谷",
+      "nominal_window_m": [
+        1500,
+        1000
+      ],
+      "nominal_area_km2": 1.5,
+      "measurement_basis": "Author-selected reference window for landscape scale; not an official site area, surveyed boundary or georeferenced game footprint.",
+      "distance_units": "Abstract graph costs; neither drawing coordinates nor edge weights are metres.",
+      "change_scope": "Private geographic reference only; public graph, tasks, capabilities and budgets unchanged."
+    },
+    "private_boundary": "Real names, geographic scope and source URLs remain outside all agent observations.",
+    "layout_revision": "individually-authored-field-v2",
+    "supersedes": "easy-01-v1.0",
+    "authoring_rationale": [
+      "Retain the original outer hill circuit and interior gully links; no new real-world area is claimed.",
+      "Ten processing sites lie on through-routes; six sit at distinct short slope spurs, rather than sixteen identical two-edge branches.",
+      "Two survey sites connect alternative routes; the camp remains at the southern gully mouth."
+    ],
+    "public_geography_review": {
+      "unconnected_visual_crossings": [],
+      "unapproved_barrier_crossings": [],
+      "minimum_station_separation": 270.65,
+      "minimum_point_separation": 109.77,
+      "topology": {
+        "connected": true,
+        "nodes": 37,
+        "roads": 43,
+        "cycle_rank": 7,
+        "core_branch_degree_histogram": {
+          "3": 6,
+          "4": 3
+        },
+        "station_degree_histogram": {
+          "1": 6,
+          "2": 10
+        },
+        "dead_end_count": 12
+      }
+    },
+    "boundary": "Schematic authored roads inspired by the named landscape. Real names and sources remain private; no surveyed road reconstruction or guaranteed native-agent score."
+  },
+  "native_session_budget": {
+    "main_model_calls": 100,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 3600,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Preserve the declared Easy/Normal budgets; fresh zero-model feasibility checks precede future native evaluation."
+  }
+}

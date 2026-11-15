@@ -1,0 +1,459 @@
+[
+  {
+    "kind": "scripted_map_check_not_native_agent_results",
+    "new_model_calls": 0,
+    "design_id": "nessie-easy-1.5",
+    "public_version": "easy-01-v1.5",
+    "configuration_sha256": "42d2dfa34119e6edc31b68c96d7fe54bff2a852e344488c398636948134f3825",
+    "topology": {
+      "core_nodes": 13,
+      "core_edges": 13,
+      "independent_cycles": 1,
+      "core_articulation_nodes": [
+        "NC"
+      ],
+      "total_nodes": 61,
+      "total_roads": 61
+    },
+    "materials": {
+      "protocol": "easy-materials-6-common-2-special-1",
+      "catalog_version": "survey-materials-2",
+      "catalog_sha256": "1dc8636f6ed3d634e84a53c7f5f6011ae4d8a5ca33cc351eb2e6c7e7dd3347ac",
+      "theme": "nessie",
+      "common": [
+        "profile",
+        "shore",
+        "vegetation",
+        "lithology",
+        "bearing",
+        "elevation"
+      ],
+      "special": [
+        "lake_sonar",
+        "lake_sighting"
+      ]
+    },
+    "replica_choices": {
+      "A": {
+        "A1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        },
+        "A2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        }
+      },
+      "B": {
+        "B1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        },
+        "B2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        }
+      },
+      "C": {
+        "C1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        },
+        "C2": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        }
+      },
+      "D": {
+        "D1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        },
+        "D2": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        }
+      },
+      "E": {
+        "E1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        },
+        "E2": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        }
+      },
+      "F": {
+        "F1": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        },
+        "F2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        }
+      },
+      "G": {
+        "G1": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        },
+        "G2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        }
+      },
+      "H": {
+        "H1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        },
+        "H2": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        }
+      }
+    },
+    "scope": "One authored map, identical feedback-based script with retained or cleared actual experience. No externally written native memories. No guarantee that arbitrary wandering fits the budget or that native agents will realize these gains.",
+    "scripted_results": {
+      "retain": {
+        "completed": 20,
+        "max_operations": 75,
+        "totals": {
+          "distance": 1022,
+          "operations": 704,
+          "moves": 598,
+          "station_attempts": 46
+        },
+        "followup_T2_T20": {
+          "distance": 920,
+          "operations": 629,
+          "moves": 534,
+          "station_attempts": 38
+        }
+      },
+      "clear": {
+        "completed": 20,
+        "max_operations": 86,
+        "totals": {
+          "distance": 1824,
+          "operations": 1319,
+          "moves": 1122,
+          "station_attempts": 137
+        },
+        "followup_T2_T20": {
+          "distance": 1722,
+          "operations": 1244,
+          "moves": 1058,
+          "station_attempts": 129
+        }
+      }
+    }
+  },
+  {
+    "kind": "scripted_map_check_not_native_agent_results",
+    "new_model_calls": 0,
+    "design_id": "easy-02-v1.0",
+    "public_version": "easy-02-v1.0",
+    "configuration_sha256": "6aca8099f312547fbbe48c6384389cf32e4bd235d3544b33c0afd75621004f2b",
+    "topology": {
+      "core_nodes": 14,
+      "core_edges": 16,
+      "independent_cycles": 3,
+      "core_articulation_nodes": [],
+      "total_nodes": 54,
+      "total_roads": 56
+    },
+    "materials": {
+      "protocol": "easy-materials-6-common-2-special-1",
+      "catalog_version": "survey-materials-2",
+      "catalog_sha256": "1dc8636f6ed3d634e84a53c7f5f6011ae4d8a5ca33cc351eb2e6c7e7dd3347ac",
+      "theme": "forest",
+      "common": [
+        "profile",
+        "elevation",
+        "bearing",
+        "vegetation",
+        "soil",
+        "drainage"
+      ],
+      "special": [
+        "redwood_community",
+        "salmon_habitat"
+      ]
+    },
+    "replica_choices": {
+      "A": {
+        "A1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        },
+        "A2": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        }
+      },
+      "B": {
+        "B1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        },
+        "B2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        }
+      },
+      "C": {
+        "C1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 4
+        },
+        "C2": {
+          "optimal_including_ties": 1,
+          "strictly_preferred": 1
+        }
+      },
+      "D": {
+        "D1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 4
+        },
+        "D2": {
+          "optimal_including_ties": 1,
+          "strictly_preferred": 1
+        }
+      },
+      "E": {
+        "E1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        },
+        "E2": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        }
+      },
+      "F": {
+        "F1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        },
+        "F2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        }
+      },
+      "G": {
+        "G1": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        },
+        "G2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        }
+      },
+      "H": {
+        "H1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        },
+        "H2": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        }
+      }
+    },
+    "scope": "One authored map, identical feedback-based script with retained or cleared actual experience. No externally written native memories. No guarantee that arbitrary wandering fits the budget or that native agents will realize these gains.",
+    "scripted_results": {
+      "retain": {
+        "completed": 20,
+        "max_operations": 53,
+        "totals": {
+          "distance": 689,
+          "operations": 565,
+          "moves": 460,
+          "station_attempts": 45
+        },
+        "followup_T2_T20": {
+          "distance": 663,
+          "operations": 537,
+          "moves": 438,
+          "station_attempts": 42
+        }
+      },
+      "clear": {
+        "completed": 20,
+        "max_operations": 74,
+        "totals": {
+          "distance": 1105,
+          "operations": 960,
+          "moves": 790,
+          "station_attempts": 110
+        },
+        "followup_T2_T20": {
+          "distance": 1079,
+          "operations": 932,
+          "moves": 768,
+          "station_attempts": 107
+        }
+      }
+    }
+  },
+  {
+    "kind": "scripted_map_check_not_native_agent_results",
+    "new_model_calls": 0,
+    "design_id": "easy-03-v1.0",
+    "public_version": "easy-03-v1.0",
+    "configuration_sha256": "ebfc87f8b3f22f912f2ce3cacf071f5aa665423c29f8e1cf8ded4d2da0a8661c",
+    "topology": {
+      "core_nodes": 14,
+      "core_edges": 17,
+      "independent_cycles": 4,
+      "core_articulation_nodes": [
+        "N0",
+        "N1",
+        "N2",
+        "N3"
+      ],
+      "total_nodes": 54,
+      "total_roads": 57
+    },
+    "materials": {
+      "protocol": "easy-materials-6-common-2-special-1",
+      "catalog_version": "survey-materials-2",
+      "catalog_sha256": "1dc8636f6ed3d634e84a53c7f5f6011ae4d8a5ca33cc351eb2e6c7e7dd3347ac",
+      "theme": "cascade",
+      "common": [
+        "shore",
+        "bathymetry",
+        "lithology",
+        "water_quality",
+        "sediment",
+        "elevation"
+      ],
+      "special": [
+        "tufa_deposit",
+        "waterfall_section"
+      ]
+    },
+    "replica_choices": {
+      "A": {
+        "A1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        },
+        "A2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        }
+      },
+      "B": {
+        "B1": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        },
+        "B2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        }
+      },
+      "C": {
+        "C1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 2
+        },
+        "C2": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 1
+        }
+      },
+      "D": {
+        "D1": {
+          "optimal_including_ties": 3,
+          "strictly_preferred": 3
+        },
+        "D2": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 2
+        }
+      },
+      "E": {
+        "E1": {
+          "optimal_including_ties": 2,
+          "strictly_preferred": 1
+        },
+        "E2": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 3
+        }
+      },
+      "F": {
+        "F1": {
+          "optimal_including_ties": 1,
+          "strictly_preferred": 1
+        },
+        "F2": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 4
+        }
+      },
+      "G": {
+        "G1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 4
+        },
+        "G2": {
+          "optimal_including_ties": 1,
+          "strictly_preferred": 1
+        }
+      },
+      "H": {
+        "H1": {
+          "optimal_including_ties": 4,
+          "strictly_preferred": 4
+        },
+        "H2": {
+          "optimal_including_ties": 1,
+          "strictly_preferred": 1
+        }
+      }
+    },
+    "scope": "One authored map, identical feedback-based script with retained or cleared actual experience. No externally written native memories. No guarantee that arbitrary wandering fits the budget or that native agents will realize these gains.",
+    "scripted_results": {
+      "retain": {
+        "completed": 20,
+        "max_operations": 56,
+        "totals": {
+          "distance": 837,
+          "operations": 661,
+          "moves": 556,
+          "station_attempts": 45
+        },
+        "followup_T2_T20": {
+          "distance": 779,
+          "operations": 605,
+          "moves": 510,
+          "station_attempts": 38
+        }
+      },
+      "clear": {
+        "completed": 20,
+        "max_operations": 69,
+        "totals": {
+          "distance": 1245,
+          "operations": 1074,
+          "moves": 898,
+          "station_attempts": 116
+        },
+        "followup_T2_T20": {
+          "distance": 1187,
+          "operations": 1018,
+          "moves": 852,
+          "station_attempts": 109
+        }
+      }
+    }
+  }
+]

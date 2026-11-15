@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from statistics import mean, median
 
-from memorybenchmark.prototypes.station_capability import State, StationGame, capability_groups, load_design, task_stages, transition
+from memorybenchmark.prototypes.station_capability import State, StationGame, capability_groups, load_design, task_stages, transition, manual_survey_required
 from memorybenchmark.prototypes.station_routes import shortest_route, task_group
 from memorybenchmark.prototypes.station_session import EASY20_CHOICE_DESIGN, EASY20_LINKED_DESIGN
 from scripts.check_station_capability import export_case
@@ -56,6 +56,8 @@ class FeedbackSimulation:
 
         for index, stage in enumerate(stages):
             walk(stage["target"])
+            if manual_survey_required(self.design):
+                step({"type": "survey"})
             group_id = task_group(self.design, task_id, index); group = self.groups[group_id]
             destination = stages[index+1]["target"] if index+1 < len(stages) else task["submit_at"]
             tried = []
@@ -73,10 +75,11 @@ class FeedbackSimulation:
                 "decisions": decisions}, facts
 
 
-def calibrate(design, name):
+def calibrate(design, name, *, world_ids=None):
     sim = FeedbackSimulation(design); per_task = defaultdict(list); worlds = []
     max_steps = 0
-    for index, world in enumerate(design["private_worlds"]):
+    selected = tuple(design["private_worlds"] if world_ids is None else world_ids)
+    for index, world in enumerate(selected):
         facts = {}; pairs = []
         for task in design["tasks"]:
             retain, facts = sim.run(world, task, facts)
@@ -107,7 +110,10 @@ def calibrate(design, name):
         summary[label]["world_operations_reduction_fraction_min_median_max"] = [
             fn(1 - w[label]["retain"]["operations"] / w[label]["clear"]["operations"] for w in worlds)
             for fn in (min, median, max)]
-    return {"design_id": design["design_id"], "worlds": len(worlds), "completed_replays": len(worlds)*len(design["tasks"])*2,
+    return {"design_id": design["design_id"], "worlds": len(worlds),
+            "candidate_family_size": len(design["private_worlds"]),
+            "all_candidate_assignments_checked": len(selected) == len(design["private_worlds"]),
+            "completed_replays": len(worlds)*len(design["tasks"])*2,
             "max_policy_operations": max_steps, "summary": summary,
             "task_means": [{"task": task, **{mode: {field: mean(p[mode][field] for p in pairs)
                            for field in ("distance", "operations", "moves", "station_attempts")} for mode in ("retain", "clear")}}

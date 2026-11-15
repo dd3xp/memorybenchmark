@@ -1,0 +1,1006 @@
+{
+  "design_id": "easy-03-v3.0",
+  "status": "individually_authored_field_v2_pending_native_calibration",
+  "world_generator": "station_type_permutations",
+  "fixed_world": "omega_29487",
+  "material_selection": {
+    "protocol": "four-exposure-materials-v1",
+    "catalog_version": "survey-materials-2",
+    "catalog_sha256": "1dc8636f6ed3d634e84a53c7f5f6011ae4d8a5ca33cc351eb2e6c7e7dd3347ac",
+    "theme": "cascade",
+    "common": [
+      "shore",
+      "bathymetry",
+      "lithology",
+      "water_quality",
+      "sediment",
+      "elevation"
+    ],
+    "special": [
+      "tufa_deposit",
+      "waterfall_section"
+    ],
+    "geographic": [
+      "shore",
+      "bathymetry",
+      "lithology",
+      "water_quality",
+      "sediment",
+      "elevation",
+      "tufa_deposit",
+      "waterfall_section"
+    ],
+    "animal": [],
+    "human": []
+  },
+  "public": {
+    "version": "easy-03-v3.0",
+    "name": "石阶湖群",
+    "difficulty": "Easy",
+    "terrain": "cascade-lakes",
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      2200,
+      1800
+    ],
+    "rules": [
+      "每项测绘委托有两段行程。依次到当前目标点主动 survey 勘探，采集本段指定资料，再到支持该类资料的基站处理；两段完成后回 C 营地交付一次。",
+      "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。全图从第一项起可自由探索，不设教学或解锁阶段。",
+      "A 至 H 是八种公开站型，每型两座站。同型站支持相同资料；类型字母、站名和研究主题不代表具体处理能力。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
+      "八种站型与八类资料一一对应，每种站型只处理其中一类资料；具体配对需交互获知。资料类别不限定候选站型。",
+      "本图的八类资料为：岸线、水深、岩性、水质、沉积物、高程、钙华沉积、瀑布断面。所有资料都在当前任务目标点通过 survey 取得。",
+      "不提供独立查询。只有携带当前段资料，在基站主动执行 process 提交处理后，才反馈该站型的实际能力与本次处理结果；成功与失败都消耗一次操作，不匹配时原始资料保留，可以换站重试。仅到访或经过不会揭示处理能力。",
+      "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、处理反馈或替你保存经验。",
+      "抵达或经过目标不会自动采集；只有在当前段指定目标主动 survey 一次才取得本段资料。勘探占一次操作，不增加路程，已有资料时不能重复勘探。处理成功后进入下一段，提前经过后续目标不算完成后续采集。只能沿公开道路逐点移动，不可跳过中间地点。",
+      "已完成处理的资料不能再次 process；全部行程完成后回 C 营地主动 submit 交付。read 只返回当前公开地图与状态，不提供站点能力答案。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，只能保留实际经历过的经验，不补发答案。",
+      "一项最多八十八次操作，read 免费。"
+    ],
+    "kinds": {
+      "shore": "岸线资料",
+      "bathymetry": "水深资料",
+      "lithology": "岩性资料",
+      "water_quality": "水质资料",
+      "sediment": "沉积物资料",
+      "elevation": "高程资料",
+      "tufa_deposit": "钙华沉积资料",
+      "waterfall_section": "瀑布断面资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "基站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A 型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B 型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C 型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D 型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E 型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F 型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G 型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H 型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      }
+    },
+    "locations": {
+      "C": {
+        "name": "高岸营地",
+        "kind": "camp",
+        "x": 1850,
+        "y": 160
+      },
+      "N0": {
+        "name": "湖阶通口1",
+        "kind": "junction",
+        "x": 1590,
+        "y": 300
+      },
+      "N1": {
+        "name": "湖阶通口2",
+        "kind": "junction",
+        "x": 1320,
+        "y": 610
+      },
+      "N2": {
+        "name": "湖阶通口3",
+        "kind": "junction",
+        "x": 1030,
+        "y": 910
+      },
+      "N3": {
+        "name": "湖阶通口4",
+        "kind": "junction",
+        "x": 740,
+        "y": 1210
+      },
+      "N4": {
+        "name": "湖阶通口5",
+        "kind": "junction",
+        "x": 460,
+        "y": 1480
+      },
+      "L0": {
+        "name": "第1湖西岸",
+        "kind": "junction",
+        "x": 1260,
+        "y": 300
+      },
+      "R0": {
+        "name": "第1湖东岸",
+        "kind": "junction",
+        "x": 1560,
+        "y": 600
+      },
+      "L1": {
+        "name": "第2湖西岸",
+        "kind": "junction",
+        "x": 970,
+        "y": 610
+      },
+      "R1": {
+        "name": "第2湖东岸",
+        "kind": "junction",
+        "x": 1300,
+        "y": 920
+      },
+      "L2": {
+        "name": "第3湖西岸",
+        "kind": "junction",
+        "x": 680,
+        "y": 910
+      },
+      "R2": {
+        "name": "第3湖东岸",
+        "kind": "junction",
+        "x": 1010,
+        "y": 1230
+      },
+      "L3": {
+        "name": "第4湖西岸",
+        "kind": "junction",
+        "x": 390,
+        "y": 1200
+      },
+      "R3": {
+        "name": "第4湖东岸",
+        "kind": "junction",
+        "x": 730,
+        "y": 1500
+      },
+      "B1": {
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "x": 1410,
+        "y": 300,
+        "station_type": "B"
+      },
+      "G1": {
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "x": 1270,
+        "y": 460,
+        "station_type": "G"
+      },
+      "B2": {
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "x": 1580,
+        "y": 450,
+        "station_type": "B"
+      },
+      "G2": {
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "x": 1450,
+        "y": 605,
+        "station_type": "G"
+      },
+      "H2": {
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "x": 1130,
+        "y": 610,
+        "station_type": "H"
+      },
+      "D2": {
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "x": 995,
+        "y": 755,
+        "station_type": "D"
+      },
+      "H1": {
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "x": 1310,
+        "y": 775,
+        "station_type": "H"
+      },
+      "D1": {
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "x": 1165,
+        "y": 915,
+        "station_type": "D"
+      },
+      "E2": {
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "x": 850,
+        "y": 910,
+        "station_type": "E"
+      },
+      "C1": {
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "x": 700,
+        "y": 1075,
+        "station_type": "C"
+      },
+      "E1": {
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "x": 1020,
+        "y": 1065,
+        "station_type": "E"
+      },
+      "C2": {
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "x": 865,
+        "y": 1220,
+        "station_type": "C"
+      },
+      "A2": {
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "x": 1120,
+        "y": 180,
+        "station_type": "A"
+      },
+      "A1": {
+        "name": "A型处理站·A1",
+        "kind": "station",
+        "x": 1790,
+        "y": 620,
+        "station_type": "A"
+      },
+      "F2": {
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "x": 320,
+        "y": 1030,
+        "station_type": "F"
+      },
+      "F1": {
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "x": 980,
+        "y": 1570,
+        "station_type": "F"
+      },
+      "P": {
+        "name": "上湖崖边测点",
+        "kind": "survey",
+        "x": 1210,
+        "y": 160
+      },
+      "Q": {
+        "name": "上湖东岸测点",
+        "kind": "survey",
+        "x": 1710,
+        "y": 500
+      },
+      "R": {
+        "name": "青潭西岸测点",
+        "kind": "survey",
+        "x": 870,
+        "y": 590
+      },
+      "S": {
+        "name": "青潭跌水测点",
+        "kind": "survey",
+        "x": 1400,
+        "y": 990
+      },
+      "U": {
+        "name": "白阶西崖测点",
+        "kind": "survey",
+        "x": 560,
+        "y": 840
+      },
+      "V": {
+        "name": "白阶石滩测点",
+        "kind": "survey",
+        "x": 1120,
+        "y": 1320
+      },
+      "X": {
+        "name": "下湖苔岸测点",
+        "kind": "survey",
+        "x": 270,
+        "y": 1170
+      },
+      "Y": {
+        "name": "末端跌水测点",
+        "kind": "survey",
+        "x": 800,
+        "y": 1640
+      }
+    },
+    "edges": [
+      [
+        "C",
+        "N0",
+        2
+      ],
+      [
+        "N0",
+        "B1",
+        1
+      ],
+      [
+        "L0",
+        "B1",
+        1
+      ],
+      [
+        "L0",
+        "G1",
+        1
+      ],
+      [
+        "N1",
+        "G1",
+        1
+      ],
+      [
+        "N0",
+        "B2",
+        1
+      ],
+      [
+        "R0",
+        "B2",
+        1
+      ],
+      [
+        "R0",
+        "G2",
+        1
+      ],
+      [
+        "N1",
+        "G2",
+        1
+      ],
+      [
+        "N1",
+        "H2",
+        1
+      ],
+      [
+        "L1",
+        "H2",
+        1
+      ],
+      [
+        "L1",
+        "D2",
+        1
+      ],
+      [
+        "N2",
+        "D2",
+        1
+      ],
+      [
+        "N1",
+        "H1",
+        1
+      ],
+      [
+        "R1",
+        "H1",
+        1
+      ],
+      [
+        "R1",
+        "D1",
+        1
+      ],
+      [
+        "N2",
+        "D1",
+        1
+      ],
+      [
+        "N2",
+        "E2",
+        1
+      ],
+      [
+        "L2",
+        "E2",
+        1
+      ],
+      [
+        "L2",
+        "C1",
+        1
+      ],
+      [
+        "N3",
+        "C1",
+        1
+      ],
+      [
+        "N2",
+        "E1",
+        1
+      ],
+      [
+        "R2",
+        "E1",
+        1
+      ],
+      [
+        "R2",
+        "C2",
+        1
+      ],
+      [
+        "N3",
+        "C2",
+        1
+      ],
+      [
+        "L3",
+        "N3",
+        3
+      ],
+      [
+        "L3",
+        "N4",
+        2
+      ],
+      [
+        "N3",
+        "R3",
+        2
+      ],
+      [
+        "N4",
+        "R3",
+        2
+      ],
+      [
+        "L0",
+        "A2",
+        1
+      ],
+      [
+        "R0",
+        "A1",
+        2
+      ],
+      [
+        "L3",
+        "F2",
+        1
+      ],
+      [
+        "R3",
+        "F1",
+        2
+      ],
+      [
+        "A2",
+        "P",
+        1
+      ],
+      [
+        "R0",
+        "Q",
+        1
+      ],
+      [
+        "L1",
+        "R",
+        1
+      ],
+      [
+        "R1",
+        "S",
+        1
+      ],
+      [
+        "L2",
+        "U",
+        1
+      ],
+      [
+        "R2",
+        "V",
+        1
+      ],
+      [
+        "F2",
+        "X",
+        1
+      ],
+      [
+        "F1",
+        "Y",
+        1
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "区域巡测 01",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "waterfall_section",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "waterfall_section"
+        },
+        {
+          "target": "V",
+          "required_kind": "lithology"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T2": {
+      "name": "区域巡测 02",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "shore"
+        },
+        {
+          "target": "V",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T3": {
+      "name": "区域巡测 03",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "water_quality",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "water_quality"
+        },
+        {
+          "target": "V",
+          "required_kind": "tufa_deposit"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T4": {
+      "name": "区域巡测 04",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "sediment",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "sediment"
+        },
+        {
+          "target": "R",
+          "required_kind": "bathymetry"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T5": {
+      "name": "区域巡测 05",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "S",
+          "required_kind": "bathymetry"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T6": {
+      "name": "区域巡测 06",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "water_quality",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "water_quality"
+        },
+        {
+          "target": "R",
+          "required_kind": "tufa_deposit"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T7": {
+      "name": "区域巡测 07",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "waterfall_section",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "waterfall_section"
+        },
+        {
+          "target": "R",
+          "required_kind": "shore"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T8": {
+      "name": "区域巡测 08",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "sediment",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "sediment"
+        },
+        {
+          "target": "Q",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T9": {
+      "name": "区域巡测 09",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "tufa_deposit",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "tufa_deposit"
+        },
+        {
+          "target": "Q",
+          "required_kind": "sediment"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T10": {
+      "name": "区域巡测 10",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "bathymetry",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "bathymetry"
+        },
+        {
+          "target": "Q",
+          "required_kind": "shore"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T11": {
+      "name": "区域巡测 11",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "water_quality",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "water_quality"
+        },
+        {
+          "target": "S",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T12": {
+      "name": "区域巡测 12",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "lithology",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "lithology"
+        },
+        {
+          "target": "U",
+          "required_kind": "waterfall_section"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T13": {
+      "name": "区域巡测 13",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "sediment",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "sediment"
+        },
+        {
+          "target": "R",
+          "required_kind": "water_quality"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T14": {
+      "name": "区域巡测 14",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "waterfall_section",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "waterfall_section"
+        },
+        {
+          "target": "U",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T15": {
+      "name": "区域巡测 15",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "bathymetry",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "bathymetry"
+        },
+        {
+          "target": "X",
+          "required_kind": "shore"
+        }
+      ],
+      "max_steps": 88
+    },
+    "T16": {
+      "name": "区域巡测 16",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "tufa_deposit",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "tufa_deposit"
+        },
+        {
+          "target": "P",
+          "required_kind": "lithology"
+        }
+      ],
+      "max_steps": 88
+    }
+  },
+  "presentation": {
+    "terrain": "cascade-lakes",
+    "regions": [
+      {
+        "name": "上湖峡谷",
+        "x": 1700,
+        "y": 370
+      },
+      {
+        "name": "青潭",
+        "x": 1150,
+        "y": 760
+      },
+      {
+        "name": "白阶",
+        "x": 855,
+        "y": 1060
+      },
+      {
+        "name": "下湖",
+        "x": 565,
+        "y": 1360
+      }
+    ]
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "opportunity_basis": "Only feedback actually delivered before the session; distinguish observation, type propagation and inference.",
+    "failure_policy": "Continue the fixed stream with actual feedback only; do not supply missing experiences.",
+    "stream_policy": "Twenty fixed ordinary commissions, forty stages. Independent original-memory baseline per map and condition.",
+    "diagnostic_scope": "Acquisition, delivered evidence, station choices and graph costs. No claim of large-capacity memory or controlled interference.",
+    "stream_design": "Each material appears four times in four balanced blocks; two stages per task, no tutorial or unlock.",
+    "exposure_diagnostics": {
+      "protocol": "four-exposures-two-stages-v1",
+      "tasks": 16,
+      "stages": 32,
+      "contexts": 8,
+      "context_exposures": {
+        "waterfall_section|default": 4,
+        "lithology|default": 4,
+        "shore|default": 4,
+        "elevation|default": 4,
+        "water_quality|default": 4,
+        "tufa_deposit|default": 4,
+        "sediment|default": 4,
+        "bathymetry|default": 4
+      },
+      "minimum_repeat_gap_tasks": 1,
+      "maximum_repeat_gap_tasks": 7,
+      "mean_repeat_gap_tasks": 4.0
+    },
+    "authoring_geometry_check": {
+      "nearest_match_rate": 0.140625,
+      "unused_strict_replicas": [],
+      "strict_replica_counts": {
+        "A1": 1,
+        "A2": 3,
+        "B1": 1,
+        "B2": 1,
+        "C1": 2,
+        "C2": 2,
+        "D1": 1,
+        "D2": 2,
+        "E1": 1,
+        "E2": 1,
+        "F1": 1,
+        "F2": 1,
+        "G1": 1,
+        "G2": 2,
+        "H1": 1,
+        "H2": 1
+      },
+      "stage_contexts": 32,
+      "mean_processing_leg_distance": 13.15625,
+      "seed": 26110803,
+      "method": "Geometry-only fixed-fixture and target-swap authoring; material order, requirements and target frequency preserved; no native agent outcomes."
+    }
+  },
+  "provenance": {
+    "inspiration": "Plitvice Lakes National Park: cropped Lower Lakes canyon and lake-to-lake tufa transitions.",
+    "scope": "Four schematic lake basins with two shore paths per basin and shared necks. Fictional roads and stations, not a copy of a visitor route.",
+    "sources": [
+      "https://np-plitvicka-jezera.hr/en/plan-your-visit/istrazite-jezera/activities/lake-tour-programmes/",
+      "https://np-plitvicka-jezera.hr/en/natural-and-cultural-heritage/natural-heritage/tufa/"
+    ],
+    "private_boundary": "Real names and source URLs remain outside all agent observations.",
+    "layout_revision": "individually-authored-field-v2",
+    "supersedes": "easy-03-v1.0",
+    "authoring_rationale": [
+      "Retain the serial Lower Lakes canyon: four shoreline alternatives separated by shared, unavoidable tufa necks.",
+      "Twelve processing sites lie along shore routes; four occupy distinct cliff or waterfall approaches, with no common two-edge spur pattern.",
+      "Lake polygons are authored together with both shore paths; paths and stations stay outside the water."
+    ],
+    "public_geography_review": {
+      "unconnected_visual_crossings": [],
+      "unapproved_barrier_crossings": [],
+      "minimum_station_separation": 198.12,
+      "minimum_point_separation": 92.2,
+      "topology": {
+        "connected": true,
+        "nodes": 38,
+        "roads": 41,
+        "cycle_rank": 4,
+        "core_branch_degree_histogram": {
+          "4": 3
+        },
+        "station_degree_histogram": {
+          "1": 1,
+          "2": 15
+        },
+        "dead_end_count": 10
+      }
+    },
+    "boundary": "Schematic authored roads inspired by the named landscape. Real names and sources remain private; no surveyed road reconstruction or guaranteed native-agent score."
+  },
+  "native_session_budget": {
+    "main_model_calls": 100,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 3600,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Preserve the declared Easy/Normal budgets; fresh zero-model feasibility checks precede future native evaluation."
+  }
+}

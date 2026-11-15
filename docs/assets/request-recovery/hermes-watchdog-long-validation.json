@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "agent": "hermes",
+  "native_archive_sha256": "d23ec65ea39b29fd946e829483659840b021f92be225534e7997f21eb8487c9a",
+  "real_model_calls": 0,
+  "faults_injected": 2,
+  "same_worker_lease": true,
+  "native_sessions": 1,
+  "same_request_bytes": true,
+  "delivered_moves": 1,
+  "native_memory_write_preserved": true,
+  "logical_model_calls": 6,
+  "physical_attempts": 8,
+  "injected_attempts": [
+    {
+      "request_sha256": "bc8b4f45f6d80c87c6dabe36f3d3603241c2ea081244c8569e43c4599a8c781c",
+      "lease_id": "40ea4ce8343c4f3e8f3a8089c6b964d1",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    },
+    {
+      "request_sha256": "bc8b4f45f6d80c87c6dabe36f3d3603241c2ea081244c8569e43c4599a8c781c",
+      "lease_id": "40ea4ce8343c4f3e8f3a8089c6b964d1",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    },
+    {
+      "request_sha256": "bc8b4f45f6d80c87c6dabe36f3d3603241c2ea081244c8569e43c4599a8c781c",
+      "lease_id": "40ea4ce8343c4f3e8f3a8089c6b964d1",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    }
+  ],
+  "isolation": {
+    "pid": 2,
+    "host_mount_hidden": true,
+    "evaluator_hidden": true,
+    "secret_absent": true,
+    "network_blocked": true,
+    "source_readonly": true
+  },
+  "worker_returncode": 0,
+  "request_recovery": {
+    "protocol": "same-request-recovery-1",
+    "active_seconds": 57.854,
+    "infrastructure_wait_seconds": 140.006,
+    "native_transport_environment": {
+      "HERMES_API_TIMEOUT": "605100",
+      "HERMES_API_CALL_STALE_TIMEOUT": "605100",
+      "HERMES_STREAM_STALE_TIMEOUT": "605100",
+      "HERMES_CODEX_HARD_TIMEOUT_SECONDS": "605100",
+      "HERMES_CODEX_TTFB_TIMEOUT_SECONDS": "605100",
+      "HERMES_CODEX_TTFB_MAX_SECONDS": "605100",
+      "HERMES_CODEX_EVENT_STALE_TIMEOUT_SECONDS": "605100"
+    },
+    "retry_window_seconds": 604800,
+    "lease_id": "40ea4ce8343c4f3e8f3a8089c6b964d1"
+  },
+  "simulated_failed_attempts": [
+    {
+      "reason": "gateway_http_502",
+      "elapsed_seconds": 70.001,
+      "request_sha256": "bc8b4f45f6d80c87c6dabe36f3d3603241c2ea081244c8569e43c4599a8c781c",
+      "attempt": 1
+    },
+    {
+      "reason": "gateway_http_502",
+      "elapsed_seconds": 70.001,
+      "request_sha256": "bc8b4f45f6d80c87c6dabe36f3d3603241c2ea081244c8569e43c4599a8c781c",
+      "attempt": 2
+    }
+  ],
+  "original_validation_sha256": "bb2f5fdb6dc28dfc5a2b3a3d8dbe314cef80ebec057d9969d4d5c977474c26ce",
+  "evidence_type": "Software fault-injection test using native agents and synthetic SSE; no benchmark score or real gateway usage"
+}

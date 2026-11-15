@@ -3,7 +3,8 @@ from pathlib import Path
 import shutil
 
 from ..agent_adapters import AgentAdapter, PreparedAgent
-from ..ga_runtime import extract_native, copy_memory
+from ..ga_runtime import copy_memory
+from ..native_source_cache import extract_cached_native as extract_native
 
 
 class HermesAdapter(AgentAdapter):
@@ -28,6 +29,7 @@ class HermesAdapter(AgentAdapter):
             (baseline / "skills").mkdir()
         support = root / "support"
         support.mkdir()
-        for name in ("hermes_worker.py", "ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py"):
+        for name in ("hermes_worker.py", "ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py", "response_stream.py", "model_context.py"):
             shutil.copyfile(Path(__file__).parents[1] / name, support / name)
+        shutil.copyfile(Path(__file__).parents[2] / 'config/model-gateways.json', support / 'model-gateways.json')
         return PreparedAgent(source, support, baseline)

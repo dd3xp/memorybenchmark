@@ -3,6 +3,8 @@
 Full evidence mode accepts private native sessions and the output of
 analyze_station_native. Public mode redraws the report figures from the supplied
 game-only projections. Reviewed cases are post-hoc illustrations, not a sample
+from memorybenchmark.audit_records import read_audit
+from memorybenchmark.event_store import read_events
 from which an application rate is estimated.
 """
 from __future__ import annotations
@@ -116,8 +118,8 @@ def audit_cases(root):
         folder = root/"sessions"/session["name"]
         memory = previous/"memories/MEMORY.md"
         text = memory.read_text(encoding="utf-8")
-        events = [json.loads(s) for s in (folder/"events.jsonl").read_text(encoding="utf-8").splitlines()]
-        messages = [json.loads(s) for s in (folder/"audit.jsonl").read_text(encoding="utf-8").splitlines()]
+        events = read_events(folder / "events.jsonl")
+        messages = read_audit(folder)
         graph = read(folder/"graph.json")
         decisions = station_decisions(design, events, graph["task_run_id"])
         windows = align_tools(events, graph["task_run_id"], messages, decisions)

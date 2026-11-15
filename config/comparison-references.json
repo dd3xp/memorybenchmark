@@ -1,0 +1,10 @@
+{
+  "schema": "existing-single-step-references-1",
+  "references": [],
+  "status": "invalidated_and_retired",
+  "invalid_context_tokens": 64000,
+  "reason": "User declared all 64k-context experiments invalid on 2026-11-15; results must not be retained or used for comparison.",
+  "valid_existing_single_step_controls": false,
+  "additional_runs_authorized": false,
+  "updated_at_utc": "2026-11-15T05:53:55.533075+00:00"
+}

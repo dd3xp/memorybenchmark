@@ -5,11 +5,11 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "memorybenchmark/data/station_easy20_choice.json"
+OUTPUT = ROOT / "memorybenchmark/data/history/station_easy20_choice.json"
 
 
 def build():
-    old = json.loads((ROOT / "memorybenchmark/data/station_easy20.json").read_text(encoding="utf-8"))
+    old = json.loads((ROOT / "memorybenchmark/data/history/station_easy20.json").read_text(encoding="utf-8"))
     public = deepcopy(old["public"])
     public.update(version="lanting-easy20-choice-v2", name="岚汀丘地 · 四站巡测", view_box=[0, 0, 2000, 1700])
     public["rules"] = [

@@ -1,0 +1,1 @@
+Compatibility adapter for the twenty frozen Gemini20261111 runs only. New jobs use memorybenchmark.experiments. No frozen science file is patched. The original driver owns validation/archive; future completed entries only retire hash-proven unpacked model duplicates and disable their own scheduler task. Preserve all original failure attempts and unique data.

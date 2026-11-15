@@ -1,0 +1,36 @@
+{
+  "schema": "benchmark-authorized-batch-1",
+  "agent": "hermes",
+  "model": "gpt-5.6-luna",
+  "conditions": [
+    "retain",
+    "clear"
+  ],
+  "pairs": [
+    {
+      "map": "orcia-hard",
+      "movement_mode": "step",
+      "request_id": "user-20261115-orcia-hard36-step"
+    },
+    {
+      "map": "capulin-easy",
+      "movement_mode": "route",
+      "request_id": "user-20261115-capulin-easy-route-v2"
+    },
+    {
+      "map": "nessie-normal",
+      "movement_mode": "route",
+      "request_id": "user-20261115-nessie-normal-route-v2"
+    }
+  ],
+  "new_groups": 6,
+  "new_tasks": 152,
+  "single_step_controls": "None: all 64k historical controls invalidated by user; current six-run authorization is unchanged.",
+  "excluded": [
+    "lunatic",
+    "additional models",
+    "additional maps"
+  ],
+  "replacement_reason": "Four incompatible single-gate route starts preserved and superseded; Hard pair unchanged.",
+  "invalid_context_results_policy": "Exclude all 64000-context cohorts, including old Gemini; do not launch replacement controls without authorization."
+}

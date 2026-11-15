@@ -1,0 +1,81 @@
+{
+  "kind": "deployed_map_and_interface_acceptance_not_native_agent_scores",
+  "client_date": "2026-11-03",
+  "local_regression_suite": {
+    "tests": 159,
+    "skipped": 7,
+    "successful": true
+  },
+  "additional_local_real_mcp_check": "skipped because the exact optional SDK is unavailable locally; executed and passed on Squishy",
+  "server": {
+    "source_files_verified": 167,
+    "real_mcp_test_passed": true,
+    "benchmark_mcp_sdk": "1.30.0",
+    "server_regression_suite": "30 tests passed after final map/layout deployment; this final transport check also passed after the UI-label overlay.",
+    "new_model_calls": 0,
+    "frozen_experiment_runtimes_modified": false
+  },
+  "public_tls_and_auth": {
+    "authenticated": true,
+    "unauthenticated_api_denied": true,
+    "normal_tls_validation": true
+  },
+  "public_map_checks": [
+    {
+      "map": "rainbow-easy",
+      "version": "easy-01-v1.0",
+      "task_count": 20,
+      "terrain_ok": true,
+      "explicit_design_ok": true,
+      "human_validation_T1_success": true,
+      "distance": 22,
+      "operations": 21
+    },
+    {
+      "map": "forest-easy",
+      "version": "easy-02-v1.1",
+      "task_count": 20,
+      "terrain_ok": true,
+      "explicit_design_ok": true
+    },
+    {
+      "map": "cascade-easy",
+      "version": "easy-03-v1.0",
+      "task_count": 20,
+      "terrain_ok": true,
+      "explicit_design_ok": true
+    },
+    {
+      "map": "nessie-normal",
+      "version": "normal-01-v1.0",
+      "task_count": 30,
+      "terrain_ok": true,
+      "explicit_design_ok": true
+    },
+    {
+      "map": "dingo-normal",
+      "version": "normal-02-v1.0",
+      "task_count": 30,
+      "terrain_ok": true,
+      "explicit_design_ok": true
+    },
+    {
+      "map": "boar-normal",
+      "version": "normal-03-v1.0",
+      "task_count": 30,
+      "terrain_ok": true,
+      "explicit_design_ok": true,
+      "human_validation_T1_success": true,
+      "distance": 34,
+      "operations": 28
+    }
+  ],
+  "real_engine_sessions_verified": 300,
+  "authoring_reproducibility": "All five builders reproduce final JSON exactly",
+  "package_r2_sha256": "d5a2fa2dfbf00ae47ff9bec54ddc8c59682c2e0e73949c50f55ccb6116bac03c",
+  "ui_overlay_r3_sha256": "cfeb7dbcfcb6031a8fb0b470a3ed1143dca836ebc523f864123666f106412247",
+  "web": "https://s.roundsquisheen.v6.navy:43821/maps?id=rainbow-easy",
+  "new_model_calls": 0,
+  "historical_runs_modified": false,
+  "scope": "Full source hash checks, native MCP transport, human HTTP play and scripted kernel replays. New GA/Hermes effectiveness experiments remain to be run."
+}

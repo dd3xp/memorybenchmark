@@ -1,0 +1,41 @@
+{
+  "llm_calls": 1,
+  "model_requests": 1,
+  "main_calls": 1,
+  "final_calls": 0,
+  "tools": [],
+  "session_id": "7745e3a1be2544578421041b83bf88e1",
+  "infrastructure_ok": true,
+  "continuations": [],
+  "wall_seconds": 10,
+  "reasoning_effort": "low",
+  "reasoning_policy": "native",
+  "request_reasoning_efforts": {
+    "unspecified": 1
+  },
+  "model_request_kinds": {
+    "agent": 1,
+    "session_title": 0,
+    "context_compression": 0
+  },
+  "host_process_id": 8184,
+  "worker_result": {
+    "kind": "finished",
+    "pid": 2,
+    "moves": [
+      "first_move"
+    ]
+  },
+  "worker_returncode": 0,
+  "worker_elapsed_seconds": 0.661,
+  "request_recovery": {
+    "protocol": "same-request-recovery-1",
+    "active_seconds": 1.256,
+    "infrastructure_wait_seconds": 110.009,
+    "retry_window_seconds": 604800,
+    "lease_id": "1c4fa9e0de904643bb07c04a44fcd3c0"
+  },
+  "simulated_http_attempts": 3,
+  "payloads_identical": true,
+  "real_elapsed_seconds": 111.267
+}

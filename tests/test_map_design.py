@@ -58,9 +58,12 @@ class MapDesignTests(unittest.TestCase):
                 self.assertNotIn("湿滑岩坡", encoded)
                 self.assertNotIn("opportunities", encoded)
                 self.assertLess(len(agent["observation"]["map"]["nodes"]), 31)
-                for path in ("/design", "/design.js", "/design.css"):
-                    with urlopen(root + path) as response:
-                        self.assertEqual(response.status, 200)
+                with urlopen(root + "/design") as response:
+                    self.assertTrue(response.url.endswith('/maps'))
+                for path in ("/design.js", "/design.css"):
+                    with self.assertRaises(HTTPError) as removed:
+                        urlopen(root + path)
+                    self.assertEqual(removed.exception.code,404)
                 with self.assertRaises(HTTPError) as error:
                     urlopen(root + "/api/design?scenario=unknown")
                 self.assertEqual(error.exception.code, 400)

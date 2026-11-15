@@ -1,6 +1,8 @@
 """Audit completed native agent station sessions and plot all-task measurements."""
 from __future__ import annotations
 
+from memorybenchmark.audit_records import read_audit
+from memorybenchmark.event_store import read_events
 import argparse
 from collections import Counter
 from hashlib import sha256
@@ -51,9 +53,9 @@ def main():
         # Native Hermes strips the outer file whitespace before prompt injection.
         global_body=global_memory.strip()
         global_body_in_input=bool(global_body) and json.dumps(global_body,ensure_ascii=False)[1:-1] in json.dumps(first_request,ensure_ascii=False)
-        events=[json.loads(line) for line in (folder/"events.jsonl").read_text(encoding="utf-8").splitlines()]
+        events=read_events(folder / "events.jsonl")
         graph=read(folder/"graph.json")
-        messages=[json.loads(line) for line in (folder/"audit.jsonl").read_text(encoding="utf-8").splitlines()]
+        messages=read_audit(folder)
         terminal=next(e for e in reversed(events) if e["task_run_id"]==graph["task_run_id"])
         final_observation=terminal["delivered"]["observation"]
         before_first_station=[]

@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "agent": "ga",
+  "native_archive_sha256": "94843474b5168cb9a81d5e611e5f53afecba99da20d04c8fc3a42bcb847b4da2",
+  "real_model_calls": 0,
+  "faults_injected": 2,
+  "same_worker_lease": true,
+  "native_sessions": 1,
+  "same_request_bytes": true,
+  "delivered_moves": 1,
+  "native_memory_write_preserved": true,
+  "logical_model_calls": 5,
+  "physical_attempts": 7,
+  "injected_attempts": [
+    {
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "lease_id": "2f5cda514bc14e07953b108114d75abc",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    },
+    {
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "lease_id": "2f5cda514bc14e07953b108114d75abc",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    },
+    {
+      "request_sha256": "9695bafde533c40b39edd144909a2e04af4f5aca623c018637a613b0941dff6c",
+      "lease_id": "2f5cda514bc14e07953b108114d75abc",
+      "game_steps": 1,
+      "distance": 2,
+      "events": 2
+    }
+  ],
+  "isolation": {
+    "pid": 2,
+    "host_mount_hidden": true,
+    "evaluator_hidden": true,
+    "secret_absent": true,
+    "network_blocked": true,
+    "source_readonly": true
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "sealed_tool_order_and_saved_mapping_audit",
+  "scope": "No raw native memory or model messages published. Native evidence and source checks remain private.",
+  "cascade_retain": {
+    "T1": {
+      "memory_after_sha256": "98e007ea5e3ef1477ccd70f4b585d0ae1d5883e2d18d3f208cfe087aa5750a25",
+      "saved_all_eight_mapping_entries_correct": true,
+      "reads": [
+        {
+          "audit_line": 208,
+          "process_calls_before_read": 8,
+          "submit_already_called": true
+        }
+      ],
+      "total_process_calls": 8,
+      "audit_sha256": "e73088142947544e4caf2e0a3a283e6aba4ea532891653a0749afbeddc358621",
+      "input_note_manifest": null
+    },
+    "T3": {
+      "memory_after_sha256": "aef748133f1ca6ad42fcfaf360100c8160d999aaa477018c42d08196c9d7cfba",
+      "saved_all_eight_mapping_entries_correct": true,
+      "reads": [
+        {
+          "audit_line": 7,
+          "process_calls_before_read": 0,
+          "submit_already_called": false
+        },
+        {
+          "audit_line": 110,
+          "process_calls_before_read": 2,
+          "submit_already_called": true
+        }
+      ],
+      "total_process_calls": 2,
+      "audit_sha256": "f2acabb2325bce38a4e078ae6a966798563fb693517df859dfddd33ab7e5e375",
+      "input_note_manifest": {
+        "sha256": "d4c2965e5ce5bceb6b2843e0f6d88feb8a64f692f638b43c065970087914d55e",
+        "size": 1504
+      }
+    },
+    "T4": {
+      "memory_after_sha256": "fcbff5bf2534cb17ae167c130d72af9814456ae3f4baadd69080610a51a92659",
+      "saved_all_eight_mapping_entries_correct": true,
+      "reads": [
+        {
+          "audit_line": 230,
+          "process_calls_before_read": 9,
+          "submit_already_called": true
+        },
+        {
+          "audit_line": 244,
+          "process_calls_before_read": 9,
+          "submit_already_called": true
+        }
+      ],
+      "total_process_calls": 9,
+      "audit_sha256": "be823d77bb94a6a9d99d0c204f75424fa73829679e0cd1331bc79c254e6c5d9e",
+      "input_note_manifest": {
+        "sha256": "aef748133f1ca6ad42fcfaf360100c8160d999aaa477018c42d08196c9d7cfba",
+        "size": 1911
+      }
+    }
+  },
+  "new_model_calls": 0
+}

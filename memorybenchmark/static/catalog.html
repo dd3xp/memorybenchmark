@@ -1,3 +1,193 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>地图 · 测绘手记</title><link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/catalog.css"></head><body>
-<header class="appbar"><a class="app-brand" href="/experiments"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 21Q5 6 14 4Q24 3 25 14Q25 23 14 25Q7 25 8 16Q9 10 15 10Q21 10 20 16Q19 21 14 20"/></svg>测绘手记</a><nav class="app-nav" aria-label="主导航"><a href="/experiments">实验</a><a href="/play">游玩</a><a href="/maps" aria-current="page">地图</a></nav><div class="app-end"><form action="/logout" method="post"><button class="quiet" type="submit">退出</button></form></div></header>
-<main class="map-library"><aside class="catalog-rail"><h1>地图</h1><div id="catalog-list"></div></aside><section class="catalog-preview"><div id="catalog-error" class="page-error" hidden role="alert"></div><header class="catalog-heading"><div><h2 id="map-name">读取地图</h2></div><a id="play-map" class="primary" href="/play">游玩</a></header><section class="preview-panel"><div class="preview-strip"><span id="map-counts"></span><label><input id="show-triggers" type="checkbox">经验点</label></div><div class="map-surface catalog-map"><svg id="catalog-map" class="atlas" role="img" tabindex="0" aria-label="完整地图"></svg><div class="map-tools"><button id="zoom-out" aria-label="缩小地图">−</button><button id="zoom-in" aria-label="放大地图">＋</button><button id="fit">全图</button></div></div><footer class="preview-footer"><div class="map-key"><span>△ 营地</span><span>□ 处理站</span><span><i class="key-dot trigger"></i>经验点</span></div><a id="inspect-map" href="/play?map=easy20&inspect=1">查看设计</a></footer></section></section></main><script src="/atlas-view.js"></script><script src="/catalog.js"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>地图集 · 测绘手记</title>
+<link rel="stylesheet" href="/maplibre-gl.css">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/catalog.css">
+</head>
+<body>
+<header class="appbar">
+<a class="app-brand" href="/maps">
+<svg viewBox="0 0 38 48" aria-hidden="true">
+<path d="M19 3C4 6 1 24 7 37s24 11 26-6S30 1 19 3Z"/>
+<path d="M13 36 25 14M18 27Q10 22 13 15M21 21Q30 20 29 12M15 32Q23 34 28 27"/>
+</svg>测绘手记</a>
+<nav class="app-nav" aria-label="主导航">
+<a href="/maps" aria-current="page">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-map"/>
+</svg>地图集</a>
+<a href="/experiments">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-flask"/>
+</svg>实验观测</a>
+<a href="/play">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-book"/>
+</svg>游玩</a>
+</nav>
+<div class="app-end">
+<form action="/logout" method="post">
+<button class="quiet" type="submit">退出</button>
+</form>
+</div>
+</header>
+<main class="library-layout">
+<aside class="library-rail catalog-rail">
+<label class="search">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-search"/>
+</svg>
+<input id="map-search" type="search" placeholder="寻找地图" aria-label="寻找地图">
+</label>
+<div id="difficulty-filters" class="filters" role="group" aria-label="难度筛选">
+<button data-difficulty="" aria-pressed="true">全部</button>
+<button data-difficulty="Easy" aria-pressed="false">Easy</button>
+<button data-difficulty="Normal" aria-pressed="false">Normal</button>
+<button data-difficulty="Hard" aria-pressed="false">Hard</button>
+<button data-difficulty="Lunatic" aria-pressed="false">Lunatic</button>
+</div>
+<div id="catalog-list" class="choice-list" aria-label="地图列表">
+</div>
+</aside>
+<section id="catalog-main" class="workbench catalog-preview" aria-busy="true">
+<div id="catalog-loading" class="loading-state loading-overlay" role="status" data-loading-target="catalog-main">
+<span class="loading-indicator" aria-hidden="true">
+</span>
+<span data-loading-text>加载中</span>
+</div>
+<div id="catalog-error" class="page-error" hidden role="alert">
+</div>
+<button id="catalog-retry" class="page-retry" type="button" hidden>重试</button>
+<div id="catalog-content" hidden>
+<header class="page-heading catalog-heading">
+<h1 id="map-name">读取地图</h1>
+<span id="map-difficulty" class="difficulty-badge">
+</span>
+<a id="play-map" class="primary" href="/play">游玩</a>
+</header>
+<div class="work-grid">
+<section class="map-panel">
+<div id="map-viewport" class="map-surface map-viewport">
+<svg id="catalog-map" class="atlas" role="group" tabindex="0" aria-label="完整地图">
+</svg>
+<div class="compass" aria-hidden="true">N<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-compass"/>
+</svg>
+</div>
+<div class="map-actions">
+<button id="layers-toggle" aria-expanded="false" aria-controls="layers-menu">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-layers"/>
+</svg>图层</button>
+<button id="fullscreen" aria-label="全屏地图">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-expand"/>
+</svg>
+</button>
+</div>
+<div id="layers-menu" class="layers-menu" hidden>
+<label>
+<input data-layer="terrain" type="checkbox" checked>地形</label>
+<label>
+<input data-layer="roads" type="checkbox" checked>道路</label>
+<label>
+<input data-layer="stations" type="checkbox" checked>处理站</label>
+<label>
+<input data-layer="labels" type="checkbox" checked>地名</label>
+</div>
+<div class="map-tools">
+<button id="zoom-in" aria-label="放大地图">＋</button>
+<button id="zoom-out" aria-label="缩小地图">−</button>
+<button id="fit" title="回到当前地图范围" aria-label="回到当前地图范围">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="6"/>
+<circle cx="12" cy="12" r="1.5"/>
+<path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+</svg>
+</button>
+<button id="world-extent" title="缩放至世界" aria-label="缩放至世界">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/>
+<ellipse cx="12" cy="12" rx="4" ry="9"/>
+<path d="M3 12h18"/>
+</svg>
+</button>
+</div>
+</div>
+<footer class="map-key">
+<span>△ 营地</span>
+<span>
+<i class="key-dot">
+</i>测点</span>
+<span>
+<i class="key-dot station">
+</i>处理站</span>
+<span>— 道路</span>
+</footer>
+</section>
+<aside class="notebook">
+<section class="note-sheet">
+<dl class="map-facts">
+<div>
+<dt>地点</dt>
+<dd id="fact-nodes">—</dd>
+</div>
+<div>
+<dt>道路</dt>
+<dd id="fact-edges">—</dd>
+</div>
+<div>
+<dt>委托</dt>
+<dd id="fact-tasks">—</dd>
+</div>
+<div>
+<dt>处理站</dt>
+<dd id="fact-stations">—</dd>
+</div>
+</dl>
+<div class="note-divider" aria-hidden="true">✧</div>
+<h4 id="materials-title">资料</h4>
+<div id="materials" class="materials">
+</div>
+<img class="botanical" src="/botanical-sprig.svg" alt="">
+<details class="map-info">
+<summary>地图信息</summary>
+<p id="map-version">
+</p>
+<p>地图为任务路网示意，不代表实际距离或行政边界。</p>
+<a id="inspect-map" href="/play?map=capulin-easy&amp;inspect=1">查看设计</a>
+</details>
+</section>
+<section id="location-sheet" class="location-sheet" hidden>
+<div class="location-heading">
+<h3 id="location-name">
+</h3>
+<span id="location-id">
+</span>
+</div>
+<div id="neighbors" class="neighbors">
+</div>
+</section>
+</aside>
+</div>
+</div>
+</section>
+</main>
+<script src="/ui-state.js">
+</script>
+<script src="/atlas-view.js">
+</script>
+<script src="/maplibre-gl-csp.js">
+</script>
+<script src="/atlas-gpu.js">
+</script>
+<script src="/world-atlas.js">
+</script>
+<script src="/catalog.js">
+</script>
+</body>
+</html>

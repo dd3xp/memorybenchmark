@@ -1,6 +1,8 @@
 """Verify a reviewed station fact reached the model before its station choice."""
 from __future__ import annotations
 
+from memorybenchmark.audit_records import read_audit
+from memorybenchmark.event_store import read_events
 import argparse
 from hashlib import sha256
 import json
@@ -35,8 +37,8 @@ def audit(root, task, memory_file, fragment, station, kind, request_number):
     assert not baseline.exists() or fragment not in baseline.read_text(encoding="utf-8"), "Fragment is not newly generated"
     folder = root / "sessions" / session["name"]
     graph = read(folder / "graph.json")
-    events = [json.loads(line) for line in (folder / "events.jsonl").read_text(encoding="utf-8").splitlines()]
-    messages = [json.loads(line) for line in (folder / "audit.jsonl").read_text(encoding="utf-8").splitlines()]
+    events = read_events(folder / "events.jsonl")
+    messages = read_audit(folder)
     decision = station_decisions(design, events, graph["task_run_id"])
     windows = align_tools(events, graph["task_run_id"], messages, decision)
     first = decision["first_postcollection_station"]

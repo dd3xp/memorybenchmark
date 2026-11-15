@@ -3,6 +3,7 @@
 JSON Lines exposes only read/action for a host-selected task. Human mode can
 advance through the catalog. Neither mode exposes evaluator files as tools.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -10,38 +11,108 @@ from copy import deepcopy
 import json
 from pathlib import Path
 import sys
+from .station_knowledge import symbolic
 from uuid import uuid4
 
-from .station_capability import StationGame, capability_groups, load_design, map_world, neighbors
+from .station_capability import (
+    StationGame,
+    capability_groups,
+    load_design,
+    map_world,
+    neighbors,
+    station_query_enabled,
+    manual_survey_required,
+    conditional_capabilities,
+)
 
 
-DEFAULT_DESIGN = Path(__file__).resolve().parents[2] / "design" / "station_capability_v2.json"
-EASY20_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20.json"
-EASY20_CHOICE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_choice.json"
-EASY20_LINKED_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_linked.json"
-EASY20_REUSE_DESIGN = Path(__file__).resolve().parents[1] / "data" / "station_easy20_reuse.json"
-NESSIE_EASY_DESIGN = Path(__file__).resolve().parents[1] / "data" / "nessie_easy20.json"
-FEEDBACK_PROTOCOLS = {"full": "station-full-feedback-1", "compact": "station-compact-feedback-1"}
+DEFAULT_DESIGN = (
+    Path(__file__).resolve().parents[2] / "design" / "station_capability_v2.json"
+)
+DATA = Path(__file__).resolve().parents[1] / "data"
+CURRENT_DESIGN = DATA / "capulin_easy16.json"
+LEGACY_DATA = DATA / "history"
+EASY20_DESIGN = LEGACY_DATA / "station_easy20.json"
+EASY20_CHOICE_DESIGN = LEGACY_DATA / "station_easy20_choice.json"
+EASY20_LINKED_DESIGN = LEGACY_DATA / "station_easy20_linked.json"
+EASY20_REUSE_DESIGN = LEGACY_DATA / "station_easy20_reuse.json"
+NESSIE_EASY_DESIGN = LEGACY_DATA / "nessie_easy20.json"
+FOREST_EASY_DESIGN = NESSIE_EASY_DESIGN.with_name("forest_easy20.json")
+CASCADE_EASY_DESIGN = DATA / "cascade_easy16.json"
+FEEDBACK_PROTOCOLS = {
+    "full": "station-full-feedback-1",
+    "compact": "station-compact-feedback-1",
+}
 
 
 def render_text(response, *, compact=False):
     observation, feedback = response["observation"], response["feedback"]
     public, task = observation["environment"], observation["task"]
     kind = public["kinds"][task["required_kind"]]
-    groups = "；".join("/".join(group["stations"]) + "：" + "/".join(public["kinds"][k] for k in group["kinds"])
-                       + ("各两站" if all(group.get("counts", {}).get(k) == 2 for k in group["kinds"]) else "各一站")
-                       for group in capability_groups({"public": public}).values())
-    routes = "；".join(f"{node}（距离 {distance}）" for node, distance in neighbors({"public": public}, observation["location"]))
-    message = {"started": "新委托开始。", "current_observation": "当前观察。", "arrived": "已到达。",
-               "not_ready": "本次原始资料尚未采集并处理，不能提交。", "submitted": "本次委托完成。",
-               "abandoned": "本次委托已放弃。"}.get(feedback["kind"], "")
+    groups = "；".join(
+        "/".join(group["stations"])
+        + "："
+        + "/".join(public["kinds"][k] for k in group["kinds"])
+        + (
+            "各两站"
+            if all(group.get("counts", {}).get(k) == 2 for k in group["kinds"])
+            else "各一站"
+        )
+        for group in capability_groups({"public": public}).values()
+    )
+    if public.get("capability_model") == "overlapping-sets-v1":
+        groups = "全部站型均为候选，每型支持一至两类资料；具体能力由主动处理反馈获知"
+    if conditional_capabilities({"public": public}):
+        groups = "全部站型均为候选；能力取决于资料和本段明确的处理要求，同型站在同一要求下等价；反馈只揭示本次要求下的能力"
+    routes = "；".join(
+        f"{node}（距离 {distance}）"
+        for node, distance in neighbors({"public": public}, observation["location"])
+    )
+    message = {
+        "started": "新委托开始。",
+        "current_observation": "当前观察。",
+        "arrived": "已到达。",
+        "not_ready": "本次原始资料尚未采集并处理，不能提交。",
+        "submitted": "本次委托完成。",
+        "abandoned": "本次委托已放弃。",
+    }.get(feedback["kind"], "")
     if feedback["kind"] == "station_information":
-        type_label = f'（{feedback["station_type"]} 型）' if "station_type" in feedback else ""
-        message = f'{feedback["station"]}{type_label}支持{public["kinds"][feedback["capability"]]}。'
+        type_label = (
+            f'（{feedback["station_type"]} 型）' if "station_type" in feedback else ""
+        )
+        values = (
+            feedback["capability"]
+            if isinstance(feedback["capability"], list)
+            else [feedback["capability"]]
+        )
+        message = (
+            f'{feedback["station"]}{type_label}支持'
+            + "、".join(public["kinds"][k] for k in values)
+            + "。"
+        )
+        if "requirement" in feedback:
+            message = (
+                f"在“{public['requirements'][feedback['requirement']]}”要求下，"
+                + message
+            )
         if "result" in feedback:
-            message += "本次资料已处理。" if feedback["result"] == "processed" else "不支持本次资料，原始资料保留。"
+            message += (
+                "本次资料已处理。"
+                if feedback["result"] == "processed"
+                else "不支持本次资料，原始资料保留。"
+            )
+    if feedback["kind"] == "wrong_processing_region":
+        message = (
+            f"该站位于{public['processing_regions'][feedback['station_region']]}，"
+            f"本段要求在{public['processing_regions'][feedback['required_region']]}处理。"
+            "本次未处理，原始资料保留，未揭示站型能力。"
+        )
     if feedback.get("raw_collected"):
-        message += "已自动采集本次原始资料。"
+        message += (
+            "勘探完成，已采集本段原始资料。"
+            if feedback["kind"] == "surveyed"
+            else "已自动采集本次原始资料。"
+        )
     if "next_stage" in feedback:
         message += f"第 {feedback['stage_completed']} 段处理完成，已进入第 {feedback['next_stage']} 段；当前段需要重新采集。"
     if feedback.get("termination") == "budget_exhausted":
@@ -49,27 +120,94 @@ def render_text(response, *, compact=False):
     mission = f"到 {task['target']} 采集{kind}，在支持该资料的站处理，再回 {task['submit_at']} 提交。"
     progress = ""
     if "stages" in task:
-        mission = "；".join(f"第 {i+1} 段：{s['target']} 采集{public['kinds'][s['required_kind']]}并在匹配站处理"
-                            for i, s in enumerate(task["stages"])) + f"；全部完成后回 {task['submit_at']} 提交。尽量减少道路总距离，距离相同时减少操作。"
+        mission = (
+            "；".join(
+                f"第 {i+1} 段：{s['target']} 采集{public['kinds'][s['required_kind']]}并在匹配站处理"
+                for i, s in enumerate(task["stages"])
+            )
+            + f"；全部完成后回 {task['submit_at']} 提交。尽量减少道路总距离，距离相同时减少操作。"
+        )
         progress = f"当前第 {observation['stage_index']+1}/{observation['stage_count']} 段，已完成 {observation['stages_completed']} 段；本段目标 {task['target']}，资料 {kind}。\n"
+        if "requirement" in task:
+            mission = (
+                "；".join(
+                    f"第 {i+1} 段：{s['target']} 采集{public['kinds'][s['required_kind']]}，按“{public['requirements'][s['requirement']]}”要求处理"
+                    for i, s in enumerate(task["stages"])
+                )
+                + f"；全部完成后回 {task['submit_at']} 提交。优先减少道路总距离。"
+            )
+            progress = (
+                progress.rstrip()
+                + f" 本段处理要求：{public['requirements'][task['requirement']]}。\n"
+            )
+        if "required_region" in task:
+            mission = (
+                "；".join(
+                    f"第 {i+1} 段：{s['target']} 采集{public['kinds'][s['required_kind']]}，"
+                    f"到{public['processing_regions'][s['required_region']]}的匹配站按"
+                    f"“{public['requirements'][s['requirement']]}”要求处理"
+                    for i, s in enumerate(task["stages"])
+                )
+                + f"；全部完成后回 {task['submit_at']} 提交。优先减少道路总距离。"
+            )
+            progress = (
+                progress.rstrip()
+                + f" 本段处理区域：{public['processing_regions'][task['required_region']]}。\n"
+            )
+    from . import station_composition as composition
+
+    if composition.enabled({"public": public}):
+        mission = (
+            "；".join(
+                f"第{i+1}段：{composition.stage_description(public,s)}"
+                for i, s in enumerate(task["stages"])
+            )
+            + f"；完成后回{task['submit_at']}交付。"
+        )
+        material = composition.STATES.get(observation.get("material_state"), "未采集")
+        progress = (
+            f"当前第{observation['stage_index']+1}/{observation['stage_count']}段；"
+            f"{composition.stage_description(public,task)}；当前资料状态：{material}。\n"
+        )
+        if feedback.get("output_state"):
+            message += f" 本次产物：{composition.STATES[feedback['output_state']]}。"
+            if feedback.get("remaining_requirement"):
+                message += "尚未达到本段交付目标，需要继续处理。"
     if compact:
-        current = (progress if progress else f"当前委托 {task['id']}：到 {task['target']} 采集{kind}并处理。\n")
-        return (f"当前委托 {task['id']}；全部完成后回 {task['submit_at']} 提交。\n" + current +
-                f"位置 {observation['location']}；原始资料{'已采集' if observation['raw'] else '未采集'}；"
-                f"处理{'已完成' if observation['processed'] else '未完成'}。\n"
-                f"相邻：{routes}\n操作 {observation['steps']}/{task['max_steps']}；距离 {observation['distance']}。\n"
-                f"本次反馈：{message}\n结束：{observation['done']}；成功：{observation['success']}")
-    return (f"当前委托 {task['id']}：{mission}\n" + progress +
-            f"当前位置：{observation['location']}；原始资料：{'已采集' if observation['raw'] else '未采集'}；"
-            f"处理：{'已完成' if observation['processed'] else '未完成'}。\n"
-            f"公开能力范围（不代表已知分配）：{groups}。\n通路：{routes}\n"
-            f"操作 {observation['steps']}/{task['max_steps']}；距离 {observation['distance']}；版本 {observation['revision']}。\n"
-            f"可用动作：{json.dumps(observation['available_actions'], ensure_ascii=False)}\n"
-            f"反馈：{message}\n结束：{observation['done']}；成功：{observation['success']}")
+        current = (
+            progress
+            if progress
+            else f"当前委托 {task['id']}：到 {task['target']} 采集{kind}并处理。\n"
+        )
+        survey_hint = (
+            "当前目标已到达，请主动 survey 勘探采集。\n"
+            if any(a["type"] == "survey" for a in observation["available_actions"])
+            else ""
+        )
+        return (
+            f"当前委托 {task['id']}；全部完成后回 {task['submit_at']} 提交。\n"
+            + current
+            + survey_hint
+            + f"位置 {observation['location']}；原始资料{'已采集' if observation['raw'] else '未采集'}；"
+            f"处理{'已完成' if observation['processed'] else '未完成'}。\n"
+            f"相邻：{routes}\n操作 {observation['steps']}/{task['max_steps']}；距离 {observation['distance']}。\n"
+            f"本次反馈：{message}\n结束：{observation['done']}；成功：{observation['success']}"
+        )
+    return (
+        f"当前委托 {task['id']}：{mission}\n"
+        + progress
+        + f"当前位置：{observation['location']}；原始资料：{'已采集' if observation['raw'] else '未采集'}；"
+        f"处理：{'已完成' if observation['processed'] else '未完成'}。\n"
+        f"公开能力范围（不代表已知分配）：{groups}。\n通路：{routes}\n"
+        f"操作 {observation['steps']}/{task['max_steps']}；距离 {observation['distance']}；版本 {observation['revision']}。\n"
+        f"可用动作：{json.dumps(observation['available_actions'], ensure_ascii=False)}\n"
+        f"反馈：{message}\n结束：{observation['done']}；成功：{observation['success']}"
+    )
 
 
 class StationSession:
     """Thin current-task adapter, with exact request replay and no memory policy."""
+
     def __init__(self, game, task_id, *, feedback_mode="full", on_delivery=None):
         if feedback_mode not in FEEDBACK_PROTOCOLS:
             raise ValueError("Unknown station feedback mode")
@@ -95,9 +233,29 @@ class StationSession:
             observation = response["observation"]
             public = observation.pop("environment")
             observation["environment_version"] = public["version"]
-            observation["required_kind_name"] = public["kinds"][observation["task"]["required_kind"]]
-            observation["neighbors"] = [{"id": node, "distance": distance} for node, distance in
-                                        neighbors({"public": public}, observation["location"])]
+            observation["required_kind_name"] = public["kinds"][
+                observation["task"]["required_kind"]
+            ]
+            if "requirement" in observation["task"]:
+                observation["requirement_name"] = public["requirements"][
+                    observation["task"]["requirement"]
+                ]
+            if "required_region" in observation["task"]:
+                observation["required_region_name"] = public["processing_regions"][
+                    observation["task"]["required_region"]
+                ]
+                observation["location_region"] = public["locations"][
+                    observation["location"]
+                ]["region_category"]
+                observation["location_region_name"] = public["processing_regions"][
+                    observation["location_region"]
+                ]
+            observation["neighbors"] = [
+                {"id": node, "distance": distance}
+                for node, distance in neighbors(
+                    {"public": public}, observation["location"]
+                )
+            ]
         if record:
             self._record_delivery(None, response)
         return response
@@ -109,40 +267,86 @@ class StationSession:
 
     def _dispatch(self, request):
         if self.game.task_run_id != self._bound_run_id:
-            return {"error": "session_closed", "message": "原委托已关闭，此连接不能访问下一委托。"}
-        error = {"error": "invalid_request", "message": "只接受当前委托的 read 或 action 请求。"}
+            return {
+                "error": "session_closed",
+                "message": "原委托已关闭，此连接不能访问下一委托。",
+            }
+        error = {
+            "error": "invalid_request",
+            "message": "只接受当前委托的 read 或 action 请求。",
+        }
         if not isinstance(request, dict):
             return error
         command = request.get("command")
         if command == "read":
             if set(request) != {"command"}:
                 return error
-            return self._public({"observation": self.game.observation(), "feedback": {"kind": "current_observation"}}, full=True, record=False)
-        if command != "action" or set(request) - {"command", "action", "request_id", "expected_revision"}:
+            return self._public(
+                {
+                    "observation": self.game.observation(),
+                    "feedback": {"kind": "current_observation"},
+                },
+                full=True,
+                record=False,
+            )
+        if command != "action" or set(request) - {
+            "command",
+            "action",
+            "request_id",
+            "expected_revision",
+        }:
             return error
         request_id, action = request.get("request_id"), request.get("action")
         if not isinstance(request_id, str) or not 1 <= len(request_id) <= 128:
-            return {"error": "invalid_request", "message": "动作需要长度为 1–128 的 request_id。"}
+            return {
+                "error": "invalid_request",
+                "message": "动作需要长度为 1–128 的 request_id。",
+            }
         if not isinstance(action, dict) or set(action) - {"type", "target"}:
             return error
-        if action.get("type") not in ("move", "inspect", "process", "submit", "abandon"):
+        if action.get("type") not in (
+            "move",
+            "survey",
+            "inspect",
+            "process",
+            "submit",
+            "abandon",
+        ):
             return error
         if (action["type"] == "move" and not isinstance(action.get("target"), str)) or (
-                action["type"] != "move" and "target" in action):
+            action["type"] != "move" and "target" in action
+        ):
             return error
         expected = request.get("expected_revision")
-        if "expected_revision" in request and (type(expected) is not int or expected < 0):
-            return {"error": "invalid_request", "message": "expected_revision 必须是非负整数。"}
-        signature = json.dumps({"action": action, "expected_revision": expected}, sort_keys=True)
+        if "expected_revision" in request and (
+            type(expected) is not int or expected < 0
+        ):
+            return {
+                "error": "invalid_request",
+                "message": "expected_revision 必须是非负整数。",
+            }
+        signature = json.dumps(
+            {"action": action, "expected_revision": expected}, sort_keys=True
+        )
         if request_id in self.requests:
             previous, result = self.requests[request_id]
-            return deepcopy(result) if previous == signature else {"error": "request_conflict", "message": "同一 request_id 不能用于不同动作。"}
+            return (
+                deepcopy(result)
+                if previous == signature
+                else {
+                    "error": "request_conflict",
+                    "message": "同一 request_id 不能用于不同动作。",
+                }
+            )
         if expected is not None and expected != self.revision:
             return {"error": "stale_revision", "message": "状态已变化，请先 read。"}
         try:
             result = self.game.step(action)
         except ValueError:
-            return {"error": "invalid_action", "message": "当前公开状态不允许该动作，或委托已结束。"}
+            return {
+                "error": "invalid_action",
+                "message": "当前公开状态不允许该动作，或委托已结束。",
+            }
         self.revision += 1
         result = self._public(result, record=False)
         self.requests[request_id] = (signature, deepcopy(result))
@@ -164,7 +368,18 @@ def serve_stdio(session, input_stream, output_stream):
 
 
 def play_human(game, tasks):
-    print("独立机制试玩：不是正式记忆实验。输入 move J、inspect、process、submit、abandon、read 或 quit。")
+    verbs = (
+        ("inspect", "process", "submit", "abandon")
+        if station_query_enabled(game.design)
+        else ("process", "submit", "abandon")
+    )
+    if manual_survey_required(game.design):
+        verbs = ("survey",) + verbs
+    print(
+        "独立机制试玩：不是正式记忆实验。输入 move J、"
+        + "、".join(verbs)
+        + "、read 或 quit。"
+    )
     for task_id in tasks:
         session = StationSession(game, task_id)
         print("\n" + session.initial["text"])
@@ -180,18 +395,30 @@ def play_human(game, tasks):
                 return
             if verb == "read" and len(words) == 1:
                 request = {"command": "read"}
-            elif (verb == "move" and len(words) == 2) or (verb in ("inspect", "process", "submit", "abandon") and len(words) == 1):
+            elif (verb == "move" and len(words) == 2) or (
+                verb in verbs and len(words) == 1
+            ):
                 action = {"type": verb}
                 if verb == "move":
                     target = words[1]
-                    if target not in game.design['public']['locations']:
-                        target = next((node for node in game.design['public']['locations']
-                                       if node.casefold() == target.casefold()), target)
+                    if target not in game.design["public"]["locations"]:
+                        target = next(
+                            (
+                                node
+                                for node in game.design["public"]["locations"]
+                                if node.casefold() == target.casefold()
+                            ),
+                            target,
+                        )
                     action["target"] = target
-                request = {"command": "action", "action": action, "request_id": uuid4().hex,
-                           "expected_revision": session.revision}
+                request = {
+                    "command": "action",
+                    "action": action,
+                    "request_id": uuid4().hex,
+                    "expected_revision": session.revision,
+                }
             else:
-                print("命令格式：move 地点，或 inspect/process/submit/abandon/read/quit。")
+                print("命令格式：move 地点，或 " + "/".join(verbs) + "/read/quit。")
                 continue
             response = session.dispatch(request)
             print(response.get("text", response.get("message", "请求失败。")))
@@ -203,7 +430,10 @@ def main(argv=None):
             stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--design", type=Path, default=DEFAULT_DESIGN)
-    parser.add_argument("--world", help="optional assertion of the map's fixed assignment; never a tool argument")
+    parser.add_argument(
+        "--world",
+        help="optional assertion of the map's fixed assignment; never a tool argument",
+    )
     parser.add_argument("--task", help="host-selected task; tools cannot change it")
     parser.add_argument("--human", action="store_true")
     parser.add_argument("--all-tasks", action="store_true", help="human mode only")
@@ -228,12 +458,27 @@ def main(argv=None):
         else:
             serve_stdio(StationSession(game, task), sys.stdin, sys.stdout)
     finally:
-        (output / "events.jsonl").write_text("".join(json.dumps(e, ensure_ascii=False) + "\n" for e in game.events), encoding="utf-8")
-        (output / "summary.json").write_text(json.dumps({
-            "kind": "local_prototype_play_not_agent_memory_evaluation", "design_id": design["design_id"],
-            "private_world": world, "tasks_started": game._runs, "last_task": game.task_id,
-            "done": bool(game.state and game.state.done), "success": bool(game.state and game.state.success),
-            "protocol": "prototype_current_task_jsonl_1"}, ensure_ascii=False, indent=2), encoding="utf-8")
+        (output / "events.jsonl").write_text(
+            "".join(json.dumps(e, ensure_ascii=False) + "\n" for e in game.events),
+            encoding="utf-8",
+        )
+        (output / "summary.json").write_text(
+            json.dumps(
+                {
+                    "kind": "local_prototype_play_not_agent_memory_evaluation",
+                    "design_id": design["design_id"],
+                    "private_world": world,
+                    "tasks_started": game._runs,
+                    "last_task": game.task_id,
+                    "done": bool(game.state and game.state.done),
+                    "success": bool(game.state and game.state.success),
+                    "protocol": "prototype_current_task_jsonl_1",
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
 
 if __name__ == "__main__":

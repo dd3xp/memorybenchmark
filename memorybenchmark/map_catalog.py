@@ -3,30 +3,30 @@ from copy import deepcopy
 from functools import lru_cache
 import json
 from pathlib import Path
-
-from .worlds import load_scenario
+from .cartography import geographic_presentation
 
 DATA = Path(__file__).parent / "data"
-CURRENT_MAP = "nessie-easy"
+CURRENT_MAP = "capulin-easy"
 MAPS = {
-    "nessie-easy": ("尼斯湖水怪", "Easy 01", "nessie_easy20.json"),
-    "easy20": ("岚汀丘地", "同型站", "station_easy20_reuse.json"),
-    "linked20": ("岚汀丘地", "联程", "station_easy20_linked.json"),
-    "choice20": ("岚汀丘地", "多站点", "station_easy20_choice.json"),
-    "station20": ("岚汀丘地", "初版", "station_easy20.json"),
-    "lake-easy": ("雾汀湖", "工具经验", None),
-    "valley": ("谷地", "校准", None),
-    "river": ("渡口", "校准", None),
-    "capability-v2": ("站点原型", "第二版", DATA.parents[1] / "design/station_capability_v2.json"),
-    "capability-v1": ("站点原型", "第一版", DATA.parents[1] / "design/station_capability_v1.json"),
+    "capulin-easy": ("卡普林火山", "Easy 01", "capulin_easy16.json"),
+    "forest-easy": ("缪尔森林", "Easy 02", "forest_geo_easy16.json"),
+    "cascade-easy": ("普利维特采湖区", "Easy 03", "cascade_easy16.json"),
+    "nessie-normal": ("尼斯湖水怪", "Normal 01", "nessie_normal24.json"),
+    "dingo-normal": ("澳洲野犬", "Normal 02", "dingo_normal24.json"),
+    "boar-normal": ("野猪林", "Normal 03", "boar_normal24.json"),
+    "orcia-hard": ("奥尔恰谷", "Hard 01", "orcia_hard36.json"),
+    "hampi-hard": ("亨比", "Hard 02", "hampi_hard36.json"),
+    "angkor-hard": ("吴哥", "Hard 03", "angkor_hard36.json"),
+    "scandinavia-lunatic": ("斯堪的纳维亚", "Lunatic 01", "scandinavia_lunatic64.json"),
+    "mongolia-lunatic": ("蒙古", "Lunatic 02", "mongolia_lunatic64.json"),
+    "andes-lunatic": ("安第斯", "Lunatic 03", "andes_lunatic64.json"),
 }
 
 
 def station_design(map_id):
-    if map_id not in MAPS or MAPS[map_id][2] is None:
+    if map_id not in MAPS:
         raise ValueError("地图不存在。")
-    source = MAPS[map_id][2]
-    path = source if isinstance(source, Path) else DATA / source
+    path = DATA / MAPS[map_id][2]
     if not path.is_file():
         raise ValueError("地图资源未安装。")
     return path
@@ -37,36 +37,31 @@ def _detail(map_id):
     if map_id not in MAPS:
         raise ValueError("地图不存在。")
     name, variant, filename = MAPS[map_id]
-    if filename:
-        design = json.loads(station_design(map_id).read_text(encoding="utf-8"))
-        public = design["public"]
-        locations, edges = public["locations"], public["edges"]
-        terrain = public.get("terrain", "field")
-        triggers = [key for key, node in locations.items() if node.get("kind") == "station"]
-        bounds = public.get("view_box")
-        task_count = len(design["tasks"])
-    else:
-        world, tasks = load_scenario(map_id)
-        # Do not send rules, schedules, tools or hazard answers with geography.
-        locations = {key: {field: value for field, value in node.items()
-                         if field in ("name", "x", "y", "kind", "terrain")}
-                     for key, node in world["locations"].items()}
-        for key in world.get("camps", []):
-            locations[key]["kind"] = "camp"
-        edges, terrain, bounds = world["edges"], "lake" if map_id == "lake-easy" else "plain", None
-        triggers = list(world.get("hazards", {}))
-        triggers += [point for passage in world.get("passages", []) for point in passage["edge"]]
-        task_count = len(tasks)
+    design = json.loads(station_design(map_id).read_text(encoding="utf-8"))
+    public = design["public"]
+    locations, edges = public["locations"], public["edges"]
+    terrain = public.get("terrain", "field")
+    triggers = [key for key, node in locations.items() if node.get("kind") == "station"]
+    bounds = public.get("view_box")
+    geographic = geographic_presentation(public)
+    task_count = len(design["tasks"])
     if bounds is None:
         xs = [node["x"] for node in locations.values()]
         ys = [node["y"] for node in locations.values()]
         bounds = [min(xs) - 80, min(ys) - 80, max(xs) - min(xs) + 160, max(ys) - min(ys) + 160]
-    return {"id": map_id, "name": name, "variant": variant, "difficulty": "Easy",
+    result = {"id": map_id, "name": name, "variant": variant, "difficulty": public.get("difficulty", "Easy"),
             "task_count": task_count, "node_count": len(locations), "edge_count": len(edges),
-            "current": map_id == CURRENT_MAP, "terrain": terrain,
-            "play_url": "/play?map=" + map_id,
-            "map": {"locations": locations, "edges": edges, "view_box": bounds},
+            "current": map_id == CURRENT_MAP, "terrain": terrain, "station_game": bool(filename),
+            "play_url": "/play?map=" + map_id, "version": public.get("version", ""),
+            "materials": list(public.get("kinds", {}).values()),
+            "map": {"locations": locations, "edges": edges, "view_box": bounds,
+                    "ferry_edges": public.get('ferry_edges',[]),
+                    "processing_regions": public.get('processing_regions',{})},
             "trigger_nodes": sorted(set(triggers))}
+    if geographic:
+        result['map'].update(geographic)
+        result['terrain_asset'] = geographic['terrain_asset']
+    return result
 
 
 def map_detail(map_id):
@@ -81,3 +76,19 @@ def map_listing():
         except ValueError:
             continue
     return result
+
+
+@lru_cache(maxsize=1)
+def _human_names():
+    names = {}
+    for label, _, filename in MAPS.values():
+        path = DATA / filename
+        if path.is_file():
+            public = json.loads(path.read_text(encoding='utf-8'))['public']
+            names[public['name']] = label
+    return names
+
+
+def human_map_name(public):
+    """Website projection only; never mutate a frozen observation or design."""
+    return _human_names().get(public['name'], public['name'])

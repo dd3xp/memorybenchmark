@@ -1,0 +1,1806 @@
+{
+  "design_id": "normal-02-v2.0",
+  "status": "individually_authored_field_v2_pending_native_calibration",
+  "world_generator": "fixed_station_capability_sets",
+  "fixed_world": "authored-fixed",
+  "material_selection": {
+    "protocol": "difficulty-materials-v1",
+    "catalog_version": "survey-materials-3",
+    "catalog_sha256": "13112dc2890c2c60557f9be371a1b542c2de4f6ef469c77f59913d92cc95ea0e",
+    "theme": "dingo",
+    "geographic": [
+      "profile",
+      "shore",
+      "vegetation",
+      "elevation",
+      "soil",
+      "bathymetry",
+      "sediment",
+      "land_cover"
+    ],
+    "animal": [
+      "dingo_tracks",
+      "dingo_calls",
+      "shorebird_record",
+      "reptile_signs"
+    ]
+  },
+  "public": {
+    "version": "normal-02-v2.0",
+    "name": "沙汀林湖",
+    "difficulty": "Normal",
+    "terrain": "sand-coast",
+    "capability_model": "overlapping-sets-v1",
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      3000,
+      2400
+    ],
+    "rules": [
+      "每项委托有两段行程。依次到当前目标主动 survey 采集指定资料，到支持该资料的基站主动 process；两段处理完成后回 C 营地主动 submit 交付。",
+      "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。",
+      "共有十二类资料与 A 至 P 十六种公开站型，每型两座站。同型站的完整处理能力相同。每型支持一至两类资料，多种站型可以处理同一类资料。",
+      "所有站型都是每种资料的候选，字母、位置和研究主题不表示能力，也没有候选站网分组。配对在本地图所有任务、Agent 和重复实验中固定。",
+      "不提供独立查询。携带本段资料主动 process 后才反馈该站型的完整支持资料列表和本次结果；失败保留原始资料，可以换站重试。仅路过不揭示能力。",
+      "一座站的实际能力经验可以用于远处的同型站，也可以记住同一资料的其他可用站型，按当前路线选择。",
+      "地图与道路从第一项起公开，只提供地理信息，不保存能力配对或历史处理反馈。只能移动到一个相邻地点。",
+      "抵达目标后必须主动 survey；提前经过后续目标不算采集。勘探、移动、处理、交付各计一次操作，read 免费。",
+      "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，不补发未获得的经验。",
+      "每项最多一百六十八次操作。",
+      "本图资料：剖面资料、岸线资料、植被资料、高程资料、土壤资料、水深资料、沉积物资料、地表覆盖资料、野犬足迹资料、野犬声学资料、滨鸟观察资料、爬行动物活动资料。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "shore": "岸线资料",
+      "vegetation": "植被资料",
+      "elevation": "高程资料",
+      "soil": "土壤资料",
+      "bathymetry": "水深资料",
+      "sediment": "沉积物资料",
+      "land_cover": "地表覆盖资料",
+      "dingo_tracks": "野犬足迹资料",
+      "dingo_calls": "野犬声学资料",
+      "shorebird_record": "滨鸟观察资料",
+      "reptile_signs": "爬行动物活动资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "基站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A 型",
+        "stations": [
+          "A1",
+          "A2"
+        ]
+      },
+      "B": {
+        "name": "B 型",
+        "stations": [
+          "B1",
+          "B2"
+        ]
+      },
+      "C": {
+        "name": "C 型",
+        "stations": [
+          "C1",
+          "C2"
+        ]
+      },
+      "D": {
+        "name": "D 型",
+        "stations": [
+          "D1",
+          "D2"
+        ]
+      },
+      "E": {
+        "name": "E 型",
+        "stations": [
+          "E1",
+          "E2"
+        ]
+      },
+      "F": {
+        "name": "F 型",
+        "stations": [
+          "F1",
+          "F2"
+        ]
+      },
+      "G": {
+        "name": "G 型",
+        "stations": [
+          "G1",
+          "G2"
+        ]
+      },
+      "H": {
+        "name": "H 型",
+        "stations": [
+          "H1",
+          "H2"
+        ]
+      },
+      "I": {
+        "name": "I 型",
+        "stations": [
+          "I1",
+          "I2"
+        ]
+      },
+      "J": {
+        "name": "J 型",
+        "stations": [
+          "J1",
+          "J2"
+        ]
+      },
+      "K": {
+        "name": "K 型",
+        "stations": [
+          "K1",
+          "K2"
+        ]
+      },
+      "L": {
+        "name": "L 型",
+        "stations": [
+          "L1",
+          "L2"
+        ]
+      },
+      "M": {
+        "name": "M 型",
+        "stations": [
+          "M1",
+          "M2"
+        ]
+      },
+      "N": {
+        "name": "N 型",
+        "stations": [
+          "N1",
+          "N2"
+        ]
+      },
+      "O": {
+        "name": "O 型",
+        "stations": [
+          "O1",
+          "O2"
+        ]
+      },
+      "P": {
+        "name": "P 型",
+        "stations": [
+          "P1",
+          "P2"
+        ]
+      }
+    },
+    "locations": {
+      "c0": {
+        "name": "北沙岸",
+        "kind": "junction",
+        "x": 2430,
+        "y": 220
+      },
+      "c1": {
+        "name": "北岸路口",
+        "kind": "junction",
+        "x": 2500,
+        "y": 650
+      },
+      "c2": {
+        "name": "中岸路口",
+        "kind": "junction",
+        "x": 2430,
+        "y": 1110
+      },
+      "c3": {
+        "name": "南岸路口",
+        "kind": "junction",
+        "x": 2480,
+        "y": 1640
+      },
+      "c4": {
+        "name": "南沙岸",
+        "kind": "junction",
+        "x": 2380,
+        "y": 2140
+      },
+      "i0": {
+        "name": "北林路口",
+        "kind": "junction",
+        "x": 1630,
+        "y": 910
+      },
+      "i1": {
+        "name": "北岭林口",
+        "kind": "junction",
+        "x": 1710,
+        "y": 520
+      },
+      "i2": {
+        "name": "东林路口",
+        "kind": "junction",
+        "x": 1980,
+        "y": 1250
+      },
+      "i3": {
+        "name": "南林路口",
+        "kind": "junction",
+        "x": 1770,
+        "y": 1680
+      },
+      "w0": {
+        "name": "西溪林口",
+        "kind": "junction",
+        "x": 840,
+        "y": 1330
+      },
+      "w1": {
+        "name": "西溪下口",
+        "kind": "junction",
+        "x": 530,
+        "y": 1600
+      },
+      "w2": {
+        "name": "西侧湿地",
+        "kind": "junction",
+        "x": 400,
+        "y": 1930
+      },
+      "a0": {
+        "name": "北湖东脊",
+        "kind": "junction",
+        "x": 1260,
+        "y": 380
+      },
+      "a1": {
+        "name": "北湖西脊",
+        "kind": "junction",
+        "x": 820,
+        "y": 270
+      },
+      "a2": {
+        "name": "北湖西坡",
+        "kind": "junction",
+        "x": 550,
+        "y": 570
+      },
+      "a3": {
+        "name": "北湖南坡",
+        "kind": "junction",
+        "x": 730,
+        "y": 920
+      },
+      "a4": {
+        "name": "北湖林口",
+        "kind": "junction",
+        "x": 1100,
+        "y": 930
+      },
+      "b0": {
+        "name": "东湖上脊",
+        "kind": "junction",
+        "x": 2020,
+        "y": 300
+      },
+      "b1": {
+        "name": "东湖沙脊",
+        "kind": "junction",
+        "x": 2280,
+        "y": 450
+      },
+      "b2": {
+        "name": "东湖南路",
+        "kind": "junction",
+        "x": 2240,
+        "y": 920
+      },
+      "b3": {
+        "name": "东湖林岔",
+        "kind": "junction",
+        "x": 1860,
+        "y": 960
+      },
+      "d0": {
+        "name": "南湖北岸",
+        "kind": "junction",
+        "x": 1320,
+        "y": 1570
+      },
+      "d1": {
+        "name": "南湖西林",
+        "kind": "junction",
+        "x": 730,
+        "y": 1730
+      },
+      "d2": {
+        "name": "南湖南岸",
+        "kind": "junction",
+        "x": 900,
+        "y": 2100
+      },
+      "d3": {
+        "name": "南湖东岸",
+        "kind": "junction",
+        "x": 1370,
+        "y": 2140
+      },
+      "C": {
+        "name": "雨林巡测营地",
+        "kind": "camp",
+        "x": 1370,
+        "y": 1240
+      },
+      "J2": {
+        "name": "J型处理站·J2",
+        "kind": "station",
+        "x": 2460,
+        "y": 430,
+        "station_type": "J"
+      },
+      "P2": {
+        "name": "P型处理站·P2",
+        "kind": "station",
+        "x": 2460,
+        "y": 875,
+        "station_type": "P"
+      },
+      "H1": {
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "x": 2455,
+        "y": 1390,
+        "station_type": "H"
+      },
+      "D2": {
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "x": 2430,
+        "y": 1880,
+        "station_type": "D"
+      },
+      "H2": {
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "x": 2180,
+        "y": 290,
+        "station_type": "H"
+      },
+      "G1": {
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "x": 2330,
+        "y": 560,
+        "station_type": "G"
+      },
+      "M1": {
+        "name": "M型处理站·M1",
+        "kind": "station",
+        "x": 2240,
+        "y": 1110,
+        "station_type": "M"
+      },
+      "G2": {
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "x": 2150,
+        "y": 1200,
+        "station_type": "G"
+      },
+      "L1": {
+        "name": "L型处理站·L1",
+        "kind": "station",
+        "x": 1510,
+        "y": 1080,
+        "station_type": "L"
+      },
+      "N2": {
+        "name": "N型处理站·N2",
+        "kind": "station",
+        "x": 1680,
+        "y": 700,
+        "station_type": "N"
+      },
+      "K2": {
+        "name": "K型处理站·K2",
+        "kind": "station",
+        "x": 1490,
+        "y": 445,
+        "station_type": "K"
+      },
+      "O1": {
+        "name": "O型处理站·O1",
+        "kind": "station",
+        "x": 1020,
+        "y": 300,
+        "station_type": "O"
+      },
+      "I1": {
+        "name": "I型处理站·I1",
+        "kind": "station",
+        "x": 670,
+        "y": 410,
+        "station_type": "I"
+      },
+      "A2": {
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "x": 610,
+        "y": 760,
+        "station_type": "A"
+      },
+      "M2": {
+        "name": "M型处理站·M2",
+        "kind": "station",
+        "x": 920,
+        "y": 930,
+        "station_type": "M"
+      },
+      "O2": {
+        "name": "O型处理站·O2",
+        "kind": "station",
+        "x": 1360,
+        "y": 920,
+        "station_type": "O"
+      },
+      "B2": {
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "x": 1080,
+        "y": 1290,
+        "station_type": "B"
+      },
+      "J1": {
+        "name": "J型处理站·J1",
+        "kind": "station",
+        "x": 700,
+        "y": 1460,
+        "station_type": "J"
+      },
+      "E2": {
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "x": 530,
+        "y": 1820,
+        "station_type": "E"
+      },
+      "L2": {
+        "name": "L型处理站·L2",
+        "kind": "station",
+        "x": 1050,
+        "y": 1540,
+        "station_type": "L"
+      },
+      "F2": {
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "x": 760,
+        "y": 1970,
+        "station_type": "F"
+      },
+      "B1": {
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "x": 1150,
+        "y": 2120,
+        "station_type": "B"
+      },
+      "I2": {
+        "name": "I型处理站·I2",
+        "kind": "station",
+        "x": 1380,
+        "y": 1840,
+        "station_type": "I"
+      },
+      "N1": {
+        "name": "N型处理站·N1",
+        "kind": "station",
+        "x": 1650,
+        "y": 1530,
+        "station_type": "N"
+      },
+      "E1": {
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "x": 2070,
+        "y": 1660,
+        "station_type": "E"
+      },
+      "A1": {
+        "name": "A型处理站·A1",
+        "kind": "station",
+        "x": 2090,
+        "y": 2010,
+        "station_type": "A"
+      },
+      "F1": {
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "x": 350,
+        "y": 520,
+        "station_type": "F"
+      },
+      "C1": {
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "x": 690,
+        "y": 120,
+        "station_type": "C"
+      },
+      "D1": {
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "x": 1740,
+        "y": 240,
+        "station_type": "D"
+      },
+      "K1": {
+        "name": "K型处理站·K1",
+        "kind": "station",
+        "x": 1960,
+        "y": 1000,
+        "station_type": "K"
+      },
+      "P1": {
+        "name": "P型处理站·P1",
+        "kind": "station",
+        "x": 500,
+        "y": 2160,
+        "station_type": "P"
+      },
+      "C2": {
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "x": 1630,
+        "y": 2190,
+        "station_type": "C"
+      },
+      "w058": {
+        "name": "北湖东坡转弯",
+        "kind": "junction",
+        "x": 1320,
+        "y": 650,
+        "transit": true
+      },
+      "P": {
+        "name": "北湖西坡测点",
+        "kind": "survey",
+        "x": 520,
+        "y": 300
+      },
+      "Q": {
+        "name": "北部海岸测点",
+        "kind": "survey",
+        "x": 2540,
+        "y": 250
+      },
+      "R": {
+        "name": "雨林西缘测点",
+        "kind": "survey",
+        "x": 450,
+        "y": 1080
+      },
+      "S": {
+        "name": "东湖林地测点",
+        "kind": "survey",
+        "x": 2080,
+        "y": 1030
+      },
+      "U": {
+        "name": "溪畔雨林测点",
+        "kind": "survey",
+        "x": 970,
+        "y": 1170
+      },
+      "V": {
+        "name": "东湖沙岸测点",
+        "kind": "survey",
+        "x": 2350,
+        "y": 820
+      },
+      "X": {
+        "name": "海岸沙地测点",
+        "kind": "survey",
+        "x": 2560,
+        "y": 1320
+      },
+      "Y": {
+        "name": "南部海岸测点",
+        "kind": "survey",
+        "x": 2220,
+        "y": 2220
+      },
+      "Z": {
+        "name": "西侧湿地测点",
+        "kind": "survey",
+        "x": 340,
+        "y": 2040
+      },
+      "W": {
+        "name": "南湖沉积测点",
+        "kind": "survey",
+        "x": 980,
+        "y": 2260
+      },
+      "T": {
+        "name": "南岭沙脊测点",
+        "kind": "survey",
+        "x": 1720,
+        "y": 1940
+      },
+      "O": {
+        "name": "内陆高脊测点",
+        "kind": "survey",
+        "x": 1520,
+        "y": 250
+      }
+    },
+    "edges": [
+      [
+        "c0",
+        "J2",
+        1
+      ],
+      [
+        "c1",
+        "J2",
+        1
+      ],
+      [
+        "c1",
+        "P2",
+        2
+      ],
+      [
+        "c2",
+        "P2",
+        2
+      ],
+      [
+        "c2",
+        "H1",
+        2
+      ],
+      [
+        "c3",
+        "H1",
+        2
+      ],
+      [
+        "c3",
+        "D2",
+        2
+      ],
+      [
+        "c4",
+        "D2",
+        2
+      ],
+      [
+        "C",
+        "L1",
+        1
+      ],
+      [
+        "i0",
+        "L1",
+        1
+      ],
+      [
+        "i0",
+        "N2",
+        1
+      ],
+      [
+        "i1",
+        "N2",
+        1
+      ],
+      [
+        "i1",
+        "K2",
+        2
+      ],
+      [
+        "a0",
+        "K2",
+        2
+      ],
+      [
+        "C",
+        "i2",
+        4
+      ],
+      [
+        "i2",
+        "G2",
+        1
+      ],
+      [
+        "c2",
+        "G2",
+        2
+      ],
+      [
+        "C",
+        "N1",
+        3
+      ],
+      [
+        "i3",
+        "N1",
+        1
+      ],
+      [
+        "i3",
+        "E1",
+        2
+      ],
+      [
+        "c3",
+        "E1",
+        3
+      ],
+      [
+        "C",
+        "B2",
+        2
+      ],
+      [
+        "B2",
+        "w0",
+        2
+      ],
+      [
+        "J1",
+        "w0",
+        1
+      ],
+      [
+        "J1",
+        "w1",
+        1
+      ],
+      [
+        "E2",
+        "w1",
+        1
+      ],
+      [
+        "E2",
+        "w2",
+        1
+      ],
+      [
+        "a0",
+        "O1",
+        2
+      ],
+      [
+        "a1",
+        "O1",
+        1
+      ],
+      [
+        "a1",
+        "I1",
+        1
+      ],
+      [
+        "a2",
+        "I1",
+        1
+      ],
+      [
+        "a2",
+        "A2",
+        1
+      ],
+      [
+        "a3",
+        "A2",
+        1
+      ],
+      [
+        "a3",
+        "M2",
+        1
+      ],
+      [
+        "a4",
+        "M2",
+        1
+      ],
+      [
+        "a0",
+        "w058",
+        2
+      ],
+      [
+        "a4",
+        "w058",
+        2
+      ],
+      [
+        "a3",
+        "w0",
+        3
+      ],
+      [
+        "a4",
+        "O2",
+        2
+      ],
+      [
+        "i0",
+        "O2",
+        2
+      ],
+      [
+        "b0",
+        "i1",
+        3
+      ],
+      [
+        "b0",
+        "H2",
+        1
+      ],
+      [
+        "c0",
+        "H2",
+        2
+      ],
+      [
+        "b0",
+        "b1",
+        2
+      ],
+      [
+        "b1",
+        "G1",
+        1
+      ],
+      [
+        "c1",
+        "G1",
+        1
+      ],
+      [
+        "b3",
+        "i0",
+        2
+      ],
+      [
+        "b2",
+        "b3",
+        3
+      ],
+      [
+        "b2",
+        "M1",
+        1
+      ],
+      [
+        "c2",
+        "M1",
+        1
+      ],
+      [
+        "b3",
+        "i2",
+        2
+      ],
+      [
+        "C",
+        "d0",
+        2
+      ],
+      [
+        "d0",
+        "L2",
+        2
+      ],
+      [
+        "d1",
+        "L2",
+        2
+      ],
+      [
+        "d1",
+        "w1",
+        2
+      ],
+      [
+        "d1",
+        "F2",
+        2
+      ],
+      [
+        "d2",
+        "F2",
+        1
+      ],
+      [
+        "d2",
+        "B1",
+        2
+      ],
+      [
+        "d3",
+        "B1",
+        1
+      ],
+      [
+        "d3",
+        "I2",
+        2
+      ],
+      [
+        "d0",
+        "I2",
+        2
+      ],
+      [
+        "d0",
+        "i3",
+        3
+      ],
+      [
+        "i3",
+        "A1",
+        3
+      ],
+      [
+        "c4",
+        "A1",
+        2
+      ],
+      [
+        "a2",
+        "F1",
+        1
+      ],
+      [
+        "a1",
+        "C1",
+        1
+      ],
+      [
+        "i1",
+        "D1",
+        2
+      ],
+      [
+        "b3",
+        "K1",
+        1
+      ],
+      [
+        "P1",
+        "w2",
+        2
+      ],
+      [
+        "d3",
+        "C2",
+        2
+      ],
+      [
+        "F1",
+        "P",
+        2
+      ],
+      [
+        "J2",
+        "Q",
+        1
+      ],
+      [
+        "a3",
+        "R",
+        2
+      ],
+      [
+        "R",
+        "w0",
+        3
+      ],
+      [
+        "K1",
+        "S",
+        1
+      ],
+      [
+        "U",
+        "w0",
+        1
+      ],
+      [
+        "b2",
+        "V",
+        1
+      ],
+      [
+        "c1",
+        "V",
+        2
+      ],
+      [
+        "c2",
+        "X",
+        2
+      ],
+      [
+        "c3",
+        "X",
+        2
+      ],
+      [
+        "c4",
+        "Y",
+        1
+      ],
+      [
+        "P1",
+        "Z",
+        1
+      ],
+      [
+        "d2",
+        "W",
+        1
+      ],
+      [
+        "B1",
+        "W",
+        1
+      ],
+      [
+        "C2",
+        "T",
+        2
+      ],
+      [
+        "D1",
+        "O",
+        1
+      ]
+    ]
+  },
+  "tasks": {
+    "T1": {
+      "name": "联程巡测 01",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Z",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "Z",
+          "required_kind": "profile"
+        },
+        {
+          "target": "T",
+          "required_kind": "bathymetry"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T2": {
+      "name": "联程巡测 02",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "shorebird_record",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "shorebird_record"
+        },
+        {
+          "target": "V",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T3": {
+      "name": "联程巡测 03",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "dingo_tracks",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "dingo_tracks"
+        },
+        {
+          "target": "O",
+          "required_kind": "shore"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T4": {
+      "name": "联程巡测 04",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "sediment",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "sediment"
+        },
+        {
+          "target": "Z",
+          "required_kind": "reptile_signs"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T5": {
+      "name": "联程巡测 05",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Z",
+          "required_kind": "dingo_calls"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T6": {
+      "name": "联程巡测 06",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "vegetation",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "vegetation"
+        },
+        {
+          "target": "T",
+          "required_kind": "land_cover"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T7": {
+      "name": "联程巡测 07",
+      "start": "C",
+      "submit_at": "C",
+      "target": "R",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "R",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "X",
+          "required_kind": "dingo_tracks"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T8": {
+      "name": "联程巡测 08",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "shore"
+        },
+        {
+          "target": "W",
+          "required_kind": "sediment"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T9": {
+      "name": "联程巡测 09",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "reptile_signs",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "reptile_signs"
+        },
+        {
+          "target": "X",
+          "required_kind": "soil"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T10": {
+      "name": "联程巡测 10",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "dingo_calls",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "dingo_calls"
+        },
+        {
+          "target": "P",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T11": {
+      "name": "联程巡测 11",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "land_cover",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "land_cover"
+        },
+        {
+          "target": "R",
+          "required_kind": "profile"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T12": {
+      "name": "联程巡测 12",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "bathymetry",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "bathymetry"
+        },
+        {
+          "target": "W",
+          "required_kind": "shorebird_record"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T13": {
+      "name": "联程巡测 13",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "sediment",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "sediment"
+        },
+        {
+          "target": "S",
+          "required_kind": "reptile_signs"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T14": {
+      "name": "联程巡测 14",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "soil"
+        },
+        {
+          "target": "O",
+          "required_kind": "dingo_calls"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T15": {
+      "name": "联程巡测 15",
+      "start": "C",
+      "submit_at": "C",
+      "target": "P",
+      "required_kind": "vegetation",
+      "stages": [
+        {
+          "target": "P",
+          "required_kind": "vegetation"
+        },
+        {
+          "target": "Q",
+          "required_kind": "land_cover"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T16": {
+      "name": "联程巡测 16",
+      "start": "C",
+      "submit_at": "C",
+      "target": "O",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "O",
+          "required_kind": "profile"
+        },
+        {
+          "target": "P",
+          "required_kind": "bathymetry"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T17": {
+      "name": "联程巡测 17",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Z",
+      "required_kind": "shorebird_record",
+      "stages": [
+        {
+          "target": "Z",
+          "required_kind": "shorebird_record"
+        },
+        {
+          "target": "T",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T18": {
+      "name": "联程巡测 18",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Z",
+      "required_kind": "dingo_tracks",
+      "stages": [
+        {
+          "target": "Z",
+          "required_kind": "dingo_tracks"
+        },
+        {
+          "target": "O",
+          "required_kind": "shore"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T19": {
+      "name": "联程巡测 19",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Q",
+      "required_kind": "dingo_calls",
+      "stages": [
+        {
+          "target": "Q",
+          "required_kind": "dingo_calls"
+        },
+        {
+          "target": "W",
+          "required_kind": "vegetation"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T20": {
+      "name": "联程巡测 20",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "land_cover",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "land_cover"
+        },
+        {
+          "target": "W",
+          "required_kind": "profile"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T21": {
+      "name": "联程巡测 21",
+      "start": "C",
+      "submit_at": "C",
+      "target": "V",
+      "required_kind": "bathymetry",
+      "stages": [
+        {
+          "target": "V",
+          "required_kind": "bathymetry"
+        },
+        {
+          "target": "Y",
+          "required_kind": "shorebird_record"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T22": {
+      "name": "联程巡测 22",
+      "start": "C",
+      "submit_at": "C",
+      "target": "O",
+      "required_kind": "elevation",
+      "stages": [
+        {
+          "target": "O",
+          "required_kind": "elevation"
+        },
+        {
+          "target": "V",
+          "required_kind": "dingo_tracks"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T23": {
+      "name": "联程巡测 23",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "shore",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "shore"
+        },
+        {
+          "target": "R",
+          "required_kind": "sediment"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T24": {
+      "name": "联程巡测 24",
+      "start": "C",
+      "submit_at": "C",
+      "target": "S",
+      "required_kind": "reptile_signs",
+      "stages": [
+        {
+          "target": "S",
+          "required_kind": "reptile_signs"
+        },
+        {
+          "target": "V",
+          "required_kind": "soil"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T25": {
+      "name": "联程巡测 25",
+      "start": "C",
+      "submit_at": "C",
+      "target": "T",
+      "required_kind": "profile",
+      "stages": [
+        {
+          "target": "T",
+          "required_kind": "profile"
+        },
+        {
+          "target": "S",
+          "required_kind": "bathymetry"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T26": {
+      "name": "联程巡测 26",
+      "start": "C",
+      "submit_at": "C",
+      "target": "Y",
+      "required_kind": "shorebird_record",
+      "stages": [
+        {
+          "target": "Y",
+          "required_kind": "shorebird_record"
+        },
+        {
+          "target": "R",
+          "required_kind": "elevation"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T27": {
+      "name": "联程巡测 27",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "dingo_tracks",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "dingo_tracks"
+        },
+        {
+          "target": "R",
+          "required_kind": "shore"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T28": {
+      "name": "联程巡测 28",
+      "start": "C",
+      "submit_at": "C",
+      "target": "U",
+      "required_kind": "sediment",
+      "stages": [
+        {
+          "target": "U",
+          "required_kind": "sediment"
+        },
+        {
+          "target": "T",
+          "required_kind": "reptile_signs"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T29": {
+      "name": "联程巡测 29",
+      "start": "C",
+      "submit_at": "C",
+      "target": "W",
+      "required_kind": "soil",
+      "stages": [
+        {
+          "target": "W",
+          "required_kind": "soil"
+        },
+        {
+          "target": "Y",
+          "required_kind": "dingo_calls"
+        }
+      ],
+      "max_steps": 168
+    },
+    "T30": {
+      "name": "联程巡测 30",
+      "start": "C",
+      "submit_at": "C",
+      "target": "X",
+      "required_kind": "vegetation",
+      "stages": [
+        {
+          "target": "X",
+          "required_kind": "vegetation"
+        },
+        {
+          "target": "Q",
+          "required_kind": "land_cover"
+        }
+      ],
+      "max_steps": 168
+    }
+  },
+  "evaluation": {
+    "experience_protocol": "station-experience-opportunity-1",
+    "knowledge_protocol": "delivered-capability-sets-v1",
+    "candidate_family": "symbolic; unobserved types remain unknown; fixed runtime fixture is never treated as an exhaustive family",
+    "exact_unknown_world_references": false,
+    "authoring_geometry_check": {
+      "nearest_match_rate": 0.1,
+      "unused_strict_replicas": [],
+      "strict_replica_counts": {
+        "A1": 1,
+        "A2": 2,
+        "B1": 3,
+        "B2": 1,
+        "C1": 1,
+        "C2": 1,
+        "D1": 2,
+        "D2": 1,
+        "E1": 1,
+        "E2": 1,
+        "F1": 2,
+        "F2": 1,
+        "G1": 1,
+        "G2": 4,
+        "H1": 1,
+        "H2": 1,
+        "I1": 1,
+        "I2": 3,
+        "J1": 3,
+        "J2": 1,
+        "K1": 1,
+        "K2": 2,
+        "L1": 7,
+        "L2": 1,
+        "M1": 1,
+        "M2": 1,
+        "N1": 2,
+        "N2": 3,
+        "O1": 1,
+        "O2": 1,
+        "P1": 1,
+        "P2": 2
+      },
+      "stage_contexts": 60,
+      "mean_processing_leg_distance": 13.933333333333334,
+      "seed": 26110812,
+      "method": "Geometry-only fixed-fixture and target-swap authoring; material order, requirements and target frequency preserved; no native agent outcomes."
+    }
+  },
+  "presentation": {
+    "terrain": "sand-coast",
+    "regions": [
+      {
+        "name": "北部湖林",
+        "x": 950,
+        "y": 570
+      },
+      {
+        "name": "内陆雨林",
+        "x": 1320,
+        "y": 1400
+      },
+      {
+        "name": "东岸沙脊",
+        "x": 2510,
+        "y": 1510
+      },
+      {
+        "name": "南湖",
+        "x": 1090,
+        "y": 1820
+      }
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "https://parks.qld.gov.au/parks/kgari-fraser/journeys/central-lakes-scenic-drive",
+      "https://www.qld.gov.au/environment/plants-animals/animals/living-with/dingoes/about-dingoes"
+    ],
+    "scope": "Cropped geographic inspiration; fictional public nodes, roads, weights, observation packages and station capabilities.",
+    "private_boundary": "Real place names and URLs are excluded from agent observations.",
+    "layout_revision": "individually-authored-field-v2",
+    "supersedes": "normal-02-v1.0",
+    "authoring_rationale": [
+      "Replace the old parallel-rail map with a central rainforest camp linked radially to a long eastern coast road and three separated lake circuits.",
+      "Northern lake and sand-ridge routes reconnect differently from the southern lake and western creek paths; no repeated district block.",
+      "Lake and sea polygons are defined before final placement checks. Every processing station and survey point stays on land."
+    ],
+    "public_geography_review": {
+      "unconnected_visual_crossings": [],
+      "unapproved_barrier_crossings": [],
+      "minimum_station_separation": 127.28,
+      "minimum_point_separation": 107.7,
+      "topology": {
+        "connected": true,
+        "nodes": 71,
+        "roads": 86,
+        "cycle_rank": 16,
+        "core_branch_degree_histogram": {
+          "3": 10,
+          "4": 7,
+          "5": 2
+        },
+        "station_degree_histogram": {
+          "1": 1,
+          "2": 29,
+          "3": 2
+        },
+        "dead_end_count": 9
+      }
+    },
+    "boundary": "Schematic authored roads inspired by the named landscape. Real names and sources remain private; no surveyed road reconstruction or guaranteed native-agent score."
+  },
+  "private_station_capabilities": {
+    "F": [
+      "dingo_tracks",
+      "elevation"
+    ],
+    "I": [
+      "sediment",
+      "shore"
+    ],
+    "K": [
+      "dingo_calls",
+      "shorebird_record"
+    ],
+    "D": [
+      "bathymetry",
+      "shore"
+    ],
+    "G": [
+      "elevation",
+      "reptile_signs"
+    ],
+    "L": [
+      "bathymetry",
+      "dingo_tracks"
+    ],
+    "N": [
+      "land_cover",
+      "profile"
+    ],
+    "B": [
+      "land_cover",
+      "vegetation"
+    ],
+    "M": [
+      "reptile_signs"
+    ],
+    "E": [
+      "dingo_calls"
+    ],
+    "A": [
+      "sediment"
+    ],
+    "P": [
+      "soil"
+    ],
+    "H": [
+      "vegetation"
+    ],
+    "J": [
+      "shorebird_record"
+    ],
+    "O": [
+      "profile"
+    ],
+    "C": [
+      "soil"
+    ]
+  },
+  "native_session_budget": {
+    "main_model_calls": 180,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 3600,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Preserve the declared Easy/Normal budgets; fresh zero-model feasibility checks precede future native evaluation."
+  }
+}

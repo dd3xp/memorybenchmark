@@ -1,8 +1,238 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>游玩 · 测绘手记</title><link rel="stylesheet" href="/site.css"><link rel="stylesheet" href="/field.css"></head><body>
-<header class="appbar"><a class="app-brand" href="/experiments"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 21Q5 6 14 4Q24 3 25 14Q25 23 14 25Q7 25 8 16Q9 10 15 10Q21 10 20 16Q19 21 14 20"/></svg>测绘手记</a><nav class="app-nav" aria-label="主导航"><a href="/experiments">实验</a><a href="/play" aria-current="page">游玩</a><a href="/maps">地图</a></nav><div class="app-end"><button id="journal-open" class="quiet" aria-controls="journal" aria-expanded="false">手记</button><form action="/logout" method="post"><button class="quiet" type="submit">退出</button></form></div></header>
-<main id="game"><aside class="field-sidebar"><header class="identity"><h1>岚汀丘地</h1><span class="pill">Easy</span></header><section class="commission" aria-labelledby="mission-title"><div class="mission-line"><span id="task-number">委托 1 / 20</span><span id="completion" class="subtle">已交件 0 / 20</span></div><h2 id="mission-title">准备委托</h2><p id="mission-instruction"></p><p id="mission-short" hidden></p><ol class="stages"><li id="stage-raw">采集</li><li id="stage-process">处理</li><li id="stage-submit">交件</li></ol><dl class="counters"><div><dt>操作</dt><dd id="steps">—</dd></div><div><dt>路程</dt><dd id="distance">0</dd></div></dl></section>
-<section class="place" aria-labelledby="place-name"><div class="place-top"><span id="place-type">当前位置</span><span id="place-id">C</span></div><h2 id="place-name">手记营地</h2><p id="place-description"></p><div id="local-actions"></div><details class="routes"><summary>相邻道路</summary><div id="neighbors"></div></details></section><a class="change-map" href="/maps">更换地图</a></aside>
-<section class="play-map-area"><section id="viewport" aria-label="拖动地图，点击相邻地点前往" aria-busy="false"><svg id="field-map" viewBox="0 0 1200 900" aria-label="游戏地图"><image href="/field-terrain.svg" x="0" y="0" width="1200" height="900"/><g id="region-labels"></g><g id="roads"></g><g id="trace"></g><g id="places"></g></svg></section><div class="map-controls"><button id="locate" title="定位 · F">定位</button><button id="zoom-out" aria-label="缩小地图">−</button><button id="zoom-in" aria-label="放大地图">＋</button><button id="fit">全图</button></div><p id="feedback" role="status" aria-live="polite">准备委托</p></section>
-<section id="journal" class="drawer" role="dialog" aria-modal="true" aria-label="手记" hidden><header><h2>手记</h2><button id="journal-close" class="icon-button" aria-label="关闭手记">×</button></header><div class="drawer-actions"><button id="design-open">查看设计</button><button id="trace-toggle" aria-pressed="false">显示轨迹</button></div><h3>当前行程</h3><ol id="action-log"></ol><h3>已结束</h3><div id="finished-list"></div><details><summary>规则</summary><div id="rules"></div></details><div class="drawer-actions bottom"><button id="abandon">放弃委托</button><button id="restart">重新开始</button></div></section>
-<section id="design" class="design-view" role="dialog" aria-modal="true" aria-label="地图设计" hidden><header><div><h2>地图设计</h2><p id="design-version" class="subtle"></p></div><button id="design-close">返回游玩</button></header><svg id="design-map" viewBox="0 0 1200 900" aria-label="完整地图与能力"></svg><div id="design-groups"></div><details><summary>当前经验来源</summary><div id="design-experience"></div></details><details><summary>全部委托</summary><div class="table-wrap"><table><thead><tr><th>委托</th><th>目标与资料</th><th>站群</th><th>经验承接</th><th>间隔</th><th>匹配与距离</th><th>参考路线</th></tr></thead><tbody id="design-tasks"></tbody></table></div></details></section>
-<div id="error" class="game-error" role="alert" hidden><p id="error-text"></p><button id="retry">重试</button><button id="error-new">新探索</button></div></main><script src="/field.js"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>游玩 · 测绘手记</title>
+<link rel="stylesheet" href="/maplibre-gl.css">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/field.css">
+</head>
+<body>
+<header class="appbar">
+<a class="app-brand" href="/maps">
+<svg viewBox="0 0 38 48" aria-hidden="true">
+<path d="M19 3C4 6 1 24 7 37s24 11 26-6S30 1 19 3Z"/>
+<path d="M13 36 25 14M18 27Q10 22 13 15M21 21Q30 20 29 12M15 32Q23 34 28 27"/>
+</svg>测绘手记</a>
+<nav class="app-nav" aria-label="主导航">
+<a href="/maps">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-map"/>
+</svg>地图集</a>
+<a href="/experiments">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-flask"/>
+</svg>实验观测</a>
+<a href="/play" aria-current="page">
+<svg class="icon" aria-hidden="true">
+<use href="/cottage-icons.svg#i-book"/>
+</svg>游玩</a>
+</nav>
+<div class="app-end">
+<button id="journal-open" class="quiet" aria-controls="journal" aria-expanded="false">手记</button>
+<form action="/logout" method="post">
+<button class="quiet" type="submit">退出</button>
+</form>
+</div>
+</header>
+<main id="game">
+<aside class="field-sidebar">
+<header class="identity">
+<h1>测绘手记</h1>
+<span id="difficulty-label" class="pill">—</span>
+</header>
+<section class="commission" aria-labelledby="mission-title">
+<div class="mission-line">
+<span id="task-number">委托 1 / 20</span>
+<span id="completion" class="subtle">已交件 0 / 20</span>
+</div>
+<h2 id="mission-title">准备委托</h2>
+<p id="mission-instruction">
+</p>
+<p id="mission-short" hidden>
+</p>
+<ol class="stages">
+<li id="stage-raw">采集</li>
+<li id="stage-process">处理</li>
+<li id="stage-submit">交件</li>
+</ol>
+<dl class="counters">
+<div>
+<dt>操作</dt>
+<dd id="steps">—</dd>
+</div>
+<div>
+<dt>路程</dt>
+<dd id="distance">0</dd>
+</div>
+</dl>
+</section>
+<section class="place" aria-labelledby="place-name">
+<div class="place-top">
+<span id="place-type">当前位置</span>
+<span id="place-id">C</span>
+</div>
+<h2 id="place-name">手记营地</h2>
+<p id="place-description">
+</p>
+<div id="local-actions">
+</div>
+<details class="routes">
+<summary>相邻道路</summary>
+<div id="neighbors">
+</div>
+</details>
+</section>
+<a class="change-map" href="/maps">更换地图</a>
+</aside>
+<section class="play-map-area">
+<section id="viewport" aria-label="拖动地图，点击相邻地点前往" aria-busy="true">
+<div id="play-loading" class="loading-state loading-overlay" role="status" data-loading-target="viewport">
+<span class="loading-indicator" aria-hidden="true">
+</span>
+<span data-loading-text>加载中</span>
+</div>
+<svg class="atlas" id="field-map" viewBox="0 0 1200 900" aria-label="游戏地图">
+<image href="/volcanic-cone-terrain.svg" x="0" y="0" width="1200" height="900"/>
+<g id="region-labels">
+</g>
+<g id="roads">
+</g>
+<g id="trace">
+</g>
+<g id="places">
+</g>
+</svg>
+</section>
+<div class="map-controls">
+<button id="locate" title="定位 · F">定位</button>
+<button id="zoom-out" aria-label="缩小地图">−</button>
+<button id="zoom-in" aria-label="放大地图">＋</button>
+<button id="fit" title="回到当前地图范围" aria-label="回到当前地图范围">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="6"/>
+<circle cx="12" cy="12" r="1.5"/>
+<path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+</svg>
+</button>
+<button id="world-extent" title="缩放至世界" aria-label="缩放至世界">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/>
+<ellipse cx="12" cy="12" rx="4" ry="9"/>
+<path d="M3 12h18"/>
+</svg>
+</button>
+</div>
+<p id="feedback" role="status" aria-live="polite">准备委托</p>
+</section>
+<section id="journal" class="drawer" role="dialog" aria-modal="true" aria-label="手记" hidden>
+<header>
+<h2>手记</h2>
+<button id="journal-close" class="icon-button" aria-label="关闭手记">×</button>
+</header>
+<div class="drawer-actions">
+<button id="design-open">查看设计</button>
+<button id="trace-toggle" aria-pressed="false">显示轨迹</button>
+</div>
+<h3>当前行程</h3>
+<ol id="action-log">
+</ol>
+<h3>已结束</h3>
+<div id="finished-list">
+</div>
+<details>
+<summary>规则</summary>
+<div id="rules">
+</div>
+</details>
+<div class="drawer-actions bottom">
+<button id="abandon">放弃委托</button>
+<button id="restart">重新开始</button>
+</div>
+</section>
+<section id="design" class="design-view" role="dialog" aria-modal="true" aria-label="地图设计" hidden>
+<header>
+<div>
+<h2>地图设计</h2>
+<p id="design-version" class="subtle">
+</p>
+</div>
+<button id="design-close">返回游玩</button>
+</header>
+<div id="design-map-viewport" class="map-surface">
+<div id="design-loading" class="loading-state loading-overlay" role="status" data-loading-target="design-map-viewport">
+<span class="loading-indicator" aria-hidden="true">
+</span>
+<span data-loading-text>加载中</span>
+</div>
+<svg id="design-map" class="atlas" tabindex="0" aria-label="完整地图与能力">
+</svg>
+<div class="map-zoom">
+<button id="design-zoom-in" aria-label="放大设计地图">＋</button>
+<button id="design-zoom-out" aria-label="缩小设计地图">−</button>
+<button id="design-fit" aria-label="回到设计地图范围">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="6"/>
+<circle cx="12" cy="12" r="1.5"/>
+<path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+</svg>
+</button>
+<button id="design-world" aria-label="设计地图缩放至世界">
+<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+<circle cx="12" cy="12" r="9"/>
+<ellipse cx="12" cy="12" rx="4" ry="9"/>
+<path d="M3 12h18"/>
+</svg>
+</button>
+</div>
+</div>
+<div id="design-groups">
+</div>
+<details>
+<summary>当前经验来源</summary>
+<div id="design-experience">
+</div>
+</details>
+<details>
+<summary>全部委托</summary>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>委托</th>
+<th>目标与资料</th>
+<th>站群</th>
+<th>经验承接</th>
+<th>间隔</th>
+<th>匹配与距离</th>
+<th>参考路线</th>
+</tr>
+</thead>
+<tbody id="design-tasks">
+</tbody>
+</table>
+</div>
+</details>
+</section>
+<div id="error" class="game-error" role="alert" hidden>
+<p id="error-text">
+</p>
+<button id="retry">重试</button>
+<button id="error-new">新探索</button>
+</div>
+</main>
+<script src="/ui-state.js">
+</script>
+<script src="/atlas-view.js">
+</script>
+<script src="/maplibre-gl-csp.js">
+</script>
+<script src="/atlas-gpu.js">
+</script>
+<script src="/world-atlas.js">
+</script>
+<script src="/field.js">
+</script>
+</body>
+</html>

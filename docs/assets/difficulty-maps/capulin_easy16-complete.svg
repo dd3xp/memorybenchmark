@@ -1,0 +1,330 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 1700" width="2200" height="1700">
+  <title>玄锥熔原 · 地形示意 · 完整公开路网</title>
+  <desc>地区景观原型上的独立手绘路网，非历史道路复原；无处理能力答案。</desc>
+  <defs>
+    <pattern id="paper" width="83" height="71" patternUnits="userSpaceOnUse">
+      <path d="M9 15h1m27 26h1m23-31h1m-8 51h1" stroke="#485946" opacity=".075" stroke-width="2" />
+    </pattern>
+    <linearGradient id="water" x1="0" y1="0" x2=".4" y2="1">
+      <stop stop-color="#8fbcb6" />
+      <stop offset="1" stop-color="#6b9e9d" />
+    </linearGradient>
+    <pattern id="paddy" width="70" height="62" patternUnits="userSpaceOnUse">
+      <path d="M0 0H70V62H0Z" fill="none" stroke="#9bad85" stroke-width="2" opacity=".32" />
+    </pattern>
+  </defs>
+  <rect width="2200" height="1700" fill="#e0ddc6" />
+  <path d="M2070.2,600.0L2096.5,663.3L2111.1,730.3L2109.7,798.4L2090.0,863.7L2052.5,922.5L2000.0,972.2L1937.3,1011.6L1869.3,1041.4L1800.7,1064.0L1734.5,1082.3L1671.9,1099.3L1612.1,1116.8L1553.6,1135.2L1494.5,1153.5L1433.4,1169.5L1370.0,1180.9L1304.8,1185.6L1238.8,1182.9L1173.4,1172.9L1109.1,1156.8L1046.0,1135.8L983.7,1111.1L921.8,1082.8L860.5,1050.4L801.4,1012.5L747.3,967.8L701.8,915.8L668.8,856.8L651.1,792.8L650.0,726.6L664.1,661.5L690.2,600.0L723.1,543.7L757.6,492.3L789.1,444.2L815.0,396.8L835.4,347.4L852.6,294.4L870.5,237.6L893.5,178.7L925.2,120.9L967.8,67.9L1021.3,23.3L1084.0,-10.4L1153.1,-32.3L1225.3,-43.1L1298.2,-44.6L1370.0,-39.1L1440.0,-28.5L1508.1,-13.6L1574.0,5.5L1637.2,29.7L1696.6,59.9L1750.4,96.7L1797.2,139.8L1836.3,187.7L1868.2,238.5L1894.7,290.0L1918.9,340.6L1943.7,389.9L1971.7,438.6L2003.4,488.6L2037.5,541.9L2070.2,600.0Z" fill="#b8b391" stroke="none" stroke-width="1" opacity="0.65" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M1989.0,600.0L2012.3,655.0L2025.2,713.2L2023.9,772.3L2006.5,829.1L1973.4,880.2L1927.0,923.4L1871.5,957.6L1811.4,983.5L1750.8,1003.1L1692.3,1019.0L1636.9,1033.8L1584.1,1049.0L1532.4,1065.0L1480.1,1080.9L1426.1,1094.8L1370.0,1104.7L1312.3,1108.8L1254.0,1106.5L1196.2,1097.8L1139.4,1083.8L1083.6,1065.5L1028.5,1044.1L973.7,1019.5L919.6,991.3L867.4,958.4L819.5,919.6L779.3,874.3L750.1,823.1L734.4,767.5L733.4,710.0L746.0,653.4L769.0,600.0L798.1,551.1L828.6,506.4L856.4,464.6L879.4,423.4L897.4,380.5L912.6,334.5L928.4,285.1L948.7,234.0L976.8,183.7L1014.5,137.7L1061.8,99.0L1117.2,69.7L1178.2,50.7L1242.1,41.3L1306.5,39.9L1370.0,44.7L1431.9,53.9L1492.1,66.8L1550.3,83.5L1606.2,104.5L1658.7,130.7L1706.3,162.7L1747.7,200.1L1782.3,241.8L1810.4,285.9L1833.9,330.7L1855.2,374.7L1877.2,417.5L1901.9,459.8L1930.0,503.2L1960.1,549.5L1989.0,600.0Z" fill="#c6b994" stroke="none" stroke-width="1" opacity="0.65" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M1912.9,600.0L1933.3,646.1L1944.6,695.1L1943.5,744.7L1928.3,792.3L1899.2,835.3L1858.5,871.5L1809.8,900.2L1757.1,922.0L1703.9,938.5L1652.6,951.8L1604.1,964.2L1557.7,977.0L1512.4,990.4L1466.6,1003.8L1419.2,1015.5L1370.0,1023.7L1319.4,1027.2L1268.3,1025.3L1217.6,1018.0L1167.7,1006.2L1118.8,990.9L1070.5,972.8L1022.5,952.2L975.0,928.6L929.2,900.9L887.2,868.3L851.9,830.3L826.3,787.3L812.6,740.6L811.7,692.4L822.7,644.8L842.9,600.0L868.5,558.9L895.2,521.4L919.6,486.4L939.7,451.7L955.5,415.7L968.8,377.0L982.7,335.6L1000.5,292.7L1025.1,250.5L1058.2,211.8L1099.7,179.3L1148.3,154.7L1201.8,138.8L1257.8,130.9L1314.3,129.7L1370.0,133.7L1424.3,141.5L1477.1,152.4L1528.2,166.3L1577.2,183.9L1623.2,206.0L1664.9,232.8L1701.3,264.3L1731.6,299.3L1756.3,336.3L1776.9,373.9L1795.6,410.8L1814.8,446.7L1836.5,482.3L1861.1,518.7L1887.5,557.6L1912.9,600.0Z" fill="#b39f7e" stroke="none" stroke-width="1" opacity="0.65" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M1816.5,600.0L1833.3,636.3L1842.6,674.8L1841.7,713.8L1829.1,751.3L1805.2,785.0L1771.8,813.5L1731.7,836.1L1688.4,853.3L1644.6,866.2L1602.4,876.7L1562.5,886.5L1524.4,896.5L1487.1,907.1L1449.4,917.6L1410.5,926.8L1370.0,933.3L1328.4,936.0L1286.4,934.5L1244.6,928.7L1203.6,919.5L1163.4,907.4L1123.7,893.3L1084.2,877.0L1045.1,858.4L1007.4,836.7L972.9,811.1L943.9,781.2L922.8,747.3L911.6,710.6L910.8,672.7L919.9,635.3L936.5,600.0L957.5,567.7L979.5,538.2L999.6,510.6L1016.1,483.4L1029.1,455.1L1040.1,424.6L1051.5,392.1L1066.1,358.3L1086.4,325.1L1113.5,294.7L1147.7,269.1L1187.6,249.8L1231.7,237.2L1277.7,231.0L1324.2,230.1L1370.0,233.3L1414.6,239.4L1458.0,247.9L1500.1,258.9L1540.4,272.8L1578.2,290.1L1612.6,311.2L1642.4,335.9L1667.4,363.5L1687.7,392.6L1704.6,422.2L1720.0,451.2L1735.8,479.5L1753.7,507.4L1773.9,536.1L1795.6,566.7L1816.5,600.0Z" fill="#a58c71" stroke="none" stroke-width="1" opacity="0.65" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M1130,405L1370,345L1590,425L1650,655L1490,840L1200,800L1070,620Z" fill="#827466" stroke="#6f6b60" stroke-width="3" opacity="0.9" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M220.00,1120.00 C250.00,1066.67 351.67,873.33 400.00,800.00 C448.33,726.67 465.00,691.67 510.00,680.00 C555.00,668.33 643.33,721.67 670.00,730.00" fill="none" stroke="#8e8971" stroke-width="12" opacity="0.28" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M260.00,1320.00 C305.00,1295.00 466.67,1245.00 530.00,1170.00 C593.33,1095.00 586.67,931.67 640.00,870.00 C693.33,808.33 815.00,811.67 850.00,800.00" fill="none" stroke="#8e8971" stroke-width="12" opacity="0.28" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M480.00,1470.00 C523.33,1451.67 666.67,1413.33 740.00,1360.00 C813.33,1306.67 890.00,1185.00 920.00,1150.00" fill="none" stroke="#8e8971" stroke-width="12" opacity="0.28" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M1450.00,1190.00 C1486.67,1208.33 1590.00,1258.33 1670.00,1300.00 C1750.00,1341.67 1886.67,1416.67 1930.00,1440.00" fill="none" stroke="#8e8971" stroke-width="12" opacity="0.28" stroke-linejoin="round" stroke-linecap="round" />
+  <text x="1360" y="580" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="55" fill="#e0d4ba" opacity="0.7" text-anchor="middle" transform="rotate(0 1360 580)">火山口</text>
+  <text x="1310" y="695" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="28" fill="#ded1b5" opacity="0.7" text-anchor="middle" transform="rotate(0 1310 695)">陡坡区</text>
+  <g font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif">
+    <path d="M980 300L1120 225" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 300L1120 225" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1060.0" y="254.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1060.0" y="254.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M1300 150L1120 225" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1300 150L1120 225" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1220.0" y="179.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1220.0" y="179.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M1300 150L1500 200" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1300 150L1500 200" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1410.0" y="167.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1410.0" y="167.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1700 250L1500 200" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1700 250L1500 200" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1610.0" y="217.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1610.0" y="217.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1700 250L1820 365" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1700 250L1820 365" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1770.0" y="299.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1770.0" y="299.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M1900 520L1820 365" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1900 520L1820 365" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1870.0" y="434.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1870.0" y="434.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M1900 520L1820 715" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1900 520L1820 715" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1870.0" y="609.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1870.0" y="609.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M1740 900L1820 715" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1740 900L1820 715" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1790.0" y="799.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1790.0" y="799.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M1740 900L1560 990" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1740 900L1560 990" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1660.0" y="937.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1660.0" y="937.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1370 1080L1560 990" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1370 1080L1560 990" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1475.0" y="1027.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1475.0" y="1027.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1370 1080L1180 1020" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1370 1080L1180 1020" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1285.0" y="1042.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1285.0" y="1042.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M980 940L1180 1020" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 940L1180 1020" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1090.0" y="972.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1090.0" y="972.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M980 940L890 790" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 940L890 790" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="945.0" y="857.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="945.0" y="857.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M830 600L890 790" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M830 600L890 790" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="870.0" y="687.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="870.0" y="687.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M830 600L905 435" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M830 600L905 435" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="877.5" y="509.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="877.5" y="509.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M980 300L905 435" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 300L905 435" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="952.5" y="359.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="952.5" y="359.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M300 1200L440 1240" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M300 1200L440 1240" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="380.0" y="1212.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="380.0" y="1212.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M600 1280L440 1240" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M600 1280L440 1240" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="530.0" y="1252.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="530.0" y="1252.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M600 1280L770 1290" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M600 1280L770 1290" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="695.0" y="1277.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="695.0" y="1277.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M940 1300L770 1290" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M940 1300L770 1290" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="865.0" y="1287.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="865.0" y="1287.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M940 1300L1080 1380" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M940 1300L1080 1380" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1020.0" y="1332.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1020.0" y="1332.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1200 1460L1080 1380" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1200 1460L1080 1380" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1150.0" y="1412.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1150.0" y="1412.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M900 1530L1200 1460" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M900 1530L1200 1460" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1060.0" y="1487.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="1060.0" y="1487.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M900 1530L940 1300" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M900 1530L940 1300" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="930.0" y="1407.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="930.0" y="1407.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M980 940L705 1050" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 940L705 1050" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="852.5" y="987.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="852.5" y="987.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M600 1280L705 1050" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M600 1280L705 1050" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="662.5" y="1157.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="662.5" y="1157.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M300 1200L420 1030" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M300 1200L420 1030" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="370.0" y="1107.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="370.0" y="1107.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M470 850L420 1030" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M470 850L420 1030" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="455.0" y="932.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="455.0" y="932.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M470 850L405 695" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M470 850L405 695" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="447.5" y="764.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="447.5" y="764.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M340 540L405 695" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M340 540L405 695" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="382.5" y="609.5" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="382.5" y="609.5" font-size="23" fill="#536b5a">1</text>
+    <path d="M340 540L640 410" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M340 540L640 410" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="500.0" y="467.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="500.0" y="467.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M980 300L640 410" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 300L640 410" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="820.0" y="347.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="820.0" y="347.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M470 850L830 600" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M470 850L830 600" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="660.0" y="717.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">3</text>
+    <text x="660.0" y="717.0" font-size="23" fill="#536b5a">3</text>
+    <path d="M940 1300L1370 1080" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M940 1300L1370 1080" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1165.0" y="1182.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">3</text>
+    <text x="1165.0" y="1182.0" font-size="23" fill="#536b5a">3</text>
+    <path d="M470 850L225 960" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M470 850L225 960" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="357.5" y="897.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="357.5" y="897.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M1300 150L1330 320" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1300 150L1330 320" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1325.0" y="227.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1325.0" y="227.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1900 520L1690 570" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1900 520L1690 570" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1805.0" y="537.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1805.0" y="537.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1370 1080L1510 1260" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1370 1080L1510 1260" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1450.0" y="1162.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="1450.0" y="1162.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M980 940L1080 1180" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M980 940L1080 1180" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1040.0" y="1052.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="1040.0" y="1052.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M940 1300L1080 1180" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M940 1300L1080 1180" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1020.0" y="1232.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="1020.0" y="1232.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M300 1200L260 1410" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M300 1200L260 1410" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="290.0" y="1297.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="290.0" y="1297.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M340 540L210 710" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M340 540L210 710" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="285.0" y="617.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="285.0" y="617.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M470 850L640 660" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M470 850L640 660" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="565.0" y="747.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="565.0" y="747.0" font-size="23" fill="#536b5a">2</text>
+    <path d="M830 600L640 660" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M830 600L640 660" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="745.0" y="622.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">1</text>
+    <text x="745.0" y="622.0" font-size="23" fill="#536b5a">1</text>
+    <path d="M1740 900L1920 1080" stroke="#f6f0db" stroke-width="11" fill="none" />
+    <path d="M1740 900L1920 1080" stroke="#75816e" stroke-width="4" fill="none" />
+    <text x="1840.0" y="982.0" font-size="23" fill="none" stroke="#f4efdd" stroke-width="6">2</text>
+    <text x="1840.0" y="982.0" font-size="23" fill="#536b5a">2</text>
+    <circle cx="980" cy="300" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="980" y="270" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q0</text>
+    <text x="980" y="270" font-size="21" text-anchor="middle" fill="#294d44">q0</text>
+    <circle cx="1300" cy="150" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1300" y="120" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q1</text>
+    <text x="1300" y="120" font-size="21" text-anchor="middle" fill="#294d44">q1</text>
+    <circle cx="1700" cy="250" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1700" y="220" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q2</text>
+    <text x="1700" y="220" font-size="21" text-anchor="middle" fill="#294d44">q2</text>
+    <circle cx="1900" cy="520" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1900" y="490" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q3</text>
+    <text x="1900" y="490" font-size="21" text-anchor="middle" fill="#294d44">q3</text>
+    <circle cx="1740" cy="900" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1740" y="870" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q4</text>
+    <text x="1740" y="870" font-size="21" text-anchor="middle" fill="#294d44">q4</text>
+    <circle cx="1370" cy="1080" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1370" y="1050" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q5</text>
+    <text x="1370" y="1050" font-size="21" text-anchor="middle" fill="#294d44">q5</text>
+    <circle cx="980" cy="940" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="980" y="910" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q6</text>
+    <text x="980" y="910" font-size="21" text-anchor="middle" fill="#294d44">q6</text>
+    <circle cx="830" cy="600" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="830" y="570" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">q7</text>
+    <text x="830" y="570" font-size="21" text-anchor="middle" fill="#294d44">q7</text>
+    <circle cx="300" cy="1200" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="300" y="1170" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">b0</text>
+    <text x="300" y="1170" font-size="21" text-anchor="middle" fill="#294d44">b0</text>
+    <circle cx="600" cy="1280" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="600" y="1250" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">b1</text>
+    <text x="600" y="1250" font-size="21" text-anchor="middle" fill="#294d44">b1</text>
+    <circle cx="940" cy="1300" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="940" y="1270" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">b2</text>
+    <text x="940" y="1270" font-size="21" text-anchor="middle" fill="#294d44">b2</text>
+    <circle cx="1200" cy="1460" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1200" y="1430" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">b3</text>
+    <text x="1200" y="1430" font-size="21" text-anchor="middle" fill="#294d44">b3</text>
+    <circle cx="470" cy="850" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="470" y="820" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">b4</text>
+    <text x="470" y="820" font-size="21" text-anchor="middle" fill="#294d44">b4</text>
+    <circle cx="340" cy="540" r="8" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="340" y="510" font-size="21" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">b5</text>
+    <text x="340" y="510" font-size="21" text-anchor="middle" fill="#294d44">b5</text>
+    <path d="M900 1506l25 43h-50Z" fill="#355b52" stroke="#f9f5e2" stroke-width="4" />
+    <text x="900" y="1500" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">C</text>
+    <text x="900" y="1500" font-size="29" text-anchor="middle" fill="#294d44">C</text>
+    <rect x="1104" y="209" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1120" y="195" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">E1</text>
+    <text x="1120" y="195" font-size="29" text-anchor="middle" fill="#294d44">E1</text>
+    <rect x="1484" y="184" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1500" y="170" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">H2</text>
+    <text x="1500" y="170" font-size="29" text-anchor="middle" fill="#294d44">H2</text>
+    <rect x="1804" y="349" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1820" y="335" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">B1</text>
+    <text x="1820" y="335" font-size="29" text-anchor="middle" fill="#294d44">B1</text>
+    <rect x="1804" y="699" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1820" y="685" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">G2</text>
+    <text x="1820" y="685" font-size="29" text-anchor="middle" fill="#294d44">G2</text>
+    <rect x="1544" y="974" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1560" y="960" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">D1</text>
+    <text x="1560" y="960" font-size="29" text-anchor="middle" fill="#294d44">D1</text>
+    <rect x="1164" y="1004" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1180" y="990" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">A1</text>
+    <text x="1180" y="990" font-size="29" text-anchor="middle" fill="#294d44">A1</text>
+    <rect x="874" y="774" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="890" y="760" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">F1</text>
+    <text x="890" y="760" font-size="29" text-anchor="middle" fill="#294d44">F1</text>
+    <rect x="889" y="419" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="905" y="405" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">C1</text>
+    <text x="905" y="405" font-size="29" text-anchor="middle" fill="#294d44">C1</text>
+    <rect x="424" y="1224" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="440" y="1210" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">G1</text>
+    <text x="440" y="1210" font-size="29" text-anchor="middle" fill="#294d44">G1</text>
+    <rect x="754" y="1274" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="770" y="1260" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">A2</text>
+    <text x="770" y="1260" font-size="29" text-anchor="middle" fill="#294d44">A2</text>
+    <rect x="1064" y="1364" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="1080" y="1350" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">D2</text>
+    <text x="1080" y="1350" font-size="29" text-anchor="middle" fill="#294d44">D2</text>
+    <rect x="689" y="1034" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="705" y="1020" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">H1</text>
+    <text x="705" y="1020" font-size="29" text-anchor="middle" fill="#294d44">H1</text>
+    <rect x="404" y="1014" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="420" y="1000" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">F2</text>
+    <text x="420" y="1000" font-size="29" text-anchor="middle" fill="#294d44">F2</text>
+    <rect x="389" y="679" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="405" y="665" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">C2</text>
+    <text x="405" y="665" font-size="29" text-anchor="middle" fill="#294d44">C2</text>
+    <rect x="624" y="394" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="640" y="380" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">E2</text>
+    <text x="640" y="380" font-size="29" text-anchor="middle" fill="#294d44">E2</text>
+    <rect x="209" y="944" width="32" height="32" rx="4" fill="#fbf8e8" stroke="#355b52" stroke-width="4" />
+    <text x="225" y="930" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">B2</text>
+    <text x="225" y="930" font-size="29" text-anchor="middle" fill="#294d44">B2</text>
+    <circle cx="1330" cy="320" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1330" y="290" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">P</text>
+    <text x="1330" y="290" font-size="29" text-anchor="middle" fill="#294d44">P</text>
+    <circle cx="1690" cy="570" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1690" y="540" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">Q</text>
+    <text x="1690" y="540" font-size="29" text-anchor="middle" fill="#294d44">Q</text>
+    <circle cx="1510" cy="1260" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1510" y="1230" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">R</text>
+    <text x="1510" y="1230" font-size="29" text-anchor="middle" fill="#294d44">R</text>
+    <circle cx="1080" cy="1180" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1080" y="1150" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">S</text>
+    <text x="1080" y="1150" font-size="29" text-anchor="middle" fill="#294d44">S</text>
+    <circle cx="260" cy="1410" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="260" y="1380" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">U</text>
+    <text x="260" y="1380" font-size="29" text-anchor="middle" fill="#294d44">U</text>
+    <circle cx="210" cy="710" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="210" y="680" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">V</text>
+    <text x="210" y="680" font-size="29" text-anchor="middle" fill="#294d44">V</text>
+    <circle cx="640" cy="660" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="640" y="630" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">X</text>
+    <text x="640" y="630" font-size="29" text-anchor="middle" fill="#294d44">X</text>
+    <circle cx="1920" cy="1080" r="14" fill="#fcf8e9" stroke="#637a66" stroke-width="3" />
+    <text x="1920" y="1050" font-size="29" text-anchor="middle" fill="none" stroke="#f5f0dc" stroke-width="7">Y</text>
+    <text x="1920" y="1050" font-size="29" text-anchor="middle" fill="#294d44">Y</text>
+    <text x="1480" y="100" font-size="42" text-anchor="middle" fill="#68795e" opacity=".7">火山环缘</text>
+    <text x="475" y="1510" font-size="42" text-anchor="middle" fill="#68795e" opacity=".7">熔岩坡地</text>
+    <text x="630" y="910" font-size="42" text-anchor="middle" fill="#68795e" opacity=".7">缺口坡道</text>
+  </g>
+</svg>

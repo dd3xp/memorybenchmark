@@ -237,9 +237,18 @@ def main(argv=None):
     if saved is None and args.archive is None:
         parser.error("archive is required for a new run")
     output = args.resume or args.output or Path(".runs/agent-cross-session") / uuid4().hex
-    jail = WSLJail(args.distro, args.runtime, args.runtime_dependency)
-    model = GatewayModel(args.base_url, key, saved["model_alias"] if saved else args.model,
-                         saved["max_output_tokens"] if saved else args.max_output_tokens or None)
+    jail_type, model_type = WSLJail, GatewayModel
+    jail_options, model_options = {}, {}
+    if factory is None and agent_id in ("ga", "hermes"):
+        from .recovery_runtime import RecoveryJail, install
+        from .request_recovery import RecoveringGatewayModel
+        install()
+        jail_type, model_type = RecoveryJail, RecoveringGatewayModel
+        jail_options = {"recovery_root":output / "request-recovery"}
+        model_options = {"status_path":output / "transport-status.json"}
+    jail = jail_type(args.distro, args.runtime, args.runtime_dependency, **jail_options)
+    model = model_type(args.base_url, key, saved["model_alias"] if saved else args.model,
+                      saved["max_output_tokens"] if saved else args.max_output_tokens or None, **model_options)
     if saved:
         result = resume_experiment(output, jail, lambda *_: model)
     else:

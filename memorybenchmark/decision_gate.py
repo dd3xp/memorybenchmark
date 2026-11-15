@@ -1,4 +1,5 @@
 """One game-action attempt per model response; legacy batch runs remain readable."""
+
 from copy import deepcopy
 
 
@@ -8,6 +9,13 @@ SINGLE_ACTION_GUIDE = """
 收到实际反馈后再决定下一步；不要在脚本或同次响应的多个工具调用中批量执行游戏动作。
 read 以及你原生的记忆、文件工具不受此限制。若收到 decision_boundary，停止当前脚本，依据其中的最新反馈在下一轮继续。
 """
+
+
+def movement_action_policy(mode):
+    """Route submoves must reach the host; single-step runs retain their gate."""
+    if mode not in ("step", "route"):
+        raise ValueError("Unknown movement mode")
+    return "batch" if mode == "route" else "single"
 
 
 class DecisionGate:
@@ -38,6 +46,9 @@ class DecisionGate:
             self.last_feedback = deepcopy(result)
 
     def rejected(self):
-        return {"error": "decision_boundary", "model_response": self.model_response,
-                "message": "本轮已执行一次游戏动作；停止脚本，收到下一次模型响应后再行动。额外动作未执行，不增加游戏操作或路程。",
-                "last_game_response": deepcopy(self.last_feedback)}
+        return {
+            "error": "decision_boundary",
+            "model_response": self.model_response,
+            "message": "本轮已执行一次游戏动作；停止脚本，收到下一次模型响应后再行动。额外动作未执行，不增加游戏操作或路程。",
+            "last_game_response": deepcopy(self.last_feedback),
+        }

@@ -8,10 +8,15 @@ from importlib.metadata import version
 import json
 import os
 from pathlib import Path
+from hashlib import sha256
 import random
 import sys
 import threading
 import time
+if __package__:
+    from .response_stream import receive_rpc_stream
+else:
+    from response_stream import receive_rpc_stream
 
 
 PROTOCOL = "ga-session-1"
@@ -121,14 +126,25 @@ class Wire:
         self.input, self.output = sys.stdin, sys.stdout
         self.lock = threading.RLock()
         self.sequence = 0
+        self.pending_stream = None
 
     def emit(self, kind, **fields):
         with self.lock:
+            if kind == "session":
+                support = Path(__file__).parent
+                fields["transport_protocol"] = "rpc-sse-chunks-1"
+                fields["executed_support_sha256"] = {name: sha256((support / name).read_bytes()).hexdigest()
+                    for name in ("ga_worker.py", "hermes_worker.py", "response_stream.py")
+                    if (support / name).is_file()}
             self.output.write(json.dumps({"kind": kind, **fields}, ensure_ascii=False, default=str) + "\n")
             self.output.flush()
 
     def call(self, method, params):
-        with self.lock:
+        self.lock.acquire()
+        streaming = False
+        try:
+            if self.pending_stream is not None and not self.pending_stream.finished:
+                self.pending_stream.close()
             self.sequence += 1
             request_id = self.sequence
             self.emit("request", id=request_id, method=method, params=params)
@@ -140,7 +156,16 @@ class Wire:
                 raise RuntimeError("RPC response mismatch")
             if "error" in result:
                 raise RuntimeError(result["error"])
+            if "result_stream" in result:
+                # Receiver owns and releases the lock on success or failure.
+                streaming = True
+                reply = receive_rpc_stream(self.input, request_id, result["result_stream"], self.lock.release)
+                self.pending_stream = reply
+                return {"lines": reply}
             return result["result"]
+        finally:
+            if not streaming:
+                self.lock.release()
 
 
 class LogSink(io.TextIOBase):
@@ -213,7 +238,10 @@ def main():
             self.headers = {"content-type": "text/event-stream"}
             self.lines = result["lines"]
         def __enter__(self): return self
-        def __exit__(self, *args): return False
+        def __exit__(self, *args):
+            if hasattr(self.lines, "close"):
+                self.lines.close()
+            return False
         def iter_lines(self): return (line.encode("utf-8") for line in self.lines)
 
     def post(url, **kwargs):

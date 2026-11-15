@@ -3,7 +3,8 @@
 Neither a visit nor a correct choice proves memory use. These functions never
 write agent memory or add facts to StationGame.observation().
 """
-from .station_capability import compatible_worlds, task_stages
+from .station_capability import capability_groups, compatible_worlds, task_stages, stage_signature, conditional_capabilities, experience_context, region_matches
+from .station_knowledge import evidence_support, support_count, information_gain, matching_stations, historical_status, capability_options, supports, freeze_capability, report_world_ids
 from .station_choice import station_decisions
 
 
@@ -13,17 +14,19 @@ def experience_schedule(design):
     seen_tasks = {}
     for index, (task_id, task) in enumerate(design["tasks"].items()):
         stages = task_stages(task)
-        signature = tuple((s["target"], s["required_kind"]) for s in stages)
+        signature = tuple(stage_signature(s) for s in stages)
         row = {"task_id": task_id, "exact_repeat_of": seen_tasks.get(signature), "stages": []}
         # Only earlier sessions qualify, even if a design has two same-kind stages.
         for stage_index, stage in enumerate(stages):
-            sources = previous.get(stage["required_kind"], [])
+            key = experience_context(stage)
+            sources = previous.get(key, [])
             row["stages"].append({"stage_index": stage_index, **stage,
                 "earlier_same_kind_stages": [dict(s) for s in sources],
                 "has_success_conditioned_predecessor": bool(sources),
                 "intervening_tasks_since_same_kind_requirement": index - sources[-1]["task_index"] - 1 if sources else None})
         for stage_index, stage in enumerate(stages):
-            previous.setdefault(stage["required_kind"], []).append({"task_id": task_id,
+            key = experience_context(stage)
+            previous.setdefault(key, []).append({"task_id": task_id,
                 "task_index": index, "stage_index": stage_index, "target": stage["target"]})
         seen_tasks.setdefault(signature, task_id)
         rows.append(row)
@@ -37,7 +40,8 @@ def _source(event):
             "stage_index": event.get("state_before", {}).get("stage", 0),
             "station": feedback["station"], "capability": feedback["capability"],
             "station_type": feedback.get("station_type"),
-            "operation": event.get("action", {}).get("type"), "result": feedback.get("result")}
+            "operation": event.get("action", {}).get("type"), "result": feedback.get("result"),
+            **({'requirement': feedback['requirement']} if 'requirement' in feedback else {})}
 
 
 def experience_opportunities(design, events, task_run_id, *, decisions=None):
@@ -51,32 +55,38 @@ def experience_opportunities(design, events, task_run_id, *, decisions=None):
     prior = [e for e in events if e["event_id"] < start["event_id"]]
     feedback = [e for e in prior if e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information"]
     visited = {e.get("to", e.get("position")) for e in prior}
-    worlds = compatible_worlds(design, prior)
+    worlds = evidence_support(design, prior)
     decisions = decisions if decisions is not None else station_decisions(design, events, task_run_id)
     planned = next(r for r in experience_schedule(design) if r["task_id"] == start["task_id"])
     stages = []
-    groups = design["public"]["capability_groups"]
+    groups = capability_groups(design)
     for index, stage in enumerate(task_stages(design["tasks"][start["task_id"]])):
         kind = stage["required_kind"]
         group = next(g for g in groups.values() if kind in g["kinds"])
         related = [e for e in feedback if e["delivered"]["feedback"]["station"] in group["stations"]]
-        matching = [_source(e) for e in related if e["delivered"]["feedback"]["capability"] == kind]
-        nonmatching = [_source(e) for e in related if e["delivered"]["feedback"]["capability"] != kind]
-        known = [s for s in group["stations"] if all(design["private_worlds"][w][s] == kind for w in worlds)]
-        direct = sorted({s["station"] for s in matching})
+        other_requirements = []
+        requirement = stage.get('requirement')
+        if conditional_capabilities(design):
+            other_requirements = [e for e in related if e['delivered']['feedback'].get('requirement') != requirement]
+            related = [e for e in related if e['delivered']['feedback'].get('requirement') == requirement]
+        matching = [_source(e) for e in related if supports(e["delivered"]["feedback"]["capability"], kind)]
+        nonmatching = [_source(e) for e in related if not supports(e["delivered"]["feedback"]["capability"], kind)]
+        known = [s for s in matching_stations(design, worlds, kind, requirement) if region_matches(design, stage, s)]
+        direct = sorted({s["station"] for s in matching if region_matches(design, stage, s['station'])})
         direct_types = sorted({s["station_type"] for s in matching if s["station_type"] is not None})
         type_matches = sorted(s for s in group["stations"]
-            if design["public"]["locations"][s].get("station_type") in direct_types)
+            if region_matches(design, stage, s) and design["public"]["locations"][s].get("station_type") in direct_types)
         decision_stage = next((s for s in decisions.get("stages", []) if s["stage_index"] == index), {})
         branch = decision_stage.get("first_postcollection_branch_choice")
         choice = None
         if branch:
             station = branch["station"]
             station_type = design["public"]["locations"][station].get("station_type")
-            assignment = {design["private_worlds"][w][station] for w in worlds}
+            determined = region_matches(design, stage, station) and historical_status(design, worlds, station, kind, requirement) == "known_match"
             actual_feedback = next((e["delivered"]["feedback"] for e in current
                 if e["event_id"] > branch["event_id"] and e.get("from") == station
-                and e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information"), None)
+                and e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information"
+                and (not conditional_capabilities(design) or e['delivered']['feedback'].get('requirement') == requirement)), None)
             choice = {"event_id": branch["event_id"], "station": station,
                       "station_type": station_type,
                       "previously_visited_station": station in visited,
@@ -86,11 +96,12 @@ def experience_opportunities(design, events, task_run_id, *, decisions=None):
                       "historical_status": branch["pre_task_history"]["selected_historical_status"],
                       "previous_direct_feedback": [_source(e) for e in related if e["delivered"]["feedback"]["station"] == station],
                       "previous_successful_same_kind_processing": [s for s in matching if s["station"] == station and s["result"] == "processed"],
-                      "matching_determined_before_task": assignment == {kind},
-                      "matching_if_later_observed": actual_feedback["capability"] == kind if actual_feedback else None}
+                      "matching_determined_before_task": determined,
+                      "matching_if_later_observed": supports(actual_feedback["capability"], kind) if actual_feedback else None}
         cutoff = branch["event_id"] if branch else None
         reacquired = [_source(e) for e in current if cutoff is not None and e["event_id"] < cutoff
             and e.get("delivered", {}).get("feedback", {}).get("kind") == "station_information"
+            and (not conditional_capabilities(design) or e['delivered']['feedback'].get('requirement') == requirement)
             and e["delivered"]["feedback"]["station"] in group["stations"]]
         stages.append({"stage_index": index, **stage,
             "planned_predecessor_stages": planned["stages"][index]["earlier_same_kind_stages"],
@@ -106,6 +117,8 @@ def experience_opportunities(design, events, task_run_id, *, decisions=None):
             "has_prior_exclusion_opportunity": bool(nonmatching),
             "choice_observed": branch is not None, "first_branch_choice": choice,
             "current_session_feedback_before_choice": reacquired})
+        if conditional_capabilities(design):
+            stages[-1]['other_requirement_feedback'] = [_source(e) for e in other_requirements]
     return {"protocol": "station-experience-opportunity-1", "task_id": start["task_id"],
             "scope": "Evaluator exposure and observed action only; not saved, retrieved, or causally used memory. Missing choices remain null.",
             "stages": stages}

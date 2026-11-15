@@ -1,0 +1,9 @@
+# Hard36: composition through ordinary completed tasks
+
+Every condition has 36 scored two-stage tasks. The two stages are independent. There are 12 materials and two basic operations: catalogue (raw → catalogued) and verify (catalogued → verified). A stage publicly names its input state and desired output state. An intermediate product does not complete a combined stage.
+
+The 24 basic experiences each have two standalone uses and two combined uses: 48 one-operation stages plus 24 two-operation stages, 72 stages and 96 necessary operations. Twelve ordinary first-round tasks expose every standalone operation. Only later tasks require combinations. There are no unscored tutorials, forced memory entries, extra data forms or source categories. A standalone verify task collects already-catalogued material; a standalone catalogue task legitimately delivers catalogued material.
+
+`config/hard36.json` records allocation and per-map target seeds. `scripts/build_hard36.py --map <orcia|hampi|angkor> --output <path>` builds and assesses exactly one geography. Geometry, edges and station capabilities were individually compared to the preceding map and retained. All 48 processing stations in each map have strict shortest-route utility for at least one stage. The zero-model reference solutions completed all 36 tasks on each map; maxima were Orcia52, Hampi50 and Angkor44 operations, within the unchanged352-step budget. These are feasibility checks, not agent scores.
+
+The assessment is stored beside each `*_hard36.json`. First-attempt processing metrics use required basic operations as their denominator, including an unattempted required operation. Task completion is reported separately. This design probes reuse and composition of experience; scores alone do not prove internal causal memory use.

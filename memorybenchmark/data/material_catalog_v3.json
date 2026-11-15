@@ -1,0 +1,370 @@
+{
+  "version": "survey-materials-3",
+  "materials": {
+    "profile": {
+      "name": "剖面资料",
+      "description": "沿指定测线记录地形起伏，形成剖面。",
+      "sources": [
+        "usgs_topography"
+      ],
+      "category": "geographic"
+    },
+    "shore": {
+      "name": "岸线资料",
+      "description": "记录湖岸或海岸的边界位置与形态。",
+      "sources": [
+        "usgs_geospatial"
+      ],
+      "category": "geographic"
+    },
+    "vegetation": {
+      "name": "植被资料",
+      "description": "记录植物群落、覆盖程度与分布。",
+      "sources": [
+        "usgs_geospatial"
+      ],
+      "category": "geographic"
+    },
+    "lithology": {
+      "name": "岩性资料",
+      "description": "记录出露岩石的类型、特征与分布。",
+      "sources": [
+        "usgs_geology"
+      ],
+      "category": "geographic"
+    },
+    "bearing": {
+      "name": "方位资料",
+      "description": "记录测站到地物或观测目标的方向。",
+      "sources": [
+        "usgs_topography"
+      ],
+      "category": "geographic"
+    },
+    "elevation": {
+      "name": "高程资料",
+      "description": "记录测点相对于基准面的高度。",
+      "sources": [
+        "usgs_topography"
+      ],
+      "category": "geographic"
+    },
+    "drainage": {
+      "name": "水系资料",
+      "description": "记录河流、支流、水体及其连接关系。",
+      "sources": [
+        "usgs_geospatial"
+      ],
+      "category": "geographic"
+    },
+    "contour": {
+      "name": "等高线资料",
+      "description": "记录相同高程的连线及其地形形态。",
+      "sources": [
+        "usgs_topography"
+      ],
+      "category": "geographic"
+    },
+    "soil": {
+      "name": "土壤资料",
+      "description": "记录土层、质地、颜色等土壤特征。",
+      "sources": [
+        "nrcs_soils"
+      ],
+      "category": "geographic"
+    },
+    "water_quality": {
+      "name": "水质资料",
+      "description": "记录水温、酸碱度、浊度等水体指标。",
+      "sources": [
+        "usgs_water_quality"
+      ],
+      "category": "geographic"
+    },
+    "sediment": {
+      "name": "沉积物资料",
+      "description": "记录河床、湖底或滩地沉积物的组成与特征。",
+      "sources": [
+        "usgs_water_quality",
+        "noaa_sonar"
+      ],
+      "category": "geographic"
+    },
+    "bathymetry": {
+      "name": "水深资料",
+      "description": "记录水下深度和湖底、河床或海底地形。",
+      "sources": [
+        "noaa_sonar"
+      ],
+      "category": "geographic"
+    },
+    "slope": {
+      "name": "坡度资料",
+      "description": "记录地表坡面的陡缓程度。",
+      "sources": [
+        "usgs_topography"
+      ],
+      "category": "geographic"
+    },
+    "aspect": {
+      "name": "坡向资料",
+      "description": "记录坡面朝向，区别于测站到任意地物的方位。",
+      "sources": [
+        "usgs_topography"
+      ],
+      "category": "geographic"
+    },
+    "land_cover": {
+      "name": "地表覆盖资料",
+      "description": "记录裸地、林地、草地、水面等地表覆盖类别。",
+      "sources": [
+        "usgs_geospatial"
+      ],
+      "category": "geographic"
+    },
+    "streamflow": {
+      "name": "流量资料",
+      "description": "记录河道断面、流速及通过断面的水量。",
+      "sources": [
+        "usgs_streamflow"
+      ],
+      "category": "geographic"
+    },
+    "redwood_community": {
+      "name": "红杉群落资料",
+      "description": "记录古老红杉林的群落结构和更新迹象。",
+      "sources": [
+        "forest_monitoring"
+      ],
+      "category": "geographic"
+    },
+    "tufa_deposit": {
+      "name": "钙华沉积资料",
+      "description": "记录水流沉积形成的钙华屏障及其表面特征。",
+      "sources": [
+        "cascade_tufa"
+      ],
+      "category": "geographic"
+    },
+    "waterfall_section": {
+      "name": "瀑布断面资料",
+      "description": "记录湖间跌水的位置、落差和断面形态。",
+      "sources": [
+        "cascade_routes",
+        "cascade_tufa"
+      ],
+      "category": "geographic"
+    },
+    "streambed_form": {
+      "name": "溪床地貌资料",
+      "category": "geographic",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "strata_attitude": {
+      "name": "地层产状资料",
+      "category": "geographic",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "erosion_form": {
+      "name": "侵蚀地貌资料",
+      "category": "geographic",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "lake_sighting": {
+      "name": "疑似水怪目击资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "animal_echo": {
+      "name": "水下动物回波资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "surface_wake": {
+      "name": "异常尾迹资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "water_edna": {
+      "name": "水域动物环境 DNA 资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "dingo_tracks": {
+      "name": "野犬足迹资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "dingo_calls": {
+      "name": "野犬声学资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "shorebird_record": {
+      "name": "滨鸟观察资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "reptile_signs": {
+      "name": "爬行动物活动资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "boar_tracks": {
+      "name": "野猪足迹资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "boar_rooting": {
+      "name": "野猪翻拱痕迹资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "deer_activity": {
+      "name": "鹿类活动资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    },
+    "woodland_birds": {
+      "name": "林鸟声学资料",
+      "category": "animal",
+      "scope": "Authored observation-package category; acquisition uses survey, with no extra recognition puzzle."
+    }
+  },
+  "presets": {
+    "forest-geo": {
+      "geographic": [
+        "profile",
+        "elevation",
+        "bearing",
+        "vegetation",
+        "soil",
+        "drainage",
+        "redwood_community",
+        "streambed_form"
+      ]
+    },
+    "rainbow": {
+      "geographic": [
+        "profile",
+        "lithology",
+        "elevation",
+        "slope",
+        "aspect",
+        "soil",
+        "strata_attitude",
+        "erosion_form"
+      ]
+    },
+    "nessie-normal": {
+      "geographic": [
+        "profile",
+        "shore",
+        "vegetation",
+        "lithology",
+        "bearing",
+        "elevation",
+        "bathymetry",
+        "sediment"
+      ],
+      "animal": [
+        "lake_sighting",
+        "animal_echo",
+        "surface_wake",
+        "water_edna"
+      ]
+    },
+    "dingo": {
+      "geographic": [
+        "profile",
+        "shore",
+        "vegetation",
+        "elevation",
+        "soil",
+        "bathymetry",
+        "sediment",
+        "land_cover"
+      ],
+      "animal": [
+        "dingo_tracks",
+        "dingo_calls",
+        "shorebird_record",
+        "reptile_signs"
+      ]
+    },
+    "boar": {
+      "geographic": [
+        "profile",
+        "lithology",
+        "vegetation",
+        "elevation",
+        "soil",
+        "drainage",
+        "slope",
+        "streambed_form"
+      ],
+      "animal": [
+        "boar_tracks",
+        "boar_rooting",
+        "deer_activity",
+        "woodland_birds"
+      ]
+    }
+  },
+  "sources": {
+    "usgs_geospatial": {
+      "title": "USGS Geospatial Data",
+      "url": "https://www.usgs.gov/geospatial-data"
+    },
+    "usgs_topography": {
+      "title": "USGS 3DEP Products and Services",
+      "url": "https://www.usgs.gov/3d-elevation-program/about-3dep-products-services"
+    },
+    "usgs_geology": {
+      "title": "USGS Cooperative National Geologic Map",
+      "url": "https://ngmdb.usgs.gov/nationalgeology/"
+    },
+    "nrcs_soils": {
+      "title": "USDA NRCS Soil Facts",
+      "url": "https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-facts"
+    },
+    "usgs_water_quality": {
+      "title": "USGS National Field Manual for Water-Quality Data",
+      "url": "https://www.usgs.gov/mission-areas/water-resources/science/national-field-manual-collection-water-quality-data-nfm"
+    },
+    "usgs_streamflow": {
+      "title": "USGS Streamgaging Basics",
+      "url": "https://www.usgs.gov/mission-areas/water-resources/science/streamgaging-basics"
+    },
+    "noaa_sonar": {
+      "title": "NOAA Hydrographic Survey Equipment",
+      "url": "https://nauticalcharts.noaa.gov/learn/hydrographic-survey-equipment.html"
+    },
+    "loch_ness_project": {
+      "title": "Loch Ness Project: An Underwater World",
+      "url": "https://www.lochnessproject.org/EXPLORE_LOCH_NESS/underwater/underwater_loch_ness%20index.htm"
+    },
+    "nessie_register": {
+      "title": "Loch Ness Monster Sightings Register",
+      "url": "https://www.lochnesssightings.com/",
+      "scope": "A primary register of reported observations and theme inspiration, not evidence establishing a creature's existence."
+    },
+    "forest_routes": {
+      "title": "NPS Muir Woods main-valley trails",
+      "url": "https://www.nps.gov/muwo/planyourvisit/hike.htm"
+    },
+    "forest_monitoring": {
+      "title": "NPS Muir Woods Inventory and Monitoring",
+      "url": "https://www.nps.gov/im/sfan/muwo.htm"
+    },
+    "cascade_routes": {
+      "title": "Plitvice Lakes National Park lake tour programmes",
+      "url": "https://np-plitvicka-jezera.hr/en/plan-your-visit/istrazite-jezera/activities/lake-tour-programmes/"
+    },
+    "cascade_tufa": {
+      "title": "Plitvice Lakes National Park tufa",
+      "url": "https://np-plitvicka-jezera.hr/en/natural-and-cultural-heritage/natural-heritage/tufa/"
+    }
+  },
+  "scope": "Fixed map authoring choices; no runtime sampling. Nessie observations are fictional game material, not a claim about real creatures."
+}

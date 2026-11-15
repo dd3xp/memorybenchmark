@@ -1,0 +1,294 @@
+{
+  "kind": "old_easy_comparability_audit",
+  "verified_readout_sha256": "75f45df694c4bbec2e07358d8c363ed53f9a3475b059336b4615084008e2790f",
+  "maps": {
+    "nessie": {
+      "geometry": {
+        "nearest_match_rate": 0.225,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 2,
+          "A2": 1,
+          "B1": 2,
+          "B2": 1,
+          "C1": 1,
+          "C2": 2,
+          "D1": 1,
+          "D2": 2,
+          "E1": 1,
+          "E2": 2,
+          "F1": 2,
+          "F2": 3,
+          "G1": 2,
+          "G2": 3,
+          "H1": 1,
+          "H2": 2
+        },
+        "stage_contexts": 40,
+        "mean_processing_leg_distance": 19.475
+      },
+      "windows": {
+        "all_valid": {
+          "retain": {
+            "tasks": 20,
+            "successes": 20,
+            "correct_processes": 40,
+            "wrong_processes": 8,
+            "processing_accuracy": 0.8333333333333334,
+            "distance": 1056
+          },
+          "clear": {
+            "tasks": 15,
+            "successes": 15,
+            "correct_processes": 30,
+            "wrong_processes": 70,
+            "processing_accuracy": 0.3,
+            "distance": 1322
+          }
+        },
+        "followup_all_available": {
+          "retain": {
+            "tasks": 19,
+            "successes": 19,
+            "correct_processes": 38,
+            "wrong_processes": 2,
+            "processing_accuracy": 0.95,
+            "distance": 950
+          },
+          "clear": {
+            "tasks": 14,
+            "successes": 14,
+            "correct_processes": 28,
+            "wrong_processes": 64,
+            "processing_accuracy": 0.30434782608695654,
+            "distance": 1216
+          }
+        },
+        "same_T2_T11": {
+          "retain": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 2,
+            "processing_accuracy": 0.9090909090909091,
+            "distance": 518
+          },
+          "clear": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 48,
+            "processing_accuracy": 0.29411764705882354,
+            "distance": 890
+          }
+        }
+      },
+      "retain_error_tasks": [
+        {
+          "task": "T1",
+          "wrong_submissions": 6
+        },
+        {
+          "task": "T2",
+          "wrong_submissions": 1
+        },
+        {
+          "task": "T5",
+          "wrong_submissions": 1
+        }
+      ]
+    },
+    "forest": {
+      "geometry": {
+        "nearest_match_rate": 0.025,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 3,
+          "A2": 2,
+          "B1": 2,
+          "B2": 1,
+          "C1": 4,
+          "C2": 1,
+          "D1": 4,
+          "D2": 1,
+          "E1": 3,
+          "E2": 2,
+          "F1": 2,
+          "F2": 1,
+          "G1": 2,
+          "G2": 3,
+          "H1": 3,
+          "H2": 2
+        },
+        "stage_contexts": 40,
+        "mean_processing_leg_distance": 12.7
+      },
+      "windows": {
+        "all_valid": {
+          "retain": {
+            "tasks": 20,
+            "successes": 20,
+            "correct_processes": 40,
+            "wrong_processes": 5,
+            "processing_accuracy": 0.8888888888888888,
+            "distance": 698
+          },
+          "clear": {
+            "tasks": 11,
+            "successes": 11,
+            "correct_processes": 22,
+            "wrong_processes": 48,
+            "processing_accuracy": 0.3142857142857143,
+            "distance": 620
+          }
+        },
+        "followup_all_available": {
+          "retain": {
+            "tasks": 19,
+            "successes": 19,
+            "correct_processes": 38,
+            "wrong_processes": 4,
+            "processing_accuracy": 0.9047619047619048,
+            "distance": 672
+          },
+          "clear": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 47,
+            "processing_accuracy": 0.29850746268656714,
+            "distance": 594
+          }
+        },
+        "same_T2_T11": {
+          "retain": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 4,
+            "processing_accuracy": 0.8333333333333334,
+            "distance": 370
+          },
+          "clear": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 47,
+            "processing_accuracy": 0.29850746268656714,
+            "distance": 594
+          }
+        }
+      },
+      "retain_error_tasks": [
+        {
+          "task": "T1",
+          "wrong_submissions": 1
+        },
+        {
+          "task": "T2",
+          "wrong_submissions": 4
+        }
+      ]
+    },
+    "cascade": {
+      "geometry": {
+        "nearest_match_rate": 0.0875,
+        "unused_strict_replicas": [],
+        "strict_replica_counts": {
+          "A1": 2,
+          "A2": 1,
+          "B1": 2,
+          "B2": 3,
+          "C1": 2,
+          "C2": 1,
+          "D1": 3,
+          "D2": 2,
+          "E1": 1,
+          "E2": 3,
+          "F1": 1,
+          "F2": 4,
+          "G1": 4,
+          "G2": 1,
+          "H1": 4,
+          "H2": 1
+        },
+        "stage_contexts": 40,
+        "mean_processing_leg_distance": 15.65
+      },
+      "windows": {
+        "all_valid": {
+          "retain": {
+            "tasks": 20,
+            "successes": 20,
+            "correct_processes": 40,
+            "wrong_processes": 13,
+            "processing_accuracy": 0.7547169811320755,
+            "distance": 889
+          },
+          "clear": {
+            "tasks": 20,
+            "successes": 20,
+            "correct_processes": 40,
+            "wrong_processes": 97,
+            "processing_accuracy": 0.291970802919708,
+            "distance": 1362
+          }
+        },
+        "followup_all_available": {
+          "retain": {
+            "tasks": 19,
+            "successes": 19,
+            "correct_processes": 38,
+            "wrong_processes": 7,
+            "processing_accuracy": 0.8444444444444444,
+            "distance": 819
+          },
+          "clear": {
+            "tasks": 19,
+            "successes": 19,
+            "correct_processes": 38,
+            "wrong_processes": 91,
+            "processing_accuracy": 0.29457364341085274,
+            "distance": 1292
+          }
+        },
+        "same_T2_T11": {
+          "retain": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 7,
+            "processing_accuracy": 0.7407407407407407,
+            "distance": 433
+          },
+          "clear": {
+            "tasks": 10,
+            "successes": 10,
+            "correct_processes": 20,
+            "wrong_processes": 49,
+            "processing_accuracy": 0.2898550724637681,
+            "distance": 683
+          }
+        }
+      },
+      "retain_error_tasks": [
+        {
+          "task": "T1",
+          "wrong_submissions": 6
+        },
+        {
+          "task": "T4",
+          "wrong_submissions": 7
+        }
+      ]
+    }
+  },
+  "new_model_calls": 0,
+  "findings": [
+    "All valid sessions completed successfully; processing accuracy is a different denominator.",
+    "Original comparisons had different task windows; common T2-T11 is included.",
+    "Nearest-station tie-weighted matching differs across authored fixtures: Nessie .225, Forest .025, Cascade .0875.",
+    "Nessie has two followup wrong processes, Forest four, Cascade seven; Cascade followup errors all occur in T4.",
+    "These are one native run per condition/map; geometry bias and exposure timing are measurable, not a causal decomposition of model internals."
+  ]
+}

@@ -3,17 +3,18 @@
 The public layer contains only fictional geography, survey materials and station
 types. Candidate worlds, the fixed fixture and dependencies stay evaluator-side.
 """
-from itertools import permutations
 import json
 from pathlib import Path
 
-from scripts.build_easy20_reuse_map import ITINERARIES, build as reference_map
+from memorybenchmark.materials import easy_material_preset
+from scripts.easy_map_common import build_tasks, fixed_world as assignment_id, game_rules
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "memorybenchmark/data/nessie_easy20.json"
-VERSION = "nessie-easy-1.1"
-KINDS = reference_map()["public"]["kinds"]
+OUTPUT = ROOT / "memorybenchmark/data/history/nessie_easy20.json"
+VERSION = "nessie-easy-1.5"
+PUBLIC_VERSION = "easy-01-v1.5"
+KINDS, MATERIAL_SELECTION = easy_material_preset("nessie")
 
 # A schematic SW--NE glacial lake. These are invented, public game locations,
 # not the coordinates or real names of infrastructure around Loch Ness.
@@ -82,47 +83,29 @@ def build():
             edges.append([last, transit, 1])
             last = transit
         edges.append([last, id_, distance-transit_count])
-    group_specs = [("shore", "南北同型站网", "ABCD", ["profile", "shore", "vegetation", "lithology"]),
-                   ("signal", "东西同型站网", "EFGH", ["bearing", "elevation", "drainage", "contour"])]
-    groups = {key: {"name": name, "station_types": list(types),
-                    "stations": [f"{t}{i}" for t in types for i in (1, 2)],
-                    "kinds": kinds, "counts": {kind: 2 for kind in kinds}}
-              for key, name, types, kinds in group_specs}
-    # This fixture is authored once and shared by every run. The other 575
-    # assignments are evaluator hypotheses, not per-run randomization.
+    # This fixture is authored once and shared by every run. Evaluator
+    # hypotheses cover all 8! pairings, without geographic/type-letter groups.
     fixture = {"A": "vegetation", "B": "lithology", "C": "profile", "D": "shore",
-               "E": "elevation", "F": "bearing", "G": "contour", "H": "drainage"}
-    indices = [list(permutations(kinds)).index(tuple(fixture[t] for t in types))
-               for _, _, types, kinds in group_specs]
-    fixed_world = "omega_" + "_".join(f"{i:02d}" for i in indices)
-    tasks = {}
-    for index, itinerary in enumerate(ITINERARIES, 1):
-        stages = [{"target": target, "required_kind": kind} for target, kind in itinerary]
-        tasks[f"T{index}"] = {"name": f"联程巡测 {index:02d}", "start": "C", "submit_at": "C",
-                              **stages[0], "stages": stages, "max_steps": 88}
+               "E": "elevation", "F": "lake_sighting", "G": "lake_sonar", "H": "bearing"}
+    # Research themes do not identify processing capabilities; in particular
+    # the station named for a creature is not its sighting-processing answer.
+    fixed_world = assignment_id(KINDS, fixture)
+    tasks = build_tasks(KINDS)
     public = {
-        "version": VERSION, "name": "尼斯湖水怪", "difficulty": "Easy", "terrain": "nessie",
+        "version": PUBLIC_VERSION, "name": "暮湾长湖", "difficulty": "Easy", "terrain": "long-lake",
+        "station_query_enabled": False,
+        "manual_survey_required": True,
         "view_box": [0, 0, 2200, 1600],
         "vocabulary": {"survey": "测绘点", "station": "基站", "collect": "采集", "process": "处理", "item": "资料", "submit": "交付"},
-        "rules": [
-            "每项测绘委托有两段行程。依次到目标点自动采集本段指定资料，在支持该类资料的基站处理；两段完成后回 C 营地交付一次。",
-            "目标是在操作预算内完成委托，优先减少道路总距离，距离相同时减少操作。全图从第一项起可自由探索，不设教学或解锁阶段。",
-            "A 至 H 是八种公开站型，每型两座站。同型站支持相同资料；类型字母和站点研究主题不代表具体处理能力。H 型的两座站以水怪研究为主题，仍处理本地图的测绘资料，实际能力需交互获知。同一地图的能力配对跨委托、跨 session、跨 Agent 和重复实验保持固定。",
-            "A/B/C/D 型分别支持剖面、岸线、植被、岩性中的一种；E/F/G/H 型分别支持方位、高程、水系、等高线中的一种。每个站网内四种站型与四种能力一一对应，具体配对需交互获知。",
-            "只有抵达基站后 inspect 或 process 才反馈该站型的实际能力。inspect 查询消耗一次操作；process 处理不匹配也消耗一次操作，原始资料仍保留。",
-            "在任一同型站获得的能力经验可以用于另一座同型站。地理图始终可见，但不记录历史能力、处理反馈或替你保存经验。",
-            "每段到目标自动采集，处理成功后才进入下一段；提前经过后续目标不算完成后续采集。中间支路节点必须逐点移动，湖面没有横穿捷径。",
-            "每项从 C 开始，位置、资料、对话和工作记忆重置；只有 Agent 自主保存的持久记忆跨 session。失败后继续固定任务流，只能保留实际经历过的经验，不补发答案。",
-            "一项最多八十八次操作，read 免费。",
-        ],
-        "kinds": KINDS, "capability_groups": groups,
+        "rules": game_rules(KINDS),
+        "kinds": KINDS,
         "station_types": {t: {"name": f"{t} 型", "stations": [f"{t}1", f"{t}2"]} for t in "ABCDEFGH"},
         "locations": locations, "edges": edges,
     }
     return {
         "design_id": VERSION, "status": "formal_easy_candidate_pending_native_agent_calibration",
         "world_generator": "station_type_permutations", "fixed_world": fixed_world,
-        "public": public, "tasks": tasks,
+        "public": public, "tasks": tasks, "material_selection": MATERIAL_SELECTION,
         "presentation": {"terrain": "nessie", "regions": [
             {"name": "北湾", "x": 1570, "y": 90}, {"name": "西岬", "x": 830, "y": 450},
             {"name": "南汀", "x": 430, "y": 1450}, {"name": "东崖", "x": 1650, "y": 990},
