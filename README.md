@@ -42,6 +42,7 @@ python -m memorybenchmark
 ## 验证与文档
 
 ```powershell
+python -m pip install -e ".[mcp,test]"
 python -m unittest discover -s tests
 ```
 

@@ -18,6 +18,11 @@ ET.register_namespace('',NS)
 SCALE=1000
 WORLD=[0,0,360000,360000]
 
+def design_fingerprint(path):
+    """Hash UTF-8/LF display metadata; frozen scientific byte hashes stay raw."""
+    return sha256(Path(path).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def project(lon,lat):
     lat=max(-85.05112878,min(85.05112878,lat))
     return [round((lon+180)*SCALE,7),round((180-degrees(log(tan(pi/4+radians(lat)/2))))*SCALE,7)]
@@ -114,7 +119,7 @@ def build(reference):
         entries.append({'id':mid,'name':name,'difficulty':public['difficulty'],'task_count':len(design['tasks']),
             'view_box':box,'geographic_bounds':bounds,'local_view_box':vb,
             'terrain_asset':'/'+filename,'source_asset':'/'+source.name,'source_asset_sha256':sha256(source.read_bytes()).hexdigest(),
-            'design_sha256':sha256(station_design(mid).read_bytes()).hexdigest(),
+            'design_sha256':design_fingerprint(station_design(mid)),
             'map':{'locations':positions,'edges':deepcopy(public['edges']),'edge_paths':paths,
                    'ferry_edges':public.get('ferry_edges',[]),'processing_regions':public.get('processing_regions',{})}})
     world=ET.Element('{'+NS+'}svg',{'viewBox':'0 0 360000 360000','data-source':'Natural Earth 5.1.2'})
@@ -136,7 +141,7 @@ def build(reference):
     (static/'world-overview.svg').write_text(ET.tostring(world,encoding='unicode'),encoding='utf-8')
     record={'protocol':'human-world-atlas-1','projection':'EPSG:3857','world_box':WORLD,'world_asset':'/world-overview.svg',
         'reference':{'source':'Natural Earth 5.1.2','license':'public domain','sha256':sha256(reference.read_bytes()).hexdigest()},
-        'countries':countries,'regions':entries,'layers':layers,'scientific_state_changed':False}
+        'countries':countries,'regions':entries,'layers':layers,'scientific_state_changed':False,'design_sha256_encoding':'utf-8-lf'}
     (static/'world-atlas.json').write_text(json.dumps(record,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     # Precompressed immutable geography avoids shipping tens of MB per view.
     # The browser has a plain-SVG fallback; the web server needs no new behavior.

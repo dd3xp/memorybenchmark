@@ -1,0 +1,8 @@
+# Serialized scientific inputs and generated geography carry byte hashes.
+# Keep checkout bytes identical across Linux and Windows.
+*.json text eol=lf
+*.geojson text eol=lf
+*.svg text eol=lf
+*.gz -text
+*.png -text
+*.woff2 -text

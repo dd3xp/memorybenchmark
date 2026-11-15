@@ -62,8 +62,9 @@ class PilotWatchTests(unittest.TestCase):
         from memorybenchmark import pilot_watch
         actual_read = pilot_watch.read_json
         reads = []
+        design_path = (self.run / "design.json").resolve()
         def record(path, *args, **kwargs):
-            if path == self.run / "design.json":
+            if Path(path).resolve() == design_path:
                 reads.append(path)
             return actual_read(path, *args, **kwargs)
         with patch.object(pilot_watch, "read_json", side_effect=record):
