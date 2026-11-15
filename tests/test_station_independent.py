@@ -254,6 +254,38 @@ class IndependentStationTests(unittest.TestCase):
                 with self.assertRaisesRegex(AssertionError, "frozen source differs"):
                     report_experiment(output, source_commit="fixture")
 
+    def test_support_newline_policy_checks_each_real_session_receipt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output, source = self.completed_crlf_run(Path(directory))
+            pilot = json.loads((output / "pilot.json").read_text())
+            worker = source.parent / "hermes_worker.py"
+            worker.write_bytes(b"value = 1\n")
+            pilot["agent"] = "hermes"
+            pilot["implementation_sha256"][str(worker)] = sha256(worker.read_bytes()).hexdigest()
+            save_json(output / "pilot.json", pilot)
+            support = output / "support"
+            support.mkdir()
+            executed = b"value = 1\r\n"
+            (support / worker.name).write_bytes(executed)
+            for path, digest in pilot["implementation_sha256"].items():
+                target = output / "provenance/frozen-source/memorybenchmark" / Path(path).name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(Path(path).read_bytes())
+            for row in pilot["sessions"]:
+                path = output / "sessions" / row["name"] / "summary.json"
+                summary = json.loads(path.read_text())
+                summary["initial_session"]["executed_support_sha256"] = {worker.name: sha256(executed).hexdigest()}
+                summary["initial_session"].update(action_policy="single", native_mcp_game_tools=["mcp__cartography__game_action"])
+                save_json(path, summary)
+            with self.assertRaisesRegex(AssertionError, "differs from frozen"):
+                audit(output)
+            result = audit(output, support_newlines="crlf-equivalent")
+            self.assertEqual(result["support_file_provenance"][worker.name]["session_receipts_verified"], len(pilot["sessions"]))
+            summary["initial_session"]["executed_support_sha256"][worker.name] = "wrong"
+            save_json(path, summary)
+            with self.assertRaisesRegex(AssertionError, "session receipt"):
+                audit(output, support_newlines="crlf-equivalent")
+
     def test_source_audit_requires_each_agents_prepared_support_and_rejects_changes(self):
         for agent in ("ga", "hermes"):
             with self.subTest(agent=agent), tempfile.TemporaryDirectory() as directory:

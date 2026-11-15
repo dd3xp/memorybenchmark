@@ -12,13 +12,15 @@ import subprocess
 from memorybenchmark.ga_runtime import memory_manifest
 from memorybenchmark.prototypes.station_capability import StationGame
 from scripts.check_station_capability import trace_graph
+from memorybenchmark.support_integrity import verify_executed_support
 
 
 def read(path):
     return path.read_text(encoding="utf-8-sig")
 
 
-def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw", native_archive=None):
+def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw", native_archive=None,
+          support_newlines="raw"):
     root=Path(root)
     pilot=json.loads(read(root/"pilot.json"));design=json.loads(read(root/"design.json"))
     independent=pilot.get("experiment_mode")=="independent"
@@ -37,7 +39,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
         assert archive_verified,"Native archive differs from declared source"
     game=StationGame(pilot["world"],design)
     baseline=memory_manifest(root/"baseline");main_memory=baseline
-    checked_events=checked_current_events=0;rows=[];session_ids=[]
+    checked_events=checked_current_events=0;rows=[];session_ids=[];support_receipts=[]
     for recorded in pilot["sessions"]:
         folder=root/"sessions"/recorded["name"]
         summary=json.loads(read(folder/"summary.json"))
@@ -71,6 +73,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             # Actual request/provider fields remain available in usage reports.
         assert summary["main_calls"]<=pilot["max_turns"] and summary["final_calls"]<=pilot["final_turns"]
         initial=summary["initial_session"]
+        support_receipts.append(initial.get("executed_support_sha256", {}))
         assert initial["initial_history_size"]==initial["initial_backend_history_size"]==0
         assert initial["working"]=={} and all(v for k,v in initial["isolation"].items() if k!="pid")
         if pilot.get("action_policy") == "single":
@@ -96,6 +99,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             assert [r["name"] for r in rows]==[f"{i+1:02d}-{t}-{condition}" for i,t in enumerate(pilot["tasks"])]
     verified_sources={}
     verified_support={}
+    support_provenance={}
     support_names={"ga_worker.py", "agent_bridge.py", "game_client.py", "native_game_io.py", "game_mcp_stdio.py"}
     if pilot.get("agent", "ga")=="hermes":
         support_names.add("hermes_worker.py")
@@ -117,8 +121,10 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             support=root/"support"/Path(relative).name
             if relative.startswith("memorybenchmark/") and relative.count("/")==1 and Path(relative).name in support_names and (root/"support").exists():
                 assert support.is_file(),(relative,"missing executed worker support")
-                assert sha256(support.read_bytes()).hexdigest()==digest,(relative,"executed support differs from frozen source")
-                verified_support[support.name]=digest
+                provenance=verify_executed_support(Path(name).read_bytes(), support.read_bytes(),
+                    [receipt.get(support.name) for receipt in support_receipts], newline_policy=support_newlines)
+                verified_support[support.name]=provenance["executed_sha256"]
+                support_provenance[support.name]=provenance
             verified_sources[relative]=digest
     return {"kind":"native_station_replay_and_memory_chain_audit","pilot_completed":pilot["status"]=="completed",
             "experiment_mode":"independent" if independent else "paired",
@@ -127,6 +133,7 @@ def audit(root, *, allow_partial=False, source_commit=None, source_newlines="raw
             "memory_chains_verified":True,"fresh_sessions_and_isolation_verified":True,
             "source_commit":source_commit,"source_newlines":source_newlines,"source_files_verified":verified_sources,
             "support_files_verified":verified_support,
+            "support_newlines":support_newlines,"support_file_provenance":support_provenance,
             "native_archive_verified":archive_verified,"rows":rows}
 
 
