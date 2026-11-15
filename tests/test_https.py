@@ -104,12 +104,14 @@ class HTTPSTests(unittest.TestCase):
 
     def test_incomplete_certificate_update_keeps_last_valid_certificate(self):
         before = self.request()[3]
-        shutil.copyfile(self.fixture_root / "renewed.key", self.key)
+        # The automatic reloader may notice the file before the explicit call.
+        # Observe warnings before mutation so either path is covered.
         with self.assertLogs("memorybenchmark.tls", level="WARNING"):
+            shutil.copyfile(self.fixture_root / "renewed.key", self.key)
             self.assertFalse(self.server.tls.reload_if_changed())
         self.assertEqual(self.request()[3], before)
-        self.cert.write_text("partial certificate", encoding="utf-8")
         with self.assertLogs("memorybenchmark.tls", level="WARNING"):
+            self.cert.write_text("partial certificate", encoding="utf-8")
             self.assertFalse(self.server.tls.reload_if_changed())
         self.assertEqual(self.request()[3], before)
 
