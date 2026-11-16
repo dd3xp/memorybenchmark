@@ -1,0 +1,143 @@
+{
+  "status": "paired_trial_in_progress_retained_condition_sealed_and_verified",
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "source_result_sha256": "5808bbf0688ba89ea6b94e67185ed5525cb4e4145cac55ffd5b488a9ba42258d",
+  "metrics": {
+    "condition": "retain",
+    "tasks": {
+      "correct": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "all_first_goal_compatible_operations": {
+      "correct": 23,
+      "denominator": 32,
+      "rate": 0.71875
+    },
+    "after_first_planned_goal_encounter": {
+      "correct": 23,
+      "denominator": 24,
+      "rate": 0.9583333333333334
+    },
+    "goal_classes": 8,
+    "by_encounter": {
+      "1": {
+        "correct": 0,
+        "denominator": 8
+      },
+      "2": {
+        "correct": 8,
+        "denominator": 8
+      },
+      "3": {
+        "correct": 7,
+        "denominator": 8
+      },
+      "4": {
+        "correct": 8,
+        "denominator": 8
+      }
+    },
+    "all_stages_first_correct": {
+      "correct": 15,
+      "denominator": 24,
+      "rate": 0.625
+    },
+    "combined_stages_first_correct": {
+      "correct": 8,
+      "denominator": 8,
+      "rate": 1.0
+    },
+    "combined_with_both_prior_actual_facts": {
+      "correct": 8,
+      "denominator": 8,
+      "rate": 1.0
+    },
+    "combinations_without_both_prior_actual_facts": 0,
+    "distance": 2255,
+    "model_calls": 961,
+    "processing_failures": 70,
+    "reported_usage": {
+      "calls": 961,
+      "calls_with_usage": 961,
+      "calls_with_effort_acknowledgement": 961,
+      "reported_tokens": {
+        "input_tokens": 50878434,
+        "output_tokens": 107771,
+        "reasoning_tokens": 56988
+      },
+      "usage_complete": true,
+      "request_kinds": {
+        "agent": 949,
+        "session_title": 12,
+        "context_compression": 0
+      },
+      "request_reasoning_efforts": {
+        "high": 949,
+        "unspecified": 12
+      },
+      "provider_reasoning_efforts": {
+        "high": 949,
+        "medium": 12
+      },
+      "reasoning_policy": "native"
+    },
+    "infrastructure_costs": {
+      "failure_events": 0,
+      "reasons": {},
+      "affected_rpcs": 0,
+      "recovered_affected_rpcs": 0,
+      "active_pending_rpcs": 0,
+      "historical_unrecovered_rpcs": 0,
+      "failure_events_without_reported_usage": 0,
+      "abandoned_attempt_successful_responses": 0,
+      "abandoned_attempt_reported_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "unreported_usage_is_unknown": true,
+      "reasoning_tokens_are_output_subset": true
+    },
+    "reasoning_is_output_subset": true,
+    "unreported_usage_remains_unknown": true,
+    "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+    "single_run_descriptive_only": true,
+    "source_result_sha256": "5808bbf0688ba89ea6b94e67185ed5525cb4e4145cac55ffd5b488a9ba42258d",
+    "server_sealed_audit_passed": true,
+    "local_archive_verification": "pending",
+    "transport_ledger_inventory_present": true,
+    "actual_context": 272000,
+    "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+    "design_id": "hard-interface-calibration-v1-61301-12",
+    "source_digest": "16f749b64aab75ece264ffee756b560a8abd5c13154faedde79a1d8e2b2bfbae"
+  },
+  "local_verification": {
+    "passed": true,
+    "archive_bytes": 213449604,
+    "archive_sha256": "17472d9bde7a2bdbbf62b6878d619b29ae2b1a5bb2b8eca413af6fc690db603b",
+    "manifest_members": 8352,
+    "expanded_bytes": 649261887,
+    "condition": "retain",
+    "pair_id": "77f511539893aa14de0b469eb66eb14d",
+    "source_digest": "16f749b64aab75ece264ffee756b560a8abd5c13154faedde79a1d8e2b2bfbae",
+    "source_files": 250,
+    "actual_context": 272000,
+    "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+    "model_evidence": {
+      "responses": 961,
+      "primary_high_pairs": 949,
+      "responses_without_reported_input_output": 0,
+      "responses_without_reported_reasoning": 0
+    },
+    "memory_boundary_verified": true,
+    "original_strict_audit_verified": true,
+    "game_replayed_locally": false,
+    "reasoning_is_output_subset": true,
+    "unreported_usage_is_unknown": true
+  },
+  "screening_conclusion": "not_selected: known combinations saturated; repeat endpoint95.83% remains above90% target",
+  "clear_result": "still_running; do not treat its absence as zero",
+  "round2_variant": "binding_v2"
+}

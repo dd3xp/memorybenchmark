@@ -54,6 +54,7 @@ def model_pairs(session):
             {
                 "call": path.name.split("-")[0],
                 "kind": kind,
+                "request_model": request.get("model"),
                 "requested_effort": requested,
                 "response_received": completed is not None,
                 "response_model": (completed or {}).get("model"),
@@ -136,6 +137,8 @@ def process_identity(receipt):
             ctypes.c_void_p(handle), *[ctypes.byref(s) for s in stamps]
         )
         same = bool(ok and stamps[0].value == receipt.get("created_filetime"))
+        io = (ctypes.c_ulonglong * 6)()
+        io_ok = kernel.GetProcessIoCounters(ctypes.c_void_p(handle), ctypes.byref(io))
         return {
             "pid": receipt["pid"],
             "same_creation": same,
@@ -143,6 +146,8 @@ def process_identity(receipt):
             "cpu_seconds": (
                 round((stamps[2].value + stamps[3].value) / 10**7, 2) if same else None
             ),
+            "io_read_bytes": io[3] if same and io_ok else None,
+            "io_write_bytes": io[4] if same and io_ok else None,
         }
     finally:
         kernel.CloseHandle(ctypes.c_void_p(handle))
