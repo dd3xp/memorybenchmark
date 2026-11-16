@@ -1,6 +1,6 @@
 # Hard候选：中间结果的兼容性
 
-状态：2026-11-16两轮Hermes／Luna校准已启动；两轮retain均已通过原严格审计、封存及本地完整核验，clear仍由原执行器推进。第二轮retain达到预定开发筛选目标，但尚不是完整36任务的独立确认。用户授权最多两轮、每条件12项，合计48项；没有追加模型运行。未替换正式Hard36或实验创建菜单，Lunatic继续暂缓。
+状态：2026-11-16两轮Hermes／Luna校准全部完成，48项结局、四份证据包均已原严格审计、封存及本地完整核验，四个driver退出0。[完整结果](HARD_CALIBRATION_RESULTS.md)显示第二轮达到预定开发筛选目标，但尚不是完整36任务的独立确认。两轮48项授权已用完，没有追加模型运行。未替换正式Hard36或实验创建菜单，Lunatic继续暂缓。
 
 目标是让已有经验的**选择与组合**影响首次处理和试错成本。允许Agent通过补救完成任务，不以人为压缩上下文、降低预算或不可恢复的陷阱制造任务失败。
 
@@ -87,7 +87,7 @@ python -m unittest tests.test_composition_lab tests.test_hard_interface_assessme
 
 第一轮整体首次正确率降低，主要来自初次探索；已知组合仍满分，因此淘汰。第二轮在前8项普通计分委托全部成功后，后4项组合委托中出现一个整段首次错误；对应两次操作首次错误，均保留在分母。它达到预定的重复操作70%—90%筛选区间，相对有效272000上下文Normal保留组36/36低12.5个百分点。Normal采用route、候选采用step，任务规模和目标条件也不同；这只是描述性参照，不构成严格匹配比较或显著性结论。两个版本的clear必须独立保留并报告，不能拿未完成结果作零分。
 
-数据见[第一轮retain](assets/hard-interface-calibration/round1-retain.json)与[第二轮retain](assets/hard-interface-calibration/round2-retain.json)。所有首次机会按面向目标的操作计算；局部产出错误规格的“processed”不算正确。原生预算、上下文和模型不变。已实际得到前置反馈不证明模型保存、检索或因果使用了这些经验。
+阶段性原件见[第一轮retain](assets/hard-interface-calibration/round1-retain.json)与[第二轮retain](assets/hard-interface-calibration/round2-retain.json)，最终由[完整配对数据](assets/hard-interface-calibration/paired-final-20261116.json)补齐。两版clear均9/12任务成功；第二版去首次2/16、已知组合0/8，与自身retain独立对照。所有首次机会按面向目标的操作计算；局部产出错误规格的“processed”不算正确。原生预算、上下文和模型不变。已实际得到前置反馈不证明模型保存、检索或因果使用了这些经验。
 
 ## 完整候选与地图决定
 
@@ -95,4 +95,4 @@ python -m unittest tests.test_composition_lab tests.test_hard_interface_assessme
 
 [奥尔恰逐站路网评估](assets/hard-interface-candidate/binding36-orcia-geography.json)确认道路、采集点、实体站位置不需要修改。48座站均在至少一条已知有效站型链中有最短实体路径用途；其中36座出现在全知全能力最优路线，34座严格必需。这两个口径不混用。零模型真实游戏参考执行36/36可解，最大70动作；这是可行性证明，不是模型成绩。
 
-完整版尚未原生模型确认、未加入公共地图菜单，也未自动启动。已授权的48项全部结果和四份证据包收齐后再形成完整配对报告；不把小样本筛选说成正式难度已被证明。
+完整版尚未原生模型确认、未加入公共地图菜单，也未自动启动。已授权的48项全部结果和四份证据包已收齐并形成完整配对报告；不把小样本筛选说成正式难度已被证明。

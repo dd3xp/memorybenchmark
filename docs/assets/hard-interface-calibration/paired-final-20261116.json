@@ -1,0 +1,675 @@
+{
+  "schema": "bounded-hard-calibration-paired-report-1",
+  "status": "four_conditions_originally_audited_and_locally_verified",
+  "planned_tasks": 48,
+  "completed_tasks": 48,
+  "successful_tasks": 42,
+  "rounds": [
+    {
+      "conditions": {
+        "retain": {
+          "pair_id": "77f511539893aa14de0b469eb66eb14d",
+          "condition": "retain",
+          "design_id": "hard-interface-calibration-v1-61301-12",
+          "metrics": {
+            "condition": "retain",
+            "tasks": {
+              "correct": 12,
+              "denominator": 12,
+              "rate": 1.0
+            },
+            "all_first_goal_compatible_operations": {
+              "correct": 23,
+              "denominator": 32,
+              "rate": 0.71875
+            },
+            "after_first_planned_goal_encounter": {
+              "correct": 23,
+              "denominator": 24,
+              "rate": 0.9583333333333334
+            },
+            "goal_classes": 8,
+            "by_encounter": {
+              "1": {
+                "correct": 0,
+                "denominator": 8
+              },
+              "2": {
+                "correct": 8,
+                "denominator": 8
+              },
+              "3": {
+                "correct": 7,
+                "denominator": 8
+              },
+              "4": {
+                "correct": 8,
+                "denominator": 8
+              }
+            },
+            "all_stages_first_correct": {
+              "correct": 15,
+              "denominator": 24,
+              "rate": 0.625
+            },
+            "combined_stages_first_correct": {
+              "correct": 8,
+              "denominator": 8,
+              "rate": 1.0
+            },
+            "combined_with_both_prior_actual_facts": {
+              "correct": 8,
+              "denominator": 8,
+              "rate": 1.0
+            },
+            "combinations_without_both_prior_actual_facts": 0,
+            "distance": 2255,
+            "model_calls": 961,
+            "processing_failures": 70,
+            "reported_usage": {
+              "calls": 961,
+              "calls_with_usage": 961,
+              "calls_with_effort_acknowledgement": 961,
+              "reported_tokens": {
+                "input_tokens": 50878434,
+                "output_tokens": 107771,
+                "reasoning_tokens": 56988
+              },
+              "usage_complete": true,
+              "request_kinds": {
+                "agent": 949,
+                "session_title": 12,
+                "context_compression": 0
+              },
+              "request_reasoning_efforts": {
+                "high": 949,
+                "unspecified": 12
+              },
+              "provider_reasoning_efforts": {
+                "high": 949,
+                "medium": 12
+              },
+              "reasoning_policy": "native"
+            },
+            "infrastructure_costs": {
+              "failure_events": 0,
+              "reasons": {},
+              "affected_rpcs": 0,
+              "recovered_affected_rpcs": 0,
+              "active_pending_rpcs": 0,
+              "historical_unrecovered_rpcs": 0,
+              "failure_events_without_reported_usage": 0,
+              "abandoned_attempt_successful_responses": 0,
+              "abandoned_attempt_reported_tokens": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "reasoning_tokens": 0
+              },
+              "unreported_usage_is_unknown": true,
+              "reasoning_tokens_are_output_subset": true
+            },
+            "reasoning_is_output_subset": true,
+            "unreported_usage_remains_unknown": true,
+            "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+            "single_run_descriptive_only": true,
+            "source_result_sha256": "5808bbf0688ba89ea6b94e67185ed5525cb4e4145cac55ffd5b488a9ba42258d",
+            "server_sealed_audit_passed": true,
+            "transport_ledger_inventory_present": true,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "design_id": "hard-interface-calibration-v1-61301-12",
+            "source_digest": "16f749b64aab75ece264ffee756b560a8abd5c13154faedde79a1d8e2b2bfbae"
+          },
+          "local_verification": {
+            "passed": true,
+            "archive_bytes": 213449604,
+            "archive_sha256": "17472d9bde7a2bdbbf62b6878d619b29ae2b1a5bb2b8eca413af6fc690db603b",
+            "manifest_members": 8352,
+            "expanded_bytes": 649261887,
+            "condition": "retain",
+            "pair_id": "77f511539893aa14de0b469eb66eb14d",
+            "source_digest": "16f749b64aab75ece264ffee756b560a8abd5c13154faedde79a1d8e2b2bfbae",
+            "source_files": 250,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "model_evidence": {
+              "responses": 961,
+              "primary_high_pairs": 949,
+              "responses_without_reported_input_output": 0,
+              "responses_without_reported_reasoning": 0
+            },
+            "memory_boundary_verified": true,
+            "original_strict_audit_verified": true,
+            "game_replayed_locally": false,
+            "reasoning_is_output_subset": true,
+            "unreported_usage_is_unknown": true
+          },
+          "game_failure_tasks": []
+        },
+        "clear": {
+          "pair_id": "77f511539893aa14de0b469eb66eb14d",
+          "condition": "clear",
+          "design_id": "hard-interface-calibration-v1-61301-12",
+          "metrics": {
+            "condition": "clear",
+            "tasks": {
+              "correct": 9,
+              "denominator": 12,
+              "rate": 0.75
+            },
+            "all_first_goal_compatible_operations": {
+              "correct": 4,
+              "denominator": 32,
+              "rate": 0.125
+            },
+            "after_first_planned_goal_encounter": {
+              "correct": 4,
+              "denominator": 24,
+              "rate": 0.16666666666666666
+            },
+            "goal_classes": 8,
+            "by_encounter": {
+              "1": {
+                "correct": 0,
+                "denominator": 8
+              },
+              "2": {
+                "correct": 1,
+                "denominator": 8
+              },
+              "3": {
+                "correct": 2,
+                "denominator": 8
+              },
+              "4": {
+                "correct": 1,
+                "denominator": 8
+              }
+            },
+            "all_stages_first_correct": {
+              "correct": 1,
+              "denominator": 24,
+              "rate": 0.041666666666666664
+            },
+            "combined_stages_first_correct": {
+              "correct": 0,
+              "denominator": 8,
+              "rate": 0.0
+            },
+            "combined_with_both_prior_actual_facts": {
+              "correct": 0,
+              "denominator": 8,
+              "rate": 0.0
+            },
+            "combinations_without_both_prior_actual_facts": 0,
+            "distance": 8361,
+            "model_calls": 3283,
+            "processing_failures": 472,
+            "reported_usage": {
+              "calls": 3283,
+              "calls_with_usage": 3283,
+              "calls_with_effort_acknowledgement": 3283,
+              "reported_tokens": {
+                "input_tokens": 333975342,
+                "output_tokens": 358132,
+                "reasoning_tokens": 154060
+              },
+              "usage_complete": true,
+              "request_kinds": {
+                "agent": 3258,
+                "session_title": 12,
+                "context_compression": 13
+              },
+              "request_reasoning_efforts": {
+                "high": 3258,
+                "unspecified": 25
+              },
+              "provider_reasoning_efforts": {
+                "high": 3258,
+                "medium": 25
+              },
+              "reasoning_policy": "native"
+            },
+            "infrastructure_costs": {
+              "failure_events": 1,
+              "reasons": {
+                "gateway_http_503": 1
+              },
+              "affected_rpcs": 1,
+              "recovered_affected_rpcs": 1,
+              "active_pending_rpcs": 0,
+              "historical_unrecovered_rpcs": 0,
+              "failure_events_without_reported_usage": 1,
+              "abandoned_attempt_successful_responses": 0,
+              "abandoned_attempt_reported_tokens": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "reasoning_tokens": 0
+              },
+              "unreported_usage_is_unknown": true,
+              "reasoning_tokens_are_output_subset": true
+            },
+            "reasoning_is_output_subset": true,
+            "unreported_usage_remains_unknown": true,
+            "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+            "single_run_descriptive_only": true,
+            "source_result_sha256": "e851e26b70abd9e598fb997c0d39d17e2dc0d21b0fd3aa8e211e7d8d62ee92c6",
+            "server_sealed_audit_passed": true,
+            "transport_ledger_inventory_present": true,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "design_id": "hard-interface-calibration-v1-61301-12",
+            "source_digest": "16f749b64aab75ece264ffee756b560a8abd5c13154faedde79a1d8e2b2bfbae"
+          },
+          "local_verification": {
+            "passed": true,
+            "archive_bytes": 930454872,
+            "archive_sha256": "300602cdcd0da52cf14707bd75201142a5f39c90335e29bfccf2fce4b106eb32",
+            "manifest_members": 15209,
+            "expanded_bytes": 3158219963,
+            "condition": "clear",
+            "pair_id": "77f511539893aa14de0b469eb66eb14d",
+            "source_digest": "16f749b64aab75ece264ffee756b560a8abd5c13154faedde79a1d8e2b2bfbae",
+            "source_files": 250,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "model_evidence": {
+              "responses": 3283,
+              "primary_high_pairs": 3258,
+              "responses_without_reported_input_output": 0,
+              "responses_without_reported_reasoning": 0
+            },
+            "memory_boundary_verified": true,
+            "original_strict_audit_verified": true,
+            "game_replayed_locally": false,
+            "reasoning_is_output_subset": true,
+            "unreported_usage_is_unknown": true
+          },
+          "game_failure_tasks": [
+            "T9",
+            "T10",
+            "T11"
+          ]
+        }
+      },
+      "retain_minus_clear_repeat_percentage_points": 79.16666666666667,
+      "normal_minus_retained_repeat_percentage_points": 4.1666666666666625
+    },
+    {
+      "conditions": {
+        "retain": {
+          "pair_id": "7c7184335720d6d81228e55220e6ccec",
+          "condition": "retain",
+          "design_id": "hard-binding-calibration-v2-61401-12",
+          "metrics": {
+            "condition": "retain",
+            "tasks": {
+              "correct": 12,
+              "denominator": 12,
+              "rate": 1.0
+            },
+            "all_first_goal_compatible_operations": {
+              "correct": 16,
+              "denominator": 32,
+              "rate": 0.5
+            },
+            "after_first_planned_goal_encounter": {
+              "correct": 14,
+              "denominator": 16,
+              "rate": 0.875
+            },
+            "goal_classes": 16,
+            "by_encounter": {
+              "1": {
+                "correct": 2,
+                "denominator": 16
+              },
+              "2": {
+                "correct": 14,
+                "denominator": 16
+              }
+            },
+            "all_stages_first_correct": {
+              "correct": 9,
+              "denominator": 24,
+              "rate": 0.375
+            },
+            "combined_stages_first_correct": {
+              "correct": 7,
+              "denominator": 8,
+              "rate": 0.875
+            },
+            "combined_with_both_prior_actual_facts": {
+              "correct": 7,
+              "denominator": 8,
+              "rate": 0.875
+            },
+            "combinations_without_both_prior_actual_facts": 0,
+            "distance": 3230,
+            "model_calls": 1319,
+            "processing_failures": 139,
+            "reported_usage": {
+              "calls": 1319,
+              "calls_with_usage": 1319,
+              "calls_with_effort_acknowledgement": 1319,
+              "reported_tokens": {
+                "input_tokens": 83605327,
+                "output_tokens": 142517,
+                "reasoning_tokens": 76237
+              },
+              "usage_complete": true,
+              "request_kinds": {
+                "agent": 1307,
+                "session_title": 12,
+                "context_compression": 0
+              },
+              "request_reasoning_efforts": {
+                "high": 1307,
+                "unspecified": 12
+              },
+              "provider_reasoning_efforts": {
+                "high": 1307,
+                "medium": 12
+              },
+              "reasoning_policy": "native"
+            },
+            "infrastructure_costs": {
+              "failure_events": 0,
+              "reasons": {},
+              "affected_rpcs": 0,
+              "recovered_affected_rpcs": 0,
+              "active_pending_rpcs": 0,
+              "historical_unrecovered_rpcs": 0,
+              "failure_events_without_reported_usage": 0,
+              "abandoned_attempt_successful_responses": 0,
+              "abandoned_attempt_reported_tokens": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "reasoning_tokens": 0
+              },
+              "unreported_usage_is_unknown": true,
+              "reasoning_tokens_are_output_subset": true
+            },
+            "reasoning_is_output_subset": true,
+            "unreported_usage_remains_unknown": true,
+            "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+            "single_run_descriptive_only": true,
+            "source_result_sha256": "98a9ad6bd0d0463296597dadfed367209cde0575e23fcbd1d27cc6f1fa05bec0",
+            "server_sealed_audit_passed": true,
+            "transport_ledger_inventory_present": true,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "design_id": "hard-binding-calibration-v2-61401-12",
+            "source_digest": "92e11cda88b0b9b6cb63705f3ab376de09d67609da95e229e94711e2d0cda3db"
+          },
+          "local_verification": {
+            "passed": true,
+            "archive_bytes": 341845326,
+            "archive_sha256": "aaffdd5d98367acfe94e1501eb7a3b20cf3bb65828e6ee2b3ee00ca14badea48",
+            "manifest_members": 9403,
+            "expanded_bytes": 1012070118,
+            "condition": "retain",
+            "pair_id": "7c7184335720d6d81228e55220e6ccec",
+            "source_digest": "92e11cda88b0b9b6cb63705f3ab376de09d67609da95e229e94711e2d0cda3db",
+            "source_files": 259,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "model_evidence": {
+              "responses": 1319,
+              "primary_high_pairs": 1307,
+              "responses_without_reported_input_output": 0,
+              "responses_without_reported_reasoning": 0
+            },
+            "memory_boundary_verified": true,
+            "original_strict_audit_verified": true,
+            "game_replayed_locally": false,
+            "reasoning_is_output_subset": true,
+            "unreported_usage_is_unknown": true
+          },
+          "game_failure_tasks": []
+        },
+        "clear": {
+          "pair_id": "7c7184335720d6d81228e55220e6ccec",
+          "condition": "clear",
+          "design_id": "hard-binding-calibration-v2-61401-12",
+          "metrics": {
+            "condition": "clear",
+            "tasks": {
+              "correct": 9,
+              "denominator": 12,
+              "rate": 0.75
+            },
+            "all_first_goal_compatible_operations": {
+              "correct": 3,
+              "denominator": 32,
+              "rate": 0.09375
+            },
+            "after_first_planned_goal_encounter": {
+              "correct": 2,
+              "denominator": 16,
+              "rate": 0.125
+            },
+            "goal_classes": 16,
+            "by_encounter": {
+              "1": {
+                "correct": 1,
+                "denominator": 16
+              },
+              "2": {
+                "correct": 2,
+                "denominator": 16
+              }
+            },
+            "all_stages_first_correct": {
+              "correct": 1,
+              "denominator": 24,
+              "rate": 0.041666666666666664
+            },
+            "combined_stages_first_correct": {
+              "correct": 0,
+              "denominator": 8,
+              "rate": 0.0
+            },
+            "combined_with_both_prior_actual_facts": {
+              "correct": 0,
+              "denominator": 8,
+              "rate": 0.0
+            },
+            "combinations_without_both_prior_actual_facts": 0,
+            "distance": 5689,
+            "model_calls": 2277,
+            "processing_failures": 318,
+            "reported_usage": {
+              "calls": 2277,
+              "calls_with_usage": 2277,
+              "calls_with_effort_acknowledgement": 2277,
+              "reported_tokens": {
+                "input_tokens": 192700466,
+                "output_tokens": 250248,
+                "reasoning_tokens": 112254
+              },
+              "usage_complete": true,
+              "request_kinds": {
+                "agent": 2261,
+                "session_title": 12,
+                "context_compression": 4
+              },
+              "request_reasoning_efforts": {
+                "high": 2261,
+                "unspecified": 16
+              },
+              "provider_reasoning_efforts": {
+                "high": 2261,
+                "medium": 16
+              },
+              "reasoning_policy": "native"
+            },
+            "infrastructure_costs": {
+              "failure_events": 1,
+              "reasons": {
+                "model_response_failed": 1
+              },
+              "affected_rpcs": 1,
+              "recovered_affected_rpcs": 1,
+              "active_pending_rpcs": 0,
+              "historical_unrecovered_rpcs": 0,
+              "failure_events_without_reported_usage": 1,
+              "abandoned_attempt_successful_responses": 0,
+              "abandoned_attempt_reported_tokens": {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "reasoning_tokens": 0
+              },
+              "unreported_usage_is_unknown": true,
+              "reasoning_tokens_are_output_subset": true
+            },
+            "reasoning_is_output_subset": true,
+            "unreported_usage_remains_unknown": true,
+            "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+            "single_run_descriptive_only": true,
+            "source_result_sha256": "0574518464a8c51cbd85d219eadab84811765665cb9e90d79bba18a0bf3445d2",
+            "server_sealed_audit_passed": true,
+            "transport_ledger_inventory_present": true,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "design_id": "hard-binding-calibration-v2-61401-12",
+            "source_digest": "92e11cda88b0b9b6cb63705f3ab376de09d67609da95e229e94711e2d0cda3db"
+          },
+          "local_verification": {
+            "passed": true,
+            "archive_bytes": 556613410,
+            "archive_sha256": "584561ab28ab2086d03ed0675f1d582872e633f7591879f2405924c035816fbb",
+            "manifest_members": 12190,
+            "expanded_bytes": 1894637279,
+            "condition": "clear",
+            "pair_id": "7c7184335720d6d81228e55220e6ccec",
+            "source_digest": "92e11cda88b0b9b6cb63705f3ab376de09d67609da95e229e94711e2d0cda3db",
+            "source_files": 259,
+            "actual_context": 272000,
+            "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+            "model_evidence": {
+              "responses": 2277,
+              "primary_high_pairs": 2261,
+              "responses_without_reported_input_output": 0,
+              "responses_without_reported_reasoning": 0
+            },
+            "memory_boundary_verified": true,
+            "original_strict_audit_verified": true,
+            "game_replayed_locally": false,
+            "reasoning_is_output_subset": true,
+            "unreported_usage_is_unknown": true
+          },
+          "game_failure_tasks": [
+            "T9",
+            "T11",
+            "T12"
+          ]
+        }
+      },
+      "retain_minus_clear_repeat_percentage_points": 75.0,
+      "normal_minus_retained_repeat_percentage_points": 12.5
+    }
+  ],
+  "normal_descriptive_reference": {
+    "map": "nessie-normal",
+    "condition": "retain",
+    "movement_mode": "route",
+    "model": "gpt-5.6-luna",
+    "context_tokens": 272000,
+    "planned_tasks": 24,
+    "completed_tasks": 24,
+    "successful_tasks": 24,
+    "valid_game_failures": 0,
+    "all_first_operations": {
+      "correct": 46,
+      "denominator": 48,
+      "unattempted": 0
+    },
+    "after_first_encounter": {
+      "correct": 36,
+      "denominator": 36,
+      "unattempted": 0
+    },
+    "by_encounter": {
+      "1": {
+        "correct": 10,
+        "denominator": 12,
+        "unattempted": 0
+      },
+      "2": {
+        "correct": 12,
+        "denominator": 12,
+        "unattempted": 0
+      },
+      "3": {
+        "correct": 12,
+        "denominator": 12,
+        "unattempted": 0
+      },
+      "4": {
+        "correct": 12,
+        "denominator": 12,
+        "unattempted": 0
+      }
+    },
+    "standalone_first_operations": {
+      "correct": 46,
+      "denominator": 48,
+      "unattempted": 0
+    },
+    "combined_first_operations": {
+      "correct": 0,
+      "denominator": 0,
+      "unattempted": 0
+    },
+    "combined_stages_all_first_correct": {
+      "correct": 0,
+      "denominator": 0,
+      "unattempted": 0
+    },
+    "all_stage_first_pass": {
+      "correct": 46,
+      "denominator": 48,
+      "unattempted": 0
+    },
+    "processing_successes": 48,
+    "processing_attempts": 57,
+    "processing_failures": 9,
+    "distance": 1181,
+    "game_actions": 993,
+    "llm_calls": 597,
+    "reported_tokens": {
+      "input_tokens": 20396719,
+      "output_tokens": 163809,
+      "reasoning_tokens": 79267
+    },
+    "response_usage_unknown_calls": 0,
+    "response_reasoning_unknown_calls": 0,
+    "infrastructure": {
+      "physical_failure_events": 1,
+      "failure_reasons": {
+        "gateway_http_503": 1
+      },
+      "affected_rpcs": 1,
+      "recovered_same_request_rpcs": 1,
+      "pending_rpcs": 0,
+      "failed_attempt_reported_usage": {},
+      "failed_attempt_final_usage_unknown": 1
+    },
+    "source_digest": "641bf7d8c0e77558fbf7e8d846d0741af6f6fa10726c310e3e8fea141efe8adf",
+    "result_sha256": "1a74c058f8f3ee785b302ee1669e3ee1547aec318af3277e5226688e401d145d",
+    "status_at_observation": "server_sealed_and_contents_verified",
+    "design_sha256": "a082097c1c5722d6755f48ed84d47fcc7eea1deed38b9eb64597a6049a7dbaa2",
+    "logical_event_history_sha256": "13b95ff6139e747379f03df46d5fd30047003ee7cf6e26abab71b641c2837ce6"
+  },
+  "model_calls_for_this_report": 0,
+  "archive_reverification_for_this_report": false,
+  "reasoning_is_output_subset": true,
+  "unknown_usage_is_not_zero": true,
+  "interpretation_limits": [
+    "Development screening; twelve tasks per condition, one run per design.",
+    "Normal uses route movement; the calibration uses step movement and different goal conditions.",
+    "Prior actual feedback is an opportunity, not proof of saved memory delivery or internal causal use.",
+    "A full36-task held-out candidate has not been model evaluated or authorized for launch."
+  ]
+}

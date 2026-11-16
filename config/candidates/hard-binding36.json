@@ -1,6 +1,6 @@
 {
   "schema": "hard-binding36-candidate-1",
-  "status": "implemented_candidate_awaiting_full_native_confirmation",
+  "status": "native_pilot_screening_passed_full_confirmation_pending",
   "conditions": [
     "retain",
     "clear"
@@ -51,5 +51,26 @@
   "geography_review": "docs/assets/hard-interface-candidate/binding36-orcia-geography.json",
   "full_zero_model_reference": "memorybenchmark/data/candidates/orcia_binding36.assessment.json",
   "current_authorized_calibration_scope": "config/authorized-hard-calibration.json",
-  "calibration_is_not_a_full_benchmark_confirmation": true
+  "calibration_is_not_a_full_benchmark_confirmation": true,
+  "native_calibration": {
+    "paired_results": "docs/assets/hard-interface-calibration/paired-final-20261116.json",
+    "report": "docs/HARD_CALIBRATION_RESULTS.md",
+    "retained_repeat_first": {
+      "correct": 14,
+      "denominator": 16
+    },
+    "retained_known_combination_first": {
+      "correct": 7,
+      "denominator": 8
+    },
+    "clear_repeat_first": {
+      "correct": 2,
+      "denominator": 16
+    },
+    "clear_known_combination_first": {
+      "correct": 0,
+      "denominator": 8
+    },
+    "independent_full36_native_confirmation_complete": false
+  }
 }
