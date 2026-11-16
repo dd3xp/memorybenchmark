@@ -7,6 +7,7 @@ from pathlib import Path
 import zipfile
 
 from memorybenchmark.experiments.calibration import summarize
+from memorybenchmark.experiments.verification import authorized_task_count
 from memorybenchmark.watch import atomic_json
 
 
@@ -33,13 +34,14 @@ def analyze(root):
     with zipfile.ZipFile(root / result["archive"]["name"]) as archive:
         names = set(archive.namelist())
         job = json.loads(archive.read("provenance/job.json"))
+        expected_tasks = authorized_task_count(job, job["source_digest"])
         if (
             job["condition"],
             job["model"],
             job["context_tokens"],
             job["movement_mode"],
             job["tasks_per_condition"],
-        ) != (result["condition"], "gpt-5.6-luna", 272000, "step", 12):
+        ) != (result["condition"], "gpt-5.6-luna", 272000, "step", expected_tasks):
             raise ValueError("Sealed result does not match the authorized calibration")
         for row in result["rows"]:
             summary = json.loads(

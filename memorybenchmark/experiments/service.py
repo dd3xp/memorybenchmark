@@ -14,10 +14,15 @@ from .repository import PairRepository, exclusive, utc
 
 
 class ExperimentService:
-    def __init__(self, config, scheduler, *, maps=None):
+    def __init__(self, config, scheduler, *, maps=None, conditions=("retain", "clear")):
         self.config = config
         self.scheduler = scheduler
         self.maps = MAPS if maps is None else dict(maps)
+        self.conditions = tuple(conditions)
+        if self.conditions not in (("retain", "clear"), ("retain",), ("clear",)):
+            raise ValueError(
+                "Configure a pair or an explicitly selected single condition"
+            )
         self.repository = PairRepository(config.experiments)
 
     def design_path(self, name):
@@ -55,7 +60,7 @@ class ExperimentService:
                 }
                 for name in self.maps
             ],
-            "conditions": ["retain", "clear"],
+            "conditions": list(self.conditions),
             "agent": "hermes",
             "movement_modes": [
                 {"id": "step", "name": "单步移动"},
@@ -92,9 +97,9 @@ class ExperimentService:
             "context_tokens": context["model_context_length"],
             "registry_sha256": context["registry_sha256"],
             "reasoning_effort": "high",
-            "conditions": ["retain", "clear"],
+            "conditions": list(self.conditions),
             "tasks_per_condition": len(design["tasks"]),
-            "total_tasks": 2 * len(design["tasks"]),
+            "total_tasks": len(self.conditions) * len(design["tasks"]),
             "main_model_calls": budget["main_model_calls"],
             "final_model_calls": 6,
             "game_steps": next(iter(design["tasks"].values()))["max_steps"],
@@ -107,7 +112,7 @@ class ExperimentService:
         return self._create(request, dispatch=True)
 
     def prepare(self, request):
-        """Freeze both specs for zero-model checks before any dispatch."""
+        """Freeze the server-selected specs for zero-model checks before dispatch."""
         return self._create(request, dispatch=False)
 
     def _create(self, request, *, dispatch):
@@ -117,7 +122,11 @@ class ExperimentService:
         with exclusive(self.repository.root / "creation.lock"):
             existing = self.repository.read(pair_id)
             if existing:
-                if existing["selection"] != selection:
+                if (
+                    existing["selection"] != selection
+                    or existing.get("review", {}).get("conditions", ["retain", "clear"])
+                    != review["conditions"]
+                ):
                     raise ValueError(
                         "Request ID was already used for a different experiment"
                     )
@@ -144,7 +153,7 @@ class ExperimentService:
                 shutil.rmtree(pair_root)
             pair_root.mkdir(parents=True, exist_ok=False)
             jobs = []
-            for condition in ("retain", "clear"):
+            for condition in self.conditions:
                 root = pair_root / condition
                 source_digest = freeze(
                     self.config.project,
@@ -170,7 +179,7 @@ class ExperimentService:
                 }
                 atomic_json(root / "job.json", job)
                 jobs.append(job)
-            if jobs[0]["source_digest"] != jobs[1]["source_digest"]:
+            if len({job["source_digest"] for job in jobs}) != 1:
                 raise ValueError(
                     "Source changed while preparing the pair; nothing dispatched"
                 )
@@ -183,7 +192,7 @@ class ExperimentService:
                 "phase": "prepared",
             }
             self.repository.save(pair_id, pair)
-            # Both immutable specs exist before either scientific process starts.
+            # Every selected immutable spec exists before any science starts.
             return self.public_pair(self._dispatch(pair) if dispatch else pair)
 
     def _dispatch(self, pair):

@@ -13,11 +13,12 @@ def read(path):
 def export(pair_root, output, *, condition=None):
     pair_root, output = Path(pair_root).resolve(), Path(output).resolve()
     pair = read(pair_root / "pair.json")
-    if len(pair["jobs"]) != 2 or {j["condition"] for j in pair["jobs"]} != {
-        "retain",
-        "clear",
-    }:
-        raise ValueError("Select the authorized paired calibration")
+    expected = pair.get("review", {}).get("conditions", ["retain", "clear"])
+    if (
+        expected not in (["retain", "clear"], ["retain"], ["clear"])
+        or [job["condition"] for job in pair["jobs"]] != expected
+    ):
+        raise ValueError("Select the complete server-configured experiment group")
     output.mkdir(parents=True, exist_ok=False)
     manifest, rows = {}, []
     for job in pair["jobs"]:
@@ -54,6 +55,7 @@ def export(pair_root, output, *, condition=None):
             "retention.json",
             "calibration-metrics.json",
             "preflight.json",
+            "confirmation-authorization.json",
         ):
             path = root / name
             if not path.is_file():

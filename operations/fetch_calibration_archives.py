@@ -7,7 +7,10 @@ from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
 
-from memorybenchmark.experiments.verification import verify_download
+from memorybenchmark.experiments.verification import (
+    verify_download,
+    authorized_task_count,
+)
 
 
 def fetch(metadata, destination, source_digest):
@@ -61,7 +64,9 @@ def fetch(metadata, destination, source_digest):
         if job["source_digest"] != source_digest:
             raise ValueError("Sealed job differs from this independently frozen batch")
         remote = row["archive_path"].replace("\\", "/")
-        expected_root = f"C:/Codes/memorybenchmark-private/hard-calibration-native/experiments/{pair_id}/{condition}"
+        tasks = authorized_task_count(job, source_digest)
+        namespace = "hard-calibration-native/" if tasks == 12 else ""
+        expected_root = f"C:/Codes/memorybenchmark-private/{namespace}experiments/{pair_id}/{condition}"
         if remote != expected_root + "/evidence.zip":
             raise ValueError("Download source escaped the authorized calibration")
         archive = folder / "evidence.zip.download"

@@ -42,6 +42,20 @@ class CalibrationExportTests(unittest.TestCase):
             result = export(pair, Path(directory) / "both")
             self.assertEqual(result["exported_sealed_conditions"], ["retain", "clear"])
 
+    def test_missing_counterpart_needs_an_explicit_single_condition_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            pair = self.make_pair(directory)
+            path = pair / "pair.json"
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["jobs"] = record["jobs"][:1]
+            path.write_text(json.dumps(record), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                export(pair, Path(directory) / "unlabelled")
+            record["review"] = {"conditions": ["retain"]}
+            path.write_text(json.dumps(record), encoding="utf-8")
+            result = export(pair, Path(directory) / "explicit")
+            self.assertEqual(result["exported_sealed_conditions"], ["retain"])
+
     def test_selected_clear_does_not_export_already_retained_condition(self):
         with tempfile.TemporaryDirectory() as directory:
             pair = self.make_pair(directory)

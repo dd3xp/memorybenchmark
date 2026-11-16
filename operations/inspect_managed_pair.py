@@ -156,8 +156,13 @@ def process_identity(receipt):
 def inspect(pair_root):
     pair_root = Path(pair_root).resolve()
     pair = read(pair_root / "pair.json")
-    if not pair or len(pair.get("jobs", [])) != 2:
-        raise ValueError("Select one complete prepared retain/clear pair")
+    expected = (pair or {}).get("review", {}).get("conditions", ["retain", "clear"])
+    if (
+        not pair
+        or expected not in (["retain", "clear"], ["retain"], ["clear"])
+        or [job["condition"] for job in pair.get("jobs", [])] != expected
+    ):
+        raise ValueError("Select one complete server-configured experiment group")
     rows = []
     for job in pair["jobs"]:
         if job["model"] not in ("gpt-5.6-luna", "gpt-5.6-terra"):

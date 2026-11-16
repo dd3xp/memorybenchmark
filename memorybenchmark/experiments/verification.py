@@ -17,6 +17,24 @@ def require(value, message):
         raise ValueError(message)
 
 
+def authorized_task_count(job, expected_source_digest):
+    """Full confirmation is one named retained run, not a wider task-count fallback."""
+    if job["tasks_per_condition"] == 12:
+        return 12
+    require(
+        job["tasks_per_condition"] == 36
+        and expected_source_digest is not None
+        and job["pair_id"] == sha256(b"hard-binding36-retain-61501-v1").hexdigest()[:32]
+        and job["condition"] == "retain"
+        and job.get("conditions") == ["retain"]
+        and job["design_id"] == "hard-binding-calibration-v2-61501-36"
+        and job["design_file"] == "candidates/orcia_binding36.json"
+        and job["movement_mode"] == "step",
+        "Full36 verification needs the authorized retained job and independent frozen source",
+    )
+    return 36
+
+
 def read(bundle, name):
     return json.loads(bundle.read(name))
 
@@ -227,10 +245,10 @@ def verify_download(folder, *, expected_source_digest=None):
         require(
             job["model"] == "gpt-5.6-luna"
             and job["agent"] == "hermes"
-            and job["context_tokens"] == 272000
-            and job["tasks_per_condition"] == 12,
+            and job["context_tokens"] == 272000,
             "Archive is not an authorized native calibration",
         )
+        expected_tasks = authorized_task_count(job, expected_source_digest)
         source = source_identity(bundle, job)
         audit = read(bundle, "provenance/audit-result.json")
         require(
@@ -257,7 +275,7 @@ def verify_download(folder, *, expected_source_digest=None):
             and len(result["rows"])
             == len(pilot["sessions"])
             == replay["sessions"]
-            == 12,
+            == expected_tasks,
             "Condition/session identity differs",
         )
         baseline = memory_inventory(manifest, "run/baseline/")
@@ -270,7 +288,7 @@ def verify_download(folder, *, expected_source_digest=None):
             identities.append(identity)
             totals.update(counts)
             before = baseline if job["condition"] == "clear" else after
-        require(len(set(identities)) == 12, "Sessions were reused")
+        require(len(set(identities)) == expected_tasks, "Sessions were reused")
         costs = read(bundle, "provenance/transport-costs.json")
         require(
             costs == result["transport_costs"], "Infrastructure cost record differs"

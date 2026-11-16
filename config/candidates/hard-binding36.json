@@ -1,6 +1,6 @@
 {
   "schema": "hard-binding36-candidate-1",
-  "status": "native_pilot_screening_passed_full_confirmation_pending",
+  "status": "full_retained_confirmation_authorized",
   "conditions": [
     "retain",
     "clear"
@@ -72,5 +72,10 @@
       "denominator": 8
     },
     "independent_full36_native_confirmation_complete": false
-  }
+  },
+  "current_confirmation_authorization": "config/authorized-hard-binding36-retain.json",
+  "current_confirmation_conditions": [
+    "retain"
+  ],
+  "current_confirmation_request_id": "hard-binding36-retain-61501-v1"
 }
