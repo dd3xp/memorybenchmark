@@ -110,6 +110,12 @@ def choose_followup(retain_metrics):
             "variant": "binding",
             "reason": "observed-known combinations still saturated",
         }
+    repeat = retain_metrics["after_first_planned_goal_encounter"]
+    if repeat["rate"] is None or repeat["rate"] > 0.90:
+        return {
+            "variant": "binding",
+            "reason": "repeat-operation endpoint has not reached the predeclared ten-point descriptive gap",
+        }
     return {
         "variant": "interface-confirmation",
         "reason": "independent confirmation of the observed gap; do not claim it from one pilot",

@@ -216,6 +216,12 @@ class CalibrationVerificationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "outer size/SHA"):
             verify_download(self.root)
 
+    def test_self_consistent_bundle_must_match_independently_frozen_source(self):
+        fixture(self.root)
+        with self.assertRaisesRegex(ValueError, "independently frozen"):
+            verify_download(self.root, expected_source_digest="another-round")
+        self.assertFalse((self.root / "local-verification.json").exists())
+
     def test_inner_hash_and_unsafe_or_duplicate_inventory_are_rejected(self):
         for name in ("safe", "../escaped", "C:/escaped"):
             with self.subTest(name=name):

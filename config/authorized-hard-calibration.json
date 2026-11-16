@@ -30,5 +30,7 @@
   "preserve_every_attempt": true,
   "promote_to_official_hard_automatically": false,
   "change_existing_jobs": false,
-  "binding_pilot_selection": "first four-material subset in authored order with >=2 conflicting catalogue types and >=1 conflicting verifier/input key; rule tables only, no model outcomes"
+  "binding_pilot_selection": "first four-material subset in authored order with >=2 conflicting catalogue types and >=1 conflicting verifier/input key; rule tables only, no model outcomes",
+  "screening_repeat_first_correct_maximum": 0.9,
+  "screening_known_combination_saturation": 0.95
 }

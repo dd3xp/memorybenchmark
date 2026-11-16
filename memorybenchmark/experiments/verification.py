@@ -187,13 +187,18 @@ def session_evidence(bundle, manifest, row, job, before):
     return summary["session_id"], after, counts
 
 
-def verify_download(folder):
+def verify_download(folder, *, expected_source_digest=None):
     """A passed receipt is reused; raw scientific outcomes never get replayed here."""
     folder = Path(folder)
     receipt = folder / "local-verification.json"
     if receipt.exists():
         previous = json.loads(receipt.read_text(encoding="utf-8"))
         require(previous.get("passed") is True, "Existing verification needs diagnosis")
+        require(
+            expected_source_digest is None
+            or previous["source_digest"] == expected_source_digest,
+            "Passed archive belongs to another frozen source",
+        )
         return previous
     result = json.loads((folder / "result.json").read_text(encoding="utf-8-sig"))
     exited = json.loads((folder / "driver-exit.json").read_text(encoding="utf-8-sig"))
@@ -214,6 +219,11 @@ def verify_download(folder):
         manifest = read(bundle, "provenance/archive-content-manifest.json")
         expanded = inventory(bundle, manifest)
         job = read(bundle, "provenance/job.json")
+        require(
+            expected_source_digest is None
+            or job["source_digest"] == expected_source_digest,
+            "Archive differs from the independently frozen source identity",
+        )
         require(
             job["model"] == "gpt-5.6-luna"
             and job["agent"] == "hermes"

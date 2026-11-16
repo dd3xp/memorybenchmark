@@ -89,7 +89,17 @@ class CalibrationMetricTests(unittest.TestCase):
             "condition": "retain",
             "tasks": {"denominator": 12},
             "combined_with_both_prior_actual_facts": {"denominator": 8, "rate": 1.0},
+            "after_first_planned_goal_encounter": {"denominator": 24, "rate": 0.85},
         }
         self.assertEqual(choose_followup(value)["variant"], "binding")
         value["combined_with_both_prior_actual_facts"]["rate"] = 0.75
         self.assertEqual(choose_followup(value)["variant"], "interface-confirmation")
+
+    def test_one_combination_error_without_repeat_gap_does_not_pass_screening(self):
+        value = {
+            "condition": "retain",
+            "tasks": {"denominator": 12},
+            "combined_with_both_prior_actual_facts": {"denominator": 8, "rate": 0.875},
+            "after_first_planned_goal_encounter": {"denominator": 24, "rate": 23 / 24},
+        }
+        self.assertEqual(choose_followup(value)["variant"], "binding")
