@@ -1,0 +1,55 @@
+{
+  "schema": "hard-binding36-candidate-1",
+  "status": "implemented_candidate_awaiting_full_native_confirmation",
+  "conditions": [
+    "retain",
+    "clear"
+  ],
+  "map": "orcia",
+  "geography_source": "memorybenchmark/data/orcia_hard36.json",
+  "candidate_design": "memorybenchmark/data/candidates/orcia_binding36.json",
+  "calibrated_mechanism_seed": 61401,
+  "reserved_independent_full_world_seed": 61501,
+  "native_model_evaluated_on_full_world": false,
+  "model_launch_authorized_by_this_file": false,
+  "public_map_catalog_registered": false,
+  "full_allocation": {
+    "tasks": 36,
+    "independent_stages_per_task": 2,
+    "ordinary_commissions": 24,
+    "double_combination_commissions": 12,
+    "materials": 12,
+    "intermediate_format_labels_reused_across_materials": [
+      "F-1",
+      "F-2"
+    ],
+    "standards_per_material": 2,
+    "fully_scoped_goal_classes": 48,
+    "standalone_uses_each": 1,
+    "combined_uses_each": 1,
+    "required_operations": 96,
+    "alternatives_per_goal": 2,
+    "all_alternative_bindings_claimed_learned": false,
+    "unscored_lessons": 0
+  },
+  "scientific_contract": {
+    "agent": "hermes",
+    "model": "gpt-5.6-luna",
+    "movement": "step",
+    "context_registry": "config/model-gateways.json",
+    "configured_context_tokens": 272000,
+    "primary_reasoning_effort": "high",
+    "main_calls": 400,
+    "final_calls": 6,
+    "game_steps": 352,
+    "effective_wall_seconds": 604800,
+    "infrastructure_wait_seconds": 604800,
+    "original_baseline_per_condition": true,
+    "import_calibration_memory": false,
+    "automatic_whole_task_retries": 0
+  },
+  "geography_review": "docs/assets/hard-interface-candidate/binding36-orcia-geography.json",
+  "full_zero_model_reference": "memorybenchmark/data/candidates/orcia_binding36.assessment.json",
+  "current_authorized_calibration_scope": "config/authorized-hard-calibration.json",
+  "calibration_is_not_a_full_benchmark_confirmation": true
+}

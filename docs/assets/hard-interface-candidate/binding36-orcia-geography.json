@@ -1,0 +1,199 @@
+{
+  "kind": "orcia_conditional_interface_route_review_only",
+  "model_calls": 0,
+  "is_not_a_model_score": true,
+  "production_maps_changed": false,
+  "geography_unchanged": true,
+  "geography_sha256": "8b6d5aeb3a75b360685d7338f10885bad54c7aa6788f661995cf20779cdbe5bf",
+  "targets_unchanged": true,
+  "physical_stations": 48,
+  "useful_given_a_known_valid_type_path": 48,
+  "without_known_path_utility": [],
+  "on_a_fully_informed_shortest_path": 36,
+  "strictly_required_on_a_fully_informed_shortest_path": 34,
+  "maximum_fully_informed_actions": 57,
+  "tasks": [
+    {
+      "task": "T1",
+      "fully_informed_actions": 35,
+      "fully_informed_distance": 92
+    },
+    {
+      "task": "T2",
+      "fully_informed_actions": 27,
+      "fully_informed_distance": 70
+    },
+    {
+      "task": "T3",
+      "fully_informed_actions": 35,
+      "fully_informed_distance": 109
+    },
+    {
+      "task": "T4",
+      "fully_informed_actions": 33,
+      "fully_informed_distance": 87
+    },
+    {
+      "task": "T5",
+      "fully_informed_actions": 33,
+      "fully_informed_distance": 93
+    },
+    {
+      "task": "T6",
+      "fully_informed_actions": 39,
+      "fully_informed_distance": 100
+    },
+    {
+      "task": "T7",
+      "fully_informed_actions": 36,
+      "fully_informed_distance": 100
+    },
+    {
+      "task": "T8",
+      "fully_informed_actions": 34,
+      "fully_informed_distance": 87
+    },
+    {
+      "task": "T9",
+      "fully_informed_actions": 36,
+      "fully_informed_distance": 102
+    },
+    {
+      "task": "T10",
+      "fully_informed_actions": 35,
+      "fully_informed_distance": 101
+    },
+    {
+      "task": "T11",
+      "fully_informed_actions": 26,
+      "fully_informed_distance": 56
+    },
+    {
+      "task": "T12",
+      "fully_informed_actions": 34,
+      "fully_informed_distance": 99
+    },
+    {
+      "task": "T13",
+      "fully_informed_actions": 38,
+      "fully_informed_distance": 107
+    },
+    {
+      "task": "T14",
+      "fully_informed_actions": 44,
+      "fully_informed_distance": 127
+    },
+    {
+      "task": "T15",
+      "fully_informed_actions": 37,
+      "fully_informed_distance": 99
+    },
+    {
+      "task": "T16",
+      "fully_informed_actions": 29,
+      "fully_informed_distance": 82
+    },
+    {
+      "task": "T17",
+      "fully_informed_actions": 38,
+      "fully_informed_distance": 107
+    },
+    {
+      "task": "T18",
+      "fully_informed_actions": 28,
+      "fully_informed_distance": 74
+    },
+    {
+      "task": "T19",
+      "fully_informed_actions": 32,
+      "fully_informed_distance": 88
+    },
+    {
+      "task": "T20",
+      "fully_informed_actions": 34,
+      "fully_informed_distance": 112
+    },
+    {
+      "task": "T21",
+      "fully_informed_actions": 35,
+      "fully_informed_distance": 102
+    },
+    {
+      "task": "T22",
+      "fully_informed_actions": 27,
+      "fully_informed_distance": 66
+    },
+    {
+      "task": "T23",
+      "fully_informed_actions": 36,
+      "fully_informed_distance": 90
+    },
+    {
+      "task": "T24",
+      "fully_informed_actions": 27,
+      "fully_informed_distance": 73
+    },
+    {
+      "task": "T25",
+      "fully_informed_actions": 48,
+      "fully_informed_distance": 149
+    },
+    {
+      "task": "T26",
+      "fully_informed_actions": 48,
+      "fully_informed_distance": 136
+    },
+    {
+      "task": "T27",
+      "fully_informed_actions": 44,
+      "fully_informed_distance": 122
+    },
+    {
+      "task": "T28",
+      "fully_informed_actions": 50,
+      "fully_informed_distance": 147
+    },
+    {
+      "task": "T29",
+      "fully_informed_actions": 40,
+      "fully_informed_distance": 122
+    },
+    {
+      "task": "T30",
+      "fully_informed_actions": 45,
+      "fully_informed_distance": 124
+    },
+    {
+      "task": "T31",
+      "fully_informed_actions": 29,
+      "fully_informed_distance": 62
+    },
+    {
+      "task": "T32",
+      "fully_informed_actions": 48,
+      "fully_informed_distance": 126
+    },
+    {
+      "task": "T33",
+      "fully_informed_actions": 57,
+      "fully_informed_distance": 154
+    },
+    {
+      "task": "T34",
+      "fully_informed_actions": 54,
+      "fully_informed_distance": 162
+    },
+    {
+      "task": "T35",
+      "fully_informed_actions": 54,
+      "fully_informed_distance": 144
+    },
+    {
+      "task": "T36",
+      "fully_informed_actions": 46,
+      "fully_informed_distance": 120
+    }
+  ],
+  "design_sha256": "fecf471452e8a9f94bf8cda913615172c424020fd72889590f3a2ce957c04205",
+  "tool_sha256": "ec81da06546ea5a1333078a29ff35bf8cefc1e106611bdd73237bc39e83082ae"
+}

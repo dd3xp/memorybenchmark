@@ -1,0 +1,133 @@
+{
+  "status": "paired_trial_in_progress_retained_condition_sealed_and_verified",
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "metrics": {
+    "condition": "retain",
+    "tasks": {
+      "correct": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "all_first_goal_compatible_operations": {
+      "correct": 16,
+      "denominator": 32,
+      "rate": 0.5
+    },
+    "after_first_planned_goal_encounter": {
+      "correct": 14,
+      "denominator": 16,
+      "rate": 0.875
+    },
+    "goal_classes": 16,
+    "by_encounter": {
+      "1": {
+        "correct": 2,
+        "denominator": 16
+      },
+      "2": {
+        "correct": 14,
+        "denominator": 16
+      }
+    },
+    "all_stages_first_correct": {
+      "correct": 9,
+      "denominator": 24,
+      "rate": 0.375
+    },
+    "combined_stages_first_correct": {
+      "correct": 7,
+      "denominator": 8,
+      "rate": 0.875
+    },
+    "combined_with_both_prior_actual_facts": {
+      "correct": 7,
+      "denominator": 8,
+      "rate": 0.875
+    },
+    "combinations_without_both_prior_actual_facts": 0,
+    "distance": 3230,
+    "model_calls": 1319,
+    "processing_failures": 139,
+    "reported_usage": {
+      "calls": 1319,
+      "calls_with_usage": 1319,
+      "calls_with_effort_acknowledgement": 1319,
+      "reported_tokens": {
+        "input_tokens": 83605327,
+        "output_tokens": 142517,
+        "reasoning_tokens": 76237
+      },
+      "usage_complete": true,
+      "request_kinds": {
+        "agent": 1307,
+        "session_title": 12,
+        "context_compression": 0
+      },
+      "request_reasoning_efforts": {
+        "high": 1307,
+        "unspecified": 12
+      },
+      "provider_reasoning_efforts": {
+        "high": 1307,
+        "medium": 12
+      },
+      "reasoning_policy": "native"
+    },
+    "infrastructure_costs": {
+      "failure_events": 0,
+      "reasons": {},
+      "affected_rpcs": 0,
+      "recovered_affected_rpcs": 0,
+      "active_pending_rpcs": 0,
+      "historical_unrecovered_rpcs": 0,
+      "failure_events_without_reported_usage": 0,
+      "abandoned_attempt_successful_responses": 0,
+      "abandoned_attempt_reported_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "unreported_usage_is_unknown": true,
+      "reasoning_tokens_are_output_subset": true
+    },
+    "reasoning_is_output_subset": true,
+    "unreported_usage_remains_unknown": true,
+    "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+    "single_run_descriptive_only": true,
+    "source_result_sha256": "98a9ad6bd0d0463296597dadfed367209cde0575e23fcbd1d27cc6f1fa05bec0",
+    "server_sealed_audit_passed": true,
+    "local_archive_verification": "pending",
+    "transport_ledger_inventory_present": true,
+    "actual_context": 272000,
+    "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+    "design_id": "hard-binding-calibration-v2-61401-12",
+    "source_digest": "92e11cda88b0b9b6cb63705f3ab376de09d67609da95e229e94711e2d0cda3db"
+  },
+  "local_verification": {
+    "passed": true,
+    "archive_bytes": 341845326,
+    "archive_sha256": "aaffdd5d98367acfe94e1501eb7a3b20cf3bb65828e6ee2b3ee00ca14badea48",
+    "manifest_members": 9403,
+    "expanded_bytes": 1012070118,
+    "condition": "retain",
+    "pair_id": "7c7184335720d6d81228e55220e6ccec",
+    "source_digest": "92e11cda88b0b9b6cb63705f3ab376de09d67609da95e229e94711e2d0cda3db",
+    "source_files": 259,
+    "actual_context": 272000,
+    "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+    "model_evidence": {
+      "responses": 1319,
+      "primary_high_pairs": 1307,
+      "responses_without_reported_input_output": 0,
+      "responses_without_reported_reasoning": 0
+    },
+    "memory_boundary_verified": true,
+    "original_strict_audit_verified": true,
+    "game_replayed_locally": false,
+    "reasoning_is_output_subset": true,
+    "unreported_usage_is_unknown": true
+  },
+  "screening_conclusion": "repeat14/16 and known-combinations7/8 meet developmental screening; independent full36 untested",
+  "clear_result": "still_running; absence is not zero"
+}

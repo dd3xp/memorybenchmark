@@ -1,0 +1,10 @@
+{
+  "zero_model_game_tasks": 36,
+  "successes": 36,
+  "maximum_reference_actions": 70,
+  "required_operations": 96,
+  "actual_prior_feedback_for_every_combined_operation": true,
+  "native_model_calls": 0,
+  "is_not_a_model_score": true,
+  "combined_reference_uses_only_delivered_prior_interface_facts": true
+}
