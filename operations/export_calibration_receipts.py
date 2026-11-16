@@ -42,8 +42,8 @@ def export(pair_root, output, *, condition=None):
             or (root / archive["name"]).stat().st_size != archive["bytes"]
         ):
             raise ValueError("Sealed archive publication differs")
-        condition = output / job["condition"]
-        condition.mkdir()
+        condition_output = output / job["condition"]
+        condition_output.mkdir()
         for name in (
             "job.json",
             "result.json",
@@ -59,7 +59,7 @@ def export(pair_root, output, *, condition=None):
             if not path.is_file():
                 continue
             body = path.read_bytes()
-            (condition / name).write_bytes(body)
+            (condition_output / name).write_bytes(body)
             manifest[job["condition"] + "/" + name] = {
                 "bytes": len(body),
                 "sha256": sha256(body).hexdigest(),
