@@ -10,7 +10,7 @@ def read(path):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
-def export(pair_root, output):
+def export(pair_root, output, *, condition=None):
     pair_root, output = Path(pair_root).resolve(), Path(output).resolve()
     pair = read(pair_root / "pair.json")
     if len(pair["jobs"]) != 2 or {j["condition"] for j in pair["jobs"]} != {
@@ -21,6 +21,8 @@ def export(pair_root, output):
     output.mkdir(parents=True, exist_ok=False)
     manifest, rows = {}, []
     for job in pair["jobs"]:
+        if condition is not None and job["condition"] != condition:
+            continue
         root = Path(job["root"]).resolve()
         if root.parent != pair_root or root.name != job["condition"]:
             raise ValueError("Job escaped its pair")
@@ -84,8 +86,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pair", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--condition", choices=("retain", "clear"))
     args = parser.parse_args()
-    print(json.dumps(export(args.pair, args.output)))
+    print(json.dumps(export(args.pair, args.output, condition=args.condition)))
 
 
 if __name__ == "__main__":
