@@ -30,6 +30,10 @@ def analyze_trace(
     design, events, task_run_id, *, infrastructure_ok=True, exact_references=True
 ):
     from . import station_composition as composition
+    from . import station_interfaces as interfaces
+
+    if interfaces.enabled(design):
+        return interfaces.analyze(design, events, task_run_id)
 
     if composition.enabled(design):
         return composition.analyze(design, events, task_run_id)

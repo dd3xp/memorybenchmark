@@ -51,6 +51,43 @@ class ExperimentServiceTests(unittest.TestCase):
         self.assertEqual(review["total_tasks"], 32)
         self.assertEqual(self.scheduler.jobs, [])
 
+    def test_preparation_freezes_both_specs_without_dispatch(self):
+        def fake_freeze(project, destination, design):
+            destination.mkdir(parents=True)
+            return "frozen-pair"
+
+        with patch(
+            "memorybenchmark.experiments.service.freeze", side_effect=fake_freeze
+        ):
+            prepared = self.service.prepare(self.selection)
+            self.assertEqual(prepared["phase"], "prepared")
+            self.assertEqual(self.scheduler.jobs, [])
+            launched = self.service.create(self.selection)
+            self.assertEqual(launched["phase"], "dispatched")
+            self.assertEqual(len(self.scheduler.jobs), 2)
+
+    def test_operator_catalog_is_injected_without_extending_the_public_default(self):
+        candidate = "orcia-interface-calibration"
+        service = ExperimentService(
+            self.config,
+            self.scheduler,
+            maps={
+                candidate: (
+                    "候选",
+                    "Hard calibration",
+                    "calibration/orcia_interface12.json",
+                )
+            },
+        )
+        review = service.preview(
+            {**self.selection, "map": candidate, "movement_mode": "step"}
+        )
+        self.assertEqual(review["tasks_per_condition"], 12)
+        with self.assertRaises(ValueError):
+            self.service.preview(
+                {**self.selection, "map": candidate, "movement_mode": "step"}
+            )
+
     def test_unknown_model_and_remote_path_injection_are_rejected(self):
         for invalid in (
             {"model": "unknown"},

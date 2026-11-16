@@ -1,0 +1,1122 @@
+{
+  "schema": "hard-interface-mechanism-assessment-1",
+  "status": "candidate_not_promoted_no_model_calibration",
+  "model_calls": 0,
+  "current_hard_cartesian_property": {
+    "combined_stages": 24,
+    "locally_valid_station_pairs": 384,
+    "compatible_pairs": 384,
+    "reason": "every supported catalogue emits the same universal catalogued state"
+  },
+  "candidate": {
+    "seed": 61301,
+    "status": "mechanism_validation_only_not_model_calibration",
+    "allocation": {
+      "tasks": 36,
+      "stages": 72,
+      "fully_scoped_experiences": 24,
+      "necessary_operations": 96,
+      "single_uses_each": 2,
+      "combined_uses_each": 2,
+      "materials": 6,
+      "requested_standards": 2,
+      "stage_dependency": false,
+      "unscored_lessons": 0
+    },
+    "fully_informed_stage_successes": 72,
+    "delivered_memory_compatible_combinations": {
+      "correct": 24,
+      "denominator": 24
+    },
+    "all_locally_capable_cartesian_choices": {
+      "goal_compatible": 24,
+      "enumerated_choices": 96
+    },
+    "goal_aware_but_interface_blind_choices": {
+      "goal_compatible": 24,
+      "enumerated_choices": 48
+    },
+    "matched_rule_ablation": {
+      "enumerated_goal_aware_choices": 48,
+      "strict_compatible_choices": 24,
+      "relaxed_compatible_choices": 48,
+      "only_changed_rule": "verifier_requires_matching_input_format",
+      "agent_accuracy": null
+    },
+    "complementary_worlds_same_current_public_commission_disjoint_solutions": true,
+    "complementary_worlds_all_public_commissions_identical": true,
+    "two_complementary_worlds_fixed_plan_average_success_upper_bound": 0.5,
+    "world_rules_fixed_during_each_run": true,
+    "current_requirements_imply_private_intermediate_format": false,
+    "wrong_interface_witnesses": [
+      {
+        "task": 13,
+        "stage": 1,
+        "public_commission": {
+          "material": "material-1",
+          "mode": "combined",
+          "goal": "standard-1",
+          "input_format": null
+        },
+        "chosen": [
+          "P24",
+          "P02"
+        ],
+        "actual_feedback": [
+          {
+            "station": "P24",
+            "material": "material-1",
+            "operation": "catalogue",
+            "input_format": null,
+            "output_format": "F180",
+            "result": "processed"
+          },
+          {
+            "station": "P02",
+            "material": "material-1",
+            "operation": "verify",
+            "input_format": "F180",
+            "output_format": null,
+            "result": "unsupported"
+          }
+        ]
+      },
+      {
+        "task": 14,
+        "stage": 1,
+        "public_commission": {
+          "material": "material-1",
+          "mode": "combined",
+          "goal": "standard-2",
+          "input_format": null
+        },
+        "chosen": [
+          "P17",
+          "P22"
+        ],
+        "actual_feedback": [
+          {
+            "station": "P17",
+            "material": "material-1",
+            "operation": "catalogue",
+            "input_format": null,
+            "output_format": "F877",
+            "result": "processed"
+          },
+          {
+            "station": "P22",
+            "material": "material-1",
+            "operation": "verify",
+            "input_format": "F877",
+            "output_format": null,
+            "result": "unsupported"
+          }
+        ]
+      },
+      {
+        "task": 15,
+        "stage": 1,
+        "public_commission": {
+          "material": "material-2",
+          "mode": "combined",
+          "goal": "standard-1",
+          "input_format": null
+        },
+        "chosen": [
+          "P16",
+          "P09"
+        ],
+        "actual_feedback": [
+          {
+            "station": "P16",
+            "material": "material-2",
+            "operation": "catalogue",
+            "input_format": null,
+            "output_format": "F630",
+            "result": "processed"
+          },
+          {
+            "station": "P09",
+            "material": "material-2",
+            "operation": "verify",
+            "input_format": "F630",
+            "output_format": null,
+            "result": "unsupported"
+          }
+        ]
+      },
+      {
+        "task": 16,
+        "stage": 1,
+        "public_commission": {
+          "material": "material-2",
+          "mode": "combined",
+          "goal": "standard-2",
+          "input_format": null
+        },
+        "chosen": [
+          "P21",
+          "P07"
+        ],
+        "actual_feedback": [
+          {
+            "station": "P21",
+            "material": "material-2",
+            "operation": "catalogue",
+            "input_format": null,
+            "output_format": "F710",
+            "result": "processed"
+          },
+          {
+            "station": "P07",
+            "material": "material-2",
+            "operation": "verify",
+            "input_format": "F710",
+            "output_format": null,
+            "result": "unsupported"
+          }
+        ]
+      }
+    ],
+    "actual_model_calls": 0,
+    "diagnostic_history_source": "oracle-completed ordinary commissions; not an observed agent learning trajectory",
+    "choice_enumeration_is_not_a_policy_or_agent_score": true,
+    "does_not_estimate_luna_performance": true
+  },
+  "additional_seeds": [
+    {
+      "seed": 61401,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    },
+    {
+      "seed": 61501,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    },
+    {
+      "seed": 61601,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    },
+    {
+      "seed": 61701,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    },
+    {
+      "seed": 61801,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    },
+    {
+      "seed": 61901,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    },
+    {
+      "seed": 62001,
+      "allocation": {
+        "tasks": 36,
+        "stages": 72,
+        "fully_scoped_experiences": 24,
+        "necessary_operations": 96,
+        "single_uses_each": 2,
+        "combined_uses_each": 2,
+        "materials": 6,
+        "requested_standards": 2,
+        "stage_dependency": false,
+        "unscored_lessons": 0
+      },
+      "full_memory_combinations": {
+        "correct": 24,
+        "denominator": 24
+      },
+      "interface_blind_choices": {
+        "goal_compatible": 24,
+        "enumerated_choices": 48
+      }
+    }
+  ],
+  "orcia_route_projection": {
+    "map": "orcia",
+    "candidate_station_profiles": 24,
+    "existing_physical_stations": 48,
+    "tasks_with_a_reference_route_inside_budget": 36,
+    "maximum_reference_actions": 62,
+    "strict_shortest_route_useful_stations": 41,
+    "stations_without_strict_route_utility": [
+      "D1",
+      "I2",
+      "K1",
+      "L1",
+      "N2",
+      "P1",
+      "Q2"
+    ],
+    "roads_changed": false,
+    "task_targets_changed": false,
+    "production_station_capabilities_changed": false,
+    "stationgame_execution_validated": false,
+    "fully_informed_route_projection_only": true,
+    "tasks": [
+      {
+        "task": "T1",
+        "targets": [
+          "v03",
+          "v06"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 108,
+        "budget": 352
+      },
+      {
+        "task": "T2",
+        "targets": [
+          "v02",
+          "v09"
+        ],
+        "reference_actions": 35,
+        "reference_distance": 100,
+        "budget": 352
+      },
+      {
+        "task": "T3",
+        "targets": [
+          "v04",
+          "v16"
+        ],
+        "reference_actions": 37,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T4",
+        "targets": [
+          "v10",
+          "v11"
+        ],
+        "reference_actions": 35,
+        "reference_distance": 93,
+        "budget": 352
+      },
+      {
+        "task": "T5",
+        "targets": [
+          "v13",
+          "v08"
+        ],
+        "reference_actions": 47,
+        "reference_distance": 136,
+        "budget": 352
+      },
+      {
+        "task": "T6",
+        "targets": [
+          "v03",
+          "v13"
+        ],
+        "reference_actions": 36,
+        "reference_distance": 93,
+        "budget": 352
+      },
+      {
+        "task": "T7",
+        "targets": [
+          "v16",
+          "v09"
+        ],
+        "reference_actions": 45,
+        "reference_distance": 142,
+        "budget": 352
+      },
+      {
+        "task": "T8",
+        "targets": [
+          "v03",
+          "v12"
+        ],
+        "reference_actions": 43,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T9",
+        "targets": [
+          "v07",
+          "v04"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 116,
+        "budget": 352
+      },
+      {
+        "task": "T10",
+        "targets": [
+          "v10",
+          "v01"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 114,
+        "budget": 352
+      },
+      {
+        "task": "T11",
+        "targets": [
+          "v02",
+          "v03"
+        ],
+        "reference_actions": 28,
+        "reference_distance": 56,
+        "budget": 352
+      },
+      {
+        "task": "T12",
+        "targets": [
+          "v08",
+          "v14"
+        ],
+        "reference_actions": 35,
+        "reference_distance": 102,
+        "budget": 352
+      },
+      {
+        "task": "T13",
+        "targets": [
+          "v01",
+          "v05"
+        ],
+        "reference_actions": 53,
+        "reference_distance": 161,
+        "budget": 352
+      },
+      {
+        "task": "T14",
+        "targets": [
+          "v10",
+          "v06"
+        ],
+        "reference_actions": 40,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T15",
+        "targets": [
+          "v10",
+          "v14"
+        ],
+        "reference_actions": 40,
+        "reference_distance": 118,
+        "budget": 352
+      },
+      {
+        "task": "T16",
+        "targets": [
+          "v09",
+          "v15"
+        ],
+        "reference_actions": 44,
+        "reference_distance": 101,
+        "budget": 352
+      },
+      {
+        "task": "T17",
+        "targets": [
+          "v13",
+          "v01"
+        ],
+        "reference_actions": 61,
+        "reference_distance": 190,
+        "budget": 352
+      },
+      {
+        "task": "T18",
+        "targets": [
+          "v07",
+          "v12"
+        ],
+        "reference_actions": 48,
+        "reference_distance": 145,
+        "budget": 352
+      },
+      {
+        "task": "T19",
+        "targets": [
+          "v07",
+          "v05"
+        ],
+        "reference_actions": 62,
+        "reference_distance": 192,
+        "budget": 352
+      },
+      {
+        "task": "T20",
+        "targets": [
+          "v08",
+          "v12"
+        ],
+        "reference_actions": 37,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T21",
+        "targets": [
+          "v16",
+          "v07"
+        ],
+        "reference_actions": 54,
+        "reference_distance": 169,
+        "budget": 352
+      },
+      {
+        "task": "T22",
+        "targets": [
+          "v02",
+          "v11"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 108,
+        "budget": 352
+      },
+      {
+        "task": "T23",
+        "targets": [
+          "v05",
+          "v15"
+        ],
+        "reference_actions": 48,
+        "reference_distance": 133,
+        "budget": 352
+      },
+      {
+        "task": "T24",
+        "targets": [
+          "v11",
+          "v15"
+        ],
+        "reference_actions": 39,
+        "reference_distance": 126,
+        "budget": 352
+      },
+      {
+        "task": "T25",
+        "targets": [
+          "v12",
+          "v06"
+        ],
+        "reference_actions": 39,
+        "reference_distance": 116,
+        "budget": 352
+      },
+      {
+        "task": "T26",
+        "targets": [
+          "v04",
+          "v08"
+        ],
+        "reference_actions": 52,
+        "reference_distance": 163,
+        "budget": 352
+      },
+      {
+        "task": "T27",
+        "targets": [
+          "v07",
+          "v14"
+        ],
+        "reference_actions": 50,
+        "reference_distance": 153,
+        "budget": 352
+      },
+      {
+        "task": "T28",
+        "targets": [
+          "v16",
+          "v05"
+        ],
+        "reference_actions": 60,
+        "reference_distance": 179,
+        "budget": 352
+      },
+      {
+        "task": "T29",
+        "targets": [
+          "v06",
+          "v06"
+        ],
+        "reference_actions": 48,
+        "reference_distance": 159,
+        "budget": 352
+      },
+      {
+        "task": "T30",
+        "targets": [
+          "v15",
+          "v09"
+        ],
+        "reference_actions": 39,
+        "reference_distance": 99,
+        "budget": 352
+      },
+      {
+        "task": "T31",
+        "targets": [
+          "v02",
+          "v02"
+        ],
+        "reference_actions": 54,
+        "reference_distance": 162,
+        "budget": 352
+      },
+      {
+        "task": "T32",
+        "targets": [
+          "v14",
+          "v08"
+        ],
+        "reference_actions": 42,
+        "reference_distance": 115,
+        "budget": 352
+      },
+      {
+        "task": "T33",
+        "targets": [
+          "v01",
+          "v04"
+        ],
+        "reference_actions": 48,
+        "reference_distance": 133,
+        "budget": 352
+      },
+      {
+        "task": "T34",
+        "targets": [
+          "v01",
+          "v13"
+        ],
+        "reference_actions": 44,
+        "reference_distance": 125,
+        "budget": 352
+      },
+      {
+        "task": "T35",
+        "targets": [
+          "v05",
+          "v04"
+        ],
+        "reference_actions": 32,
+        "reference_distance": 79,
+        "budget": 352
+      },
+      {
+        "task": "T36",
+        "targets": [
+          "v03",
+          "v11"
+        ],
+        "reference_actions": 42,
+        "reference_distance": 110,
+        "budget": 352
+      }
+    ]
+  },
+  "orcia_target_review": {
+    "map": "orcia",
+    "candidate_station_profiles": 24,
+    "existing_physical_stations": 48,
+    "tasks_with_a_reference_route_inside_budget": 36,
+    "maximum_reference_actions": 62,
+    "strict_shortest_route_useful_stations": 48,
+    "stations_without_strict_route_utility": [],
+    "roads_changed": false,
+    "task_targets_changed": true,
+    "production_station_capabilities_changed": false,
+    "stationgame_execution_validated": false,
+    "fully_informed_route_projection_only": true,
+    "tasks": [
+      {
+        "task": "T1",
+        "targets": [
+          "v03",
+          "v06"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 108,
+        "budget": 352
+      },
+      {
+        "task": "T2",
+        "targets": [
+          "v02",
+          "v09"
+        ],
+        "reference_actions": 35,
+        "reference_distance": 100,
+        "budget": 352
+      },
+      {
+        "task": "T3",
+        "targets": [
+          "v04",
+          "v16"
+        ],
+        "reference_actions": 37,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T4",
+        "targets": [
+          "v04",
+          "v11"
+        ],
+        "reference_actions": 34,
+        "reference_distance": 80,
+        "budget": 352
+      },
+      {
+        "task": "T5",
+        "targets": [
+          "v13",
+          "v08"
+        ],
+        "reference_actions": 47,
+        "reference_distance": 136,
+        "budget": 352
+      },
+      {
+        "task": "T6",
+        "targets": [
+          "v06",
+          "v13"
+        ],
+        "reference_actions": 39,
+        "reference_distance": 127,
+        "budget": 352
+      },
+      {
+        "task": "T7",
+        "targets": [
+          "v16",
+          "v09"
+        ],
+        "reference_actions": 45,
+        "reference_distance": 142,
+        "budget": 352
+      },
+      {
+        "task": "T8",
+        "targets": [
+          "v03",
+          "v12"
+        ],
+        "reference_actions": 43,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T9",
+        "targets": [
+          "v07",
+          "v10"
+        ],
+        "reference_actions": 45,
+        "reference_distance": 142,
+        "budget": 352
+      },
+      {
+        "task": "T10",
+        "targets": [
+          "v10",
+          "v01"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 114,
+        "budget": 352
+      },
+      {
+        "task": "T11",
+        "targets": [
+          "v02",
+          "v03"
+        ],
+        "reference_actions": 28,
+        "reference_distance": 56,
+        "budget": 352
+      },
+      {
+        "task": "T12",
+        "targets": [
+          "v08",
+          "v14"
+        ],
+        "reference_actions": 35,
+        "reference_distance": 102,
+        "budget": 352
+      },
+      {
+        "task": "T13",
+        "targets": [
+          "v01",
+          "v01"
+        ],
+        "reference_actions": 54,
+        "reference_distance": 163,
+        "budget": 352
+      },
+      {
+        "task": "T14",
+        "targets": [
+          "v10",
+          "v06"
+        ],
+        "reference_actions": 40,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T15",
+        "targets": [
+          "v07",
+          "v14"
+        ],
+        "reference_actions": 41,
+        "reference_distance": 121,
+        "budget": 352
+      },
+      {
+        "task": "T16",
+        "targets": [
+          "v09",
+          "v15"
+        ],
+        "reference_actions": 44,
+        "reference_distance": 101,
+        "budget": 352
+      },
+      {
+        "task": "T17",
+        "targets": [
+          "v13",
+          "v11"
+        ],
+        "reference_actions": 50,
+        "reference_distance": 150,
+        "budget": 352
+      },
+      {
+        "task": "T18",
+        "targets": [
+          "v09",
+          "v12"
+        ],
+        "reference_actions": 38,
+        "reference_distance": 109,
+        "budget": 352
+      },
+      {
+        "task": "T19",
+        "targets": [
+          "v07",
+          "v05"
+        ],
+        "reference_actions": 62,
+        "reference_distance": 192,
+        "budget": 352
+      },
+      {
+        "task": "T20",
+        "targets": [
+          "v08",
+          "v12"
+        ],
+        "reference_actions": 37,
+        "reference_distance": 112,
+        "budget": 352
+      },
+      {
+        "task": "T21",
+        "targets": [
+          "v16",
+          "v13"
+        ],
+        "reference_actions": 55,
+        "reference_distance": 161,
+        "budget": 352
+      },
+      {
+        "task": "T22",
+        "targets": [
+          "v06",
+          "v11"
+        ],
+        "reference_actions": 42,
+        "reference_distance": 136,
+        "budget": 352
+      },
+      {
+        "task": "T23",
+        "targets": [
+          "v03",
+          "v15"
+        ],
+        "reference_actions": 47,
+        "reference_distance": 127,
+        "budget": 352
+      },
+      {
+        "task": "T24",
+        "targets": [
+          "v05",
+          "v15"
+        ],
+        "reference_actions": 42,
+        "reference_distance": 125,
+        "budget": 352
+      },
+      {
+        "task": "T25",
+        "targets": [
+          "v12",
+          "v06"
+        ],
+        "reference_actions": 39,
+        "reference_distance": 116,
+        "budget": 352
+      },
+      {
+        "task": "T26",
+        "targets": [
+          "v04",
+          "v08"
+        ],
+        "reference_actions": 52,
+        "reference_distance": 163,
+        "budget": 352
+      },
+      {
+        "task": "T27",
+        "targets": [
+          "v07",
+          "v14"
+        ],
+        "reference_actions": 50,
+        "reference_distance": 153,
+        "budget": 352
+      },
+      {
+        "task": "T28",
+        "targets": [
+          "v16",
+          "v05"
+        ],
+        "reference_actions": 60,
+        "reference_distance": 179,
+        "budget": 352
+      },
+      {
+        "task": "T29",
+        "targets": [
+          "v05",
+          "v02"
+        ],
+        "reference_actions": 49,
+        "reference_distance": 136,
+        "budget": 352
+      },
+      {
+        "task": "T30",
+        "targets": [
+          "v15",
+          "v10"
+        ],
+        "reference_actions": 40,
+        "reference_distance": 106,
+        "budget": 352
+      },
+      {
+        "task": "T31",
+        "targets": [
+          "v02",
+          "v02"
+        ],
+        "reference_actions": 54,
+        "reference_distance": 162,
+        "budget": 352
+      },
+      {
+        "task": "T32",
+        "targets": [
+          "v14",
+          "v08"
+        ],
+        "reference_actions": 42,
+        "reference_distance": 115,
+        "budget": 352
+      },
+      {
+        "task": "T33",
+        "targets": [
+          "v01",
+          "v04"
+        ],
+        "reference_actions": 48,
+        "reference_distance": 133,
+        "budget": 352
+      },
+      {
+        "task": "T34",
+        "targets": [
+          "v01",
+          "v07"
+        ],
+        "reference_actions": 53,
+        "reference_distance": 155,
+        "budget": 352
+      },
+      {
+        "task": "T35",
+        "targets": [
+          "v05",
+          "v04"
+        ],
+        "reference_actions": 32,
+        "reference_distance": 79,
+        "budget": 352
+      },
+      {
+        "task": "T36",
+        "targets": [
+          "v03",
+          "v11"
+        ],
+        "reference_actions": 42,
+        "reference_distance": 110,
+        "budget": 352
+      }
+    ],
+    "status": "target_assignment_proposal_only",
+    "search_iterations": 110,
+    "changed_stage_targets": 15,
+    "original_target_multiset_preserved": true,
+    "model_outcomes_used_for_target_search": false
+  },
+  "source_map_sha256": "ea5e6fec6677f3bd0a0c7a66c27e5737388424f304a4318c980f6bd50402d4a3",
+  "production_files_changed": false,
+  "target_model_gap_observed": null,
+  "selection_on_diagnostic_policy_scores_is_forbidden": true,
+  "policy_sha256": "ce9d564901f5f97796c0f24a00121039bce8c8190ad19e0bf6736a436eb28ee3",
+  "implementation_sha256": "ce16cb1975eda502c2c19db3383dc4bb0ecc2d27e764fbcfd85320b46c56aa81",
+  "assessment_tool_sha256": "68c976e7c9f8daaaf18706ea820192b022789421f6095aa18457ee8a4233e13a",
+  "python_version": "3.12.9"
+}

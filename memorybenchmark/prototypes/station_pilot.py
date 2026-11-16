@@ -133,6 +133,20 @@ def movement_tool(mode, design=None):
 def access_guide(agent, game_access, design=None):
     """Change only public interface instructions, never supply experience."""
     guide = GUIDE
+    from . import station_interfaces as interfaces
+
+    if design is not None and interfaces.enabled(design):
+        guide = guide.replace(
+            "inspect 是在站查询能力；process 是处理当前原始资料。两者都会给出实际反馈，不支持的处理保留资料。",
+            "",
+        )
+        guide += (
+            "\n本图不提供inspect。到目标后survey采集资料；编目将原始资料变为特定中间规格，"
+            "核验站接受特定规格并产出特定标准。每段公开采集规格与交付目标，只有达到目标才推进。"
+            "同型站等价，规则固定；实际process只反馈本站对当前样本的输入、输出和成败，不揭示完整能力表。"
+            "处理失败保留当前样本。若中间规格或产出的标准不适合目标，可返回本段采集点再次survey，"
+            "丢弃旧样本并恢复本段起始资料，原尝试和路程保留。两段完全独立，不共享产物。"
+        )
     if design is not None and manual_survey_required(design):
         guide = guide.replace(
             "到目标自动采集当前段资料",
@@ -161,6 +175,8 @@ def access_guide(agent, game_access, design=None):
             "关联核验将已编目资料变为已核验资料。每段给出采集所得状态和交付目标，"
             "达到本段目标才推进。两段资料相互独立，不共享中间产物。"
         )
+    if design is not None and interfaces.enabled(design):
+        guide = guide.replace("每段一次", "需要重新采集时可再次执行")
     if game_access == "bridge":
         return guide
     if game_access != "native":

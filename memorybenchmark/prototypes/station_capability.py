@@ -22,6 +22,7 @@ DESIGN_PATH = (
 
 
 from . import station_composition as composition
+from . import station_interfaces as interfaces
 
 
 def conditional_capabilities(design):
@@ -142,6 +143,8 @@ def load_design(path=None):
         n for n, data in public["locations"].items() if data["kind"] == "station"
     }
     kinds = set(public["kinds"])
+    if design.get("world_generator") == "fixed_interface_station_sets":
+        return interfaces.load(design)
     if design.get("world_generator") == "fixed_station_capability_sets":
         return _load_capability_sets(design)
     if design.get("world_generator") == "fixed_conditional_station_sets":
@@ -476,6 +479,13 @@ def _validate_geography_tasks(design):
                 input_state=task.get("input_state"),
                 output_state=task.get("output_state"),
             )
+        if interfaces.enabled(design):
+            expected_first.update(
+                {
+                    k: task.get(k)
+                    for k in ("input_state", "output_state", "input_format", "goal")
+                }
+            )
         if regions is not None:
             expected_first["required_region"] = task.get("required_region")
         if not isinstance(stages, list) or not stages or stages[0] != expected_first:
@@ -491,6 +501,11 @@ def _validate_geography_tasks(design):
             if composition.enabled(design):
                 expected_keys.update(("input_state", "output_state"))
                 composition.validate_stage(stage)
+            if interfaces.enabled(design):
+                expected_keys.update(
+                    ("input_state", "output_state", "input_format", "goal")
+                )
+                interfaces.item(stage)
             if regions is not None:
                 expected_keys.add("required_region")
             if (
@@ -546,7 +561,7 @@ def actions_for(design, task, state):
     if (
         manual_survey_required(design)
         and state.position == active_stage(task, state)["target"]
-        and not state.raw
+        and (not state.raw or interfaces.enabled(design))
         and not state.processed
     ):
         actions.append({"type": "survey"})
@@ -577,6 +592,10 @@ def transition(design, task, world_id, state, action):
         feedback = {"kind": "arrived", "location": target, "raw_collected": collected}
     elif verb == "survey":
         after = replace(state, raw=True)
+        if interfaces.enabled(design):
+            after = replace(
+                after, material_state=stage["input_format"], processed=False
+            )
         feedback = {
             "kind": "surveyed",
             "location": state.position,
@@ -584,6 +603,8 @@ def transition(design, task, world_id, state, action):
             "required_kind": stage["required_kind"],
         }
     elif verb in ("inspect", "process"):
+        if interfaces.enabled(design):
+            return interfaces.process(design, task, stage, state)
         if not region_matches(design, stage, state.position):
             feedback = {
                 "kind": "wrong_processing_region",
@@ -752,6 +773,14 @@ class StationGame:
                 if self.state.raw
                 else None
             )
+        if interfaces.enabled(self.design):
+            result["material_state"] = (
+                interfaces.current_format(
+                    active_stage(self.task, self.state), self.state
+                )
+                if self.state.raw
+                else None
+            )
         return result
 
     def _record(self, event):
@@ -812,6 +841,14 @@ class StationGame:
             ]
             if "requirement" in feedback:
                 evidence[0]["requirement"] = feedback["requirement"]
+        if feedback["kind"] == "processing_outcome":
+            evidence = [
+                {
+                    "claim": "processing_outcome",
+                    **deepcopy(feedback),
+                    "source_event_id": len(self.events),
+                }
+            ]
         self._record(
             {
                 "kind": "action",
@@ -834,6 +871,7 @@ class StationGame:
                             )
                         }
                         if composition.enabled(self.design)
+                        or interfaces.enabled(self.design)
                         else {}
                     ),
                     **({"stage": before.stage} if "stages" in self.task else {}),
@@ -844,6 +882,7 @@ class StationGame:
                     **(
                         {"material_state": after.material_state}
                         if composition.enabled(self.design)
+                        or interfaces.enabled(self.design)
                         else {}
                     ),
                     **({"stage": after.stage} if "stages" in self.task else {}),

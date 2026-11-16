@@ -15,7 +15,7 @@ def freeze(project, destination, design_name):
     sources += list((project / "scripts").rglob("*.py"))
     sources += list((project / "scripts").glob("*.ps1"))
     sources += list((project / "memorybenchmark/data").rglob("*.json"))
-    sources += list((project / "config").glob("*.json"))
+    sources += list((project / "config").rglob("*.json"))
     # Legacy fixture readers remain executable; their tiny configs are code fixtures,
     # rather than raw experimental histories or generated outputs.
     sources += list((project / "design").glob("*.json"))

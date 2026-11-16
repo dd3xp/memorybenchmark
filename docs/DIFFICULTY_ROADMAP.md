@@ -1,6 +1,6 @@
 # 难度与地图路线
 
-当前状态（2026-11-15）：正式Hard为[Hard36双段组合方案](HARD36.md)，每组36项、两段独立；Lunatic暂缓。Hard36实跑未形成明显的保留组难度梯度，后续“通则与固定局部例外”仅为该文记录的讨论候选，未实施或启动新实验。
+当前状态（2026-11-16）：正式Hard为[Hard36双段组合方案](HARD36.md)，每组36项、两段独立；Lunatic暂缓。Hard36实跑未形成明显的保留组难度梯度。[中间结果兼容性候选](HARD_INTERFACE_CANDIDATE.md)已接入真实游戏并启动首轮原生Hermes校准，最多两轮共48项；完整结果前不作效果结论，也未替换正式地图。
 
 以下保留2026-11-03至11-05的选图与规则讨论。文中的Hard48、Lunatic64及当时的“当前”字样属于历史设计，不能据此恢复旧方案、旧实验或已作废的64k结果。六张Easy／Normal地图说明见[六图设计](DIFFICULTY_MAPS.md)，历史Hard与Lunatic方案分别见[Hard地图](HARD_MAPS.md)与[Lunatic地图](LUNATIC_MAPS.md)。
 

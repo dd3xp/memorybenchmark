@@ -1,0 +1,34 @@
+{
+  "schema": "hard-calibration-authorization-1",
+  "authorized_by": "User explicitly confirmed autonomous iteration includes model calibration on 2026-11-15 America/New_York",
+  "maximum_rounds": 2,
+  "tasks_per_condition_per_round": 12,
+  "maximum_total_tasks": 48,
+  "conditions": [
+    "retain",
+    "clear"
+  ],
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "movement_mode": "step",
+  "main_model_calls": 400,
+  "final_model_calls": 6,
+  "game_steps": 352,
+  "effective_wall_seconds": 604800,
+  "infrastructure_wait_seconds": 604800,
+  "context_registry": "config/model-gateways.json",
+  "map_geography": "orcia",
+  "first_round_seed": 61301,
+  "first_round_materials": [
+    "material-1",
+    "material-2"
+  ],
+  "second_round_seed": 61401,
+  "second_round_if_saturated": "binding",
+  "second_round_otherwise": "interface-confirmation",
+  "native_preparation_timeout_seconds": 3600,
+  "preserve_every_attempt": true,
+  "promote_to_official_hard_automatically": false,
+  "change_existing_jobs": false,
+  "binding_pilot_selection": "first four-material subset in authored order with >=2 conflicting catalogue types and >=1 conflicting verifier/input key; rule tables only, no model outcomes"
+}

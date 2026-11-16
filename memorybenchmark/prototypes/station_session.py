@@ -155,6 +155,25 @@ def render_text(response, *, compact=False):
                 + f" 本段处理区域：{public['processing_regions'][task['required_region']]}。\n"
             )
     from . import station_composition as composition
+    from . import station_interfaces as interfaces
+
+    if interfaces.enabled({"public": public}):
+        mission = "；".join(
+            f"第{i+1}段：{interfaces.description(public,s)}"
+            for i, s in enumerate(task["stages"])
+        )
+        progress = (
+            f"当前第{observation['stage_index']+1}/{observation['stage_count']}段；"
+            f"{interfaces.description(public,task)}；当前规格：{observation.get('material_state') or ('原始' if observation['raw'] else '未采集')}。\n"
+        )
+        groups = "同型站等价；编目结果有不同规格，核验只接受特定输入；本站本份资料的结果仅由实际处理获知"
+        if feedback["kind"] == "processing_outcome":
+            message = (
+                f"{feedback['station']}处理本份资料：{feedback['result']}；输入{feedback['input_format'] or '原始'}，"
+                f"输出{feedback['output_format'] or '无'}。"
+            )
+            if feedback.get("next_stage"):
+                message += "本段达到交付目标，下一段另行采集独立资料。"
 
     if composition.enabled({"public": public}):
         mission = (

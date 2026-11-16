@@ -14,10 +14,29 @@ from .repository import PairRepository, exclusive, utc
 
 
 class ExperimentService:
-    def __init__(self, config, scheduler):
+    def __init__(self, config, scheduler, *, maps=None):
         self.config = config
         self.scheduler = scheduler
+        self.maps = MAPS if maps is None else dict(maps)
         self.repository = PairRepository(config.experiments)
+
+    def design_path(self, name):
+        root = (self.config.project / "memorybenchmark/data").resolve()
+        path = (root / self.maps[name][2]).resolve()
+        if not path.is_relative_to(root):
+            raise ValueError("Registered map escaped the server-owned data directory")
+        return path
+
+    def map_info(self, name):
+        if name in MAPS and self.maps[name] == MAPS[name]:
+            return map_detail(name)
+        design = json.loads(self.design_path(name).read_text(encoding="utf-8-sig"))
+        return {
+            "name": self.maps[name][0],
+            "difficulty": design["public"]["difficulty"],
+            "task_count": len(design["tasks"]),
+            "version": design["design_id"],
+        }
 
     def options(self):
         registry = self.config.gateways()
@@ -30,11 +49,11 @@ class ExperimentService:
                 {
                     "id": name,
                     **{
-                        k: map_detail(name)[k]
+                        k: self.map_info(name)[k]
                         for k in ("name", "difficulty", "task_count", "version")
                     },
                 }
-                for name in MAPS
+                for name in self.maps
             ],
             "conditions": ["retain", "clear"],
             "agent": "hermes",
@@ -51,12 +70,12 @@ class ExperimentService:
         model, map_id = request.get("model"), request.get("map")
         if not isinstance(model, str) or model not in self.config.gateways()["models"]:
             raise ValueError("请选择已配置的模型。")
-        if not isinstance(map_id, str) or map_id not in MAPS:
+        if not isinstance(map_id, str) or map_id not in self.maps:
             raise ValueError("请选择有效地图。")
         mode = request.get("movement_mode", "step")
         if mode not in ("step", "route"):
             raise ValueError("请选择有效移动方式。")
-        design = json.loads(station_design(map_id).read_text(encoding="utf-8-sig"))
+        design = json.loads(self.design_path(map_id).read_text(encoding="utf-8-sig"))
         if design["public"]["difficulty"] == "Hard" and mode != "step":
             raise ValueError("本轮Hard实验固定使用单步移动。")
         context = context_configuration(
@@ -66,7 +85,7 @@ class ExperimentService:
         return {
             "model": model,
             "map": map_id,
-            "map_name": MAPS[map_id][0],
+            "map_name": self.maps[map_id][0],
             "design_id": design["design_id"],
             "movement_mode": mode,
             "action_policy": "batch" if mode == "route" else "single",
@@ -85,6 +104,13 @@ class ExperimentService:
         }
 
     def create(self, request):
+        return self._create(request, dispatch=True)
+
+    def prepare(self, request):
+        """Freeze both specs for zero-model checks before any dispatch."""
+        return self._create(request, dispatch=False)
+
+    def _create(self, request, *, dispatch):
         review = self.preview(request)
         pair_id = self.repository.pair_id(request.get("request_id"))
         selection = {key: review[key] for key in ("model", "map", "movement_mode")}
@@ -95,7 +121,9 @@ class ExperimentService:
                     raise ValueError(
                         "Request ID was already used for a different experiment"
                     )
-                return self.public_pair(self._dispatch(existing))
+                return self.public_pair(
+                    self._dispatch(existing) if dispatch else existing
+                )
             if (
                 shutil.disk_usage(self.config.private_root).free
                 < self.config.minimum_free_gib * 2**30
@@ -119,7 +147,9 @@ class ExperimentService:
             for condition in ("retain", "clear"):
                 root = pair_root / condition
                 source_digest = freeze(
-                    self.config.project, root / "runtime-hermes", MAPS[review["map"]][2]
+                    self.config.project,
+                    root / "runtime-hermes",
+                    self.maps[review["map"]][2],
                 )
                 job = {
                     "schema": "benchmark-job-1",
@@ -128,7 +158,7 @@ class ExperimentService:
                     "root": str(root),
                     "condition": condition,
                     **review,
-                    "design_file": MAPS[review["map"]][2],
+                    "design_file": self.maps[review["map"]][2],
                     "source_digest": source_digest,
                     "native_archive": str(self.config.native_archive),
                     "native_runtime": self.config.native_runtime,
@@ -154,7 +184,7 @@ class ExperimentService:
             }
             self.repository.save(pair_id, pair)
             # Both immutable specs exist before either scientific process starts.
-            return self.public_pair(self._dispatch(pair))
+            return self.public_pair(self._dispatch(pair) if dispatch else pair)
 
     def _dispatch(self, pair):
         if pair["phase"] == "dispatched":
@@ -185,7 +215,7 @@ class ExperimentService:
         return [
             {
                 **row,
-                "map_name": MAPS[row["map"]][0],
+                "map_name": self.maps[row["map"]][0],
                 "comparison_key": sha256(row["id"].encode()).hexdigest()[:16],
             }
             for row in self.repository.listing()

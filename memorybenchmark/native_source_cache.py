@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import shutil
+import stat
 import time
 from uuid import uuid4
 
@@ -19,6 +20,53 @@ def digest(path):
         for block in iter(lambda: f.read(1024**2), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def _regular_directory(path):
+    value = path.lstat()
+    if (
+        not stat.S_ISDIR(value.st_mode)
+        or getattr(value, "st_file_attributes", 0) & 0x400
+    ):
+        raise ValueError("Native cache directory is a reparse point or not a directory")
+
+
+def verify_cached_source(cache, cached, receipt):
+    """Verify every source byte without repeatedly resolving the same parents.
+
+    All manifest parents are checked once without following symlinks/junctions.
+    Every file still gets its original size and SHA256 check. This does not
+    trust timestamps, skip hashes, or share mutable task memory.
+    """
+    for root in (cache, cache / "source", cached):
+        _regular_directory(root)
+    directories = set(receipt["directories"])
+    if len(directories) != len(receipt["directories"]):
+        raise ValueError("Native cache has duplicate directory entries")
+    for relative in [*directories, *receipt["files"]]:
+        parts = PurePosixPath(relative)
+        if (
+            parts.is_absolute()
+            or ".." in parts.parts
+            or "\\" in relative
+            or ":" in relative
+        ):
+            raise ValueError("Native cache path escaped its source")
+        parent = parts.parent.as_posix()
+        if parent != "." and parent not in directories:
+            raise ValueError("Native cache manifest omitted a parent directory")
+    for relative in directories:
+        _regular_directory(cached / relative)
+    for relative, expected in receipt["files"].items():
+        path = cached / relative
+        value = path.lstat()
+        if (
+            not stat.S_ISREG(value.st_mode)
+            or getattr(value, "st_file_attributes", 0) & 0x400
+            or value.st_size != expected["size"]
+            or digest(path) != expected["sha256"]
+        ):
+            raise ValueError("Native cache contents changed; refusing preparation")
 
 
 @contextmanager
@@ -139,41 +187,23 @@ def extract_cached_native(archive, destination, *, native="ga"):
     cached = filesystem_path(cache / "source" / name)
     # All consumers mount source read-only. Mutable baselines/working memory
     # continue to use copy_memory(), never these hard links.
-    for relative in [*receipt["directories"], *receipt["files"]]:
-        parts = PurePosixPath(relative)
-        if (
-            parts.is_absolute()
-            or ".." in parts.parts
-            or "\\" in relative
-            or ":" in relative
-        ):
-            raise ValueError("Native cache path escaped its source")
-    for relative, expected in receipt["files"].items():
-        p = cached / relative
-        if (
-            p.is_symlink()
-            or not p.resolve().is_relative_to(cached.resolve())
-            or p.stat().st_size != expected["size"]
-            or digest(p) != expected["sha256"]
-        ):
-            raise ValueError("Native cache contents changed; refusing preparation")
+
+    verify_cached_source(cache, cached, receipt)
     destination.mkdir(parents=True)
     source = destination / name
     source.mkdir()
-    for relative in receipt["directories"]:
-        (filesystem_path(source) / relative).mkdir(parents=True, exist_ok=True)
+    for relative in sorted(
+        receipt["directories"], key=lambda p: len(PurePosixPath(p).parts)
+    ):
+        (filesystem_path(source) / relative).mkdir(exist_ok=True)
     linked = copied = 0
     for relative in receipt["files"]:
         target = filesystem_path(source) / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
         try:
             os.link(cached / relative, target)
             linked += 1
         except OSError as error:
-            if (
-                error.errno != errno.EXDEV
-                and getattr(error, "winerror", None) != 17
-            ):
+            if error.errno != errno.EXDEV and getattr(error, "winerror", None) != 17:
                 raise
             shutil.copy2(cached / relative, target)
             copied += 1
