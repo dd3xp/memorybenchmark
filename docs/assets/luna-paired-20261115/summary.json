@@ -1,0 +1,571 @@
+{
+  "schema": "luna-paired-descriptive-results-1",
+  "observed_utc": "2026-11-15T21:08:57.358329+00:00",
+  "hard_results_provisional_at_observation": true,
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "actual_context_tokens_all_sessions": 272000,
+  "conditions": [
+    "retain",
+    "clear"
+  ],
+  "first_correct_definition": "Success of the first process attempt for each required basic operation; unattempted required operations remain in the denominator.",
+  "after_first_definition": "Exclude the first planned encounter of each material/basic-operation pair.",
+  "source": "One read of each final canonical event snapshot, session summaries and model-transport ledgers. No new model calls or game execution.",
+  "recorded_memory_chains_and_paired_original_baselines_matched": true,
+  "reasoning_tokens_are_output_subset": true,
+  "comparison_limits": [
+    "One run per condition and map.",
+    "Hard uses step movement; Easy and Normal use route movement.",
+    "No valid matched step-versus-route control; all 64000-context controls were invalidated.",
+    "Scores do not establish internal causal use of saved memory."
+  ],
+  "rows": [
+    {
+      "map": "orcia-hard",
+      "condition": "retain",
+      "movement_mode": "step",
+      "model": "gpt-5.6-luna",
+      "context_tokens": 272000,
+      "planned_tasks": 36,
+      "completed_tasks": 36,
+      "successful_tasks": 36,
+      "valid_game_failures": 0,
+      "all_first_operations": {
+        "correct": 89,
+        "denominator": 96,
+        "unattempted": 0
+      },
+      "after_first_encounter": {
+        "correct": 71,
+        "denominator": 72,
+        "unattempted": 0
+      },
+      "by_encounter": {
+        "1": {
+          "correct": 18,
+          "denominator": 24,
+          "unattempted": 0
+        },
+        "2": {
+          "correct": 24,
+          "denominator": 24,
+          "unattempted": 0
+        },
+        "3": {
+          "correct": 24,
+          "denominator": 24,
+          "unattempted": 0
+        },
+        "4": {
+          "correct": 23,
+          "denominator": 24,
+          "unattempted": 0
+        }
+      },
+      "standalone_first_operations": {
+        "correct": 41,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "combined_first_operations": {
+        "correct": 48,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "combined_stages_all_first_correct": {
+        "correct": 24,
+        "denominator": 24,
+        "unattempted": 0
+      },
+      "all_stage_first_pass": {
+        "correct": 65,
+        "denominator": 72,
+        "unattempted": 0
+      },
+      "processing_successes": 96,
+      "processing_attempts": 131,
+      "processing_failures": 35,
+      "distance": 5801,
+      "game_actions": 1933,
+      "llm_calls": 2276,
+      "reported_tokens": {
+        "input_tokens": 103438164,
+        "output_tokens": 280481,
+        "reasoning_tokens": 144881
+      },
+      "response_usage_unknown_calls": 0,
+      "response_reasoning_unknown_calls": 0,
+      "infrastructure": {
+        "physical_failure_events": 1,
+        "failure_reasons": {
+          "gateway_http_502": 1
+        },
+        "affected_rpcs": 1,
+        "recovered_same_request_rpcs": 1,
+        "pending_rpcs": 0,
+        "failed_attempt_reported_usage": {},
+        "failed_attempt_final_usage_unknown": 1
+      },
+      "source_digest": "a2e01a36afcdd2a1e1a2ddc3b8429b11d41a709e2690e1aab39d6494af869823",
+      "result_sha256": null,
+      "status_at_observation": "provisional_pending_final_audit",
+      "design_sha256": "0543df16e6cd0ef69a62a40978cc4b1100d32a2828efa819c3b4479a9014da1e",
+      "logical_event_history_sha256": "c053d241e2e85b6cd795262fc83f7e628bb76ec4564c39645d80e6a6a55214ca"
+    },
+    {
+      "map": "orcia-hard",
+      "condition": "clear",
+      "movement_mode": "step",
+      "model": "gpt-5.6-luna",
+      "context_tokens": 272000,
+      "planned_tasks": 36,
+      "completed_tasks": 36,
+      "successful_tasks": 36,
+      "valid_game_failures": 0,
+      "all_first_operations": {
+        "correct": 14,
+        "denominator": 96,
+        "unattempted": 0
+      },
+      "after_first_encounter": {
+        "correct": 13,
+        "denominator": 72,
+        "unattempted": 0
+      },
+      "by_encounter": {
+        "1": {
+          "correct": 1,
+          "denominator": 24,
+          "unattempted": 0
+        },
+        "2": {
+          "correct": 1,
+          "denominator": 24,
+          "unattempted": 0
+        },
+        "3": {
+          "correct": 11,
+          "denominator": 24,
+          "unattempted": 0
+        },
+        "4": {
+          "correct": 1,
+          "denominator": 24,
+          "unattempted": 0
+        }
+      },
+      "standalone_first_operations": {
+        "correct": 9,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "combined_first_operations": {
+        "correct": 5,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "combined_stages_all_first_correct": {
+        "correct": 1,
+        "denominator": 24,
+        "unattempted": 0
+      },
+      "all_stage_first_pass": {
+        "correct": 10,
+        "denominator": 72,
+        "unattempted": 0
+      },
+      "processing_successes": 96,
+      "processing_attempts": 617,
+      "processing_failures": 521,
+      "distance": 8579,
+      "game_actions": 3346,
+      "llm_calls": 3894,
+      "reported_tokens": {
+        "input_tokens": 243289699,
+        "output_tokens": 515202,
+        "reasoning_tokens": 261387
+      },
+      "response_usage_unknown_calls": 0,
+      "response_reasoning_unknown_calls": 0,
+      "infrastructure": {
+        "physical_failure_events": 0,
+        "failure_reasons": {},
+        "affected_rpcs": 0,
+        "recovered_same_request_rpcs": 0,
+        "pending_rpcs": 0,
+        "failed_attempt_reported_usage": {},
+        "failed_attempt_final_usage_unknown": 0
+      },
+      "source_digest": "a2e01a36afcdd2a1e1a2ddc3b8429b11d41a709e2690e1aab39d6494af869823",
+      "result_sha256": null,
+      "status_at_observation": "provisional_pending_final_audit",
+      "design_sha256": "0543df16e6cd0ef69a62a40978cc4b1100d32a2828efa819c3b4479a9014da1e",
+      "logical_event_history_sha256": "cc9993962157b6c536685f7b9b56a32567913cfa2976c4c6256625791a46f45c"
+    },
+    {
+      "map": "capulin-easy",
+      "condition": "retain",
+      "movement_mode": "route",
+      "model": "gpt-5.6-luna",
+      "context_tokens": 272000,
+      "planned_tasks": 16,
+      "completed_tasks": 16,
+      "successful_tasks": 16,
+      "valid_game_failures": 0,
+      "all_first_operations": {
+        "correct": 27,
+        "denominator": 32,
+        "unattempted": 0
+      },
+      "after_first_encounter": {
+        "correct": 21,
+        "denominator": 24,
+        "unattempted": 0
+      },
+      "by_encounter": {
+        "1": {
+          "correct": 6,
+          "denominator": 8,
+          "unattempted": 0
+        },
+        "2": {
+          "correct": 7,
+          "denominator": 8,
+          "unattempted": 0
+        },
+        "3": {
+          "correct": 6,
+          "denominator": 8,
+          "unattempted": 0
+        },
+        "4": {
+          "correct": 8,
+          "denominator": 8,
+          "unattempted": 0
+        }
+      },
+      "standalone_first_operations": {
+        "correct": 27,
+        "denominator": 32,
+        "unattempted": 0
+      },
+      "combined_first_operations": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "combined_stages_all_first_correct": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "all_stage_first_pass": {
+        "correct": 27,
+        "denominator": 32,
+        "unattempted": 0
+      },
+      "processing_successes": 32,
+      "processing_attempts": 51,
+      "processing_failures": 19,
+      "distance": 554,
+      "game_actions": 545,
+      "llm_calls": 462,
+      "reported_tokens": {
+        "input_tokens": 15308738,
+        "output_tokens": 137572,
+        "reasoning_tokens": 71004
+      },
+      "response_usage_unknown_calls": 0,
+      "response_reasoning_unknown_calls": 0,
+      "infrastructure": {
+        "physical_failure_events": 0,
+        "failure_reasons": {},
+        "affected_rpcs": 0,
+        "recovered_same_request_rpcs": 0,
+        "pending_rpcs": 0,
+        "failed_attempt_reported_usage": {},
+        "failed_attempt_final_usage_unknown": 0
+      },
+      "source_digest": "641bf7d8c0e77558fbf7e8d846d0741af6f6fa10726c310e3e8fea141efe8adf",
+      "result_sha256": "b2e39aac23cb2268469cf0231a3c6b85166b2ce7601551893cd0764483736665",
+      "status_at_observation": "server_sealed_and_contents_verified",
+      "design_sha256": "9766dfc53854c218f42a8f233fa68e6c4d40f4a3a12a78eb0b7896d73bcbb7fe",
+      "logical_event_history_sha256": "167868ef8170dc91e36a277723f14e7c8cf9720a24baa651c040541e749430a3"
+    },
+    {
+      "map": "capulin-easy",
+      "condition": "clear",
+      "movement_mode": "route",
+      "model": "gpt-5.6-luna",
+      "context_tokens": 272000,
+      "planned_tasks": 16,
+      "completed_tasks": 16,
+      "successful_tasks": 16,
+      "valid_game_failures": 0,
+      "all_first_operations": {
+        "correct": 14,
+        "denominator": 32,
+        "unattempted": 0
+      },
+      "after_first_encounter": {
+        "correct": 10,
+        "denominator": 24,
+        "unattempted": 0
+      },
+      "by_encounter": {
+        "1": {
+          "correct": 4,
+          "denominator": 8,
+          "unattempted": 0
+        },
+        "2": {
+          "correct": 4,
+          "denominator": 8,
+          "unattempted": 0
+        },
+        "3": {
+          "correct": 3,
+          "denominator": 8,
+          "unattempted": 0
+        },
+        "4": {
+          "correct": 3,
+          "denominator": 8,
+          "unattempted": 0
+        }
+      },
+      "standalone_first_operations": {
+        "correct": 14,
+        "denominator": 32,
+        "unattempted": 0
+      },
+      "combined_first_operations": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "combined_stages_all_first_correct": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "all_stage_first_pass": {
+        "correct": 14,
+        "denominator": 32,
+        "unattempted": 0
+      },
+      "processing_successes": 32,
+      "processing_attempts": 118,
+      "processing_failures": 86,
+      "distance": 703,
+      "game_actions": 748,
+      "llm_calls": 633,
+      "reported_tokens": {
+        "input_tokens": 21951548,
+        "output_tokens": 232165,
+        "reasoning_tokens": 143604
+      },
+      "response_usage_unknown_calls": 0,
+      "response_reasoning_unknown_calls": 0,
+      "infrastructure": {
+        "physical_failure_events": 0,
+        "failure_reasons": {},
+        "affected_rpcs": 0,
+        "recovered_same_request_rpcs": 0,
+        "pending_rpcs": 0,
+        "failed_attempt_reported_usage": {},
+        "failed_attempt_final_usage_unknown": 0
+      },
+      "source_digest": "641bf7d8c0e77558fbf7e8d846d0741af6f6fa10726c310e3e8fea141efe8adf",
+      "result_sha256": "143b34b8de4d0efda4c2b0a875b2acae0775e7fc087f37760ac2fce88ae1e0ea",
+      "status_at_observation": "server_sealed_and_contents_verified",
+      "design_sha256": "9766dfc53854c218f42a8f233fa68e6c4d40f4a3a12a78eb0b7896d73bcbb7fe",
+      "logical_event_history_sha256": "bc296a66aeba642534cd231552592c2e14db4f891c716a3cf8fd4a47680e051d"
+    },
+    {
+      "map": "nessie-normal",
+      "condition": "retain",
+      "movement_mode": "route",
+      "model": "gpt-5.6-luna",
+      "context_tokens": 272000,
+      "planned_tasks": 24,
+      "completed_tasks": 24,
+      "successful_tasks": 24,
+      "valid_game_failures": 0,
+      "all_first_operations": {
+        "correct": 46,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "after_first_encounter": {
+        "correct": 36,
+        "denominator": 36,
+        "unattempted": 0
+      },
+      "by_encounter": {
+        "1": {
+          "correct": 10,
+          "denominator": 12,
+          "unattempted": 0
+        },
+        "2": {
+          "correct": 12,
+          "denominator": 12,
+          "unattempted": 0
+        },
+        "3": {
+          "correct": 12,
+          "denominator": 12,
+          "unattempted": 0
+        },
+        "4": {
+          "correct": 12,
+          "denominator": 12,
+          "unattempted": 0
+        }
+      },
+      "standalone_first_operations": {
+        "correct": 46,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "combined_first_operations": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "combined_stages_all_first_correct": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "all_stage_first_pass": {
+        "correct": 46,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "processing_successes": 48,
+      "processing_attempts": 57,
+      "processing_failures": 9,
+      "distance": 1181,
+      "game_actions": 993,
+      "llm_calls": 597,
+      "reported_tokens": {
+        "input_tokens": 20396719,
+        "output_tokens": 163809,
+        "reasoning_tokens": 79267
+      },
+      "response_usage_unknown_calls": 0,
+      "response_reasoning_unknown_calls": 0,
+      "infrastructure": {
+        "physical_failure_events": 1,
+        "failure_reasons": {
+          "gateway_http_503": 1
+        },
+        "affected_rpcs": 1,
+        "recovered_same_request_rpcs": 1,
+        "pending_rpcs": 0,
+        "failed_attempt_reported_usage": {},
+        "failed_attempt_final_usage_unknown": 1
+      },
+      "source_digest": "641bf7d8c0e77558fbf7e8d846d0741af6f6fa10726c310e3e8fea141efe8adf",
+      "result_sha256": "1a74c058f8f3ee785b302ee1669e3ee1547aec318af3277e5226688e401d145d",
+      "status_at_observation": "server_sealed_and_contents_verified",
+      "design_sha256": "a082097c1c5722d6755f48ed84d47fcc7eea1deed38b9eb64597a6049a7dbaa2",
+      "logical_event_history_sha256": "13b95ff6139e747379f03df46d5fd30047003ee7cf6e26abab71b641c2837ce6"
+    },
+    {
+      "map": "nessie-normal",
+      "condition": "clear",
+      "movement_mode": "route",
+      "model": "gpt-5.6-luna",
+      "context_tokens": 272000,
+      "planned_tasks": 24,
+      "completed_tasks": 24,
+      "successful_tasks": 24,
+      "valid_game_failures": 0,
+      "all_first_operations": {
+        "correct": 12,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "after_first_encounter": {
+        "correct": 9,
+        "denominator": 36,
+        "unattempted": 0
+      },
+      "by_encounter": {
+        "1": {
+          "correct": 3,
+          "denominator": 12,
+          "unattempted": 0
+        },
+        "2": {
+          "correct": 5,
+          "denominator": 12,
+          "unattempted": 0
+        },
+        "3": {
+          "correct": 2,
+          "denominator": 12,
+          "unattempted": 0
+        },
+        "4": {
+          "correct": 2,
+          "denominator": 12,
+          "unattempted": 0
+        }
+      },
+      "standalone_first_operations": {
+        "correct": 12,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "combined_first_operations": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "combined_stages_all_first_correct": {
+        "correct": 0,
+        "denominator": 0,
+        "unattempted": 0
+      },
+      "all_stage_first_pass": {
+        "correct": 12,
+        "denominator": 48,
+        "unattempted": 0
+      },
+      "processing_successes": 48,
+      "processing_attempts": 220,
+      "processing_failures": 172,
+      "distance": 1520,
+      "game_actions": 1398,
+      "llm_calls": 1020,
+      "reported_tokens": {
+        "input_tokens": 40064564,
+        "output_tokens": 336578,
+        "reasoning_tokens": 200195
+      },
+      "response_usage_unknown_calls": 0,
+      "response_reasoning_unknown_calls": 0,
+      "infrastructure": {
+        "physical_failure_events": 4,
+        "failure_reasons": {
+          "gateway_http_503": 4
+        },
+        "affected_rpcs": 4,
+        "recovered_same_request_rpcs": 4,
+        "pending_rpcs": 0,
+        "failed_attempt_reported_usage": {},
+        "failed_attempt_final_usage_unknown": 4
+      },
+      "source_digest": "641bf7d8c0e77558fbf7e8d846d0741af6f6fa10726c310e3e8fea141efe8adf",
+      "result_sha256": "2eff9e927bf8540861bd7056a105341e95a1ac9d2f40415dc2d85cebedb32299",
+      "status_at_observation": "server_sealed_and_contents_verified",
+      "design_sha256": "a082097c1c5722d6755f48ed84d47fcc7eea1deed38b9eb64597a6049a7dbaa2",
+      "logical_event_history_sha256": "6d5b76146fb4f6c5f0f70eba3c74877a650a3660852357bae2b4e171eb14120a"
+    }
+  ]
+}
