@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>测绘手记</title>
+  <rect x="1" y="1" width="30" height="30" rx="8" fill="#607a4e"/>
+  <circle cx="16" cy="16" r="10.5" fill="none" stroke="#fdf8f2" stroke-width="1.5"/>
+  <path d="m22.5 9.5-4 9-5-5Z" fill="#fdf8f2"/>
+  <path d="m9.5 22.5 4-9 5 5Z" fill="#d7af85"/>
+</svg>

@@ -314,8 +314,12 @@ def make_server(
                 else:
                     self.login_page(destination=destination)
                 return
-            # The login page uses this credential-free loading helper.
-            if url.path != "/ui-state.js" and not self.require_login(url.path):
+            # Login needs its loading helper and the shared browser icons.
+            if url.path not in (
+                "/ui-state.js",
+                "/favicon.svg",
+                "/favicon.ico",
+            ) and not self.require_login(url.path):
                 return
             if url.path == "/health":
                 self.reply({"ok": True, "watch": True})

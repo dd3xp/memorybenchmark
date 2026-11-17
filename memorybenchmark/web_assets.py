@@ -13,6 +13,8 @@ WEB_ASSETS = {
 }
 for _name in (
     "site.css",
+    "favicon.svg",
+    "favicon.ico",
     "ui-state.js",
     "watch.css",
     "watch.js",
@@ -49,6 +51,7 @@ CONTENT_TYPES = {
     ".js": "text/javascript",
     ".css": "text/css",
     ".svg": "image/svg+xml",
+    ".ico": "image/vnd.microsoft.icon",
     ".woff2": "font/woff2",
     ".txt": "text/plain",
 }
