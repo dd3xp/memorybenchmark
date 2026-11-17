@@ -11,11 +11,8 @@ def fraction(correct, denominator):
     }
 
 
-def summarize(result):
-    if result.get("status") != "completed_and_audited" or len(
-        result.get("rows", [])
-    ) != result.get("tasks"):
-        raise ValueError("Calibration needs all original audited task rows")
+def processing_accuracy(tasks):
+    """Count required opportunities identically for a prefix and a sealed result."""
     encounter = Counter()
     first_correct = repeat_correct = repeat_count = 0
     stages_correct = stage_count = combined_correct = combined_count = known_correct = (
@@ -23,7 +20,7 @@ def summarize(result):
     ) = 0
     by_encounter = {}
     missing_premises = 0
-    for task in result["rows"]:
+    for task in tasks:
         operations = task["processing_operations"]
         if len(operations) != task["necessary_operation_denominator"]:
             raise ValueError("A required unattempted operation was omitted")
@@ -68,8 +65,6 @@ def summarize(result):
                 missing_premises += 1
     denominator = sum(row["denominator"] for row in by_encounter.values())
     return {
-        "condition": result["condition"],
-        "tasks": fraction(result["successes"], result["tasks"]),
         "all_first_goal_compatible_operations": fraction(first_correct, denominator),
         "after_first_planned_goal_encounter": fraction(repeat_correct, repeat_count),
         "goal_classes": len(encounter),
@@ -78,6 +73,18 @@ def summarize(result):
         "combined_stages_first_correct": fraction(combined_correct, combined_count),
         "combined_with_both_prior_actual_facts": fraction(known_correct, known_count),
         "combinations_without_both_prior_actual_facts": missing_premises,
+    }
+
+
+def summarize(result):
+    if result.get("status") != "completed_and_audited" or len(
+        result.get("rows", [])
+    ) != result.get("tasks"):
+        raise ValueError("Calibration needs all original audited task rows")
+    return {
+        "condition": result["condition"],
+        "tasks": fraction(result["successes"], result["tasks"]),
+        **processing_accuracy(result["rows"]),
         "distance": result["totals"]["distance"],
         "model_calls": result["totals"]["llm_calls"],
         "processing_failures": result["totals"]["unsupported_processing_count"],

@@ -17,6 +17,20 @@ def require(value, message):
         raise ValueError(message)
 
 
+FULL_RETAINED_CONFIRMATIONS = {
+    "hard-binding36-retain-61501-v1": {
+        "world_seed": 61501,
+        "design_id": "hard-binding-calibration-v2-61501-36",
+        "design_file": "candidates/orcia_binding36.json",
+    },
+    "hard-target60-retain-61601-v1": {
+        "world_seed": 61601,
+        "design_id": "hard-binding-calibration-v3-61601-36",
+        "design_file": "candidates/orcia_binding36_target60.json",
+    },
+}
+
+
 def authorized_task_count(job, expected_source_digest):
     """Full confirmation is one named retained run, not a wider task-count fallback."""
     if job["tasks_per_condition"] == 12:
@@ -24,11 +38,14 @@ def authorized_task_count(job, expected_source_digest):
     require(
         job["tasks_per_condition"] == 36
         and expected_source_digest is not None
-        and job["pair_id"] == sha256(b"hard-binding36-retain-61501-v1").hexdigest()[:32]
+        and any(
+            job["pair_id"] == sha256(request.encode()).hexdigest()[:32]
+            and job["design_id"] == spec["design_id"]
+            and job["design_file"] == spec["design_file"]
+            for request, spec in FULL_RETAINED_CONFIRMATIONS.items()
+        )
         and job["condition"] == "retain"
         and job.get("conditions") == ["retain"]
-        and job["design_id"] == "hard-binding-calibration-v2-61501-36"
-        and job["design_file"] == "candidates/orcia_binding36.json"
         and job["movement_mode"] == "step",
         "Full36 verification needs the authorized retained job and independent frozen source",
     )

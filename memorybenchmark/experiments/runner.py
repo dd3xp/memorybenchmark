@@ -164,7 +164,12 @@ def _execute(root, job):
 
             recover_after_reboot(root, run, previous)
         install()
-        install_boundary()
+        screen = None
+        if job.get("development_screen") is not None:
+            from .hard_screening import HardScreen
+
+            screen = HardScreen(job, job["development_screen"])
+        install_boundary(checkpoint_observer=screen)
         registry = read(runtime / "config/model-gateways.json")
         gateway = registry["gateways"][registry["models"][job["model"]]["gateway"]]
         key = os.environ.get("MEMORYBENCH_GATEWAY_KEY")
@@ -218,14 +223,24 @@ def _execute(root, job):
         state.update(phase="sealed", completed=len(result["sessions"]), exit_code=0)
         atomic_json(root / "driver-exit.json", {"utc": utc(), "exit_code": 0})
     except BaseException as error:
-        state.update(phase="needs_attention", error_type=type(error).__name__)
+        from .hard_screening import DevelopmentScreenStop
+
+        development_stop = isinstance(error, DevelopmentScreenStop)
+        state.update(
+            phase="development_stopped" if development_stop else "needs_attention",
+            error_type=type(error).__name__,
+        )
         atomic_json(
             root / "paused.json",
             {
                 "utc": utc(),
                 "type": type(error).__name__,
                 "message": str(error),
-                "policy": "No blind whole-task replay of unknown or deterministic errors",
+                "policy": (
+                    "User-authorized development stop; preserve prefix and costs, never replay"
+                    if development_stop
+                    else "No blind whole-task replay of unknown or deterministic errors"
+                ),
             },
         )
         atomic_json(

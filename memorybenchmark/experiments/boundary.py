@@ -57,7 +57,7 @@ def restore(design, world, events, summary, count):
     return game
 
 
-def execute(output, jail, model):
+def execute(output, jail, model, *, checkpoint_observer=None):
     """The original experiment() caller already holds this run's ownership lock."""
     from memorybenchmark.ga_runtime import filesystem_path, memory_manifest
     from memorybenchmark.prototypes.station_capability import StationGame
@@ -136,6 +136,8 @@ def execute(output, jail, model):
     )
     save_json(output / "pilot.json", report)
     try:
+        if count and checkpoint_observer is not None:
+            checkpoint_observer(report, game)
         for index in range(count, len(report["tasks"])):
             task, name = report["tasks"][index], names[index]
             folder = output / "sessions" / name
@@ -179,6 +181,8 @@ def execute(output, jail, model):
             )
             if condition == "retain":
                 memory = folder / "memory-after"
+            if checkpoint_observer is not None:
+                checkpoint_observer(report, game)
             print(
                 json.dumps(
                     {
@@ -206,7 +210,8 @@ def execute(output, jail, model):
     return report
 
 
-def install():
+def install(checkpoint_observer=None):
+    from functools import partial
     import memorybenchmark.prototypes.station_independent as module
 
-    module.execute = execute
+    module.execute = partial(execute, checkpoint_observer=checkpoint_observer)

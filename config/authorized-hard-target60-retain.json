@@ -1,0 +1,63 @@
+{
+  "schema": "hard-full-retained-development-authorization-1",
+  "authorized_by": "2026-11-16 America/New_York user: run full retained only, observe and stop if unsuitable; target about60 percent",
+  "request_id": "hard-target60-retain-61601-v1",
+  "conditions": [
+    "retain"
+  ],
+  "maximum_groups": 1,
+  "maximum_total_tasks": 36,
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "map": "orcia-hard",
+  "design_file": "candidates/orcia_binding36_target60.json",
+  "design_id": "hard-binding-calibration-v3-61601-36",
+  "design_sha256": "21c4c5db34c6ed3b7be3926c53eb428dbd76bb716a27095a8e6b0496c5da07b5",
+  "world_seed": 61601,
+  "movement_mode": "step",
+  "context_tokens": 272000,
+  "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+  "reasoning_effort": "high",
+  "main_model_calls": 400,
+  "final_model_calls": 6,
+  "game_steps": 352,
+  "effective_wall_seconds": 604800,
+  "infrastructure_wait_seconds": 604800,
+  "baseline_manifest_sha256": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86",
+  "import_calibration_memory": false,
+  "automatic_whole_task_retries": 0,
+  "native_preparation_timeout_seconds": 3600,
+  "promote_public_map_catalog": false,
+  "launch_clear": false,
+  "target_endpoint": "after_first_planned_goal_encounter",
+  "target_rate": 0.6,
+  "development_screen": {
+    "schema": "hard-development-screen-1",
+    "target_rate": 0.6,
+    "target_minimum_rate": 0.55,
+    "target_maximum_rate": 0.65,
+    "minimum_repeat_operations": 24,
+    "minimum_known_combined_stages": 8,
+    "checkpoints": [
+      {
+        "repeat_operations": 24,
+        "minimum_rate": 0.35,
+        "maximum_rate": 0.85
+      },
+      {
+        "repeat_operations": 36,
+        "minimum_rate": 0.45,
+        "maximum_rate": 0.75
+      },
+      {
+        "repeat_operations": 48,
+        "minimum_rate": 0.45,
+        "maximum_rate": 0.75
+      }
+    ],
+    "decisions_are_development_screening_only": true,
+    "stop_only_at_committed_boundaries": true,
+    "preserve_all_attempts_and_costs": true
+  },
+  "iteration_limit_note": "This configuration authorizes only this one complete retained candidate; any successor requires another versioned policy before launch. User permits stopping unpromising runs. No clear counterpart authorized."
+}

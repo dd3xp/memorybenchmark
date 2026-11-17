@@ -11,12 +11,14 @@ from memorybenchmark.experiments.config import RuntimeConfig
 from memorybenchmark.experiments.repository import exclusive
 from memorybenchmark.experiments.scheduler import WindowsScheduler
 from memorybenchmark.experiments.service import ExperimentService
+from memorybenchmark.experiments.verification import FULL_RETAINED_CONFIRMATIONS
 from memorybenchmark.watch import atomic_json
 from scripts.run_hard_calibration import preflight_job
 
 
 PROJECT = Path(__file__).resolve().parents[1]
 POLICY = "config/authorized-hard-binding36-retain.json"
+TARGET_POLICY = "config/authorized-hard-target60-retain.json"
 
 
 def read(path):
@@ -50,7 +52,13 @@ def validate(review, policy, project):
         policy["conditions"] != ["retain"]
         or policy["maximum_total_tasks"] != 36
         or policy["maximum_groups"] != 1
-        or policy["world_seed"] != 61501
+        or policy.get("request_id") not in FULL_RETAINED_CONFIRMATIONS
+        or any(
+            policy.get(key) != value
+            for key, value in FULL_RETAINED_CONFIRMATIONS.get(
+                policy.get("request_id"), {}
+            ).items()
+        )
         or policy["launch_clear"]
         or policy["import_calibration_memory"]
     ):
@@ -60,8 +68,10 @@ def validate(review, policy, project):
         raise ValueError("Reviewed full36 design changed before preparation")
 
 
-def execute(runtime_config):
-    policy = read(PROJECT / POLICY)
+def execute(runtime_config, authorization=POLICY):
+    if authorization not in (POLICY, TARGET_POLICY):
+        raise ValueError("Select an explicitly authorized full retained confirmation")
+    policy = read(PROJECT / authorization)
     config = replace(RuntimeConfig.load(runtime_config), project=PROJECT)
     config.private_root.mkdir(parents=True, exist_ok=True)
     service = ExperimentService(
@@ -80,7 +90,7 @@ def execute(runtime_config):
         key: policy[key] for key in ("model", "map", "movement_mode", "request_id")
     }
     validate(service.preview(request), policy, PROJECT)
-    with exclusive(config.private_root / "hard-binding36-confirmation.owner.lock"):
+    with exclusive(config.private_root / (policy["request_id"] + ".owner.lock")):
         prepared = service.prepare(request)
         group = service.repository.read(prepared["id"])
         if group["phase"] == "dispatched":
@@ -92,6 +102,13 @@ def execute(runtime_config):
         root = Path(job["root"])
         if (root.parent / "clear").exists():
             raise ValueError("Unexpected clear root; do not launch or erase it")
+        if policy.get("development_screen") is not None:
+            from memorybenchmark.experiments.hard_screening import HardScreen
+
+            HardScreen(job, policy["development_screen"])
+            job["development_screen"] = policy["development_screen"]
+            atomic_json(root / "job.json", job)
+            service.repository.save(group["id"], group)
         command = [
             str(config.python),
             "-X",
@@ -143,11 +160,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runtime-config", type=Path)
     parser.add_argument("--preflight-job", type=Path)
+    parser.add_argument(
+        "--authorization", choices=(POLICY, TARGET_POLICY), default=POLICY
+    )
     args = parser.parse_args()
     if args.preflight_job:
         preflight_job(args.preflight_job)
     elif args.runtime_config:
-        execute(args.runtime_config)
+        execute(args.runtime_config, args.authorization)
     else:
         parser.error(
             "Select an authorized server runtime or an owned zero-model preflight"

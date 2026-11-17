@@ -76,6 +76,15 @@ def seal(root, run, job):
         )
     ]
     files += [("provenance/source-manifest.json", source / "source-manifest.json")]
+    for name in (
+        "development-metrics.json",
+        "development-stop.json",
+        "confirmation-authorization.json",
+    ):
+        if (root / name).is_file():
+            files.append(("provenance/" + name, root / name))
+    for path in (root / "development-observations").glob("*.json"):
+        files.append(("development/" + path.name, path))
     files += [
         ("provenance/" + name, root / name)
         for name in ("entry.py", "launch.ps1", "task-definition.xml")

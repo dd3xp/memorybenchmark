@@ -28,21 +28,39 @@ from memorybenchmark.prototypes.interface_curriculum import (
     once_commissions,
     check_once_allocation,
     pilot_materials,
+    balanced_commissions,
+    check_balanced_allocation,
 )
 
 
 PROJECT = Path(__file__).resolve().parents[1]
 
 
-def build(seed=None, selected_materials=None, *, variant="interface", full=False):
+def build(
+    seed=None,
+    selected_materials=None,
+    *,
+    variant="interface",
+    full=False,
+    curriculum="once",
+):
     if variant not in ("interface", "binding"):
         raise ValueError("Unknown candidate variant")
+    if curriculum not in ("once", "balanced-three") or (
+        curriculum == "balanced-three"
+        and (variant != "binding" or not full or selected_materials is not None)
+    ):
+        raise ValueError("Balanced-three is a complete retained binding candidate")
     seed = seed if seed is not None else (61301 if variant == "interface" else 61401)
     source = PROJECT / "memorybenchmark/data/orcia_hard36.json"
     authored = json.loads(source.read_text(encoding="utf-8"))
     design = deepcopy(authored)
     original_world = (
-        build_world(seed) if variant == "interface" else binding_world(seed)
+        build_world(seed)
+        if variant == "interface"
+        else binding_world(
+            seed, material_count=8 if curriculum == "balanced-three" else 12
+        )
     )
     if selected_materials is None:
         selected_materials = (
@@ -55,12 +73,20 @@ def build(seed=None, selected_materials=None, *, variant="interface", full=False
     sequence = (
         commissions(original_world, selected_materials)
         if variant == "interface"
-        else once_commissions(original_world, selected_materials)
+        else (
+            balanced_commissions(original_world)
+            if curriculum == "balanced-three"
+            else once_commissions(original_world, selected_materials)
+        )
     )
     allocation = (
         assess_allocation(original_world, sequence)
         if variant == "interface"
-        else check_once_allocation(original_world, sequence)
+        else (
+            check_balanced_allocation(original_world, sequence)
+            if curriculum == "balanced-three"
+            else check_once_allocation(original_world, sequence)
+        )
     )
     if len(sequence) != (36 if full else 12):
         raise ValueError(
@@ -89,7 +115,9 @@ def build(seed=None, selected_materials=None, *, variant="interface", full=False
     }
     if variant == "binding":
         table["alternatives_per_goal"] = 2
-    version = 1 if variant == "interface" else 2
+    version = (
+        3 if curriculum == "balanced-three" else 1 if variant == "interface" else 2
+    )
     design_id = f"hard-{variant}-calibration-v{version}-{seed}-{len(sequence)}"
     design.update(
         design_id=design_id,
@@ -176,11 +204,12 @@ def build(seed=None, selected_materials=None, *, variant="interface", full=False
     return design
 
 
-def validate(design):
+def validate(design, *, checkpoint_observer=None):
     design = load(deepcopy(design))
     game = StationGame(map_world(design), design)
     maximum = 0
     memory = DeliveredMemory()
+    completed = []
     for task_id, task in design["tasks"].items():
         game.start_task(task_id)
         for index, stage in enumerate(task["stages"]):
@@ -238,6 +267,11 @@ def validate(design):
         if not game.state.success:
             raise AssertionError("Reference cannot complete the candidate task")
         maximum = max(maximum, game.steps)
+        completed.append({"task_id": task_id, "success": game.state.success})
+        if checkpoint_observer is not None:
+            checkpoint_observer(
+                {"sessions": completed, "tasks": list(design["tasks"])}, game
+            )
     from memorybenchmark.prototypes.station_analysis import analyze_trace
 
     rows = [
