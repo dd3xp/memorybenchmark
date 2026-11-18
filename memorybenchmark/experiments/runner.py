@@ -10,6 +10,7 @@ import threading
 import time
 
 from ..ga_runtime import filesystem_path
+from ..request_recovery import durable_json
 from ..watch import atomic_json
 from .archive import seal
 from .repository import exclusive, utc
@@ -49,7 +50,7 @@ def run_job(job_file):
             finish_retention(root)
             status = read(root / "status.json")
             status.update(phase="sealed", utc=utc(), exit_code=0)
-            atomic_json(root / "status.json", status)
+            durable_json(root / "status.json", status)
             atomic_json(
                 root / "driver-exit.json",
                 {"utc": utc(), "exit_code": 0, "retention_continuation": True},
@@ -111,7 +112,7 @@ def _execute(root, job):
             }
             if state["phase"] == "running" and transport.get("kind") == "network_retry":
                 current["phase"] = "waiting_for_gateway"
-        atomic_json(root / "status.json", current)
+        durable_json(root / "status.json", current)
 
     def heartbeat():
         while not stop.wait(15):
