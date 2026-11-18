@@ -1,0 +1,195 @@
+{
+  "schema": "lunatic-goal-switch-retained-report-1",
+  "status": "sealed_and_verified_on_server",
+  "observed_utc": "2026-11-18T21:54:28.281341+00:00",
+  "source_revision": "0be24c4",
+  "group_id": "00ab45837104f4787f51efd0ba7c85c4",
+  "experiment_id": "17dbbe78363545b2b0f178c0ff839b40",
+  "job_id": "676bc6e6be0e4efba9d234ec8fc65eed",
+  "policy": "config/authorized-lunatic-goal-switch-retain.json",
+  "design_file": "calibration/scandinavia_lunatic_goal_switch18.json",
+  "design_sha256": "c73c24638c3d6083fa0aa6564e08038cb208e951d97ed9ee7748c33230b08080",
+  "registry_sha256": "b1f52ee3ffec2db9662c7fa829022f9595bef21c085c45e168fed844ee64a9c1",
+  "comparison": "The twelve matched commissions are a descriptive comparison with the v4.0 retained pilot. The four additional material-goal cells have distinct required format scopes.",
+  "metrics": {
+    "condition": "retain",
+    "tasks": {
+      "correct": 18,
+      "denominator": 18,
+      "rate": 1.0
+    },
+    "all_first_goal_compatible_operations": {
+      "correct": 21,
+      "denominator": 48,
+      "rate": 0.4375
+    },
+    "after_first_planned_goal_encounter": {
+      "correct": 18,
+      "denominator": 24,
+      "rate": 0.75
+    },
+    "goal_classes": 24,
+    "by_encounter": {
+      "1": {
+        "correct": 3,
+        "denominator": 24
+      },
+      "2": {
+        "correct": 18,
+        "denominator": 24
+      }
+    },
+    "all_stages_first_correct": {
+      "correct": 12,
+      "denominator": 36,
+      "rate": 0.3333333333333333
+    },
+    "combined_stages_first_correct": {
+      "correct": 9,
+      "denominator": 12,
+      "rate": 0.75
+    },
+    "combined_with_both_prior_actual_facts": {
+      "correct": 9,
+      "denominator": 12,
+      "rate": 0.75
+    },
+    "combinations_without_both_prior_actual_facts": 0,
+    "distance": 2495,
+    "model_calls": 1886,
+    "processing_failures": 176,
+    "reported_usage": {
+      "calls": 1886,
+      "calls_with_usage": 1886,
+      "calls_with_effort_acknowledgement": 1886,
+      "reported_tokens": {
+        "input_tokens": 152734665,
+        "output_tokens": 269133,
+        "reasoning_tokens": 166966
+      },
+      "usage_complete": true,
+      "request_kinds": {
+        "agent": 1867,
+        "session_title": 18,
+        "context_compression": 1
+      },
+      "request_reasoning_efforts": {
+        "high": 1867,
+        "unspecified": 19
+      },
+      "provider_reasoning_efforts": {
+        "high": 1867,
+        "medium": 19
+      },
+      "reasoning_policy": "native"
+    },
+    "infrastructure_costs": {
+      "failure_events": 1,
+      "reasons": {
+        "gateway_http_503": 1
+      },
+      "affected_rpcs": 1,
+      "recovered_affected_rpcs": 1,
+      "active_pending_rpcs": 0,
+      "historical_unrecovered_rpcs": 0,
+      "failure_events_without_reported_usage": 1,
+      "abandoned_attempt_successful_responses": 0,
+      "abandoned_attempt_reported_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "unreported_usage_is_unknown": true,
+      "reasoning_tokens_are_output_subset": true
+    },
+    "reasoning_is_output_subset": true,
+    "unreported_usage_remains_unknown": true,
+    "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+    "single_run_descriptive_only": true
+  },
+  "same_commissions": {
+    "successes": 12,
+    "tasks": 12,
+    "distance": 1477,
+    "all_first_goal_compatible_operations": {
+      "correct": 15,
+      "denominator": 32,
+      "rate": 0.46875
+    },
+    "after_first_planned_goal_encounter": {
+      "correct": 14,
+      "denominator": 16,
+      "rate": 0.875
+    },
+    "goal_classes": 16,
+    "by_encounter": {
+      "1": {
+        "correct": 1,
+        "denominator": 16
+      },
+      "2": {
+        "correct": 14,
+        "denominator": 16
+      }
+    },
+    "all_stages_first_correct": {
+      "correct": 8,
+      "denominator": 24,
+      "rate": 0.3333333333333333
+    },
+    "combined_stages_first_correct": {
+      "correct": 7,
+      "denominator": 8,
+      "rate": 0.875
+    },
+    "combined_with_both_prior_actual_facts": {
+      "correct": 7,
+      "denominator": 8,
+      "rate": 0.875
+    },
+    "combinations_without_both_prior_actual_facts": 0
+  },
+  "result_sha256": "ab3b4858f1dd8ac1eed7eedf9d6eb07136d77a8d6ced12f637d3e53c4d808c83",
+  "archive": {
+    "name": "evidence.zip",
+    "bytes": 572502415,
+    "sha256": "8df00092662f268ab7968a6d995dd61cc82879fdb3112aecd8b182d21bbbb2bd",
+    "contents_verified": true
+  },
+  "duplicate_retirement": "complete",
+  "design": "lunatic-01-v4.1-goal-switch-pilot18",
+  "model": "gpt-5.6-luna",
+  "context_tokens": 272000,
+  "source_digest": "86c69fd6c80a08b0cdaafc453a44bff383c312fca328a61b5baa93756c6659ee",
+  "added_commissions": {
+    "tasks": 6,
+    "successes": 6,
+    "distance": 1018,
+    "after_first_planned_goal_encounter": {
+      "correct": 4,
+      "denominator": 8,
+      "rate": 0.5
+    },
+    "combined_stages_first_correct": {
+      "correct": 2,
+      "denominator": 4,
+      "rate": 0.5
+    }
+  },
+  "driver_exit": {
+    "utc": "2026-11-18T21:52:41.670231+00:00",
+    "exit_code": 0
+  },
+  "archive_continuation": {
+    "utc": "2026-11-18T21:17:12.0274495Z",
+    "reason": "status_publication_access_denied_before_original_audit",
+    "committed_tasks": 18,
+    "committed_pilot_sha256": "26171612d5decff19ae1d661305cc60af790104b7589e3eda04b820f44007efa",
+    "task_id": "676bc6e6be0e4efba9d234ec8fc65eed",
+    "new_scientific_sessions": 0,
+    "appended_model_calls_allowed": 0,
+    "committed_pilot_verified_unchanged": true,
+    "original_failure_preserved": true
+  },
+  "scheduler_disabled_after_seal": true
+}
