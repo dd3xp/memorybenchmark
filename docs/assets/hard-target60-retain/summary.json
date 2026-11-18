@@ -1,0 +1,181 @@
+{
+  "schema": "hard-target60-retain-final-report-1",
+  "status": "sealed_and_locally_verified",
+  "utc": "2026-11-17T10:43:55.805046+00:00",
+  "new_york_time": "2026-11-17T05:43:55.805046-05:00",
+  "group_id": "9dd6b16c574450ad0fb659feade01e72",
+  "job_id": "aa541a2c5d574ade9d3f209a0d855666",
+  "experiment_id": "b6367db2a6894668866af0255a1c2a64",
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "condition": "retain",
+  "movement": "step",
+  "context_tokens": 272000,
+  "registry_sha256": "e961ee61aa30b23a553f3066fad171bdaf64edc415c520497449386f81b257f1",
+  "source_digest": "d35819bf7190781d9bdb09a6ed42d10645483eeac4a3863a16aadf3c70773393",
+  "design_id": "hard-binding-calibration-v3-61601-36",
+  "world_seed": 61601,
+  "goal_classes": 32,
+  "required_operation_opportunities": 96,
+  "independent_stages": 72,
+  "metrics": {
+    "condition": "retain",
+    "tasks": {
+      "correct": 36,
+      "denominator": 36,
+      "rate": 1.0
+    },
+    "all_first_goal_compatible_operations": {
+      "correct": 54,
+      "denominator": 96,
+      "rate": 0.5625
+    },
+    "after_first_planned_goal_encounter": {
+      "correct": 49,
+      "denominator": 64,
+      "rate": 0.765625
+    },
+    "goal_classes": 32,
+    "by_encounter": {
+      "1": {
+        "correct": 5,
+        "denominator": 32
+      },
+      "2": {
+        "correct": 20,
+        "denominator": 32
+      },
+      "3": {
+        "correct": 29,
+        "denominator": 32
+      }
+    },
+    "all_stages_first_correct": {
+      "correct": 36,
+      "denominator": 72,
+      "rate": 0.5
+    },
+    "combined_stages_first_correct": {
+      "correct": 18,
+      "denominator": 24,
+      "rate": 0.75
+    },
+    "combined_with_both_prior_actual_facts": {
+      "correct": 18,
+      "denominator": 24,
+      "rate": 0.75
+    },
+    "combinations_without_both_prior_actual_facts": 0,
+    "distance": 9743,
+    "model_calls": 3898,
+    "processing_failures": 371,
+    "reported_usage": {
+      "calls": 3898,
+      "calls_with_usage": 3898,
+      "calls_with_effort_acknowledgement": 3898,
+      "reported_tokens": {
+        "input_tokens": 277444168,
+        "output_tokens": 433498,
+        "reasoning_tokens": 220953
+      },
+      "usage_complete": true,
+      "request_kinds": {
+        "agent": 3860,
+        "session_title": 36,
+        "context_compression": 2
+      },
+      "request_reasoning_efforts": {
+        "high": 3860,
+        "unspecified": 38
+      },
+      "provider_reasoning_efforts": {
+        "high": 3860,
+        "medium": 38
+      },
+      "reasoning_policy": "native"
+    },
+    "infrastructure_costs": {
+      "failure_events": 3,
+      "reasons": {
+        "gateway_http_502": 1,
+        "gateway_http_503": 2
+      },
+      "affected_rpcs": 3,
+      "recovered_affected_rpcs": 3,
+      "active_pending_rpcs": 0,
+      "historical_unrecovered_rpcs": 0,
+      "failure_events_without_reported_usage": 3,
+      "abandoned_attempt_successful_responses": 0,
+      "abandoned_attempt_reported_tokens": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0
+      },
+      "unreported_usage_is_unknown": true,
+      "reasoning_tokens_are_output_subset": true
+    },
+    "reasoning_is_output_subset": true,
+    "unreported_usage_remains_unknown": true,
+    "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+    "single_run_descriptive_only": true
+  },
+  "primary_endpoint": {
+    "name": "after_first_planned_goal_encounter",
+    "definition": "Required-operation first correctness after excluding the first planned encounter of each fully scoped goal experience",
+    "observed": {
+      "correct": 49,
+      "denominator": 64,
+      "rate": 0.765625
+    },
+    "predeclared_target_min": 0.55,
+    "predeclared_target_max": 0.65,
+    "target_band_achieved": false,
+    "original_full_task_screen_decision": "too_easy",
+    "user_feedback": "User accepted retaining current version as candidate; no successor or clear launch authorized"
+  },
+  "original_audit": {
+    "status": "completed_and_audited",
+    "tasks": 36,
+    "successes": 36,
+    "game_failures": 0,
+    "final_audited_metrics_match_original_screen": true,
+    "local_game_replay_calls": 0
+  },
+  "usage_notes": {
+    "canonical_responses_with_reported_usage": 3898,
+    "primary_high_request_response_pairs": 3860,
+    "auxiliary_medium_calls": 38,
+    "context_compression_calls": 2,
+    "reported_input_tokens": 277444168,
+    "reported_output_tokens": 433498,
+    "reported_reasoning_tokens_output_subset": 220953,
+    "reported_input_plus_output_tokens": 277877666,
+    "failure_attempts_without_reported_usage": 3,
+    "failure_usage_is_unknown_not_zero": true,
+    "monetary_amount_not_estimated": true
+  },
+  "evidence": {
+    "archive_bytes": 962173532,
+    "archive_sha256": "d56970fd1e7e98b1e3c93f18ec87de36611fb5be51d38e18782c2b270d779da8",
+    "manifest_members": 27821,
+    "zip_members": 27822,
+    "expanded_bytes_verified_without_retaining_unpacked_copy": 3050368287,
+    "scientific_source_files_verified": 270,
+    "verification_receipt_sha256": "50495d74ffb376be6e8d33186fe6cf36fd74b20eb5645b9151b5b1062fe0a662",
+    "memory_boundary_verified": true,
+    "download_attempts": 1,
+    "verified_archive_retained_locally": true,
+    "original_remote_retention_phase": "complete",
+    "original_remote_unpacked_duplicate_members_retired": 11730,
+    "final_local_report_sha256": "26c1e7444da0e9217bf4095ab20c9448756d6cd40a4daf283abcbfbf5fab0339"
+  },
+  "interpretation": {
+    "single_retained_run_descriptive_only": true,
+    "no_current_clear_comparison": true,
+    "do_not_substitute_all_first_54_of_96_for_repeat_endpoint": true,
+    "does_not_prove_internal_causal_memory_use": true,
+    "candidate_preserved": true,
+    "public_map_catalog_unchanged": true
+  },
+  "design_sha256": "21c4c5db34c6ed3b7be3926c53eb428dbd76bb716a27095a8e6b0496c5da07b5"
+}
