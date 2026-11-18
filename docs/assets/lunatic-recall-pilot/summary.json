@@ -1,0 +1,244 @@
+{
+  "schema": "lunatic-recall-pilot-final-report-1",
+  "status": "sealed_and_verified_on_server",
+  "observed_utc": "2026-11-18T16:36:07.580920+00:00",
+  "pair_id": "4b9882f1d5327e08d6f9d18eb452b849",
+  "source_revision": "c115cbd",
+  "source_digest": "f3eac7b3c3f4428d5f213c7fa1650d9907e53b7e99ab3273d438a9950025a649",
+  "policy": "config/authorized-lunatic-recall-pilot.json",
+  "model": "gpt-5.6-luna",
+  "map": "scandinavia-lunatic",
+  "movement_mode": "step",
+  "design_id": "lunatic-01-v4.0-pilot12",
+  "design_file": "calibration/scandinavia_lunatic_recall12.json",
+  "design_sha256": "e97b7d922fb7a417669e30f05f58575ac8268e3b4e1d6c65f52859da9e8e15ea",
+  "baseline_manifest_sha256": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86",
+  "context_tokens": 272000,
+  "registry_sha256": "b1f52ee3ffec2db9662c7fa829022f9595bef21c085c45e168fed844ee64a9c1",
+  "groups": [
+    {
+      "condition": "retain",
+      "job_id": "a5e9324203b94be2a55814b4e3f31a66",
+      "experiment_id": "b84f5b37280746f992bc2d26dd97cede",
+      "driver_exit": {
+        "utc": "2026-11-18T10:31:38.165633+00:00",
+        "exit_code": 0
+      },
+      "result_sha256": "e65f73e096d0e6c30e0575c450a97613f7d07e3658ff50e2bf075ab1a73b373c",
+      "archive": {
+        "name": "evidence.zip",
+        "bytes": 378516869,
+        "sha256": "4eb1d50d30e7b2f3b1d2d173c2c90b3b44614085535d87ac7113760cfb173d15",
+        "contents_verified": true
+      },
+      "duplicate_retirement": "complete",
+      "metrics": {
+        "condition": "retain",
+        "tasks": {
+          "correct": 12,
+          "denominator": 12,
+          "rate": 1.0
+        },
+        "all_first_goal_compatible_operations": {
+          "correct": 15,
+          "denominator": 32,
+          "rate": 0.46875
+        },
+        "after_first_planned_goal_encounter": {
+          "correct": 14,
+          "denominator": 16,
+          "rate": 0.875
+        },
+        "goal_classes": 16,
+        "by_encounter": {
+          "1": {
+            "correct": 1,
+            "denominator": 16
+          },
+          "2": {
+            "correct": 14,
+            "denominator": 16
+          }
+        },
+        "all_stages_first_correct": {
+          "correct": 7,
+          "denominator": 24,
+          "rate": 0.2916666666666667
+        },
+        "combined_stages_first_correct": {
+          "correct": 6,
+          "denominator": 8,
+          "rate": 0.75
+        },
+        "combined_with_both_prior_actual_facts": {
+          "correct": 6,
+          "denominator": 8,
+          "rate": 0.75
+        },
+        "combinations_without_both_prior_actual_facts": 0,
+        "distance": 1795,
+        "model_calls": 1304,
+        "processing_failures": 126,
+        "reported_usage": {
+          "calls": 1304,
+          "calls_with_usage": 1304,
+          "calls_with_effort_acknowledgement": 1304,
+          "reported_tokens": {
+            "input_tokens": 105123482,
+            "output_tokens": 190270,
+            "reasoning_tokens": 117957
+          },
+          "usage_complete": true,
+          "request_kinds": {
+            "agent": 1291,
+            "session_title": 12,
+            "context_compression": 1
+          },
+          "request_reasoning_efforts": {
+            "high": 1291,
+            "unspecified": 13
+          },
+          "provider_reasoning_efforts": {
+            "high": 1291,
+            "medium": 13
+          },
+          "reasoning_policy": "native"
+        },
+        "infrastructure_costs": {
+          "failure_events": 1,
+          "reasons": {
+            "gateway_http_503": 1
+          },
+          "affected_rpcs": 1,
+          "recovered_affected_rpcs": 1,
+          "active_pending_rpcs": 0,
+          "historical_unrecovered_rpcs": 0,
+          "failure_events_without_reported_usage": 1,
+          "abandoned_attempt_successful_responses": 0,
+          "abandoned_attempt_reported_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0
+          },
+          "unreported_usage_is_unknown": true,
+          "reasoning_tokens_are_output_subset": true
+        },
+        "reasoning_is_output_subset": true,
+        "unreported_usage_remains_unknown": true,
+        "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+        "single_run_descriptive_only": true
+      }
+    },
+    {
+      "condition": "clear",
+      "job_id": "a0a4699f23354b4288cf6c416ce26147",
+      "experiment_id": "e47fdd9ea9d74aac9435efb8029ad6a8",
+      "driver_exit": {
+        "utc": "2026-11-18T11:39:51.451648+00:00",
+        "exit_code": 0
+      },
+      "result_sha256": "d29a666648897e9cdd581f9734888c01884edb5763a44401501712af124d6c89",
+      "archive": {
+        "name": "evidence.zip",
+        "bytes": 556731355,
+        "sha256": "85242fb099313a262e4171efe3958b07c61edb5bb747af12ab6390c071a820f9",
+        "contents_verified": true
+      },
+      "duplicate_retirement": "complete",
+      "metrics": {
+        "condition": "clear",
+        "tasks": {
+          "correct": 10,
+          "denominator": 12,
+          "rate": 0.8333333333333334
+        },
+        "all_first_goal_compatible_operations": {
+          "correct": 6,
+          "denominator": 32,
+          "rate": 0.1875
+        },
+        "after_first_planned_goal_encounter": {
+          "correct": 5,
+          "denominator": 16,
+          "rate": 0.3125
+        },
+        "goal_classes": 16,
+        "by_encounter": {
+          "1": {
+            "correct": 1,
+            "denominator": 16
+          },
+          "2": {
+            "correct": 5,
+            "denominator": 16
+          }
+        },
+        "all_stages_first_correct": {
+          "correct": 2,
+          "denominator": 24,
+          "rate": 0.08333333333333333
+        },
+        "combined_stages_first_correct": {
+          "correct": 1,
+          "denominator": 8,
+          "rate": 0.125
+        },
+        "combined_with_both_prior_actual_facts": {
+          "correct": 1,
+          "denominator": 8,
+          "rate": 0.125
+        },
+        "combinations_without_both_prior_actual_facts": 0,
+        "distance": 2166,
+        "model_calls": 1871,
+        "processing_failures": 233,
+        "reported_usage": {
+          "calls": 1871,
+          "calls_with_usage": 1871,
+          "calls_with_effort_acknowledgement": 1871,
+          "reported_tokens": {
+            "input_tokens": 177006718,
+            "output_tokens": 249967,
+            "reasoning_tokens": 141490
+          },
+          "usage_complete": true,
+          "request_kinds": {
+            "agent": 1857,
+            "session_title": 12,
+            "context_compression": 2
+          },
+          "request_reasoning_efforts": {
+            "high": 1857,
+            "unspecified": 14
+          },
+          "provider_reasoning_efforts": {
+            "high": 1857,
+            "medium": 14
+          },
+          "reasoning_policy": "native"
+        },
+        "infrastructure_costs": {
+          "failure_events": 0,
+          "reasons": {},
+          "affected_rpcs": 0,
+          "recovered_affected_rpcs": 0,
+          "active_pending_rpcs": 0,
+          "historical_unrecovered_rpcs": 0,
+          "failure_events_without_reported_usage": 0,
+          "abandoned_attempt_successful_responses": 0,
+          "abandoned_attempt_reported_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0
+          },
+          "unreported_usage_is_unknown": true,
+          "reasoning_tokens_are_output_subset": true
+        },
+        "reasoning_is_output_subset": true,
+        "unreported_usage_remains_unknown": true,
+        "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+        "single_run_descriptive_only": true
+      }
+    }
+  ]
+}
