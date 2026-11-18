@@ -19,11 +19,19 @@ def require(value, message):
 
 FULL_RETAINED_CONFIRMATIONS = {
     "hard-binding36-retain-61501-v1": {
+        "model": "gpt-5.6-luna",
         "world_seed": 61501,
         "design_id": "hard-binding-calibration-v2-61501-36",
         "design_file": "candidates/orcia_binding36.json",
     },
     "hard-target60-retain-61601-v1": {
+        "model": "gpt-5.6-luna",
+        "world_seed": 61601,
+        "design_id": "hard-binding-calibration-v3-61601-36",
+        "design_file": "candidates/orcia_binding36_target60.json",
+    },
+    "hard-target60-retain-61601-gpt6-luna-v1": {
+        "model": "gpt-6-luna",
         "world_seed": 61601,
         "design_id": "hard-binding-calibration-v3-61601-36",
         "design_file": "candidates/orcia_binding36_target60.json",
@@ -34,12 +42,14 @@ FULL_RETAINED_CONFIRMATIONS = {
 def authorized_task_count(job, expected_source_digest):
     """Full confirmation is one named retained run, not a wider task-count fallback."""
     if job["tasks_per_condition"] == 12:
+        require(job["model"] == "gpt-5.6-luna", "Unknown Hard calibration model")
         return 12
     require(
         job["tasks_per_condition"] == 36
         and expected_source_digest is not None
         and any(
             job["pair_id"] == sha256(request.encode()).hexdigest()[:32]
+            and job["model"] == spec["model"]
             and job["design_id"] == spec["design_id"]
             and job["design_file"] == spec["design_file"]
             for request, spec in FULL_RETAINED_CONFIRMATIONS.items()
@@ -260,9 +270,7 @@ def verify_download(folder, *, expected_source_digest=None):
             "Archive differs from the independently frozen source identity",
         )
         require(
-            job["model"] == "gpt-5.6-luna"
-            and job["agent"] == "hermes"
-            and job["context_tokens"] == 272000,
+            job["agent"] == "hermes" and job["context_tokens"] == 272000,
             "Archive is not an authorized native calibration",
         )
         expected_tasks = authorized_task_count(job, expected_source_digest)

@@ -16,7 +16,15 @@ function save(){if(!instance)return;try{sessionStorage.setItem(storageKey,JSON.s
 function uuid(){return crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(16).slice(2)}`;}
 function vocabulary(p){return {survey:'测绘点',station:'处理站',collect:'采集',process:'处理',item:'资料',submit:'交件',...p.vocabulary};}
 function capabilityLabel(p,value){if(value&&typeof value==='object'&&!Array.isArray(value))return Object.entries(value).map(([r,k])=>`${p.requirements?.[r]||r}：${capabilityLabel(p,k)}`).join('；');return (Array.isArray(value)?value:[value]).map(k=>p.kinds[k]||k).join('、');}
-function requirementLabel(p,stage){return (stage.requirement?` · ${p.requirements[stage.requirement]}`:'')+(stage.required_region?` · 在${p.processing_regions[stage.required_region]}处理`:'');}
+function requirementLabel(p,stage){
+  if(stage.goal)return ` · ${stage.input_format||'原始'} → ${stage.goal}`;
+  return (stage.requirement?` · ${p.requirements[stage.requirement]}`:'')+(stage.required_region?` · 在${p.processing_regions[stage.required_region]}处理`:'');
+}
+function interfaceOutcome(feedback){
+  if(feedback.result!=='processed')return '当前资料或规格不匹配，样本保留。';
+  const progress=feedback.next_stage?`，进入第 ${feedback.next_stage} 段`:feedback.stage_completed?'，本段完成':'';
+  return `生成 ${feedback.output_format}${progress}。`;
+}
 function terrainHref(p){return p.terrain_asset||{'long-lake-normal':'/long-lake-normal-terrain.svg','forest-valley':'/forest-valley-terrain.svg','cascade-lakes':'/cascade-lakes-terrain.svg','volcanic-cone':'/volcanic-cone-terrain.svg','fjord-peninsulas':'/fjord-peninsulas-terrain.svg','steppe-corridors':'/steppe-corridors-terrain.svg','andean-passes':'/andean-passes-terrain.svg','sand-coast':'/sand-coast-terrain.svg','boar-woodland':'/boar-woodland-terrain.svg','hill-country':'/hill-country-terrain.svg','rock-river':'/rock-river-terrain.svg','reservoir-plain':'/reservoir-plain-terrain.svg'}[p.terrain]||'/volcanic-cone-terrain.svg';}
 async function api(path, body){
   path+=(path.includes('?')?'&':'?')+'map='+encodeURIComponent(mapId);
@@ -35,6 +43,7 @@ function feedbackText(data){
   if(f.kind==='submitted')return data.stream_finished?'全部委托已完成。':v.submit+'成功';
   if(f.termination==='budget_exhausted')return '操作次数已用尽';
   if(f.kind==='abandoned')return '已放弃委托';
+  if(f.kind==='processing_outcome')return interfaceOutcome(f);
   if(f.kind==='wrong_processing_region')return `该站位于${p.processing_regions[f.station_region]}，本段要求在${p.processing_regions[f.required_region]}处理。本次未处理，原始${v.item}保留，未揭示站型能力。`;
   if(f.kind==='station_information')return `${f.station}${f.station_type?`（${f.station_type} 型）`:''}${requirementLabel(p,f)} 支持${capabilityLabel(p,f.capability)}。${f.next_stage?`第 ${f.stage_completed} 段完成，现在前往 ${o.task.target} 完成第 ${f.next_stage} 段。`:f.result==='processed'?`本段已${v.process}，回营地${v.submit}。`:f.result==='unsupported'?`本次不匹配，原始${v.item}保留。`:'查询已计入一次操作。'}`;
   if(f.kind==='surveyed')return `勘探完成，已采集${p.kinds[f.required_kind]}。`;
@@ -65,7 +74,7 @@ function render(){
   $('mission-title').textContent=t.name;
   $('mission-instruction').textContent=`${t.stages?`第 ${Math.min(o.stage_index+1,o.stage_count)}/${o.stage_count} 段　`:''}${places[t.target].name}（${t.target}）${v.collect}${p.kinds[t.required_kind]}${requirementLabel(p,t)} → 匹配站${v.process}${t.stages&&o.stage_index+1<o.stage_count?'':` → ${t.submit_at} ${v.submit}`}`;
   $('mission-short').textContent=t.stages?t.stages.map((s,i)=>`${i<o.stages_completed?'✓':`${i+1}.`} ${s.target}·${p.kinds[s.required_kind]}${requirementLabel(p,s)}`).join(' → ')+` → ${t.submit_at} ${v.submit}`:`${t.target} ${v.collect}${p.kinds[t.required_kind]} → 对应站${v.process} → ${t.submit_at} ${v.submit}`;
-  $('stage-raw').textContent=t.stages?`第 ${o.stage_index+1} 段${v.collect}`:v.collect+v.item;$('stage-process').textContent=t.stages?`第 ${o.stage_index+1} 段${v.process}`:'到站'+v.process;$('stage-submit').textContent=v.submit;
+  $('stage-raw').textContent=t.stages?`第 ${o.stage_index+1} 段${v.collect}`:v.collect+v.item;$('stage-process').textContent=t.goal&&o.material_state?o.material_state:t.stages?`第 ${o.stage_index+1} 段${v.process}`:'到站'+v.process;$('stage-submit').textContent=v.submit;
   $('steps').textContent=`${o.steps} / ${t.max_steps}`;$('distance').textContent=o.distance;
   $('stage-raw').classList.toggle('done',o.raw);$('stage-process').classList.toggle('done',o.processed);$('stage-submit').classList.toggle('done',o.success);
   $('completion').textContent=`已${v.submit} ${state.completed.filter(t=>t.success).length} / ${state.task_count}`;
@@ -81,6 +90,7 @@ function eventText(e,p){
   const f=e.delivered.feedback,v=vocabulary(p);
   if(e.moved)return `${e.from} → ${e.to}　路程 ${e.movement_cost}${f.raw_collected?`，记录${v.item}`:''}`;
   if(f.kind==='surveyed')return `${e.from} 勘探：已采集${p.kinds[f.required_kind]}`;
+  if(f.kind==='processing_outcome')return `${e.from} ${interfaceOutcome(f)}`;
   if(f.kind==='wrong_processing_region')return `${e.from} 处理失败：所在${p.processing_regions[f.station_region]}，本段要求${p.processing_regions[f.required_region]}`;
   if(f.kind==='station_information')return `${e.from} ${e.action.type==='inspect'?'查询':v.process}${requirementLabel(p,f)}：${capabilityLabel(p,f.capability)}${f.result==='processed'?`，${v.process}成功`:f.result==='unsupported'?'，不匹配':''}${f.next_stage?`，进入第 ${f.next_stage} 段`:''}`;
   return f.kind==='submitted'?`回营${v.submit}成功`:f.kind==='abandoned'?'放弃当前委托':`尝试${v.submit}，资料尚未完成`;
@@ -103,7 +113,11 @@ function renderPlace(){
   const capability=currentCapability(id);
   $('place-description').textContent=capability?`支持${capabilityLabel(p,capability)}`:n.kind==='station'?'能力未确认':n.kind==='survey'?(p.manual_survey_required?(id!==o.task.target?'非当前勘探目标':o.raw?'已采集本段'+v.item:'待勘探'):(o.raw?'已记录'+v.item:'到达目标自动记录')):n.kind==='camp'?(o.processed?'可以'+v.submit:'营地'):'';
   if(n.region_category)$('place-description').textContent=`${p.processing_regions[n.region_category]} · `+$('place-description').textContent;
-  if(n.kind==='survey'&&p.manual_survey_required)local.append(button(o.raw&&id===o.task.target?'已勘探':'勘探',()=>action('survey'),!o.available_actions.some(a=>a.type==='survey')));
+  if(n.kind==='survey'&&p.manual_survey_required){
+    const canSurvey=o.available_actions.some(a=>a.type==='survey');
+    const label=o.raw&&id===o.task.target?(canSurvey?'重新勘探':'已勘探'):'勘探';
+    local.append(button(label,()=>action('survey'),!canSurvey));
+  }
   if(n.kind==='station'){
     if(o.available_actions.some(a=>a.type==='inspect'))local.append(button('查询',()=>action('inspect')));
     local.append(button(v.process,()=>action('process'),!o.available_actions.some(a=>a.type==='process')));

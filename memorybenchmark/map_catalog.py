@@ -1,4 +1,5 @@
 """Human map browser: allowlisted geography, never agent task configuration."""
+
 from copy import deepcopy
 from functools import lru_cache
 import json
@@ -17,9 +18,13 @@ MAPS = {
     "orcia-hard": ("奥尔恰谷", "Hard 01", "orcia_hard36.json"),
     "hampi-hard": ("亨比", "Hard 02", "hampi_hard36.json"),
     "angkor-hard": ("吴哥", "Hard 03", "angkor_hard36.json"),
-    "scandinavia-lunatic": ("斯堪的纳维亚", "Lunatic 01", "scandinavia_lunatic64.json"),
-    "mongolia-lunatic": ("蒙古", "Lunatic 02", "mongolia_lunatic64.json"),
-    "andes-lunatic": ("安第斯", "Lunatic 03", "andes_lunatic64.json"),
+    "scandinavia-lunatic": (
+        "斯堪的纳维亚",
+        "Lunatic 01",
+        "scandinavia_lunatic_recall64.json",
+    ),
+    "mongolia-lunatic": ("蒙古", "Lunatic 02", "mongolia_lunatic_recall64.json"),
+    "andes-lunatic": ("安第斯", "Lunatic 03", "andes_lunatic_recall64.json"),
 }
 
 
@@ -48,19 +53,38 @@ def _detail(map_id):
     if bounds is None:
         xs = [node["x"] for node in locations.values()]
         ys = [node["y"] for node in locations.values()]
-        bounds = [min(xs) - 80, min(ys) - 80, max(xs) - min(xs) + 160, max(ys) - min(ys) + 160]
-    result = {"id": map_id, "name": name, "variant": variant, "difficulty": public.get("difficulty", "Easy"),
-            "task_count": task_count, "node_count": len(locations), "edge_count": len(edges),
-            "current": map_id == CURRENT_MAP, "terrain": terrain, "station_game": bool(filename),
-            "play_url": "/play?map=" + map_id, "version": public.get("version", ""),
-            "materials": list(public.get("kinds", {}).values()),
-            "map": {"locations": locations, "edges": edges, "view_box": bounds,
-                    "ferry_edges": public.get('ferry_edges',[]),
-                    "processing_regions": public.get('processing_regions',{})},
-            "trigger_nodes": sorted(set(triggers))}
+        bounds = [
+            min(xs) - 80,
+            min(ys) - 80,
+            max(xs) - min(xs) + 160,
+            max(ys) - min(ys) + 160,
+        ]
+    result = {
+        "id": map_id,
+        "name": name,
+        "variant": variant,
+        "difficulty": public.get("difficulty", "Easy"),
+        "task_count": task_count,
+        "node_count": len(locations),
+        "edge_count": len(edges),
+        "current": map_id == CURRENT_MAP,
+        "terrain": terrain,
+        "station_game": bool(filename),
+        "play_url": "/play?map=" + map_id,
+        "version": public.get("version", ""),
+        "materials": list(public.get("kinds", {}).values()),
+        "map": {
+            "locations": locations,
+            "edges": edges,
+            "view_box": bounds,
+            "ferry_edges": public.get("ferry_edges", []),
+            "processing_regions": public.get("processing_regions", {}),
+        },
+        "trigger_nodes": sorted(set(triggers)),
+    }
     if geographic:
-        result['map'].update(geographic)
-        result['terrain_asset'] = geographic['terrain_asset']
+        result["map"].update(geographic)
+        result["terrain_asset"] = geographic["terrain_asset"]
     return result
 
 
@@ -72,7 +96,13 @@ def map_listing():
     result = []
     for map_id in MAPS:
         try:
-            result.append({key: value for key, value in _detail(map_id).items() if key not in ("map", "trigger_nodes")})
+            result.append(
+                {
+                    key: value
+                    for key, value in _detail(map_id).items()
+                    if key not in ("map", "trigger_nodes")
+                }
+            )
         except ValueError:
             continue
     return result
@@ -84,11 +114,11 @@ def _human_names():
     for label, _, filename in MAPS.values():
         path = DATA / filename
         if path.is_file():
-            public = json.loads(path.read_text(encoding='utf-8'))['public']
-            names[public['name']] = label
+            public = json.loads(path.read_text(encoding="utf-8"))["public"]
+            names[public["name"]] = label
     return names
 
 
 def human_map_name(public):
     """Website projection only; never mutate a frozen observation or design."""
-    return _human_names().get(public['name'], public['name'])
+    return _human_names().get(public["name"], public["name"])

@@ -29,6 +29,28 @@ def assess(authored, original):
     """
     if geography(authored["public"]) != geography(original["public"]):
         raise ValueError("This review must use the unchanged Orcia geography")
+    old_targets = [
+        [s["target"] for s in t["stages"]] for t in original["tasks"].values()
+    ]
+    new_targets = [
+        [s["target"] for s in t["stages"]] for t in authored["tasks"].values()
+    ]
+    return {
+        "kind": "orcia_conditional_interface_route_review_only",
+        "model_calls": 0,
+        "is_not_a_model_score": True,
+        "production_maps_changed": False,
+        "geography_unchanged": True,
+        "geography_sha256": sha256(
+            json.dumps(geography(authored["public"]), sort_keys=True).encode()
+        ).hexdigest(),
+        "targets_unchanged": old_targets == new_targets,
+        **inspect_routes(authored),
+    }
+
+
+def inspect_routes(authored):
+    """Measure the utility of replicas for each compatible route, including ties."""
     design = load(deepcopy(authored))
     w = world(design)
     replicas = {
@@ -88,22 +110,7 @@ def assess(authored, original):
                 "fully_informed_distance": distance,
             }
         )
-    old_targets = [
-        [s["target"] for s in task["stages"]] for task in original["tasks"].values()
-    ]
-    new_targets = [
-        [s["target"] for s in task["stages"]] for task in design["tasks"].values()
-    ]
     return {
-        "kind": "orcia_conditional_interface_route_review_only",
-        "model_calls": 0,
-        "is_not_a_model_score": True,
-        "production_maps_changed": False,
-        "geography_unchanged": True,
-        "geography_sha256": sha256(
-            json.dumps(geography(authored["public"]), sort_keys=True).encode()
-        ).hexdigest(),
-        "targets_unchanged": old_targets == new_targets,
         "physical_stations": len(all_stations),
         "useful_given_a_known_valid_type_path": len(known_path_coverage),
         "without_known_path_utility": sorted(all_stations - known_path_coverage),

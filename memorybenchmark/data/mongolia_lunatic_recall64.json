@@ -1,0 +1,8766 @@
+{
+  "design_id": "lunatic-02-v4.0",
+  "status": "authored_recall_lunatic_pending_native_calibration",
+  "world_generator": "fixed_interface_station_sets",
+  "fixed_world": "lunatic-recall-61802",
+  "material_selection": {
+    "protocol": "four-exposure-materials-v1",
+    "theme": "mongolia",
+    "geographic": [
+      "profile",
+      "elevation",
+      "slope",
+      "soil",
+      "drainage",
+      "vegetation",
+      "lithology",
+      "land_cover"
+    ],
+    "animal": [
+      "ungulate_tracks",
+      "livestock_signs",
+      "farmland_birds",
+      "small_mammal_signs"
+    ],
+    "human": [
+      "built_form",
+      "waterworks",
+      "settlement_layout",
+      "historic_road"
+    ]
+  },
+  "native_session_budget": {
+    "main_model_calls": 400,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 604800,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Same per-task calls/operations as Hard; week effective wall; no native result calibration."
+  },
+  "public": {
+    "version": "lunatic-02-v4.0",
+    "name": "苍原驿邦",
+    "difficulty": "Lunatic",
+    "terrain": "steppe-corridors",
+    "capability_model": "conditional-overlapping-sets-v1",
+    "requirements": {
+      "catalogue": "归档编目",
+      "verify": "关联核验"
+    },
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      11200,
+      6900
+    ],
+    "rules": [
+      "道路权重是实验距离。逐点移动，过水连接已标明。连接线交叉处不能中途换乘。",
+      "每项委托两段独立。到本段指定测绘点主动 survey，处理至本段目标。两段完成后返回营地 submit。",
+      "同型站等价，处理能力由当前资料及其输入规格决定。所有处理站均可前往。",
+      "编目把原始资料变为中间规格；核验接受特定中间规格并产出标准。相同规格与标准代号可以用于不同资料。",
+      "process 只反馈本站对当前样本的输入、输出及成败。失败保留样本；返回本段采集点重新 survey 可恢复起始状态，原尝试和距离照计。",
+      "优先减少总路程。同一任务的两段各自采集，不共享处理产物。只有你自主保存的持久记忆可以跨任务。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "elevation": "高程资料",
+      "slope": "坡度资料",
+      "soil": "土壤资料",
+      "drainage": "水系资料",
+      "vegetation": "植被资料",
+      "lithology": "岩性资料",
+      "land_cover": "地表覆盖资料",
+      "ungulate_tracks": "有蹄动物足迹资料",
+      "livestock_signs": "牧畜活动资料",
+      "farmland_birds": "农田鸟类观察资料",
+      "small_mammal_signs": "小型哺乳动物活动资料",
+      "built_form": "建筑形制资料",
+      "waterworks": "水工设施资料",
+      "settlement_layout": "聚落格局资料",
+      "historic_road": "历史道路遗迹资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "处理站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A型",
+        "stations": [
+          "A2",
+          "A3"
+        ]
+      },
+      "B": {
+        "name": "B型",
+        "stations": [
+          "B1",
+          "B2",
+          "B3"
+        ]
+      },
+      "C": {
+        "name": "C型",
+        "stations": [
+          "C1",
+          "C2",
+          "C3"
+        ]
+      },
+      "D": {
+        "name": "D型",
+        "stations": [
+          "D1",
+          "D2",
+          "D3"
+        ]
+      },
+      "E": {
+        "name": "E型",
+        "stations": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "F": {
+        "name": "F型",
+        "stations": [
+          "F1",
+          "F2",
+          "F3"
+        ]
+      },
+      "G": {
+        "name": "G型",
+        "stations": [
+          "G1",
+          "G2",
+          "G3"
+        ]
+      },
+      "H": {
+        "name": "H型",
+        "stations": [
+          "H1",
+          "H2",
+          "H3"
+        ]
+      },
+      "I": {
+        "name": "I型",
+        "stations": [
+          "I1",
+          "I2",
+          "I3"
+        ]
+      },
+      "J": {
+        "name": "J型",
+        "stations": [
+          "J1",
+          "J2",
+          "J3"
+        ]
+      },
+      "K": {
+        "name": "K型",
+        "stations": [
+          "K1",
+          "K2",
+          "K3"
+        ]
+      },
+      "L": {
+        "name": "L型",
+        "stations": [
+          "L1",
+          "L2",
+          "L3"
+        ]
+      },
+      "M": {
+        "name": "M型",
+        "stations": [
+          "M1",
+          "M2",
+          "M3"
+        ]
+      },
+      "N": {
+        "name": "N型",
+        "stations": [
+          "N1",
+          "N2",
+          "N3"
+        ]
+      },
+      "O": {
+        "name": "O型",
+        "stations": [
+          "O1",
+          "O2",
+          "O3"
+        ]
+      },
+      "P": {
+        "name": "P型",
+        "stations": [
+          "P1",
+          "P2",
+          "P3"
+        ]
+      },
+      "Q": {
+        "name": "Q型",
+        "stations": [
+          "Q1",
+          "Q2",
+          "Q3"
+        ]
+      },
+      "R": {
+        "name": "R型",
+        "stations": [
+          "R1",
+          "R2",
+          "R3"
+        ]
+      },
+      "S": {
+        "name": "S型",
+        "stations": [
+          "S1",
+          "S2",
+          "S3"
+        ]
+      },
+      "T": {
+        "name": "T型",
+        "stations": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "U": {
+        "name": "U型",
+        "stations": [
+          "U1",
+          "U2",
+          "U3"
+        ]
+      },
+      "V": {
+        "name": "V型",
+        "stations": [
+          "V1",
+          "V2",
+          "V3"
+        ]
+      },
+      "W": {
+        "name": "W型",
+        "stations": [
+          "W1",
+          "W2",
+          "W3"
+        ]
+      },
+      "X": {
+        "name": "X型",
+        "stations": [
+          "X1",
+          "X2",
+          "X3"
+        ]
+      }
+    },
+    "locations": {
+      "p1": {
+        "x": 6384.39,
+        "y": 1436.46,
+        "name": "地区路口·p1",
+        "kind": "junction",
+        "region_id": "r045"
+      },
+      "p2": {
+        "x": 6628.53,
+        "y": 2918.31,
+        "name": "地区路口·p2",
+        "kind": "junction",
+        "region_id": "r053"
+      },
+      "p3": {
+        "x": 4832.01,
+        "y": 3054.95,
+        "name": "地区路口·p3",
+        "kind": "junction",
+        "region_id": "r049"
+      },
+      "p4": {
+        "x": 1073.42,
+        "y": 2204.7,
+        "name": "地区路口·p4",
+        "kind": "junction",
+        "region_id": "r054"
+      },
+      "p5": {
+        "x": 8029.42,
+        "y": 4889.41,
+        "name": "地区路口·p5",
+        "kind": "junction",
+        "region_id": "r055"
+      },
+      "p6": {
+        "x": 3306.73,
+        "y": 2185.59,
+        "name": "地区路口·p6",
+        "kind": "junction",
+        "region_id": "r056"
+      },
+      "p7": {
+        "x": 7675.37,
+        "y": 4578.4,
+        "name": "地区路口·p7",
+        "kind": "junction",
+        "region_id": "r057"
+      },
+      "p8": {
+        "x": 7838.79,
+        "y": 3148.44,
+        "name": "地区路口·p8",
+        "kind": "junction",
+        "region_id": "r058"
+      },
+      "p9": {
+        "x": 4679.43,
+        "y": 3741.82,
+        "name": "地区路口·p9",
+        "kind": "junction",
+        "region_id": "r059"
+      },
+      "p10": {
+        "x": 3317.66,
+        "y": 2895.54,
+        "name": "地区路口·p10",
+        "kind": "junction",
+        "region_id": "r060"
+      },
+      "p11": {
+        "x": 3000.09,
+        "y": 3685.72,
+        "name": "地区路口·p11",
+        "kind": "junction",
+        "region_id": "r061"
+      },
+      "p12": {
+        "x": 4408.53,
+        "y": 1789.39,
+        "name": "地区路口·p12",
+        "kind": "junction",
+        "region_id": "r062"
+      },
+      "p13": {
+        "x": 1765.19,
+        "y": 1592.1,
+        "name": "地区路口·p13",
+        "kind": "junction",
+        "region_id": "r063"
+      },
+      "p14": {
+        "x": 5512.31,
+        "y": 2276.54,
+        "name": "地区路口·p14",
+        "kind": "junction",
+        "region_id": "r064"
+      },
+      "p15": {
+        "x": 6405.96,
+        "y": 4062.83,
+        "name": "地区路口·p15",
+        "kind": "junction",
+        "region_id": "r051"
+      },
+      "p16": {
+        "x": 6433.43,
+        "y": 1806.07,
+        "name": "地区路口·p16",
+        "kind": "junction",
+        "region_id": "r046"
+      },
+      "p17": {
+        "x": 6471.53,
+        "y": 2243.86,
+        "name": "地区路口·p17",
+        "kind": "junction",
+        "region_id": "r047"
+      },
+      "p18": {
+        "x": 5262.25,
+        "y": 3771.01,
+        "name": "地区路口·p18",
+        "kind": "junction",
+        "region_id": "r065"
+      },
+      "p19": {
+        "x": 8699.42,
+        "y": 3508.38,
+        "name": "地区路口·p19",
+        "kind": "junction",
+        "region_id": "r050"
+      },
+      "p20": {
+        "x": 5809.26,
+        "y": 5327.24,
+        "name": "地区路口·p20",
+        "kind": "junction",
+        "region_id": "r052"
+      },
+      "p21": {
+        "x": 1623.55,
+        "y": 2739.92,
+        "name": "地区路口·p21",
+        "kind": "junction",
+        "region_id": "r048"
+      },
+      "p22": {
+        "x": 9099.04,
+        "y": 2710.77,
+        "name": "地区路口·p22",
+        "kind": "junction",
+        "region_id": "r066"
+      },
+      "p23": {
+        "x": 5704.04,
+        "y": 2134.89,
+        "name": "地区路口·p23",
+        "kind": "junction",
+        "region_id": "r067"
+      },
+      "p24": {
+        "x": 6617.97,
+        "y": 2797.13,
+        "name": "地区路口·p24",
+        "kind": "junction",
+        "region_id": "r068"
+      },
+      "l25": {
+        "x": 468.78,
+        "y": 2136.82,
+        "name": "地区路口·l25",
+        "kind": "junction",
+        "region_id": "r001"
+      },
+      "l26": {
+        "x": 566.83,
+        "y": 2370.27,
+        "name": "地区路口·l26",
+        "kind": "junction",
+        "region_id": "r002"
+      },
+      "l27": {
+        "x": 730.24,
+        "y": 2574.55,
+        "name": "地区路口·l27",
+        "kind": "junction",
+        "region_id": "r003"
+      },
+      "l28": {
+        "x": 1383.9,
+        "y": 2370.27,
+        "name": "地区路口·l28",
+        "kind": "junction",
+        "region_id": "r004"
+      },
+      "l29": {
+        "x": 1580.0,
+        "y": 1757.45,
+        "name": "地区路口·l29",
+        "kind": "junction",
+        "region_id": "r005"
+      },
+      "l30": {
+        "x": 2041.6514,
+        "y": 1551.9138,
+        "name": "地区路口·l30",
+        "kind": "junction",
+        "region_id": "r006"
+      },
+      "l31": {
+        "x": 2146.1689,
+        "y": 2127.9047,
+        "name": "地区路口·l31",
+        "kind": "junction",
+        "region_id": "r007"
+      },
+      "l32": {
+        "x": 1779.2386,
+        "y": 2715.2245,
+        "name": "地区路口·l32",
+        "kind": "junction",
+        "region_id": "r008"
+      },
+      "l33": {
+        "x": 2168.29,
+        "y": 2866.36,
+        "name": "地区路口·l33",
+        "kind": "junction",
+        "region_id": "r009"
+      },
+      "l34": {
+        "x": 1547.32,
+        "y": 3829.36,
+        "name": "地区路口·l34",
+        "kind": "junction",
+        "region_id": "r010"
+      },
+      "l35": {
+        "x": 1909.4528,
+        "y": 4470.6649,
+        "name": "地区路口·l35",
+        "kind": "junction",
+        "region_id": "r011"
+      },
+      "l36": {
+        "x": 2495.12,
+        "y": 4325.45,
+        "name": "地区路口·l36",
+        "kind": "junction",
+        "region_id": "r012"
+      },
+      "l37": {
+        "x": 2952.68,
+        "y": 4558.91,
+        "name": "地区路口·l37",
+        "kind": "junction",
+        "region_id": "r013"
+      },
+      "l38": {
+        "x": 3246.83,
+        "y": 5376.0,
+        "name": "地区路口·l38",
+        "kind": "junction",
+        "region_id": "r014"
+      },
+      "l39": {
+        "x": 4144.2435,
+        "y": 5888.8118,
+        "name": "地区路口·l39",
+        "kind": "junction",
+        "region_id": "r015"
+      },
+      "l40": {
+        "x": 4423.41,
+        "y": 4500.55,
+        "name": "地区路口·l40",
+        "kind": "junction",
+        "region_id": "r016"
+      },
+      "l41": {
+        "x": 4684.88,
+        "y": 5025.82,
+        "name": "地区路口·l41",
+        "kind": "junction",
+        "region_id": "r017"
+      },
+      "l42": {
+        "x": 5240.49,
+        "y": 5200.91,
+        "name": "地区路口·l42",
+        "kind": "junction",
+        "region_id": "r018"
+      },
+      "l43": {
+        "x": 4684.88,
+        "y": 5376.0,
+        "name": "地区路口·l43",
+        "kind": "junction",
+        "region_id": "r019"
+      },
+      "l44": {
+        "x": 5567.32,
+        "y": 5434.36,
+        "name": "地区路口·l44",
+        "kind": "junction",
+        "region_id": "r020"
+      },
+      "l45": {
+        "x": 5926.83,
+        "y": 6309.82,
+        "name": "地区路口·l45",
+        "kind": "junction",
+        "region_id": "r021"
+      },
+      "l46": {
+        "x": 6841.95,
+        "y": 5667.82,
+        "name": "地区路口·l46",
+        "kind": "junction",
+        "region_id": "r022"
+      },
+      "l47": {
+        "x": 7708.05,
+        "y": 4763.18,
+        "name": "地区路口·l47",
+        "kind": "junction",
+        "region_id": "r023"
+      },
+      "l48": {
+        "x": 8214.63,
+        "y": 5200.91,
+        "name": "地区路口·l48",
+        "kind": "junction",
+        "region_id": "r055"
+      },
+      "l49": {
+        "x": 8933.66,
+        "y": 4325.45,
+        "name": "地区路口·l49",
+        "kind": "junction",
+        "region_id": "r024"
+      },
+      "l50": {
+        "x": 9946.83,
+        "y": 2924.73,
+        "name": "地区路口·l50",
+        "kind": "junction",
+        "region_id": "r025"
+      },
+      "l51": {
+        "x": 10205.61,
+        "y": 2808.0,
+        "name": "地区路口·l51",
+        "kind": "junction",
+        "region_id": "r026"
+      },
+      "l52": {
+        "x": 10709.0989,
+        "y": 3178.4447,
+        "name": "地区路口·l52",
+        "kind": "junction",
+        "region_id": "r027"
+      },
+      "l53": {
+        "x": 9325.85,
+        "y": 2107.64,
+        "name": "地区路口·l53",
+        "kind": "junction",
+        "region_id": "r028"
+      },
+      "l54": {
+        "x": 8051.22,
+        "y": 1990.91,
+        "name": "地区路口·l54",
+        "kind": "junction",
+        "region_id": "r029"
+      },
+      "l55": {
+        "x": 7332.2,
+        "y": 2282.73,
+        "name": "地区路口·l55",
+        "kind": "junction",
+        "region_id": "r030"
+      },
+      "l56": {
+        "x": 7038.05,
+        "y": 2574.55,
+        "name": "地区路口·l56",
+        "kind": "junction",
+        "region_id": "r031"
+      },
+      "l57": {
+        "x": 6351.71,
+        "y": 2166.0,
+        "name": "地区路口·l57",
+        "kind": "junction",
+        "region_id": "r032"
+      },
+      "l58": {
+        "x": 5501.95,
+        "y": 1699.09,
+        "name": "地区路口·l58",
+        "kind": "junction",
+        "region_id": "r033"
+      },
+      "l59": {
+        "x": 4444.5379,
+        "y": 1039.2594,
+        "name": "地区路口·l59",
+        "kind": "junction",
+        "region_id": "r034"
+      },
+      "l60": {
+        "x": 4194.63,
+        "y": 531.82,
+        "name": "地区路口·l60",
+        "kind": "junction",
+        "region_id": "r035"
+      },
+      "l61": {
+        "x": 4161.95,
+        "y": 998.73,
+        "name": "地区路口·l61",
+        "kind": "junction",
+        "region_id": "r036"
+      },
+      "l62": {
+        "x": 3933.17,
+        "y": 1407.27,
+        "name": "地区路口·l62",
+        "kind": "junction",
+        "region_id": "r037"
+      },
+      "l63": {
+        "x": 4260.0,
+        "y": 2632.91,
+        "name": "地区路口·l63",
+        "kind": "junction",
+        "region_id": "r038"
+      },
+      "l64": {
+        "x": 3573.66,
+        "y": 2983.09,
+        "name": "地区路口·l64",
+        "kind": "junction",
+        "region_id": "r039"
+      },
+      "l65": {
+        "x": 4096.59,
+        "y": 3333.27,
+        "name": "地区路口·l65",
+        "kind": "junction",
+        "region_id": "r040"
+      },
+      "l66": {
+        "x": 5240.49,
+        "y": 3274.91,
+        "name": "地区路口·l66",
+        "kind": "junction",
+        "region_id": "r041"
+      },
+      "l67": {
+        "x": 5309.71,
+        "y": 3216.55,
+        "name": "地区路口·l67",
+        "kind": "junction",
+        "region_id": "r041"
+      },
+      "l68": {
+        "x": 6286.34,
+        "y": 2924.73,
+        "name": "地区路口·l68",
+        "kind": "junction",
+        "region_id": "r042"
+      },
+      "l69": {
+        "x": 6580.49,
+        "y": 4325.45,
+        "name": "地区路口·l69",
+        "kind": "junction",
+        "region_id": "r043"
+      },
+      "l70": {
+        "x": 6286.34,
+        "y": 3800.18,
+        "name": "地区路口·l70",
+        "kind": "junction",
+        "region_id": "r044"
+      },
+      "C": {
+        "x": 5567.32,
+        "y": 2866.36,
+        "name": "巡测营地",
+        "kind": "camp",
+        "region_id": "r041"
+      },
+      "A1": {
+        "x": 613.78,
+        "y": 2136.82,
+        "name": "路标 A1",
+        "kind": "junction",
+        "region_id": "r001",
+        "transit": true
+      },
+      "B1": {
+        "x": 1337.02,
+        "y": 2507.48,
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "region_id": "r004",
+        "station_type": "B"
+      },
+      "C1": {
+        "x": 1465.31,
+        "y": 1668.73,
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "region_id": "r005",
+        "station_type": "C"
+      },
+      "D1": {
+        "x": 2289.32,
+        "y": 2786.51,
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "region_id": "r009",
+        "station_type": "D"
+      },
+      "E1": {
+        "x": 1583.75,
+        "y": 3969.71,
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "region_id": "r010",
+        "station_type": "E"
+      },
+      "F1": {
+        "x": 2020.81,
+        "y": 4410.92,
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "region_id": "r011",
+        "station_type": "F"
+      },
+      "G1": {
+        "x": 3009.74,
+        "y": 4425.61,
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "region_id": "r013",
+        "station_type": "G"
+      },
+      "H1": {
+        "x": 3354.53,
+        "y": 5473.09,
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "region_id": "r014",
+        "station_type": "H"
+      },
+      "I1": {
+        "x": 4296.72,
+        "y": 4571.08,
+        "name": "I型处理站·I1",
+        "kind": "station",
+        "region_id": "r016",
+        "station_type": "I"
+      },
+      "J1": {
+        "x": 4659.1,
+        "y": 4883.13,
+        "name": "J型处理站·J1",
+        "kind": "station",
+        "region_id": "r017",
+        "station_type": "J"
+      },
+      "K1": {
+        "x": 5383.85,
+        "y": 5222.64,
+        "name": "K型处理站·K1",
+        "kind": "station",
+        "region_id": "r018",
+        "station_type": "K"
+      },
+      "L1": {
+        "x": 5500.41,
+        "y": 5563.0,
+        "name": "L型处理站·L1",
+        "kind": "station",
+        "region_id": "r020",
+        "station_type": "L"
+      },
+      "M1": {
+        "x": 6741.85,
+        "y": 5562.91,
+        "name": "M型处理站·M1",
+        "kind": "station",
+        "region_id": "r022",
+        "station_type": "M"
+      },
+      "N1": {
+        "x": 7839.68,
+        "y": 4702.37,
+        "name": "N型处理站·N1",
+        "kind": "station",
+        "region_id": "r023",
+        "station_type": "N"
+      },
+      "O1": {
+        "x": 10746.21,
+        "y": 3302.4,
+        "name": "O型处理站·O1",
+        "kind": "station",
+        "region_id": "r027",
+        "station_type": "O"
+      },
+      "P1": {
+        "x": 7190.88,
+        "y": 2250.29,
+        "name": "P型处理站·P1",
+        "kind": "station",
+        "region_id": "r030",
+        "station_type": "P"
+      },
+      "Q1": {
+        "x": 7114.44,
+        "y": 2451.3,
+        "name": "Q型处理站·Q1",
+        "kind": "station",
+        "region_id": "r031",
+        "station_type": "Q"
+      },
+      "R1": {
+        "x": 4253.88,
+        "y": 1110.86,
+        "name": "R型处理站·R1",
+        "kind": "station",
+        "region_id": "r036",
+        "station_type": "R"
+      },
+      "S1": {
+        "x": 3797.34,
+        "y": 1458.01,
+        "name": "S型处理站·S1",
+        "kind": "station",
+        "region_id": "r037",
+        "station_type": "S"
+      },
+      "T1": {
+        "x": 3569.55,
+        "y": 2838.15,
+        "name": "T型处理站·T1",
+        "kind": "station",
+        "region_id": "r039",
+        "station_type": "T"
+      },
+      "U1": {
+        "x": 4235.08,
+        "y": 3376.24,
+        "name": "U型处理站·U1",
+        "kind": "station",
+        "region_id": "r040",
+        "station_type": "U"
+      },
+      "V1": {
+        "x": 6495.05,
+        "y": 4442.61,
+        "name": "V型处理站·V1",
+        "kind": "station",
+        "region_id": "r043",
+        "station_type": "V"
+      },
+      "W1": {
+        "x": 6203.1,
+        "y": 3681.46,
+        "name": "W型处理站·W1",
+        "kind": "station",
+        "region_id": "r044",
+        "station_type": "W"
+      },
+      "X1": {
+        "x": 393.38,
+        "y": 2260.67,
+        "name": "X型处理站·X1",
+        "kind": "station",
+        "region_id": "r001",
+        "station_type": "X"
+      },
+      "A2": {
+        "x": 6462.73,
+        "y": 1558.47,
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "region_id": "r045",
+        "station_type": "A"
+      },
+      "B2": {
+        "x": 6292.64,
+        "y": 1840.76,
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "region_id": "r046",
+        "station_type": "B"
+      },
+      "C2": {
+        "x": 6484.22,
+        "y": 2099.42,
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "region_id": "r047",
+        "station_type": "C"
+      },
+      "D2": {
+        "x": 1486.13,
+        "y": 2786.19,
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "region_id": "r048",
+        "station_type": "D"
+      },
+      "E2": {
+        "x": 4733.6,
+        "y": 3161.44,
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "region_id": "r049",
+        "station_type": "E"
+      },
+      "F2": {
+        "x": 8630.47,
+        "y": 3380.82,
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "region_id": "r050",
+        "station_type": "F"
+      },
+      "G2": {
+        "x": 6548.96,
+        "y": 4038.82,
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "region_id": "r051",
+        "station_type": "G"
+      },
+      "H2": {
+        "x": 5785.75,
+        "y": 5470.32,
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "region_id": "r052",
+        "station_type": "H"
+      },
+      "I2": {
+        "x": 6256.59,
+        "y": 1367.96,
+        "name": "I型处理站·I2",
+        "kind": "station",
+        "region_id": "r045",
+        "station_type": "I"
+      },
+      "J2": {
+        "x": 6539.57,
+        "y": 1707.28,
+        "name": "J型处理站·J2",
+        "kind": "station",
+        "region_id": "r046",
+        "station_type": "J"
+      },
+      "K2": {
+        "x": 6530.7,
+        "y": 2376.24,
+        "name": "K型处理站·K2",
+        "kind": "station",
+        "region_id": "r047",
+        "station_type": "K"
+      },
+      "L2": {
+        "x": 1624.07,
+        "y": 2884.92,
+        "name": "L型处理站·L2",
+        "kind": "station",
+        "region_id": "r048",
+        "station_type": "L"
+      },
+      "M2": {
+        "x": 4866.2,
+        "y": 2914.04,
+        "name": "M型处理站·M2",
+        "kind": "station",
+        "region_id": "r049",
+        "station_type": "M"
+      },
+      "N2": {
+        "x": 8821.71,
+        "y": 3586.29,
+        "name": "N型处理站·N2",
+        "kind": "station",
+        "region_id": "r050",
+        "station_type": "N"
+      },
+      "O2": {
+        "x": 6292.7,
+        "y": 4153.36,
+        "name": "O型处理站·O2",
+        "kind": "station",
+        "region_id": "r051",
+        "station_type": "O"
+      },
+      "P2": {
+        "x": 5760.2,
+        "y": 5190.79,
+        "name": "P型处理站·P2",
+        "kind": "station",
+        "region_id": "r052",
+        "station_type": "P"
+      },
+      "Q2": {
+        "x": 6529.37,
+        "y": 1434.15,
+        "name": "Q型处理站·Q2",
+        "kind": "station",
+        "region_id": "r045",
+        "station_type": "Q"
+      },
+      "R2": {
+        "x": 6388.74,
+        "y": 1944.01,
+        "name": "R型处理站·R2",
+        "kind": "station",
+        "region_id": "r046",
+        "station_type": "R"
+      },
+      "S2": {
+        "x": 6615.82,
+        "y": 2229.51,
+        "name": "S型处理站·S2",
+        "kind": "station",
+        "region_id": "r047",
+        "station_type": "S"
+      },
+      "T2": {
+        "x": 1552.57,
+        "y": 2613.48,
+        "name": "T型处理站·T2",
+        "kind": "station",
+        "region_id": "r048",
+        "station_type": "T"
+      },
+      "U2": {
+        "x": 4870.67,
+        "y": 3194.7,
+        "name": "U型处理站·U2",
+        "kind": "station",
+        "region_id": "r049",
+        "station_type": "U"
+      },
+      "V2": {
+        "x": 8554.67,
+        "y": 3499.79,
+        "name": "V型处理站·V2",
+        "kind": "station",
+        "region_id": "r050",
+        "station_type": "V"
+      },
+      "W2": {
+        "x": 6460.89,
+        "y": 3928.64,
+        "name": "W型处理站·W2",
+        "kind": "station",
+        "region_id": "r051",
+        "station_type": "W"
+      },
+      "X2": {
+        "x": 5918.49,
+        "y": 5422.6,
+        "name": "X型处理站·X2",
+        "kind": "station",
+        "region_id": "r052",
+        "station_type": "X"
+      },
+      "A3": {
+        "x": 692.9,
+        "y": 2441.91,
+        "name": "A型处理站·A3",
+        "kind": "station",
+        "region_id": "r003",
+        "station_type": "A"
+      },
+      "B3": {
+        "x": 875.22,
+        "y": 2576.98,
+        "name": "B型处理站·B3",
+        "kind": "station",
+        "region_id": "r003",
+        "station_type": "B"
+      },
+      "C3": {
+        "x": 2116.94,
+        "y": 1456.63,
+        "name": "C型处理站·C3",
+        "kind": "station",
+        "region_id": "r006",
+        "station_type": "C"
+      },
+      "D3": {
+        "x": 2190.53,
+        "y": 2250.92,
+        "name": "D型处理站·D3",
+        "kind": "station",
+        "region_id": "r007",
+        "station_type": "D"
+      },
+      "E3": {
+        "x": 1931.14,
+        "y": 2642.64,
+        "name": "E型处理站·E3",
+        "kind": "station",
+        "region_id": "r008",
+        "station_type": "E"
+      },
+      "F3": {
+        "x": 2565.2,
+        "y": 4198.51,
+        "name": "F型处理站·F3",
+        "kind": "station",
+        "region_id": "r012",
+        "station_type": "F"
+      },
+      "G3": {
+        "x": 3887.18,
+        "y": 5815.45,
+        "name": "G型处理站·G3",
+        "kind": "station",
+        "region_id": "r015",
+        "station_type": "G"
+      },
+      "H3": {
+        "x": 4551.78,
+        "y": 5433.53,
+        "name": "H型处理站·H3",
+        "kind": "station",
+        "region_id": "r019",
+        "station_type": "H"
+      },
+      "I3": {
+        "x": 5915.42,
+        "y": 6165.27,
+        "name": "I型处理站·I3",
+        "kind": "station",
+        "region_id": "r021",
+        "station_type": "I"
+      },
+      "J3": {
+        "x": 9074.14,
+        "y": 4361.39,
+        "name": "J型处理站·J3",
+        "kind": "station",
+        "region_id": "r024",
+        "station_type": "J"
+      },
+      "K3": {
+        "x": 9867.41,
+        "y": 3046.05,
+        "name": "K型处理站·K3",
+        "kind": "station",
+        "region_id": "r025",
+        "station_type": "K"
+      },
+      "L3": {
+        "x": 10318.59,
+        "y": 2832.13,
+        "name": "L型处理站·L3",
+        "kind": "station",
+        "region_id": "r026",
+        "station_type": "L"
+      },
+      "M3": {
+        "x": 9462.9,
+        "y": 2060.28,
+        "name": "M型处理站·M3",
+        "kind": "station",
+        "region_id": "r028",
+        "station_type": "M"
+      },
+      "N3": {
+        "x": 8051.73,
+        "y": 2135.91,
+        "name": "N型处理站·N3",
+        "kind": "station",
+        "region_id": "r029",
+        "station_type": "N"
+      },
+      "O3": {
+        "x": 6214.33,
+        "y": 2119.61,
+        "name": "O型处理站·O3",
+        "kind": "station",
+        "region_id": "r032",
+        "station_type": "O"
+      },
+      "P3": {
+        "x": 5590.26,
+        "y": 1584.09,
+        "name": "P型处理站·P3",
+        "kind": "station",
+        "region_id": "r033",
+        "station_type": "P"
+      },
+      "Q3": {
+        "x": 4569.06,
+        "y": 1119.48,
+        "name": "Q型处理站·Q3",
+        "kind": "station",
+        "region_id": "r034",
+        "station_type": "Q"
+      },
+      "R3": {
+        "x": 4054.41,
+        "y": 568.75,
+        "name": "R型处理站·R3",
+        "kind": "station",
+        "region_id": "r035",
+        "station_type": "R"
+      },
+      "S3": {
+        "x": 4270.39,
+        "y": 2488.28,
+        "name": "S型处理站·S3",
+        "kind": "station",
+        "region_id": "r038",
+        "station_type": "S"
+      },
+      "T3": {
+        "x": 5373.99,
+        "y": 3331.49,
+        "name": "T型处理站·T3",
+        "kind": "station",
+        "region_id": "r041",
+        "station_type": "T"
+      },
+      "U3": {
+        "x": 6189.63,
+        "y": 3032.77,
+        "name": "U型处理站·U3",
+        "kind": "station",
+        "region_id": "r042",
+        "station_type": "U"
+      },
+      "V3": {
+        "x": 623.99,
+        "y": 2237.01,
+        "name": "V型处理站·V3",
+        "kind": "station",
+        "region_id": "r002",
+        "station_type": "V"
+      },
+      "W3": {
+        "x": 837.86,
+        "y": 2671.72,
+        "name": "W型处理站·W3",
+        "kind": "station",
+        "region_id": "r003",
+        "station_type": "W"
+      },
+      "X3": {
+        "x": 1967.32,
+        "y": 1667.44,
+        "name": "X型处理站·X3",
+        "kind": "station",
+        "region_id": "r006",
+        "station_type": "X"
+      },
+      "v01": {
+        "x": 560.8,
+        "y": 2024.76,
+        "name": "测绘点·v01",
+        "kind": "survey",
+        "region_id": "r001"
+      },
+      "v02": {
+        "x": 612.53,
+        "y": 2507.88,
+        "name": "测绘点·v02",
+        "kind": "survey",
+        "region_id": "r003"
+      },
+      "v03": {
+        "x": 825.97,
+        "y": 2465.64,
+        "name": "测绘点·v03",
+        "kind": "survey",
+        "region_id": "r003"
+      },
+      "v04": {
+        "x": 1399.01,
+        "y": 2226.06,
+        "name": "测绘点·v04",
+        "kind": "survey",
+        "region_id": "r004"
+      },
+      "v05": {
+        "x": 1614.9389,
+        "y": 1644.4147,
+        "name": "测绘点·v05",
+        "kind": "survey",
+        "region_id": "r005"
+      },
+      "v06": {
+        "x": 1834.7773,
+        "y": 1390.7055,
+        "name": "测绘点·v06",
+        "kind": "survey",
+        "region_id": "r006"
+      },
+      "v07": {
+        "x": 2101.49,
+        "y": 1978.94,
+        "name": "测绘点·v07",
+        "kind": "survey",
+        "region_id": "r007"
+      },
+      "v08": {
+        "x": 1924.17,
+        "y": 2808.25,
+        "name": "测绘点·v08",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v09": {
+        "x": 2026.44,
+        "y": 2836.3,
+        "name": "测绘点·v09",
+        "kind": "survey",
+        "region_id": "r009"
+      },
+      "v10": {
+        "x": 1688.41,
+        "y": 3795.92,
+        "name": "测绘点·v10",
+        "kind": "survey",
+        "region_id": "r010"
+      },
+      "v11": {
+        "x": 1929.19,
+        "y": 4357.28,
+        "name": "测绘点·v11",
+        "kind": "survey",
+        "region_id": "r011"
+      },
+      "v12": {
+        "x": 2536.13,
+        "y": 4464.53,
+        "name": "测绘点·v12",
+        "kind": "survey",
+        "region_id": "r012"
+      },
+      "v13": {
+        "x": 2950.75,
+        "y": 4703.9,
+        "name": "测绘点·v13",
+        "kind": "survey",
+        "region_id": "r013"
+      },
+      "v14": {
+        "x": 3186.61,
+        "y": 5244.1,
+        "name": "测绘点·v14",
+        "kind": "survey",
+        "region_id": "r014"
+      },
+      "v15": {
+        "x": 4015.87,
+        "y": 5885.88,
+        "name": "测绘点·v15",
+        "kind": "survey",
+        "region_id": "r015"
+      },
+      "v16": {
+        "x": 4283.26,
+        "y": 4463.37,
+        "name": "测绘点·v16",
+        "kind": "survey",
+        "region_id": "r016"
+      },
+      "v17": {
+        "x": 4827.48,
+        "y": 4999.53,
+        "name": "测绘点·v17",
+        "kind": "survey",
+        "region_id": "r017"
+      },
+      "v18": {
+        "x": 5122.81,
+        "y": 5285.62,
+        "name": "测绘点·v18",
+        "kind": "survey",
+        "region_id": "r018"
+      },
+      "v19": {
+        "x": 4755.07,
+        "y": 5249.12,
+        "name": "测绘点·v19",
+        "kind": "survey",
+        "region_id": "r019"
+      },
+      "v20": {
+        "x": 5476.38,
+        "y": 5321.42,
+        "name": "测绘点·v20",
+        "kind": "survey",
+        "region_id": "r020"
+      },
+      "v21": {
+        "x": 6057.31,
+        "y": 6373.06,
+        "name": "测绘点·v21",
+        "kind": "survey",
+        "region_id": "r021"
+      },
+      "v22": {
+        "x": 6947.91,
+        "y": 5766.8,
+        "name": "测绘点·v22",
+        "kind": "survey",
+        "region_id": "r022"
+      },
+      "v23": {
+        "x": 7569.95,
+        "y": 4718.98,
+        "name": "测绘点·v23",
+        "kind": "survey",
+        "region_id": "r023"
+      },
+      "v24": {
+        "x": 8840.55,
+        "y": 4436.6,
+        "name": "测绘点·v24",
+        "kind": "survey",
+        "region_id": "r024"
+      },
+      "v25": {
+        "x": 10014.55,
+        "y": 3052.95,
+        "name": "测绘点·v25",
+        "kind": "survey",
+        "region_id": "r025"
+      },
+      "v26": {
+        "x": 10202.41,
+        "y": 2950.5,
+        "name": "测绘点·v26",
+        "kind": "survey",
+        "region_id": "r026"
+      },
+      "v27": {
+        "x": 10606.85,
+        "y": 3232.72,
+        "name": "测绘点·v27",
+        "kind": "survey",
+        "region_id": "r027"
+      },
+      "v28": {
+        "x": 9279.22,
+        "y": 1970.34,
+        "name": "测绘点·v28",
+        "kind": "survey",
+        "region_id": "r028"
+      },
+      "v29": {
+        "x": 8152.06,
+        "y": 2095.11,
+        "name": "测绘点·v29",
+        "kind": "survey",
+        "region_id": "r029"
+      },
+      "v30": {
+        "x": 7466.78,
+        "y": 2228.75,
+        "name": "测绘点·v30",
+        "kind": "survey",
+        "region_id": "r030"
+      },
+      "v31": {
+        "x": 7182.57,
+        "y": 2562.76,
+        "name": "测绘点·v31",
+        "kind": "survey",
+        "region_id": "r031"
+      },
+      "v32": {
+        "x": 6226.09,
+        "y": 2238.43,
+        "name": "测绘点·v32",
+        "kind": "survey",
+        "region_id": "r032"
+      },
+      "v33": {
+        "x": 5521.53,
+        "y": 1842.76,
+        "name": "测绘点·v33",
+        "kind": "survey",
+        "region_id": "r033"
+      },
+      "v34": {
+        "x": 4435.4786,
+        "y": 1136.5445,
+        "name": "测绘点·v34",
+        "kind": "survey",
+        "region_id": "r034"
+      },
+      "v35": {
+        "x": 4318.08,
+        "y": 607.88,
+        "name": "测绘点·v35",
+        "kind": "survey",
+        "region_id": "r035"
+      },
+      "v36": {
+        "x": 4017.84,
+        "y": 982.73,
+        "name": "测绘点·v36",
+        "kind": "survey",
+        "region_id": "r036"
+      },
+      "v37": {
+        "x": 3800.22,
+        "y": 1349.39,
+        "name": "测绘点·v37",
+        "kind": "survey",
+        "region_id": "r037"
+      },
+      "v38": {
+        "x": 4404.93,
+        "y": 2628.42,
+        "name": "测绘点·v38",
+        "kind": "survey",
+        "region_id": "r038"
+      },
+      "v39": {
+        "x": 3444.55,
+        "y": 3049.09,
+        "name": "测绘点·v39",
+        "kind": "survey",
+        "region_id": "r039"
+      },
+      "v40": {
+        "x": 4185.11,
+        "y": 3218.42,
+        "name": "测绘点·v40",
+        "kind": "survey",
+        "region_id": "r040"
+      },
+      "v41": {
+        "x": 5209.55,
+        "y": 3416.57,
+        "name": "测绘点·v41",
+        "kind": "survey",
+        "region_id": "r041"
+      },
+      "v42": {
+        "x": 6253.77,
+        "y": 2783.43,
+        "name": "测绘点·v42",
+        "kind": "survey",
+        "region_id": "r042"
+      },
+      "v43": {
+        "x": 6670.32,
+        "y": 4439.27,
+        "name": "测绘点·v43",
+        "kind": "survey",
+        "region_id": "r043"
+      },
+      "v44": {
+        "x": 6425.67,
+        "y": 3760.03,
+        "name": "测绘点·v44",
+        "kind": "survey",
+        "region_id": "r044"
+      },
+      "v45": {
+        "x": 519.57,
+        "y": 1929.96,
+        "name": "测绘点·v45",
+        "kind": "survey",
+        "region_id": "r001"
+      },
+      "v46": {
+        "x": 707.43,
+        "y": 2334.81,
+        "name": "测绘点·v46",
+        "kind": "survey",
+        "region_id": "r002"
+      },
+      "v47": {
+        "x": 959.64,
+        "y": 2482.98,
+        "name": "测绘点·v47",
+        "kind": "survey",
+        "region_id": "r003"
+      },
+      "v48": {
+        "x": 1519.96,
+        "y": 2420.4,
+        "name": "测绘点·v48",
+        "kind": "survey",
+        "region_id": "r004"
+      },
+      "v49": {
+        "x": 1695.16,
+        "y": 1845.56,
+        "name": "测绘点·v49",
+        "kind": "survey",
+        "region_id": "r005"
+      },
+      "v50": {
+        "x": 2072.52,
+        "y": 1642.21,
+        "name": "测绘点·v50",
+        "kind": "survey",
+        "region_id": "r006"
+      },
+      "v51": {
+        "x": 2339.47,
+        "y": 2074.57,
+        "name": "测绘点·v51",
+        "kind": "survey",
+        "region_id": "r007"
+      },
+      "v52": {
+        "x": 1809.3989,
+        "y": 2597.5047,
+        "name": "测绘点·v52",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v53": {
+        "x": 2208.94,
+        "y": 3005.55,
+        "name": "测绘点·v53",
+        "kind": "survey",
+        "region_id": "r009"
+      },
+      "v54": {
+        "x": 1451.09,
+        "y": 3720.9,
+        "name": "测绘点·v54",
+        "kind": "survey",
+        "region_id": "r010"
+      },
+      "v55": {
+        "x": 1785.43,
+        "y": 4421.26,
+        "name": "测绘点·v55",
+        "kind": "survey",
+        "region_id": "r011"
+      },
+      "v56": {
+        "x": 2350.23,
+        "y": 4330.98,
+        "name": "测绘点·v56",
+        "kind": "survey",
+        "region_id": "r012"
+      },
+      "v57": {
+        "x": 2812.63,
+        "y": 4521.36,
+        "name": "测绘点·v57",
+        "kind": "survey",
+        "region_id": "r013"
+      },
+      "v58": {
+        "x": 3389.5,
+        "y": 5350.09,
+        "name": "测绘点·v58",
+        "kind": "survey",
+        "region_id": "r014"
+      },
+      "v59": {
+        "x": 3762.14,
+        "y": 5831.29,
+        "name": "测绘点·v59",
+        "kind": "survey",
+        "region_id": "r015"
+      },
+      "v60": {
+        "x": 4493.94,
+        "y": 4373.86,
+        "name": "测绘点·v60",
+        "kind": "survey",
+        "region_id": "r016"
+      },
+      "v61": {
+        "x": 4675.27,
+        "y": 5170.5,
+        "name": "测绘点·v61",
+        "kind": "survey",
+        "region_id": "r017"
+      },
+      "v62": {
+        "x": 5187.35,
+        "y": 5066.0,
+        "name": "测绘点·v62",
+        "kind": "survey",
+        "region_id": "r018"
+      },
+      "v63": {
+        "x": 4790.58,
+        "y": 5475.26,
+        "name": "测绘点·v63",
+        "kind": "survey",
+        "region_id": "r019"
+      },
+      "v64": {
+        "x": 5638.96,
+        "y": 5560.42,
+        "name": "测绘点·v64",
+        "kind": "survey",
+        "region_id": "r020"
+      },
+      "j001": {
+        "x": 5675.6476,
+        "y": 5297.5632,
+        "kind": "junction",
+        "name": "道路交汇·j001",
+        "region_id": "r052"
+      },
+      "j002": {
+        "x": 1866.5407,
+        "y": 1629.8765,
+        "kind": "junction",
+        "name": "道路交汇·j002",
+        "region_id": "r063"
+      },
+      "j003": {
+        "x": 7661.159,
+        "y": 2215.606,
+        "kind": "junction",
+        "name": "道路交汇·j003",
+        "region_id": "r030"
+      },
+      "j004": {
+        "x": 4113.29,
+        "y": 804.1716,
+        "kind": "junction",
+        "name": "道路交汇·j004",
+        "region_id": "r036"
+      },
+      "j005": {
+        "x": 5628.3643,
+        "y": 1768.5497,
+        "kind": "junction",
+        "name": "道路交汇·j005",
+        "region_id": "r033"
+      }
+    },
+    "edges": [
+      [
+        "C",
+        "l67",
+        2
+      ],
+      [
+        "l66",
+        "l67",
+        1
+      ],
+      [
+        "l66",
+        "p3",
+        2
+      ],
+      [
+        "l66",
+        "p18",
+        2
+      ],
+      [
+        "p18",
+        "p9",
+        3
+      ],
+      [
+        "C",
+        "p14",
+        3
+      ],
+      [
+        "p14",
+        "p23",
+        1
+      ],
+      [
+        "l58",
+        "p23",
+        2
+      ],
+      [
+        "l57",
+        "p23",
+        3
+      ],
+      [
+        "l57",
+        "p17",
+        1
+      ],
+      [
+        "l57",
+        "p16",
+        2
+      ],
+      [
+        "p1",
+        "p16",
+        2
+      ],
+      [
+        "p17",
+        "p24",
+        3
+      ],
+      [
+        "p2",
+        "p24",
+        1
+      ],
+      [
+        "l68",
+        "p2",
+        2
+      ],
+      [
+        "l56",
+        "p24",
+        2
+      ],
+      [
+        "l55",
+        "l56",
+        2
+      ],
+      [
+        "l63",
+        "p3",
+        3
+      ],
+      [
+        "l65",
+        "p9",
+        3
+      ],
+      [
+        "l64",
+        "l65",
+        3
+      ],
+      [
+        "l64",
+        "p10",
+        1
+      ],
+      [
+        "p10",
+        "p6",
+        3
+      ],
+      [
+        "l54",
+        "l55",
+        4
+      ],
+      [
+        "l40",
+        "p9",
+        4
+      ],
+      [
+        "l40",
+        "l41",
+        3
+      ],
+      [
+        "l41",
+        "l43",
+        2
+      ],
+      [
+        "l41",
+        "l42",
+        3
+      ],
+      [
+        "l42",
+        "l44",
+        2
+      ],
+      [
+        "l44",
+        "p20",
+        1
+      ],
+      [
+        "p10",
+        "p11",
+        4
+      ],
+      [
+        "l36",
+        "l37",
+        2
+      ],
+      [
+        "l35",
+        "l36",
+        3
+      ],
+      [
+        "l34",
+        "l35",
+        3
+      ],
+      [
+        "l63",
+        "p12",
+        4
+      ],
+      [
+        "l62",
+        "p12",
+        3
+      ],
+      [
+        "l61",
+        "l62",
+        2
+      ],
+      [
+        "l59",
+        "l61",
+        1
+      ],
+      [
+        "l60",
+        "l61",
+        2
+      ],
+      [
+        "l37",
+        "l38",
+        4
+      ],
+      [
+        "l68",
+        "l70",
+        4
+      ],
+      [
+        "l70",
+        "p15",
+        1
+      ],
+      [
+        "l69",
+        "p15",
+        1
+      ],
+      [
+        "l56",
+        "p8",
+        4
+      ],
+      [
+        "p19",
+        "p8",
+        4
+      ],
+      [
+        "l49",
+        "p19",
+        4
+      ],
+      [
+        "p19",
+        "p22",
+        4
+      ],
+      [
+        "l53",
+        "p22",
+        3
+      ],
+      [
+        "l50",
+        "p22",
+        4
+      ],
+      [
+        "l50",
+        "l51",
+        1
+      ],
+      [
+        "l51",
+        "l52",
+        3
+      ],
+      [
+        "l38",
+        "l39",
+        5
+      ],
+      [
+        "l49",
+        "p5",
+        5
+      ],
+      [
+        "l47",
+        "p5",
+        2
+      ],
+      [
+        "l47",
+        "p7",
+        1
+      ],
+      [
+        "l48",
+        "p5",
+        2
+      ],
+      [
+        "l46",
+        "p20",
+        5
+      ],
+      [
+        "l32",
+        "p21",
+        1
+      ],
+      [
+        "l32",
+        "l33",
+        2
+      ],
+      [
+        "l28",
+        "p21",
+        2
+      ],
+      [
+        "l28",
+        "p4",
+        2
+      ],
+      [
+        "l26",
+        "l27",
+        1
+      ],
+      [
+        "l25",
+        "l26",
+        1
+      ],
+      [
+        "l28",
+        "l29",
+        3
+      ],
+      [
+        "l29",
+        "p13",
+        1
+      ],
+      [
+        "l30",
+        "p13",
+        1
+      ],
+      [
+        "l30",
+        "l31",
+        3
+      ],
+      [
+        "p3",
+        "p9",
+        3
+      ],
+      [
+        "l59",
+        "p12",
+        3
+      ],
+      [
+        "l58",
+        "p14",
+        3
+      ],
+      [
+        "p16",
+        "p17",
+        2
+      ],
+      [
+        "l68",
+        "p24",
+        2
+      ],
+      [
+        "l31",
+        "p13",
+        3
+      ],
+      [
+        "l33",
+        "p21",
+        3
+      ],
+      [
+        "l34",
+        "l36",
+        5
+      ],
+      [
+        "l39",
+        "l43",
+        3
+      ],
+      [
+        "l42",
+        "l43",
+        3
+      ],
+      [
+        "l45",
+        "l46",
+        5
+      ],
+      [
+        "l47",
+        "l48",
+        3
+      ],
+      [
+        "l50",
+        "l52",
+        4
+      ],
+      [
+        "l50",
+        "l53",
+        5
+      ],
+      [
+        "l59",
+        "l60",
+        3
+      ],
+      [
+        "l63",
+        "l65",
+        3
+      ],
+      [
+        "l28",
+        "l32",
+        2
+      ],
+      [
+        "l56",
+        "p2",
+        2
+      ],
+      [
+        "l25",
+        "p4",
+        3
+      ],
+      [
+        "l59",
+        "l62",
+        3
+      ],
+      [
+        "l56",
+        "p17",
+        3
+      ],
+      [
+        "l29",
+        "p4",
+        3
+      ],
+      [
+        "l29",
+        "l31",
+        3
+      ],
+      [
+        "l57",
+        "p24",
+        3
+      ],
+      [
+        "C",
+        "l68",
+        3
+      ],
+      [
+        "l66",
+        "p9",
+        3
+      ],
+      [
+        "l31",
+        "l33",
+        3
+      ],
+      [
+        "C",
+        "p23",
+        3
+      ],
+      [
+        "C",
+        "p3",
+        3
+      ],
+      [
+        "l57",
+        "l68",
+        3
+      ],
+      [
+        "l63",
+        "l64",
+        4
+      ],
+      [
+        "l65",
+        "p3",
+        4
+      ],
+      [
+        "l28",
+        "l31",
+        4
+      ],
+      [
+        "l37",
+        "p11",
+        4
+      ],
+      [
+        "l43",
+        "l44",
+        4
+      ],
+      [
+        "l27",
+        "p21",
+        4
+      ],
+      [
+        "l70",
+        "p2",
+        4
+      ],
+      [
+        "C",
+        "p18",
+        4
+      ],
+      [
+        "l62",
+        "p6",
+        5
+      ],
+      [
+        "l70",
+        "p18",
+        5
+      ],
+      [
+        "l35",
+        "l37",
+        5
+      ],
+      [
+        "l63",
+        "p6",
+        5
+      ],
+      [
+        "l40",
+        "l42",
+        5
+      ],
+      [
+        "l58",
+        "p12",
+        5
+      ],
+      [
+        "l40",
+        "p18",
+        5
+      ],
+      [
+        "l69",
+        "p7",
+        5
+      ],
+      [
+        "l48",
+        "l49",
+        5
+      ],
+      [
+        "l33",
+        "l34",
+        5
+      ],
+      [
+        "l33",
+        "p10",
+        5
+      ],
+      [
+        "l65",
+        "p11",
+        5
+      ],
+      [
+        "l33",
+        "p11",
+        5
+      ],
+      [
+        "p12",
+        "p6",
+        5
+      ],
+      [
+        "p15",
+        "p18",
+        5
+      ],
+      [
+        "l47",
+        "l69",
+        5
+      ],
+      [
+        "l40",
+        "l65",
+        6
+      ],
+      [
+        "p2",
+        "p8",
+        6
+      ],
+      [
+        "l46",
+        "l47",
+        6
+      ],
+      [
+        "l54",
+        "p22",
+        6
+      ],
+      [
+        "l53",
+        "l54",
+        6
+      ],
+      [
+        "l49",
+        "p7",
+        6
+      ],
+      [
+        "p22",
+        "p8",
+        6
+      ],
+      [
+        "l46",
+        "l69",
+        6
+      ],
+      [
+        "l50",
+        "p19",
+        6
+      ],
+      [
+        "l39",
+        "l40",
+        6
+      ],
+      [
+        "l46",
+        "l48",
+        7
+      ],
+      [
+        "l34",
+        "p11",
+        7
+      ],
+      [
+        "l38",
+        "l40",
+        7
+      ],
+      [
+        "l37",
+        "l40",
+        7
+      ],
+      [
+        "p19",
+        "p7",
+        7
+      ],
+      [
+        "l39",
+        "l44",
+        7
+      ],
+      [
+        "l54",
+        "p17",
+        7
+      ],
+      [
+        "l35",
+        "l38",
+        7
+      ],
+      [
+        "l49",
+        "l50",
+        8
+      ],
+      [
+        "A1",
+        "l25",
+        1
+      ],
+      [
+        "B1",
+        "l28",
+        1
+      ],
+      [
+        "B1",
+        "p21",
+        2
+      ],
+      [
+        "D1",
+        "l33",
+        1
+      ],
+      [
+        "D1",
+        "l32",
+        2
+      ],
+      [
+        "E1",
+        "l34",
+        1
+      ],
+      [
+        "F1",
+        "l35",
+        1
+      ],
+      [
+        "F1",
+        "l36",
+        2
+      ],
+      [
+        "G1",
+        "l37",
+        1
+      ],
+      [
+        "H1",
+        "l38",
+        1
+      ],
+      [
+        "I1",
+        "l40",
+        1
+      ],
+      [
+        "J1",
+        "l41",
+        1
+      ],
+      [
+        "J1",
+        "l40",
+        2
+      ],
+      [
+        "K1",
+        "l42",
+        1
+      ],
+      [
+        "L1",
+        "l44",
+        1
+      ],
+      [
+        "M1",
+        "l46",
+        1
+      ],
+      [
+        "N1",
+        "p7",
+        1
+      ],
+      [
+        "O1",
+        "l52",
+        1
+      ],
+      [
+        "P1",
+        "l55",
+        1
+      ],
+      [
+        "Q1",
+        "l56",
+        1
+      ],
+      [
+        "R1",
+        "l61",
+        1
+      ],
+      [
+        "R1",
+        "l59",
+        1
+      ],
+      [
+        "S1",
+        "l62",
+        1
+      ],
+      [
+        "T1",
+        "l64",
+        1
+      ],
+      [
+        "U1",
+        "l65",
+        1
+      ],
+      [
+        "V1",
+        "l69",
+        1
+      ],
+      [
+        "W1",
+        "l70",
+        1
+      ],
+      [
+        "X1",
+        "l25",
+        1
+      ],
+      [
+        "X1",
+        "l26",
+        1
+      ],
+      [
+        "A2",
+        "p1",
+        1
+      ],
+      [
+        "B2",
+        "l57",
+        2
+      ],
+      [
+        "C2",
+        "p17",
+        1
+      ],
+      [
+        "D2",
+        "p21",
+        1
+      ],
+      [
+        "E2",
+        "p3",
+        1
+      ],
+      [
+        "F2",
+        "p19",
+        1
+      ],
+      [
+        "H2",
+        "p20",
+        1
+      ],
+      [
+        "H2",
+        "l44",
+        1
+      ],
+      [
+        "I2",
+        "p1",
+        1
+      ],
+      [
+        "J2",
+        "p16",
+        1
+      ],
+      [
+        "J2",
+        "p1",
+        1
+      ],
+      [
+        "K2",
+        "p17",
+        1
+      ],
+      [
+        "L2",
+        "p21",
+        1
+      ],
+      [
+        "L2",
+        "l32",
+        1
+      ],
+      [
+        "M2",
+        "p3",
+        1
+      ],
+      [
+        "N2",
+        "p19",
+        1
+      ],
+      [
+        "N2",
+        "l49",
+        3
+      ],
+      [
+        "O2",
+        "p15",
+        1
+      ],
+      [
+        "P2",
+        "p20",
+        1
+      ],
+      [
+        "Q2",
+        "p1",
+        1
+      ],
+      [
+        "R2",
+        "p16",
+        1
+      ],
+      [
+        "R2",
+        "l57",
+        1
+      ],
+      [
+        "S2",
+        "p17",
+        1
+      ],
+      [
+        "T2",
+        "p21",
+        1
+      ],
+      [
+        "T2",
+        "l32",
+        1
+      ],
+      [
+        "U2",
+        "p3",
+        1
+      ],
+      [
+        "V2",
+        "p19",
+        1
+      ],
+      [
+        "W2",
+        "p15",
+        1
+      ],
+      [
+        "X2",
+        "p20",
+        1
+      ],
+      [
+        "A3",
+        "l27",
+        1
+      ],
+      [
+        "B3",
+        "l27",
+        1
+      ],
+      [
+        "C3",
+        "l30",
+        1
+      ],
+      [
+        "D3",
+        "l31",
+        1
+      ],
+      [
+        "D3",
+        "l33",
+        3
+      ],
+      [
+        "E3",
+        "l32",
+        1
+      ],
+      [
+        "F3",
+        "l36",
+        1
+      ],
+      [
+        "G3",
+        "l39",
+        1
+      ],
+      [
+        "H3",
+        "l43",
+        1
+      ],
+      [
+        "I3",
+        "l45",
+        1
+      ],
+      [
+        "J3",
+        "l49",
+        1
+      ],
+      [
+        "K3",
+        "l50",
+        1
+      ],
+      [
+        "L3",
+        "l50",
+        2
+      ],
+      [
+        "M3",
+        "l53",
+        1
+      ],
+      [
+        "N3",
+        "l54",
+        1
+      ],
+      [
+        "O3",
+        "l57",
+        1
+      ],
+      [
+        "P3",
+        "l58",
+        1
+      ],
+      [
+        "Q3",
+        "l59",
+        1
+      ],
+      [
+        "R3",
+        "l60",
+        1
+      ],
+      [
+        "S3",
+        "l63",
+        1
+      ],
+      [
+        "T3",
+        "l67",
+        1
+      ],
+      [
+        "U3",
+        "l68",
+        1
+      ],
+      [
+        "V3",
+        "l25",
+        1
+      ],
+      [
+        "W3",
+        "l27",
+        1
+      ],
+      [
+        "X3",
+        "l30",
+        1
+      ],
+      [
+        "l25",
+        "v01",
+        1
+      ],
+      [
+        "l27",
+        "v02",
+        1
+      ],
+      [
+        "l27",
+        "v03",
+        1
+      ],
+      [
+        "l28",
+        "v04",
+        1
+      ],
+      [
+        "l29",
+        "v05",
+        1
+      ],
+      [
+        "p13",
+        "v06",
+        1
+      ],
+      [
+        "l31",
+        "v07",
+        1
+      ],
+      [
+        "l32",
+        "v08",
+        1
+      ],
+      [
+        "l33",
+        "v09",
+        1
+      ],
+      [
+        "l34",
+        "v10",
+        1
+      ],
+      [
+        "l35",
+        "v11",
+        1
+      ],
+      [
+        "l36",
+        "v12",
+        1
+      ],
+      [
+        "l37",
+        "v13",
+        1
+      ],
+      [
+        "l38",
+        "v14",
+        1
+      ],
+      [
+        "l39",
+        "v15",
+        1
+      ],
+      [
+        "l40",
+        "v16",
+        1
+      ],
+      [
+        "l41",
+        "v17",
+        1
+      ],
+      [
+        "l42",
+        "v18",
+        1
+      ],
+      [
+        "l43",
+        "v19",
+        1
+      ],
+      [
+        "l44",
+        "v20",
+        1
+      ],
+      [
+        "l45",
+        "v21",
+        1
+      ],
+      [
+        "l46",
+        "v22",
+        1
+      ],
+      [
+        "l47",
+        "v23",
+        1
+      ],
+      [
+        "l49",
+        "v24",
+        1
+      ],
+      [
+        "l50",
+        "v25",
+        1
+      ],
+      [
+        "l51",
+        "v26",
+        1
+      ],
+      [
+        "l52",
+        "v27",
+        1
+      ],
+      [
+        "l53",
+        "v28",
+        1
+      ],
+      [
+        "l54",
+        "v29",
+        1
+      ],
+      [
+        "l55",
+        "v30",
+        1
+      ],
+      [
+        "l56",
+        "v31",
+        1
+      ],
+      [
+        "l57",
+        "v32",
+        1
+      ],
+      [
+        "l58",
+        "v33",
+        1
+      ],
+      [
+        "l59",
+        "v34",
+        1
+      ],
+      [
+        "l60",
+        "v35",
+        1
+      ],
+      [
+        "l62",
+        "v37",
+        1
+      ],
+      [
+        "l63",
+        "v38",
+        1
+      ],
+      [
+        "l65",
+        "v40",
+        1
+      ],
+      [
+        "l66",
+        "v41",
+        1
+      ],
+      [
+        "l68",
+        "v42",
+        1
+      ],
+      [
+        "l69",
+        "v43",
+        1
+      ],
+      [
+        "l70",
+        "v44",
+        1
+      ],
+      [
+        "l25",
+        "v45",
+        1
+      ],
+      [
+        "l26",
+        "v46",
+        1
+      ],
+      [
+        "l28",
+        "v48",
+        1
+      ],
+      [
+        "l29",
+        "v49",
+        1
+      ],
+      [
+        "l30",
+        "v50",
+        1
+      ],
+      [
+        "l31",
+        "v51",
+        1
+      ],
+      [
+        "l32",
+        "v52",
+        1
+      ],
+      [
+        "l33",
+        "v53",
+        1
+      ],
+      [
+        "l34",
+        "v54",
+        1
+      ],
+      [
+        "l35",
+        "v55",
+        1
+      ],
+      [
+        "l36",
+        "v56",
+        1
+      ],
+      [
+        "l37",
+        "v57",
+        1
+      ],
+      [
+        "l38",
+        "v58",
+        1
+      ],
+      [
+        "l39",
+        "v59",
+        2
+      ],
+      [
+        "l40",
+        "v60",
+        1
+      ],
+      [
+        "l41",
+        "v61",
+        1
+      ],
+      [
+        "l42",
+        "v62",
+        1
+      ],
+      [
+        "l43",
+        "v63",
+        1
+      ],
+      [
+        "l44",
+        "v64",
+        1
+      ],
+      [
+        "F3",
+        "p11",
+        3
+      ],
+      [
+        "F3",
+        "l37",
+        2
+      ],
+      [
+        "l44",
+        "l45",
+        4
+      ],
+      [
+        "l34",
+        "p21",
+        5
+      ],
+      [
+        "p4",
+        "v03",
+        2
+      ],
+      [
+        "l26",
+        "v03",
+        1
+      ],
+      [
+        "B2",
+        "p16",
+        1
+      ],
+      [
+        "l67",
+        "p3",
+        2
+      ],
+      [
+        "T1",
+        "p6",
+        3
+      ],
+      [
+        "T1",
+        "p10",
+        1
+      ],
+      [
+        "N1",
+        "p5",
+        1
+      ],
+      [
+        "N1",
+        "l47",
+        1
+      ],
+      [
+        "T3",
+        "l66",
+        1
+      ],
+      [
+        "j001",
+        "l42",
+        2
+      ],
+      [
+        "j001",
+        "p20",
+        1
+      ],
+      [
+        "P2",
+        "j001",
+        1
+      ],
+      [
+        "j001",
+        "l44",
+        1
+      ],
+      [
+        "V3",
+        "l26",
+        1
+      ],
+      [
+        "j002",
+        "l29",
+        1
+      ],
+      [
+        "j002",
+        "l30",
+        1
+      ],
+      [
+        "X3",
+        "j002",
+        1
+      ],
+      [
+        "j002",
+        "p13",
+        1
+      ],
+      [
+        "H2",
+        "l45",
+        4
+      ],
+      [
+        "H2",
+        "X2",
+        1
+      ],
+      [
+        "j003",
+        "l54",
+        2
+      ],
+      [
+        "j003",
+        "l56",
+        3
+      ],
+      [
+        "j003",
+        "l55",
+        2
+      ],
+      [
+        "G2",
+        "p15",
+        1
+      ],
+      [
+        "B3",
+        "l28",
+        2
+      ],
+      [
+        "P1",
+        "p17",
+        3
+      ],
+      [
+        "P1",
+        "l56",
+        2
+      ],
+      [
+        "l64",
+        "v39",
+        1
+      ],
+      [
+        "j004",
+        "l60",
+        1
+      ],
+      [
+        "j004",
+        "l61",
+        1
+      ],
+      [
+        "l40",
+        "v61",
+        3
+      ],
+      [
+        "l43",
+        "v61",
+        1
+      ],
+      [
+        "H3",
+        "v61",
+        1
+      ],
+      [
+        "P3",
+        "p1",
+        4
+      ],
+      [
+        "C1",
+        "l29",
+        1
+      ],
+      [
+        "j005",
+        "l57",
+        4
+      ],
+      [
+        "j005",
+        "l58",
+        1
+      ],
+      [
+        "P3",
+        "j005",
+        1
+      ],
+      [
+        "j005",
+        "p23",
+        2
+      ],
+      [
+        "N3",
+        "p8",
+        5
+      ],
+      [
+        "N3",
+        "j003",
+        2
+      ],
+      [
+        "V1",
+        "p20",
+        5
+      ],
+      [
+        "V1",
+        "p15",
+        2
+      ],
+      [
+        "l51",
+        "l53",
+        5
+      ],
+      [
+        "L3",
+        "l51",
+        1
+      ],
+      [
+        "j004",
+        "p6",
+        7
+      ],
+      [
+        "R3",
+        "j004",
+        1
+      ],
+      [
+        "l61",
+        "v36",
+        1
+      ],
+      [
+        "j004",
+        "v36",
+        1
+      ],
+      [
+        "l62",
+        "v36",
+        2
+      ],
+      [
+        "B3",
+        "v47",
+        1
+      ],
+      [
+        "B3",
+        "v03",
+        1
+      ]
+    ],
+    "ferry_edges": [
+      [
+        "l50",
+        "l51"
+      ],
+      [
+        "l32",
+        "l33"
+      ],
+      [
+        "l30",
+        "p13"
+      ],
+      [
+        "l30",
+        "l31"
+      ],
+      [
+        "l59",
+        "p12"
+      ],
+      [
+        "l31",
+        "p13"
+      ],
+      [
+        "l33",
+        "p21"
+      ],
+      [
+        "D1",
+        "l32"
+      ],
+      [
+        "L2",
+        "l32"
+      ],
+      [
+        "E3",
+        "l32"
+      ],
+      [
+        "L3",
+        "l50"
+      ],
+      [
+        "Q3",
+        "l59"
+      ],
+      [
+        "l31",
+        "v07"
+      ],
+      [
+        "l32",
+        "v08"
+      ],
+      [
+        "l31",
+        "v51"
+      ],
+      [
+        "l51",
+        "l53"
+      ]
+    ],
+    "processing_model": "intermediate-interface-processing-1"
+  },
+  "tasks": {
+    "T1": {
+      "name": "全域测绘委托 01",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v47",
+      "required_kind": "ungulate_tracks",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v47",
+          "required_kind": "ungulate_tracks",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v55",
+          "required_kind": "livestock_signs",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T2": {
+      "name": "全域测绘委托 02",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v63",
+      "required_kind": "livestock_signs",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v63",
+          "required_kind": "livestock_signs",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v39",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T3": {
+      "name": "全域测绘委托 03",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v60",
+      "required_kind": "drainage",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v60",
+          "required_kind": "drainage",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v24",
+          "required_kind": "vegetation",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T4": {
+      "name": "全域测绘委托 04",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v39",
+      "required_kind": "vegetation",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v39",
+          "required_kind": "vegetation",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v36",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T5": {
+      "name": "全域测绘委托 05",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v45",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v45",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v52",
+          "required_kind": "historic_road",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T6": {
+      "name": "全域测绘委托 06",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v58",
+      "required_kind": "historic_road",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v58",
+          "required_kind": "historic_road",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v10",
+          "required_kind": "settlement_layout",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T7": {
+      "name": "全域测绘委托 07",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v33",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v33",
+          "required_kind": "lithology",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v05",
+          "required_kind": "land_cover",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T8": {
+      "name": "全域测绘委托 08",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v13",
+      "required_kind": "land_cover",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "land_cover",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v53",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T9": {
+      "name": "全域测绘委托 09",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v17",
+      "required_kind": "drainage",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v17",
+          "required_kind": "drainage",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v64",
+          "required_kind": "vegetation",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T10": {
+      "name": "全域测绘委托 10",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v02",
+      "required_kind": "vegetation",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "vegetation",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v07",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T11": {
+      "name": "全域测绘委托 11",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v50",
+      "required_kind": "slope",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v50",
+          "required_kind": "slope",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v36",
+          "required_kind": "soil",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T12": {
+      "name": "全域测绘委托 12",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v21",
+      "required_kind": "soil",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v21",
+          "required_kind": "soil",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v23",
+          "required_kind": "slope",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T13": {
+      "name": "全域测绘委托 13",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v42",
+      "required_kind": "profile",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v42",
+          "required_kind": "profile",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v46",
+          "required_kind": "elevation",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T14": {
+      "name": "全域测绘委托 14",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v18",
+      "required_kind": "elevation",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v18",
+          "required_kind": "elevation",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v03",
+          "required_kind": "profile",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T15": {
+      "name": "全域测绘委托 15",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v56",
+      "required_kind": "ungulate_tracks",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v56",
+          "required_kind": "ungulate_tracks",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v41",
+          "required_kind": "livestock_signs",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T16": {
+      "name": "全域测绘委托 16",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v06",
+      "required_kind": "livestock_signs",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v06",
+          "required_kind": "livestock_signs",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v24",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T17": {
+      "name": "全域测绘委托 17",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v28",
+      "required_kind": "profile",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v28",
+          "required_kind": "profile",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v43",
+          "required_kind": "elevation",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T18": {
+      "name": "全域测绘委托 18",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v35",
+      "required_kind": "elevation",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v35",
+          "required_kind": "elevation",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v51",
+          "required_kind": "profile",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T19": {
+      "name": "全域测绘委托 19",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v49",
+      "required_kind": "built_form",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v49",
+          "required_kind": "built_form",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v43",
+          "required_kind": "waterworks",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T20": {
+      "name": "全域测绘委托 20",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v34",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v34",
+          "required_kind": "waterworks",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v52",
+          "required_kind": "built_form",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T21": {
+      "name": "全域测绘委托 21",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v51",
+      "required_kind": "settlement_layout",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v51",
+          "required_kind": "settlement_layout",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v50",
+          "required_kind": "historic_road",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T22": {
+      "name": "全域测绘委托 22",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v09",
+      "required_kind": "historic_road",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v09",
+          "required_kind": "historic_road",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v35",
+          "required_kind": "settlement_layout",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T23": {
+      "name": "全域测绘委托 23",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v25",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v25",
+          "required_kind": "lithology",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v10",
+          "required_kind": "land_cover",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T24": {
+      "name": "全域测绘委托 24",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v64",
+      "required_kind": "land_cover",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v64",
+          "required_kind": "land_cover",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v25",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T25": {
+      "name": "全域测绘委托 25",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v42",
+      "required_kind": "farmland_birds",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v42",
+          "required_kind": "farmland_birds",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v08",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T26": {
+      "name": "全域测绘委托 26",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v37",
+      "required_kind": "small_mammal_signs",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v37",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v05",
+          "required_kind": "farmland_birds",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T27": {
+      "name": "全域测绘委托 27",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v04",
+      "required_kind": "slope",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "slope",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v46",
+          "required_kind": "soil",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T28": {
+      "name": "全域测绘委托 28",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v32",
+      "required_kind": "soil",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v32",
+          "required_kind": "soil",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v26",
+          "required_kind": "slope",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T29": {
+      "name": "全域测绘委托 29",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v54",
+      "required_kind": "farmland_birds",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v54",
+          "required_kind": "farmland_birds",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v06",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T30": {
+      "name": "全域测绘委托 30",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v30",
+      "required_kind": "small_mammal_signs",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v30",
+          "required_kind": "small_mammal_signs",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v20",
+          "required_kind": "farmland_birds",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T31": {
+      "name": "全域测绘委托 31",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v48",
+      "required_kind": "built_form",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v48",
+          "required_kind": "built_form",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v16",
+          "required_kind": "waterworks",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T32": {
+      "name": "全域测绘委托 32",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v12",
+      "required_kind": "waterworks",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "waterworks",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v28",
+          "required_kind": "built_form",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T33": {
+      "name": "全域测绘委托 33",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v30",
+      "required_kind": "ungulate_tracks",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v30",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v37",
+          "required_kind": "livestock_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T34": {
+      "name": "全域测绘委托 34",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v22",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v22",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v03",
+          "required_kind": "vegetation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T35": {
+      "name": "全域测绘委托 35",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v12",
+      "required_kind": "settlement_layout",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v12",
+          "required_kind": "settlement_layout",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v13",
+          "required_kind": "historic_road",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T36": {
+      "name": "全域测绘委托 36",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v58",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v58",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v29",
+          "required_kind": "land_cover",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T37": {
+      "name": "全域测绘委托 37",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v38",
+      "required_kind": "drainage",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v38",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v62",
+          "required_kind": "vegetation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T38": {
+      "name": "全域测绘委托 38",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v57",
+      "required_kind": "slope",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v57",
+          "required_kind": "slope",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v04",
+          "required_kind": "soil",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T39": {
+      "name": "全域测绘委托 39",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v23",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v23",
+          "required_kind": "profile",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v54",
+          "required_kind": "elevation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T40": {
+      "name": "全域测绘委托 40",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v48",
+      "required_kind": "ungulate_tracks",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v48",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v18",
+          "required_kind": "livestock_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T41": {
+      "name": "全域测绘委托 41",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v34",
+      "required_kind": "profile",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v34",
+          "required_kind": "profile",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v60",
+          "required_kind": "elevation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T42": {
+      "name": "全域测绘委托 42",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v01",
+      "required_kind": "built_form",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v01",
+          "required_kind": "built_form",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v15",
+          "required_kind": "waterworks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T43": {
+      "name": "全域测绘委托 43",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v27",
+      "required_kind": "settlement_layout",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v27",
+          "required_kind": "settlement_layout",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v15",
+          "required_kind": "historic_road",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T44": {
+      "name": "全域测绘委托 44",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v20",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v20",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v26",
+          "required_kind": "land_cover",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T45": {
+      "name": "全域测绘委托 45",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v02",
+      "required_kind": "farmland_birds",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v02",
+          "required_kind": "farmland_birds",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v01",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T46": {
+      "name": "全域测绘委托 46",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v27",
+      "required_kind": "slope",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v27",
+          "required_kind": "slope",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v38",
+          "required_kind": "soil",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T47": {
+      "name": "全域测绘委托 47",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v31",
+      "required_kind": "farmland_birds",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v31",
+          "required_kind": "farmland_birds",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v21",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T48": {
+      "name": "全域测绘委托 48",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v07",
+      "required_kind": "built_form",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v07",
+          "required_kind": "built_form",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v08",
+          "required_kind": "waterworks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T49": {
+      "name": "全域测绘委托 49",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v14",
+      "required_kind": "livestock_signs",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v14",
+          "required_kind": "livestock_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v59",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T50": {
+      "name": "全域测绘委托 50",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v22",
+      "required_kind": "vegetation",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v22",
+          "required_kind": "vegetation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v11",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T51": {
+      "name": "全域测绘委托 51",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v59",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v59",
+          "required_kind": "historic_road",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v62",
+          "required_kind": "settlement_layout",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T52": {
+      "name": "全域测绘委托 52",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v11",
+      "required_kind": "land_cover",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v11",
+          "required_kind": "land_cover",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v53",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T53": {
+      "name": "全域测绘委托 53",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v33",
+      "required_kind": "vegetation",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v33",
+          "required_kind": "vegetation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v14",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T54": {
+      "name": "全域测绘委托 54",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v40",
+      "required_kind": "soil",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v40",
+          "required_kind": "soil",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v16",
+          "required_kind": "slope",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T55": {
+      "name": "全域测绘委托 55",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v55",
+      "required_kind": "elevation",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v55",
+          "required_kind": "elevation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v44",
+          "required_kind": "profile",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T56": {
+      "name": "全域测绘委托 56",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v29",
+      "required_kind": "livestock_signs",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v29",
+          "required_kind": "livestock_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v56",
+          "required_kind": "ungulate_tracks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T57": {
+      "name": "全域测绘委托 57",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v19",
+      "required_kind": "elevation",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v19",
+          "required_kind": "elevation",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v32",
+          "required_kind": "profile",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T58": {
+      "name": "全域测绘委托 58",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v61",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v61",
+          "required_kind": "waterworks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v45",
+          "required_kind": "built_form",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T59": {
+      "name": "全域测绘委托 59",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v57",
+      "required_kind": "historic_road",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v57",
+          "required_kind": "historic_road",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v19",
+          "required_kind": "settlement_layout",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T60": {
+      "name": "全域测绘委托 60",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v31",
+      "required_kind": "land_cover",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v31",
+          "required_kind": "land_cover",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v40",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T61": {
+      "name": "全域测绘委托 61",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v41",
+      "required_kind": "small_mammal_signs",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v41",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v61",
+          "required_kind": "farmland_birds",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    },
+    "T62": {
+      "name": "全域测绘委托 62",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v49",
+      "required_kind": "soil",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v49",
+          "required_kind": "soil",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v09",
+          "required_kind": "slope",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T63": {
+      "name": "全域测绘委托 63",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v17",
+      "required_kind": "small_mammal_signs",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v17",
+          "required_kind": "small_mammal_signs",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        },
+        {
+          "target": "v47",
+          "required_kind": "farmland_birds",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2"
+        }
+      ]
+    },
+    "T64": {
+      "name": "全域测绘委托 64",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v44",
+      "required_kind": "waterworks",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v44",
+          "required_kind": "waterworks",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        },
+        {
+          "target": "v63",
+          "required_kind": "built_form",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1"
+        }
+      ]
+    }
+  },
+  "presentation": {
+    "terrain": "steppe-corridors",
+    "edge_tags": {
+      "C|l67": [
+        "land"
+      ],
+      "l66|l67": [
+        "land"
+      ],
+      "l66|p3": [
+        "land"
+      ],
+      "l66|p18": [
+        "land"
+      ],
+      "p18|p9": [
+        "land"
+      ],
+      "C|p14": [
+        "land"
+      ],
+      "p14|p23": [
+        "land"
+      ],
+      "l58|p23": [
+        "land"
+      ],
+      "l57|p23": [
+        "land"
+      ],
+      "l57|p17": [
+        "land"
+      ],
+      "l57|p16": [
+        "land"
+      ],
+      "p1|p16": [
+        "land"
+      ],
+      "p17|p24": [
+        "land"
+      ],
+      "p2|p24": [
+        "land"
+      ],
+      "l68|p2": [
+        "land"
+      ],
+      "l56|p24": [
+        "land"
+      ],
+      "l55|l56": [
+        "land"
+      ],
+      "l63|p3": [
+        "land"
+      ],
+      "l65|p9": [
+        "land"
+      ],
+      "l64|l65": [
+        "land"
+      ],
+      "l64|p10": [
+        "land"
+      ],
+      "p10|p6": [
+        "land"
+      ],
+      "l54|l55": [
+        "land"
+      ],
+      "l40|p9": [
+        "land"
+      ],
+      "l40|l41": [
+        "land"
+      ],
+      "l41|l43": [
+        "land"
+      ],
+      "l41|l42": [
+        "land"
+      ],
+      "l42|l44": [
+        "land"
+      ],
+      "l44|p20": [
+        "land"
+      ],
+      "p10|p11": [
+        "land"
+      ],
+      "l36|l37": [
+        "land"
+      ],
+      "l35|l36": [
+        "land"
+      ],
+      "l34|l35": [
+        "land"
+      ],
+      "l63|p12": [
+        "land"
+      ],
+      "l62|p12": [
+        "land"
+      ],
+      "l61|l62": [
+        "land"
+      ],
+      "l59|l61": [
+        "land"
+      ],
+      "l60|l61": [
+        "land"
+      ],
+      "l37|l38": [
+        "land"
+      ],
+      "l68|l70": [
+        "land"
+      ],
+      "l70|p15": [
+        "land"
+      ],
+      "l69|p15": [
+        "land"
+      ],
+      "l56|p8": [
+        "land"
+      ],
+      "p19|p8": [
+        "land"
+      ],
+      "l49|p19": [
+        "land"
+      ],
+      "p19|p22": [
+        "land"
+      ],
+      "l53|p22": [
+        "land"
+      ],
+      "l50|p22": [
+        "land"
+      ],
+      "l50|l51": [
+        "ferry"
+      ],
+      "l51|l52": [
+        "land"
+      ],
+      "l38|l39": [
+        "land"
+      ],
+      "l49|p5": [
+        "land"
+      ],
+      "l47|p5": [
+        "land"
+      ],
+      "l47|p7": [
+        "land"
+      ],
+      "l48|p5": [
+        "land"
+      ],
+      "l46|p20": [
+        "land"
+      ],
+      "l32|p21": [
+        "land"
+      ],
+      "l32|l33": [
+        "ferry"
+      ],
+      "l28|p21": [
+        "land"
+      ],
+      "l28|p4": [
+        "land"
+      ],
+      "l26|l27": [
+        "land"
+      ],
+      "l25|l26": [
+        "land"
+      ],
+      "l28|l29": [
+        "land"
+      ],
+      "l29|p13": [
+        "land"
+      ],
+      "l30|p13": [
+        "ferry"
+      ],
+      "l30|l31": [
+        "ferry"
+      ],
+      "p3|p9": [
+        "land"
+      ],
+      "l59|p12": [
+        "ferry"
+      ],
+      "l58|p14": [
+        "land"
+      ],
+      "p16|p17": [
+        "land"
+      ],
+      "l68|p24": [
+        "land"
+      ],
+      "l31|p13": [
+        "ferry"
+      ],
+      "l33|p21": [
+        "ferry"
+      ],
+      "l34|l36": [
+        "land"
+      ],
+      "l39|l43": [
+        "land"
+      ],
+      "l42|l43": [
+        "land"
+      ],
+      "l45|l46": [
+        "land"
+      ],
+      "l47|l48": [
+        "land"
+      ],
+      "l50|l52": [
+        "land"
+      ],
+      "l50|l53": [
+        "land"
+      ],
+      "l59|l60": [
+        "land"
+      ],
+      "l63|l65": [
+        "land"
+      ],
+      "l28|l32": [
+        "land"
+      ],
+      "l56|p2": [
+        "land"
+      ],
+      "l25|p4": [
+        "land"
+      ],
+      "l59|l62": [
+        "land"
+      ],
+      "l56|p17": [
+        "land"
+      ],
+      "l29|p4": [
+        "land"
+      ],
+      "l29|l31": [
+        "land"
+      ],
+      "l57|p24": [
+        "land"
+      ],
+      "C|l68": [
+        "land"
+      ],
+      "l66|p9": [
+        "land"
+      ],
+      "l31|l33": [
+        "land"
+      ],
+      "C|p23": [
+        "land"
+      ],
+      "C|p3": [
+        "land"
+      ],
+      "l57|l68": [
+        "land"
+      ],
+      "l63|l64": [
+        "land"
+      ],
+      "l65|p3": [
+        "land"
+      ],
+      "l28|l31": [
+        "land"
+      ],
+      "l37|p11": [
+        "land"
+      ],
+      "l43|l44": [
+        "land"
+      ],
+      "l27|p21": [
+        "land"
+      ],
+      "l70|p2": [
+        "land"
+      ],
+      "C|p18": [
+        "land"
+      ],
+      "l62|p6": [
+        "land"
+      ],
+      "l70|p18": [
+        "land"
+      ],
+      "l35|l37": [
+        "land"
+      ],
+      "l63|p6": [
+        "land"
+      ],
+      "l40|l42": [
+        "land"
+      ],
+      "l58|p12": [
+        "land"
+      ],
+      "l40|p18": [
+        "land"
+      ],
+      "l69|p7": [
+        "land"
+      ],
+      "l48|l49": [
+        "land"
+      ],
+      "l33|l34": [
+        "land"
+      ],
+      "l33|p10": [
+        "land"
+      ],
+      "l65|p11": [
+        "land"
+      ],
+      "l33|p11": [
+        "land"
+      ],
+      "p12|p6": [
+        "land"
+      ],
+      "p15|p18": [
+        "land"
+      ],
+      "l47|l69": [
+        "land"
+      ],
+      "l40|l65": [
+        "land"
+      ],
+      "p2|p8": [
+        "land"
+      ],
+      "l46|l47": [
+        "land"
+      ],
+      "l54|p22": [
+        "land"
+      ],
+      "l53|l54": [
+        "land"
+      ],
+      "l49|p7": [
+        "land"
+      ],
+      "p22|p8": [
+        "land"
+      ],
+      "l46|l69": [
+        "land"
+      ],
+      "l50|p19": [
+        "land"
+      ],
+      "l39|l40": [
+        "land"
+      ],
+      "l46|l48": [
+        "land"
+      ],
+      "l34|p11": [
+        "land"
+      ],
+      "l38|l40": [
+        "land"
+      ],
+      "l37|l40": [
+        "land"
+      ],
+      "p19|p7": [
+        "land"
+      ],
+      "l39|l44": [
+        "land"
+      ],
+      "l54|p17": [
+        "land"
+      ],
+      "l35|l38": [
+        "land"
+      ],
+      "l49|l50": [
+        "land"
+      ],
+      "A1|l25": [
+        "land"
+      ],
+      "B1|l28": [
+        "land"
+      ],
+      "B1|p21": [
+        "land"
+      ],
+      "D1|l33": [
+        "land"
+      ],
+      "D1|l32": [
+        "ferry"
+      ],
+      "E1|l34": [
+        "land"
+      ],
+      "F1|l35": [
+        "land"
+      ],
+      "F1|l36": [
+        "land"
+      ],
+      "G1|l37": [
+        "land"
+      ],
+      "H1|l38": [
+        "land"
+      ],
+      "I1|l40": [
+        "land"
+      ],
+      "J1|l41": [
+        "land"
+      ],
+      "J1|l40": [
+        "land"
+      ],
+      "K1|l42": [
+        "land"
+      ],
+      "L1|l44": [
+        "land"
+      ],
+      "M1|l46": [
+        "land"
+      ],
+      "N1|p7": [
+        "land"
+      ],
+      "O1|l52": [
+        "land"
+      ],
+      "P1|l55": [
+        "land"
+      ],
+      "Q1|l56": [
+        "land"
+      ],
+      "R1|l61": [
+        "land"
+      ],
+      "R1|l59": [
+        "land"
+      ],
+      "S1|l62": [
+        "land"
+      ],
+      "T1|l64": [
+        "land"
+      ],
+      "U1|l65": [
+        "land"
+      ],
+      "V1|l69": [
+        "land"
+      ],
+      "W1|l70": [
+        "land"
+      ],
+      "X1|l25": [
+        "land"
+      ],
+      "X1|l26": [
+        "land"
+      ],
+      "A2|p1": [
+        "land"
+      ],
+      "B2|l57": [
+        "land"
+      ],
+      "C2|p17": [
+        "land"
+      ],
+      "D2|p21": [
+        "land"
+      ],
+      "E2|p3": [
+        "land"
+      ],
+      "F2|p19": [
+        "land"
+      ],
+      "H2|p20": [
+        "land"
+      ],
+      "H2|l44": [
+        "land"
+      ],
+      "I2|p1": [
+        "land"
+      ],
+      "J2|p16": [
+        "land"
+      ],
+      "J2|p1": [
+        "land"
+      ],
+      "K2|p17": [
+        "land"
+      ],
+      "L2|p21": [
+        "land"
+      ],
+      "L2|l32": [
+        "ferry"
+      ],
+      "M2|p3": [
+        "land"
+      ],
+      "N2|p19": [
+        "land"
+      ],
+      "N2|l49": [
+        "land"
+      ],
+      "O2|p15": [
+        "land"
+      ],
+      "P2|p20": [
+        "land"
+      ],
+      "Q2|p1": [
+        "land"
+      ],
+      "R2|p16": [
+        "land"
+      ],
+      "R2|l57": [
+        "land"
+      ],
+      "S2|p17": [
+        "land"
+      ],
+      "T2|p21": [
+        "land"
+      ],
+      "T2|l32": [
+        "land"
+      ],
+      "U2|p3": [
+        "land"
+      ],
+      "V2|p19": [
+        "land"
+      ],
+      "W2|p15": [
+        "land"
+      ],
+      "X2|p20": [
+        "land"
+      ],
+      "A3|l27": [
+        "land"
+      ],
+      "B3|l27": [
+        "land"
+      ],
+      "C3|l30": [
+        "land"
+      ],
+      "D3|l31": [
+        "land"
+      ],
+      "D3|l33": [
+        "land"
+      ],
+      "E3|l32": [
+        "ferry"
+      ],
+      "F3|l36": [
+        "land"
+      ],
+      "G3|l39": [
+        "land"
+      ],
+      "H3|l43": [
+        "land"
+      ],
+      "I3|l45": [
+        "land"
+      ],
+      "J3|l49": [
+        "land"
+      ],
+      "K3|l50": [
+        "land"
+      ],
+      "L3|l50": [
+        "ferry"
+      ],
+      "M3|l53": [
+        "land"
+      ],
+      "N3|l54": [
+        "land"
+      ],
+      "O3|l57": [
+        "land"
+      ],
+      "P3|l58": [
+        "land"
+      ],
+      "Q3|l59": [
+        "ferry"
+      ],
+      "R3|l60": [
+        "land"
+      ],
+      "S3|l63": [
+        "land"
+      ],
+      "T3|l67": [
+        "land"
+      ],
+      "U3|l68": [
+        "land"
+      ],
+      "V3|l25": [
+        "land"
+      ],
+      "W3|l27": [
+        "land"
+      ],
+      "X3|l30": [
+        "land"
+      ],
+      "l25|v01": [
+        "land"
+      ],
+      "l27|v02": [
+        "land"
+      ],
+      "l27|v03": [
+        "land"
+      ],
+      "l28|v04": [
+        "land"
+      ],
+      "l29|v05": [
+        "land"
+      ],
+      "p13|v06": [
+        "land"
+      ],
+      "l31|v07": [
+        "ferry"
+      ],
+      "l32|v08": [
+        "ferry"
+      ],
+      "l33|v09": [
+        "land"
+      ],
+      "l34|v10": [
+        "land"
+      ],
+      "l35|v11": [
+        "land"
+      ],
+      "l36|v12": [
+        "land"
+      ],
+      "l37|v13": [
+        "land"
+      ],
+      "l38|v14": [
+        "land"
+      ],
+      "l39|v15": [
+        "land"
+      ],
+      "l40|v16": [
+        "land"
+      ],
+      "l41|v17": [
+        "land"
+      ],
+      "l42|v18": [
+        "land"
+      ],
+      "l43|v19": [
+        "land"
+      ],
+      "l44|v20": [
+        "land"
+      ],
+      "l45|v21": [
+        "land"
+      ],
+      "l46|v22": [
+        "land"
+      ],
+      "l47|v23": [
+        "land"
+      ],
+      "l49|v24": [
+        "land"
+      ],
+      "l50|v25": [
+        "land"
+      ],
+      "l51|v26": [
+        "land"
+      ],
+      "l52|v27": [
+        "land"
+      ],
+      "l53|v28": [
+        "land"
+      ],
+      "l54|v29": [
+        "land"
+      ],
+      "l55|v30": [
+        "land"
+      ],
+      "l56|v31": [
+        "land"
+      ],
+      "l57|v32": [
+        "land"
+      ],
+      "l58|v33": [
+        "land"
+      ],
+      "l59|v34": [
+        "land"
+      ],
+      "l60|v35": [
+        "land"
+      ],
+      "l62|v37": [
+        "land"
+      ],
+      "l63|v38": [
+        "land"
+      ],
+      "l65|v40": [
+        "land"
+      ],
+      "l66|v41": [
+        "land"
+      ],
+      "l68|v42": [
+        "land"
+      ],
+      "l69|v43": [
+        "land"
+      ],
+      "l70|v44": [
+        "land"
+      ],
+      "l25|v45": [
+        "land"
+      ],
+      "l26|v46": [
+        "land"
+      ],
+      "l28|v48": [
+        "land"
+      ],
+      "l29|v49": [
+        "land"
+      ],
+      "l30|v50": [
+        "land"
+      ],
+      "l31|v51": [
+        "ferry"
+      ],
+      "l32|v52": [
+        "land"
+      ],
+      "l33|v53": [
+        "land"
+      ],
+      "l34|v54": [
+        "land"
+      ],
+      "l35|v55": [
+        "land"
+      ],
+      "l36|v56": [
+        "land"
+      ],
+      "l37|v57": [
+        "land"
+      ],
+      "l38|v58": [
+        "land"
+      ],
+      "l39|v59": [
+        "land"
+      ],
+      "l40|v60": [
+        "land"
+      ],
+      "l41|v61": [
+        "land"
+      ],
+      "l42|v62": [
+        "land"
+      ],
+      "l43|v63": [
+        "land"
+      ],
+      "l44|v64": [
+        "land"
+      ],
+      "F3|p11": [
+        "land"
+      ],
+      "F3|l37": [
+        "land"
+      ],
+      "l44|l45": [
+        "land"
+      ],
+      "l34|p21": [
+        "land"
+      ],
+      "p4|v03": [
+        "land"
+      ],
+      "l26|v03": [
+        "land"
+      ],
+      "B2|p16": [
+        "land"
+      ],
+      "l67|p3": [
+        "land"
+      ],
+      "T1|p6": [
+        "land"
+      ],
+      "T1|p10": [
+        "land"
+      ],
+      "N1|p5": [
+        "land"
+      ],
+      "N1|l47": [
+        "land"
+      ],
+      "T3|l66": [
+        "land"
+      ],
+      "j001|l42": [
+        "land"
+      ],
+      "j001|p20": [
+        "land"
+      ],
+      "P2|j001": [
+        "land"
+      ],
+      "j001|l44": [
+        "land"
+      ],
+      "V3|l26": [
+        "land"
+      ],
+      "j002|l29": [
+        "land"
+      ],
+      "j002|l30": [
+        "land"
+      ],
+      "X3|j002": [
+        "land"
+      ],
+      "j002|p13": [
+        "land"
+      ],
+      "H2|l45": [
+        "land"
+      ],
+      "H2|X2": [
+        "land"
+      ],
+      "j003|l54": [
+        "land"
+      ],
+      "j003|l56": [
+        "land"
+      ],
+      "j003|l55": [
+        "land"
+      ],
+      "G2|p15": [
+        "land"
+      ],
+      "B3|l28": [
+        "land"
+      ],
+      "P1|p17": [
+        "land"
+      ],
+      "P1|l56": [
+        "land"
+      ],
+      "l64|v39": [
+        "land"
+      ],
+      "j004|l60": [
+        "land"
+      ],
+      "j004|l61": [
+        "land"
+      ],
+      "l40|v61": [
+        "land"
+      ],
+      "l43|v61": [
+        "land"
+      ],
+      "H3|v61": [
+        "land"
+      ],
+      "P3|p1": [
+        "land"
+      ],
+      "C1|l29": [
+        "land"
+      ],
+      "j005|l57": [
+        "land"
+      ],
+      "j005|l58": [
+        "land"
+      ],
+      "P3|j005": [
+        "land"
+      ],
+      "j005|p23": [
+        "land"
+      ],
+      "N3|p8": [
+        "land"
+      ],
+      "N3|j003": [
+        "land"
+      ],
+      "V1|p20": [
+        "land"
+      ],
+      "V1|p15": [
+        "land"
+      ],
+      "l51|l53": [
+        "ferry"
+      ],
+      "L3|l51": [
+        "land"
+      ],
+      "j004|p6": [
+        "land"
+      ],
+      "R3|j004": [
+        "land"
+      ],
+      "l61|v36": [
+        "land"
+      ],
+      "j004|v36": [
+        "land"
+      ],
+      "l62|v36": [
+        "land"
+      ],
+      "B3|v47": [
+        "land"
+      ],
+      "B3|v03": [
+        "land"
+      ]
+    }
+  },
+  "evaluation": {
+    "experience_protocol": "station-interface-opportunity-1",
+    "planned_exposure_is_not_actual_learning": true,
+    "allocation": {
+      "combined_stages": 64,
+      "shortest_prior_experience_gap_tasks": 16,
+      "similar_material_paths_producing_wrong_standard": 256
+    }
+  },
+  "provenance": {
+    "reference_region": "蒙古",
+    "reference_period": "c. 1250 CE landscape inspiration; modern geographic reference outline",
+    "sources": [
+      "https://www.mongolianatlas.ac.mn/en/atlas/general",
+      "https://github.com/nvkelso/natural-earth-vector/tree/v5.1.2"
+    ],
+    "reference_window": {
+      "crs": "EPSG:4326",
+      "bbox_west_south_east_north": [
+        87.4,
+        41.3,
+        120.2,
+        52.3
+      ],
+      "approximate_area_km2": 3049115.159,
+      "basis": "Whole-region reference extent. Not a historical boundary, actual Andes polygon, or walkable-surface measurement."
+    },
+    "layout_authoring": {
+      "revision": "whole-region-zones-v1",
+      "rationale": [
+        "Entire modern Mongolia: Altai to eastern frontier, northern taiga to southern Gobi.",
+        "Modern territorial outline is a geographic reference, not a claim about medieval political borders.",
+        "Whole-region georeferenced layout; connectivity is an experimental abstraction, not historical-road reconstruction.",
+        "All 24 station types have one replica in each of the three publicly drawn processing-region categories."
+      ],
+      "topology": {
+        "connected": true,
+        "nodes": 212,
+        "roads": 339,
+        "cycle_rank": 128,
+        "core_branch_degree_histogram": {
+          "3": 12,
+          "4": 24,
+          "5": 25,
+          "6": 17,
+          "7": 5,
+          "8": 3,
+          "10": 1
+        },
+        "station_degree_histogram": {
+          "1": 42,
+          "2": 21,
+          "3": 7,
+          "4": 2
+        },
+        "dead_end_count": 103
+      },
+      "geometry_review": {
+        "unconnected_visual_crossings": [],
+        "unapproved_barrier_crossings": [],
+        "minimum_point_separation": 90.54,
+        "explicit_ferry_connections": 16,
+        "topology": {
+          "connected": true,
+          "nodes": 212,
+          "roads": 339,
+          "cycle_rank": 128,
+          "core_branch_degree_histogram": {
+            "3": 12,
+            "4": 24,
+            "5": 25,
+            "6": 17,
+            "7": 5,
+            "8": 3,
+            "10": 1
+          },
+          "station_degree_histogram": {
+            "1": 42,
+            "2": 21,
+            "3": 7,
+            "4": 2
+          },
+          "dead_end_count": 103
+        }
+      },
+      "source_data": {
+        "license": "Natural Earth public domain",
+        "countries": {
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_admin_0_countries.geojson",
+          "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb",
+          "license": "Natural Earth public domain"
+        },
+        "lakes": {
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_lakes.geojson",
+          "sha256": "d350b75978b26fe839b797c2c529b2fb8f47fb3983c03f4964e36d5df9378a52",
+          "license": "Natural Earth public domain"
+        },
+        "places": {
+          "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_populated_places_simple.geojson",
+          "sha256": "fd3fa867a320cbd5c5b6bb5bc550afeec2939fb2cef688e508007282a55ac42f",
+          "license": "Natural Earth public domain"
+        }
+      },
+      "reference_locations": {
+        "p1": {
+          "name": "Suchboatar",
+          "reference_coordinates": [
+            106.200001,
+            50.249997
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p2": {
+          "name": "Dzuunmod",
+          "reference_coordinates": [
+            106.947001,
+            47.710998
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p3": {
+          "name": "Tsetserleg",
+          "reference_coordinates": [
+            101.450179,
+            47.476881
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p4": {
+          "name": "Olgiy",
+          "reference_coordinates": [
+            89.950003,
+            48.933691
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p5": {
+          "name": "Ulaan-Uul",
+          "reference_coordinates": [
+            111.233303,
+            44.333714
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p6": {
+          "name": "Hodrogo",
+          "reference_coordinates": [
+            96.783281,
+            48.966428
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p7": {
+          "name": "Buyant-Uhaa",
+          "reference_coordinates": [
+            110.15001,
+            44.866601
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p8": {
+          "name": "Öndörkhaan",
+          "reference_coordinates": [
+            110.650031,
+            47.316684
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p9": {
+          "name": "Bayankhongor",
+          "reference_coordinates": [
+            100.983335,
+            46.300002
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p10": {
+          "name": "Uliastay",
+          "reference_coordinates": [
+            96.816716,
+            47.750017
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p11": {
+          "name": "Altai",
+          "reference_coordinates": [
+            95.845044,
+            46.39612
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p12": {
+          "name": "Mörön",
+          "reference_coordinates": [
+            100.154445,
+            49.645276
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p13": {
+          "name": "Ulaangom",
+          "reference_coordinates": [
+            92.066618,
+            49.983317
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p14": {
+          "name": "Bulgan",
+          "reference_coordinates": [
+            103.531706,
+            48.810598
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p15": {
+          "name": "Mandalgovi",
+          "reference_coordinates": [
+            106.26601,
+            45.749984
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p16": {
+          "name": "Darkhan",
+          "reference_coordinates": [
+            106.350035,
+            49.616699
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p17": {
+          "name": "Züünkharaa",
+          "reference_coordinates": [
+            106.466617,
+            48.86659
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p18": {
+          "name": "Arvaikheer",
+          "reference_coordinates": [
+            102.766585,
+            46.249979
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p19": {
+          "name": "Baruun-Urt",
+          "reference_coordinates": [
+            113.283307,
+            46.699978
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p20": {
+          "name": "Dalandzadgad",
+          "reference_coordinates": [
+            104.440281,
+            43.583553
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p21": {
+          "name": "Dund-Us",
+          "reference_coordinates": [
+            91.633259,
+            48.016642
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p22": {
+          "name": "Choibalsan",
+          "reference_coordinates": [
+            114.506023,
+            48.066587
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p23": {
+          "name": "Erdenet",
+          "reference_coordinates": [
+            104.118337,
+            49.053297
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "p24": {
+          "name": "Ulaanbaatar",
+          "reference_coordinates": [
+            106.91467,
+            47.918619
+          ],
+          "source": "Natural Earth 5.1.2 populated places"
+        },
+        "l25": {
+          "name": "Tavan Bogd",
+          "reference_coordinates": [
+            88.1,
+            49.05
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l26": {
+          "name": "Khoton lake",
+          "reference_coordinates": [
+            88.4,
+            48.65
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l27": {
+          "name": "Dayan lake",
+          "reference_coordinates": [
+            88.9,
+            48.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l28": {
+          "name": "Tsambagarav",
+          "reference_coordinates": [
+            90.9,
+            48.65
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l29": {
+          "name": "Kharkhiraa",
+          "reference_coordinates": [
+            91.5,
+            49.7
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l30": {
+          "name": "Uvs basin",
+          "reference_coordinates": [
+            92.75,
+            50.1
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l31": {
+          "name": "Khyargas lake",
+          "reference_coordinates": [
+            93.3,
+            49.1
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l32": {
+          "name": "Khar Us lake",
+          "reference_coordinates": [
+            92.2,
+            48.05
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l33": {
+          "name": "Durgun basin",
+          "reference_coordinates": [
+            93.3,
+            47.8
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l34": {
+          "name": "Bulgan Altai",
+          "reference_coordinates": [
+            91.4,
+            46.15
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l35": {
+          "name": "Border Altai",
+          "reference_coordinates": [
+            92.5,
+            45.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l36": {
+          "name": "Great Gobi west",
+          "reference_coordinates": [
+            94.3,
+            45.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l37": {
+          "name": "Eej Khairkhan",
+          "reference_coordinates": [
+            95.7,
+            44.9
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l38": {
+          "name": "Edren ridge",
+          "reference_coordinates": [
+            96.6,
+            43.5
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l39": {
+          "name": "Gobi south west",
+          "reference_coordinates": [
+            98.5,
+            42.15
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l40": {
+          "name": "Ikh Bogd",
+          "reference_coordinates": [
+            100.2,
+            45.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l41": {
+          "name": "Bayan Gobi",
+          "reference_coordinates": [
+            101.0,
+            44.1
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l42": {
+          "name": "Khongor sands",
+          "reference_coordinates": [
+            102.7,
+            43.8
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l43": {
+          "name": "Nemegt basin",
+          "reference_coordinates": [
+            101.0,
+            43.5
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l44": {
+          "name": "Gurvan Saikhan",
+          "reference_coordinates": [
+            103.7,
+            43.4
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l45": {
+          "name": "South Gobi frontier",
+          "reference_coordinates": [
+            104.8,
+            41.9
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l46": {
+          "name": "Gobi east basin",
+          "reference_coordinates": [
+            107.6,
+            43.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l47": {
+          "name": "Khamar basin",
+          "reference_coordinates": [
+            110.25,
+            44.55
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l48": {
+          "name": "Zamiin corridor",
+          "reference_coordinates": [
+            111.8,
+            43.8
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l49": {
+          "name": "Dariganga",
+          "reference_coordinates": [
+            114.0,
+            45.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l50": {
+          "name": "Menengiin plain",
+          "reference_coordinates": [
+            117.1,
+            47.7
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l51": {
+          "name": "Buir lake",
+          "reference_coordinates": [
+            117.8,
+            47.9
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l52": {
+          "name": "Eastern frontier",
+          "reference_coordinates": [
+            119.5,
+            47.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l53": {
+          "name": "Dornod north",
+          "reference_coordinates": [
+            115.2,
+            49.1
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l54": {
+          "name": "Onon basin",
+          "reference_coordinates": [
+            111.3,
+            49.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l55": {
+          "name": "Khentii uplands",
+          "reference_coordinates": [
+            109.1,
+            48.8
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l56": {
+          "name": "Khan Khentii",
+          "reference_coordinates": [
+            108.2,
+            48.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l57": {
+          "name": "Selenge forest",
+          "reference_coordinates": [
+            106.1,
+            49.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l58": {
+          "name": "Egiin valley",
+          "reference_coordinates": [
+            103.5,
+            49.8
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l59": {
+          "name": "Khuvsgul lake",
+          "reference_coordinates": [
+            100.4,
+            51.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l60": {
+          "name": "Northern taiga",
+          "reference_coordinates": [
+            99.5,
+            51.8
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l61": {
+          "name": "Darkhad basin",
+          "reference_coordinates": [
+            99.4,
+            51.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l62": {
+          "name": "Sayan pass",
+          "reference_coordinates": [
+            98.7,
+            50.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l63": {
+          "name": "Terkhiin lake",
+          "reference_coordinates": [
+            99.7,
+            48.2
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l64": {
+          "name": "Otgontenger",
+          "reference_coordinates": [
+            97.6,
+            47.6
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l65": {
+          "name": "Khangai divide",
+          "reference_coordinates": [
+            99.2,
+            47.0
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l66": {
+          "name": "Orkhon valley",
+          "reference_coordinates": [
+            102.7,
+            47.1
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l67": {
+          "name": "Kharkhorin",
+          "reference_coordinates": [
+            102.82,
+            47.2
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l68": {
+          "name": "Hustai steppe",
+          "reference_coordinates": [
+            105.9,
+            47.7
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l69": {
+          "name": "Middle Gobi",
+          "reference_coordinates": [
+            106.8,
+            45.3
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "l70": {
+          "name": "Baga gazriin rocks",
+          "reference_coordinates": [
+            105.9,
+            46.2
+          ],
+          "source": "authored approximate landscape anchor"
+        },
+        "C": {
+          "name": "全域巡测营地"
+        },
+        "A1": {
+          "name": "A1"
+        },
+        "B1": {
+          "name": "B1"
+        },
+        "C1": {
+          "name": "C1"
+        },
+        "D1": {
+          "name": "D1"
+        },
+        "E1": {
+          "name": "E1"
+        },
+        "F1": {
+          "name": "F1"
+        },
+        "G1": {
+          "name": "G1"
+        },
+        "H1": {
+          "name": "H1"
+        },
+        "I1": {
+          "name": "I1"
+        },
+        "J1": {
+          "name": "J1"
+        },
+        "K1": {
+          "name": "K1"
+        },
+        "L1": {
+          "name": "L1"
+        },
+        "M1": {
+          "name": "M1"
+        },
+        "N1": {
+          "name": "N1"
+        },
+        "O1": {
+          "name": "O1"
+        },
+        "P1": {
+          "name": "P1"
+        },
+        "Q1": {
+          "name": "Q1"
+        },
+        "R1": {
+          "name": "R1"
+        },
+        "S1": {
+          "name": "S1"
+        },
+        "T1": {
+          "name": "T1"
+        },
+        "U1": {
+          "name": "U1"
+        },
+        "V1": {
+          "name": "V1"
+        },
+        "W1": {
+          "name": "W1"
+        },
+        "X1": {
+          "name": "X1"
+        },
+        "A2": {
+          "name": "A2"
+        },
+        "B2": {
+          "name": "B2"
+        },
+        "C2": {
+          "name": "C2"
+        },
+        "D2": {
+          "name": "D2"
+        },
+        "E2": {
+          "name": "E2"
+        },
+        "F2": {
+          "name": "F2"
+        },
+        "G2": {
+          "name": "G2"
+        },
+        "H2": {
+          "name": "H2"
+        },
+        "I2": {
+          "name": "I2"
+        },
+        "J2": {
+          "name": "J2"
+        },
+        "K2": {
+          "name": "K2"
+        },
+        "L2": {
+          "name": "L2"
+        },
+        "M2": {
+          "name": "M2"
+        },
+        "N2": {
+          "name": "N2"
+        },
+        "O2": {
+          "name": "O2"
+        },
+        "P2": {
+          "name": "P2"
+        },
+        "Q2": {
+          "name": "Q2"
+        },
+        "R2": {
+          "name": "R2"
+        },
+        "S2": {
+          "name": "S2"
+        },
+        "T2": {
+          "name": "T2"
+        },
+        "U2": {
+          "name": "U2"
+        },
+        "V2": {
+          "name": "V2"
+        },
+        "W2": {
+          "name": "W2"
+        },
+        "X2": {
+          "name": "X2"
+        },
+        "A3": {
+          "name": "A3"
+        },
+        "B3": {
+          "name": "B3"
+        },
+        "C3": {
+          "name": "C3"
+        },
+        "D3": {
+          "name": "D3"
+        },
+        "E3": {
+          "name": "E3"
+        },
+        "F3": {
+          "name": "F3"
+        },
+        "G3": {
+          "name": "G3"
+        },
+        "H3": {
+          "name": "H3"
+        },
+        "I3": {
+          "name": "I3"
+        },
+        "J3": {
+          "name": "J3"
+        },
+        "K3": {
+          "name": "K3"
+        },
+        "L3": {
+          "name": "L3"
+        },
+        "M3": {
+          "name": "M3"
+        },
+        "N3": {
+          "name": "N3"
+        },
+        "O3": {
+          "name": "O3"
+        },
+        "P3": {
+          "name": "P3"
+        },
+        "Q3": {
+          "name": "Q3"
+        },
+        "R3": {
+          "name": "R3"
+        },
+        "S3": {
+          "name": "S3"
+        },
+        "T3": {
+          "name": "T3"
+        },
+        "U3": {
+          "name": "U3"
+        },
+        "V3": {
+          "name": "V3"
+        },
+        "W3": {
+          "name": "W3"
+        },
+        "X3": {
+          "name": "X3"
+        },
+        "v01": {
+          "name": "v01"
+        },
+        "v02": {
+          "name": "v02"
+        },
+        "v03": {
+          "name": "v03"
+        },
+        "v04": {
+          "name": "v04"
+        },
+        "v05": {
+          "name": "v05"
+        },
+        "v06": {
+          "name": "v06"
+        },
+        "v07": {
+          "name": "v07"
+        },
+        "v08": {
+          "name": "v08"
+        },
+        "v09": {
+          "name": "v09"
+        },
+        "v10": {
+          "name": "v10"
+        },
+        "v11": {
+          "name": "v11"
+        },
+        "v12": {
+          "name": "v12"
+        },
+        "v13": {
+          "name": "v13"
+        },
+        "v14": {
+          "name": "v14"
+        },
+        "v15": {
+          "name": "v15"
+        },
+        "v16": {
+          "name": "v16"
+        },
+        "v17": {
+          "name": "v17"
+        },
+        "v18": {
+          "name": "v18"
+        },
+        "v19": {
+          "name": "v19"
+        },
+        "v20": {
+          "name": "v20"
+        },
+        "v21": {
+          "name": "v21"
+        },
+        "v22": {
+          "name": "v22"
+        },
+        "v23": {
+          "name": "v23"
+        },
+        "v24": {
+          "name": "v24"
+        },
+        "v25": {
+          "name": "v25"
+        },
+        "v26": {
+          "name": "v26"
+        },
+        "v27": {
+          "name": "v27"
+        },
+        "v28": {
+          "name": "v28"
+        },
+        "v29": {
+          "name": "v29"
+        },
+        "v30": {
+          "name": "v30"
+        },
+        "v31": {
+          "name": "v31"
+        },
+        "v32": {
+          "name": "v32"
+        },
+        "v33": {
+          "name": "v33"
+        },
+        "v34": {
+          "name": "v34"
+        },
+        "v35": {
+          "name": "v35"
+        },
+        "v36": {
+          "name": "v36"
+        },
+        "v37": {
+          "name": "v37"
+        },
+        "v38": {
+          "name": "v38"
+        },
+        "v39": {
+          "name": "v39"
+        },
+        "v40": {
+          "name": "v40"
+        },
+        "v41": {
+          "name": "v41"
+        },
+        "v42": {
+          "name": "v42"
+        },
+        "v43": {
+          "name": "v43"
+        },
+        "v44": {
+          "name": "v44"
+        },
+        "v45": {
+          "name": "v45"
+        },
+        "v46": {
+          "name": "v46"
+        },
+        "v47": {
+          "name": "v47"
+        },
+        "v48": {
+          "name": "v48"
+        },
+        "v49": {
+          "name": "v49"
+        },
+        "v50": {
+          "name": "v50"
+        },
+        "v51": {
+          "name": "v51"
+        },
+        "v52": {
+          "name": "v52"
+        },
+        "v53": {
+          "name": "v53"
+        },
+        "v54": {
+          "name": "v54"
+        },
+        "v55": {
+          "name": "v55"
+        },
+        "v56": {
+          "name": "v56"
+        },
+        "v57": {
+          "name": "v57"
+        },
+        "v58": {
+          "name": "v58"
+        },
+        "v59": {
+          "name": "v59"
+        },
+        "v60": {
+          "name": "v60"
+        },
+        "v61": {
+          "name": "v61"
+        },
+        "v62": {
+          "name": "v62"
+        },
+        "v63": {
+          "name": "v63"
+        },
+        "v64": {
+          "name": "v64"
+        }
+      },
+      "shore_access_adjustments": [
+        {
+          "node": "v05",
+          "before": [
+            1637.06,
+            1624.15
+          ],
+          "after": [
+            1614.9389,
+            1644.4147
+          ]
+        },
+        {
+          "node": "v06",
+          "before": [
+            1886.69,
+            1420.79
+          ],
+          "after": [
+            1834.7773,
+            1390.7055
+          ]
+        },
+        {
+          "node": "v34",
+          "before": [
+            4465.02,
+            1141.77
+          ],
+          "after": [
+            4435.4786,
+            1136.5445
+          ]
+        },
+        {
+          "node": "v51",
+          "before": [
+            2309.47,
+            2074.57
+          ],
+          "after": [
+            2339.47,
+            2074.57
+          ]
+        },
+        {
+          "node": "v52",
+          "before": [
+            1831.52,
+            2577.24
+          ],
+          "after": [
+            1809.3989,
+            2597.5047
+          ]
+        },
+        {
+          "node": "l30",
+          "before": [
+            1988.54,
+            1524.0
+          ],
+          "after": [
+            2041.6514,
+            1551.9138
+          ]
+        },
+        {
+          "node": "l31",
+          "before": [
+            2168.29,
+            2107.64
+          ],
+          "after": [
+            2146.1689,
+            2127.9047
+          ]
+        },
+        {
+          "node": "l32",
+          "before": [
+            1808.78,
+            2720.45
+          ],
+          "after": [
+            1779.2386,
+            2715.2245
+          ]
+        },
+        {
+          "node": "l35",
+          "before": [
+            1906.83,
+            4500.55
+          ],
+          "after": [
+            1909.4528,
+            4470.6649
+          ]
+        },
+        {
+          "node": "l39",
+          "before": [
+            3867.8,
+            6163.91
+          ],
+          "after": [
+            4144.2435,
+            5888.8118
+          ]
+        },
+        {
+          "node": "l51",
+          "before": [
+            10175.61,
+            2808.0
+          ],
+          "after": [
+            10205.61,
+            2808.0
+          ]
+        },
+        {
+          "node": "l52",
+          "before": [
+            10731.22,
+            3158.18
+          ],
+          "after": [
+            10709.0989,
+            3178.4447
+          ]
+        },
+        {
+          "node": "l59",
+          "before": [
+            4488.78,
+            998.73
+          ],
+          "after": [
+            4444.5379,
+            1039.2594
+          ]
+        },
+        {
+          "node": "l67",
+          "before": [
+            5279.71,
+            3216.55
+          ],
+          "after": [
+            5309.71,
+            3216.55
+          ]
+        }
+      ]
+    },
+    "scope": "Modern reference geography with authored roads, facilities, survey points and mutually exclusive benchmark region partitions. Not a reconstruction of historical transport, population or animal ranges.",
+    "recall_revision": {
+      "original_design_sha256": "e86ef80fddfacf421a31b591d83bd12c63615ddacb9f227b87e4c90566185678",
+      "world_seed": 61802,
+      "former_stations_now_transit": {
+        "A1": "Western spur sits 4 distance units from A3, which keeps western access. Keep the dispersed eastern and trans-steppe alternatives."
+      },
+      "survey_and_road_geometry_preserved": true
+    }
+  },
+  "private_interfaces": {
+    "formats": {
+      "profile": [
+        "F-1",
+        "F-2"
+      ],
+      "elevation": [
+        "F-1",
+        "F-2"
+      ],
+      "slope": [
+        "F-1",
+        "F-2"
+      ],
+      "soil": [
+        "F-1",
+        "F-2"
+      ],
+      "drainage": [
+        "F-1",
+        "F-2"
+      ],
+      "vegetation": [
+        "F-1",
+        "F-2"
+      ],
+      "lithology": [
+        "F-1",
+        "F-2"
+      ],
+      "land_cover": [
+        "F-1",
+        "F-2"
+      ],
+      "ungulate_tracks": [
+        "F-1",
+        "F-2"
+      ],
+      "livestock_signs": [
+        "F-1",
+        "F-2"
+      ],
+      "farmland_birds": [
+        "F-1",
+        "F-2"
+      ],
+      "small_mammal_signs": [
+        "F-1",
+        "F-2"
+      ],
+      "built_form": [
+        "F-1",
+        "F-2"
+      ],
+      "waterworks": [
+        "F-1",
+        "F-2"
+      ],
+      "settlement_layout": [
+        "F-1",
+        "F-2"
+      ],
+      "historic_road": [
+        "F-1",
+        "F-2"
+      ]
+    },
+    "cataloguers": [
+      {
+        "material": "profile",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "profile",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "profile",
+        "type": "C",
+        "output": "F-2"
+      },
+      {
+        "material": "profile",
+        "type": "R",
+        "output": "F-2"
+      },
+      {
+        "material": "elevation",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "elevation",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "elevation",
+        "type": "C",
+        "output": "F-2"
+      },
+      {
+        "material": "elevation",
+        "type": "R",
+        "output": "F-2"
+      },
+      {
+        "material": "slope",
+        "type": "C",
+        "output": "F-1"
+      },
+      {
+        "material": "slope",
+        "type": "R",
+        "output": "F-1"
+      },
+      {
+        "material": "slope",
+        "type": "Q",
+        "output": "F-2"
+      },
+      {
+        "material": "slope",
+        "type": "E",
+        "output": "F-2"
+      },
+      {
+        "material": "soil",
+        "type": "C",
+        "output": "F-1"
+      },
+      {
+        "material": "soil",
+        "type": "R",
+        "output": "F-1"
+      },
+      {
+        "material": "soil",
+        "type": "Q",
+        "output": "F-2"
+      },
+      {
+        "material": "soil",
+        "type": "E",
+        "output": "F-2"
+      },
+      {
+        "material": "drainage",
+        "type": "Q",
+        "output": "F-1"
+      },
+      {
+        "material": "drainage",
+        "type": "E",
+        "output": "F-1"
+      },
+      {
+        "material": "drainage",
+        "type": "B",
+        "output": "F-2"
+      },
+      {
+        "material": "drainage",
+        "type": "K",
+        "output": "F-2"
+      },
+      {
+        "material": "vegetation",
+        "type": "Q",
+        "output": "F-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "E",
+        "output": "F-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "B",
+        "output": "F-2"
+      },
+      {
+        "material": "vegetation",
+        "type": "K",
+        "output": "F-2"
+      },
+      {
+        "material": "lithology",
+        "type": "B",
+        "output": "F-1"
+      },
+      {
+        "material": "lithology",
+        "type": "K",
+        "output": "F-1"
+      },
+      {
+        "material": "lithology",
+        "type": "I",
+        "output": "F-2"
+      },
+      {
+        "material": "lithology",
+        "type": "N",
+        "output": "F-2"
+      },
+      {
+        "material": "land_cover",
+        "type": "B",
+        "output": "F-1"
+      },
+      {
+        "material": "land_cover",
+        "type": "K",
+        "output": "F-1"
+      },
+      {
+        "material": "land_cover",
+        "type": "I",
+        "output": "F-2"
+      },
+      {
+        "material": "land_cover",
+        "type": "N",
+        "output": "F-2"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "I",
+        "output": "F-1"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "N",
+        "output": "F-1"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "F",
+        "output": "F-2"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "G",
+        "output": "F-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "I",
+        "output": "F-1"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "N",
+        "output": "F-1"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "F",
+        "output": "F-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "G",
+        "output": "F-2"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "F",
+        "output": "F-1"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "G",
+        "output": "F-1"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "D",
+        "output": "F-2"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "H",
+        "output": "F-2"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "F",
+        "output": "F-1"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "G",
+        "output": "F-1"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "D",
+        "output": "F-2"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "H",
+        "output": "F-2"
+      },
+      {
+        "material": "built_form",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "built_form",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "built_form",
+        "type": "C",
+        "output": "F-2"
+      },
+      {
+        "material": "built_form",
+        "type": "R",
+        "output": "F-2"
+      },
+      {
+        "material": "waterworks",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "C",
+        "output": "F-2"
+      },
+      {
+        "material": "waterworks",
+        "type": "R",
+        "output": "F-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "C",
+        "output": "F-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "R",
+        "output": "F-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "Q",
+        "output": "F-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "E",
+        "output": "F-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "C",
+        "output": "F-1"
+      },
+      {
+        "material": "historic_road",
+        "type": "R",
+        "output": "F-1"
+      },
+      {
+        "material": "historic_road",
+        "type": "Q",
+        "output": "F-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "E",
+        "output": "F-2"
+      }
+    ],
+    "verifiers": [
+      {
+        "material": "profile",
+        "type": "T",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "profile",
+        "type": "J",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "profile",
+        "type": "W",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "profile",
+        "type": "X",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "elevation",
+        "type": "T",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "elevation",
+        "type": "J",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "elevation",
+        "type": "W",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "elevation",
+        "type": "X",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "slope",
+        "type": "W",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "slope",
+        "type": "X",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "slope",
+        "type": "V",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "slope",
+        "type": "U",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "soil",
+        "type": "W",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "soil",
+        "type": "X",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "soil",
+        "type": "V",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "soil",
+        "type": "U",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "drainage",
+        "type": "V",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "drainage",
+        "type": "U",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "drainage",
+        "type": "A",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "drainage",
+        "type": "P",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "V",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "U",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "A",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "vegetation",
+        "type": "P",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "lithology",
+        "type": "A",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "lithology",
+        "type": "P",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "lithology",
+        "type": "O",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "lithology",
+        "type": "S",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "land_cover",
+        "type": "A",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "land_cover",
+        "type": "P",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "land_cover",
+        "type": "O",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "land_cover",
+        "type": "S",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "O",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "S",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "M",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "ungulate_tracks",
+        "type": "L",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "O",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "S",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "M",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "L",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "M",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "L",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "T",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "farmland_birds",
+        "type": "J",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "M",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "L",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "T",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "small_mammal_signs",
+        "type": "J",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "built_form",
+        "type": "T",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "built_form",
+        "type": "J",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "built_form",
+        "type": "W",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "built_form",
+        "type": "X",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "T",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "J",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "W",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "waterworks",
+        "type": "X",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "W",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "X",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "V",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "U",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "W",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "X",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "V",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "historic_road",
+        "type": "U",
+        "input": "F-2",
+        "output": "standard-1"
+      }
+    ],
+    "alternatives_per_goal": 2,
+    "enforce_interface": true
+  }
+}

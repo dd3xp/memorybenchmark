@@ -24,6 +24,19 @@
     }
   },
   "models": {
+    "gpt-6-luna": {
+      "gateway": "openai-subscription",
+      "hermes_context_tokens": 272000,
+      "route_default_context_tokens": 272000,
+      "route_max_input_tokens": 272000,
+      "route_optional_max_context_tokens": 872000,
+      "route_metadata_verified_at_utc": "2026-11-18T06:59:39Z",
+      "public_api_context_tokens": 1050000,
+      "public_api_max_output_tokens": 128000,
+      "output_cap_override": null,
+      "selection_basis": "Authenticated subscription gateway GET /v1/models. Both Luna generations advertise a 272000 default. The listed 872000 extended window remains optional.",
+      "official_spec_url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
     "gpt-5.6-luna": {
       "gateway": "openai-subscription",
       "hermes_context_tokens": 272000,

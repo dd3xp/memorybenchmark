@@ -1,4 +1,4 @@
-"""Opt-in intermediate-interface processing for isolated Hard calibration."""
+"""Outcome-only processing with explicit intermediate interfaces."""
 
 from copy import deepcopy
 from dataclasses import replace
@@ -68,7 +68,7 @@ def load(design):
     if len(members) != len(set(members)) or set(members) != stations:
         raise ValueError("Station types must partition the physical stations")
     for name, data in types.items():
-        if len(data["stations"]) != 2 or any(
+        if not data["stations"] or any(
             design["public"]["locations"][s].get("station_type") != name
             for s in data["stations"]
         ):

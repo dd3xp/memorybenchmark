@@ -165,7 +165,7 @@ def inspect(pair_root):
         raise ValueError("Select one complete server-configured experiment group")
     rows = []
     for job in pair["jobs"]:
-        if job["model"] not in ("gpt-5.6-luna", "gpt-5.6-terra"):
+        if job["model"] not in ("gpt-5.6-luna", "gpt-5.6-terra", "gpt-6-luna"):
             raise ValueError(
                 "This Responses inspector must not interpret Gemini Chat streams"
             )

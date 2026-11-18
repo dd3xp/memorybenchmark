@@ -1,0 +1,26 @@
+{
+  "maps": {
+    "scandinavia": {
+      "seed": 61801,
+      "transit_stations": {
+        "A1": "Northern spur lies 5 distance units from A2. No stage needs A1 on a shortest compatible type path. Retain A3 as the alternate northern approach."
+      }
+    },
+    "mongolia": {
+      "seed": 61802,
+      "transit_stations": {
+        "A1": "Western spur sits 4 distance units from A3, which keeps western access. Keep the dispersed eastern and trans-steppe alternatives."
+      }
+    },
+    "andes": {
+      "seed": 61803,
+      "transit_stations": {
+        "G2": "G3 reaches every survey at least as cheaply as G2 where G2 would otherwise be nearest. Keep P2 and V3 for southern approaches."
+      }
+    }
+  },
+  "scandinavia_pilot_tasks": [
+    "T1", "T2", "T3", "T4", "T5", "T6", "T13", "T14",
+    "T33", "T34", "T35", "T39"
+  ]
+}

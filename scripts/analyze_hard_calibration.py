@@ -37,11 +37,10 @@ def analyze(root):
         expected_tasks = authorized_task_count(job, job["source_digest"])
         if (
             job["condition"],
-            job["model"],
             job["context_tokens"],
             job["movement_mode"],
             job["tasks_per_condition"],
-        ) != (result["condition"], "gpt-5.6-luna", 272000, "step", expected_tasks):
+        ) != (result["condition"], 272000, "step", expected_tasks):
             raise ValueError("Sealed result does not match the authorized calibration")
         for row in result["rows"]:
             summary = json.loads(
@@ -71,6 +70,7 @@ def analyze(root):
         actual_context=272000,
         registry_sha256=job["registry_sha256"],
         design_id=job["design_id"],
+        model=job["model"],
         source_digest=job["source_digest"],
     )
     atomic_json(output, value)

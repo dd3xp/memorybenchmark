@@ -19,6 +19,8 @@ from scripts.run_hard_calibration import preflight_job
 PROJECT = Path(__file__).resolve().parents[1]
 POLICY = "config/authorized-hard-binding36-retain.json"
 TARGET_POLICY = "config/authorized-hard-target60-retain.json"
+LUNA6_POLICY = "config/authorized-hard-luna6-repeat.json"
+POLICIES = (POLICY, TARGET_POLICY, LUNA6_POLICY)
 
 
 def read(path):
@@ -29,7 +31,7 @@ def validate(review, policy, project):
     """Refuse extra conditions, changed science or accidentally reused pilot worlds."""
     required = {
         "agent": "hermes",
-        "model": "gpt-5.6-luna",
+        "model": policy["model"],
         "conditions": ["retain"],
         "tasks_per_condition": 36,
         "total_tasks": 36,
@@ -69,7 +71,7 @@ def validate(review, policy, project):
 
 
 def execute(runtime_config, authorization=POLICY):
-    if authorization not in (POLICY, TARGET_POLICY):
+    if authorization not in POLICIES:
         raise ValueError("Select an explicitly authorized full retained confirmation")
     policy = read(PROJECT / authorization)
     config = replace(RuntimeConfig.load(runtime_config), project=PROJECT)
@@ -160,9 +162,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runtime-config", type=Path)
     parser.add_argument("--preflight-job", type=Path)
-    parser.add_argument(
-        "--authorization", choices=(POLICY, TARGET_POLICY), default=POLICY
-    )
+    parser.add_argument("--authorization", choices=POLICIES, default=POLICY)
     args = parser.parse_args()
     if args.preflight_job:
         preflight_job(args.preflight_job)

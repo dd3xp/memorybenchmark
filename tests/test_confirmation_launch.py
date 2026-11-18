@@ -12,7 +12,7 @@ from memorybenchmark.experiments.service import ExperimentService
 from operations.inspect_managed_pair import inspect
 from memorybenchmark.experiments.verification import authorized_task_count
 from memorybenchmark.experiments.repository import PairRepository
-from scripts.run_hard_confirmation import validate
+from scripts.run_hard_confirmation import LUNA6_POLICY, validate
 
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -37,9 +37,7 @@ class ConfirmationLaunchTests(unittest.TestCase):
             (),
             Path("python"),
         )
-        self.policy = json.loads(
-            (PROJECT / "config/authorized-hard-binding36-retain.json").read_text()
-        )
+        self.policy = json.loads((PROJECT / LUNA6_POLICY).read_text(encoding="utf-8"))
         self.request = {
             k: self.policy[k] for k in ("model", "map", "movement_mode", "request_id")
         }
@@ -94,6 +92,7 @@ class ConfirmationLaunchTests(unittest.TestCase):
             {"context_tokens": 64000},
             {"conditions": ["retain", "clear"]},
             {"total_tasks": 72},
+            {"model": "gpt-5.6-luna"},
         ):
             with self.subTest(changed=changed), self.assertRaises(ValueError):
                 validate({**review, **changed}, self.policy, PROJECT)
@@ -117,6 +116,7 @@ class ConfirmationLaunchTests(unittest.TestCase):
             ({}, None),
             ({"condition": "clear"}, "source"),
             ({"design_id": "another-world"}, "source"),
+            ({"model": "gpt-5.6-luna"}, "source"),
         ):
             with self.subTest(changed=changed), self.assertRaises(ValueError):
                 authorized_task_count({**job, **changed}, source)
