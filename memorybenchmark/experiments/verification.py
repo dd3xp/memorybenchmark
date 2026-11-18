@@ -38,28 +38,40 @@ FULL_RETAINED_CONFIRMATIONS = {
     },
 }
 
+LUNATIC_RETAINED_PILOT = {
+    "lunatic-scandinavia-goal-switch-retain18-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.1-goal-switch-pilot18",
+        "design_file": "calibration/scandinavia_lunatic_goal_switch18.json",
+    },
+}
+
 
 def authorized_task_count(job, expected_source_digest):
-    """Full confirmation is one named retained run, not a wider task-count fallback."""
-    if job["tasks_per_condition"] == 12:
+    """Additional task counts require a named retained run and a frozen source."""
+    count = job["tasks_per_condition"]
+    if count == 12:
         require(job["model"] == "gpt-5.6-luna", "Unknown Hard calibration model")
         return 12
+    candidates = {36: FULL_RETAINED_CONFIRMATIONS, 18: LUNATIC_RETAINED_PILOT}
     require(
-        job["tasks_per_condition"] == 36
-        and expected_source_digest is not None
+        expected_source_digest is not None
         and any(
             job["pair_id"] == sha256(request.encode()).hexdigest()[:32]
-            and job["model"] == spec["model"]
-            and job["design_id"] == spec["design_id"]
-            and job["design_file"] == spec["design_file"]
-            for request, spec in FULL_RETAINED_CONFIRMATIONS.items()
+            and all(
+                job.get(key) == value
+                for key, value in spec.items()
+                if key != "world_seed"
+            )
+            for request, spec in candidates.get(count, {}).items()
         )
         and job["condition"] == "retain"
         and job.get("conditions") == ["retain"]
         and job["movement_mode"] == "step",
-        "Full36 verification needs the authorized retained job and independent frozen source",
+        "Verification needs the authorized retained job and independent frozen source",
     )
-    return 36
+    return count
 
 
 def read(bundle, name):

@@ -45,9 +45,18 @@
 
 用户选定 v4.0 作为备选。配对校准留在原独立队列，地图与任务文件按原 [校准配置](../config/authorized-lunatic-recall-pilot.json)保存。结果范围为斯堪的纳维亚的 12 项配对校准。
 
+## v4.1 双目标校准
+
+斯堪的纳维亚沿用 v4.0 的 245 个地点、道路、渡线、站点和处理能力。v4.1 保留首轮全部 12 项委托，增加 4 项普通委托和 2 项组合委托。岩性、水质、建筑形制和水利工程现在各有两个交付目标。
+
+例如岩性达到 `standard-1` 的一条路线是 C 型编为 `F-2`，再由 F 型核验。同样的岩性若要求 `standard-2`，可选 W 型编为 `F-1`，再由 O 型核验。两条路线分别在普通委托中有实际反馈机会。组合委托要求按资料和本次目标搭配此前的编目与核验经验，走另一标准的有效路线会得到错误的交付物。
+
+前 12 项提供普通委托的反馈，后 6 项有 12 个组合阶段。组合与最近所需经验的任务序号差从至少 4 项增到至少 6 项。零模型参考策略只用已交付的匹配反馈来做组合，18 项全部可完成，最多用 61 步。此轮使用独立原始基线，只开一个 Hermes／GPT-5.6 Luna 单步保留组。报告整体首试正确率和原首轮 12 项的同题切片。 [授权与预算](../config/authorized-lunatic-goal-switch-retain.json)
+
 逐图生成和验证：
 
 ```powershell
 python -m scripts.build_lunatic_recall --map scandinavia --output .runs/scandinavia-recall-check.json
+python -m scripts.build_lunatic_recall --map scandinavia --goal-switch-pilot --output .runs/scandinavia-goal-switch18-check.json
 python -m scripts.render_lunatic_maps --map scandinavia
 ```

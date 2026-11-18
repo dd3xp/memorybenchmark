@@ -14,6 +14,7 @@ from memorybenchmark.prototypes.station_capability import (
 from memorybenchmark.prototypes.station_interfaces import item, world
 from memorybenchmark.prototypes.station_routes import walk
 from memorybenchmark.prototypes.station_session import StationSession
+from scripts.build_hard_calibration import validate
 from scripts.build_lunatic_recall import DATA, pilot
 
 
@@ -87,6 +88,33 @@ class LunaticRecallTests(unittest.TestCase):
             selected["evaluation"]["allocation"]["shortest_prior_experience_gap_tasks"],
             1,
         )
+
+    def test_goal_switch_adds_both_standards_as_ordinary_then_combined_experience(self):
+        full = json.loads(station_design("scandinavia-lunatic").read_bytes())
+        previous = pilot(full)
+        candidate = pilot(full, goal_switch=True)
+        deployed = DATA / "calibration/scandinavia_lunatic_goal_switch18.json"
+        self.assertEqual(candidate, json.loads(deployed.read_bytes()))
+        self.assertEqual(
+            candidate["private_interfaces"], previous["private_interfaces"]
+        )
+        self.assertEqual(
+            candidate["public"],
+            {**previous["public"], "version": candidate["design_id"]},
+        )
+        source_tasks = candidate["provenance"]["pilot_from_tasks"]
+        self.assertEqual(
+            [
+                task_id
+                for task_id in source_tasks
+                if task_id in previous["provenance"]["pilot_from_tasks"]
+            ],
+            previous["provenance"]["pilot_from_tasks"],
+        )
+        proof = validate(candidate)
+        self.assertEqual(proof["successes"], len(candidate["tasks"]))
+        self.assertTrue(proof["actual_prior_feedback_for_every_combined_operation"])
+        self.assertLess(proof["maximum_reference_actions"], 352)
 
 
 if __name__ == "__main__":

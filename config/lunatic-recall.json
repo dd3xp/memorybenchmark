@@ -22,5 +22,10 @@
   "scandinavia_pilot_tasks": [
     "T1", "T2", "T3", "T4", "T5", "T6", "T13", "T14",
     "T33", "T34", "T35", "T39"
+  ],
+  "scandinavia_goal_switch_tasks": [
+    "T1", "T2", "T3", "T4", "T5", "T6", "T13", "T14",
+    "T23", "T24", "T9", "T10",
+    "T33", "T34", "T35", "T39", "T44", "T37"
   ]
 }

@@ -1,4 +1,4 @@
-"""Prepare and dispatch the initial twelve-task Lunatic pair."""
+"""Prepare and dispatch one reviewed Lunatic pilot."""
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
@@ -17,7 +17,9 @@ from scripts.run_hard_calibration import read
 
 
 PROJECT = Path(__file__).resolve().parents[1]
-POLICY = PROJECT / "config/authorized-lunatic-recall-pilot.json"
+PAIRED_POLICY = "config/authorized-lunatic-recall-pilot.json"
+GOAL_SWITCH_POLICY = "config/authorized-lunatic-goal-switch-retain.json"
+CONDITIONS = {PAIRED_POLICY: ("retain", "clear"), GOAL_SWITCH_POLICY: ("retain",)}
 
 
 def probe(job, config, expected_baseline):
@@ -55,30 +57,37 @@ def probe(job, config, expected_baseline):
     return baseline
 
 
-def execute(runtime_path):
-    policy = read(POLICY)
+def execute(runtime_path, authorization=PAIRED_POLICY):
+    if authorization not in CONDITIONS:
+        raise ValueError("Select an explicitly authorized Lunatic pilot")
+    conditions = CONDITIONS[authorization]
+    policy = read(PROJECT / authorization)
     config = replace(RuntimeConfig.load(runtime_path), project=PROJECT)
     request = {**policy["selection"], "request_id": policy["request_id"]}
     service = ExperimentService(
         config,
         WindowsScheduler(),
+        conditions=conditions,
         maps={request["map"]: ("斯堪的纳维亚", "Lunatic pilot", policy["design_file"])},
     )
     review = service.preview(request)
     design = service.design_path(request["map"])
     if any(review.get(key) != value for key, value in policy["review"].items()):
-        raise ValueError("The pilot preview differs from the paired scope")
+        raise ValueError("The pilot preview differs from the authorized scope")
     if sha256(design.read_bytes()).hexdigest() != policy["design_sha256"]:
         raise ValueError("The reviewed pilot design has changed")
     with exclusive(config.private_root / (policy["request_id"] + ".owner.lock")):
         prepared = service.prepare(request)
         pair = service.repository.read(prepared["id"])
+        jobs = pair["jobs"]
+        group_root = service.repository.pair_directory(pair["id"])
+        if tuple(job["condition"] for job in jobs) != conditions or (
+            conditions == ("retain",) and (group_root / "clear").exists()
+        ):
+            raise ValueError("Prepared conditions differ from the authorization")
         if pair["phase"] == "dispatched":
             return prepared
-        jobs = pair["jobs"]
-        if [job["condition"] for job in jobs] != ["retain", "clear"]:
-            raise ValueError("Prepare and verify both independent conditions")
-        with ThreadPoolExecutor(max_workers=2) as pool:
+        with ThreadPoolExecutor(max_workers=len(jobs)) as pool:
             probes = [
                 pool.submit(probe, job, config, policy["baseline_manifest_sha256"])
                 for job in jobs
@@ -87,7 +96,7 @@ def execute(runtime_path):
                 job["condition"]: check.result() for job, check in zip(jobs, probes)
             }
         atomic_json(
-            service.repository.pair_directory(pair["id"]) / "preflight.json",
+            group_root / "preflight.json",
             {"passed": True, "model_calls": 0, "baseline_sha256": baselines},
         )
         return service.create(request)
@@ -96,8 +105,11 @@ def execute(runtime_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runtime-config", type=Path, required=True)
+    parser.add_argument("--authorization", choices=CONDITIONS, default=PAIRED_POLICY)
     args = parser.parse_args()
-    print(json.dumps(execute(args.runtime_config), ensure_ascii=True))
+    print(
+        json.dumps(execute(args.runtime_config, args.authorization), ensure_ascii=True)
+    )
 
 
 if __name__ == "__main__":

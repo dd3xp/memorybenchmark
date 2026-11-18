@@ -1,6 +1,7 @@
 """Author and check one region-free Lunatic map at a time."""
 
 import argparse
+from collections import defaultdict
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -204,13 +205,59 @@ def build(theme):
     return design
 
 
-def pilot(design):
+def assess_goal_switch(design):
+    """Check that the other known route for a material yields the wrong goal."""
+    engine = world(design)
+    goals_by_material = defaultdict(set)
+    for task in design["tasks"].values():
+        for raw_stage in task["stages"]:
+            current = item(raw_stage)
+            if current.mode == "combined":
+                goals_by_material[current.material].add(current.goal)
+    dual_goals = {
+        material: goals
+        for material, goals in goals_by_material.items()
+        if len(goals) == 2
+    }
+    conflicting_paths = 0
+    for material, goals in sorted(dual_goals.items()):
+        first, second = sorted(goals)
+        for goal, other in ((first, second), (second, first)):
+            current = stage(engine, (material, goal), "combined")
+            alternate = stage(engine, (material, other), "combined")
+            for route in plans(engine, alternate):
+                success, outcomes = execute(engine, current, route)
+                if success or outcomes[-1].output_format != other:
+                    raise ValueError("Both known routes must lead to their own goal")
+                conflicting_paths += 1
+    if len(dual_goals) != 4 or conflicting_paths == 0:
+        raise ValueError("The goal-switch pilot needs two standards on four materials")
+    return {
+        "materials_with_two_combined_goals": sorted(dual_goals),
+        "same_material_paths_producing_the_other_standard": conflicting_paths,
+    }
+
+
+def pilot(design, *, goal_switch=False):
     """Keep the actual prerequisite commissions for both sides of each contrast."""
-    if design["design_id"] != "lunatic-01-v4.0":
-        raise ValueError("The initial pilot uses the reviewed Scandinavia candidate")
-    ids = json.loads(POLICY.read_bytes())["scandinavia_pilot_tasks"]
+    config = json.loads(POLICY.read_bytes())
+    if (
+        design["design_id"] != "lunatic-01-v4.0"
+        or design["provenance"]["recall_revision"]["world_seed"]
+        != config["maps"]["scandinavia"]["seed"]
+    ):
+        raise ValueError("The pilots use the reviewed Scandinavia candidate")
+    if goal_switch:
+        ids = config["scandinavia_goal_switch_tasks"]
+        version = "lunatic-01-v4.1-goal-switch-pilot18"
+        task_count, combined_stages = 18, 12
+    else:
+        ids = config["scandinavia_pilot_tasks"]
+        version = "lunatic-01-v4.0-pilot12"
+        task_count, combined_stages = 12, 8
+    if len(ids) != task_count or len(set(ids)) != task_count:
+        raise ValueError("A pilot must select the reviewed distinct commissions")
     selected = [design["tasks"][key] for key in ids]
-    version = "lunatic-01-v4.0-pilot12"
     pilot_design = {
         **design,
         "design_id": version,
@@ -224,15 +271,15 @@ def pilot(design):
             "pilot_from_tasks": ids,
         },
     }
+    allocation = assess_recall(pilot_design)
+    if allocation["combined_stages"] != combined_stages:
+        raise ValueError("A pilot must have the reviewed number of combined stages")
+    if goal_switch:
+        allocation.update(assess_goal_switch(pilot_design))
     pilot_design["evaluation"] = {
         **design["evaluation"],
-        "allocation": assess_recall(pilot_design),
+        "allocation": allocation,
     }
-    if (
-        len(set(ids)) != 12
-        or pilot_design["evaluation"]["allocation"]["combined_stages"] != 8
-    ):
-        raise ValueError("Pilot needs eight distinct ordinary and four combined tasks")
     return pilot_design
 
 
@@ -243,11 +290,13 @@ def main():
     )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--routes-only", action="store_true")
-    parser.add_argument("--pilot", action="store_true")
+    variants = parser.add_mutually_exclusive_group()
+    variants.add_argument("--pilot", action="store_true")
+    variants.add_argument("--goal-switch-pilot", action="store_true")
     args = parser.parse_args()
     design = build(args.map)
-    if args.pilot:
-        design = pilot(design)
+    if args.pilot or args.goal_switch_pilot:
+        design = pilot(design, goal_switch=args.goal_switch_pilot)
     routes = inspect_routes(design)
     summary = {
         "design_id": design["design_id"],
