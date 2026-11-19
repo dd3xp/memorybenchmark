@@ -13,7 +13,11 @@ from operations.inspect_managed_pair import inspect
 from memorybenchmark.experiments.verification import authorized_task_count
 from memorybenchmark.experiments.repository import PairRepository
 from scripts.run_hard_confirmation import LUNA6_POLICY, validate
-from scripts.run_lunatic_recall_pilot import GOAL_SWITCH_POLICY, execute
+from scripts.run_lunatic_recall_pilot import (
+    EXPANDED_GOAL_SWITCH_POLICY,
+    GOAL_SWITCH_POLICY,
+    execute,
+)
 
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -137,15 +141,20 @@ class ConfirmationLaunchTests(unittest.TestCase):
                 "memorybenchmark.experiments.service.freeze", side_effect=self.freeze
             ),
         ):
-            first = execute(None, GOAL_SWITCH_POLICY)
-            self.assertEqual(first, execute(None, GOAL_SWITCH_POLICY))
-        self.assertEqual([job["condition"] for job in self.dispatched], ["retain"])
-        job = self.dispatched[0]
-        self.assertFalse((Path(job["root"]).parent / "clear").exists())
-        self.assertEqual(authorized_task_count(job, "independent-source"), 18)
-        for changed in ({"condition": "clear"}, {"pair_id": "unregistered"}):
-            with self.subTest(changed=changed), self.assertRaises(ValueError):
-                authorized_task_count({**job, **changed}, "independent-source")
+            for policy in (GOAL_SWITCH_POLICY, EXPANDED_GOAL_SWITCH_POLICY):
+                first = execute(None, policy)
+                self.assertEqual(first, execute(None, policy))
+        self.assertEqual(
+            [job["condition"] for job in self.dispatched], ["retain", "retain"]
+        )
+        for job, count in zip(self.dispatched, (18, 24), strict=True):
+            self.assertFalse((Path(job["root"]).parent / "clear").exists())
+            self.assertEqual(authorized_task_count(job, "independent-source"), count)
+            for changed in ({"condition": "clear"}, {"pair_id": "unregistered"}):
+                with self.subTest(count=count, changed=changed), self.assertRaises(
+                    ValueError
+                ):
+                    authorized_task_count({**job, **changed}, "independent-source")
 
 
 if __name__ == "__main__":

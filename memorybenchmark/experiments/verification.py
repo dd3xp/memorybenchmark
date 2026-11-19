@@ -47,6 +47,15 @@ LUNATIC_RETAINED_PILOT = {
     },
 }
 
+LUNATIC_EXPANDED_RETAINED_PILOT = {
+    "lunatic-scandinavia-goal-switch-retain24-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.2-goal-switch-pilot24",
+        "design_file": "calibration/scandinavia_lunatic_goal_switch24.json",
+    },
+}
+
 
 def authorized_task_count(job, expected_source_digest):
     """Additional task counts require a named retained run and a frozen source."""
@@ -54,7 +63,11 @@ def authorized_task_count(job, expected_source_digest):
     if count == 12:
         require(job["model"] == "gpt-5.6-luna", "Unknown Hard calibration model")
         return 12
-    candidates = {36: FULL_RETAINED_CONFIRMATIONS, 18: LUNATIC_RETAINED_PILOT}
+    candidates = {
+        36: FULL_RETAINED_CONFIRMATIONS,
+        18: LUNATIC_RETAINED_PILOT,
+        24: LUNATIC_EXPANDED_RETAINED_PILOT,
+    }
     require(
         expected_source_digest is not None
         and any(

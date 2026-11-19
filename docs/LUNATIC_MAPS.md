@@ -64,10 +64,17 @@
 
 收尾时 Windows 拒绝替换状态文件。从 18 项已提交的边界接续后，原严格审计及归档均通过。结局清单的 SHA 在接续前后一致，计划任务已停用。一条 HTTP 503 请求用同一请求恢复，失败尝试的用量未知。 [封存结果](assets/lunatic-goal-switch-pilot/summary.json)
 
+## v4.2 八类资料双目标校准
+
+加入海岸、排水、水鸟记录和水獭痕迹的另一种交付目标，使八类资料都覆盖两种标准。沿用斯堪的纳维亚的地图、站点能力和全部 18 道 v4.1 委托。前 16 项普通委托提供反馈，后 8 项各有两个组合阶段。每个组合阶段都切回较早遇到的目标，两条所需反馈至少在 8 项委托前出现。零模型参考策略完成全部 24 项，单项最多 69 步。 [保留组授权与预算](../config/authorized-lunatic-goal-switch-expanded-retain.json)
+
+以每种资料和标准的首次组合衡量与 Hard 61601 的差距。Hard 的首次组合整段一次做对为 10/16，必需操作首试为 20/32。其中两项操作都恰好第二次遇到的组合整段首试为 7/12，操作为 14/24。Hard 有第三次遇见的机会，本轮所有必需操作至多出现两次。结果会同时保留按遇见次数的口径和 v4.1 的 18 道同题切片。 [Hard 核验摘要](assets/hard-target60-retain/summary.json)
+
 逐图生成和验证：
 
 ```powershell
 python -m scripts.build_lunatic_recall --map scandinavia --output .runs/scandinavia-recall-check.json
 python -m scripts.build_lunatic_recall --map scandinavia --goal-switch-pilot --output .runs/scandinavia-goal-switch18-check.json
+python -m scripts.build_lunatic_recall --map scandinavia --expanded-goal-switch-pilot --output .runs/scandinavia-goal-switch24-check.json
 python -m scripts.render_lunatic_maps --map scandinavia
 ```

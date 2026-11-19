@@ -15,7 +15,7 @@ from memorybenchmark.prototypes.station_interfaces import item, world
 from memorybenchmark.prototypes.station_routes import walk
 from memorybenchmark.prototypes.station_session import StationSession
 from scripts.build_hard_calibration import validate
-from scripts.build_lunatic_recall import DATA, pilot
+from scripts.build_lunatic_recall import DATA, assess_recall, pilot
 
 
 class LunaticRecallTests(unittest.TestCase):
@@ -115,6 +115,35 @@ class LunaticRecallTests(unittest.TestCase):
         self.assertEqual(proof["successes"], len(candidate["tasks"]))
         self.assertTrue(proof["actual_prior_feedback_for_every_combined_operation"])
         self.assertLess(proof["maximum_reference_actions"], 352)
+
+    def test_expanded_pilot_uses_the_older_of_two_available_goals(self):
+        full = json.loads(station_design("scandinavia-lunatic").read_bytes())
+        previous = pilot(full, goal_switch=True)
+        candidate = pilot(full, expanded_goal_switch=True)
+        deployed = DATA / "calibration/scandinavia_lunatic_goal_switch24.json"
+        self.assertEqual(candidate, json.loads(deployed.read_bytes()))
+        self.assertEqual(
+            candidate["private_interfaces"], previous["private_interfaces"]
+        )
+        self.assertEqual(
+            candidate["public"],
+            {**previous["public"], "version": candidate["design_id"]},
+        )
+        source_tasks = candidate["provenance"]["pilot_from_tasks"]
+        previous_tasks = previous["provenance"]["pilot_from_tasks"]
+        self.assertEqual(
+            [key for key in source_tasks if key in previous_tasks], previous_tasks
+        )
+        proof = validate(candidate)
+        self.assertEqual(proof["successes"], len(candidate["tasks"]))
+        self.assertTrue(proof["actual_prior_feedback_for_every_combined_operation"])
+        tasks = candidate["tasks"]
+        recent_goal_first = {
+            **candidate,
+            "tasks": {**tasks, "T17": tasks["T21"], "T21": tasks["T17"]},
+        }
+        with self.assertRaisesRegex(ValueError, "older goal"):
+            assess_recall(recent_goal_first, require_older_goal=True)
 
 
 if __name__ == "__main__":

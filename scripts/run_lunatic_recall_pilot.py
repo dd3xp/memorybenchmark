@@ -19,7 +19,14 @@ from scripts.run_hard_calibration import read
 PROJECT = Path(__file__).resolve().parents[1]
 PAIRED_POLICY = "config/authorized-lunatic-recall-pilot.json"
 GOAL_SWITCH_POLICY = "config/authorized-lunatic-goal-switch-retain.json"
-CONDITIONS = {PAIRED_POLICY: ("retain", "clear"), GOAL_SWITCH_POLICY: ("retain",)}
+EXPANDED_GOAL_SWITCH_POLICY = (
+    "config/authorized-lunatic-goal-switch-expanded-retain.json"
+)
+CONDITIONS = {
+    PAIRED_POLICY: ("retain", "clear"),
+    GOAL_SWITCH_POLICY: ("retain",),
+    EXPANDED_GOAL_SWITCH_POLICY: ("retain",),
+}
 
 
 def probe(job, config, expected_baseline):

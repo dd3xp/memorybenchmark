@@ -110,7 +110,7 @@ def curriculum(design, templates, material_pairs, rng):
     }
 
 
-def assess_recall(design):
+def assess_recall(design, *, require_older_goal=False):
     """Check alternate bindings and the gap since both needed outcomes."""
     engine = world(design)
     observed_at = {}
@@ -125,10 +125,22 @@ def assess_recall(design):
         for current, other in ((first, second), (second, first)):
             required = stage(engine, (current.material, current.goal), "catalogue")
             key = current.material, current.goal
-            gaps.append(
-                number
-                - max(observed_at[key], observed_at[required.material, required.goal])
+            last_needed = max(
+                observed_at[key], observed_at[required.material, required.goal]
             )
+            gaps.append(number - last_needed)
+            if require_older_goal:
+                (other_goal,) = (goal for goal in STANDARDS if goal != current.goal)
+                alternate = stage(engine, (current.material, other_goal), "catalogue")
+                if (
+                    alternate.material,
+                    alternate.goal,
+                ) not in observed_at or observed_at.get(
+                    (current.material, other_goal), 0
+                ) <= last_needed:
+                    raise ValueError(
+                        "Each combined stage must switch back to the older goal"
+                    )
             for path in plans(engine, other):
                 success, outcomes = execute(engine, current, path)
                 if success or outcomes[-1].result != "processed":
@@ -205,7 +217,7 @@ def build(theme):
     return design
 
 
-def assess_goal_switch(design):
+def assess_goal_switch(design, expected_materials):
     """Check that the other known route for a material yields the wrong goal."""
     engine = world(design)
     goals_by_material = defaultdict(set)
@@ -230,15 +242,15 @@ def assess_goal_switch(design):
                 if success or outcomes[-1].output_format != other:
                     raise ValueError("Both known routes must lead to their own goal")
                 conflicting_paths += 1
-    if len(dual_goals) != 4 or conflicting_paths == 0:
-        raise ValueError("The goal-switch pilot needs two standards on four materials")
+    if len(dual_goals) != expected_materials or conflicting_paths == 0:
+        raise ValueError("The reviewed materials must each have both combined goals")
     return {
         "materials_with_two_combined_goals": sorted(dual_goals),
         "same_material_paths_producing_the_other_standard": conflicting_paths,
     }
 
 
-def pilot(design, *, goal_switch=False):
+def pilot(design, *, goal_switch=False, expanded_goal_switch=False):
     """Keep the actual prerequisite commissions for both sides of each contrast."""
     config = json.loads(POLICY.read_bytes())
     if (
@@ -247,14 +259,18 @@ def pilot(design, *, goal_switch=False):
         != config["maps"]["scandinavia"]["seed"]
     ):
         raise ValueError("The pilots use the reviewed Scandinavia candidate")
-    if goal_switch:
+    if expanded_goal_switch:
+        ids = config["scandinavia_expanded_goal_switch_tasks"]
+        version = "lunatic-01-v4.2-goal-switch-pilot24"
+        task_count, combined_stages, dual_materials = 24, 16, 8
+    elif goal_switch:
         ids = config["scandinavia_goal_switch_tasks"]
         version = "lunatic-01-v4.1-goal-switch-pilot18"
-        task_count, combined_stages = 18, 12
+        task_count, combined_stages, dual_materials = 18, 12, 4
     else:
         ids = config["scandinavia_pilot_tasks"]
         version = "lunatic-01-v4.0-pilot12"
-        task_count, combined_stages = 12, 8
+        task_count, combined_stages, dual_materials = 12, 8, 0
     if len(ids) != task_count or len(set(ids)) != task_count:
         raise ValueError("A pilot must select the reviewed distinct commissions")
     selected = [design["tasks"][key] for key in ids]
@@ -271,11 +287,13 @@ def pilot(design, *, goal_switch=False):
             "pilot_from_tasks": ids,
         },
     }
-    allocation = assess_recall(pilot_design)
+    allocation = assess_recall(pilot_design, require_older_goal=expanded_goal_switch)
     if allocation["combined_stages"] != combined_stages:
         raise ValueError("A pilot must have the reviewed number of combined stages")
-    if goal_switch:
-        allocation.update(assess_goal_switch(pilot_design))
+    if dual_materials:
+        allocation.update(assess_goal_switch(pilot_design, dual_materials))
+    if expanded_goal_switch:
+        allocation["combined_stages_switching_back_to_older_goal"] = combined_stages
     pilot_design["evaluation"] = {
         **design["evaluation"],
         "allocation": allocation,
@@ -293,10 +311,15 @@ def main():
     variants = parser.add_mutually_exclusive_group()
     variants.add_argument("--pilot", action="store_true")
     variants.add_argument("--goal-switch-pilot", action="store_true")
+    variants.add_argument("--expanded-goal-switch-pilot", action="store_true")
     args = parser.parse_args()
     design = build(args.map)
-    if args.pilot or args.goal_switch_pilot:
-        design = pilot(design, goal_switch=args.goal_switch_pilot)
+    if args.pilot or args.goal_switch_pilot or args.expanded_goal_switch_pilot:
+        design = pilot(
+            design,
+            goal_switch=args.goal_switch_pilot,
+            expanded_goal_switch=args.expanded_goal_switch_pilot,
+        )
     routes = inspect_routes(design)
     summary = {
         "design_id": design["design_id"],
