@@ -36,6 +36,12 @@ FULL_RETAINED_CONFIRMATIONS = {
         "design_id": "hard-binding-calibration-v3-61601-36",
         "design_file": "candidates/orcia_binding36_target60.json",
     },
+    "hard-spaced-retain-61601-v4": {
+        "model": "gpt-5.6-luna",
+        "world_seed": 61601,
+        "design_id": "hard-binding-calibration-v4-61601-36",
+        "design_file": "candidates/orcia_binding36_spaced.json",
+    },
 }
 
 LUNATIC_RETAINED_PILOT = {
@@ -56,6 +62,15 @@ LUNATIC_EXPANDED_RETAINED_PILOT = {
     },
 }
 
+LUNATIC_FULL_RETAINED = {
+    "lunatic-scandinavia-goal-switch-retain64-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.3-goal-switch-full64",
+        "design_file": "calibration/scandinavia_lunatic_goal_switch64.json",
+    },
+}
+
 
 def authorized_task_count(job, expected_source_digest):
     """Additional task counts require a named retained run and a frozen source."""
@@ -67,6 +82,7 @@ def authorized_task_count(job, expected_source_digest):
         36: FULL_RETAINED_CONFIRMATIONS,
         18: LUNATIC_RETAINED_PILOT,
         24: LUNATIC_EXPANDED_RETAINED_PILOT,
+        64: LUNATIC_FULL_RETAINED,
     }
     require(
         expected_source_digest is not None

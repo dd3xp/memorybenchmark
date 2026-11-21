@@ -8,8 +8,8 @@ from .composition_lab import World, cases, experience_keys, stage
 
 
 def binding_world(seed=61401, *, material_count=12):
-    if type(material_count) is not int or material_count not in (6, 8, 12):
-        raise ValueError("Binding worlds need six, eight or twelve materials")
+    if type(material_count) is not int or material_count not in (6, 8, 10, 12):
+        raise ValueError("Binding worlds need six, eight, ten or twelve materials")
     rng = random.Random(seed)
     materials = tuple(f"material-{i+1}" for i in range(material_count))
     profiles = [f"P{i+1:02d}" for i in range(24)]
@@ -31,6 +31,83 @@ def binding_world(seed=61401, *, material_count=12):
                 goals[offset // 2],
             )
     return World(materials, {m: shared for m in materials}, cataloguers, verifiers)
+
+
+def spaced_commissions(world):
+    """Thirty-six tasks with ordinary teaching followed by spaced transfer."""
+    if len(world.materials) != 10:
+        raise ValueError("The spaced curriculum needs ten materials")
+    family = cases(world)
+    first_goals, second_goals = family[::2], family[1::2]
+    second_goals = second_goals[5:] + second_goals[:5]
+    pairs = list(zip(first_goals, second_goals, strict=True))
+
+    def ordinary(catalogue, verify):
+        return stage(world, catalogue, "catalogue"), stage(world, verify, "verify")
+
+    ordinary_tasks = [ordinary(a, b) for a, b in pairs]
+    ordinary_tasks += [ordinary(b, a) for a, b in pairs]
+    combined_tasks = [
+        tuple(stage(world, goal, "combined") for goal in p) for p in pairs
+    ]
+    # Each selected scope had its first composition at least ten tasks earlier.
+    followup = [
+        combined_tasks[0],
+        ordinary(*pairs[1]),
+        ordinary(*reversed(pairs[1])),
+        combined_tasks[3],
+        ordinary(*pairs[2]),
+        ordinary(*reversed(pairs[2])),
+    ]
+    return ordinary_tasks + combined_tasks + followup
+
+
+def check_spaced_allocation(world, tasks):
+    encounters = {}
+    single, combined = Counter(), Counter()
+    gaps = []
+    for task_index, pair in enumerate(tasks):
+        if len(pair) != 2:
+            raise ValueError("Every commission needs two independent stages")
+        for item in pair:
+            for key in experience_keys(item, world):
+                previous = encounters.get(key)
+                if previous is not None:
+                    gaps.append(task_index - previous)
+                if item.mode == "combined" and (previous is None or key not in single):
+                    raise ValueError("A prerequisite needs earlier ordinary feedback")
+                opportunities = combined if item.mode == "combined" else single
+                opportunities[key] += 1
+                encounters[key] = task_index
+    uses = Counter(single[key] + combined[key] for key in encounters)
+    if (
+        len(tasks) != 36
+        or len(world.materials) != 10
+        or set(single) != set(combined)
+        or uses != {2: 24, 3: 16}
+        or any(n not in (1, 2) for n in (*single.values(), *combined.values()))
+        or sum(single.values()) != sum(combined.values())
+        or min(gaps) < 10
+    ):
+        raise ValueError(
+            "Each required operation needs its declared spaced opportunities"
+        )
+    return {
+        "tasks": len(tasks),
+        "stages": sum(map(len, tasks)),
+        "fully_scoped_goal_classes": len(encounters),
+        "necessary_operations": sum(single.values()) + sum(combined.values()),
+        "scopes_by_total_uses": dict(sorted(uses.items())),
+        "minimum_task_index_gap_between_uses": min(gaps),
+        "materials": len(world.materials),
+        "first_combination_task": next(
+            i
+            for i, pair in enumerate(tasks, 1)
+            if any(s.mode == "combined" for s in pair)
+        ),
+        "stage_dependency": False,
+        "unscored_lessons": 0,
+    }
 
 
 def balanced_commissions(world):

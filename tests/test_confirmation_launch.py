@@ -12,9 +12,10 @@ from memorybenchmark.experiments.service import ExperimentService
 from operations.inspect_managed_pair import inspect
 from memorybenchmark.experiments.verification import authorized_task_count
 from memorybenchmark.experiments.repository import PairRepository
-from scripts.run_hard_confirmation import LUNA6_POLICY, validate
+from scripts.run_hard_confirmation import LUNA6_POLICY, SPACED_POLICY, validate
 from scripts.run_lunatic_recall_pilot import (
     EXPANDED_GOAL_SWITCH_POLICY,
+    FULL_GOAL_SWITCH_POLICY,
     GOAL_SWITCH_POLICY,
     execute,
 )
@@ -141,13 +142,17 @@ class ConfirmationLaunchTests(unittest.TestCase):
                 "memorybenchmark.experiments.service.freeze", side_effect=self.freeze
             ),
         ):
-            for policy in (GOAL_SWITCH_POLICY, EXPANDED_GOAL_SWITCH_POLICY):
+            for policy in (
+                GOAL_SWITCH_POLICY,
+                EXPANDED_GOAL_SWITCH_POLICY,
+                FULL_GOAL_SWITCH_POLICY,
+            ):
                 first = execute(None, policy)
                 self.assertEqual(first, execute(None, policy))
         self.assertEqual(
-            [job["condition"] for job in self.dispatched], ["retain", "retain"]
+            [job["condition"] for job in self.dispatched], ["retain"] * 3
         )
-        for job, count in zip(self.dispatched, (18, 24), strict=True):
+        for job, count in zip(self.dispatched, (18, 24, 64), strict=True):
             self.assertFalse((Path(job["root"]).parent / "clear").exists())
             self.assertEqual(authorized_task_count(job, "independent-source"), count)
             for changed in ({"condition": "clear"}, {"pair_id": "unregistered"}):
@@ -155,6 +160,29 @@ class ConfirmationLaunchTests(unittest.TestCase):
                     ValueError
                 ):
                     authorized_task_count({**job, **changed}, "independent-source")
+
+    def test_spaced_hard_configuration_is_the_named_retained_design(self):
+        policy = json.loads((PROJECT / SPACED_POLICY).read_text(encoding="utf-8"))
+        service = ExperimentService(
+            self.config,
+            self.scheduler,
+            maps={"orcia-hard": ("Orcia", "Hard", policy["design_file"])},
+            conditions=("retain",),
+        )
+        request = {key: policy[key] for key in self.request}
+        review = service.preview(request)
+        validate(review, policy, PROJECT)
+        job = {
+            **review,
+            "condition": "retain",
+            "pair_id": PairRepository.pair_id(policy["request_id"]),
+            "design_file": policy["design_file"],
+        }
+        self.assertEqual(authorized_task_count(job, "independent-source"), 36)
+        with self.assertRaises(ValueError):
+            authorized_task_count(
+                {**job, "design_file": self.policy["design_file"]}, "independent-source"
+            )
 
 
 if __name__ == "__main__":

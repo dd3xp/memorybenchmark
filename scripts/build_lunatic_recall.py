@@ -1,7 +1,7 @@
 """Author and check one region-free Lunatic map at a time."""
 
 import argparse
-from collections import defaultdict
+from collections import Counter, defaultdict
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -301,6 +301,65 @@ def pilot(design, *, goal_switch=False, expanded_goal_switch=False):
     return pilot_design
 
 
+def goal_switch_full(design):
+    """Extend the frozen 24-task sequence to every commission on the same map."""
+    prefix = pilot(design, expanded_goal_switch=True)
+    source_ids = prefix["provenance"]["pilot_from_tasks"]
+    selected = set(source_ids)
+    remaining = [key for key in design["tasks"] if key not in selected]
+    version = "lunatic-01-v4.3-goal-switch-full64"
+    tasks = dict(prefix["tasks"])
+    for number, key in enumerate(remaining, len(tasks) + 1):
+        tasks[f"T{number}"] = {
+            **design["tasks"][key],
+            "name": f"全域测绘委托 {number:02d}",
+        }
+    full = {
+        **design,
+        "design_id": version,
+        "public": {**design["public"], "version": version},
+        "tasks": tasks,
+        "provenance": {
+            **design["provenance"],
+            "full_from_tasks": [*source_ids, *remaining],
+            "unchanged_prefix_design": prefix["design_id"],
+            "unchanged_prefix_tasks": len(prefix["tasks"]),
+        },
+    }
+    engine = world(full)
+    cases = [
+        (material, goal) for material in full["public"]["kinds"] for goal in STANDARDS
+    ]
+    stages = [item(raw) for task in tasks.values() for raw in task["stages"]]
+    ordinary = Counter(
+        (s.mode, s.material, s.goal) for s in stages if s.mode != "combined"
+    )
+    combined = Counter((s.material, s.goal) for s in stages if s.mode == "combined")
+    reference_stages = [
+        stage(engine, case, mode)
+        for case in cases
+        for mode in ("catalogue", "verify")
+    ]
+    prerequisites = Counter((s.mode, s.material, s.goal) for s in reference_stages)
+    if (
+        len(tasks) != 64
+        or ordinary != prerequisites
+        or combined != Counter({case: 2 for case in cases})
+    ):
+        raise ValueError(
+            "Every material and goal needs one standalone exposure and two compositions"
+        )
+    allocation = assess_recall(full, require_older_goal=True)
+    allocation.update(
+        assess_goal_switch(full, len(full["public"]["kinds"])),
+        first_combined_stages=len(cases),
+        repeat_combined_stages=len(cases),
+        combined_stages_switching_back_to_older_goal=sum(combined.values()),
+    )
+    full["evaluation"] = {**design["evaluation"], "allocation": allocation}
+    return full
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -312,9 +371,12 @@ def main():
     variants.add_argument("--pilot", action="store_true")
     variants.add_argument("--goal-switch-pilot", action="store_true")
     variants.add_argument("--expanded-goal-switch-pilot", action="store_true")
+    variants.add_argument("--expanded-goal-switch-full", action="store_true")
     args = parser.parse_args()
     design = build(args.map)
-    if args.pilot or args.goal_switch_pilot or args.expanded_goal_switch_pilot:
+    if args.expanded_goal_switch_full:
+        design = goal_switch_full(design)
+    elif args.pilot or args.goal_switch_pilot or args.expanded_goal_switch_pilot:
         design = pilot(
             design,
             goal_switch=args.goal_switch_pilot,

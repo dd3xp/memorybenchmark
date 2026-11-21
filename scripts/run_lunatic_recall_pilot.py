@@ -22,10 +22,12 @@ GOAL_SWITCH_POLICY = "config/authorized-lunatic-goal-switch-retain.json"
 EXPANDED_GOAL_SWITCH_POLICY = (
     "config/authorized-lunatic-goal-switch-expanded-retain.json"
 )
+FULL_GOAL_SWITCH_POLICY = "config/authorized-lunatic-goal-switch-full-retain.json"
 CONDITIONS = {
     PAIRED_POLICY: ("retain", "clear"),
     GOAL_SWITCH_POLICY: ("retain",),
     EXPANDED_GOAL_SWITCH_POLICY: ("retain",),
+    FULL_GOAL_SWITCH_POLICY: ("retain",),
 }
 
 

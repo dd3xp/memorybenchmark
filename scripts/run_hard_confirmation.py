@@ -20,7 +20,8 @@ PROJECT = Path(__file__).resolve().parents[1]
 POLICY = "config/authorized-hard-binding36-retain.json"
 TARGET_POLICY = "config/authorized-hard-target60-retain.json"
 LUNA6_POLICY = "config/authorized-hard-luna6-repeat.json"
-POLICIES = (POLICY, TARGET_POLICY, LUNA6_POLICY)
+SPACED_POLICY = "config/authorized-hard-spaced-retain.json"
+POLICIES = (POLICY, TARGET_POLICY, LUNA6_POLICY, SPACED_POLICY)
 
 
 def read(path):

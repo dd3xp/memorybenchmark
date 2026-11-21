@@ -1,0 +1,31 @@
+{
+  "schema": "benchmark-lunatic-recall-pilot-1",
+  "authorized_by": "2026-11-21 Asia/Shanghai user: full retained Scandinavia Lunatic under the ongoing retain-only iteration",
+  "request_id": "lunatic-scandinavia-goal-switch-retain64-v1",
+  "reference_request_id": "lunatic-scandinavia-goal-switch-retain24-v1",
+  "selection": {
+    "model": "gpt-5.6-luna",
+    "map": "scandinavia-lunatic",
+    "movement_mode": "step"
+  },
+  "design_file": "calibration/scandinavia_lunatic_goal_switch64.json",
+  "design_sha256": "a7132c2da3ae92a656b7b8e441f825a95ec6c609e305bf06d48fc9460f9ae90c",
+  "baseline_manifest_sha256": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86",
+  "review": {
+    "agent": "hermes",
+    "design_id": "lunatic-01-v4.3-goal-switch-full64",
+    "conditions": [
+      "retain"
+    ],
+    "tasks_per_condition": 64,
+    "total_tasks": 64,
+    "context_tokens": 272000,
+    "registry_sha256": "b1f52ee3ffec2db9662c7fa829022f9595bef21c085c45e168fed844ee64a9c1",
+    "reasoning_effort": "high",
+    "main_model_calls": 400,
+    "final_model_calls": 6,
+    "game_steps": 352,
+    "effective_wall_seconds": 604800,
+    "infrastructure_wait_seconds": 604800
+  }
+}

@@ -1,5 +1,6 @@
 """Contracts for removing regional constraints and reusing specific outcomes."""
 
+from collections import Counter
 import json
 from pathlib import Path
 import unittest
@@ -15,7 +16,7 @@ from memorybenchmark.prototypes.station_interfaces import item, world
 from memorybenchmark.prototypes.station_routes import walk
 from memorybenchmark.prototypes.station_session import StationSession
 from scripts.build_hard_calibration import validate
-from scripts.build_lunatic_recall import DATA, assess_recall, pilot
+from scripts.build_lunatic_recall import DATA, assess_recall, goal_switch_full, pilot
 
 
 class LunaticRecallTests(unittest.TestCase):
@@ -144,6 +145,38 @@ class LunaticRecallTests(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "older goal"):
             assess_recall(recent_goal_first, require_older_goal=True)
+
+    def test_full_goal_switch_preserves_the_pilot_and_repeats_at_new_survey_points(self):
+        source = json.loads(station_design("scandinavia-lunatic").read_bytes())
+        candidate = goal_switch_full(source)
+        frozen = DATA / "calibration/scandinavia_lunatic_goal_switch64.json"
+        earlier = DATA / "calibration/scandinavia_lunatic_goal_switch24.json"
+        prefix = json.loads(earlier.read_bytes())
+        self.assertEqual(candidate, json.loads(frozen.read_bytes()))
+        self.assertEqual(candidate["private_interfaces"], prefix["private_interfaces"])
+        self.assertEqual(
+            candidate["public"], {**prefix["public"], "version": candidate["design_id"]}
+        )
+        self.assertEqual(
+            list(candidate["tasks"].items())[:24], list(prefix["tasks"].items())
+        )
+
+        targets = {}
+        for commission in candidate["tasks"].values():
+            for raw_stage in commission["stages"]:
+                current = item(raw_stage)
+                if current.mode == "combined":
+                    targets.setdefault((current.material, current.goal), []).append(
+                        raw_stage["target"]
+                    )
+        self.assertEqual(Counter(map(len, targets.values())), {2: 32})
+        self.assertTrue(all(len(set(points)) == 2 for points in targets.values()))
+
+        proof = validate(candidate)
+        self.assertEqual(proof["successes"], len(candidate["tasks"]))
+        self.assertEqual(proof["required_operations"], 192)
+        self.assertTrue(proof["actual_prior_feedback_for_every_combined_operation"])
+        self.assertLessEqual(proof["maximum_reference_actions"], 352)
 
 
 if __name__ == "__main__":

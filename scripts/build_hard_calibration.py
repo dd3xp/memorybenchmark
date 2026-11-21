@@ -30,6 +30,8 @@ from memorybenchmark.prototypes.interface_curriculum import (
     pilot_materials,
     balanced_commissions,
     check_balanced_allocation,
+    spaced_commissions,
+    check_spaced_allocation,
 )
 
 
@@ -46,11 +48,11 @@ def build(
 ):
     if variant not in ("interface", "binding"):
         raise ValueError("Unknown candidate variant")
-    if curriculum not in ("once", "balanced-three") or (
-        curriculum == "balanced-three"
+    if curriculum not in ("once", "balanced-three", "spaced-transfer") or (
+        curriculum != "once"
         and (variant != "binding" or not full or selected_materials is not None)
     ):
-        raise ValueError("Balanced-three is a complete retained binding candidate")
+        raise ValueError("This curriculum requires a complete binding candidate")
     seed = seed if seed is not None else (61301 if variant == "interface" else 61401)
     source = PROJECT / "memorybenchmark/data/orcia_hard36.json"
     authored = json.loads(source.read_text(encoding="utf-8"))
@@ -59,7 +61,10 @@ def build(
         build_world(seed)
         if variant == "interface"
         else binding_world(
-            seed, material_count=8 if curriculum == "balanced-three" else 12
+            seed,
+            material_count={"once": 12, "balanced-three": 8, "spaced-transfer": 10}[
+                curriculum
+            ],
         )
     )
     if selected_materials is None:
@@ -70,24 +75,22 @@ def build(
         )
     if full:
         selected_materials = original_world.materials
-    sequence = (
-        commissions(original_world, selected_materials)
-        if variant == "interface"
-        else (
-            balanced_commissions(original_world)
-            if curriculum == "balanced-three"
-            else once_commissions(original_world, selected_materials)
-        )
-    )
-    allocation = (
-        assess_allocation(original_world, sequence)
-        if variant == "interface"
-        else (
-            check_balanced_allocation(original_world, sequence)
-            if curriculum == "balanced-three"
-            else check_once_allocation(original_world, sequence)
-        )
-    )
+    if variant == "interface":
+        sequence = commissions(original_world, selected_materials)
+        allocation = assess_allocation(original_world, sequence)
+        version = 1
+    elif curriculum == "balanced-three":
+        sequence = balanced_commissions(original_world)
+        allocation = check_balanced_allocation(original_world, sequence)
+        version = 3
+    elif curriculum == "spaced-transfer":
+        sequence = spaced_commissions(original_world)
+        allocation = check_spaced_allocation(original_world, sequence)
+        version = 4
+    else:
+        sequence = once_commissions(original_world, selected_materials)
+        allocation = check_once_allocation(original_world, sequence)
+        version = 2
     if len(sequence) != (36 if full else 12):
         raise ValueError(
             "Select the bounded twelve-task pilot or the unlaunched 36-task full candidate"
@@ -115,9 +118,6 @@ def build(
     }
     if variant == "binding":
         table["alternatives_per_goal"] = 2
-    version = (
-        3 if curriculum == "balanced-three" else 1 if variant == "interface" else 2
-    )
     design_id = f"hard-{variant}-calibration-v{version}-{seed}-{len(sequence)}"
     design.update(
         design_id=design_id,
@@ -303,10 +303,17 @@ def main():
     )
     parser.add_argument("--seed", type=int)
     parser.add_argument("--full", action="store_true")
+    parser.add_argument(
+        "--curriculum",
+        choices=("once", "balanced-three", "spaced-transfer"),
+        default="once",
+    )
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("Candidate source is immutable after writing")
-    design = build(args.seed, variant=args.variant, full=args.full)
+    design = build(
+        args.seed, variant=args.variant, full=args.full, curriculum=args.curriculum
+    )
     proof = validate(design)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(

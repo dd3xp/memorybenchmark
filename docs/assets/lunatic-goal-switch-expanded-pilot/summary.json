@@ -1,0 +1,200 @@
+{
+  "schema": "lunatic-goal-switch-expanded-retained-report-1",
+  "status": "sealed_and_verified_on_server",
+  "observed_utc": "2026-11-21T03:37:27.5585209Z",
+  "sealed_at": "2026-11-20T17:44:56.269860+00:00",
+  "source_revision": "7f9317ec4ec9a22860b5e78c205caca0786164f5",
+  "group_id": "ac444c295f0a55ac17688bfc33d5e0b3",
+  "job_id": "91ebd801a74e455d9a1005ffafadae90",
+  "experiment_id": "d7dc873b65604968903f0ac32d33e395",
+  "policy": "config/authorized-lunatic-goal-switch-expanded-retain.json",
+  "agent": "hermes",
+  "model": "gpt-5.6-luna",
+  "map": "scandinavia-lunatic",
+  "design_id": "lunatic-01-v4.2-goal-switch-pilot24",
+  "design_file": "calibration/scandinavia_lunatic_goal_switch24.json",
+  "movement_mode": "step",
+  "condition": "retain",
+  "conditions": [
+    "retain"
+  ],
+  "context_tokens": 272000,
+  "registry_sha256": "b1f52ee3ffec2db9662c7fa829022f9595bef21c085c45e168fed844ee64a9c1",
+  "source_digest": "135b9d8292a9060b8ef5aa99424581595f1d2e17f60f2c068dc7f6b514b15f1d",
+  "tasks": 24,
+  "design_sha256": "008c509d71540d57147d6900290fd19c182967efa8b23f20e18f0774b925bc79",
+  "preflight": {
+    "passed": true,
+    "model_calls": 0,
+    "baseline_sha256": {
+      "retain": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86"
+    }
+  },
+  "driver_exit": {
+    "utc": "2026-11-20T17:44:56.256102+00:00",
+    "exit_code": 0
+  },
+  "archive": {
+    "name": "evidence.zip",
+    "bytes": 1056076192,
+    "sha256": "46a40a1f215f5ac1da02fe7221b569ca380cdd5306783235b1e84e4ef36a0521",
+    "contents_verified": true
+  },
+  "retention": {
+    "phase": "complete",
+    "removed_members": 10197
+  },
+  "scheduler_disabled_after_seal": true,
+  "original_metadata": [
+    {
+      "name": "result.json",
+      "bytes": 79573,
+      "sha256": "81d5828f90fcfc3207c21585aa1dd2b8817f0c1e0e2f78fc81b6ad20209d86d1"
+    },
+    {
+      "name": "audit-result.json",
+      "bytes": 78921,
+      "sha256": "9278f5791d6d20ffa7268aaedbd0609eaa60fb433c2b07ead5187151ba168576"
+    },
+    {
+      "name": "driver-exit.json",
+      "bytes": 59,
+      "sha256": "770885cea643c3ea7c40e3f3519b84be25cbd955bf4fcaf4301e9c32b61a3ab1"
+    },
+    {
+      "name": "transport-costs.json",
+      "bytes": 468,
+      "sha256": "a45d594a19dbc2eb42915684e2f1431c992a29ebf743c04c03304cae338c2615"
+    }
+  ],
+  "metrics": {
+    "task_success": {
+      "correct": 22,
+      "denominator": 24,
+      "rate": 0.9166666666666666
+    },
+    "failed_task_ids": [
+      "T21",
+      "T23"
+    ],
+    "all_required_first_correct": {
+      "correct": 21,
+      "denominator": 64,
+      "rate": 0.328125
+    },
+    "first_encounter": {
+      "correct": 4,
+      "denominator": 32,
+      "rate": 0.125
+    },
+    "second_encounter": {
+      "correct": 17,
+      "denominator": 32,
+      "rate": 0.53125
+    },
+    "whole_combination_first_correct": {
+      "correct": 8,
+      "denominator": 16,
+      "rate": 0.5
+    },
+    "whole_combination_with_both_prior_actual_facts": {
+      "correct": 8,
+      "denominator": 16,
+      "rate": 0.5
+    },
+    "all_stages_first_correct": {
+      "correct": 12,
+      "denominator": 48,
+      "rate": 0.25
+    },
+    "distance": 4581,
+    "model_calls": 3391,
+    "unsupported_processing": 361,
+    "main_requested_and_acknowledged_high": 3363,
+    "reported_tokens": {
+      "input_tokens": 311381418,
+      "output_tokens": 448206,
+      "reasoning_tokens": 265817,
+      "reasoning_is_output_subset": true
+    },
+    "infrastructure": {
+      "failure_events": 3,
+      "by_kind": {
+        "gateway_transport_error": 2,
+        "gateway_http_502": 1
+      },
+      "affected_rpcs": 2,
+      "recovered_same_request": 2,
+      "unknown_failure_usage": 3
+    }
+  },
+  "same_18_commissions_as_v4_1": {
+    "tasks": {
+      "correct": 17,
+      "denominator": 18,
+      "rate": 0.9444444444444444
+    },
+    "repeat": {
+      "correct": 15,
+      "denominator": 24,
+      "rate": 0.625
+    },
+    "whole_combination": {
+      "correct": 7,
+      "denominator": 12,
+      "rate": 0.5833333333333334
+    },
+    "distance": 3288
+  },
+  "newly_added_six_commissions": {
+    "tasks": {
+      "correct": 5,
+      "denominator": 6,
+      "rate": 0.8333333333333334
+    },
+    "repeat": {
+      "correct": 2,
+      "denominator": 8,
+      "rate": 0.25
+    },
+    "whole_combination": {
+      "correct": 1,
+      "denominator": 4,
+      "rate": 0.25
+    },
+    "distance": 1293
+  },
+  "hard_61601_comparison": {
+    "original_result_sha256": "a52fde47930badee0c12000d016893c1619d6676132cdee720bbd37fddc4c8ae",
+    "first_combination_by_material_and_goal": {
+      "stages": {
+        "correct": 10,
+        "denominator": 16,
+        "rate": 0.625
+      },
+      "operations": {
+        "correct": 20,
+        "denominator": 32,
+        "rate": 0.625
+      }
+    },
+    "first_combination_both_operations_encounter_2": {
+      "stages": {
+        "correct": 7,
+        "denominator": 12,
+        "rate": 0.5833333333333334
+      },
+      "operations": {
+        "correct": 14,
+        "denominator": 24,
+        "rate": 0.5833333333333334
+      }
+    },
+    "encounter_2_operations": {
+      "correct": 20,
+      "denominator": 32,
+      "rate": 0.625
+    }
+  },
+  "descriptive_single_retained_run": true
+}

@@ -70,11 +70,29 @@
 
 以每种资料和标准的首次组合衡量与 Hard 61601 的差距。Hard 的首次组合整段一次做对为 10/16，必需操作首试为 20/32。其中两项操作都恰好第二次遇到的组合整段首试为 7/12，操作为 14/24。Hard 有第三次遇见的机会，本轮所有必需操作至多出现两次。结果会同时保留按遇见次数的口径和 v4.1 的 18 道同题切片。 [Hard 核验摘要](assets/hard-target60-retain/summary.json)
 
+| 指标 | v4.2 全部 | 与 v4.1 同题 | 新增委托 |
+| --- | ---: | ---: | ---: |
+| 任务成功 | 22/24 | 17/18 | 5/6 |
+| 第二次遇到时必需操作首试正确 | 17/32 | 15/24 | 2/8 |
+| 组合整段首试正确 | 8/16 | 7/12 | 1/4 |
+| 总路程 | 4,581 | 3,288 | 1,293 |
+
+全部 16 个组合阶段开始前均有两条实际成功的匹配反馈。相比 Hard 61601，首次组合整段低 12.5 个百分点，第二次操作首试低 9.4 个百分点。两档地图与机制不同，以上为单次保留组的描述性比较。原驱动通过严格审计，封存包验证和去重留存已在服务器完成。三次失败传输影响的两条请求均原请求恢复，失败尝试的用量未知。 [v4.2 封存摘要](assets/lunatic-goal-switch-expanded-pilot/summary.json)
+
+## v4.3 斯堪的纳维亚全量设计
+
+前 24 项完整保留 v4.2 的顺序和委托。随后加入剩余的 16 项普通委托与 8 项首次组合，最后用 16 项委托重复全部组合。每种资料的两个标准各有一次独立编目、一次独立核验与两次组合，每个标准的两次组合使用不同采集点。64 项共 192 个必需操作，32 个组合阶段是资料与标准的首次组合，另外 32 个是再次组合。64 个组合阶段都要求切回最近一次接触较早的标准，距所需的最近先前机会至少隔 8 个任务序号。
+
+逐图复核斯堪的纳维亚的 245 个地点、393 条连接和 71 个处理站。沿用原道路、渡线、站点和私有处理表。零模型参考完成 64/64 项，每项最多 80 步。所有组合操作在计划执行中都能从更早委托的实际反馈取得所需信息。
+
+报告按资料、操作、规格及核验目标统计第一次、第二次、第三次遇见。组合整段将首次与重复分开统计，并分别列出有两条实际先前匹配反馈的阶段分母。也保留前 24 项与原 v4.2 的同题对照。Hard 保留组按对应阶段口径比较，先报告整段首试及单项操作首试，再另列不同地图的路程与完成率。 [全量设计](../memorybenchmark/data/calibration/scandinavia_lunatic_goal_switch64.json)
+
 逐图生成和验证：
 
 ```powershell
 python -m scripts.build_lunatic_recall --map scandinavia --output .runs/scandinavia-recall-check.json
 python -m scripts.build_lunatic_recall --map scandinavia --goal-switch-pilot --output .runs/scandinavia-goal-switch18-check.json
 python -m scripts.build_lunatic_recall --map scandinavia --expanded-goal-switch-pilot --output .runs/scandinavia-goal-switch24-check.json
+python -m scripts.build_lunatic_recall --map scandinavia --expanded-goal-switch-full --output .runs/scandinavia-goal-switch64-check.json
 python -m scripts.render_lunatic_maps --map scandinavia
 ```
