@@ -1,1 +1,5 @@
 Compatibility adapter for the twenty frozen Gemini20261111 runs only. New jobs use memorybenchmark.experiments. No frozen science file is patched. The original driver owns validation/archive; future completed entries only retire hash-proven unpacked model duplicates and disable their own scheduler task. Preserve all original failure attempts and unique data.
+
+The three diagnosed Gemini 3.1 lease expiries on 2026-11-20 have an explicit operator boundary. `recover_lease_expired.py` binds the failed summary digest and original process creation time to its own committed checkpoint. It preserves the interrupted session and records one operator continuation before releasing the original pause. A delivered terminal outcome blocks this continuation.
+
+The same three registered launchers needed their own sibling modules on the Python search path. `repair_owned_imports.ps1` verifies the original launcher and interrupted boundary, imports the owned modules without a model call, and retains the launcher and pause preimages before releasing the job. The launch repair has no additional whole-task retry cost.
