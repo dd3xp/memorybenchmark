@@ -196,5 +196,19 @@
       "rate": 0.625
     }
   },
-  "descriptive_single_retained_run": true
+  "descriptive_single_retained_run": true,
+  "processing_knowledge_projection": {
+    "design_id": "lunatic-01-v4.2-goal-switch-pilot24",
+    "rows": 128,
+    "processing_table_sha256": "e06cf672cfdf04f7e4cd026ca674056cb8d5efd7de13bcb9b49d95820b6c3334",
+    "metrics": {
+      "processing_attempts": 441,
+      "distinct_rules_disclosed": 40,
+      "required_opportunities": 64,
+      "first_correct": 21,
+      "opportunities_with_prior_disclosure": 34,
+      "first_correct_when_prior_disclosed": 17,
+      "first_correct_after_prior_rule_disclosure": 17
+    }
+  }
 }
