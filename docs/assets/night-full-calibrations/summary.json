@@ -1,0 +1,345 @@
+{
+  "schema": "hermes-retained-full-calibrations-1",
+  "observed_utc": "2026-11-22T09:52:51.452226+00:00",
+  "source_digest": "d8b8027f11cdf9c12cd8ffdd611e38e40a32816331c57709b59274445946520f",
+  "source_zip_sha256": "a28a67aa0fd1014229423e6ee2016cf5d3a8d0461be44822794eba46b29c26a7",
+  "agent": "hermes",
+  "model": "gpt-5.6-luna",
+  "context_tokens": 272000,
+  "registry_sha256": "b1f52ee3ffec2db9662c7fa829022f9595bef21c085c45e168fed844ee64a9c1",
+  "initial_baseline_sha256": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86",
+  "condition": "retain",
+  "movement_mode": "step",
+  "hard_repeat_first_correct_target": {
+    "minimum_inclusive": 0.5,
+    "maximum_exclusive": 0.6,
+    "correct_minimum": 28,
+    "correct_maximum": 33,
+    "denominator": 56,
+    "met": false
+  },
+  "observations_are_descriptive": true,
+  "groups": [
+    {
+      "design": "hard-binding-calibration-v4-61601-36",
+      "group_id": "8dac56058b350f706a6a9ed34f659c77",
+      "job_id": "2aba57c0fbe14ee19be8411bdacebf54",
+      "experiment_id": "b23239c029a64689b091df2bb81d6f17",
+      "map": "orcia-hard",
+      "design_file": "candidates/orcia_binding36_spaced.json",
+      "design_sha256": "811e325812a9afac32631d980d022a8add08680685846100d128f31ea75487f2",
+      "policy": "config/authorized-hard-spaced-retain.json",
+      "phase": "sealed",
+      "status_utc": "2026-11-22T03:03:06.964877+00:00",
+      "planned": 36,
+      "completed": 36,
+      "successes": 33,
+      "failed_task_ids": [
+        "T23",
+        "T25",
+        "T26"
+      ],
+      "metrics": {
+        "condition": "retain",
+        "tasks": {
+          "correct": 33,
+          "denominator": 36,
+          "rate": 0.9166666666666666
+        },
+        "all_first_goal_compatible_operations": {
+          "correct": 29,
+          "denominator": 96,
+          "rate": 0.3020833333333333
+        },
+        "after_first_planned_goal_encounter": {
+          "correct": 22,
+          "denominator": 56,
+          "rate": 0.39285714285714285
+        },
+        "goal_classes": 40,
+        "by_encounter": {
+          "1": {
+            "correct": 7,
+            "denominator": 40
+          },
+          "2": {
+            "correct": 17,
+            "denominator": 40
+          },
+          "3": {
+            "correct": 5,
+            "denominator": 16
+          }
+        },
+        "all_stages_first_correct": {
+          "correct": 18,
+          "denominator": 72,
+          "rate": 0.25
+        },
+        "combined_stages_first_correct": {
+          "correct": 9,
+          "denominator": 24,
+          "rate": 0.375
+        },
+        "combined_with_both_prior_actual_facts": {
+          "correct": 9,
+          "denominator": 24,
+          "rate": 0.375
+        },
+        "combinations_without_both_prior_actual_facts": 0,
+        "distance": 14666,
+        "model_calls": 5696,
+        "processing_failures": 643,
+        "reported_usage": {
+          "calls": 5696,
+          "calls_with_usage": 5696,
+          "calls_with_effort_acknowledgement": 5696,
+          "reported_tokens": {
+            "input_tokens": 479075973,
+            "output_tokens": 587549,
+            "reasoning_tokens": 289729
+          },
+          "usage_complete": true,
+          "request_kinds": {
+            "agent": 5654,
+            "session_title": 36,
+            "context_compression": 6
+          },
+          "request_reasoning_efforts": {
+            "high": 5654,
+            "unspecified": 42
+          },
+          "provider_reasoning_efforts": {
+            "high": 5654,
+            "medium": 42
+          },
+          "reasoning_policy": "native"
+        },
+        "infrastructure_costs": {
+          "failure_events": 2,
+          "reasons": {
+            "gateway_http_503": 2
+          },
+          "affected_rpcs": 2,
+          "recovered_affected_rpcs": 2,
+          "active_pending_rpcs": 0,
+          "historical_unrecovered_rpcs": 0,
+          "failure_events_without_reported_usage": 2,
+          "abandoned_attempt_successful_responses": 0,
+          "abandoned_attempt_reported_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0
+          },
+          "unreported_usage_is_unknown": true,
+          "reasoning_tokens_are_output_subset": true
+        },
+        "reasoning_is_output_subset": true,
+        "unreported_usage_remains_unknown": true,
+        "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+        "single_run_descriptive_only": true
+      },
+      "combined_stages_by_occurrence": {
+        "1": {
+          "correct": 8,
+          "denominator": 20,
+          "with_both_prior_facts": 20
+        },
+        "2": {
+          "correct": 1,
+          "denominator": 4,
+          "with_both_prior_facts": 4
+        }
+      },
+      "processing_evidence": {
+        "table_sha256": "bf179678c714de2f0f368c76a91c63be8a28b67beaa6609ab5fb1d2306f7ae7c",
+        "rule_rows": 80,
+        "processing_attempts": 786,
+        "distinct_rules_disclosed": 57,
+        "required_opportunities": 96,
+        "first_correct": 29,
+        "opportunities_with_prior_disclosure": 64,
+        "first_correct_when_prior_disclosed": 27,
+        "first_correct_after_prior_rule_disclosure": 27
+      },
+      "archive": {
+        "name": "evidence.zip",
+        "bytes": 1589595653,
+        "sha256": "9233c17e5b10e77d6a72cb10fc28b5284e507e6df7e02acb96b996fe68c188bb",
+        "contents_verified": true
+      },
+      "result_sha256": "993c1d4c21f23869b135da4ea95c9e00847b87da353cf858de4767c500d89a86",
+      "audit_sha256": "7f847e0716df3f85bc257132d7c6a7f51a78a7d8fa41b13de2ae623d7c34852b",
+      "driver_exit": {
+        "utc": "2026-11-22T03:03:06.955308+00:00",
+        "exit_code": 0
+      },
+      "retention": "complete"
+    },
+    {
+      "design": "lunatic-01-v4.3-goal-switch-full64",
+      "group_id": "eb36da6633d587fe651cb05b5dcb9013",
+      "job_id": "9e561a24e4a8442ea7bd55915c1f9877",
+      "experiment_id": "0bb7ae93dd5747ebb3aa0cc3fd3f287f",
+      "map": "scandinavia-lunatic",
+      "design_file": "calibration/scandinavia_lunatic_goal_switch64.json",
+      "design_sha256": "a7132c2da3ae92a656b7b8e441f825a95ec6c609e305bf06d48fc9460f9ae90c",
+      "policy": "config/authorized-lunatic-goal-switch-full-retain.json",
+      "phase": "auditing_and_archiving",
+      "status_utc": "2026-11-22T09:52:35.589190+00:00",
+      "planned": 64,
+      "completed": 64,
+      "successes": 63,
+      "failed_task_ids": [
+        "T23"
+      ],
+      "metrics": {
+        "condition": "retain",
+        "tasks": {
+          "correct": 63,
+          "denominator": 64,
+          "rate": 0.984375
+        },
+        "all_first_goal_compatible_operations": {
+          "correct": 121,
+          "denominator": 192,
+          "rate": 0.6302083333333334
+        },
+        "after_first_planned_goal_encounter": {
+          "correct": 109,
+          "denominator": 128,
+          "rate": 0.8515625
+        },
+        "goal_classes": 64,
+        "by_encounter": {
+          "1": {
+            "correct": 12,
+            "denominator": 64
+          },
+          "2": {
+            "correct": 51,
+            "denominator": 64
+          },
+          "3": {
+            "correct": 58,
+            "denominator": 64
+          }
+        },
+        "all_stages_first_correct": {
+          "correct": 63,
+          "denominator": 128,
+          "rate": 0.4921875
+        },
+        "combined_stages_first_correct": {
+          "correct": 51,
+          "denominator": 64,
+          "rate": 0.796875
+        },
+        "combined_with_both_prior_actual_facts": {
+          "correct": 51,
+          "denominator": 64,
+          "rate": 0.796875
+        },
+        "combinations_without_both_prior_actual_facts": 0,
+        "distance": 9226,
+        "model_calls": 6341,
+        "processing_failures": 448,
+        "reported_usage": {
+          "calls": 6341,
+          "calls_with_usage": 6341,
+          "calls_with_effort_acknowledgement": 6341,
+          "reported_tokens": {
+            "input_tokens": 495234255,
+            "output_tokens": 863357,
+            "reasoning_tokens": 527014
+          },
+          "usage_complete": true,
+          "request_kinds": {
+            "agent": 6275,
+            "session_title": 64,
+            "context_compression": 2
+          },
+          "request_reasoning_efforts": {
+            "high": 6275,
+            "unspecified": 66
+          },
+          "provider_reasoning_efforts": {
+            "high": 6275,
+            "medium": 66
+          },
+          "reasoning_policy": "native"
+        },
+        "infrastructure_costs": {
+          "failure_events": 2,
+          "reasons": {
+            "gateway_http_502": 1,
+            "gateway_http_503": 1
+          },
+          "affected_rpcs": 2,
+          "recovered_affected_rpcs": 2,
+          "active_pending_rpcs": 0,
+          "historical_unrecovered_rpcs": 0,
+          "failure_events_without_reported_usage": 2,
+          "abandoned_attempt_successful_responses": 0,
+          "abandoned_attempt_reported_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0
+          },
+          "unreported_usage_is_unknown": true,
+          "reasoning_tokens_are_output_subset": true
+        },
+        "reasoning_is_output_subset": true,
+        "unreported_usage_remains_unknown": true,
+        "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+        "single_run_descriptive_only": true
+      },
+      "combined_stages_by_occurrence": {
+        "1": {
+          "correct": 24,
+          "denominator": 32,
+          "with_both_prior_facts": 32
+        },
+        "2": {
+          "correct": 27,
+          "denominator": 32,
+          "with_both_prior_facts": 32
+        }
+      },
+      "first_24": {
+        "successes": 23,
+        "repeat": {
+          "correct": 19,
+          "denominator": 32,
+          "rate": 0.59375
+        },
+        "combined": {
+          "correct": 8,
+          "denominator": 16,
+          "rate": 0.5
+        }
+      },
+      "processing_evidence": {
+        "table_sha256": "cb40909ac5b8c9f5aa8c1575bbc45af3d8ee155faaf031f8c1087e837d2438ab",
+        "rule_rows": 128,
+        "processing_attempts": 660,
+        "distinct_rules_disclosed": 72,
+        "required_opportunities": 192,
+        "first_correct": 121,
+        "opportunities_with_prior_disclosure": 133,
+        "first_correct_when_prior_disclosed": 112,
+        "first_correct_after_prior_rule_disclosure": 109
+      },
+      "archive": {
+        "name": "evidence.zip",
+        "bytes": 1842415540,
+        "sha256": "c7fd6925ba3f35750c1539904da5807d66ab2c6ab632d8c629f25b7bafa9e136",
+        "contents_verified": true
+      },
+      "result_sha256": "6a0cf6c440bf874fc810b8eb2bc3027cb7f6268f590b412b389b9bafb6badf95",
+      "audit_sha256": "507961354d515b8e597555058a19cb8171eb2c69f43dc3f0aec30ace0e42de55",
+      "driver_exit": null,
+      "retention": null
+    }
+  ]
+}
