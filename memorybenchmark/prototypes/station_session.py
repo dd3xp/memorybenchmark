@@ -172,6 +172,17 @@ def render_text(response, *, compact=False):
                 f"{feedback['station']}处理本份资料：{feedback['result']}；输入{feedback['input_format'] or '原始'}，"
                 f"输出{feedback['output_format'] or '无'}。"
             )
+            seal = feedback.get("processing_seal")
+            if seal is not None:
+                operation = "编目" if feedback["requirement"] == "catalogue" else "核验"
+                message += f"{operation}封签：{seal}。"
+            if (
+                "delivery_condition" in feedback
+                and feedback["delivery_condition"] != seal
+            ):
+                message += f"产物适用条件：{feedback['delivery_condition']}。"
+            if feedback.get("delivery_condition_failed"):
+                message += "产物达到交付标准，交付条件不符，本段尚未完成。"
             if feedback.get("next_stage"):
                 message += "本段达到交付目标，下一段另行采集独立资料。"
 

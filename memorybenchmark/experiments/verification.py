@@ -42,6 +42,18 @@ FULL_RETAINED_CONFIRMATIONS = {
         "design_id": "hard-binding-calibration-v4-61601-36",
         "design_file": "candidates/orcia_binding36_spaced.json",
     },
+    "hard-mixed-spacing-retain-61601-v5": {
+        "model": "gpt-5.6-luna",
+        "world_seed": 61601,
+        "design_id": "hard-binding-calibration-v5-61601-36",
+        "design_file": "candidates/orcia_binding36_mixed_spacing.json",
+    },
+    "hard-staged-composition-retain-61601-v6": {
+        "model": "gpt-5.6-luna",
+        "world_seed": 61601,
+        "design_id": "hard-binding-calibration-v6-61601-36",
+        "design_file": "candidates/orcia_binding36_staged_composition.json",
+    },
 }
 
 LUNATIC_RETAINED_PILOT = {
@@ -71,6 +83,42 @@ LUNATIC_FULL_RETAINED = {
     },
 }
 
+LUNATIC_CAPACITY_RETAINED = {
+    "lunatic-scandinavia-capacity-spacing-retain30-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.8-capacity-spacing30",
+        "design_file": "calibration/scandinavia_lunatic_capacity_spacing30.json",
+    },
+}
+
+LUNATIC_CONDITIONED_RETAINED_PILOTS = {
+    "lunatic-scandinavia-delivery-conditions-retain20-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.4-delivery-conditions20",
+        "design_file": "calibration/scandinavia_lunatic_delivery_conditions20.json",
+    },
+    "lunatic-scandinavia-verifier-conditions-retain20-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.5-verifier-conditions20",
+        "design_file": "calibration/scandinavia_lunatic_verifier_conditions20.json",
+    },
+    "lunatic-scandinavia-seal-comparison-retain20-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.6-seal-comparison20",
+        "design_file": "calibration/scandinavia_lunatic_seal_comparison20.json",
+    },
+    "lunatic-scandinavia-independent-seals-retain20-v1": {
+        "model": "gpt-5.6-luna",
+        "map": "scandinavia-lunatic",
+        "design_id": "lunatic-01-v4.7-independent-seals20",
+        "design_file": "calibration/scandinavia_lunatic_independent_seals20.json",
+    },
+}
+
 
 def authorized_task_count(job, expected_source_digest):
     """Additional task counts require a named retained run and a frozen source."""
@@ -81,7 +129,9 @@ def authorized_task_count(job, expected_source_digest):
     candidates = {
         36: FULL_RETAINED_CONFIRMATIONS,
         18: LUNATIC_RETAINED_PILOT,
+        20: LUNATIC_CONDITIONED_RETAINED_PILOTS,
         24: LUNATIC_EXPANDED_RETAINED_PILOT,
+        30: LUNATIC_CAPACITY_RETAINED,
         64: LUNATIC_FULL_RETAINED,
     }
     require(

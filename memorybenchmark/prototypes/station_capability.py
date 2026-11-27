@@ -480,12 +480,9 @@ def _validate_geography_tasks(design):
                 output_state=task.get("output_state"),
             )
         if interfaces.enabled(design):
-            expected_first.update(
-                {
-                    k: task.get(k)
-                    for k in ("input_state", "output_state", "input_format", "goal")
-                }
-            )
+            expected_first.update({k: task.get(k) for k in interfaces.STAGE_FIELDS})
+            if "delivery_condition" in task:
+                expected_first["delivery_condition"] = task["delivery_condition"]
         if regions is not None:
             expected_first["required_region"] = task.get("required_region")
         if not isinstance(stages, list) or not stages or stages[0] != expected_first:
@@ -502,9 +499,9 @@ def _validate_geography_tasks(design):
                 expected_keys.update(("input_state", "output_state"))
                 composition.validate_stage(stage)
             if interfaces.enabled(design):
-                expected_keys.update(
-                    ("input_state", "output_state", "input_format", "goal")
-                )
+                expected_keys.update(interfaces.STAGE_FIELDS)
+                if "delivery_condition" in stage:
+                    expected_keys.add("delivery_condition")
                 interfaces.item(stage)
             if regions is not None:
                 expected_keys.add("required_region")
@@ -742,13 +739,13 @@ class StationGame:
     def observation(self):
         if self.state is None:
             raise ValueError("Start a task first")
+        current_stage = active_stage(self.task, self.state)
+        task = {"id": self.task_id, **deepcopy(self.task), **current_stage}
+        if "delivery_condition" not in current_stage:
+            task.pop("delivery_condition", None)
         result = {
             "environment": deepcopy(self.design["public"]),
-            "task": {
-                "id": self.task_id,
-                **deepcopy(self.task),
-                **active_stage(self.task, self.state),
-            },
+            "task": task,
             "location": self.state.position,
             "raw": self.state.raw,
             "processed": self.state.processed,

@@ -1,0 +1,103 @@
+{
+  "design_id": "lunatic-01-v4.8-capacity-spacing30",
+  "candidate_only": true,
+  "retained_task_definitions": 20,
+  "added_materials": [
+    "otter_signs",
+    "elevation"
+  ],
+  "linked_source_sha256": "b0fbae15839a241d8dc58c53e52556e6e7cc8a3291c6c21c2ad14b56c0ded600",
+  "matched_pairs": 12,
+  "valid_standard_wrong_relation_routes": 48,
+  "raw_seal_signature_counts": {
+    "甲甲": 2,
+    "甲乙": 1,
+    "乙乙": 2,
+    "乙甲": 1
+  },
+  "source_planned_exposure_gaps": {
+    "nearest_exact": {
+      "4": 4,
+      "12": 4,
+      "2": 4,
+      "6": 4
+    },
+    "nearest_ordinary": {
+      "4": 4,
+      "12": 8,
+      "8": 4
+    },
+    "nearest_raw_seal": {
+      "4": 4,
+      "2": 12
+    }
+  },
+  "candidate_planned_exposure_gaps": {
+    "nearest_exact": {
+      "6": 7,
+      "15": 1,
+      "18": 5,
+      "9": 6,
+      "3": 5
+    },
+    "nearest_ordinary": {
+      "6": 5,
+      "15": 1,
+      "18": 11,
+      "9": 1,
+      "12": 6
+    },
+    "nearest_raw_seal": {
+      "6": 6,
+      "3": 18
+    }
+  },
+  "source_mean_fully_informed_distance": 73.95,
+  "candidate_mean_fully_informed_distance": 74.03333333333333,
+  "maximum_fully_informed_actions": 61,
+  "task_order": [
+    "T1",
+    "T2",
+    "T21",
+    "T3",
+    "T4",
+    "T22",
+    "T5",
+    "T6",
+    "T23",
+    "T7",
+    "T8",
+    "T24",
+    "T9",
+    "T10",
+    "T25",
+    "T11",
+    "T12",
+    "T26",
+    "T13",
+    "T14",
+    "T27",
+    "T15",
+    "T16",
+    "T28",
+    "T17",
+    "T18",
+    "T29",
+    "T19",
+    "T20",
+    "T30"
+  ],
+  "zero_model_game_tasks": 30,
+  "successes": 30,
+  "maximum_reference_actions": 75,
+  "required_operations": 84,
+  "actual_prior_feedback_for_every_combined_operation": true,
+  "native_model_calls": 0,
+  "is_not_a_model_score": true,
+  "combined_reference_uses_only_delivered_prior_interface_facts": true,
+  "feedback_only_repeat_operations_by_encounter": {
+    "2": 36,
+    "3": 12
+  },
+  "design_sha256": "dc3c29eab92a29e8cce404e4d20daa5bb224888970baae649e121f7cbdcf7e5f"
+}

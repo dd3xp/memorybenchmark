@@ -1,0 +1,7214 @@
+{
+  "design_id": "lunatic-01-v4.5-verifier-conditions20",
+  "status": "verifier_conditions_candidate_pending_native_calibration",
+  "world_generator": "fixed_interface_station_sets",
+  "fixed_world": "lunatic-recall-61801-verifier-conditions",
+  "material_selection": {
+    "protocol": "four-exposure-materials-v1",
+    "theme": "scandinavia",
+    "geographic": [
+      "profile",
+      "elevation",
+      "shore",
+      "drainage",
+      "sediment",
+      "vegetation",
+      "lithology",
+      "water_quality"
+    ],
+    "animal": [
+      "waterbird_record",
+      "otter_signs",
+      "livestock_signs",
+      "woodland_birds"
+    ],
+    "human": [
+      "built_form",
+      "waterworks",
+      "settlement_layout",
+      "historic_road"
+    ]
+  },
+  "native_session_budget": {
+    "main_model_calls": 400,
+    "final_model_calls": 6,
+    "effective_wall_seconds": 604800,
+    "reasoning_effort": "high",
+    "whole_session_transport_retries": 0,
+    "whole_session_failure_limit": 0,
+    "basis": "Same per-task calls/operations as Hard; week effective wall; no native result calibration."
+  },
+  "public": {
+    "version": "lunatic-01-v4.5-verifier-conditions20",
+    "name": "霜湾岭国",
+    "difficulty": "Lunatic",
+    "terrain": "fjord-peninsulas",
+    "capability_model": "conditional-overlapping-sets-v1",
+    "requirements": {
+      "catalogue": "归档编目",
+      "verify": "关联核验"
+    },
+    "station_query_enabled": false,
+    "manual_survey_required": true,
+    "view_box": [
+      0,
+      0,
+      8200,
+      10500
+    ],
+    "rules": [
+      "道路权重是实验距离。逐点移动，过水连接已标明。连接线交叉处不能中途换乘。",
+      "每项委托两段独立。到本段指定测绘点主动 survey，处理至本段目标。两段完成后返回营地 submit。",
+      "同型站等价，处理能力由当前资料及其输入规格决定。所有处理站均可前往。",
+      "编目把原始资料变为中间规格；核验接受特定中间规格并产出标准。相同规格与标准代号可以用于不同资料。",
+      "process 只反馈本站对当前样本的输入、输出及成败。失败保留样本；返回本段采集点重新 survey 可恢复起始状态，原尝试和距离照计。",
+      "优先减少总路程。同一任务的两段各自采集，不共享处理产物。只有你自主保存的持久记忆可以跨任务。",
+      "有交付条件的委托要求标准和条件同时符合。条件由核验产物决定，相同编目格式不保证条件相同。处理反馈只显示本份产物实际取得的条件。"
+    ],
+    "kinds": {
+      "profile": "剖面资料",
+      "elevation": "高程资料",
+      "shore": "岸线资料",
+      "drainage": "水系资料",
+      "sediment": "沉积物资料",
+      "vegetation": "植被资料",
+      "lithology": "岩性资料",
+      "water_quality": "水质资料",
+      "waterbird_record": "水鸟观察资料",
+      "otter_signs": "水獭活动资料",
+      "livestock_signs": "牧畜活动资料",
+      "woodland_birds": "林鸟声学资料",
+      "built_form": "建筑形制资料",
+      "waterworks": "水工设施资料",
+      "settlement_layout": "聚落格局资料",
+      "historic_road": "历史道路遗迹资料"
+    },
+    "vocabulary": {
+      "survey": "测绘点",
+      "station": "处理站",
+      "collect": "采集",
+      "process": "处理",
+      "item": "资料",
+      "submit": "交付"
+    },
+    "station_types": {
+      "A": {
+        "name": "A型",
+        "stations": [
+          "A2",
+          "A3"
+        ]
+      },
+      "B": {
+        "name": "B型",
+        "stations": [
+          "B1",
+          "B2",
+          "B3"
+        ]
+      },
+      "C": {
+        "name": "C型",
+        "stations": [
+          "C1",
+          "C2",
+          "C3"
+        ]
+      },
+      "D": {
+        "name": "D型",
+        "stations": [
+          "D1",
+          "D2",
+          "D3"
+        ]
+      },
+      "E": {
+        "name": "E型",
+        "stations": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "F": {
+        "name": "F型",
+        "stations": [
+          "F1",
+          "F2",
+          "F3"
+        ]
+      },
+      "G": {
+        "name": "G型",
+        "stations": [
+          "G1",
+          "G2",
+          "G3"
+        ]
+      },
+      "H": {
+        "name": "H型",
+        "stations": [
+          "H1",
+          "H2",
+          "H3"
+        ]
+      },
+      "I": {
+        "name": "I型",
+        "stations": [
+          "I1",
+          "I2",
+          "I3"
+        ]
+      },
+      "J": {
+        "name": "J型",
+        "stations": [
+          "J1",
+          "J2",
+          "J3"
+        ]
+      },
+      "K": {
+        "name": "K型",
+        "stations": [
+          "K1",
+          "K2",
+          "K3"
+        ]
+      },
+      "L": {
+        "name": "L型",
+        "stations": [
+          "L1",
+          "L2",
+          "L3"
+        ]
+      },
+      "M": {
+        "name": "M型",
+        "stations": [
+          "M1",
+          "M2",
+          "M3"
+        ]
+      },
+      "N": {
+        "name": "N型",
+        "stations": [
+          "N1",
+          "N2",
+          "N3"
+        ]
+      },
+      "O": {
+        "name": "O型",
+        "stations": [
+          "O1",
+          "O2",
+          "O3"
+        ]
+      },
+      "P": {
+        "name": "P型",
+        "stations": [
+          "P1",
+          "P2",
+          "P3"
+        ]
+      },
+      "Q": {
+        "name": "Q型",
+        "stations": [
+          "Q1",
+          "Q2",
+          "Q3"
+        ]
+      },
+      "R": {
+        "name": "R型",
+        "stations": [
+          "R1",
+          "R2",
+          "R3"
+        ]
+      },
+      "S": {
+        "name": "S型",
+        "stations": [
+          "S1",
+          "S2",
+          "S3"
+        ]
+      },
+      "T": {
+        "name": "T型",
+        "stations": [
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "U": {
+        "name": "U型",
+        "stations": [
+          "U1",
+          "U2",
+          "U3"
+        ]
+      },
+      "V": {
+        "name": "V型",
+        "stations": [
+          "V1",
+          "V2",
+          "V3"
+        ]
+      },
+      "W": {
+        "name": "W型",
+        "stations": [
+          "W1",
+          "W2",
+          "W3"
+        ]
+      },
+      "X": {
+        "name": "X型",
+        "stations": [
+          "X1",
+          "X2",
+          "X3"
+        ]
+      }
+    },
+    "locations": {
+      "p1": {
+        "x": 3458.15,
+        "y": 6567.0,
+        "name": "地区路口·p1",
+        "kind": "junction",
+        "region_id": "r035"
+      },
+      "p2": {
+        "x": 3839.42,
+        "y": 7631.77,
+        "name": "地区路口·p2",
+        "kind": "junction",
+        "region_id": "r036"
+      },
+      "p3": {
+        "x": 4095.54,
+        "y": 5403.18,
+        "name": "地区路口·p3",
+        "kind": "junction",
+        "region_id": "r037"
+      },
+      "p4": {
+        "x": 3360.33,
+        "y": 9106.55,
+        "name": "地区路口·p4",
+        "kind": "junction",
+        "region_id": "r038"
+      },
+      "p5": {
+        "x": 1540.42,
+        "y": 7804.09,
+        "name": "地区路口·p5",
+        "kind": "junction",
+        "region_id": "r039"
+      },
+      "p6": {
+        "x": 892.44,
+        "y": 6557.21,
+        "name": "地区路口·p6",
+        "kind": "junction",
+        "region_id": "r040"
+      },
+      "p7": {
+        "x": 1006.43,
+        "y": 6238.58,
+        "name": "地区路口·p7",
+        "kind": "junction",
+        "region_id": "r041"
+      },
+      "p8": {
+        "x": 2259.81,
+        "y": 6969.82,
+        "name": "地区路口·p8",
+        "kind": "junction",
+        "region_id": "r030"
+      },
+      "p9": {
+        "x": 2182.26,
+        "y": 6447.79,
+        "name": "地区路口·p9",
+        "kind": "junction",
+        "region_id": "r042"
+      },
+      "p10": {
+        "x": 1979.5489,
+        "y": 7364.0947,
+        "name": "地区路口·p10",
+        "kind": "junction",
+        "region_id": "r043"
+      },
+      "p11": {
+        "x": 2951.2,
+        "y": 7665.74,
+        "name": "地区路口·p11",
+        "kind": "junction",
+        "region_id": "r044"
+      },
+      "p12": {
+        "x": 2533.7,
+        "y": 7862.69,
+        "name": "地区路口·p12",
+        "kind": "junction",
+        "region_id": "r045"
+      },
+      "p13": {
+        "x": 1754.74,
+        "y": 9391.02,
+        "name": "地区路口·p13",
+        "kind": "junction",
+        "region_id": "r046"
+      },
+      "p14": {
+        "x": 2530.0,
+        "y": 9261.86,
+        "name": "地区路口·p14",
+        "kind": "junction",
+        "region_id": "r047"
+      },
+      "p15": {
+        "x": 2320.97,
+        "y": 9549.96,
+        "name": "地区路口·p15",
+        "kind": "junction",
+        "region_id": "r048"
+      },
+      "p16": {
+        "x": 3393.96,
+        "y": 6641.67,
+        "name": "地区路口·p16",
+        "kind": "junction",
+        "region_id": "r049"
+      },
+      "p17": {
+        "x": 3707.04,
+        "y": 7133.06,
+        "name": "地区路口·p17",
+        "kind": "junction",
+        "region_id": "r050"
+      },
+      "p18": {
+        "x": 4146.33,
+        "y": 1598.68,
+        "name": "地区路口·p18",
+        "kind": "junction",
+        "region_id": "r051"
+      },
+      "p19": {
+        "x": 2079.42,
+        "y": 6459.3,
+        "name": "地区路口·p19",
+        "kind": "junction",
+        "region_id": "r052"
+      },
+      "p20": {
+        "x": 2220.25,
+        "y": 4116.69,
+        "name": "地区路口·p20",
+        "kind": "junction",
+        "region_id": "r053"
+      },
+      "p21": {
+        "x": 1717.11,
+        "y": 8973.91,
+        "name": "地区路口·p21",
+        "kind": "junction",
+        "region_id": "r054"
+      },
+      "p22": {
+        "x": 2464.96,
+        "y": 9425.01,
+        "name": "地区路口·p22",
+        "kind": "junction",
+        "region_id": "r055"
+      },
+      "p23": {
+        "x": 3658.7,
+        "y": 6141.43,
+        "name": "地区路口·p23",
+        "kind": "junction",
+        "region_id": "r056"
+      },
+      "p24": {
+        "x": 3881.68,
+        "y": 6535.91,
+        "name": "地区路口·p24",
+        "kind": "junction",
+        "region_id": "r057"
+      },
+      "p25": {
+        "x": 3629.1586,
+        "y": 8834.1145,
+        "name": "地区路口·p25",
+        "kind": "junction",
+        "region_id": "r058"
+      },
+      "p26": {
+        "x": 3226.75,
+        "y": 8714.56,
+        "name": "地区路口·p26",
+        "kind": "junction",
+        "region_id": "r059"
+      },
+      "p27": {
+        "x": 3339.15,
+        "y": 7334.42,
+        "name": "地区路口·p27",
+        "kind": "junction",
+        "region_id": "r060"
+      },
+      "p28": {
+        "x": 3606.34,
+        "y": 7728.84,
+        "name": "地区路口·p28",
+        "kind": "junction",
+        "region_id": "r061"
+      },
+      "p29": {
+        "x": 2680.19,
+        "y": 8836.6,
+        "name": "地区路口·p29",
+        "kind": "junction",
+        "region_id": "r062"
+      },
+      "p30": {
+        "x": 2862.3928,
+        "y": 7254.5549,
+        "name": "地区路口·p30",
+        "kind": "junction",
+        "region_id": "r063"
+      },
+      "p31": {
+        "x": 4936.11,
+        "y": 4171.94,
+        "name": "地区路口·p31",
+        "kind": "junction",
+        "region_id": "r064"
+      },
+      "p32": {
+        "x": 4197.55,
+        "y": 8282.69,
+        "name": "地区路口·p32",
+        "kind": "junction",
+        "region_id": "r065"
+      },
+      "p33": {
+        "x": 2481.0879,
+        "y": 7958.4394,
+        "name": "地区路口·p33",
+        "kind": "junction",
+        "region_id": "r066"
+      },
+      "p34": {
+        "x": 2698.13,
+        "y": 8226.95,
+        "name": "地区路口·p34",
+        "kind": "junction",
+        "region_id": "r067"
+      },
+      "p35": {
+        "x": 3036.28,
+        "y": 9204.06,
+        "name": "地区路口·p35",
+        "kind": "junction",
+        "region_id": "r068"
+      },
+      "p36": {
+        "x": 2636.83,
+        "y": 9194.37,
+        "name": "地区路口·p36",
+        "kind": "junction",
+        "region_id": "r033"
+      },
+      "p37": {
+        "x": 3678.0989,
+        "y": 1879.6447,
+        "name": "地区路口·p37",
+        "kind": "junction",
+        "region_id": "r069"
+      },
+      "p38": {
+        "x": 877.67,
+        "y": 5454.19,
+        "name": "地区路口·p38",
+        "kind": "junction",
+        "region_id": "r070"
+      },
+      "p39": {
+        "x": 683.14,
+        "y": 7584.88,
+        "name": "地区路口·p39",
+        "kind": "junction",
+        "region_id": "r031"
+      },
+      "p40": {
+        "x": 1937.49,
+        "y": 7059.79,
+        "name": "地区路口·p40",
+        "kind": "junction",
+        "region_id": "r071"
+      },
+      "p41": {
+        "x": 2070.83,
+        "y": 7244.22,
+        "name": "地区路口·p41",
+        "kind": "junction",
+        "region_id": "r072"
+      },
+      "p42": {
+        "x": 2302.39,
+        "y": 4606.73,
+        "name": "地区路口·p42",
+        "kind": "junction",
+        "region_id": "r028"
+      },
+      "p43": {
+        "x": 2056.19,
+        "y": 9758.76,
+        "name": "地区路口·p43",
+        "kind": "junction",
+        "region_id": "r034"
+      },
+      "p44": {
+        "x": 1991.17,
+        "y": 9568.75,
+        "name": "地区路口·p44",
+        "kind": "junction",
+        "region_id": "r073"
+      },
+      "p45": {
+        "x": 1438.5228,
+        "y": 9503.7365,
+        "name": "地区路口·p45",
+        "kind": "junction",
+        "region_id": "r074"
+      },
+      "p46": {
+        "x": 1966.5968,
+        "y": 8458.6341,
+        "name": "地区路口·p46",
+        "kind": "junction",
+        "region_id": "r075"
+      },
+      "p47": {
+        "x": 1861.09,
+        "y": 8628.17,
+        "name": "地区路口·p47",
+        "kind": "junction",
+        "region_id": "r076"
+      },
+      "p48": {
+        "x": 3045.12,
+        "y": 8203.4,
+        "name": "地区路口·p48",
+        "kind": "junction",
+        "region_id": "r032"
+      },
+      "p49": {
+        "x": 4313.67,
+        "y": 5009.29,
+        "name": "地区路口·p49",
+        "kind": "junction",
+        "region_id": "r077"
+      },
+      "p50": {
+        "x": 3157.07,
+        "y": 2178.76,
+        "name": "地区路口·p50",
+        "kind": "junction",
+        "region_id": "r078"
+      },
+      "p51": {
+        "x": 3045.58,
+        "y": 3282.5,
+        "name": "地区路口·p51",
+        "kind": "junction",
+        "region_id": "r079"
+      },
+      "p52": {
+        "x": 3916.06,
+        "y": 2092.46,
+        "name": "地区路口·p52",
+        "kind": "junction",
+        "region_id": "r080"
+      },
+      "p53": {
+        "x": 3148.78,
+        "y": 2729.78,
+        "name": "地区路口·p53",
+        "kind": "junction",
+        "region_id": "r081"
+      },
+      "p54": {
+        "x": 568.17,
+        "y": 7258.66,
+        "name": "地区路口·p54",
+        "kind": "junction",
+        "region_id": "r082"
+      },
+      "p55": {
+        "x": 661.1287,
+        "y": 7490.1065,
+        "name": "地区路口·p55",
+        "kind": "junction",
+        "region_id": "r083"
+      },
+      "p56": {
+        "x": 1772.86,
+        "y": 7380.7,
+        "name": "地区路口·p56",
+        "kind": "junction",
+        "region_id": "r084"
+      },
+      "p57": {
+        "x": 2302.39,
+        "y": 4338.23,
+        "name": "地区路口·p57",
+        "kind": "junction",
+        "region_id": "r085"
+      },
+      "p58": {
+        "x": 5574.79,
+        "y": 1180.59,
+        "name": "地区路口·p58",
+        "kind": "junction",
+        "region_id": "r086"
+      },
+      "p59": {
+        "x": 7395.6728,
+        "y": 1075.8649,
+        "name": "地区路口·p59",
+        "kind": "junction",
+        "region_id": "r087"
+      },
+      "p60": {
+        "x": 3453.4,
+        "y": 7835.61,
+        "name": "地区路口·p60",
+        "kind": "junction",
+        "region_id": "r088"
+      },
+      "p61": {
+        "x": 3180.29,
+        "y": 5086.85,
+        "name": "地区路口·p61",
+        "kind": "junction",
+        "region_id": "r089"
+      },
+      "p62": {
+        "x": 4731.71,
+        "y": 2399.48,
+        "name": "地区路口·p62",
+        "kind": "junction",
+        "region_id": "r090"
+      },
+      "p63": {
+        "x": 4738.22,
+        "y": 4714.45,
+        "name": "地区路口·p63",
+        "kind": "junction",
+        "region_id": "r091"
+      },
+      "p64": {
+        "x": 4013.6,
+        "y": 7000.59,
+        "name": "地区路口·p64",
+        "kind": "junction",
+        "region_id": "r092"
+      },
+      "p65": {
+        "x": 1129.32,
+        "y": 5337.36,
+        "name": "地区路口·p65",
+        "kind": "junction",
+        "region_id": "r093"
+      },
+      "p66": {
+        "x": 2023.69,
+        "y": 6267.39,
+        "name": "地区路口·p66",
+        "kind": "junction",
+        "region_id": "r029"
+      },
+      "p67": {
+        "x": 7502.73,
+        "y": 1319.74,
+        "name": "地区路口·p67",
+        "kind": "junction",
+        "region_id": "r094"
+      },
+      "p68": {
+        "x": 2441.74,
+        "y": 8215.69,
+        "name": "地区路口·p68",
+        "kind": "junction",
+        "region_id": "r095"
+      },
+      "p69": {
+        "x": 1898.8079,
+        "y": 9173.4494,
+        "name": "地区路口·p69",
+        "kind": "junction",
+        "region_id": "r096"
+      },
+      "p70": {
+        "x": 5250.7589,
+        "y": 3717.3747,
+        "name": "地区路口·p70",
+        "kind": "junction",
+        "region_id": "r097"
+      },
+      "p71": {
+        "x": 3923.49,
+        "y": 5537.9,
+        "name": "地区路口·p71",
+        "kind": "junction",
+        "region_id": "r098"
+      },
+      "p72": {
+        "x": 1326.94,
+        "y": 7975.76,
+        "name": "地区路口·p72",
+        "kind": "junction",
+        "region_id": "r099"
+      },
+      "p73": {
+        "x": 5699.18,
+        "y": 780.57,
+        "name": "地区路口·p73",
+        "kind": "junction",
+        "region_id": "r027"
+      },
+      "p74": {
+        "x": 2729.71,
+        "y": 9463.39,
+        "name": "地区路口·p74",
+        "kind": "junction",
+        "region_id": "r100"
+      },
+      "p75": {
+        "x": 4420.41,
+        "y": 1371.53,
+        "name": "地区路口·p75",
+        "kind": "junction",
+        "region_id": "r101"
+      },
+      "p76": {
+        "x": 2000.46,
+        "y": 4952.48,
+        "name": "地区路口·p76",
+        "kind": "junction",
+        "region_id": "r102"
+      },
+      "p77": {
+        "x": 581.27,
+        "y": 6694.84,
+        "name": "地区路口·p77",
+        "kind": "junction",
+        "region_id": "r103"
+      },
+      "p78": {
+        "x": 2092.81,
+        "y": 6966.85,
+        "name": "地区路口·p78",
+        "kind": "junction",
+        "region_id": "r104"
+      },
+      "p79": {
+        "x": 2598.23,
+        "y": 9407.43,
+        "name": "地区路口·p79",
+        "kind": "junction",
+        "region_id": "r105"
+      },
+      "p80": {
+        "x": 4118.3989,
+        "y": 7313.0147,
+        "name": "地区路口·p80",
+        "kind": "junction",
+        "region_id": "r106"
+      },
+      "l81": {
+        "x": 6260.0989,
+        "y": 513.6447,
+        "name": "地区路口·l81",
+        "kind": "junction",
+        "region_id": "r001"
+      },
+      "l82": {
+        "x": 7235.38,
+        "y": 988.62,
+        "name": "地区路口·l82",
+        "kind": "junction",
+        "region_id": "r002"
+      },
+      "l83": {
+        "x": 5521.37,
+        "y": 1737.24,
+        "name": "地区路口·l83",
+        "kind": "junction",
+        "region_id": "r003"
+      },
+      "l84": {
+        "x": 4727.08,
+        "y": 1420.52,
+        "name": "地区路口·l84",
+        "kind": "junction",
+        "region_id": "r004"
+      },
+      "l85": {
+        "x": 3915.4972,
+        "y": 1554.0291,
+        "name": "地区路口·l85",
+        "kind": "junction",
+        "region_id": "r005"
+      },
+      "l86": {
+        "x": 4345.26,
+        "y": 2111.55,
+        "name": "地区路口·l86",
+        "kind": "junction",
+        "region_id": "r006"
+      },
+      "l87": {
+        "x": 3974.58,
+        "y": 2716.21,
+        "name": "地区路口·l87",
+        "kind": "junction",
+        "region_id": "r007"
+      },
+      "l88": {
+        "x": 3723.75,
+        "y": 2687.41,
+        "name": "地区路口·l88",
+        "kind": "junction",
+        "region_id": "r008"
+      },
+      "l89": {
+        "x": 3389.31,
+        "y": 3119.31,
+        "name": "地区路口·l89",
+        "kind": "junction",
+        "region_id": "r009"
+      },
+      "l90": {
+        "x": 2913.8486,
+        "y": 2250.2945,
+        "name": "地区路口·l90",
+        "kind": "junction",
+        "region_id": "r010"
+      },
+      "l91": {
+        "x": 3013.07,
+        "y": 3983.1,
+        "name": "地区路口·l91",
+        "kind": "junction",
+        "region_id": "r011"
+      },
+      "l92": {
+        "x": 1828.59,
+        "y": 5825.86,
+        "name": "地区路口·l92",
+        "kind": "junction",
+        "region_id": "r012"
+      },
+      "l93": {
+        "x": 1744.98,
+        "y": 5595.52,
+        "name": "地区路口·l93",
+        "kind": "junction",
+        "region_id": "r013"
+      },
+      "l94": {
+        "x": 1438.41,
+        "y": 5998.62,
+        "name": "地区路口·l94",
+        "kind": "junction",
+        "region_id": "r014"
+      },
+      "l95": {
+        "x": 1159.71,
+        "y": 6862.41,
+        "name": "地区路口·l95",
+        "kind": "junction",
+        "region_id": "r015"
+      },
+      "l96": {
+        "x": 2497.47,
+        "y": 5595.52,
+        "name": "地区路口·l96",
+        "kind": "junction",
+        "region_id": "r016"
+      },
+      "l97": {
+        "x": 2748.3,
+        "y": 6228.97,
+        "name": "地区路口·l97",
+        "kind": "junction",
+        "region_id": "r017"
+      },
+      "l98": {
+        "x": 2636.82,
+        "y": 5969.83,
+        "name": "地区路口·l98",
+        "kind": "junction",
+        "region_id": "r018"
+      },
+      "l99": {
+        "x": 3138.48,
+        "y": 8532.41,
+        "name": "地区路口·l99",
+        "kind": "junction",
+        "region_id": "r019"
+      },
+      "l100": {
+        "x": 3166.35,
+        "y": 7611.03,
+        "name": "地区路口·l100",
+        "kind": "junction",
+        "region_id": "r020"
+      },
+      "l101": {
+        "x": 2007.0394,
+        "y": 8377.8273,
+        "name": "地区路口·l101",
+        "kind": "junction",
+        "region_id": "r075"
+      },
+      "l102": {
+        "x": 1466.28,
+        "y": 8705.17,
+        "name": "地区路口·l102",
+        "kind": "junction",
+        "region_id": "r022"
+      },
+      "l103": {
+        "x": 1510.0509,
+        "y": 9621.0288,
+        "name": "地区路口·l103",
+        "kind": "junction",
+        "region_id": "r023"
+      },
+      "l104": {
+        "x": 2074.3053,
+        "y": 9076.0763,
+        "name": "地区路口·l104",
+        "kind": "junction",
+        "region_id": "r024"
+      },
+      "l105": {
+        "x": 3194.22,
+        "y": 9741.72,
+        "name": "地区路口·l105",
+        "kind": "junction",
+        "region_id": "r100"
+      },
+      "l106": {
+        "x": 2364.5562,
+        "y": 9977.8295,
+        "name": "地区路口·l106",
+        "kind": "junction",
+        "region_id": "r025"
+      },
+      "l107": {
+        "x": 2374.19,
+        "y": 9741.72,
+        "name": "地区路口·l107",
+        "kind": "junction",
+        "region_id": "r025"
+      },
+      "l108": {
+        "x": 1916.4908,
+        "y": 9722.3953,
+        "name": "地区路口·l108",
+        "kind": "junction",
+        "region_id": "r026"
+      },
+      "C": {
+        "x": 2190.9,
+        "y": 6344.14,
+        "name": "巡测营地",
+        "kind": "camp",
+        "region_id": "r042"
+      },
+      "A1": {
+        "x": 6186.86,
+        "y": 721.23,
+        "name": "路标 A1",
+        "kind": "junction",
+        "region_id": "r001",
+        "transit": true
+      },
+      "B1": {
+        "x": 4680.2,
+        "y": 1557.73,
+        "name": "B型处理站·B1",
+        "kind": "station",
+        "region_id": "r004",
+        "station_type": "B"
+      },
+      "C1": {
+        "x": 4230.57,
+        "y": 2022.83,
+        "name": "C型处理站·C1",
+        "kind": "station",
+        "region_id": "r006",
+        "station_type": "C"
+      },
+      "D1": {
+        "x": 4095.61,
+        "y": 2636.36,
+        "name": "D型处理站·D1",
+        "kind": "station",
+        "region_id": "r007",
+        "station_type": "D"
+      },
+      "E1": {
+        "x": 3425.74,
+        "y": 3259.66,
+        "name": "E型处理站·E1",
+        "kind": "station",
+        "region_id": "r009",
+        "station_type": "E"
+      },
+      "F1": {
+        "x": 1684.0,
+        "y": 5814.96,
+        "name": "F型处理站·F1",
+        "kind": "station",
+        "region_id": "r012",
+        "station_type": "F"
+      },
+      "G1": {
+        "x": 1495.47,
+        "y": 5865.32,
+        "name": "G型处理站·G1",
+        "kind": "station",
+        "region_id": "r014",
+        "station_type": "G"
+      },
+      "H1": {
+        "x": 2856.0,
+        "y": 6326.06,
+        "name": "H型处理站·H1",
+        "kind": "station",
+        "region_id": "r017",
+        "station_type": "H"
+      },
+      "I1": {
+        "x": 2510.13,
+        "y": 6040.36,
+        "name": "I型处理站·I1",
+        "kind": "station",
+        "region_id": "r018",
+        "station_type": "I"
+      },
+      "J1": {
+        "x": 3112.7,
+        "y": 8389.72,
+        "name": "J型处理站·J1",
+        "kind": "station",
+        "region_id": "r019",
+        "station_type": "J"
+      },
+      "K1": {
+        "x": 1950.9027,
+        "y": 8297.6882,
+        "name": "K型处理站·K1",
+        "kind": "station",
+        "region_id": "r021",
+        "station_type": "K"
+      },
+      "L1": {
+        "x": 1986.13,
+        "y": 8968.23,
+        "name": "L型处理站·L1",
+        "kind": "station",
+        "region_id": "r024",
+        "station_type": "L"
+      },
+      "M1": {
+        "x": 1728.49,
+        "y": 9636.81,
+        "name": "M型处理站·M1",
+        "kind": "station",
+        "region_id": "r026",
+        "station_type": "M"
+      },
+      "N1": {
+        "x": 6091.8,
+        "y": 650.7,
+        "name": "N型处理站·N1",
+        "kind": "station",
+        "region_id": "r001",
+        "station_type": "N"
+      },
+      "O1": {
+        "x": 4872.06,
+        "y": 1418.2,
+        "name": "O型处理站·O1",
+        "kind": "station",
+        "region_id": "r004",
+        "station_type": "O"
+      },
+      "P1": {
+        "x": 4471.38,
+        "y": 2040.01,
+        "name": "P型处理站·P1",
+        "kind": "station",
+        "region_id": "r006",
+        "station_type": "P"
+      },
+      "Q1": {
+        "x": 4001.5,
+        "y": 2858.69,
+        "name": "Q型处理站·Q1",
+        "kind": "station",
+        "region_id": "r007",
+        "station_type": "Q"
+      },
+      "R1": {
+        "x": 3245.78,
+        "y": 3098.73,
+        "name": "R型处理站·R1",
+        "kind": "station",
+        "region_id": "r009",
+        "station_type": "R"
+      },
+      "S1": {
+        "x": 1894.47,
+        "y": 5696.69,
+        "name": "S型处理站·S1",
+        "kind": "station",
+        "region_id": "r012",
+        "station_type": "S"
+      },
+      "T1": {
+        "x": 1539.34,
+        "y": 6102.72,
+        "name": "T型处理站·T1",
+        "kind": "station",
+        "region_id": "r014",
+        "station_type": "T"
+      },
+      "U1": {
+        "x": 2617.16,
+        "y": 6290.83,
+        "name": "U型处理站·U1",
+        "kind": "station",
+        "region_id": "r017",
+        "station_type": "U"
+      },
+      "V1": {
+        "x": 2620.68,
+        "y": 5825.73,
+        "name": "V型处理站·V1",
+        "kind": "station",
+        "region_id": "r018",
+        "station_type": "V"
+      },
+      "W1": {
+        "x": 3280.06,
+        "y": 8563.72,
+        "name": "W型处理站·W1",
+        "kind": "station",
+        "region_id": "r019",
+        "station_type": "W"
+      },
+      "X1": {
+        "x": 2037.113,
+        "y": 8236.4538,
+        "name": "X型处理站·X1",
+        "kind": "station",
+        "region_id": "r021",
+        "station_type": "X"
+      },
+      "A2": {
+        "x": 5777.52,
+        "y": 902.58,
+        "name": "A型处理站·A2",
+        "kind": "station",
+        "region_id": "r027",
+        "station_type": "A"
+      },
+      "B2": {
+        "x": 2161.6,
+        "y": 4641.42,
+        "name": "B型处理站·B2",
+        "kind": "station",
+        "region_id": "r028",
+        "station_type": "B"
+      },
+      "C2": {
+        "x": 2036.38,
+        "y": 6122.95,
+        "name": "C型处理站·C2",
+        "kind": "station",
+        "region_id": "r029",
+        "station_type": "C"
+      },
+      "D2": {
+        "x": 2392.4,
+        "y": 7028.52,
+        "name": "D型处理站·D2",
+        "kind": "station",
+        "region_id": "r030",
+        "station_type": "D"
+      },
+      "E2": {
+        "x": 780.62,
+        "y": 7692.23,
+        "name": "E型处理站·E2",
+        "kind": "station",
+        "region_id": "r031",
+        "station_type": "E"
+      },
+      "F2": {
+        "x": 2976.17,
+        "y": 8075.84,
+        "name": "F型处理站·F2",
+        "kind": "station",
+        "region_id": "r032",
+        "station_type": "F"
+      },
+      "G2": {
+        "x": 2779.83,
+        "y": 9170.36,
+        "name": "G型处理站·G2",
+        "kind": "station",
+        "region_id": "r033",
+        "station_type": "G"
+      },
+      "H2": {
+        "x": 2104.26,
+        "y": 9621.96,
+        "name": "H型处理站·H2",
+        "kind": "station",
+        "region_id": "r073",
+        "station_type": "H"
+      },
+      "I2": {
+        "x": 5571.38,
+        "y": 712.07,
+        "name": "I型处理站·I2",
+        "kind": "station",
+        "region_id": "r027",
+        "station_type": "I"
+      },
+      "J2": {
+        "x": 2408.53,
+        "y": 4507.94,
+        "name": "J型处理站·J2",
+        "kind": "station",
+        "region_id": "r028",
+        "station_type": "J"
+      },
+      "K2": {
+        "x": 1890.64,
+        "y": 6209.75,
+        "name": "K型处理站·K2",
+        "kind": "station",
+        "region_id": "r029",
+        "station_type": "K"
+      },
+      "L2": {
+        "x": 2357.37,
+        "y": 6862.55,
+        "name": "L型处理站·L2",
+        "kind": "station",
+        "region_id": "r030",
+        "station_type": "L"
+      },
+      "M2": {
+        "x": 763.6,
+        "y": 7464.25,
+        "name": "M型处理站·M2",
+        "kind": "station",
+        "region_id": "r083",
+        "station_type": "M"
+      },
+      "N2": {
+        "x": 3167.41,
+        "y": 8281.31,
+        "name": "N型处理站·N2",
+        "kind": "station",
+        "region_id": "r032",
+        "station_type": "N"
+      },
+      "O2": {
+        "x": 2659.19,
+        "y": 9051.1,
+        "name": "O型处理站·O2",
+        "kind": "station",
+        "region_id": "r033",
+        "station_type": "O"
+      },
+      "P2": {
+        "x": 2080.73,
+        "y": 9901.67,
+        "name": "P型处理站·P2",
+        "kind": "station",
+        "region_id": "r034",
+        "station_type": "P"
+      },
+      "Q2": {
+        "x": 5593.83,
+        "y": 880.21,
+        "name": "Q型处理站·Q2",
+        "kind": "station",
+        "region_id": "r027",
+        "station_type": "Q"
+      },
+      "R2": {
+        "x": 2257.7,
+        "y": 4744.67,
+        "name": "R型处理站·R2",
+        "kind": "station",
+        "region_id": "r028",
+        "station_type": "R"
+      },
+      "S2": {
+        "x": 1926.99,
+        "y": 6375.44,
+        "name": "S型处理站·S2",
+        "kind": "station",
+        "region_id": "r029",
+        "station_type": "S"
+      },
+      "T2": {
+        "x": 2226.75,
+        "y": 7111.0,
+        "name": "T型处理站·T2",
+        "kind": "station",
+        "region_id": "r030",
+        "station_type": "T"
+      },
+      "U2": {
+        "x": 825.74,
+        "y": 7558.58,
+        "name": "U型处理站·U2",
+        "kind": "station",
+        "region_id": "r031",
+        "station_type": "U"
+      },
+      "V2": {
+        "x": 2900.37,
+        "y": 8194.81,
+        "name": "V型处理站·V2",
+        "kind": "station",
+        "region_id": "r032",
+        "station_type": "V"
+      },
+      "W2": {
+        "x": 2752.16,
+        "y": 9282.25,
+        "name": "W型处理站·W2",
+        "kind": "station",
+        "region_id": "r033",
+        "station_type": "W"
+      },
+      "X2": {
+        "x": 2196.53,
+        "y": 9918.99,
+        "name": "X型处理站·X2",
+        "kind": "station",
+        "region_id": "r034",
+        "station_type": "X"
+      },
+      "A3": {
+        "x": 7190.81,
+        "y": 850.64,
+        "name": "A型处理站·A3",
+        "kind": "station",
+        "region_id": "r002",
+        "station_type": "A"
+      },
+      "B3": {
+        "x": 5416.11,
+        "y": 1637.51,
+        "name": "B型处理站·B3",
+        "kind": "station",
+        "region_id": "r003",
+        "station_type": "B"
+      },
+      "C3": {
+        "x": 4043.8972,
+        "y": 1486.6591,
+        "name": "C型处理站·C3",
+        "kind": "station",
+        "region_id": "r005",
+        "station_type": "C"
+      },
+      "D3": {
+        "x": 3745.99,
+        "y": 2830.69,
+        "name": "D型处理站·D3",
+        "kind": "station",
+        "region_id": "r008",
+        "station_type": "D"
+      },
+      "E3": {
+        "x": 2800.61,
+        "y": 2230.24,
+        "name": "E型处理站·E3",
+        "kind": "station",
+        "region_id": "r010",
+        "station_type": "E"
+      },
+      "F3": {
+        "x": 3083.15,
+        "y": 3856.16,
+        "name": "F型处理站·F3",
+        "kind": "station",
+        "region_id": "r011",
+        "station_type": "F"
+      },
+      "G3": {
+        "x": 1600.59,
+        "y": 5582.2,
+        "name": "G型处理站·G3",
+        "kind": "station",
+        "region_id": "r013",
+        "station_type": "G"
+      },
+      "H3": {
+        "x": 1026.61,
+        "y": 6919.94,
+        "name": "H型处理站·H3",
+        "kind": "station",
+        "region_id": "r015",
+        "station_type": "H"
+      },
+      "I3": {
+        "x": 2486.06,
+        "y": 5450.97,
+        "name": "I型处理站·I3",
+        "kind": "station",
+        "region_id": "r016",
+        "station_type": "I"
+      },
+      "J3": {
+        "x": 3306.83,
+        "y": 7646.97,
+        "name": "J型处理站·J3",
+        "kind": "station",
+        "region_id": "r020",
+        "station_type": "J"
+      },
+      "K3": {
+        "x": 1565.62,
+        "y": 8599.54,
+        "name": "K型处理站·K3",
+        "kind": "station",
+        "region_id": "r022",
+        "station_type": "K"
+      },
+      "L3": {
+        "x": 1531.9982,
+        "y": 9506.0458,
+        "name": "L型处理站·L3",
+        "kind": "station",
+        "region_id": "r023",
+        "station_type": "L"
+      },
+      "M3": {
+        "x": 2412.2789,
+        "y": 9648.4647,
+        "name": "M型处理站·M3",
+        "kind": "station",
+        "region_id": "r025",
+        "station_type": "M"
+      },
+      "N3": {
+        "x": 7350.3286,
+        "y": 995.5645,
+        "name": "N型处理站·N3",
+        "kind": "station",
+        "region_id": "r002",
+        "station_type": "N"
+      },
+      "O3": {
+        "x": 5654.01,
+        "y": 1678.65,
+        "name": "O型处理站·O3",
+        "kind": "station",
+        "region_id": "r003",
+        "station_type": "O"
+      },
+      "P3": {
+        "x": 3867.59,
+        "y": 1662.34,
+        "name": "P型处理站·P3",
+        "kind": "station",
+        "region_id": "r005",
+        "station_type": "P"
+      },
+      "Q3": {
+        "x": 3582.99,
+        "y": 2652.6,
+        "name": "Q型处理站·Q3",
+        "kind": "station",
+        "region_id": "r008",
+        "station_type": "Q"
+      },
+      "R3": {
+        "x": 2710.54,
+        "y": 2337.93,
+        "name": "R型处理站·R3",
+        "kind": "station",
+        "region_id": "r010",
+        "station_type": "R"
+      },
+      "S3": {
+        "x": 3103.11,
+        "y": 4096.76,
+        "name": "S型处理站·S3",
+        "kind": "station",
+        "region_id": "r011",
+        "station_type": "S"
+      },
+      "T3": {
+        "x": 1813.02,
+        "y": 5467.47,
+        "name": "T型处理站·T3",
+        "kind": "station",
+        "region_id": "r013",
+        "station_type": "T"
+      },
+      "U3": {
+        "x": 1158.04,
+        "y": 6717.42,
+        "name": "U型处理站·U3",
+        "kind": "station",
+        "region_id": "r015",
+        "station_type": "U"
+      },
+      "V3": {
+        "x": 2635.22,
+        "y": 5640.81,
+        "name": "V型处理站·V3",
+        "kind": "station",
+        "region_id": "r016",
+        "station_type": "V"
+      },
+      "W3": {
+        "x": 3108.96,
+        "y": 7726.74,
+        "name": "W型处理站·W3",
+        "kind": "station",
+        "region_id": "r020",
+        "station_type": "W"
+      },
+      "X3": {
+        "x": 1615.55,
+        "y": 8803.95,
+        "name": "X型处理站·X3",
+        "kind": "station",
+        "region_id": "r022",
+        "station_type": "X"
+      },
+      "v01": {
+        "x": 6463.95,
+        "y": 707.7,
+        "name": "测绘点·v01",
+        "kind": "survey",
+        "region_id": "r001"
+      },
+      "v02": {
+        "x": 7092.2,
+        "y": 965.75,
+        "name": "测绘点·v02",
+        "kind": "survey",
+        "region_id": "r002"
+      },
+      "v03": {
+        "x": 5446.08,
+        "y": 1861.16,
+        "name": "测绘点·v03",
+        "kind": "survey",
+        "region_id": "r003"
+      },
+      "v04": {
+        "x": 4742.19,
+        "y": 1276.31,
+        "name": "测绘点·v04",
+        "kind": "survey",
+        "region_id": "r004"
+      },
+      "v05": {
+        "x": 3972.5572,
+        "y": 1420.7291,
+        "name": "测绘点·v05",
+        "kind": "survey",
+        "region_id": "r005"
+      },
+      "v06": {
+        "x": 4350.65,
+        "y": 2256.45,
+        "name": "测绘点·v06",
+        "kind": "survey",
+        "region_id": "r006"
+      },
+      "v07": {
+        "x": 3907.78,
+        "y": 2587.51,
+        "name": "测绘点·v07",
+        "kind": "survey",
+        "region_id": "r007"
+      },
+      "v08": {
+        "x": 3839.14,
+        "y": 2775.21,
+        "name": "测绘点·v08",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v09": {
+        "x": 3514.21,
+        "y": 3045.66,
+        "name": "测绘点·v09",
+        "kind": "survey",
+        "region_id": "r009"
+      },
+      "v10": {
+        "x": 3020.7774,
+        "y": 2175.9168,
+        "name": "测绘点·v10",
+        "kind": "survey",
+        "region_id": "r010"
+      },
+      "v11": {
+        "x": 2899.81,
+        "y": 4073.63,
+        "name": "测绘点·v11",
+        "kind": "survey",
+        "region_id": "r011"
+      },
+      "v12": {
+        "x": 1869.6,
+        "y": 5964.94,
+        "name": "测绘点·v12",
+        "kind": "survey",
+        "region_id": "r012"
+      },
+      "v13": {
+        "x": 1648.46,
+        "y": 5487.31,
+        "name": "测绘点·v13",
+        "kind": "survey",
+        "region_id": "r013"
+      },
+      "v14": {
+        "x": 1378.19,
+        "y": 5866.72,
+        "name": "测绘点·v14",
+        "kind": "survey",
+        "region_id": "r014"
+      },
+      "v15": {
+        "x": 1270.53,
+        "y": 6955.92,
+        "name": "测绘点·v15",
+        "kind": "survey",
+        "region_id": "r015"
+      },
+      "v16": {
+        "x": 2357.32,
+        "y": 5558.34,
+        "name": "测绘点·v16",
+        "kind": "survey",
+        "region_id": "r016"
+      },
+      "v17": {
+        "x": 2890.9,
+        "y": 6202.68,
+        "name": "测绘点·v17",
+        "kind": "survey",
+        "region_id": "r017"
+      },
+      "v18": {
+        "x": 2710.92,
+        "y": 6094.47,
+        "name": "测绘点·v18",
+        "kind": "survey",
+        "region_id": "r017"
+      },
+      "v19": {
+        "x": 3208.67,
+        "y": 8405.53,
+        "name": "测绘点·v19",
+        "kind": "survey",
+        "region_id": "r019"
+      },
+      "v20": {
+        "x": 3075.41,
+        "y": 7498.09,
+        "name": "测绘点·v20",
+        "kind": "survey",
+        "region_id": "r020"
+      },
+      "v21": {
+        "x": 2087.6831,
+        "y": 8979.2887,
+        "name": "测绘点·v21",
+        "kind": "survey",
+        "region_id": "r024"
+      },
+      "v22": {
+        "x": 1671.3819,
+        "y": 8727.4015,
+        "name": "测绘点·v22",
+        "kind": "survey",
+        "region_id": "r022"
+      },
+      "v23": {
+        "x": 1630.1632,
+        "y": 9532.078,
+        "name": "测绘点·v23",
+        "kind": "survey",
+        "region_id": "r023"
+      },
+      "v24": {
+        "x": 1974.9644,
+        "y": 9091.933,
+        "name": "测绘点·v24",
+        "kind": "survey",
+        "region_id": "r024"
+      },
+      "v25": {
+        "x": 2411.91,
+        "y": 9869.94,
+        "name": "测绘点·v25",
+        "kind": "survey",
+        "region_id": "r025"
+      },
+      "v26": {
+        "x": 1882.9689,
+        "y": 9638.8047,
+        "name": "测绘点·v26",
+        "kind": "survey",
+        "region_id": "r026"
+      },
+      "v27": {
+        "x": 6340.13,
+        "y": 803.01,
+        "name": "测绘点·v27",
+        "kind": "survey",
+        "region_id": "r001"
+      },
+      "v28": {
+        "x": 7315.97,
+        "y": 868.08,
+        "name": "测绘点·v28",
+        "kind": "survey",
+        "region_id": "r002"
+      },
+      "v29": {
+        "x": 5622.21,
+        "y": 1841.44,
+        "name": "测绘点·v29",
+        "kind": "survey",
+        "region_id": "r003"
+      },
+      "v30": {
+        "x": 4840.38,
+        "y": 1559.1,
+        "name": "测绘点·v30",
+        "kind": "survey",
+        "region_id": "r004"
+      },
+      "v31": {
+        "x": 3997.6179,
+        "y": 1770.8794,
+        "name": "测绘点·v31",
+        "kind": "survey",
+        "region_id": "r005"
+      },
+      "v32": {
+        "x": 4219.64,
+        "y": 2183.98,
+        "name": "测绘点·v32",
+        "kind": "survey",
+        "region_id": "r006"
+      },
+      "v33": {
+        "x": 4145.47,
+        "y": 2769.49,
+        "name": "测绘点·v33",
+        "kind": "survey",
+        "region_id": "r007"
+      },
+      "v34": {
+        "x": 3644.65,
+        "y": 2565.89,
+        "name": "测绘点·v34",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v35": {
+        "x": 3349.66,
+        "y": 2979.84,
+        "name": "测绘点·v35",
+        "kind": "survey",
+        "region_id": "r009"
+      },
+      "v36": {
+        "x": 3441.8678,
+        "y": 2432.587,
+        "name": "测绘点·v36",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v37": {
+        "x": 2880.12,
+        "y": 3925.22,
+        "name": "测绘点·v37",
+        "kind": "survey",
+        "region_id": "r011"
+      },
+      "v38": {
+        "x": 1973.52,
+        "y": 5821.37,
+        "name": "测绘点·v38",
+        "kind": "survey",
+        "region_id": "r012"
+      },
+      "v39": {
+        "x": 1883.61,
+        "y": 5553.02,
+        "name": "测绘点·v39",
+        "kind": "survey",
+        "region_id": "r013"
+      },
+      "v40": {
+        "x": 1450.72,
+        "y": 6143.1,
+        "name": "测绘点·v40",
+        "kind": "survey",
+        "region_id": "r014"
+      },
+      "v41": {
+        "x": 1128.77,
+        "y": 7004.07,
+        "name": "测绘点·v41",
+        "kind": "survey",
+        "region_id": "r015"
+      },
+      "v42": {
+        "x": 2589.79,
+        "y": 5483.7,
+        "name": "测绘点·v42",
+        "kind": "survey",
+        "region_id": "r016"
+      },
+      "v43": {
+        "x": 2712.63,
+        "y": 6369.51,
+        "name": "测绘点·v43",
+        "kind": "survey",
+        "region_id": "r017"
+      },
+      "v44": {
+        "x": 2506.96,
+        "y": 5905.32,
+        "name": "测绘点·v44",
+        "kind": "survey",
+        "region_id": "r018"
+      },
+      "v45": {
+        "x": 3029.67,
+        "y": 8628.25,
+        "name": "测绘点·v45",
+        "kind": "survey",
+        "region_id": "r019"
+      },
+      "v46": {
+        "x": 3223.76,
+        "y": 7477.88,
+        "name": "测绘点·v46",
+        "kind": "survey",
+        "region_id": "r020"
+      },
+      "v47": {
+        "x": 2870.4789,
+        "y": 8468.0916,
+        "name": "测绘点·v47",
+        "kind": "survey",
+        "region_id": "r019"
+      },
+      "v48": {
+        "x": 1542.1086,
+        "y": 8885.0545,
+        "name": "测绘点·v48",
+        "kind": "survey",
+        "region_id": "r022"
+      },
+      "v49": {
+        "x": 1595.38,
+        "y": 9657.08,
+        "name": "测绘点·v49",
+        "kind": "survey",
+        "region_id": "r023"
+      },
+      "v50": {
+        "x": 1864.0243,
+        "y": 9819.4421,
+        "name": "测绘点·v50",
+        "kind": "survey",
+        "region_id": "r026"
+      },
+      "v51": {
+        "x": 2268.0232,
+        "y": 9655.488,
+        "name": "测绘点·v51",
+        "kind": "survey",
+        "region_id": "r025"
+      },
+      "v52": {
+        "x": 1715.09,
+        "y": 9831.96,
+        "name": "测绘点·v52",
+        "kind": "survey",
+        "region_id": "r026"
+      },
+      "v53": {
+        "x": 6270.41,
+        "y": 671.99,
+        "name": "测绘点·v53",
+        "kind": "survey",
+        "region_id": "r001"
+      },
+      "v54": {
+        "x": 7118.92,
+        "y": 1075.0,
+        "name": "测绘点·v54",
+        "kind": "survey",
+        "region_id": "r002"
+      },
+      "v55": {
+        "x": 5384.58,
+        "y": 1785.34,
+        "name": "测绘点·v55",
+        "kind": "survey",
+        "region_id": "r003"
+      },
+      "v56": {
+        "x": 4830.19,
+        "y": 1318.57,
+        "name": "测绘点·v56",
+        "kind": "survey",
+        "region_id": "r004"
+      },
+      "v57": {
+        "x": 4011.7593,
+        "y": 1574.1867,
+        "name": "测绘点·v57",
+        "kind": "survey",
+        "region_id": "r005"
+      },
+      "v58": {
+        "x": 4331.92,
+        "y": 1967.16,
+        "name": "测绘点·v58",
+        "kind": "survey",
+        "region_id": "r006"
+      },
+      "v59": {
+        "x": 4004.51,
+        "y": 2574.33,
+        "name": "测绘点·v59",
+        "kind": "survey",
+        "region_id": "r007"
+      },
+      "v60": {
+        "x": 3794.28,
+        "y": 2560.72,
+        "name": "测绘点·v60",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v61": {
+        "x": 3532.6,
+        "y": 3141.54,
+        "name": "测绘点·v61",
+        "kind": "survey",
+        "region_id": "r009"
+      },
+      "v62": {
+        "x": 3534.1182,
+        "y": 2339.5058,
+        "name": "测绘点·v62",
+        "kind": "survey",
+        "region_id": "r008"
+      },
+      "v63": {
+        "x": 2998.61,
+        "y": 4127.38,
+        "name": "测绘点·v63",
+        "kind": "survey",
+        "region_id": "r011"
+      },
+      "v64": {
+        "x": 1772.14,
+        "y": 5959.42,
+        "name": "测绘点·v64",
+        "kind": "survey",
+        "region_id": "r012"
+      }
+    },
+    "edges": [
+      [
+        "C",
+        "p9",
+        1
+      ],
+      [
+        "p19",
+        "p9",
+        1
+      ],
+      [
+        "C",
+        "p66",
+        1
+      ],
+      [
+        "l92",
+        "p66",
+        2
+      ],
+      [
+        "l92",
+        "l93",
+        1
+      ],
+      [
+        "l92",
+        "l94",
+        2
+      ],
+      [
+        "l94",
+        "p7",
+        2
+      ],
+      [
+        "p6",
+        "p7",
+        2
+      ],
+      [
+        "p6",
+        "p77",
+        2
+      ],
+      [
+        "l95",
+        "p6",
+        2
+      ],
+      [
+        "p19",
+        "p78",
+        2
+      ],
+      [
+        "p78",
+        "p8",
+        1
+      ],
+      [
+        "p40",
+        "p78",
+        1
+      ],
+      [
+        "p40",
+        "p41",
+        1
+      ],
+      [
+        "p10",
+        "p41",
+        1
+      ],
+      [
+        "p10",
+        "p56",
+        1
+      ],
+      [
+        "p5",
+        "p56",
+        2
+      ],
+      [
+        "p5",
+        "p72",
+        1
+      ],
+      [
+        "p54",
+        "p77",
+        3
+      ],
+      [
+        "p54",
+        "p55",
+        1
+      ],
+      [
+        "p39",
+        "p55",
+        1
+      ],
+      [
+        "C",
+        "l97",
+        3
+      ],
+      [
+        "l97",
+        "l98",
+        1
+      ],
+      [
+        "l96",
+        "l98",
+        2
+      ],
+      [
+        "l101",
+        "p5",
+        3
+      ],
+      [
+        "l101",
+        "p46",
+        1
+      ],
+      [
+        "p46",
+        "p47",
+        1
+      ],
+      [
+        "p21",
+        "p47",
+        2
+      ],
+      [
+        "p21",
+        "p69",
+        1
+      ],
+      [
+        "l104",
+        "p69",
+        1
+      ],
+      [
+        "p13",
+        "p69",
+        1
+      ],
+      [
+        "p13",
+        "p44",
+        1
+      ],
+      [
+        "p43",
+        "p44",
+        1
+      ],
+      [
+        "l108",
+        "p43",
+        1
+      ],
+      [
+        "l107",
+        "p43",
+        1
+      ],
+      [
+        "l107",
+        "p15",
+        1
+      ],
+      [
+        "p15",
+        "p22",
+        1
+      ],
+      [
+        "p22",
+        "p79",
+        1
+      ],
+      [
+        "p74",
+        "p79",
+        1
+      ],
+      [
+        "p14",
+        "p79",
+        1
+      ],
+      [
+        "p14",
+        "p36",
+        1
+      ],
+      [
+        "l106",
+        "l107",
+        1
+      ],
+      [
+        "l103",
+        "p13",
+        2
+      ],
+      [
+        "l103",
+        "p45",
+        1
+      ],
+      [
+        "p29",
+        "p36",
+        2
+      ],
+      [
+        "l102",
+        "p21",
+        2
+      ],
+      [
+        "l101",
+        "p68",
+        2
+      ],
+      [
+        "p34",
+        "p68",
+        1
+      ],
+      [
+        "p33",
+        "p68",
+        1
+      ],
+      [
+        "p12",
+        "p33",
+        1
+      ],
+      [
+        "p34",
+        "p48",
+        2
+      ],
+      [
+        "l99",
+        "p48",
+        2
+      ],
+      [
+        "l99",
+        "p26",
+        1
+      ],
+      [
+        "p35",
+        "p36",
+        2
+      ],
+      [
+        "p35",
+        "p4",
+        2
+      ],
+      [
+        "p25",
+        "p4",
+        2
+      ],
+      [
+        "p11",
+        "p12",
+        2
+      ],
+      [
+        "l100",
+        "p11",
+        1
+      ],
+      [
+        "l100",
+        "p27",
+        1
+      ],
+      [
+        "l100",
+        "p60",
+        2
+      ],
+      [
+        "p28",
+        "p60",
+        1
+      ],
+      [
+        "p2",
+        "p28",
+        1
+      ],
+      [
+        "p11",
+        "p30",
+        2
+      ],
+      [
+        "p17",
+        "p27",
+        2
+      ],
+      [
+        "p17",
+        "p64",
+        2
+      ],
+      [
+        "p64",
+        "p80",
+        1
+      ],
+      [
+        "p24",
+        "p64",
+        2
+      ],
+      [
+        "p1",
+        "p24",
+        2
+      ],
+      [
+        "p1",
+        "p16",
+        1
+      ],
+      [
+        "p23",
+        "p24",
+        2
+      ],
+      [
+        "l105",
+        "p74",
+        2
+      ],
+      [
+        "p23",
+        "p71",
+        3
+      ],
+      [
+        "p3",
+        "p71",
+        1
+      ],
+      [
+        "p3",
+        "p49",
+        2
+      ],
+      [
+        "p49",
+        "p63",
+        2
+      ],
+      [
+        "p31",
+        "p63",
+        3
+      ],
+      [
+        "p31",
+        "p70",
+        3
+      ],
+      [
+        "l93",
+        "p76",
+        3
+      ],
+      [
+        "p42",
+        "p76",
+        2
+      ],
+      [
+        "p42",
+        "p57",
+        1
+      ],
+      [
+        "p20",
+        "p57",
+        1
+      ],
+      [
+        "l93",
+        "p65",
+        3
+      ],
+      [
+        "p38",
+        "p65",
+        1
+      ],
+      [
+        "p2",
+        "p32",
+        3
+      ],
+      [
+        "l91",
+        "p57",
+        4
+      ],
+      [
+        "l91",
+        "p51",
+        3
+      ],
+      [
+        "l89",
+        "p51",
+        2
+      ],
+      [
+        "l89",
+        "p53",
+        2
+      ],
+      [
+        "l90",
+        "p53",
+        2
+      ],
+      [
+        "l90",
+        "p50",
+        1
+      ],
+      [
+        "l88",
+        "l89",
+        2
+      ],
+      [
+        "l87",
+        "l88",
+        1
+      ],
+      [
+        "l88",
+        "p52",
+        3
+      ],
+      [
+        "p37",
+        "p52",
+        1
+      ],
+      [
+        "l85",
+        "p37",
+        2
+      ],
+      [
+        "l85",
+        "p18",
+        1
+      ],
+      [
+        "p18",
+        "p75",
+        2
+      ],
+      [
+        "l84",
+        "p75",
+        1
+      ],
+      [
+        "l86",
+        "p52",
+        2
+      ],
+      [
+        "l86",
+        "p62",
+        2
+      ],
+      [
+        "l96",
+        "p61",
+        4
+      ],
+      [
+        "l83",
+        "l84",
+        4
+      ],
+      [
+        "l83",
+        "p58",
+        3
+      ],
+      [
+        "p58",
+        "p73",
+        2
+      ],
+      [
+        "l81",
+        "p73",
+        3
+      ],
+      [
+        "l81",
+        "l82",
+        5
+      ],
+      [
+        "l82",
+        "p59",
+        1
+      ],
+      [
+        "p59",
+        "p67",
+        1
+      ],
+      [
+        "p2",
+        "p60",
+        2
+      ],
+      [
+        "p12",
+        "p68",
+        2
+      ],
+      [
+        "p16",
+        "p24",
+        2
+      ],
+      [
+        "C",
+        "p19",
+        1
+      ],
+      [
+        "p20",
+        "p42",
+        2
+      ],
+      [
+        "p14",
+        "p22",
+        1
+      ],
+      [
+        "p1",
+        "p23",
+        2
+      ],
+      [
+        "p25",
+        "p26",
+        2
+      ],
+      [
+        "p26",
+        "p4",
+        2
+      ],
+      [
+        "p14",
+        "p29",
+        2
+      ],
+      [
+        "l100",
+        "p30",
+        2
+      ],
+      [
+        "p25",
+        "p32",
+        4
+      ],
+      [
+        "p36",
+        "p79",
+        1
+      ],
+      [
+        "l94",
+        "p38",
+        4
+      ],
+      [
+        "p39",
+        "p54",
+        2
+      ],
+      [
+        "l108",
+        "p44",
+        1
+      ],
+      [
+        "p13",
+        "p45",
+        2
+      ],
+      [
+        "p50",
+        "p53",
+        3
+      ],
+      [
+        "p51",
+        "p53",
+        3
+      ],
+      [
+        "p41",
+        "p56",
+        1
+      ],
+      [
+        "p61",
+        "p71",
+        4
+      ],
+      [
+        "l87",
+        "p62",
+        4
+      ],
+      [
+        "p19",
+        "p66",
+        1
+      ],
+      [
+        "l82",
+        "p67",
+        2
+      ],
+      [
+        "p63",
+        "p70",
+        5
+      ],
+      [
+        "p49",
+        "p71",
+        3
+      ],
+      [
+        "l102",
+        "p72",
+        3
+      ],
+      [
+        "p22",
+        "p74",
+        1
+      ],
+      [
+        "p57",
+        "p76",
+        3
+      ],
+      [
+        "p2",
+        "p80",
+        2
+      ],
+      [
+        "l81",
+        "p58",
+        4
+      ],
+      [
+        "l84",
+        "p18",
+        3
+      ],
+      [
+        "l87",
+        "p52",
+        3
+      ],
+      [
+        "l93",
+        "l94",
+        2
+      ],
+      [
+        "l95",
+        "p77",
+        3
+      ],
+      [
+        "l102",
+        "p47",
+        2
+      ],
+      [
+        "l105",
+        "p35",
+        3
+      ],
+      [
+        "l106",
+        "p43",
+        2
+      ],
+      [
+        "p41",
+        "p78",
+        1
+      ],
+      [
+        "l101",
+        "p47",
+        1
+      ],
+      [
+        "p10",
+        "p40",
+        1
+      ],
+      [
+        "p15",
+        "p79",
+        1
+      ],
+      [
+        "p14",
+        "p15",
+        2
+      ],
+      [
+        "p40",
+        "p56",
+        2
+      ],
+      [
+        "p12",
+        "p34",
+        2
+      ],
+      [
+        "p35",
+        "p74",
+        2
+      ],
+      [
+        "p13",
+        "p21",
+        2
+      ],
+      [
+        "p27",
+        "p28",
+        2
+      ],
+      [
+        "p27",
+        "p30",
+        2
+      ],
+      [
+        "p29",
+        "p35",
+        2
+      ],
+      [
+        "p27",
+        "p60",
+        2
+      ],
+      [
+        "p26",
+        "p35",
+        2
+      ],
+      [
+        "p78",
+        "p9",
+        2
+      ],
+      [
+        "l99",
+        "p34",
+        2
+      ],
+      [
+        "p11",
+        "p48",
+        2
+      ],
+      [
+        "p48",
+        "p60",
+        2
+      ],
+      [
+        "l99",
+        "p29",
+        3
+      ],
+      [
+        "l86",
+        "p18",
+        3
+      ],
+      [
+        "p26",
+        "p29",
+        3
+      ],
+      [
+        "p16",
+        "p23",
+        3
+      ],
+      [
+        "p21",
+        "p46",
+        3
+      ],
+      [
+        "l88",
+        "p53",
+        3
+      ],
+      [
+        "p2",
+        "p27",
+        3
+      ],
+      [
+        "C",
+        "l98",
+        3
+      ],
+      [
+        "p16",
+        "p17",
+        3
+      ],
+      [
+        "p21",
+        "p45",
+        3
+      ],
+      [
+        "l97",
+        "p9",
+        3
+      ],
+      [
+        "p29",
+        "p34",
+        3
+      ],
+      [
+        "p19",
+        "p40",
+        3
+      ],
+      [
+        "p17",
+        "p24",
+        3
+      ],
+      [
+        "l101",
+        "l102",
+        3
+      ],
+      [
+        "l101",
+        "p21",
+        3
+      ],
+      [
+        "p30",
+        "p8",
+        3
+      ],
+      [
+        "p16",
+        "p27",
+        3
+      ],
+      [
+        "l87",
+        "l89",
+        3
+      ],
+      [
+        "l95",
+        "p54",
+        3
+      ],
+      [
+        "p56",
+        "p72",
+        3
+      ],
+      [
+        "l86",
+        "p75",
+        3
+      ],
+      [
+        "p39",
+        "p72",
+        3
+      ],
+      [
+        "l94",
+        "p6",
+        4
+      ],
+      [
+        "l84",
+        "l86",
+        4
+      ],
+      [
+        "p30",
+        "p41",
+        4
+      ],
+      [
+        "l95",
+        "p40",
+        4
+      ],
+      [
+        "l96",
+        "p76",
+        4
+      ],
+      [
+        "p55",
+        "p72",
+        4
+      ],
+      [
+        "l93",
+        "p38",
+        4
+      ],
+      [
+        "l91",
+        "p42",
+        4
+      ],
+      [
+        "p3",
+        "p61",
+        4
+      ],
+      [
+        "l96",
+        "p42",
+        5
+      ],
+      [
+        "l83",
+        "p62",
+        5
+      ],
+      [
+        "p31",
+        "p49",
+        5
+      ],
+      [
+        "p49",
+        "p61",
+        5
+      ],
+      [
+        "p62",
+        "p70",
+        6
+      ],
+      [
+        "l87",
+        "p70",
+        7
+      ],
+      [
+        "l82",
+        "p58",
+        8
+      ],
+      [
+        "l87",
+        "p31",
+        8
+      ],
+      [
+        "l82",
+        "l83",
+        9
+      ],
+      [
+        "A1",
+        "l81",
+        1
+      ],
+      [
+        "B1",
+        "l84",
+        1
+      ],
+      [
+        "B1",
+        "p75",
+        1
+      ],
+      [
+        "C1",
+        "l86",
+        1
+      ],
+      [
+        "D1",
+        "l87",
+        1
+      ],
+      [
+        "E1",
+        "l89",
+        1
+      ],
+      [
+        "F1",
+        "l92",
+        1
+      ],
+      [
+        "F1",
+        "l93",
+        1
+      ],
+      [
+        "G1",
+        "l94",
+        1
+      ],
+      [
+        "H1",
+        "l97",
+        1
+      ],
+      [
+        "I1",
+        "l98",
+        1
+      ],
+      [
+        "J1",
+        "p48",
+        1
+      ],
+      [
+        "K1",
+        "l101",
+        1
+      ],
+      [
+        "L1",
+        "l104",
+        1
+      ],
+      [
+        "M1",
+        "l108",
+        1
+      ],
+      [
+        "N1",
+        "l81",
+        1
+      ],
+      [
+        "N1",
+        "p73",
+        2
+      ],
+      [
+        "O1",
+        "l84",
+        1
+      ],
+      [
+        "P1",
+        "l86",
+        1
+      ],
+      [
+        "Q1",
+        "l87",
+        1
+      ],
+      [
+        "R1",
+        "p51",
+        1
+      ],
+      [
+        "S1",
+        "l92",
+        1
+      ],
+      [
+        "T1",
+        "l94",
+        1
+      ],
+      [
+        "U1",
+        "l97",
+        1
+      ],
+      [
+        "V1",
+        "l98",
+        1
+      ],
+      [
+        "V1",
+        "l96",
+        1
+      ],
+      [
+        "X1",
+        "l101",
+        1
+      ],
+      [
+        "X1",
+        "p46",
+        1
+      ],
+      [
+        "A2",
+        "p73",
+        1
+      ],
+      [
+        "B2",
+        "p42",
+        1
+      ],
+      [
+        "B2",
+        "p57",
+        2
+      ],
+      [
+        "D2",
+        "p8",
+        1
+      ],
+      [
+        "E2",
+        "p39",
+        1
+      ],
+      [
+        "F2",
+        "p48",
+        1
+      ],
+      [
+        "G2",
+        "p36",
+        1
+      ],
+      [
+        "H2",
+        "p44",
+        1
+      ],
+      [
+        "H2",
+        "p43",
+        1
+      ],
+      [
+        "I2",
+        "p73",
+        1
+      ],
+      [
+        "J2",
+        "p42",
+        1
+      ],
+      [
+        "J2",
+        "p57",
+        1
+      ],
+      [
+        "K2",
+        "p66",
+        1
+      ],
+      [
+        "L2",
+        "p8",
+        1
+      ],
+      [
+        "M2",
+        "p55",
+        1
+      ],
+      [
+        "N2",
+        "p48",
+        1
+      ],
+      [
+        "O2",
+        "p36",
+        1
+      ],
+      [
+        "P2",
+        "p43",
+        1
+      ],
+      [
+        "P2",
+        "l108",
+        1
+      ],
+      [
+        "Q2",
+        "p73",
+        1
+      ],
+      [
+        "R2",
+        "p42",
+        1
+      ],
+      [
+        "R2",
+        "p76",
+        2
+      ],
+      [
+        "S2",
+        "p66",
+        1
+      ],
+      [
+        "T2",
+        "p8",
+        1
+      ],
+      [
+        "U2",
+        "p39",
+        1
+      ],
+      [
+        "V2",
+        "p48",
+        1
+      ],
+      [
+        "V2",
+        "p34",
+        1
+      ],
+      [
+        "W2",
+        "p36",
+        1
+      ],
+      [
+        "X2",
+        "l106",
+        1
+      ],
+      [
+        "X2",
+        "p43",
+        1
+      ],
+      [
+        "A3",
+        "l82",
+        1
+      ],
+      [
+        "B3",
+        "l83",
+        1
+      ],
+      [
+        "B3",
+        "p58",
+        2
+      ],
+      [
+        "C3",
+        "l85",
+        1
+      ],
+      [
+        "D3",
+        "l88",
+        1
+      ],
+      [
+        "D3",
+        "l87",
+        1
+      ],
+      [
+        "E3",
+        "l90",
+        1
+      ],
+      [
+        "F3",
+        "l91",
+        1
+      ],
+      [
+        "G3",
+        "l93",
+        1
+      ],
+      [
+        "H3",
+        "l95",
+        1
+      ],
+      [
+        "H3",
+        "p6",
+        2
+      ],
+      [
+        "I3",
+        "l96",
+        1
+      ],
+      [
+        "J3",
+        "l100",
+        1
+      ],
+      [
+        "J3",
+        "p60",
+        1
+      ],
+      [
+        "K3",
+        "l102",
+        1
+      ],
+      [
+        "L3",
+        "p45",
+        1
+      ],
+      [
+        "L3",
+        "l103",
+        1
+      ],
+      [
+        "M3",
+        "l107",
+        1
+      ],
+      [
+        "N3",
+        "p59",
+        1
+      ],
+      [
+        "N3",
+        "l82",
+        1
+      ],
+      [
+        "O3",
+        "l83",
+        1
+      ],
+      [
+        "P3",
+        "l85",
+        1
+      ],
+      [
+        "P3",
+        "p18",
+        1
+      ],
+      [
+        "Q3",
+        "l88",
+        1
+      ],
+      [
+        "R3",
+        "l90",
+        1
+      ],
+      [
+        "R3",
+        "p50",
+        2
+      ],
+      [
+        "S3",
+        "l91",
+        1
+      ],
+      [
+        "T3",
+        "l93",
+        1
+      ],
+      [
+        "U3",
+        "l95",
+        1
+      ],
+      [
+        "V3",
+        "l96",
+        1
+      ],
+      [
+        "V3",
+        "l98",
+        1
+      ],
+      [
+        "W3",
+        "l100",
+        1
+      ],
+      [
+        "X3",
+        "l102",
+        1
+      ],
+      [
+        "X3",
+        "p21",
+        1
+      ],
+      [
+        "l81",
+        "v01",
+        1
+      ],
+      [
+        "l82",
+        "v02",
+        1
+      ],
+      [
+        "l83",
+        "v03",
+        1
+      ],
+      [
+        "l84",
+        "v04",
+        1
+      ],
+      [
+        "l85",
+        "v05",
+        1
+      ],
+      [
+        "l88",
+        "v08",
+        1
+      ],
+      [
+        "l89",
+        "v09",
+        1
+      ],
+      [
+        "l90",
+        "v10",
+        1
+      ],
+      [
+        "l91",
+        "v11",
+        1
+      ],
+      [
+        "l92",
+        "v12",
+        1
+      ],
+      [
+        "l93",
+        "v13",
+        1
+      ],
+      [
+        "l94",
+        "v14",
+        1
+      ],
+      [
+        "l95",
+        "v15",
+        1
+      ],
+      [
+        "l96",
+        "v16",
+        1
+      ],
+      [
+        "l97",
+        "v17",
+        1
+      ],
+      [
+        "l97",
+        "v18",
+        1
+      ],
+      [
+        "l99",
+        "v19",
+        1
+      ],
+      [
+        "l104",
+        "v21",
+        1
+      ],
+      [
+        "l102",
+        "v22",
+        1
+      ],
+      [
+        "l103",
+        "v23",
+        1
+      ],
+      [
+        "l104",
+        "v24",
+        1
+      ],
+      [
+        "l106",
+        "v25",
+        1
+      ],
+      [
+        "l108",
+        "v26",
+        1
+      ],
+      [
+        "l81",
+        "v27",
+        1
+      ],
+      [
+        "l82",
+        "v28",
+        1
+      ],
+      [
+        "l83",
+        "v29",
+        1
+      ],
+      [
+        "l84",
+        "v30",
+        1
+      ],
+      [
+        "p18",
+        "v31",
+        1
+      ],
+      [
+        "l86",
+        "v32",
+        1
+      ],
+      [
+        "l87",
+        "v33",
+        1
+      ],
+      [
+        "l88",
+        "v34",
+        1
+      ],
+      [
+        "l88",
+        "v36",
+        2
+      ],
+      [
+        "l91",
+        "v37",
+        1
+      ],
+      [
+        "l92",
+        "v38",
+        1
+      ],
+      [
+        "l94",
+        "v40",
+        1
+      ],
+      [
+        "l95",
+        "v41",
+        1
+      ],
+      [
+        "l96",
+        "v42",
+        1
+      ],
+      [
+        "l97",
+        "v43",
+        1
+      ],
+      [
+        "l98",
+        "v44",
+        1
+      ],
+      [
+        "l99",
+        "v45",
+        1
+      ],
+      [
+        "l100",
+        "v46",
+        1
+      ],
+      [
+        "l99",
+        "v47",
+        1
+      ],
+      [
+        "l102",
+        "v48",
+        1
+      ],
+      [
+        "l103",
+        "v49",
+        1
+      ],
+      [
+        "l108",
+        "v50",
+        1
+      ],
+      [
+        "p15",
+        "v51",
+        1
+      ],
+      [
+        "l108",
+        "v52",
+        1
+      ],
+      [
+        "l81",
+        "v53",
+        1
+      ],
+      [
+        "l82",
+        "v54",
+        1
+      ],
+      [
+        "l83",
+        "v55",
+        1
+      ],
+      [
+        "l84",
+        "v56",
+        1
+      ],
+      [
+        "l85",
+        "v57",
+        1
+      ],
+      [
+        "l86",
+        "v58",
+        1
+      ],
+      [
+        "l87",
+        "v59",
+        1
+      ],
+      [
+        "l88",
+        "v60",
+        1
+      ],
+      [
+        "l89",
+        "v61",
+        1
+      ],
+      [
+        "l88",
+        "v62",
+        2
+      ],
+      [
+        "l91",
+        "v63",
+        1
+      ],
+      [
+        "l92",
+        "v64",
+        1
+      ],
+      [
+        "p21",
+        "v24",
+        1
+      ],
+      [
+        "L1",
+        "v24",
+        1
+      ],
+      [
+        "p69",
+        "v24",
+        1
+      ],
+      [
+        "p11",
+        "v20",
+        1
+      ],
+      [
+        "p27",
+        "v20",
+        1
+      ],
+      [
+        "l100",
+        "v20",
+        1
+      ],
+      [
+        "p8",
+        "p9",
+        2
+      ],
+      [
+        "J1",
+        "l99",
+        1
+      ],
+      [
+        "F2",
+        "p12",
+        2
+      ],
+      [
+        "F2",
+        "p34",
+        1
+      ],
+      [
+        "C",
+        "C2",
+        1
+      ],
+      [
+        "C2",
+        "l92",
+        2
+      ],
+      [
+        "C2",
+        "p66",
+        1
+      ],
+      [
+        "T1",
+        "p66",
+        2
+      ],
+      [
+        "T1",
+        "l92",
+        2
+      ],
+      [
+        "N2",
+        "p25",
+        3
+      ],
+      [
+        "N2",
+        "l99",
+        1
+      ],
+      [
+        "p52",
+        "v06",
+        2
+      ],
+      [
+        "p62",
+        "v06",
+        2
+      ],
+      [
+        "l86",
+        "v06",
+        1
+      ],
+      [
+        "l92",
+        "v39",
+        1
+      ],
+      [
+        "p76",
+        "v39",
+        3
+      ],
+      [
+        "R1",
+        "l89",
+        1
+      ],
+      [
+        "l97",
+        "p23",
+        4
+      ],
+      [
+        "F3",
+        "l89",
+        4
+      ],
+      [
+        "F3",
+        "p51",
+        3
+      ],
+      [
+        "P1",
+        "l83",
+        5
+      ],
+      [
+        "P1",
+        "p62",
+        2
+      ],
+      [
+        "l87",
+        "v07",
+        1
+      ],
+      [
+        "W1",
+        "l99",
+        1
+      ],
+      [
+        "T2",
+        "p78",
+        1
+      ],
+      [
+        "T2",
+        "p41",
+        1
+      ],
+      [
+        "T3",
+        "v39",
+        1
+      ],
+      [
+        "l93",
+        "v39",
+        1
+      ],
+      [
+        "l89",
+        "v35",
+        1
+      ],
+      [
+        "R1",
+        "v35",
+        1
+      ],
+      [
+        "l88",
+        "v35",
+        2
+      ]
+    ],
+    "ferry_edges": [
+      [
+        "l94",
+        "p7"
+      ],
+      [
+        "p6",
+        "p7"
+      ],
+      [
+        "l95",
+        "p6"
+      ],
+      [
+        "p40",
+        "p41"
+      ],
+      [
+        "p10",
+        "p41"
+      ],
+      [
+        "p54",
+        "p77"
+      ],
+      [
+        "p54",
+        "p55"
+      ],
+      [
+        "l101",
+        "p5"
+      ],
+      [
+        "l104",
+        "p69"
+      ],
+      [
+        "p13",
+        "p44"
+      ],
+      [
+        "l107",
+        "p43"
+      ],
+      [
+        "p74",
+        "p79"
+      ],
+      [
+        "p14",
+        "p36"
+      ],
+      [
+        "l106",
+        "l107"
+      ],
+      [
+        "l103",
+        "p45"
+      ],
+      [
+        "p29",
+        "p36"
+      ],
+      [
+        "l102",
+        "p21"
+      ],
+      [
+        "l101",
+        "p68"
+      ],
+      [
+        "p35",
+        "p4"
+      ],
+      [
+        "p11",
+        "p12"
+      ],
+      [
+        "l100",
+        "p60"
+      ],
+      [
+        "p2",
+        "p28"
+      ],
+      [
+        "p11",
+        "p30"
+      ],
+      [
+        "p64",
+        "p80"
+      ],
+      [
+        "l105",
+        "p74"
+      ],
+      [
+        "p3",
+        "p71"
+      ],
+      [
+        "p3",
+        "p49"
+      ],
+      [
+        "p31",
+        "p70"
+      ],
+      [
+        "p42",
+        "p76"
+      ],
+      [
+        "p20",
+        "p57"
+      ],
+      [
+        "l93",
+        "p65"
+      ],
+      [
+        "p38",
+        "p65"
+      ],
+      [
+        "p2",
+        "p32"
+      ],
+      [
+        "l89",
+        "p53"
+      ],
+      [
+        "l90",
+        "p53"
+      ],
+      [
+        "l90",
+        "p50"
+      ],
+      [
+        "p37",
+        "p52"
+      ],
+      [
+        "l85",
+        "p37"
+      ],
+      [
+        "l85",
+        "p18"
+      ],
+      [
+        "p18",
+        "p75"
+      ],
+      [
+        "l84",
+        "p75"
+      ],
+      [
+        "l96",
+        "p61"
+      ],
+      [
+        "l83",
+        "l84"
+      ],
+      [
+        "p58",
+        "p73"
+      ],
+      [
+        "l81",
+        "p73"
+      ],
+      [
+        "l81",
+        "l82"
+      ],
+      [
+        "p59",
+        "p67"
+      ],
+      [
+        "p2",
+        "p60"
+      ],
+      [
+        "p20",
+        "p42"
+      ],
+      [
+        "p14",
+        "p29"
+      ],
+      [
+        "l100",
+        "p30"
+      ],
+      [
+        "p25",
+        "p32"
+      ],
+      [
+        "p36",
+        "p79"
+      ],
+      [
+        "l94",
+        "p38"
+      ],
+      [
+        "p39",
+        "p54"
+      ],
+      [
+        "p50",
+        "p53"
+      ],
+      [
+        "p51",
+        "p53"
+      ],
+      [
+        "p41",
+        "p56"
+      ],
+      [
+        "l87",
+        "p62"
+      ],
+      [
+        "l82",
+        "p67"
+      ],
+      [
+        "p63",
+        "p70"
+      ],
+      [
+        "p49",
+        "p71"
+      ],
+      [
+        "l102",
+        "p72"
+      ],
+      [
+        "p22",
+        "p74"
+      ],
+      [
+        "p57",
+        "p76"
+      ],
+      [
+        "l81",
+        "p58"
+      ],
+      [
+        "l84",
+        "p18"
+      ],
+      [
+        "l87",
+        "p52"
+      ],
+      [
+        "l95",
+        "p77"
+      ],
+      [
+        "l102",
+        "p47"
+      ],
+      [
+        "l105",
+        "p35"
+      ],
+      [
+        "l106",
+        "p43"
+      ],
+      [
+        "A1",
+        "l81"
+      ],
+      [
+        "B1",
+        "l84"
+      ],
+      [
+        "B1",
+        "p75"
+      ],
+      [
+        "M1",
+        "l108"
+      ],
+      [
+        "N1",
+        "l81"
+      ],
+      [
+        "N1",
+        "p73"
+      ],
+      [
+        "O1",
+        "l84"
+      ],
+      [
+        "X1",
+        "l101"
+      ],
+      [
+        "X1",
+        "p46"
+      ],
+      [
+        "A2",
+        "p73"
+      ],
+      [
+        "B2",
+        "p42"
+      ],
+      [
+        "I2",
+        "p73"
+      ],
+      [
+        "M2",
+        "p55"
+      ],
+      [
+        "O2",
+        "p36"
+      ],
+      [
+        "P2",
+        "p43"
+      ],
+      [
+        "P2",
+        "l108"
+      ],
+      [
+        "Q2",
+        "p73"
+      ],
+      [
+        "R2",
+        "p42"
+      ],
+      [
+        "R2",
+        "p76"
+      ],
+      [
+        "U2",
+        "p39"
+      ],
+      [
+        "X2",
+        "p43"
+      ],
+      [
+        "H3",
+        "p6"
+      ],
+      [
+        "J3",
+        "l100"
+      ],
+      [
+        "P3",
+        "p18"
+      ],
+      [
+        "R3",
+        "l90"
+      ],
+      [
+        "R3",
+        "p50"
+      ],
+      [
+        "X3",
+        "l102"
+      ],
+      [
+        "l81",
+        "v01"
+      ],
+      [
+        "l85",
+        "v05"
+      ],
+      [
+        "l96",
+        "v16"
+      ],
+      [
+        "l102",
+        "v22"
+      ],
+      [
+        "l104",
+        "v24"
+      ],
+      [
+        "l106",
+        "v25"
+      ],
+      [
+        "l81",
+        "v27"
+      ],
+      [
+        "l84",
+        "v30"
+      ],
+      [
+        "p18",
+        "v31"
+      ],
+      [
+        "l102",
+        "v48"
+      ],
+      [
+        "l108",
+        "v50"
+      ],
+      [
+        "l108",
+        "v52"
+      ],
+      [
+        "l81",
+        "v53"
+      ],
+      [
+        "l84",
+        "v56"
+      ]
+    ],
+    "processing_model": "intermediate-interface-processing-1"
+  },
+  "tasks": {
+    "T1": {
+      "name": "全域测绘委托 01",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v59",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v59",
+          "required_kind": "lithology",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v40",
+          "required_kind": "water_quality",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        }
+      ]
+    },
+    "T2": {
+      "name": "全域测绘委托 02",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v64",
+      "required_kind": "shore",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-1",
+      "stages": [
+        {
+          "target": "v64",
+          "required_kind": "shore",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        },
+        {
+          "target": "v17",
+          "required_kind": "drainage",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-1"
+        }
+      ]
+    },
+    "T3": {
+      "name": "全域测绘委托 03",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v13",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-1",
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v58",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        }
+      ],
+      "delivery_condition": "寒季转运"
+    },
+    "T4": {
+      "name": "全域测绘委托 04",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v27",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-2",
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v27",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v31",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        }
+      ],
+      "delivery_condition": "寒季转运"
+    },
+    "T5": {
+      "name": "全域测绘委托 05",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v13",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-2",
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v13",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v58",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        }
+      ],
+      "delivery_condition": "寒季转运"
+    },
+    "T6": {
+      "name": "全域测绘委托 06",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v27",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-1",
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v27",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v31",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        }
+      ],
+      "delivery_condition": "寒季转运"
+    },
+    "T7": {
+      "name": "全域测绘委托 07",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v04",
+      "required_kind": "lithology",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v04",
+          "required_kind": "lithology",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v55",
+          "required_kind": "water_quality",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        }
+      ]
+    },
+    "T8": {
+      "name": "全域测绘委托 08",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v45",
+      "required_kind": "shore",
+      "requirement": "catalogue",
+      "input_state": "raw",
+      "output_state": "catalogued",
+      "input_format": null,
+      "goal": "F-2",
+      "stages": [
+        {
+          "target": "v45",
+          "required_kind": "shore",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        },
+        {
+          "target": "v57",
+          "required_kind": "drainage",
+          "requirement": "catalogue",
+          "input_state": "raw",
+          "output_state": "catalogued",
+          "input_format": null,
+          "goal": "F-2"
+        }
+      ]
+    },
+    "T9": {
+      "name": "全域测绘委托 09",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v20",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-1",
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v20",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v11",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        }
+      ],
+      "delivery_condition": "湿季转运"
+    },
+    "T10": {
+      "name": "全域测绘委托 10",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v20",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-2",
+      "goal": "standard-1",
+      "stages": [
+        {
+          "target": "v20",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v14",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        }
+      ],
+      "delivery_condition": "湿季转运"
+    },
+    "T11": {
+      "name": "全域测绘委托 11",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v20",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-2",
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v20",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v11",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        }
+      ],
+      "delivery_condition": "湿季转运"
+    },
+    "T12": {
+      "name": "全域测绘委托 12",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v20",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "catalogued",
+      "output_state": "verified",
+      "input_format": "F-1",
+      "goal": "standard-2",
+      "stages": [
+        {
+          "target": "v20",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-1",
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v14",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "catalogued",
+          "output_state": "verified",
+          "input_format": "F-2",
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        }
+      ],
+      "delivery_condition": "湿季转运"
+    },
+    "T13": {
+      "name": "全域测绘委托 13",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v64",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "delivery_condition": "湿季转运",
+      "stages": [
+        {
+          "target": "v64",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v05",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        }
+      ]
+    },
+    "T14": {
+      "name": "全域测绘委托 14",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v62",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "delivery_condition": "湿季转运",
+      "stages": [
+        {
+          "target": "v62",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v05",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "湿季转运"
+        }
+      ]
+    },
+    "T15": {
+      "name": "全域测绘委托 15",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v64",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "delivery_condition": "寒季转运",
+      "stages": [
+        {
+          "target": "v64",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v05",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        }
+      ]
+    },
+    "T16": {
+      "name": "全域测绘委托 16",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v62",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-1",
+      "delivery_condition": "寒季转运",
+      "stages": [
+        {
+          "target": "v62",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v05",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-1",
+          "delivery_condition": "寒季转运"
+        }
+      ]
+    },
+    "T17": {
+      "name": "全域测绘委托 17",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v50",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "delivery_condition": "湿季转运",
+      "stages": [
+        {
+          "target": "v50",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v03",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        }
+      ]
+    },
+    "T18": {
+      "name": "全域测绘委托 18",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v15",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "delivery_condition": "湿季转运",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        },
+        {
+          "target": "v27",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "湿季转运"
+        }
+      ]
+    },
+    "T19": {
+      "name": "全域测绘委托 19",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v50",
+      "required_kind": "lithology",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "delivery_condition": "寒季转运",
+      "stages": [
+        {
+          "target": "v50",
+          "required_kind": "lithology",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v03",
+          "required_kind": "water_quality",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        }
+      ]
+    },
+    "T20": {
+      "name": "全域测绘委托 20",
+      "start": "C",
+      "submit_at": "C",
+      "max_steps": 352,
+      "target": "v15",
+      "required_kind": "shore",
+      "requirement": "verify",
+      "input_state": "raw",
+      "output_state": "verified",
+      "input_format": null,
+      "goal": "standard-2",
+      "delivery_condition": "寒季转运",
+      "stages": [
+        {
+          "target": "v15",
+          "required_kind": "shore",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        },
+        {
+          "target": "v27",
+          "required_kind": "drainage",
+          "requirement": "verify",
+          "input_state": "raw",
+          "output_state": "verified",
+          "input_format": null,
+          "goal": "standard-2",
+          "delivery_condition": "寒季转运"
+        }
+      ]
+    }
+  },
+  "presentation": {
+    "terrain": "fjord-peninsulas",
+    "edge_tags": {
+      "C|p9": [
+        "land"
+      ],
+      "p19|p9": [
+        "land"
+      ],
+      "C|p66": [
+        "land"
+      ],
+      "l92|p66": [
+        "land"
+      ],
+      "l92|l93": [
+        "land"
+      ],
+      "l92|l94": [
+        "land"
+      ],
+      "l94|p7": [
+        "ferry"
+      ],
+      "p6|p7": [
+        "ferry"
+      ],
+      "p6|p77": [
+        "land"
+      ],
+      "l95|p6": [
+        "ferry"
+      ],
+      "p19|p78": [
+        "land"
+      ],
+      "p78|p8": [
+        "land"
+      ],
+      "p40|p78": [
+        "land"
+      ],
+      "p40|p41": [
+        "ferry"
+      ],
+      "p10|p41": [
+        "ferry"
+      ],
+      "p10|p56": [
+        "land"
+      ],
+      "p5|p56": [
+        "land"
+      ],
+      "p5|p72": [
+        "land"
+      ],
+      "p54|p77": [
+        "ferry"
+      ],
+      "p54|p55": [
+        "ferry"
+      ],
+      "p39|p55": [
+        "land"
+      ],
+      "C|l97": [
+        "land"
+      ],
+      "l97|l98": [
+        "land"
+      ],
+      "l96|l98": [
+        "land"
+      ],
+      "l101|p5": [
+        "ferry"
+      ],
+      "l101|p46": [
+        "land"
+      ],
+      "p46|p47": [
+        "land"
+      ],
+      "p21|p47": [
+        "land"
+      ],
+      "p21|p69": [
+        "land"
+      ],
+      "l104|p69": [
+        "ferry"
+      ],
+      "p13|p69": [
+        "land"
+      ],
+      "p13|p44": [
+        "ferry"
+      ],
+      "p43|p44": [
+        "land"
+      ],
+      "l108|p43": [
+        "land"
+      ],
+      "l107|p43": [
+        "ferry"
+      ],
+      "l107|p15": [
+        "land"
+      ],
+      "p15|p22": [
+        "land"
+      ],
+      "p22|p79": [
+        "land"
+      ],
+      "p74|p79": [
+        "ferry"
+      ],
+      "p14|p79": [
+        "land"
+      ],
+      "p14|p36": [
+        "ferry"
+      ],
+      "l106|l107": [
+        "ferry"
+      ],
+      "l103|p13": [
+        "land"
+      ],
+      "l103|p45": [
+        "ferry"
+      ],
+      "p29|p36": [
+        "ferry"
+      ],
+      "l102|p21": [
+        "ferry"
+      ],
+      "l101|p68": [
+        "ferry"
+      ],
+      "p34|p68": [
+        "land"
+      ],
+      "p33|p68": [
+        "land"
+      ],
+      "p12|p33": [
+        "land"
+      ],
+      "p34|p48": [
+        "land"
+      ],
+      "l99|p48": [
+        "land"
+      ],
+      "l99|p26": [
+        "land"
+      ],
+      "p35|p36": [
+        "land"
+      ],
+      "p35|p4": [
+        "ferry"
+      ],
+      "p25|p4": [
+        "land"
+      ],
+      "p11|p12": [
+        "ferry"
+      ],
+      "l100|p11": [
+        "land"
+      ],
+      "l100|p27": [
+        "land"
+      ],
+      "l100|p60": [
+        "ferry"
+      ],
+      "p28|p60": [
+        "land"
+      ],
+      "p2|p28": [
+        "ferry"
+      ],
+      "p11|p30": [
+        "ferry"
+      ],
+      "p17|p27": [
+        "land"
+      ],
+      "p17|p64": [
+        "land"
+      ],
+      "p64|p80": [
+        "ferry"
+      ],
+      "p24|p64": [
+        "land"
+      ],
+      "p1|p24": [
+        "land"
+      ],
+      "p1|p16": [
+        "land"
+      ],
+      "p23|p24": [
+        "land"
+      ],
+      "l105|p74": [
+        "ferry"
+      ],
+      "p23|p71": [
+        "land"
+      ],
+      "p3|p71": [
+        "ferry"
+      ],
+      "p3|p49": [
+        "ferry"
+      ],
+      "p49|p63": [
+        "land"
+      ],
+      "p31|p63": [
+        "land"
+      ],
+      "p31|p70": [
+        "ferry"
+      ],
+      "l93|p76": [
+        "land"
+      ],
+      "p42|p76": [
+        "ferry"
+      ],
+      "p42|p57": [
+        "land"
+      ],
+      "p20|p57": [
+        "ferry"
+      ],
+      "l93|p65": [
+        "ferry"
+      ],
+      "p38|p65": [
+        "ferry"
+      ],
+      "p2|p32": [
+        "ferry"
+      ],
+      "l91|p57": [
+        "land"
+      ],
+      "l91|p51": [
+        "land"
+      ],
+      "l89|p51": [
+        "land"
+      ],
+      "l89|p53": [
+        "ferry"
+      ],
+      "l90|p53": [
+        "ferry"
+      ],
+      "l90|p50": [
+        "ferry"
+      ],
+      "l88|l89": [
+        "land"
+      ],
+      "l87|l88": [
+        "land"
+      ],
+      "l88|p52": [
+        "land"
+      ],
+      "p37|p52": [
+        "ferry"
+      ],
+      "l85|p37": [
+        "ferry"
+      ],
+      "l85|p18": [
+        "ferry"
+      ],
+      "p18|p75": [
+        "ferry"
+      ],
+      "l84|p75": [
+        "ferry"
+      ],
+      "l86|p52": [
+        "land"
+      ],
+      "l86|p62": [
+        "land"
+      ],
+      "l96|p61": [
+        "ferry"
+      ],
+      "l83|l84": [
+        "ferry"
+      ],
+      "l83|p58": [
+        "land"
+      ],
+      "p58|p73": [
+        "ferry"
+      ],
+      "l81|p73": [
+        "ferry"
+      ],
+      "l81|l82": [
+        "ferry"
+      ],
+      "l82|p59": [
+        "land"
+      ],
+      "p59|p67": [
+        "ferry"
+      ],
+      "p2|p60": [
+        "ferry"
+      ],
+      "p12|p68": [
+        "land"
+      ],
+      "p16|p24": [
+        "land"
+      ],
+      "C|p19": [
+        "land"
+      ],
+      "p20|p42": [
+        "ferry"
+      ],
+      "p14|p22": [
+        "land"
+      ],
+      "p1|p23": [
+        "land"
+      ],
+      "p25|p26": [
+        "land"
+      ],
+      "p26|p4": [
+        "land"
+      ],
+      "p14|p29": [
+        "ferry"
+      ],
+      "l100|p30": [
+        "ferry"
+      ],
+      "p25|p32": [
+        "ferry"
+      ],
+      "p36|p79": [
+        "ferry"
+      ],
+      "l94|p38": [
+        "ferry"
+      ],
+      "p39|p54": [
+        "ferry"
+      ],
+      "l108|p44": [
+        "land"
+      ],
+      "p13|p45": [
+        "land"
+      ],
+      "p50|p53": [
+        "ferry"
+      ],
+      "p51|p53": [
+        "ferry"
+      ],
+      "p41|p56": [
+        "ferry"
+      ],
+      "p61|p71": [
+        "land"
+      ],
+      "l87|p62": [
+        "ferry"
+      ],
+      "p19|p66": [
+        "land"
+      ],
+      "l82|p67": [
+        "ferry"
+      ],
+      "p63|p70": [
+        "ferry"
+      ],
+      "p49|p71": [
+        "ferry"
+      ],
+      "l102|p72": [
+        "ferry"
+      ],
+      "p22|p74": [
+        "ferry"
+      ],
+      "p57|p76": [
+        "ferry"
+      ],
+      "p2|p80": [
+        "land"
+      ],
+      "l81|p58": [
+        "ferry"
+      ],
+      "l84|p18": [
+        "ferry"
+      ],
+      "l87|p52": [
+        "ferry"
+      ],
+      "l93|l94": [
+        "land"
+      ],
+      "l95|p77": [
+        "ferry"
+      ],
+      "l102|p47": [
+        "ferry"
+      ],
+      "l105|p35": [
+        "ferry"
+      ],
+      "l106|p43": [
+        "ferry"
+      ],
+      "p41|p78": [
+        "land"
+      ],
+      "l101|p47": [
+        "land"
+      ],
+      "p10|p40": [
+        "land"
+      ],
+      "p15|p79": [
+        "land"
+      ],
+      "p14|p15": [
+        "land"
+      ],
+      "p40|p56": [
+        "land"
+      ],
+      "p12|p34": [
+        "land"
+      ],
+      "p35|p74": [
+        "land"
+      ],
+      "p13|p21": [
+        "land"
+      ],
+      "p27|p28": [
+        "land"
+      ],
+      "p27|p30": [
+        "land"
+      ],
+      "p29|p35": [
+        "land"
+      ],
+      "p27|p60": [
+        "land"
+      ],
+      "p26|p35": [
+        "land"
+      ],
+      "p78|p9": [
+        "land"
+      ],
+      "l99|p34": [
+        "land"
+      ],
+      "p11|p48": [
+        "land"
+      ],
+      "p48|p60": [
+        "land"
+      ],
+      "l99|p29": [
+        "land"
+      ],
+      "l86|p18": [
+        "land"
+      ],
+      "p26|p29": [
+        "land"
+      ],
+      "p16|p23": [
+        "land"
+      ],
+      "p21|p46": [
+        "land"
+      ],
+      "l88|p53": [
+        "land"
+      ],
+      "p2|p27": [
+        "land"
+      ],
+      "C|l98": [
+        "land"
+      ],
+      "p16|p17": [
+        "land"
+      ],
+      "p21|p45": [
+        "land"
+      ],
+      "l97|p9": [
+        "land"
+      ],
+      "p29|p34": [
+        "land"
+      ],
+      "p19|p40": [
+        "land"
+      ],
+      "p17|p24": [
+        "land"
+      ],
+      "l101|l102": [
+        "land"
+      ],
+      "l101|p21": [
+        "land"
+      ],
+      "p30|p8": [
+        "land"
+      ],
+      "p16|p27": [
+        "land"
+      ],
+      "l87|l89": [
+        "land"
+      ],
+      "l95|p54": [
+        "land"
+      ],
+      "p56|p72": [
+        "land"
+      ],
+      "l86|p75": [
+        "land"
+      ],
+      "p39|p72": [
+        "land"
+      ],
+      "l94|p6": [
+        "land"
+      ],
+      "l84|l86": [
+        "land"
+      ],
+      "p30|p41": [
+        "land"
+      ],
+      "l95|p40": [
+        "land"
+      ],
+      "l96|p76": [
+        "land"
+      ],
+      "p55|p72": [
+        "land"
+      ],
+      "l93|p38": [
+        "land"
+      ],
+      "l91|p42": [
+        "land"
+      ],
+      "p3|p61": [
+        "land"
+      ],
+      "l96|p42": [
+        "land"
+      ],
+      "l83|p62": [
+        "land"
+      ],
+      "p31|p49": [
+        "land"
+      ],
+      "p49|p61": [
+        "land"
+      ],
+      "p62|p70": [
+        "land"
+      ],
+      "l87|p70": [
+        "land"
+      ],
+      "l82|p58": [
+        "land"
+      ],
+      "l87|p31": [
+        "land"
+      ],
+      "l82|l83": [
+        "land"
+      ],
+      "A1|l81": [
+        "ferry"
+      ],
+      "B1|l84": [
+        "ferry"
+      ],
+      "B1|p75": [
+        "ferry"
+      ],
+      "C1|l86": [
+        "land"
+      ],
+      "D1|l87": [
+        "land"
+      ],
+      "E1|l89": [
+        "land"
+      ],
+      "F1|l92": [
+        "land"
+      ],
+      "F1|l93": [
+        "land"
+      ],
+      "G1|l94": [
+        "land"
+      ],
+      "H1|l97": [
+        "land"
+      ],
+      "I1|l98": [
+        "land"
+      ],
+      "J1|p48": [
+        "land"
+      ],
+      "K1|l101": [
+        "land"
+      ],
+      "L1|l104": [
+        "land"
+      ],
+      "M1|l108": [
+        "ferry"
+      ],
+      "N1|l81": [
+        "ferry"
+      ],
+      "N1|p73": [
+        "ferry"
+      ],
+      "O1|l84": [
+        "ferry"
+      ],
+      "P1|l86": [
+        "land"
+      ],
+      "Q1|l87": [
+        "land"
+      ],
+      "R1|p51": [
+        "land"
+      ],
+      "S1|l92": [
+        "land"
+      ],
+      "T1|l94": [
+        "land"
+      ],
+      "U1|l97": [
+        "land"
+      ],
+      "V1|l98": [
+        "land"
+      ],
+      "V1|l96": [
+        "land"
+      ],
+      "X1|l101": [
+        "ferry"
+      ],
+      "X1|p46": [
+        "ferry"
+      ],
+      "A2|p73": [
+        "ferry"
+      ],
+      "B2|p42": [
+        "ferry"
+      ],
+      "B2|p57": [
+        "land"
+      ],
+      "D2|p8": [
+        "land"
+      ],
+      "E2|p39": [
+        "land"
+      ],
+      "F2|p48": [
+        "land"
+      ],
+      "G2|p36": [
+        "land"
+      ],
+      "H2|p44": [
+        "land"
+      ],
+      "H2|p43": [
+        "land"
+      ],
+      "I2|p73": [
+        "ferry"
+      ],
+      "J2|p42": [
+        "land"
+      ],
+      "J2|p57": [
+        "land"
+      ],
+      "K2|p66": [
+        "land"
+      ],
+      "L2|p8": [
+        "land"
+      ],
+      "M2|p55": [
+        "ferry"
+      ],
+      "N2|p48": [
+        "land"
+      ],
+      "O2|p36": [
+        "ferry"
+      ],
+      "P2|p43": [
+        "ferry"
+      ],
+      "P2|l108": [
+        "ferry"
+      ],
+      "Q2|p73": [
+        "ferry"
+      ],
+      "R2|p42": [
+        "ferry"
+      ],
+      "R2|p76": [
+        "ferry"
+      ],
+      "S2|p66": [
+        "land"
+      ],
+      "T2|p8": [
+        "land"
+      ],
+      "U2|p39": [
+        "ferry"
+      ],
+      "V2|p48": [
+        "land"
+      ],
+      "V2|p34": [
+        "land"
+      ],
+      "W2|p36": [
+        "land"
+      ],
+      "X2|l106": [
+        "land"
+      ],
+      "X2|p43": [
+        "ferry"
+      ],
+      "A3|l82": [
+        "land"
+      ],
+      "B3|l83": [
+        "land"
+      ],
+      "B3|p58": [
+        "land"
+      ],
+      "C3|l85": [
+        "land"
+      ],
+      "D3|l88": [
+        "land"
+      ],
+      "D3|l87": [
+        "land"
+      ],
+      "E3|l90": [
+        "land"
+      ],
+      "F3|l91": [
+        "land"
+      ],
+      "G3|l93": [
+        "land"
+      ],
+      "H3|l95": [
+        "land"
+      ],
+      "H3|p6": [
+        "ferry"
+      ],
+      "I3|l96": [
+        "land"
+      ],
+      "J3|l100": [
+        "ferry"
+      ],
+      "J3|p60": [
+        "land"
+      ],
+      "K3|l102": [
+        "land"
+      ],
+      "L3|p45": [
+        "land"
+      ],
+      "L3|l103": [
+        "land"
+      ],
+      "M3|l107": [
+        "land"
+      ],
+      "N3|p59": [
+        "land"
+      ],
+      "N3|l82": [
+        "land"
+      ],
+      "O3|l83": [
+        "land"
+      ],
+      "P3|l85": [
+        "land"
+      ],
+      "P3|p18": [
+        "ferry"
+      ],
+      "Q3|l88": [
+        "land"
+      ],
+      "R3|l90": [
+        "ferry"
+      ],
+      "R3|p50": [
+        "ferry"
+      ],
+      "S3|l91": [
+        "land"
+      ],
+      "T3|l93": [
+        "land"
+      ],
+      "U3|l95": [
+        "land"
+      ],
+      "V3|l96": [
+        "land"
+      ],
+      "V3|l98": [
+        "land"
+      ],
+      "W3|l100": [
+        "land"
+      ],
+      "X3|l102": [
+        "ferry"
+      ],
+      "X3|p21": [
+        "land"
+      ],
+      "l81|v01": [
+        "ferry"
+      ],
+      "l82|v02": [
+        "land"
+      ],
+      "l83|v03": [
+        "land"
+      ],
+      "l84|v04": [
+        "land"
+      ],
+      "l85|v05": [
+        "ferry"
+      ],
+      "l88|v08": [
+        "land"
+      ],
+      "l89|v09": [
+        "land"
+      ],
+      "l90|v10": [
+        "land"
+      ],
+      "l91|v11": [
+        "land"
+      ],
+      "l92|v12": [
+        "land"
+      ],
+      "l93|v13": [
+        "land"
+      ],
+      "l94|v14": [
+        "land"
+      ],
+      "l95|v15": [
+        "land"
+      ],
+      "l96|v16": [
+        "ferry"
+      ],
+      "l97|v17": [
+        "land"
+      ],
+      "l97|v18": [
+        "land"
+      ],
+      "l99|v19": [
+        "land"
+      ],
+      "l104|v21": [
+        "land"
+      ],
+      "l102|v22": [
+        "ferry"
+      ],
+      "l103|v23": [
+        "land"
+      ],
+      "l104|v24": [
+        "ferry"
+      ],
+      "l106|v25": [
+        "ferry"
+      ],
+      "l108|v26": [
+        "land"
+      ],
+      "l81|v27": [
+        "ferry"
+      ],
+      "l82|v28": [
+        "land"
+      ],
+      "l83|v29": [
+        "land"
+      ],
+      "l84|v30": [
+        "ferry"
+      ],
+      "p18|v31": [
+        "ferry"
+      ],
+      "l86|v32": [
+        "land"
+      ],
+      "l87|v33": [
+        "land"
+      ],
+      "l88|v34": [
+        "land"
+      ],
+      "l88|v36": [
+        "land"
+      ],
+      "l91|v37": [
+        "land"
+      ],
+      "l92|v38": [
+        "land"
+      ],
+      "l94|v40": [
+        "land"
+      ],
+      "l95|v41": [
+        "land"
+      ],
+      "l96|v42": [
+        "land"
+      ],
+      "l97|v43": [
+        "land"
+      ],
+      "l98|v44": [
+        "land"
+      ],
+      "l99|v45": [
+        "land"
+      ],
+      "l100|v46": [
+        "land"
+      ],
+      "l99|v47": [
+        "land"
+      ],
+      "l102|v48": [
+        "ferry"
+      ],
+      "l103|v49": [
+        "land"
+      ],
+      "l108|v50": [
+        "ferry"
+      ],
+      "p15|v51": [
+        "land"
+      ],
+      "l108|v52": [
+        "ferry"
+      ],
+      "l81|v53": [
+        "ferry"
+      ],
+      "l82|v54": [
+        "land"
+      ],
+      "l83|v55": [
+        "land"
+      ],
+      "l84|v56": [
+        "ferry"
+      ],
+      "l85|v57": [
+        "land"
+      ],
+      "l86|v58": [
+        "land"
+      ],
+      "l87|v59": [
+        "land"
+      ],
+      "l88|v60": [
+        "land"
+      ],
+      "l89|v61": [
+        "land"
+      ],
+      "l88|v62": [
+        "land"
+      ],
+      "l91|v63": [
+        "land"
+      ],
+      "l92|v64": [
+        "land"
+      ],
+      "p21|v24": [
+        "land"
+      ],
+      "L1|v24": [
+        "land"
+      ],
+      "p69|v24": [
+        "land"
+      ],
+      "p11|v20": [
+        "land"
+      ],
+      "p27|v20": [
+        "land"
+      ],
+      "l100|v20": [
+        "land"
+      ],
+      "p8|p9": [
+        "land"
+      ],
+      "J1|l99": [
+        "land"
+      ],
+      "F2|p12": [
+        "land"
+      ],
+      "F2|p34": [
+        "land"
+      ],
+      "C|C2": [
+        "land"
+      ],
+      "C2|l92": [
+        "land"
+      ],
+      "C2|p66": [
+        "land"
+      ],
+      "T1|p66": [
+        "land"
+      ],
+      "T1|l92": [
+        "land"
+      ],
+      "N2|p25": [
+        "land"
+      ],
+      "N2|l99": [
+        "land"
+      ],
+      "p52|v06": [
+        "land"
+      ],
+      "p62|v06": [
+        "land"
+      ],
+      "l86|v06": [
+        "land"
+      ],
+      "l92|v39": [
+        "land"
+      ],
+      "p76|v39": [
+        "land"
+      ],
+      "R1|l89": [
+        "land"
+      ],
+      "l97|p23": [
+        "land"
+      ],
+      "F3|l89": [
+        "land"
+      ],
+      "F3|p51": [
+        "land"
+      ],
+      "P1|l83": [
+        "land"
+      ],
+      "P1|p62": [
+        "land"
+      ],
+      "l87|v07": [
+        "land"
+      ],
+      "W1|l99": [
+        "land"
+      ],
+      "T2|p78": [
+        "land"
+      ],
+      "T2|p41": [
+        "land"
+      ],
+      "T3|v39": [
+        "land"
+      ],
+      "l93|v39": [
+        "land"
+      ],
+      "l89|v35": [
+        "land"
+      ],
+      "R1|v35": [
+        "land"
+      ],
+      "l88|v35": [
+        "land"
+      ]
+    }
+  },
+  "evaluation": {
+    "calibration_only": true
+  },
+  "provenance": {
+    "source_design": "lunatic-01-v4.4-delivery-conditions20",
+    "source_design_sha256": "c3fff4014848f58f716da2192f951680ee20b0feea54a7cf7f6841bcb775c619",
+    "same_format_materials": [
+      "lithology",
+      "shore"
+    ],
+    "reviewed_materials": [
+      "lithology",
+      "water_quality",
+      "shore",
+      "drainage"
+    ]
+  },
+  "private_interfaces": {
+    "formats": {
+      "profile": [
+        "F-1",
+        "F-2"
+      ],
+      "elevation": [
+        "F-1",
+        "F-2"
+      ],
+      "shore": [
+        "F-1",
+        "F-2"
+      ],
+      "drainage": [
+        "F-1",
+        "F-2"
+      ],
+      "sediment": [
+        "F-1",
+        "F-2"
+      ],
+      "vegetation": [
+        "F-1",
+        "F-2"
+      ],
+      "lithology": [
+        "F-1",
+        "F-2"
+      ],
+      "water_quality": [
+        "F-1",
+        "F-2"
+      ],
+      "waterbird_record": [
+        "F-1",
+        "F-2"
+      ],
+      "otter_signs": [
+        "F-1",
+        "F-2"
+      ],
+      "livestock_signs": [
+        "F-1",
+        "F-2"
+      ],
+      "woodland_birds": [
+        "F-1",
+        "F-2"
+      ],
+      "built_form": [
+        "F-1",
+        "F-2"
+      ],
+      "waterworks": [
+        "F-1",
+        "F-2"
+      ],
+      "settlement_layout": [
+        "F-1",
+        "F-2"
+      ],
+      "historic_road": [
+        "F-1",
+        "F-2"
+      ]
+    },
+    "cataloguers": [
+      {
+        "material": "profile",
+        "type": "N",
+        "output": "F-1"
+      },
+      {
+        "material": "profile",
+        "type": "B",
+        "output": "F-1"
+      },
+      {
+        "material": "profile",
+        "type": "D",
+        "output": "F-2"
+      },
+      {
+        "material": "profile",
+        "type": "H",
+        "output": "F-2"
+      },
+      {
+        "material": "elevation",
+        "type": "N",
+        "output": "F-1"
+      },
+      {
+        "material": "elevation",
+        "type": "B",
+        "output": "F-1"
+      },
+      {
+        "material": "elevation",
+        "type": "D",
+        "output": "F-2"
+      },
+      {
+        "material": "elevation",
+        "type": "H",
+        "output": "F-2"
+      },
+      {
+        "material": "shore",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "shore",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "shore",
+        "type": "P",
+        "output": "F-2"
+      },
+      {
+        "material": "shore",
+        "type": "X",
+        "output": "F-2"
+      },
+      {
+        "material": "drainage",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "drainage",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "drainage",
+        "type": "P",
+        "output": "F-2"
+      },
+      {
+        "material": "drainage",
+        "type": "X",
+        "output": "F-2"
+      },
+      {
+        "material": "sediment",
+        "type": "P",
+        "output": "F-1"
+      },
+      {
+        "material": "sediment",
+        "type": "X",
+        "output": "F-1"
+      },
+      {
+        "material": "sediment",
+        "type": "W",
+        "output": "F-2"
+      },
+      {
+        "material": "sediment",
+        "type": "R",
+        "output": "F-2"
+      },
+      {
+        "material": "vegetation",
+        "type": "P",
+        "output": "F-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "X",
+        "output": "F-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "W",
+        "output": "F-2"
+      },
+      {
+        "material": "vegetation",
+        "type": "R",
+        "output": "F-2"
+      },
+      {
+        "material": "lithology",
+        "type": "W",
+        "output": "F-1"
+      },
+      {
+        "material": "lithology",
+        "type": "R",
+        "output": "F-1"
+      },
+      {
+        "material": "lithology",
+        "type": "C",
+        "output": "F-2"
+      },
+      {
+        "material": "lithology",
+        "type": "A",
+        "output": "F-2"
+      },
+      {
+        "material": "water_quality",
+        "type": "W",
+        "output": "F-1"
+      },
+      {
+        "material": "water_quality",
+        "type": "R",
+        "output": "F-1"
+      },
+      {
+        "material": "water_quality",
+        "type": "C",
+        "output": "F-2"
+      },
+      {
+        "material": "water_quality",
+        "type": "A",
+        "output": "F-2"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "C",
+        "output": "F-1"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "A",
+        "output": "F-1"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "S",
+        "output": "F-2"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "L",
+        "output": "F-2"
+      },
+      {
+        "material": "otter_signs",
+        "type": "C",
+        "output": "F-1"
+      },
+      {
+        "material": "otter_signs",
+        "type": "A",
+        "output": "F-1"
+      },
+      {
+        "material": "otter_signs",
+        "type": "S",
+        "output": "F-2"
+      },
+      {
+        "material": "otter_signs",
+        "type": "L",
+        "output": "F-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "S",
+        "output": "F-1"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "L",
+        "output": "F-1"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "N",
+        "output": "F-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "B",
+        "output": "F-2"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "S",
+        "output": "F-1"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "L",
+        "output": "F-1"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "N",
+        "output": "F-2"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "B",
+        "output": "F-2"
+      },
+      {
+        "material": "built_form",
+        "type": "N",
+        "output": "F-1"
+      },
+      {
+        "material": "built_form",
+        "type": "B",
+        "output": "F-1"
+      },
+      {
+        "material": "built_form",
+        "type": "D",
+        "output": "F-2"
+      },
+      {
+        "material": "built_form",
+        "type": "H",
+        "output": "F-2"
+      },
+      {
+        "material": "waterworks",
+        "type": "N",
+        "output": "F-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "B",
+        "output": "F-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "D",
+        "output": "F-2"
+      },
+      {
+        "material": "waterworks",
+        "type": "H",
+        "output": "F-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "P",
+        "output": "F-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "X",
+        "output": "F-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "D",
+        "output": "F-1"
+      },
+      {
+        "material": "historic_road",
+        "type": "H",
+        "output": "F-1"
+      },
+      {
+        "material": "historic_road",
+        "type": "P",
+        "output": "F-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "X",
+        "output": "F-2"
+      }
+    ],
+    "verifiers": [
+      {
+        "material": "profile",
+        "type": "M",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "profile",
+        "type": "U",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "profile",
+        "type": "I",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "profile",
+        "type": "Q",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "elevation",
+        "type": "M",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "elevation",
+        "type": "U",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "elevation",
+        "type": "I",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "elevation",
+        "type": "Q",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "shore",
+        "type": "I",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "shore",
+        "type": "Q",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "shore",
+        "type": "T",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "shore",
+        "type": "G",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "drainage",
+        "type": "I",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "drainage",
+        "type": "Q",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "drainage",
+        "type": "T",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "drainage",
+        "type": "G",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "sediment",
+        "type": "T",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "sediment",
+        "type": "G",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "sediment",
+        "type": "O",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "sediment",
+        "type": "J",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "T",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "G",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "vegetation",
+        "type": "O",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "vegetation",
+        "type": "J",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "lithology",
+        "type": "O",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "lithology",
+        "type": "J",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "lithology",
+        "type": "F",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "lithology",
+        "type": "E",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "water_quality",
+        "type": "O",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "water_quality",
+        "type": "J",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "water_quality",
+        "type": "F",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "water_quality",
+        "type": "E",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "F",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "E",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "V",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterbird_record",
+        "type": "K",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "otter_signs",
+        "type": "F",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "otter_signs",
+        "type": "E",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "otter_signs",
+        "type": "V",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "otter_signs",
+        "type": "K",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "V",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "K",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "M",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "livestock_signs",
+        "type": "U",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "V",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "K",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "M",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "woodland_birds",
+        "type": "U",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "built_form",
+        "type": "M",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "built_form",
+        "type": "U",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "built_form",
+        "type": "I",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "built_form",
+        "type": "Q",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "M",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "U",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "waterworks",
+        "type": "I",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "waterworks",
+        "type": "Q",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "I",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "Q",
+        "input": "F-1",
+        "output": "standard-1"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "T",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "settlement_layout",
+        "type": "G",
+        "input": "F-2",
+        "output": "standard-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "I",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "Q",
+        "input": "F-1",
+        "output": "standard-2"
+      },
+      {
+        "material": "historic_road",
+        "type": "T",
+        "input": "F-2",
+        "output": "standard-1"
+      },
+      {
+        "material": "historic_road",
+        "type": "G",
+        "input": "F-2",
+        "output": "standard-1"
+      }
+    ],
+    "alternatives_per_goal": 2,
+    "enforce_interface": true,
+    "verification_conditions": {
+      "lithology": {
+        "J": "湿季转运",
+        "O": "寒季转运",
+        "E": "寒季转运",
+        "F": "湿季转运"
+      },
+      "water_quality": {
+        "O": "寒季转运",
+        "E": "湿季转运",
+        "J": "湿季转运",
+        "F": "寒季转运"
+      },
+      "shore": {
+        "G": "湿季转运",
+        "T": "寒季转运",
+        "I": "寒季转运",
+        "Q": "湿季转运"
+      },
+      "drainage": {
+        "Q": "寒季转运",
+        "T": "湿季转运",
+        "I": "湿季转运",
+        "G": "寒季转运"
+      }
+    }
+  }
+}

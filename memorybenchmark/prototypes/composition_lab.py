@@ -6,8 +6,19 @@ input. The two commission stages remain independent throughout.
 """
 
 from collections import Counter
-from dataclasses import asdict, dataclass, replace
+from dataclasses import InitVar, asdict, dataclass, field, replace
 import random
+
+
+SEAL_MATCH = "封签一致"
+SEAL_MISMATCH = "封签不同"
+SEAL_RELATIONS = (SEAL_MATCH, SEAL_MISMATCH)
+
+
+def seal_relation(catalogue_seal, verifier_seal):
+    if catalogue_seal is None or verifier_seal is None:
+        return None
+    return SEAL_MATCH if catalogue_seal == verifier_seal else SEAL_MISMATCH
 
 
 @dataclass(frozen=True)
@@ -16,15 +27,24 @@ class Stage:
     mode: str
     goal: str
     input_format: str | None = None
+    delivery_condition: str | None = None
 
     def __post_init__(self):
         if self.mode not in ("catalogue", "verify", "combined"):
             raise ValueError("Unknown processing mode")
         if (self.mode == "verify") != (self.input_format is not None):
             raise ValueError("Only standalone verification starts with prepared input")
+        if self.delivery_condition is not None and (
+            not isinstance(self.delivery_condition, str)
+            or not self.delivery_condition.strip()
+        ):
+            raise ValueError("Delivery condition must be a nonempty label")
 
     def public(self):
-        return asdict(self)
+        fields = asdict(self)
+        if self.delivery_condition is None:
+            del fields["delivery_condition"]
+        return fields
 
 
 @dataclass(frozen=True)
@@ -35,6 +55,36 @@ class Outcome:
     input_format: str | None
     output_format: str | None
     result: str
+    processing_seal: InitVar[str | None] = field(default=None, kw_only=True)
+    delivery_condition = None
+
+    def __post_init__(self, processing_seal):
+        # Optional evidence stays out of the old unsealed dataclass records.
+        object.__setattr__(self, "processing_seal", processing_seal)
+
+    def public(self):
+        fields = asdict(self)
+        if self.processing_seal is not None:
+            fields["processing_seal"] = self.processing_seal
+        return fields
+
+    def with_condition(self, condition):
+        if condition is None:
+            return self
+        if isinstance(self, ConditionedOutcome):
+            return replace(
+                self, delivery_condition=condition, processing_seal=self.processing_seal
+            )
+        return ConditionedOutcome(
+            **asdict(self),
+            delivery_condition=condition,
+            processing_seal=self.processing_seal,
+        )
+
+
+@dataclass(frozen=True)
+class ConditionedOutcome(Outcome):
+    delivery_condition: str
 
 
 @dataclass(frozen=True)
@@ -44,30 +94,104 @@ class World:
     cataloguers: dict
     verifiers: dict
     enforce_interface: bool = True
+    format_conditions: dict | None = None
+    verification_conditions: dict | None = None
+    catalogue_seals: dict | None = None
+    verifier_seals: dict | None = None
 
-    def process(self, station, material, input_format=None):
+    def condition(self, material, fmt):
+        return (self.format_conditions or {}).get((material, fmt))
+
+    def catalogue_seal(self, material, fmt):
+        return (self.catalogue_seals or {}).get((material, fmt))
+
+    def verifier_seal(self, material, station):
+        return (self.verifier_seals or {}).get(material, {}).get(station)
+
+    def compares_seals(self, item):
+        return item.mode == "combined" and item.material in (self.verifier_seals or {})
+
+    def verifier_condition(self, material, station, fmt, *, compare_seals=False):
+        raw_seal = self.verifier_seal(material, station)
+        if raw_seal is not None:
+            relation = (
+                seal_relation(self.catalogue_seal(material, fmt), raw_seal)
+                if compare_seals
+                else None
+            )
+            return relation if relation is not None else raw_seal
+        return (
+            (self.verification_conditions or {})
+            .get(material, {})
+            .get(station, self.condition(material, fmt))
+        )
+
+    def verifiers_for_stage(self, item):
+        return [
+            (station, (fmt, goal))
+            for (material, station), (fmt, goal) in self.verifiers.items()
+            if material == item.material
+            and goal == item.goal
+            and (item.input_format is None or fmt == item.input_format)
+            and condition_matches(
+                item,
+                self.verifier_condition(
+                    material, station, fmt, compare_seals=self.compares_seals(item)
+                ),
+            )
+        ]
+
+    def required_verifier_seal(self, item):
+        if item.mode == "catalogue" or item.material not in (self.verifier_seals or {}):
+            return None
+        (raw_seal,) = {
+            self.verifier_seal(item.material, station)
+            for station, _ in self.verifiers_for_stage(item)
+        }
+        return raw_seal
+
+    def catalogue_condition_matches(self, item, actual):
+        return (
+            item.material in (self.verification_conditions or {})
+            or item.material in (self.verifier_seals or {})
+            or condition_matches(item, actual)
+        )
+
+    def process(self, station, material, input_format=None, *, compare_seals=False):
         operation = "catalogue" if input_format is None else "verify"
         if operation == "catalogue":
             value = self.cataloguers.get((material, station))
-            return Outcome(
+            outcome = Outcome(
                 station,
                 material,
                 operation,
                 None,
                 value,
                 "processed" if value else "unsupported",
+                processing_seal=self.catalogue_seal(material, value) if value else None,
             )
+            return outcome.with_condition(self.condition(material, value))
         required = self.verifiers.get((material, station))
         success = required is not None and (
             required[0] == input_format or not self.enforce_interface
         )
-        return Outcome(
+        outcome = Outcome(
             station,
             material,
             operation,
             input_format,
             required[1] if success else None,
             "processed" if success else "unsupported",
+            processing_seal=self.verifier_seal(material, station) if success else None,
+        )
+        return (
+            outcome.with_condition(
+                self.verifier_condition(
+                    material, station, input_format, compare_seals=compare_seals
+                )
+            )
+            if success
+            else outcome
         )
 
 
@@ -113,6 +237,17 @@ def input_for_goal(world, material, goal):
         for (kind, _), value in world.verifiers.items()
         if kind == material and value[1] == goal
     )
+
+
+def condition_matches(item, actual):
+    return item.delivery_condition is None or actual == item.delivery_condition
+
+
+def input_for_stage(world, item):
+    if item.delivery_condition is None:
+        return input_for_goal(world, item.material, item.goal)
+    (fmt,) = {fmt for _, (fmt, _) in world.verifiers_for_stage(item)}
+    return fmt
 
 
 def stage(world, case, mode):
@@ -161,25 +296,18 @@ def plans(world, item):
         (station, fmt)
         for (kind, station), fmt in world.cataloguers.items()
         if kind == item.material
-    ]
-    verifiers = [
-        (station, value)
-        for (kind, station), value in world.verifiers.items()
-        if kind == item.material
+        and world.catalogue_condition_matches(item, world.condition(kind, fmt))
     ]
     if item.mode == "catalogue":
         return [(station,) for station, fmt in cataloguers if fmt == item.goal]
+    verifiers = world.verifiers_for_stage(item)
     if item.mode == "verify":
-        return [
-            (station,)
-            for station, value in verifiers
-            if value == (item.input_format, item.goal)
-        ]
+        return [(station,) for station, _ in verifiers]
     return [
         (a, b)
         for a, fmt in cataloguers
-        for b, value in verifiers
-        if value[1] == item.goal and (value[0] == fmt or not world.enforce_interface)
+        for b, (required_format, _) in verifiers
+        if required_format == fmt or not world.enforce_interface
     ]
 
 
@@ -192,17 +320,25 @@ def execute(world, item, chosen):
     """
     current = item.input_format
     outcomes = []
+    completed = current == item.goal and item.delivery_condition is None
+    compare_seals = world.compares_seals(item)
     for station in chosen:
-        if current == item.goal:
+        if completed:
             break
         if station == "recollect":
             current = item.input_format
             continue
-        outcome = world.process(station, item.material, current)
+        outcome = world.process(
+            station, item.material, current, compare_seals=compare_seals
+        )
         outcomes.append(outcome)
         if outcome.result == "processed":
             current = outcome.output_format
-    return current == item.goal, outcomes
+            if current == item.goal and condition_matches(
+                item, outcome.delivery_condition
+            ):
+                completed = True
+    return completed, outcomes
 
 
 def score(world, item, outcomes):
@@ -216,9 +352,7 @@ def score(world, item, outcomes):
     if item.mode == "combined":
         operations += ("verify",)
     expected_format = (
-        input_for_goal(world, item.material, item.goal)
-        if item.mode == "combined"
-        else item.goal
+        input_for_stage(world, item) if item.mode == "combined" else item.goal
     )
     rows = []
     for operation in operations:
@@ -230,8 +364,13 @@ def score(world, item, outcomes):
                 compatible = (
                     item.mode == "combined" and not world.enforce_interface
                 ) or first.output_format == expected_format
+                compatible = compatible and world.catalogue_condition_matches(
+                    item, first.delivery_condition
+                )
             else:
-                compatible = first.output_format == item.goal
+                compatible = first.output_format == item.goal and condition_matches(
+                    item, first.delivery_condition
+                )
         rows.append(
             {
                 "operation": operation,
@@ -282,7 +421,7 @@ def interface_ablation(world):
 
 def experience_keys(item, world):
     fmt = (
-        input_for_goal(world, item.material, item.goal)
+        input_for_stage(world, item)
         if item.mode == "combined"
         else (item.goal if item.mode == "catalogue" else item.input_format)
     )
@@ -290,8 +429,13 @@ def experience_keys(item, world):
     if item.mode != "verify":
         keys.append((item.material, "catalogue", fmt))
     if item.mode != "catalogue":
-        goal = item.goal
-        keys.append((item.material, "verify", fmt, goal))
+        key = (item.material, "verify", fmt, item.goal)
+        seal = world.required_verifier_seal(item)
+        if seal is not None:
+            key += (seal,)
+        elif item.material in (world.verification_conditions or {}):
+            key += (item.delivery_condition,)
+        keys.append(key)
     return keys
 
 
@@ -345,47 +489,68 @@ class DeliveredMemory:
         for item in outcomes:
             if item.result != "processed":
                 continue
+            key = (item.material, item.station)
             if item.operation == "catalogue":
-                self.catalogue[(item.material, item.station)] = item.output_format
+                self.catalogue[key] = item
             else:
-                self.verify[(item.material, item.station)] = (
-                    item.input_format,
-                    item.output_format,
-                )
+                # A combined result's relation describes the whole route.
+                # Keep the verification station's own seal for later pairings.
+                self.verify[key] = item.with_condition(item.processing_seal)
 
     def compatible_plan(self, item):
         if item.mode == "catalogue":
             return next(
                 (
                     (station,)
-                    for (kind, station), fmt in self.catalogue.items()
-                    if kind == item.material and fmt == item.goal
+                    for (kind, station), observed in self.catalogue.items()
+                    if kind == item.material
+                    and observed.output_format == item.goal
+                    and condition_matches(item, observed.delivery_condition)
                 ),
                 None,
             )
+        needs_relation = (
+            item.mode == "combined" and item.delivery_condition in SEAL_RELATIONS
+        )
         choices = [
-            (station, value)
-            for (kind, station), value in self.verify.items()
-            if kind == item.material and value[1] == item.goal
+            (station, observed)
+            for (kind, station), observed in self.verify.items()
+            if kind == item.material
+            and observed.output_format == item.goal
+            and (needs_relation or condition_matches(item, observed.delivery_condition))
         ]
         if item.mode == "verify":
             return next(
                 (
                     (station,)
-                    for station, value in choices
-                    if value[0] == item.input_format
+                    for station, observed in choices
+                    if observed.input_format == item.input_format
                 ),
                 None,
             )
         return next(
             (
                 (a, b)
-                for (kind, a), fmt in self.catalogue.items()
-                for b, value in choices
-                if kind == item.material and fmt == value[0]
+                for (kind, a), catalogue in self.catalogue.items()
+                for b, verifier in choices
+                if kind == item.material
+                and catalogue.output_format == verifier.input_format
+                and _observed_catalogue_accepts(
+                    item, catalogue, verifier, needs_relation
+                )
             ),
             None,
         )
+
+
+def _observed_catalogue_accepts(item, catalogue, verifier, needs_relation):
+    if needs_relation:
+        return condition_matches(
+            item, seal_relation(catalogue.processing_seal, verifier.processing_seal)
+        )
+    return catalogue.delivery_condition is None or condition_matches(
+        item, catalogue.delivery_condition
+    )
 
 
 def assess(seed=61301):
@@ -434,7 +599,7 @@ def assess(seed=61301):
                                     "stage": index + 1,
                                     "public_commission": item.public(),
                                     "chosen": [a, b],
-                                    "actual_feedback": [asdict(x) for x in outcome],
+                                    "actual_feedback": [x.public() for x in outcome],
                                 }
                             )
             memory.observe(observations)

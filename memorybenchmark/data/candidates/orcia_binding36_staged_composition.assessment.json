@@ -1,0 +1,53 @@
+{
+  "zero_model_game_tasks": 36,
+  "successes": 36,
+  "maximum_reference_actions": 65,
+  "required_operations": 96,
+  "actual_prior_feedback_for_every_combined_operation": true,
+  "native_model_calls": 0,
+  "is_not_a_model_score": true,
+  "combined_reference_uses_only_delivered_prior_interface_facts": true,
+  "feedback_only_repeat_operations_by_encounter": {
+    "2": 40,
+    "3": 16
+  },
+  "design_sha256": "9da3f19098011f254699fb0bba84fe7fbf6893244afdf7201824f7f3ac9114c5",
+  "allocation": {
+    "tasks": 36,
+    "stages": 72,
+    "fully_scoped_goal_classes": 40,
+    "necessary_operations": 96,
+    "scopes_by_total_uses": {
+      "2": 24,
+      "3": 16
+    },
+    "minimum_task_index_gap_between_uses": 4,
+    "materials": 10,
+    "first_combination_task": 13,
+    "stage_dependency": false,
+    "unscored_lessons": 0,
+    "repeat_gap_histogram": {
+      "2": {
+        "4": 2,
+        "5": 4,
+        "6": 6,
+        "7": 2,
+        "8": 2,
+        "9": 2,
+        "10": 2,
+        "11": 6,
+        "12": 6,
+        "13": 2,
+        "18": 4,
+        "24": 2
+      },
+      "3": {
+        "10": 10,
+        "11": 2,
+        "12": 2,
+        "13": 2
+      }
+    },
+    "third_encounter_gaps_preserved": true
+  }
+}

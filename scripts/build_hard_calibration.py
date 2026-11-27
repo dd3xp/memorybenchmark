@@ -1,6 +1,7 @@
 """Build a bounded candidate pilot, then exercise the real game without a model."""
 
 import argparse
+from collections import Counter
 from copy import deepcopy
 from hashlib import sha256
 from itertools import product
@@ -12,15 +13,21 @@ from memorybenchmark.prototypes.composition_lab import (
     commissions,
     assess_allocation,
     plans,
+    experience_keys,
     DeliveredMemory,
-    Outcome,
 )
 from memorybenchmark.prototypes.station_capability import (
     StationGame,
     map_world,
     load_design,
 )
-from memorybenchmark.prototypes.station_interfaces import PROTOCOL, item, load, world
+from memorybenchmark.prototypes.station_interfaces import (
+    PROTOCOL,
+    item,
+    load,
+    outcome_from_feedback,
+    world,
+)
 from memorybenchmark.prototypes.station_routes import shortest_route, walk
 from scripts.assess_hard_interfaces import review_orcia_targets
 from memorybenchmark.prototypes.interface_curriculum import (
@@ -204,11 +211,13 @@ def build(
     return design
 
 
-def validate(design, *, checkpoint_observer=None):
+def validate(design, *, checkpoint_observer=None, feedback_only_repeats=False):
     design = load(deepcopy(design))
     game = StationGame(map_world(design), design)
+    interfaces = world(design)
     maximum = 0
     memory = DeliveredMemory()
+    introduced = set()
     completed = []
     for task_id, task in design["tasks"].items():
         game.start_task(task_id)
@@ -221,15 +230,17 @@ def validate(design, *, checkpoint_observer=None):
                 else task["submit_at"]
             )
             choices = []
-            if item(stage).mode == "combined":
-                known = memory.compatible_plan(item(stage))
+            current = item(stage)
+            keys = experience_keys(current, interfaces)
+            if current.mode == "combined" or (
+                feedback_only_repeats and set(keys) & introduced
+            ):
+                known = memory.compatible_plan(current)
                 if known is None:
-                    raise AssertionError(
-                        "The completed ordinary prefix did not deliver a compatible plan"
-                    )
+                    raise AssertionError("Earlier feedback lacks a compatible plan")
                 profile_plans = [known]
             else:
-                profile_plans = plans(world(design), item(stage))
+                profile_plans = plans(interfaces, current)
             for profile_plan in profile_plans:
                 for stations in product(
                     *(
@@ -250,18 +261,8 @@ def validate(design, *, checkpoint_observer=None):
             for station in min(choices)[1]:
                 walk(game, station)
                 feedback = game.step({"type": "process"})["feedback"]
-                memory.observe(
-                    [
-                        Outcome(
-                            feedback["station_type"],
-                            feedback["required_kind"],
-                            feedback["requirement"],
-                            feedback["input_format"],
-                            feedback["output_format"],
-                            feedback["result"],
-                        )
-                    ]
-                )
+                memory.observe([outcome_from_feedback(feedback)])
+            introduced.update(keys)
         walk(game, task["submit_at"])
         game.step({"type": "submit"})
         if not game.state.success:
@@ -278,7 +279,7 @@ def validate(design, *, checkpoint_observer=None):
         analyze_trace(design, game.events, f"session-{i+1}", exact_references=False)
         for i in range(len(design["tasks"]))
     ]
-    return {
+    proof = {
         "zero_model_game_tasks": len(rows),
         "successes": sum(r["success"] for r in rows),
         "maximum_reference_actions": maximum,
@@ -293,6 +294,24 @@ def validate(design, *, checkpoint_observer=None):
         "is_not_a_model_score": True,
         "combined_reference_uses_only_delivered_prior_interface_facts": True,
     }
+    if feedback_only_repeats:
+        encounters, supported_repeats = Counter(), Counter()
+        for row in rows:
+            keys = (
+                key
+                for stage in design["tasks"][row["task_id"]]["stages"]
+                for key in experience_keys(item(stage), interfaces)
+            )
+            for key, operation in zip(keys, row["processing_operations"], strict=True):
+                encounters[key] += 1
+                if encounters[key] > 1:
+                    if not operation["prior_matching_feedback"]:
+                        raise AssertionError(
+                            "Repeat operation lacks earlier delivered feedback"
+                        )
+                    supported_repeats[str(encounters[key])] += 1
+        proof["feedback_only_repeat_operations_by_encounter"] = dict(supported_repeats)
+    return proof
 
 
 def main():

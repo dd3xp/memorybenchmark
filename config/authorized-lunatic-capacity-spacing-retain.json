@@ -1,0 +1,31 @@
+{
+  "schema": "benchmark-lunatic-recall-pilot-1",
+  "authorized_by": "2026-11-25 Asia/Shanghai user directed continuing Lunatic until the target. v4.7 was sealed above the Hard v6 reference.",
+  "request_id": "lunatic-scandinavia-capacity-spacing-retain30-v1",
+  "reference_request_id": "lunatic-scandinavia-independent-seals-retain20-v1",
+  "selection": {
+    "model": "gpt-5.6-luna",
+    "map": "scandinavia-lunatic",
+    "movement_mode": "step"
+  },
+  "design_file": "calibration/scandinavia_lunatic_capacity_spacing30.json",
+  "design_sha256": "dc3c29eab92a29e8cce404e4d20daa5bb224888970baae649e121f7cbdcf7e5f",
+  "baseline_manifest_sha256": "61206e99079c991b44907fbb417f595c7f3372cc7c6229c864aa48e71478cb86",
+  "review": {
+    "agent": "hermes",
+    "design_id": "lunatic-01-v4.8-capacity-spacing30",
+    "conditions": [
+      "retain"
+    ],
+    "tasks_per_condition": 30,
+    "total_tasks": 30,
+    "context_tokens": 272000,
+    "registry_sha256": "b1f52ee3ffec2db9662c7fa829022f9595bef21c085c45e168fed844ee64a9c1",
+    "reasoning_effort": "high",
+    "main_model_calls": 400,
+    "final_model_calls": 6,
+    "game_steps": 352,
+    "effective_wall_seconds": 604800,
+    "infrastructure_wait_seconds": 604800
+  }
+}

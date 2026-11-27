@@ -1,0 +1,267 @@
+{
+  "runs": {
+    "hard-binding-calibration-v5-61601-36": {
+      "group": "7c792081c6ea55329fb3305a1a960d30",
+      "job": "f787df19392244e38689b7d79eaba5ed",
+      "source": "27ec53278d3128c8597dc7f3a7360ed0a6eae2f180ab5f5a572dd78516fb9579",
+      "design_file": "candidates/orcia_binding36_mixed_spacing.json",
+      "result_sha256": "34b3a6e3e3782a46b0b38eb3e2c25b207c312a02c892e063e96c4eaa4d375d1e",
+      "audit_sha256": "99e73098d9f1619cb37cc9812209a9ad86617d6ef326f842efa0aba9476039c1",
+      "archive": {
+        "bytes": 1124346661,
+        "sha256": "55ac7cd4811bdce10f7a06bdef5d776e9f01360d96d0fcbca2eabae0d004db35",
+        "contents_verified": true
+      },
+      "exit": {
+        "utc": "2026-11-23T20:25:08.761030+00:00",
+        "exit_code": 0
+      },
+      "metrics": {
+        "condition": "retain",
+        "tasks": {
+          "correct": 36,
+          "denominator": 36,
+          "rate": 1
+        },
+        "all_first_goal_compatible_operations": {
+          "correct": 58,
+          "denominator": 96,
+          "rate": 0.6041666666666666
+        },
+        "after_first_planned_goal_encounter": {
+          "correct": 50,
+          "denominator": 56,
+          "rate": 0.8928571428571429
+        },
+        "goal_classes": 40,
+        "by_encounter": {
+          "1": {
+            "correct": 8,
+            "denominator": 40
+          },
+          "2": {
+            "correct": 36,
+            "denominator": 40
+          },
+          "3": {
+            "correct": 14,
+            "denominator": 16
+          }
+        },
+        "all_stages_first_correct": {
+          "correct": 36,
+          "denominator": 72,
+          "rate": 0.5
+        },
+        "combined_stages_first_correct": {
+          "correct": 22,
+          "denominator": 24,
+          "rate": 0.9166666666666666
+        },
+        "combined_with_both_prior_actual_facts": {
+          "correct": 22,
+          "denominator": 24,
+          "rate": 0.9166666666666666
+        },
+        "combinations_without_both_prior_actual_facts": 0,
+        "distance": 10623,
+        "model_calls": 4151,
+        "processing_failures": 370,
+        "reported_usage": {
+          "calls": 4151,
+          "calls_with_usage": 4151,
+          "calls_with_effort_acknowledgement": 4151,
+          "reported_tokens": {
+            "input_tokens": 308995025,
+            "output_tokens": 441297,
+            "reasoning_tokens": 225756
+          },
+          "usage_complete": true,
+          "request_kinds": {
+            "agent": 4112,
+            "session_title": 36,
+            "context_compression": 3
+          },
+          "request_reasoning_efforts": {
+            "high": 4112,
+            "unspecified": 39
+          },
+          "provider_reasoning_efforts": {
+            "high": 4112,
+            "medium": 39
+          },
+          "reasoning_policy": "native"
+        },
+        "infrastructure_costs": {
+          "failure_events": 1,
+          "reasons": {
+            "gateway_transport_error": 1
+          },
+          "affected_rpcs": 1,
+          "recovered_affected_rpcs": 1,
+          "active_pending_rpcs": 0,
+          "historical_unrecovered_rpcs": 0,
+          "failure_events_without_reported_usage": 1,
+          "abandoned_attempt_successful_responses": 0,
+          "abandoned_attempt_reported_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0
+          },
+          "unreported_usage_is_unknown": true,
+          "reasoning_tokens_are_output_subset": true
+        },
+        "reasoning_is_output_subset": true,
+        "unreported_usage_remains_unknown": true,
+        "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+        "single_run_descriptive_only": true
+      }
+    },
+    "lunatic-01-v4.4-delivery-conditions20": {
+      "group": "b6c75daec911c5ff7257663fe20a1335",
+      "job": "c512bbb8aa6c4fa38bb5a0ca10ddc252",
+      "source": "27ec53278d3128c8597dc7f3a7360ed0a6eae2f180ab5f5a572dd78516fb9579",
+      "design_file": "calibration/scandinavia_lunatic_delivery_conditions20.json",
+      "result_sha256": "499793a90e65b8e1fb026b4581e91b1daa2efe309813be2f6f34952973a27e94",
+      "audit_sha256": "595ac0e82bc6823c15b420a56307cbc192eba60c860a805c30e3762d57b2d501",
+      "archive": {
+        "bytes": 702643202,
+        "sha256": "ae9986e558f8c153118a714da8877ba2db4603fee6bcd7b516d28c361e41ded6",
+        "contents_verified": true
+      },
+      "exit": {
+        "utc": "2026-11-23T16:14:54.744730+00:00",
+        "exit_code": 0
+      },
+      "metrics": {
+        "condition": "retain",
+        "tasks": {
+          "correct": 20,
+          "denominator": 20,
+          "rate": 1
+        },
+        "all_first_goal_compatible_operations": {
+          "correct": 34,
+          "denominator": 56,
+          "rate": 0.6071428571428571
+        },
+        "after_first_planned_goal_encounter": {
+          "correct": 26,
+          "denominator": 32,
+          "rate": 0.8125
+        },
+        "goal_classes": 24,
+        "by_encounter": {
+          "1": {
+            "correct": 8,
+            "denominator": 24
+          },
+          "2": {
+            "correct": 19,
+            "denominator": 24
+          },
+          "3": {
+            "correct": 7,
+            "denominator": 8
+          }
+        },
+        "all_stages_first_correct": {
+          "correct": 19,
+          "denominator": 40,
+          "rate": 0.475
+        },
+        "combined_stages_first_correct": {
+          "correct": 11,
+          "denominator": 16,
+          "rate": 0.6875
+        },
+        "combined_with_both_prior_actual_facts": {
+          "correct": 11,
+          "denominator": 16,
+          "rate": 0.6875
+        },
+        "combinations_without_both_prior_actual_facts": 0,
+        "distance": 3528,
+        "model_calls": 2317,
+        "processing_failures": 157,
+        "reported_usage": {
+          "calls": 2317,
+          "calls_with_usage": 2317,
+          "calls_with_effort_acknowledgement": 2317,
+          "reported_tokens": {
+            "input_tokens": 200860994,
+            "output_tokens": 321731,
+            "reasoning_tokens": 190255
+          },
+          "usage_complete": true,
+          "request_kinds": {
+            "agent": 2293,
+            "session_title": 20,
+            "context_compression": 4
+          },
+          "request_reasoning_efforts": {
+            "high": 2293,
+            "unspecified": 24
+          },
+          "provider_reasoning_efforts": {
+            "high": 2293,
+            "medium": 24
+          },
+          "reasoning_policy": "native"
+        },
+        "infrastructure_costs": {
+          "failure_events": 0,
+          "reasons": {},
+          "affected_rpcs": 0,
+          "recovered_affected_rpcs": 0,
+          "active_pending_rpcs": 0,
+          "historical_unrecovered_rpcs": 0,
+          "failure_events_without_reported_usage": 0,
+          "abandoned_attempt_successful_responses": 0,
+          "abandoned_attempt_reported_tokens": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "reasoning_tokens": 0
+          },
+          "unreported_usage_is_unknown": true,
+          "reasoning_tokens_are_output_subset": true
+        },
+        "reasoning_is_output_subset": true,
+        "unreported_usage_remains_unknown": true,
+        "prior_fact_opportunity_does_not_prove_memory_delivery_or_internal_use": true,
+        "single_run_descriptive_only": true
+      },
+      "condition_pairs": {
+        "both_correct": 3,
+        "one_correct": 5,
+        "neither_correct": 0,
+        "denominator": 8
+      }
+    }
+  },
+  "schema": "hermes-retained-calibrations-v5-v44-1",
+  "model": "gpt-5.6-luna",
+  "agent": "hermes",
+  "context_tokens": 272000,
+  "movement_mode": "step",
+  "hard_second_encounter_planned_gap": {
+    "2-7": {
+      "correct": 14,
+      "denominator": 16
+    },
+    "8-14": {
+      "correct": 8,
+      "denominator": 8
+    },
+    "15+": {
+      "correct": 14,
+      "denominator": 16
+    }
+  },
+  "hard_repeat_target": {
+    "minimum_inclusive": 0.5,
+    "maximum_exclusive": 0.6,
+    "met": false
+  },
+  "local_archive_downloaded": false
+}

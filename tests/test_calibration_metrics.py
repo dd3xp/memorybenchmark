@@ -3,7 +3,11 @@
 from copy import deepcopy
 import unittest
 
-from memorybenchmark.experiments.calibration import summarize, choose_followup
+from memorybenchmark.experiments.calibration import (
+    choose_followup,
+    processing_accuracy,
+    summarize,
+)
 
 
 def fixture():
@@ -60,6 +64,28 @@ class CalibrationMetricTests(unittest.TestCase):
         value = summarize(fixture())
         self.assertEqual(value["goal_classes"], 2)
         self.assertEqual(value["after_first_planned_goal_encounter"]["denominator"], 1)
+
+    def test_verifier_conditions_separate_opportunities_at_same_format_and_standard(
+        self,
+    ):
+        first = fixture()["rows"][1]["processing_operations"][1]
+        rows = [
+            {
+                "processing_operations": [
+                    {
+                        **first,
+                        "scope_condition": condition,
+                        "first_processing_correct": correct,
+                    }
+                ],
+                "necessary_operation_denominator": 1,
+                "stage_outcomes": [],
+            }
+            for condition, correct in (("wet", True), ("cold", False), ("wet", True))
+        ]
+        metrics = processing_accuracy(rows)
+        self.assertEqual(metrics["by_encounter"]["1"], {"correct": 1, "denominator": 2})
+        self.assertEqual(metrics["by_encounter"]["2"], {"correct": 1, "denominator": 1})
 
     def test_missing_prior_feedback_is_not_scored_as_forgotten_experience(self):
         value = summarize(fixture())

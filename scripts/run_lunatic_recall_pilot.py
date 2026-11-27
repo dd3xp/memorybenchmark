@@ -23,11 +23,21 @@ EXPANDED_GOAL_SWITCH_POLICY = (
     "config/authorized-lunatic-goal-switch-expanded-retain.json"
 )
 FULL_GOAL_SWITCH_POLICY = "config/authorized-lunatic-goal-switch-full-retain.json"
+DELIVERY_CONDITIONS_POLICY = "config/authorized-lunatic-delivery-conditions-retain.json"
+VERIFIER_CONDITIONS_POLICY = "config/authorized-lunatic-verifier-conditions-retain.json"
+SEAL_COMPARISON_POLICY = "config/authorized-lunatic-seal-comparison-retain.json"
+INDEPENDENT_SEALS_POLICY = "config/authorized-lunatic-independent-seals-retain.json"
+CAPACITY_SPACING_POLICY = "config/authorized-lunatic-capacity-spacing-retain.json"
 CONDITIONS = {
     PAIRED_POLICY: ("retain", "clear"),
     GOAL_SWITCH_POLICY: ("retain",),
     EXPANDED_GOAL_SWITCH_POLICY: ("retain",),
     FULL_GOAL_SWITCH_POLICY: ("retain",),
+    DELIVERY_CONDITIONS_POLICY: ("retain",),
+    VERIFIER_CONDITIONS_POLICY: ("retain",),
+    SEAL_COMPARISON_POLICY: ("retain",),
+    INDEPENDENT_SEALS_POLICY: ("retain",),
+    CAPACITY_SPACING_POLICY: ("retain",),
 }
 
 

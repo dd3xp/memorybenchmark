@@ -1,0 +1,17 @@
+{
+  "design_id": "lunatic-01-v4.5-verifier-conditions20",
+  "matched_condition_pairs": 8,
+  "same_format_pairs": 4,
+  "split_format_pairs": 4,
+  "valid_standard_wrong_condition_type_routes": 32,
+  "physical_stations": 71,
+  "maximum_fully_informed_actions": 62,
+  "zero_model_game_tasks": 20,
+  "successes": 20,
+  "maximum_reference_actions": 75,
+  "required_operations": 56,
+  "actual_prior_feedback_for_every_combined_operation": true,
+  "native_model_calls": 0,
+  "is_not_a_model_score": true,
+  "combined_reference_uses_only_delivered_prior_interface_facts": true
+}

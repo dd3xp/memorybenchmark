@@ -21,7 +21,16 @@ POLICY = "config/authorized-hard-binding36-retain.json"
 TARGET_POLICY = "config/authorized-hard-target60-retain.json"
 LUNA6_POLICY = "config/authorized-hard-luna6-repeat.json"
 SPACED_POLICY = "config/authorized-hard-spaced-retain.json"
-POLICIES = (POLICY, TARGET_POLICY, LUNA6_POLICY, SPACED_POLICY)
+MIXED_SPACING_POLICY = "config/authorized-hard-mixed-spacing-retain.json"
+STAGED_COMPOSITION_POLICY = "config/authorized-hard-staged-composition-retain.json"
+POLICIES = (
+    POLICY,
+    TARGET_POLICY,
+    LUNA6_POLICY,
+    SPACED_POLICY,
+    MIXED_SPACING_POLICY,
+    STAGED_COMPOSITION_POLICY,
+)
 
 
 def read(path):

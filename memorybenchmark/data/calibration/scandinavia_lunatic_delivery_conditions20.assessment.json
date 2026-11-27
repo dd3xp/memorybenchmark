@@ -1,0 +1,17 @@
+{
+  "design_sha256": "c3fff4014848f58f716da2192f951680ee20b0feea54a7cf7f6841bcb775c619",
+  "design_id": "lunatic-01-v4.4-delivery-conditions20",
+  "matched_condition_pairs": 8,
+  "conditioned_stages": 16,
+  "valid_standard_wrong_condition_type_routes": 32,
+  "physical_stations": 71,
+  "maximum_fully_informed_actions": 61,
+  "zero_model_game_tasks": 20,
+  "successes": 20,
+  "maximum_reference_actions": 75,
+  "required_operations": 56,
+  "actual_prior_feedback_for_every_combined_operation": true,
+  "native_model_calls": 0,
+  "is_not_a_model_score": true,
+  "combined_reference_uses_only_delivered_prior_interface_facts": true
+}

@@ -30,6 +30,7 @@ def processing_accuracy(tasks):
                 operation["operation"],
                 operation["scope_format"],
                 operation["goal"] if operation["operation"] == "verify" else "",
+                operation.get("scope_condition"),
             )
             encounter[key] += 1
             n = encounter[key]
